@@ -47,17 +47,19 @@ namespace Reginald.ViewModels
                 foreach (SearchResultModel result in SearchResults)
                 {
                     if (result.CategoryName == SearchResultModel.Category.Math)
-                        value = value.Eval();
+                        result.Text = value.Eval();
                     else if (result.CategoryName == SearchResultModel.Category.Keyword)
                     {
                         string[] inputs = value.Partition(' ');
                         if (inputs.Length > 1)
-                            value = inputs[1];
+                            result.Text = inputs[1];
                         else
-                            value = String.Empty;
+                            result.Text = String.Empty;
                     }
+                    else
+                        result.Text = value;
 
-                    result.Description = String.Format(result.Format, value);
+                    result.Description = String.Format(result.Format, result.Text);
                 }
             }
         }
@@ -103,18 +105,12 @@ namespace Reginald.ViewModels
                 if (UserInput.IsMathExpression())
                 {
                     category = SearchResultModel.Category.Math;
-                    searchResultModels = new SearchResultModel[1]
-                    {
-                        MakeSearchResultModel("__math", category)
-                    };
+                    searchResultModels = MakeSearchResultModelArray("__math", category);
                 }
                 else if (UserInput.HasTopLevelDomain())
                 {
                     category = SearchResultModel.Category.HTTP;
-                    searchResultModels = new SearchResultModel[1]
-                    {
-                        MakeSearchResultModel("__http", category)
-                    };
+                    searchResultModels = MakeSearchResultModelArray("__http", category);
                 }
                 else
                 {
@@ -124,10 +120,7 @@ namespace Reginald.ViewModels
                     SearchResultModel searchResultModel = MakeSearchResultModel(attribute, category);
                     if (inputs.Length > 1 && !(searchResultModel.Name is null))
                     {
-                        searchResultModels = new SearchResultModel[1]
-                        {
-                            MakeSearchResultModel(attribute, category)
-                        };
+                        searchResultModels = MakeSearchResultModelArray(attribute, category, inputs[1]);
                     }
                     else
                     {
@@ -162,6 +155,44 @@ namespace Reginald.ViewModels
             }
         }
 
+        private SearchResultModel[] MakeSearchResultModelArray(string attribute, SearchResultModel.Category category,
+                                                               string text = null)
+        {
+            XmlDocument doc = GetXmlDocument("Search");
+            XmlNodeList nodes = doc.GetNodes(attribute);
+
+            SearchResultModel[] models = new SearchResultModel[nodes.Count];
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                XmlNode node = nodes[i];
+                string name = node["Name"].InnerText;
+                string icon = node["Icon"].InnerText;
+                string keyword = node["Keyword"].InnerText;
+                string separator = node["Separator"].InnerText;
+                string url = node["URL"].InnerText;
+                string format = node["Format"].InnerText;
+                text = text is not null ? text : UserInput;
+                string description = String.Format(format, text);
+                string alt = node["Alt"].InnerText;
+
+                SearchResultModel model = new()
+                {
+                    Name = name,
+                    CategoryName = category,
+                    Icon = icon,
+                    Keyword = keyword,
+                    Separator = separator,
+                    URL = url,
+                    Text = text,
+                    Format = format,
+                    Description = description,
+                    Alt = alt
+                };
+                models[i] = model;
+            }
+            return models;
+        }
+
         private SearchResultModel MakeSearchResultModel(string attribute, SearchResultModel.Category category)
         {
             XmlDocument doc = GetXmlDocument("Search");
@@ -174,18 +205,9 @@ namespace Reginald.ViewModels
             string keyword = node["Keyword"].InnerText;
             string separator = node["Separator"].InnerText;
             string url = node["URL"].InnerText;
+            string text = UserInput;
             string format = node["Format"].InnerText;
-            string description;
-            if (category is SearchResultModel.Category.Keyword)
-            {
-                string[] inputs = UserInput.Partition(' ');
-                if (inputs.Length > 1)
-                    description = String.Format(format, inputs[1]);
-                else
-                    description = String.Empty;
-            }
-            else
-                description = String.Format(format, UserInput);
+            string description = String.Format(format, text);
             string alt = node["Alt"].InnerText;
 
             SearchResultModel searchResultModel = new()
@@ -196,6 +218,7 @@ namespace Reginald.ViewModels
                 Keyword = keyword,
                 Separator = separator,
                 URL = url,
+                Text = text,
                 Format = format,
                 Description = description,
                 Alt = alt
@@ -223,13 +246,13 @@ namespace Reginald.ViewModels
                     switch (SelectedSearchResult.CategoryName)
                     {
                         case SearchResultModel.Category.Math:
-                            Clipboard.SetText(SelectedSearchResult.Description);
+                            Clipboard.SetText(SelectedSearchResult.Text);
                             TryCloseAsync();
                             break;
 
                         case SearchResultModel.Category.Keyword:
                             {
-                                string uri = String.Format(SelectedSearchResult.URL, SelectedSearchResult.Description);
+                                string uri = String.Format(SelectedSearchResult.URL, SelectedSearchResult.Text);
                                 GoToWebsite(uri);
                                 break;
                             }
@@ -286,14 +309,14 @@ namespace Reginald.ViewModels
             catch (ArgumentOutOfRangeException) { }
         }
 
-        private static string MakeValidScheme(string uri)
-        {
-            Regex rx = new Regex("https*://", RegexOptions.IgnoreCase);
-            MatchCollection matches = rx.Matches(uri);
-            if (matches.Count == 0)
-                uri = "https://" + uri;
-            return uri;
-        }
+        //private static string MakeValidScheme(string uri)
+        //{
+        //    Regex rx = new Regex("https*://", RegexOptions.IgnoreCase);
+        //    MatchCollection matches = rx.Matches(uri);
+        //    if (matches.Count == 0)
+        //        uri = "https://" + uri;
+        //    return uri;
+        //}
 
         private static void GoToWebsite(string uri)
         {
