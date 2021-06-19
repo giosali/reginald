@@ -216,6 +216,24 @@ namespace Reginald.ViewModels
                 "        <Format>Go to r/{0}</Format> \n" +
                 "        <Alt>Reddit</Alt> \n" +
                 "    </Namespace>" +
+                "    <Namespace Name=\"twitter\">" +
+                "        <Name>Twitter</Name> \n" +
+                "        <Keyword>twitter</Keyword> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/twitter.png</Icon> \n" +
+                "        <URL>https://twitter.com/{0}</URL> \n" +
+                "        <Separator>+</Separator> \n" +
+                "        <Format>Search Twitter for '{0}'</Format> \n" +
+                "        <Alt>Twitter</Alt> \n" +
+                "    </Namespace>" +
+                "    <Namespace Name=\"twitter\">" +
+                "        <Name>Twitter</Name> \n" +
+                "        <Keyword>twitter</Keyword> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/twitter.png</Icon> \n" +
+                "        <URL>https://twitter.com/{0}</URL> \n" +
+                "        <Separator></Separator> \n" +
+                "        <Format>Go to {0}'s profile</Format> \n" +
+                "        <Alt>Twitter</Alt> \n" +
+                "    </Namespace>" +
                 "</Searches>";
             return xmlFrame;
         }
