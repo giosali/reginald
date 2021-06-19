@@ -11,6 +11,7 @@ namespace Reginald.Models
     {
         public enum Category
         {
+            Application,
             Math,
             HTTP,
             Keyword,
@@ -20,9 +21,11 @@ namespace Reginald.Models
         public string Name { get; set; }
         public Category CategoryName { get; set; }
         public string Icon { get; set; }
+        public string ID { get; set; }
         public string Keyword { get; set; }
         public string Separator { get; set; }
         public string URL { get; set; }
+        public string Text { get; set; }
         public string Format { get; set; }
         public string Description { get; set; }
         public string Alt { get; set; }
