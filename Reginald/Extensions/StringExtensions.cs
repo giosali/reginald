@@ -9,9 +9,22 @@ namespace Reginald.Extensions
 {
     public static class StringExtensions
     {
-        public static string[] Partition(this String str, char separator)
+        public static (string Left, string Separator, string Right) Partition(this String expression, string separator)
         {
-            return str.Split(new char[] { separator }, 2);
+            //return expression.Split(new char[] { separator }, 2);
+            string[] results = expression.Split(separator, 2);
+            if (results.Length > 1)
+                return (results[0], separator, results[1]);
+            return (expression, String.Empty, String.Empty);
+        }
+
+        public static (string Left, string Separator, string Right) Partition(this String expression, char separator)
+        {
+            //return expression.Split(new char[] { separator }, 2);
+            string[] results = expression.Split(separator, 2);
+            if (results.Length > 1)
+                return (results[0], separator.ToString(), results[1]);
+            return (expression, String.Empty, String.Empty);
         }
 
         public static string Eval(this String expression)
@@ -32,7 +45,7 @@ namespace Reginald.Extensions
                     result = "...";
                     break;
                 }
-                catch (System.OverflowException)
+                catch (OverflowException)
                 {
                     result = "...";
                     break;
@@ -46,9 +59,9 @@ namespace Reginald.Extensions
                         result = rx.Replace(expression, new MatchEvaluator(m =>
                         {
                             string x = m.ToString();
-                            string[] strs = x.Partition('^');
-                            string b = strs[0];
-                            int power = Convert.ToInt32(strs[1]);
+                            (string Left, string Separator, string Right) partition = x.Partition("^");
+                            string b = partition.Left;
+                            int power = Convert.ToInt32(partition.Right);
                             string concat = String.Concat(Enumerable.Repeat(b + "*", Math.Abs(power)));
 
                             concat = concat.Remove(concat.Length - 1);
@@ -89,18 +102,13 @@ namespace Reginald.Extensions
 
         public static bool HasTopLevelDomain(this string expression)
         {
-            string[] strs = expression.Partition('.');
-            if (strs.Length > 1)
+            (string domain, _, string tld) = expression.Partition(".");
+            if (tld.Length > 1)
             {
-                string domain = strs[0];
-                string tld = strs[1];
-                if (tld.Length > 1)
-                {
-                    Regex rx = new Regex(@"\s");
-                    MatchCollection matches = rx.Matches(domain);
-                    if (matches.Count == 0)
-                        return true;
-                }
+                Regex rx = new Regex(@"\s");
+                MatchCollection matches = rx.Matches(domain);
+                if (matches.Count == 0)
+                    return true;
             }
             return false;
         }
