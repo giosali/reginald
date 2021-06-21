@@ -16,7 +16,8 @@
         fw:AcrylicWindow.AcrylicWindowStyle="None"
                   
         Title="Search"
-        Width="650" Height="75" MinHeight="75"
+        Height="75" MinHeight="75"
+        Width="650"
         FontFamily="Segoe UI"
         ResizeMode="NoResize"
         SizeToContent="Height"
@@ -118,11 +119,20 @@
                      ItemTemplate="{StaticResource searchResultsTemplate}"
                      SelectedItem="{Binding Path=SelectedSearchResult, Mode=TwoWay}"
                      Background="Transparent"
+                     MaxHeight="330"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.CanContentScroll="True"
                      BorderThickness="0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
                         <cal:ActionMessage MethodName="SearchResults_MouseLeave">
+                            <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <cal:ActionMessage MethodName="SearchResults_SelectionChanged">
                             <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
                             <cal:Parameter Value="$eventargs"/>
                         </cal:ActionMessage>

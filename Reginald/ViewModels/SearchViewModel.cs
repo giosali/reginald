@@ -1,9 +1,11 @@
 ﻿using Caliburn.Micro;
+using Microsoft.WindowsAPICodePack.Shell;
 using Reginald.Extensions;
 using Reginald.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -50,11 +52,13 @@ namespace Reginald.ViewModels
                         result.Text = value.Eval();
                     else if (result.CategoryName == SearchResultModel.Category.Keyword)
                     {
-                        string[] inputs = value.Partition(' ');
-                        if (inputs.Length > 1)
-                            result.Text = inputs[1];
-                        else
-                            result.Text = String.Empty;
+                        //string[] inputs = value.Partition(' ');
+                        //if (inputs.Length > 1)
+                        //    result.Text = inputs[1];
+                        //else
+                        //    result.Text = String.Empty;
+                        (string Left, string Separator, string Right) partition = value.Partition(" ");
+                        result.Text = partition.Right;
                     }
                     else
                         result.Text = value;
@@ -91,7 +95,7 @@ namespace Reginald.ViewModels
             }
         }
 
-        public void UserInput_TextChanged(object sender, TextChangedEventArgs e)
+        public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             ListBox listBox = sender as ListBox;
             if (UserInput != String.Empty)
@@ -100,32 +104,35 @@ namespace Reginald.ViewModels
                     listBox.Visibility = Visibility.Visible;
 
                 SearchResultModel.Category category;
-                SearchResultModel[] searchResultModels;
 
-                if (UserInput.IsMathExpression())
+                IEnumerable<SearchResultModel> models;
+                Task<IEnumerable<SearchResultModel>> applicationModelsTask;
+                Task<SearchResultModel[]> keywordModelsTask;
+                Task<SearchResultModel[]> mathModelsTask = null;
+
+                SearchResultModel[] mathModels = Array.Empty<SearchResultModel>();
+
+                if (UserInput.HasTopLevelDomain())
                 {
-                    category = SearchResultModel.Category.Math;
-                    searchResultModels = MakeSearchResultModelArray("__math", category);
-                }
-                else if (UserInput.HasTopLevelDomain())
-                {
-                    category = SearchResultModel.Category.HTTP;
-                    searchResultModels = MakeSearchResultModelArray("__http", category);
+                    models = MakeSearchResultModels("__http", SearchResultModel.Category.HTTP);
                 }
                 else
                 {
-                    category = SearchResultModel.Category.Keyword;
-                    string[] inputs = UserInput.Partition(' ');
-                    string attribute = inputs[0];
-                    SearchResultModel searchResultModel = MakeSearchResultModel(attribute, category);
-                    if (inputs.Length > 1 && !(searchResultModel.Name is null))
-                    {
-                        searchResultModels = MakeSearchResultModelArray(attribute, category, inputs[1]);
-                    }
-                    else
+                    applicationModelsTask = Task.Run(() => GetApplications(UserInput));
+
+                    (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
+                    keywordModelsTask = Task.Run(() => MakeSearchResultModels(partition.Left, SearchResultModel.Category.Keyword, partition.Right));
+
+                    if (UserInput.IsMathExpression())
+                        mathModelsTask = Task.Run(() => MakeSearchResultModels("__math", SearchResultModel.Category.Math));
+
+                    await Task.WhenAll(new Task[] { applicationModelsTask, keywordModelsTask, mathModelsTask }.Where(t => t is not null));
+
+                    models = applicationModelsTask.Result.Concat(keywordModelsTask.Result).Concat(mathModelsTask is null ? mathModels : mathModelsTask.Result);
+                    if (!models.Any())
                     {
                         category = SearchResultModel.Category.SearchEngine;
-                        searchResultModels = new SearchResultModel[2]
+                        models = new SearchResultModel[2]
                         {
                             MakeSearchResultModel("g", category),
                             MakeSearchResultModel("ddg", category)
@@ -133,17 +140,8 @@ namespace Reginald.ViewModels
                     }
                 }
 
-                UpdateSearchResults(category);
-                if (SearchResults.Count == 0)
-                {
-                    for (int i = 0; i < searchResultModels.Length; i++)
-                    {
-                        SearchResultModel model = searchResultModels[i];
-                        model.Count = "CTRL + " + (i + 1).ToString();
-                        SearchResults.Add(searchResultModels[i]);
-                    }
-                    SelectedSearchResult = SearchResults[0];
-                }
+                UpdateSearchResults(models);
+                SelectedSearchResult = SearchResults[0];
                 SearchResults.Refresh();
             }
             else
@@ -155,18 +153,120 @@ namespace Reginald.ViewModels
             }
         }
 
-        private SearchResultModel[] MakeSearchResultModelArray(string attribute, SearchResultModel.Category category,
-                                                               string text = null)
+        private IEnumerable<SearchResultModel> GetApplications(string input)
+        {
+            Guid applicationsFolderGuid = new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
+            ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(applicationsFolderGuid);
+
+            List<SearchResultModel> relevantResults = new();
+            List<SearchResultModel> semiRelevantResults = new();
+            List<SearchResultModel> irrelevantResults = new();
+
+            foreach (var application in (IKnownFolder)applicationsFolder)
+            {
+                string name = application.Name;
+                string id = application.ParsingName;
+                ImageSource icon = application.Thumbnail.MediumBitmapSource;
+                icon.Freeze();
+
+                if (id.EndsWith("url") || name.EndsWith(".url"))
+                {
+                    continue;
+                }
+                else if (name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    relevantResults.Add(MakeSearchResultModel(name, id, icon));
+                }
+                else if (name.Contains(" "))
+                {
+                    string[] nameSplit = name.Split(' ');
+                    for (int j = 0; j < nameSplit.Length; j++)
+                    {
+                        if (nameSplit[j].StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            semiRelevantResults.Add(MakeSearchResultModel(name, id, icon));
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    (string Left, string Separator, string Right) partition = input.Partition(input[0]);
+                    string format = @"[{0}]({1}|{2})";
+                    string pattern = String.Format(format, partition.Separator.ToUpper(), partition.Right.ToLower(), partition.Right.ToUpper());
+                    Regex rx = new Regex(pattern);
+                    MatchCollection matches = rx.Matches(name);
+                    if (matches.Count != 0)
+                        irrelevantResults.Add(MakeSearchResultModel(name, id, icon));
+                }
+            }
+            return relevantResults.Concat(semiRelevantResults).Concat(irrelevantResults);
+        }
+
+        private SearchResultModel MakeSearchResultModel(string name, string id, ImageSource icon)
+        {
+            SearchResultModel model = new()
+            {
+                Name = name,
+                CategoryName = SearchResultModel.Category.Application,
+                ID = id,
+                Icon = icon,
+                Text = name,
+                Format = "{0}",
+                Description = name,
+                Alt = "Application"
+            };
+            return model;
+        }
+
+        private SearchResultModel MakeSearchResultModel(string attribute, SearchResultModel.Category category)
+        {
+            XmlDocument doc = GetXmlDocument("Search");
+            XmlNode node = doc.GetNode(attribute);
+            if (node is null)
+                return new SearchResultModel();
+
+            string name = node["Name"].InnerText;
+            BitmapImage icon = new BitmapImage(new Uri(node["Icon"].InnerText));
+            icon.Freeze();
+            string keyword = node["Keyword"].InnerText;
+            string separator = node["Separator"].InnerText;
+            string url = node["URL"].InnerText;
+            string text = UserInput;
+            string format = node["Format"].InnerText;
+            string description = String.Format(format, text);
+            string alt = node["Alt"].InnerText;
+
+            SearchResultModel model = new()
+            {
+                Name = name,
+                CategoryName = category,
+                Icon = icon,
+                Keyword = keyword,
+                Separator = separator,
+                URL = url,
+                Text = text,
+                Format = format,
+                Description = description,
+                Alt = alt
+            };
+            return model;
+        }
+
+        private SearchResultModel[] MakeSearchResultModels(string attribute, SearchResultModel.Category category, string text = null)
         {
             XmlDocument doc = GetXmlDocument("Search");
             XmlNodeList nodes = doc.GetNodes(attribute);
+            if (nodes is null)
+                return new SearchResultModel[] { };
 
             SearchResultModel[] models = new SearchResultModel[nodes.Count];
             for (int i = 0; i < nodes.Count; i++)
             {
                 XmlNode node = nodes[i];
                 string name = node["Name"].InnerText;
-                string icon = node["Icon"].InnerText;
+                BitmapImage icon = new BitmapImage(new Uri(node["Icon"].InnerText));
+                icon.Freeze();
                 string keyword = node["Keyword"].InnerText;
                 string separator = node["Separator"].InnerText;
                 string url = node["URL"].InnerText;
@@ -193,48 +293,28 @@ namespace Reginald.ViewModels
             return models;
         }
 
-        private SearchResultModel MakeSearchResultModel(string attribute, SearchResultModel.Category category)
+        private void UpdateSearchResults(IEnumerable<SearchResultModel> models)
         {
-            XmlDocument doc = GetXmlDocument("Search");
-            XmlNode node = doc.GetNode(attribute);
-            if (node is null)
-                return new SearchResultModel();
-
-            string name = node["Name"].InnerText;
-            string icon = node["Icon"].InnerText;
-            string keyword = node["Keyword"].InnerText;
-            string separator = node["Separator"].InnerText;
-            string url = node["URL"].InnerText;
-            string text = UserInput;
-            string format = node["Format"].InnerText;
-            string description = String.Format(format, text);
-            string alt = node["Alt"].InnerText;
-
-            SearchResultModel searchResultModel = new()
+            for (int i = SearchResults.Count - 1; i >= 0; i--)
             {
-                Name = name,
-                CategoryName = category,
-                Icon = icon,
-                Keyword = keyword,
-                Separator = separator,
-                URL = url,
-                Text = text,
-                Format = format,
-                Description = description,
-                Alt = alt
-            };
-            return searchResultModel;
-        }
-
-        private void UpdateSearchResults(SearchResultModel.Category category)
-        {
-            if (SearchResults.Count != 0)
-            {
-                for (int i = SearchResults.Count - 1; i >= 0; i--)
+                if (!models.Contains(SearchResults[i]))
                 {
-                    if (SearchResults[i].CategoryName != category)
-                        SearchResults.RemoveAt(i);
+                    SearchResults.RemoveAt(i);
                 }
+            }
+
+            int j = 0;
+            foreach (SearchResultModel model in models)
+            {
+                if (SearchResults.Contains(model))
+                {
+                    continue;
+                }
+                else
+                {
+                    SearchResults.Insert(j, model);
+                }
+                j++;
             }
         }
 
@@ -309,14 +389,10 @@ namespace Reginald.ViewModels
             catch (ArgumentOutOfRangeException) { }
         }
 
-        //private static string MakeValidScheme(string uri)
-        //{
-        //    Regex rx = new Regex("https*://", RegexOptions.IgnoreCase);
-        //    MatchCollection matches = rx.Matches(uri);
-        //    if (matches.Count == 0)
-        //        uri = "https://" + uri;
-        //    return uri;
-        //}
+        public void SearchResults_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            (sender as ListBox).ScrollIntoView(SelectedSearchResult);
+        }
 
         private static void GoToWebsite(string uri)
         {
@@ -345,7 +421,7 @@ namespace Reginald.ViewModels
             string appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string xmlLocation = $"Reginald/{name}.xml";
             XmlDocument doc = new();
-            doc.Load(System.IO.Path.Combine(appDataDirectory, xmlLocation));
+            doc.Load(Path.Combine(appDataDirectory, xmlLocation));
             return doc;
         }
     }
