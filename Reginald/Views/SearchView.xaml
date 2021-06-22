@@ -125,6 +125,12 @@
                      ScrollViewer.CanContentScroll="True"
                      BorderThickness="0">
                 <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                        <cal:ActionMessage MethodName="SearchResults_PreviewMouseLeftButtonDown">
+                            <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeave">
                         <cal:ActionMessage MethodName="SearchResults_MouseLeave">
                             <cal:Parameter Value="{Binding ElementName=SearchResults}"/>

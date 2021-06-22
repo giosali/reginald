@@ -1,18 +1,15 @@
 ﻿using Caliburn.Micro;
-using NHotkey;
+using Microsoft.WindowsAPICodePack.Shell;
 using Reginald.Commands;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
 
@@ -24,6 +21,7 @@ namespace Reginald.ViewModels
         {
             MakeReginaldAppDataDirectory();
             MakeSearchXmlFile();
+            CacheApplicationIcons();
             return base.OnActivateAsync(cancellationToken);
         }
 
@@ -165,6 +163,37 @@ namespace Reginald.ViewModels
             XmlDocument doc = new();
             doc.LoadXml(GetSearchXmlStructure());
             doc.Save(path);
+        }
+
+        private static void CacheApplicationIcons()
+        {
+            string appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string applicationName = "Reginald";
+            string applicationImagesDirectory = "ApplicationIcons";
+            string path = System.IO.Path.Combine(appDataDirectory, applicationName, applicationImagesDirectory);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            Guid applicationsFolderGuid = new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
+            ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(applicationsFolderGuid);
+            foreach (ShellObject application in (IKnownFolder)applicationsFolder)
+            {
+                if (!application.Name.EndsWith("url") && !application.ParsingName.EndsWith(".url"))
+                {
+                    string filename = System.IO.Path.Combine(path, application.Name + ".png");
+                    if (!File.Exists(filename))
+                    {
+                        BitmapSource source = application.Thumbnail.MediumBitmapSource;
+                        PngBitmapEncoder encoder = new();
+                        BitmapFrame frame = BitmapFrame.Create(source);
+                        encoder.Frames.Add(frame);
+                        using (var stream = new FileStream(filename, FileMode.Create))
+                        {
+                            encoder.Save(stream);
+                        }
+                    }
+                }
+            }
         }
 
         private static string GetSearchXmlStructure()

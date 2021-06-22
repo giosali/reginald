@@ -21,7 +21,6 @@ namespace Reginald.Models
 
         public string Name { get; set; }
         public Category CategoryName { get; set; }
-        //public string Icon { get; set; }
         public ImageSource Icon { get; set; }
         public string ID { get; set; }
         public string Keyword { get; set; }
