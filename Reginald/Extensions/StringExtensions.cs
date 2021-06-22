@@ -11,7 +11,6 @@ namespace Reginald.Extensions
     {
         public static (string Left, string Separator, string Right) Partition(this String expression, string separator)
         {
-            //return expression.Split(new char[] { separator }, 2);
             string[] results = expression.Split(separator, 2);
             if (results.Length > 1)
                 return (results[0], separator, results[1]);
@@ -20,7 +19,6 @@ namespace Reginald.Extensions
 
         public static (string Left, string Separator, string Right) Partition(this String expression, char separator)
         {
-            //return expression.Split(new char[] { separator }, 2);
             string[] results = expression.Split(separator, 2);
             if (results.Length > 1)
                 return (results[0], separator.ToString(), results[1]);
@@ -83,7 +81,7 @@ namespace Reginald.Extensions
 
         public static bool IsMathExpression(this string expression)
         {
-            Regex rx = new Regex("^[^A-Za-z]+$");
+            Regex rx = new Regex(@"^[^A-Za-z]+$");
             MatchCollection matches = rx.Matches(expression);
             if (matches.Count > 0)
                 return true;
