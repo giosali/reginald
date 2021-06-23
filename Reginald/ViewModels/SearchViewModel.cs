@@ -46,27 +46,6 @@ namespace Reginald.ViewModels
             {
                 _userInput = value;
                 NotifyOfPropertyChange(() => UserInput);
-                foreach (SearchResultModel result in SearchResults)
-                {
-                    if (result.CategoryName is SearchResultModel.Category.Math)
-                    {
-                        //if (value.IsMathExpression())
-                        //    result.Text = value.Eval();
-                    }
-                    else if (result.CategoryName is SearchResultModel.Category.Keyword)
-                    {
-                        //(string Left, string Separator, string Right) partition = value.Partition(" ");
-                        //result.Text = partition.Right;
-                    }
-                    else if (result.CategoryName is SearchResultModel.Category.Application)
-                    {
-                        //result.Text = result.Name;
-                    }
-                    else
-                        result.Text = value;
-
-                    result.Description = String.Format(result.Format, result.Text);
-                }
             }
         }
 
@@ -198,8 +177,6 @@ namespace Reginald.ViewModels
                     }
                     else if (name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        //ImageSource icon = application.Thumbnail.MediumBitmapSource;
-                        //icon.Freeze();
                         applications.Insert(0, MakeSearchResultModel(name, id, GetApplicationIcon(path, name)));
                     }
                     else if (name.Contains(" "))
@@ -209,8 +186,6 @@ namespace Reginald.ViewModels
                         {
                             if (nameSplit[j].StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                //ImageSource icon = application.Thumbnail.MediumBitmapSource;
-                                //icon.Freeze();
                                 applications.Add(MakeSearchResultModel(name, id, GetApplicationIcon(path, name)));
                                 break;
                             }
@@ -227,8 +202,6 @@ namespace Reginald.ViewModels
                             MatchCollection matches = rx.Matches(name);
                             if (matches.Count != 0)
                             {
-                                //ImageSource icon = application.Thumbnail.MediumBitmapSource;
-                                //icon.Freeze();
                                 applications.Add(MakeSearchResultModel(name, id, GetApplicationIcon(path, name)));
                             }
                         }
