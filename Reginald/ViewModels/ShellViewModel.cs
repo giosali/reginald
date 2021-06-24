@@ -97,55 +97,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private void TestButton(object sender, RoutedEventArgs e)
-        {
-            if (e.Source is Button btn)
-            {
-                if (btn.Name == String.Empty)
-                    MessageBox.Show("Yes it's empty");
-                else
-                    MessageBox.Show("No it's not empty");
-            }
-        }
-
-        private void TestListBoxItem(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                MessageBox.Show("ListBoxItem interaction");
-        }
-
-        private void ListBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            var list = sender as ListBox;
-            switch (e.Key)
-            {
-                case Key.Right:
-                    if (!list.Items.MoveCurrentToNext()) list.Items.MoveCurrentToLast();
-                    break;
-
-                case Key.Left:
-                    if (!list.Items.MoveCurrentToPrevious()) list.Items.MoveCurrentToFirst();
-                    break;
-            }
-
-            e.Handled = true;
-            if (list.SelectedItem != null)
-            {
-                (Keyboard.FocusedElement as UIElement).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-            }
-        }
-
-        public void TestEmptyListBoxItem(object sender, RoutedEventArgs e)
-        {
-            string uri = "https://google.com";
-            MessageBox.Show(uri);
-        }
-
-        public void ShowMessage()
-        {
-            MessageBox.Show("Message");
-        }
-
         private static void MakeReginaldAppDataDirectory()
         {
             string appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

@@ -7,14 +7,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
 
@@ -46,6 +44,27 @@ namespace Reginald.ViewModels
             {
                 _userInput = value;
                 NotifyOfPropertyChange(() => UserInput);
+                foreach (SearchResultModel result in SearchResults)
+                {
+                    if (result.CategoryName == SearchResultModel.Category.Application)
+                    {
+
+                    }
+                    else if (result.CategoryName == SearchResultModel.Category.Math)
+                    {
+                        result.Text = value.Eval();
+                    }
+                    else if (result.CategoryName == SearchResultModel.Category.Keyword)
+                    {
+                        (string left, _, string right) = value.Partition(" ");
+                        result.Text = right;
+                    }
+                    else
+                        result.Text = value;
+
+                    result.Description = String.Format(result.Format, result.Text);
+                }
+                SearchResults.Refresh();
             }
         }
 
@@ -91,14 +110,10 @@ namespace Reginald.ViewModels
                 if (!listBox.IsVisible)
                     listBox.Visibility = Visibility.Visible;
 
-                SearchResultModel.Category category;
-
                 IEnumerable<SearchResultModel> models;
                 Task<IEnumerable<SearchResultModel>> applicationModelsTask;
                 Task<SearchResultModel[]> keywordModelsTask;
                 Task<SearchResultModel[]> mathModelsTask = null;
-
-                SearchResultModel[] mathModels = Array.Empty<SearchResultModel>();
 
                 if (UserInput.HasTopLevelDomain())
                 {
@@ -114,32 +129,44 @@ namespace Reginald.ViewModels
                     if (UserInput.IsMathExpression())
                         mathModelsTask = Task.Run(() => MakeSearchResultModels("__math", SearchResultModel.Category.Math, UserInput.Eval(), tokenSource.Token));
 
-                    await Task.WhenAll(new Task[] { applicationModelsTask, keywordModelsTask, mathModelsTask }.Where(t => t is not null));
+                    //await Task.WhenAll(new Task[] { applicationModelsTask, keywordModelsTask, mathModelsTask }.Where(t => t is not null));
 
-                    if (tokenSource.IsCancellationRequested)
+                    var applicationModels = await applicationModelsTask;
+                    if (applicationModels is null)
                     {
-                        models = Array.Empty<SearchResultModel>();
+                        //SearchResults.Refresh();
+                        return;
                     }
-                    else
-                    {
-                        models = applicationModelsTask.Result.Concat(keywordModelsTask.Result).Concat(mathModelsTask is null ? mathModels : mathModelsTask.Result);
-                    }
+                    var keywordModels = keywordModelsTask is not null ? await keywordModelsTask : Array.Empty<SearchResultModel>();
+                    var mathModels = mathModelsTask is not null ? await mathModelsTask : Array.Empty<SearchResultModel>();
 
-                    if (!models.Any() && !tokenSource.IsCancellationRequested)
+                    models = applicationModels.Concat(keywordModels).Concat(mathModels);
+
+                    //if (tokenSource.IsCancellationRequested)
+                    //{
+                    //    return;
+                    //    //models = Array.Empty<SearchResultModel>();
+                    //}
+                    //else
+                    //{
+                    //    models = applicationModels.Concat(keywordModels).Concat(mathModels);
+                    //    //models = applicationModelsTask.Result.Concat(keywordModelsTask.Result).Concat(mathModelsTask is null ? Array.Empty<SearchResultModel>() : mathModelsTask.Result);
+                    //}
+
+                    if (!models.Any())
                     {
-                        category = SearchResultModel.Category.SearchEngine;
                         models = new SearchResultModel[2]
                         {
-                            MakeSearchResultModel("g", category, tokenSource.Token),
-                            MakeSearchResultModel("ddg", category, tokenSource.Token)
+                            MakeSearchResultModel("g", SearchResultModel.Category.SearchEngine, tokenSource.Token),
+                            MakeSearchResultModel("ddg", SearchResultModel.Category.SearchEngine, tokenSource.Token)
                         };
                     }
                 }
 
                 UpdateSearchResults(models);
+                SearchResults.Refresh();
                 if (SearchResults.Any())
                     SelectedSearchResult = SearchResults[0];
-                SearchResults.Refresh();
             }
             else
             {
@@ -214,7 +241,9 @@ namespace Reginald.ViewModels
             }
             catch (OperationCanceledException)
             {
-                return Array.Empty<SearchResultModel>();
+                //return Array.Empty<SearchResultModel>();
+                return null;
+                //throw;
             }
             return applications;
         }
@@ -227,9 +256,13 @@ namespace Reginald.ViewModels
                 iconPath = "pack://application:,,,/Reginald;component/Images/help-light.png";
             }
 
-            BitmapImage icon = new BitmapImage(new Uri(iconPath));
-            icon.DecodePixelWidth = 50;
-            icon.DecodePixelHeight = 50;
+            BitmapImage icon = new();
+            icon.BeginInit();
+            icon.UriSource = new Uri(iconPath);
+            icon.CacheOption = BitmapCacheOption.OnLoad;
+            icon.DecodePixelWidth = 75;
+            icon.DecodePixelHeight = 75;
+            icon.EndInit();
             icon.Freeze();
             return icon;
         }
@@ -258,9 +291,13 @@ namespace Reginald.ViewModels
                 return new SearchResultModel();
 
             string name = node["Name"].InnerText;
-            BitmapImage icon = new BitmapImage(new Uri(node["Icon"].InnerText));
-            icon.DecodePixelWidth = 50;
-            icon.DecodePixelHeight = 50;
+            BitmapImage icon = new();
+            icon.BeginInit();
+            icon.UriSource = new Uri(node["Icon"].InnerText);
+            icon.CacheOption = BitmapCacheOption.OnLoad;
+            icon.DecodePixelWidth = 75;
+            icon.DecodePixelHeight = 75;
+            icon.EndInit();
             icon.Freeze();
             string keyword = node["Keyword"].InnerText;
             string separator = node["Separator"].InnerText;
@@ -283,9 +320,6 @@ namespace Reginald.ViewModels
                 Description = description,
                 Alt = alt
             };
-
-            if (cancellationToken.IsCancellationRequested)
-                model = new SearchResultModel();
             return model;
         }
 
@@ -297,45 +331,44 @@ namespace Reginald.ViewModels
                 return Array.Empty<SearchResultModel>();
 
             SearchResultModel[] models = new SearchResultModel[nodes.Count];
-            try
+            for (int i = 0; i < nodes.Count; i++)
             {
-                for (int i = 0; i < nodes.Count; i++)
+                cancellationToken.ThrowIfCancellationRequested();
+
+                XmlNode node = nodes[i];
+                string name = node["Name"].InnerText;
+
+                BitmapImage icon = new();
+                icon.BeginInit();
+                icon.UriSource = new Uri(node["Icon"].InnerText);
+                icon.CacheOption = BitmapCacheOption.OnLoad;
+                icon.DecodePixelWidth = 75;
+                icon.DecodePixelHeight = 75;
+                icon.EndInit();
+                icon.Freeze();
+
+                string keyword = node["Keyword"].InnerText;
+                string separator = node["Separator"].InnerText;
+                string url = node["URL"].InnerText;
+                string format = node["Format"].InnerText;
+                text = text is not null ? text : UserInput;
+                string description = String.Format(format, text);
+                string alt = node["Alt"].InnerText;
+
+                SearchResultModel model = new()
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    XmlNode node = nodes[i];
-                    string name = node["Name"].InnerText;
-                    BitmapImage icon = new BitmapImage(new Uri(node["Icon"].InnerText));
-                    icon.DecodePixelWidth = 50;
-                    icon.DecodePixelHeight = 50;
-                    icon.Freeze();
-                    string keyword = node["Keyword"].InnerText;
-                    string separator = node["Separator"].InnerText;
-                    string url = node["URL"].InnerText;
-                    string format = node["Format"].InnerText;
-                    text = text is not null ? text : UserInput;
-                    string description = String.Format(format, text);
-                    string alt = node["Alt"].InnerText;
-
-                    SearchResultModel model = new()
-                    {
-                        Name = name,
-                        CategoryName = category,
-                        Icon = icon,
-                        Keyword = keyword,
-                        Separator = separator,
-                        URL = url,
-                        Text = text,
-                        Format = format,
-                        Description = description,
-                        Alt = alt
-                    };
-                    models[i] = model;
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                models = Array.Empty<SearchResultModel>();
+                    Name = name,
+                    CategoryName = category,
+                    Icon = icon,
+                    Keyword = keyword,
+                    Separator = separator,
+                    URL = url,
+                    Text = text,
+                    Format = format,
+                    Description = description,
+                    Alt = alt
+                };
+                models[i] = model;
             }
             return models;
         }
@@ -347,6 +380,7 @@ namespace Reginald.ViewModels
                 if (!models.Contains(SearchResults[i]))
                 {
                     SearchResults.RemoveAt(i);
+                    SearchResults.Refresh();
                 }
             }
 
@@ -359,6 +393,7 @@ namespace Reginald.ViewModels
                 else
                 {
                     SearchResults.Add(model);
+                    SearchResults.Refresh();
                 }
             }
         }
@@ -368,7 +403,11 @@ namespace Reginald.ViewModels
             switch (e.Key)
             {
                 case Key.Enter:
-                    HandleSelectedSearchResultBasedOnCategoryName(SelectedSearchResult.CategoryName);
+                    try
+                    {
+                        HandleSelectedSearchResultBasedOnCategoryName(SelectedSearchResult.CategoryName);
+                    }
+                    catch (NullReferenceException) { }
                     e.Handled = true;
                     break;
 

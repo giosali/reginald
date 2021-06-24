@@ -122,7 +122,7 @@
                      MaxHeight="330"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     ScrollViewer.CanContentScroll="True"
+                     ScrollViewer.CanContentScroll="False"
                      BorderThickness="0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseLeftButtonDown">

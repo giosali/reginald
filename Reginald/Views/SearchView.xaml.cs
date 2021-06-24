@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Reginald.Views
@@ -8,6 +9,7 @@ namespace Reginald.Views
     /// </summary>
     public partial class SearchView : Window
     {
+        private bool _isClosing;
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -17,17 +19,20 @@ namespace Reginald.Views
         protected override void OnDeactivated(EventArgs e)
         {
             base.OnDeactivated(e);
-            try
-            {
+            if (!_isClosing)
                 Close();
-            }
-            catch (InvalidOperationException) { }
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            _isClosing = true;
         }
 
         public SearchView()
         {
-            Left = ((SystemParameters.WorkArea.Width - ActualWidth) / 4);
-            Top = ((SystemParameters.WorkArea.Height - ActualHeight) / 8);
+            Left = (SystemParameters.WorkArea.Width - ActualWidth) / 4;
+            Top = (SystemParameters.WorkArea.Height - ActualHeight) / 8;
             InitializeComponent();
 
             SearchResults.Visibility = Visibility.Hidden;
