@@ -20,6 +20,9 @@ namespace Reginald.ViewModels
 {
     public class SearchViewModel : Screen
     {
+        private string applicationImagesDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "ApplicationIcons");
+        private ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}"));
+
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             UserInput = String.Empty;
@@ -129,29 +132,13 @@ namespace Reginald.ViewModels
                     if (UserInput.IsMathExpression())
                         mathModelsTask = Task.Run(() => MakeSearchResultModels("__math", SearchResultModel.Category.Math, UserInput.Eval(), tokenSource.Token));
 
-                    //await Task.WhenAll(new Task[] { applicationModelsTask, keywordModelsTask, mathModelsTask }.Where(t => t is not null));
-
                     var applicationModels = await applicationModelsTask;
                     if (applicationModels is null)
-                    {
-                        //SearchResults.Refresh();
                         return;
-                    }
                     var keywordModels = keywordModelsTask is not null ? await keywordModelsTask : Array.Empty<SearchResultModel>();
                     var mathModels = mathModelsTask is not null ? await mathModelsTask : Array.Empty<SearchResultModel>();
 
                     models = applicationModels.Concat(keywordModels).Concat(mathModels);
-
-                    //if (tokenSource.IsCancellationRequested)
-                    //{
-                    //    return;
-                    //    //models = Array.Empty<SearchResultModel>();
-                    //}
-                    //else
-                    //{
-                    //    models = applicationModels.Concat(keywordModels).Concat(mathModels);
-                    //    //models = applicationModelsTask.Result.Concat(keywordModelsTask.Result).Concat(mathModelsTask is null ? Array.Empty<SearchResultModel>() : mathModelsTask.Result);
-                    //}
 
                     if (!models.Any())
                     {
@@ -179,15 +166,16 @@ namespace Reginald.ViewModels
 
         private IEnumerable<SearchResultModel> GetApplications(string input, CancellationToken cancellationToken)
         {
-            string appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string applicationName = "Reginald";
-            string applicationImagesDirectory = "ApplicationIcons";
-            string path = Path.Combine(appDataDirectory, applicationName, applicationImagesDirectory);
-
-            Guid applicationsFolderGuid = new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
-            ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(applicationsFolderGuid);
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
 
             List<SearchResultModel> applications = new();
+            string format = @"(?<!\w){0}|(?:{1}){2}|{3}";
+            var partition = input.Partition(input[0]);
+            Regex rx = new(String.Format(format, input, partition.Separator.ToUpper(), partition.Right, input.ToUpper()));
+            //string format = @"(?<!\w){0}|(?:{1}){2}";
+            //string alternative = @"\b\S*((?<!\w)fi\S*|\w*(?:F)i\S*)\b";
+            //string final = @".*((?<!\w)fi.*|\w*(?:F)i.*|\w*FI.*)";
 
             try
             {
@@ -198,54 +186,66 @@ namespace Reginald.ViewModels
                     string name = application.Name;
                     string id = application.ParsingName;
 
-                    if (id.EndsWith("url") || name.EndsWith(".url"))
+                    Match match = rx.Match(name);
+                    if (match.Success)
                     {
-                        continue;
+                        applications.Add(MakeSearchResultModel(name, id, GetApplicationIcon(applicationImagesDirectoryPath, name)));
                     }
-                    else if (name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        applications.Insert(0, MakeSearchResultModel(name, id, GetApplicationIcon(path, name)));
-                    }
-                    else if (name.Contains(" "))
-                    {
-                        string[] nameSplit = name.Split(' ');
-                        for (int j = 0; j < nameSplit.Length; j++)
-                        {
-                            if (nameSplit[j].StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                applications.Add(MakeSearchResultModel(name, id, GetApplicationIcon(path, name)));
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        (string Left, string Separator, string Right) partition = input.Partition(input[0]);
-                        string format = @"[{0}]({1}|{2})";
-                        string pattern = String.Format(format, partition.Separator.ToUpper(), partition.Right.ToLower(), partition.Right.ToUpper());
-                        try
-                        {
-                            Regex rx = new Regex(pattern);
-                            MatchCollection matches = rx.Matches(name);
-                            if (matches.Count != 0)
-                            {
-                                applications.Add(MakeSearchResultModel(name, id, GetApplicationIcon(path, name)));
-                            }
-                        }
-                        catch (RegexParseException)
-                        {
-                            continue;
-                        }
-                    }
+                    //if (name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
+                    //{
+                    //    applications.Insert(0, MakeSearchResultModel(name, id, GetApplicationIcon(applicationImagesDirectoryPath, name)));
+                    //}
+                    //else if (name.Contains(" "))
+                    //{
+                    //    string[] nameSplit = name.Split(' ');
+                    //    for (int j = 0; j < nameSplit.Length; j++)
+                    //    {
+                    //        if (nameSplit[j].StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
+                    //        {
+                    //            applications.Add(MakeSearchResultModel(name, id, GetApplicationIcon(applicationImagesDirectoryPath, name)));
+                    //            break;
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    (string Left, string Separator, string Right) partition = input.Partition(input[0]);
+                    //    string format = @"[{0}]({1}|{2})";
+                    //    string pattern = String.Format(format, partition.Separator.ToUpper(), partition.Right.ToLower(), partition.Right.ToUpper());
+                    //    try
+                    //    {
+                    //        Regex rx = new Regex(pattern);
+                    //        MatchCollection matches = rx.Matches(name);
+                    //        if (matches.Count != 0)
+                    //        {
+                    //            applications.Add(MakeSearchResultModel(name, id, GetApplicationIcon(applicationImagesDirectoryPath, name)));
+                    //        }
+                    //    }
+                    //    catch (RegexParseException)
+                    //    {
+                    //        continue;
+                    //    }
+                    //}
                 }
             }
             catch (OperationCanceledException)
             {
-                //return Array.Empty<SearchResultModel>();
                 return null;
-                //throw;
             }
-            return applications;
+            finally
+            {
+                stopwatch.Stop();
+                Debug.WriteLine(stopwatch.ElapsedMilliseconds);
+            }
+
+            for (int i = applications.Count - 1; i >= 0; i--)
+            {
+                if (applications[i].Name.EndsWith(".url") | applications[i].ID.EndsWith("url"))
+                    applications.RemoveAt(i);
+            }
+            IEnumerable<SearchResultModel> eApplications = applications.OrderByDescending(x => x.Name.StartsWith(partition.Separator, StringComparison.InvariantCultureIgnoreCase))
+                                                                       .ThenBy(x => x.Name);
+            return eApplications;
         }
 
         private BitmapImage GetApplicationIcon(string path, string name)
@@ -333,8 +333,6 @@ namespace Reginald.ViewModels
             SearchResultModel[] models = new SearchResultModel[nodes.Count];
             for (int i = 0; i < nodes.Count; i++)
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
                 XmlNode node = nodes[i];
                 string name = node["Name"].InnerText;
 
@@ -380,7 +378,6 @@ namespace Reginald.ViewModels
                 if (!models.Contains(SearchResults[i]))
                 {
                     SearchResults.RemoveAt(i);
-                    SearchResults.Refresh();
                 }
             }
 
@@ -393,7 +390,6 @@ namespace Reginald.ViewModels
                 else
                 {
                     SearchResults.Add(model);
-                    SearchResults.Refresh();
                 }
             }
         }
