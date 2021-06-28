@@ -22,6 +22,7 @@ namespace Reginald.Models
         public string URL { get; set; }
         public string Text { get; set; }
         public string Format { get; set; }
+        public string DefaultText { get; set; }
         public string Description { get; set; }
         public string Alt { get; set; }
         public string Count { get; set; }

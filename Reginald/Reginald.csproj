@@ -8,14 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\amazon.png" />
     <None Remove="Images\calculator.png" />
     <None Remove="Images\duckduckgo.png" />
+    <None Remove="Images\ebay.png" />
     <None Remove="Images\edge.png" />
+    <None Remove="Images\facebook.png" />
+    <None Remove="Images\github.png" />
     <None Remove="Images\google.png" />
     <None Remove="Images\help-dark.png" />
     <None Remove="Images\help-light.png" />
+    <None Remove="Images\instagram.png" />
+    <None Remove="Images\pinterest.png" />
     <None Remove="Images\reddit.png" />
+    <None Remove="Images\tiktok.png" />
+    <None Remove="Images\tumblr.png" />
+    <None Remove="Images\twitch.png" />
     <None Remove="Images\twitter.png" />
+    <None Remove="Images\wikipedia.png" />
+    <None Remove="Images\youtube.png" />
     <None Remove="Reginald.ico" />
   </ItemGroup>
 
@@ -27,13 +38,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\amazon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\calculator.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\duckduckgo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\ebay.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\edge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\facebook.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\github.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\google.png">
@@ -45,10 +68,31 @@
     <Resource Include="Images\help-light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\instagram.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\pinterest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\reddit.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\tiktok.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\tumblr.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\twitch.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\twitter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\wikipedia.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\youtube.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Reginald.ico">

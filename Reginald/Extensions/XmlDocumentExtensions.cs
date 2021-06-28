@@ -24,5 +24,17 @@ namespace Reginald.Extensions
                 foundNodes = null;
             return foundNodes;
         }
+
+        public static List<string> GetNodesAttributes(this XmlDocument doc)
+        {
+            string xpath = $"//Searches//Namespace";
+            XmlNodeList foundNodes = doc.SelectNodes(xpath);
+            List<string> attributes = new();
+            foreach (XmlNode node in foundNodes)
+            {
+                attributes.Add(node.Attributes["Name"].Value);
+            }
+            return attributes;
+        }
     }
 }

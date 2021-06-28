@@ -108,7 +108,7 @@
                     </i:EventTrigger>
                     <i:EventTrigger EventName="PreviewKeyDown">
                         <cal:ActionMessage MethodName="UserInput_PreviewKeyDown">
-                            <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
+                            <cal:Parameter Value="{Binding ElementName=UserInput}"/>
                             <cal:Parameter Value="$eventargs"/>
                         </cal:ActionMessage>
                     </i:EventTrigger>
