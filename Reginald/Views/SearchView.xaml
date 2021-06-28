@@ -123,7 +123,8 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ScrollViewer.CanContentScroll="False"
-                     BorderThickness="0">
+                     BorderThickness="0"
+                     Visibility="{Binding Path=IsVisible}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                         <cal:ActionMessage MethodName="SearchResults_PreviewMouseLeftButtonDown">

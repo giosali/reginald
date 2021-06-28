@@ -22,8 +22,10 @@ namespace Reginald.ViewModels
     public class SearchViewModel : Screen
     {
         private readonly string applicationImagesDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "ApplicationIcons");
+        private readonly string applicationsTxtFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "Applications.txt");
         private readonly ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}"));
         private readonly XmlDocument searchDoc = GetXmlDocument("Search");
+        private Dictionary<string, string> applicationsDict = MakeApplicationsDictionary();
 
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
@@ -83,6 +85,8 @@ namespace Reginald.ViewModels
             set
             {
                 _searchResults = value;
+                IsVisible = SearchResults.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+                SelectedSearchResult = SearchResults[0];
             }
         }
 
@@ -100,6 +104,20 @@ namespace Reginald.ViewModels
             }
         }
 
+        private Visibility _isVisible;
+        public Visibility IsVisible
+        {
+            get
+            {
+                return _isVisible;
+            }
+            set
+            {
+                _isVisible = value;
+                NotifyOfPropertyChange(() => IsVisible);
+            }
+        }
+
         CancellationTokenSource tokenSource = null;
 
         public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
@@ -112,12 +130,12 @@ namespace Reginald.ViewModels
             {
                 tokenSource = new CancellationTokenSource();
 
-                if (!listBox.IsVisible)
-                    listBox.Visibility = Visibility.Visible;
+                //if (!listBox.IsVisible)
+                //    listBox.Visibility = Visibility.Visible;
 
                 IEnumerable<SearchResultModel> models;
                 Task<IEnumerable<SearchResultModel>> applicationModelsTask;
-                Task< IEnumerable<SearchResultModel>> keywordModelsTask;
+                Task<IEnumerable<SearchResultModel>> keywordModelsTask;
                 Task<SearchResultModel[]> mathModelsTask = null;
 
                 if (UserInput.HasTopLevelDomain())
@@ -130,9 +148,6 @@ namespace Reginald.ViewModels
 
                     keywordModelsTask = Task.Run(() =>
                     {
-                        Stopwatch stopwatch = new();
-                        stopwatch.Start();
-
                         (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
 
                         List<string> attributes = searchDoc.GetNodesAttributes();
@@ -146,10 +161,7 @@ namespace Reginald.ViewModels
                         {
                             keywordModels = keywordModels.Concat(MakeSearchResultModels(searchDoc, match, SearchResultModel.Category.Keyword, partition.Right));
                         }
-                        stopwatch.Stop();
-                        Debug.WriteLine(stopwatch.ElapsedMilliseconds);
                         return keywordModels;
-                        //return MakeSearchResultModels(partition.Left, SearchResultModel.Category.Keyword, partition.Right);
                     });
 
                     mathModelsTask = Task.Run(() =>
@@ -159,6 +171,8 @@ namespace Reginald.ViewModels
                         return Array.Empty<SearchResultModel>();
                     });
 
+                    //stopwatch.Stop();
+                    //Debug.WriteLine(stopwatch.ElapsedMilliseconds);
 
                     var applicationModels = await applicationModelsTask;
                     if (applicationModels is null)
@@ -180,13 +194,20 @@ namespace Reginald.ViewModels
 
                 UpdateSearchResults(models);
                 SearchResults.Refresh();
-                if (SearchResults.Any())
-                    SelectedSearchResult = SearchResults[0];
+                
+                //if (SearchResults.Count != 0)
+                //{
+                //    Stopwatch stopwatch = new();
+                //    stopwatch.Start();
+                //    SelectedSearchResult = SearchResults[0];
+                //    stopwatch.Stop();
+                //    Debug.WriteLine($"Time: {stopwatch.ElapsedMilliseconds}");
+                //}
             }
             else
             {
-                if (listBox.IsVisible)
-                    listBox.Visibility = Visibility.Hidden;
+                //if (listBox.IsVisible)
+                //    listBox.Visibility = Visibility.Hidden;
 
                 SearchResults.Clear();
             }
@@ -198,24 +219,42 @@ namespace Reginald.ViewModels
             //stopwatch.Start();
 
             List<SearchResultModel> applications = new();
-            //string format = @"(?<!\w){0}|(?:{1}){2}|{3}";
-            string format = @"(?<![a-z]){0}";
-            //var partition = input.Partition(input[0]);
+            List<string> applicationNames = new();
+            //string format = @"(?<![a-z]){0}";
+            string format = @".*((?<![a-z]){0}.*)";
             Regex rx = new(String.Format(format, input), RegexOptions.IgnoreCase);
 
             try
             {
-                foreach (ShellObject application in (IKnownFolder)applicationsFolder)
+                using (var sr = new StreamReader(applicationsTxtFilePath))
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    string name = application.Name;
-                    Match match = rx.Match(name);
-                    if (match.Success)
+                    string fileContent = sr.ReadToEnd();
+                    MatchCollection matches = rx.Matches(fileContent);
+                    foreach (Match match in matches)
                     {
-                        applications.Add(MakeSearchResultModel(name, application.ParsingName, GetApplicationIcon(applicationImagesDirectoryPath, name)));
+                        applicationNames.Add(match.Value.Trim());
                     }
                 }
+                foreach (string name in applicationNames)
+                {
+                    if (applicationsDict.TryGetValue(name, out string value))
+                    {
+                        applications.Add(MakeSearchResultModel(name, value, GetApplicationIcon(applicationImagesDirectoryPath, name)));
+                    }
+                }
+                //foreach (ShellObject application in (IKnownFolder)applicationsFolder)
+                //{
+                //    cancellationToken.ThrowIfCancellationRequested();
+
+                //    string name = application.Name;
+                //    Match match = rx.Match(name);
+                //    if (match.Success)
+                //    {
+                //        applications.Add(MakeSearchResultModel(name, application.ParsingName, GetApplicationIcon(applicationImagesDirectoryPath, name)));
+                //    }
+                //}
+                return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
+                                   .ThenBy(x => x.Name);
             }
             catch (OperationCanceledException)
             {
@@ -227,13 +266,13 @@ namespace Reginald.ViewModels
             //    Debug.WriteLine(stopwatch.ElapsedMilliseconds);
             //}
 
-            for (int i = applications.Count - 1; i >= 0; i--)
-            {
-                if (applications[i].Name.EndsWith(".url") | applications[i].ID.EndsWith("url"))
-                    applications.RemoveAt(i);
-            }
-            return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
-                               .ThenBy(x => x.Name);
+            //for (int i = applications.Count - 1; i >= 0; i--)
+            //{
+            //    if (applications[i].Name.EndsWith(".url") | applications[i].ID.EndsWith("url"))
+            //        applications.RemoveAt(i);
+            //}
+            //return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
+            //                   .ThenBy(x => x.Name);
         }
 
         private BitmapImage GetApplicationIcon(string path, string name)
@@ -573,6 +612,23 @@ namespace Reginald.ViewModels
             XmlDocument doc = new();
             doc.Load(Path.Combine(appDataDirectory, xmlLocation));
             return doc;
+        }
+
+        private static Dictionary<string, string> MakeApplicationsDictionary()
+        {
+            var FOLDERID_AppsFolder = new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
+            ShellObject appsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(FOLDERID_AppsFolder);
+
+            Dictionary<string, string> applications = new();
+
+            foreach (ShellObject app in (IKnownFolder)appsFolder)
+            {
+                if (!app.Name.EndsWith("url") && !app.ParsingName.EndsWith("url"))
+                {
+                    applications.TryAdd(app.Name, app.ParsingName);
+                }
+            }
+            return applications;
         }
     }
 }

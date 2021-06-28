@@ -35,7 +35,8 @@ namespace Reginald.Views
             Top = (SystemParameters.WorkArea.Height - ActualHeight) / 8;
             InitializeComponent();
 
-            SearchResults.Visibility = Visibility.Hidden;
+            /*SearchResults.Visibility = Visibility.Hidden*/
+            //SearchResults.Visibility = Visibility.Collapsed;
             UserInput.Focus();
         }
     }
