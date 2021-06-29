@@ -18,6 +18,7 @@
     <None Remove="Images\google.png" />
     <None Remove="Images\help-dark.png" />
     <None Remove="Images\help-light.png" />
+    <None Remove="Images\imdb.png" />
     <None Remove="Images\instagram.png" />
     <None Remove="Images\pinterest.png" />
     <None Remove="Images\reddit.png" />
@@ -66,6 +67,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\help-light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\imdb.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\instagram.png">

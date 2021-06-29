@@ -23,7 +23,6 @@ namespace Reginald.ViewModels
     {
         private readonly string applicationImagesDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "ApplicationIcons");
         private readonly string applicationsTxtFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "Applications.txt");
-        private readonly ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}"));
         private readonly XmlDocument searchDoc = GetXmlDocument("Search");
         private Dictionary<string, string> applicationsDict = MakeApplicationsDictionary();
 
@@ -55,7 +54,7 @@ namespace Reginald.ViewModels
                 {
                     if (model.CategoryName == SearchResultModel.Category.Application)
                     {
-
+                        continue;
                     }
                     else if (model.CategoryName == SearchResultModel.Category.Math)
                     {
@@ -71,7 +70,7 @@ namespace Reginald.ViewModels
 
                     model.Description = String.Format(model.Format, model.Text);
                 }
-                SearchResults.Refresh();
+                //SearchResults.Refresh();
             }
         }
 
@@ -85,8 +84,8 @@ namespace Reginald.ViewModels
             set
             {
                 _searchResults = value;
+                NotifyOfPropertyChange(() => SearchResults);
                 IsVisible = SearchResults.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
-                SelectedSearchResult = SearchResults[0];
             }
         }
 
@@ -99,8 +98,23 @@ namespace Reginald.ViewModels
             }
             set
             {
+                LastSelectedSearchResult = SelectedSearchResult;
                 _selectedSearchResult = value;
                 NotifyOfPropertyChange(() => SelectedSearchResult);
+            }
+        }
+
+        private SearchResultModel _lastSelectedSearchResult;
+        public SearchResultModel LastSelectedSearchResult
+        {
+            get
+            {
+                return _lastSelectedSearchResult;
+            }
+            set
+            {
+                _lastSelectedSearchResult = value;
+                NotifyOfPropertyChange(() => LastSelectedSearchResult);
             }
         }
 
@@ -118,21 +132,10 @@ namespace Reginald.ViewModels
             }
         }
 
-        CancellationTokenSource tokenSource = null;
-
         public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (tokenSource is not null)
-                tokenSource.Cancel();
-
-            ListBox listBox = sender as ListBox;
             if (UserInput != String.Empty)
             {
-                tokenSource = new CancellationTokenSource();
-
-                //if (!listBox.IsVisible)
-                //    listBox.Visibility = Visibility.Visible;
-
                 IEnumerable<SearchResultModel> models;
                 Task<IEnumerable<SearchResultModel>> applicationModelsTask;
                 Task<IEnumerable<SearchResultModel>> keywordModelsTask;
@@ -144,7 +147,7 @@ namespace Reginald.ViewModels
                 }
                 else
                 {
-                    applicationModelsTask = Task.Run(() => GetApplications(UserInput, tokenSource.Token));
+                    applicationModelsTask = Task.Run(() => GetApplications(UserInput));
 
                     keywordModelsTask = Task.Run(() =>
                     {
@@ -171,16 +174,18 @@ namespace Reginald.ViewModels
                         return Array.Empty<SearchResultModel>();
                     });
 
-                    //stopwatch.Stop();
-                    //Debug.WriteLine(stopwatch.ElapsedMilliseconds);
+                    IEnumerable<SearchResultModel> applicationModels = await applicationModelsTask;
+                    IEnumerable<SearchResultModel> keywordModels = await keywordModelsTask;
+                    SearchResultModel[] mathModels = await mathModelsTask;
 
-                    var applicationModels = await applicationModelsTask;
-                    if (applicationModels is null)
+                    try
+                    {
+                        models = applicationModels.Concat(keywordModels).Concat(mathModels);
+                    }
+                    catch (ArgumentNullException)
+                    {
                         return;
-                    var keywordModels = await keywordModelsTask;
-                    var mathModels = await mathModelsTask;
-
-                    models = applicationModels.Concat(keywordModels).Concat(mathModels);
+                    }
 
                     if (!models.Any())
                     {
@@ -192,87 +197,44 @@ namespace Reginald.ViewModels
                     }
                 }
 
-                UpdateSearchResults(models);
-                SearchResults.Refresh();
-                
-                //if (SearchResults.Count != 0)
-                //{
-                //    Stopwatch stopwatch = new();
-                //    stopwatch.Start();
-                //    SelectedSearchResult = SearchResults[0];
-                //    stopwatch.Stop();
-                //    Debug.WriteLine($"Time: {stopwatch.ElapsedMilliseconds}");
-                //}
+                SearchResults.Clear();
+                SearchResults.AddRange(models);
+                SelectedSearchResult = SearchResults[0];
+
+                //UpdateSearchResults(models);
+                //SearchResults.Refresh();
             }
             else
             {
-                //if (listBox.IsVisible)
-                //    listBox.Visibility = Visibility.Hidden;
-
                 SearchResults.Clear();
             }
         }
 
-        private IEnumerable<SearchResultModel> GetApplications(string input, CancellationToken cancellationToken)
+        private IEnumerable<SearchResultModel> GetApplications(string input)
         {
-            //Stopwatch stopwatch = new();
-            //stopwatch.Start();
-
             List<SearchResultModel> applications = new();
             List<string> applicationNames = new();
-            //string format = @"(?<![a-z]){0}";
             string format = @".*((?<![a-z]){0}.*)";
             Regex rx = new(String.Format(format, input), RegexOptions.IgnoreCase);
 
-            try
+            using (StreamReader sr = new(applicationsTxtFilePath))
             {
-                using (var sr = new StreamReader(applicationsTxtFilePath))
+                string fileContent = sr.ReadToEnd();
+                MatchCollection matches = rx.Matches(fileContent);
+                foreach (Match match in matches)
                 {
-                    string fileContent = sr.ReadToEnd();
-                    MatchCollection matches = rx.Matches(fileContent);
-                    foreach (Match match in matches)
-                    {
-                        applicationNames.Add(match.Value.Trim());
-                    }
+                    applicationNames.Add(match.Value.Trim());
                 }
-                foreach (string name in applicationNames)
-                {
-                    if (applicationsDict.TryGetValue(name, out string value))
-                    {
-                        applications.Add(MakeSearchResultModel(name, value, GetApplicationIcon(applicationImagesDirectoryPath, name)));
-                    }
-                }
-                //foreach (ShellObject application in (IKnownFolder)applicationsFolder)
-                //{
-                //    cancellationToken.ThrowIfCancellationRequested();
-
-                //    string name = application.Name;
-                //    Match match = rx.Match(name);
-                //    if (match.Success)
-                //    {
-                //        applications.Add(MakeSearchResultModel(name, application.ParsingName, GetApplicationIcon(applicationImagesDirectoryPath, name)));
-                //    }
-                //}
-                return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
-                                   .ThenBy(x => x.Name);
             }
-            catch (OperationCanceledException)
+            foreach (string name in applicationNames)
             {
-                return null;
+                if (applicationsDict.TryGetValue(name, out string value))
+                {
+                    applications.Add(MakeSearchResultModel(name, value, GetApplicationIcon(applicationImagesDirectoryPath, name)));
+                }
             }
-            //finally
-            //{
-            //    stopwatch.Stop();
-            //    Debug.WriteLine(stopwatch.ElapsedMilliseconds);
-            //}
-
-            //for (int i = applications.Count - 1; i >= 0; i--)
-            //{
-            //    if (applications[i].Name.EndsWith(".url") | applications[i].ID.EndsWith("url"))
-            //        applications.RemoveAt(i);
-            //}
-            //return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
-            //                   .ThenBy(x => x.Name);
+            return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
+                                .ThenBy(x => x.Name);
         }
 
         private BitmapImage GetApplicationIcon(string path, string name)
@@ -444,28 +406,28 @@ namespace Reginald.ViewModels
             return models;
         }
 
-        private void UpdateSearchResults(IEnumerable<SearchResultModel> models)
-        {
-            for (int i = SearchResults.Count - 1; i >= 0; i--)
-            {
-                if (!models.Contains(SearchResults[i]))
-                {
-                    SearchResults.RemoveAt(i);
-                }
-            }
+        //private void UpdateSearchResults(IEnumerable<SearchResultModel> models)
+        //{
+        //    for (int i = SearchResults.Count - 1; i >= 0; i--)
+        //    {
+        //        if (!models.Contains(SearchResults[i]))
+        //        {
+        //            SearchResults.RemoveAt(i);
+        //        }
+        //    }
 
-            foreach (SearchResultModel model in models)
-            {
-                if (SearchResults.Contains(model))
-                {
-                    continue;
-                }
-                else
-                {
-                    SearchResults.Add(model);
-                }
-            }
-        }
+        //    foreach (SearchResultModel model in models)
+        //    {
+        //        if (SearchResults.Contains(model))
+        //        {
+        //            continue;
+        //        }
+        //        else
+        //        {
+        //            SearchResults.Add(model);
+        //        }
+        //    }
+        //}
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -573,7 +535,8 @@ namespace Reginald.ViewModels
         {
             try
             {
-                SelectedSearchResult = SearchResults[0];
+                //SelectedSearchResult = SearchResults[0];
+                SelectedSearchResult = LastSelectedSearchResult;
             }
             catch (ArgumentOutOfRangeException) { }
         }
@@ -616,14 +579,12 @@ namespace Reginald.ViewModels
 
         private static Dictionary<string, string> MakeApplicationsDictionary()
         {
-            var FOLDERID_AppsFolder = new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
-            ShellObject appsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(FOLDERID_AppsFolder);
-
+            ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}"));
             Dictionary<string, string> applications = new();
 
-            foreach (ShellObject app in (IKnownFolder)appsFolder)
+            foreach (ShellObject app in (IKnownFolder)applicationsFolder)
             {
-                if (!app.Name.EndsWith("url") && !app.ParsingName.EndsWith("url"))
+                if (!app.Name.EndsWith(".url") && !app.ParsingName.EndsWith("url"))
                 {
                     applications.TryAdd(app.Name, app.ParsingName);
                 }
