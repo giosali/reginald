@@ -220,6 +220,16 @@ namespace Reginald.ViewModels
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>Instagram</Alt> \n" +
                 "    </Namespace>" +
+                "    <Namespace Name=\"imdb\">" +
+                "        <Name>IMDb</Name> \n" +
+                "        <Keyword>imdb</Keyword> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/imdb.png</Icon> \n" +
+                "        <URL>https://imdb.com/find?q={0}</URL> \n" +
+                "        <Separator>+</Separator> \n" +
+                "        <Format>Search IMDb for '{0}'</Format> \n" +
+                "        <DefaultText>...</DefaultText> \n" +
+                "        <Alt>IMDb</Alt> \n" +
+                "    </Namespace>" +
                 "    <Namespace Name=\"pinterest\">" +
                 "        <Name>Pinterest</Name> \n" +
                 "        <Keyword>pinterest</Keyword> \n" +
