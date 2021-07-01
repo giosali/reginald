@@ -96,6 +96,11 @@ namespace Reginald.ViewModels
             }
         }
 
+        public async Task LoadUtilitiesViewAsync(object sender, RoutedEventArgs e)
+        {
+            await ActivateItemAsync(new UtilitiesViewModel());
+        }
+
         private async static void SetUpApplication()
         {
             string appDataDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -123,6 +128,27 @@ namespace Reginald.ViewModels
                 XmlDocument doc = new();
                 doc.LoadXml(xmlContent);
                 string path = System.IO.Path.Combine(appDataDirectoryPath, applicationName, xmlFilename);
+                if (File.Exists(path))
+                {
+                    XmlDocument searchDoc = new();
+                    searchDoc.Load(path);
+
+                    string xpath = $"//Searches//Namespace";
+                    XmlNodeList namespaceNodesInSearchDoc = searchDoc.SelectNodes(xpath);
+                    XmlNodeList namespaceNodesInDoc = doc.SelectNodes(xpath);
+                    for (int i = 0; i < namespaceNodesInDoc.Count; i++)
+                    {
+                        try
+                        {
+                            XmlNode isEnabledNode = namespaceNodesInDoc[i].SelectSingleNode("IsEnabled");
+                            if (isEnabledNode is not null)
+                            {
+                                namespaceNodesInDoc[i].SelectSingleNode("IsEnabled").InnerText = namespaceNodesInSearchDoc[i].SelectSingleNode("IsEnabled").InnerText;
+                            }
+                        }
+                        catch (ArgumentOutOfRangeException) { }
+                    }
+                }
                 doc.Save(path);
             });
             return task;
@@ -130,9 +156,9 @@ namespace Reginald.ViewModels
 
         private static string GetSearchXmlStructure()
         {
-            string xmlFrame = "<?xml version=\"1.0\"?> \n" +
+            string xmlStructure = "<?xml version=\"1.0\"?> \n" +
                 "<Searches> \n" +
-                "    <Namespace Name=\"__math\">" +
+                "    <Namespace Name=\"__math\" ID=\"1\">" +
                 "        <Name>Math</Name> \n" +
                 "        <Keyword></Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/calculator.png</Icon> \n" +
@@ -141,7 +167,7 @@ namespace Reginald.ViewModels
                 "        <Format>{0}</Format> \n" +
                 "        <Alt>Copy to clipboard</Alt> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"__http\">" +
+                "    <Namespace Name=\"__http\" ID=\"2\">" +
                 "        <Name>HTTP</Name> \n" +
                 "        <Keyword></Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/edge.png</Icon> \n" +
@@ -150,7 +176,7 @@ namespace Reginald.ViewModels
                 "        <Format>Go to '{0}'</Format> \n" +
                 "        <Alt>Website</Alt> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"g\">" +
+                "    <Namespace Name=\"g\" ID=\"3\">" +
                 "        <Name>Google</Name> \n" +
                 "        <Keyword>g</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/google.png</Icon> \n" +
@@ -159,8 +185,9 @@ namespace Reginald.ViewModels
                 "        <Format>Search Google for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>Google</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"ddg\">" +
+                "    <Namespace Name=\"ddg\" ID=\"4\">" +
                 "        <Name>DuckDuckGo</Name> \n" +
                 "        <Keyword>ddg</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/duckduckgo.png</Icon> \n" +
@@ -169,8 +196,9 @@ namespace Reginald.ViewModels
                 "        <Format>Search DuckDuckGo for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>DuckDuckGo</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"amazon\">" +
+                "    <Namespace Name=\"amazon\" ID=\"5\">" +
                 "        <Name>Amazon</Name> \n" +
                 "        <Keyword>amazon</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/amazon.png</Icon> \n" +
@@ -179,18 +207,20 @@ namespace Reginald.ViewModels
                 "        <Format>Search Amazon for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>Amazon</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"ebay\">" +
+                "    <Namespace Name=\"ebay\" ID=\"6\">" +
                 "        <Name>eBay</Name> \n" +
-                "        <Keyword>yt</Keyword> \n" +
+                "        <Keyword>ebay</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/ebay.png</Icon> \n" +
                 "        <URL>https://ebay.com/sch/i.html?_nkw={0}</URL> \n" +
                 "        <Separator>+</Separator> \n" +
                 "        <Format>Search eBay for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>eBay</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"fb\">" +
+                "    <Namespace Name=\"fb\" ID=\"7\">" +
                 "        <Name>Facebook</Name> \n" +
                 "        <Keyword>fb</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/facebook.png</Icon> \n" +
@@ -199,8 +229,9 @@ namespace Reginald.ViewModels
                 "        <Format>Search Facebook for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>Facebook</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"git\">" +
+                "    <Namespace Name=\"git\" ID=\"8\">" +
                 "        <Name>GitHub</Name> \n" +
                 "        <Keyword>git</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/github.png</Icon> \n" +
@@ -209,18 +240,20 @@ namespace Reginald.ViewModels
                 "        <Format>Search GitHub for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>GitHub</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"ig\">" +
+                "    <Namespace Name=\"ig\" ID=\"9\">" +
                 "        <Name>Instagram</Name> \n" +
                 "        <Keyword>ig</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/instagram.png</Icon> \n" +
                 "        <URL>https://instagram.com/{0}</URL> \n" +
                 "        <Separator></Separator> \n" +
-                "        <Format>Go to \"{0}\"'s profile</Format> \n" +
-                "        <DefaultText>...</DefaultText> \n" +
+                "        <Format>Go to {0}'s profile</Format> \n" +
+                "        <DefaultText>_</DefaultText> \n" +
                 "        <Alt>Instagram</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"imdb\">" +
+                "    <Namespace Name=\"imdb\" ID=\"10\">" +
                 "        <Name>IMDb</Name> \n" +
                 "        <Keyword>imdb</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/imdb.png</Icon> \n" +
@@ -229,8 +262,9 @@ namespace Reginald.ViewModels
                 "        <Format>Search IMDb for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>IMDb</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"pinterest\">" +
+                "    <Namespace Name=\"pinterest\" ID=\"11\">" +
                 "        <Name>Pinterest</Name> \n" +
                 "        <Keyword>pinterest</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/pinterest.png</Icon> \n" +
@@ -239,8 +273,9 @@ namespace Reginald.ViewModels
                 "        <Format>Search Pinterest for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>Pinterest</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"r/\">" +
+                "    <Namespace Name=\"r/\" ID=\"12\">" +
                 "        <Name>Reddit</Name> \n" +
                 "        <Keyword>r/</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/reddit.png</Icon> \n" +
@@ -249,18 +284,20 @@ namespace Reginald.ViewModels
                 "        <Format>Go to r/{0}</Format> \n" +
                 "        <DefaultText></DefaultText> \n" +
                 "        <Alt>Reddit</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"tiktok\">" +
+                "    <Namespace Name=\"tiktok\" ID=\"13\">" +
                 "        <Name>TikTok</Name> \n" +
                 "        <Keyword>tiktok</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/tiktok.png</Icon> \n" +
                 "        <URL>https://tiktok.com/@{0}</URL> \n" +
                 "        <Separator></Separator> \n" +
-                "        <Format>Go to \"{0}\"'s profile</Format> \n" +
-                "        <DefaultText>...</DefaultText> \n" +
+                "        <Format>Go to {0}'s profile</Format> \n" +
+                "        <DefaultText>_</DefaultText> \n" +
                 "        <Alt>TikTok</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"tiktok\">" +
+                "    <Namespace Name=\"tiktok\" ID=\"14\">" +
                 "        <Name>TikTok</Name> \n" +
                 "        <Keyword>tiktok</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/tiktok.png</Icon> \n" +
@@ -269,18 +306,20 @@ namespace Reginald.ViewModels
                 "        <Format>Search TikTok for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>TikTok</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"tumblr\">" +
+                "    <Namespace Name=\"tumblr\" ID=\"15\">" +
                 "        <Name>tumblr</Name> \n" +
                 "        <Keyword>tumblr</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/tumblr.png</Icon> \n" +
                 "        <URL>https://{0}.tumblr.com</URL> \n" +
                 "        <Separator></Separator> \n" +
-                "        <Format>Go to \"{0}\"'s profile</Format> \n" +
-                "        <DefaultText>...</DefaultText> \n" +
+                "        <Format>Go to {0}'s blog</Format> \n" +
+                "        <DefaultText>_</DefaultText> \n" +
                 "        <Alt>tumblr</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"tumblr\">" +
+                "    <Namespace Name=\"tumblr\" ID=\"16\">" +
                 "        <Name>tumblr</Name> \n" +
                 "        <Keyword>tumblr</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/tumblr.png</Icon> \n" +
@@ -289,18 +328,31 @@ namespace Reginald.ViewModels
                 "        <Format>Search tumblr for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>tumblr</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"twitch\">" +
+                "    <Namespace Name=\"twitch\" ID=\"17\">" +
                 "        <Name>Twitch</Name> \n" +
                 "        <Keyword>twitch</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/twitch.png</Icon> \n" +
                 "        <URL>https://twitch.tv/{0}</URL> \n" +
                 "        <Separator></Separator> \n" +
-                "        <Format>Go to \"{0}\"'s channel</Format> \n" +
-                "        <DefaultText>...</DefaultText> \n" +
+                "        <Format>Go to {0}'s channel</Format> \n" +
+                "        <DefaultText>_</DefaultText> \n" +
                 "        <Alt>Twitch</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"twitter\">" +
+                "    <Namespace Name=\"twitter\" ID=\"18\">" +
+                "        <Name>Twitter</Name> \n" +
+                "        <Keyword>twitter</Keyword> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/twitter.png</Icon> \n" +
+                "        <URL>https://twitter.com/{0}</URL> \n" +
+                "        <Separator></Separator> \n" +
+                "        <Format>Go to {0}'s profile</Format> \n" +
+                "        <DefaultText>_</DefaultText> \n" +
+                "        <Alt>Twitter</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
+                "    </Namespace>" +
+                "    <Namespace Name=\"twitter\" ID=\"19\">" +
                 "        <Name>Twitter</Name> \n" +
                 "        <Keyword>twitter</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/twitter.png</Icon> \n" +
@@ -309,18 +361,9 @@ namespace Reginald.ViewModels
                 "        <Format>Search Twitter for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>Twitter</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"twitter\">" +
-                "        <Name>Twitter</Name> \n" +
-                "        <Keyword>twitter</Keyword> \n" +
-                "        <Icon>pack://application:,,,/Reginald;component/Images/twitter.png</Icon> \n" +
-                "        <URL>https://twitter.com/{0}</URL> \n" +
-                "        <Separator></Separator> \n" +
-                "        <Format>Go to \"{0}\"'s profile</Format> \n" +
-                "        <DefaultText>...</DefaultText> \n" +
-                "        <Alt>Twitter</Alt> \n" +
-                "    </Namespace>" +
-                "    <Namespace Name=\"wiki\">" +
+                "    <Namespace Name=\"wiki\" ID=\"20\">" +
                 "        <Name>Wikipedia</Name> \n" +
                 "        <Keyword>wiki</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/wikipedia.png</Icon> \n" +
@@ -329,8 +372,9 @@ namespace Reginald.ViewModels
                 "        <Format>Search Wikipedia for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>Wikipedia</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
-                "    <Namespace Name=\"yt\">" +
+                "    <Namespace Name=\"yt\" ID=\"21\">" +
                 "        <Name>YouTube</Name> \n" +
                 "        <Keyword>yt</Keyword> \n" +
                 "        <Icon>pack://application:,,,/Reginald;component/Images/youtube.png</Icon> \n" +
@@ -339,9 +383,10 @@ namespace Reginald.ViewModels
                 "        <Format>Search YouTube for '{0}'</Format> \n" +
                 "        <DefaultText>...</DefaultText> \n" +
                 "        <Alt>YouTube</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
                 "</Searches>";
-            return xmlFrame;
+            return xmlStructure;
         }
 
         private static Task CacheApplicationIcons(string appDataDirectory, string applicationName, string iconsDirectoryName)

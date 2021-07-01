@@ -101,7 +101,7 @@
                      Height="{Binding ElementName=searchWindow, Path=MinHeight}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="TextChanged">
-                        <cal:ActionMessage MethodName="UserInput_TextChanged">
+                        <cal:ActionMessage MethodName="UserInput_TextChangedAsync">
                             <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
                             <cal:Parameter Value="$eventargs"/>
                         </cal:ActionMessage>

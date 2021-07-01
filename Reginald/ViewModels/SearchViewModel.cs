@@ -70,7 +70,6 @@ namespace Reginald.ViewModels
 
                     model.Description = String.Format(model.Format, model.Text);
                 }
-                //SearchResults.Refresh();
             }
         }
 
@@ -132,7 +131,7 @@ namespace Reginald.ViewModels
             }
         }
 
-        public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
+        public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)
         {
             if (UserInput != String.Empty)
             {
@@ -200,9 +199,6 @@ namespace Reginald.ViewModels
                 SearchResults.Clear();
                 SearchResults.AddRange(models);
                 SelectedSearchResult = SearchResults[0];
-
-                //UpdateSearchResults(models);
-                //SearchResults.Refresh();
             }
             else
             {
@@ -234,7 +230,7 @@ namespace Reginald.ViewModels
                 }
             }
             return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
-                                .ThenBy(x => x.Name);
+                               .ThenBy(x => x.Name);
         }
 
         private BitmapImage GetApplicationIcon(string path, string name)
@@ -256,13 +252,13 @@ namespace Reginald.ViewModels
             return icon;
         }
 
-        private SearchResultModel MakeSearchResultModel(string name, string id, BitmapImage icon)
+        private SearchResultModel MakeSearchResultModel(string name, string parsingName, BitmapImage icon)
         {
             SearchResultModel model = new()
             {
                 Name = name,
                 CategoryName = SearchResultModel.Category.Application,
-                ID = id,
+                ParsingName = parsingName,
                 Icon = icon,
                 Text = name,
                 Format = "{0}",
@@ -312,14 +308,25 @@ namespace Reginald.ViewModels
             return model;
         }
 
-        private SearchResultModel[] MakeSearchResultModels(XmlDocument doc, string attribute, SearchResultModel.Category category, string input)
+        private List<SearchResultModel> MakeSearchResultModels(XmlDocument doc, string attribute, SearchResultModel.Category category, string input)
         {
             XmlNodeList nodes = doc.GetNodes(attribute);
-            SearchResultModel[] models = new SearchResultModel[nodes.Count];
+            List<SearchResultModel> models = new();
+            //SearchResultModel[] models = new SearchResultModel[nodes.Count];
             for (int i = 0; i < nodes.Count; i++)
             {
                 XmlNode node = nodes[i];
                 string name = node["Name"].InnerText;
+
+                XmlNode isEnabledNode = node["IsEnabled"];
+                if (isEnabledNode is not null)
+                {
+                    bool isEnabled = Boolean.Parse(isEnabledNode.InnerText);
+                    if (!isEnabled)
+                        continue;
+                }
+                else
+                    continue;
 
                 BitmapImage icon = new();
                 icon.BeginInit();
@@ -339,7 +346,7 @@ namespace Reginald.ViewModels
                 string description = String.Format(format, text);
                 string alt = node["Alt"].InnerText;
 
-                SearchResultModel model = new()
+                models.Add(new SearchResultModel
                 {
                     Name = name,
                     CategoryName = category,
@@ -352,8 +359,7 @@ namespace Reginald.ViewModels
                     DefaultText = defaultText,
                     Description = description,
                     Alt = alt
-                };
-                models[i] = model;
+                });
             }
             return models;
         }
@@ -405,29 +411,6 @@ namespace Reginald.ViewModels
             }
             return models;
         }
-
-        //private void UpdateSearchResults(IEnumerable<SearchResultModel> models)
-        //{
-        //    for (int i = SearchResults.Count - 1; i >= 0; i--)
-        //    {
-        //        if (!models.Contains(SearchResults[i]))
-        //        {
-        //            SearchResults.RemoveAt(i);
-        //        }
-        //    }
-
-        //    foreach (SearchResultModel model in models)
-        //    {
-        //        if (SearchResults.Contains(model))
-        //        {
-        //            continue;
-        //        }
-        //        else
-        //        {
-        //            SearchResults.Add(model);
-        //        }
-        //    }
-        //}
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -494,7 +477,7 @@ namespace Reginald.ViewModels
             switch (category)
             {
                 case SearchResultModel.Category.Application:
-                    Process.Start("explorer.exe", @"shell:appsfolder\" + SelectedSearchResult.ID);
+                    Process.Start("explorer.exe", @"shell:appsfolder\" + SelectedSearchResult.ParsingName);
                     TryCloseAsync();
                     break;
 
@@ -535,7 +518,6 @@ namespace Reginald.ViewModels
         {
             try
             {
-                //SelectedSearchResult = SearchResults[0];
                 SelectedSearchResult = LastSelectedSearchResult;
             }
             catch (ArgumentOutOfRangeException) { }

@@ -17,7 +17,7 @@
         fw:AcrylicWindow.AcrylicWindowStyle="None"
         
         Title="Reginald"
-        Height="450" Width="800"
+        Height="500" Width="900"
         FontSize="18" FontFamily="Segoe UI"
         BorderThickness="0"
         WindowStartupLocation="CenterScreen">
@@ -59,7 +59,12 @@
             </Style>
 
             <Style x:Key="SettingsButton__TextBlockStyle" TargetType="TextBlock">
-                <Setter Property="Padding" Value="20 0 0 0"/>
+                <Setter Property="Padding" Value="12.5 0 0 0"/>
+            </Style>
+
+            <Style x:Key="SettingsButton__TextBlock__RunStyle" TargetType="Run">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
@@ -75,6 +80,9 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
         <!-- # Navigation Menu -->
         <!-- ## Column 0 -->
@@ -100,8 +108,36 @@
                         <Rectangle Stroke="DarkOrange"
                                    Width="2"
                                    HorizontalAlignment="Left"/>
-                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}"
-                                   Text="General"/>
+                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}">
+                            <Run Style="{StaticResource SettingsButton__TextBlock__RunStyle}"
+                                 Text="&#xE10F;   "/>
+                            General
+                        </TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Style="{StaticResource SettingsButtonStyle}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="OnSettingsButtonClick">
+                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="LoadUtilitiesViewAsync">
+                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}">
+                            <Run Style="{StaticResource SettingsButton__TextBlock__RunStyle}"
+                                 Text="&#xE15E;   "/>
+                            Utilities
+                        </TextBlock>
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -116,24 +152,11 @@
                 </i:Interaction.Triggers>
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}"
-                                   Text="Utilities"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-            <Button Style="{StaticResource SettingsButtonStyle}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="OnSettingsButtonClick">
-                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}"
-                                   Text="Appearance"/>
+                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}">
+                            <Run Style="{StaticResource SettingsButton__TextBlock__RunStyle}"
+                                 Text="&#xE104;   "/>
+                            Appearance
+                        </TextBlock>
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -141,8 +164,8 @@
 
         <!-- ## Column 1 -->
         <StackPanel Background="Black"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="1000">
+                    Grid.Column="1" Grid.ColumnSpan="2"
+                    Grid.Row="0">
             <!-- ### Title Bar -->
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
@@ -167,59 +190,13 @@
                           StrokeThickness="1"/>
                 </Button>
             </StackPanel>
-
-            <!-- ### General -->
-            <StackPanel Margin="20 7 20 10">
-                <TextBlock Text="General Settings"
-                           FontSize="32"
-                           Foreground="White"/>
-            </StackPanel>
         </StackPanel>
-
-
-        <!-- ## Column 1 -->
-        <!--
-        <StackPanel Grid.Column="1"
-                    Background="Black"
-                    Grid.ColumnSpan="1000"
-                    Grid.RowSpan="1000">
-            <StackPanel Margin="20 10">
-                <TextBlock Text="Hello, I'm Reginald"
-                           FontSize="32"
-                           Grid.Row="0"
-                           Foreground="White"/>
-                <Button x:Name="testButton"
-                        Content="Test Button"
-                        Click="TestEmptyListBoxItem"/>
-                <TextBox x:Name="testTextBox"/>
-                <ListBox x:Name="testListBox"
-                         Margin="0 20">
-                    <ListBoxItem x:Name="firstListBoxItem"
-                                 IsSelected="True"
-                                 KeyDown="TestListBoxItem"
-                                 FocusVisualStyle="{x:Null}">
-                        <TextBlock Text="First Text"/>
-                    </ListBoxItem>
-                    <ListBoxItem KeyDown="TestListBoxItem"
-                                 FocusVisualStyle="{x:Null}">
-                        <TextBlock Text="Second Text"/>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="25">
-                                <Image.Source>
-                                    <BitmapImage UriSource="pack://application:,,,/Reginald;component/Images/edge.png"
-                                                 DecodePixelWidth="100"/>
-                                </Image.Source>
-                            </Image>
-                            <TextBlock Text="Calculator"
-                                       Margin="5 0 0 0"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem x:Name="emptyListBoxItem">
-                    </ListBoxItem>
-                </ListBox>
-            </StackPanel>
-        </StackPanel>-->
+        
+        <!-- ### Other Pages -->
+        <ContentControl x:Name="ActiveItem"
+                        Grid.Row="1"
+                        Grid.Column="1" Grid.ColumnSpan="2"
+                        Margin="0 25 0 0">
+        </ContentControl>
     </Grid>
 </Window>

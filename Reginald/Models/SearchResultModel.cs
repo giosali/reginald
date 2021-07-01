@@ -16,7 +16,8 @@ namespace Reginald.Models
         public string Name { get; set; }
         public Category CategoryName { get; set; }
         public ImageSource Icon { get; set; }
-        public string ID { get; set; }
+        public string ParsingName { get; set; }
+        public int ID { get; set; }
         public string Keyword { get; set; }
         public string Separator { get; set; }
         public string URL { get; set; }
@@ -26,5 +27,6 @@ namespace Reginald.Models
         public string Description { get; set; }
         public string Alt { get; set; }
         public string Count { get; set; }
+        public bool IsEnabled { get; set; }
     }
 }
