@@ -17,7 +17,10 @@ namespace Reginald.ViewModels
     {
         public UtilitiesViewModel()
         {
-            LoadKeywordSearchResults();
+            string keywordXmlName = "Search";
+            string userKeywordXmlName = "UserSearch";
+            LoadKeywordSearchResults(keywordXmlName, KeywordSearchResults);
+            LoadKeywordSearchResults(userKeywordXmlName, UserKeywordSearchResults);
         }
 
         private BindableCollection<SearchResultModel> _keywordSearchResults = new();
@@ -48,9 +51,37 @@ namespace Reginald.ViewModels
             }
         }
 
-        private void LoadKeywordSearchResults()
+        private BindableCollection<SearchResultModel> _userKeywordSearchResults = new();
+        public BindableCollection<SearchResultModel> UserKeywordSearchResults
         {
-            XmlDocument doc = GetXmlDocument("Search");
+            get
+            {
+                return _userKeywordSearchResults;
+            }
+            set
+            {
+                _userKeywordSearchResults = value;
+                NotifyOfPropertyChange(() => UserKeywordSearchResults);
+            }
+        }
+
+        private SearchResultModel _selectedUserKeywordSearchResult = new();
+        public SearchResultModel SelectedUserKeywordSearchResult
+        {
+            get
+            {
+                return _selectedUserKeywordSearchResult;
+            }
+            set
+            {
+                _selectedUserKeywordSearchResult = value;
+                NotifyOfPropertyChange(() => SelectedUserKeywordSearchResult);
+            }
+        }
+
+        private void LoadKeywordSearchResults(string name, BindableCollection<SearchResultModel> collection)
+        {
+            XmlDocument doc = GetXmlDocument(name);
             IEnumerable<string> attributes = doc.GetNodesAttributes().Where(x => !x.StartsWith("__"))
                                                                      .Distinct();
 
@@ -59,24 +90,58 @@ namespace Reginald.ViewModels
             {
                 keywordSearchResults = keywordSearchResults.Concat(MakeSearchResultModels(doc, attribute, SearchResultModel.Category.Keyword));
             }
-            KeywordSearchResults.AddRange(keywordSearchResults);
+            collection.AddRange(keywordSearchResults);
         }
 
-        public void KeywordSearchResults_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        public void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
 
-        public void KeywordSearchResults_Checked(object sender, RoutedEventArgs e)
+        public void KeywordSearchResults_Checked(object sender, RoutedEventArgs e, string name)
         {
-            ChangeIsEnabledState("Search", SelectedKeywordSearchResult.ID);
+            ChangeIsEnabledState(name, SelectedKeywordSearchResult.ID);
         }
 
-        public void KeywordSearchResults_Unchecked(object sender, RoutedEventArgs e)
+        public void KeywordSearchResults_Unchecked(object sender, RoutedEventArgs e, string name)
         {
-            ChangeIsEnabledState("Search", SelectedKeywordSearchResult.ID);
+            ChangeIsEnabledState(name, SelectedKeywordSearchResult.ID);
+        }
+
+        public async void CreateKeyword_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            IWindowManager manager = new WindowManager();
+            await manager.ShowWindowAsync(new NewUserKeywordViewModel(UserKeywordSearchResults));
+        }
+
+        public async void EditKeyword_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            IWindowManager manager = new WindowManager();
+            await manager.ShowWindowAsync(new EditUserKeywordViewModel(UserKeywordSearchResults, SelectedUserKeywordSearchResult));
+
+        }
+
+        public void DeleteKeyword_Click(object sender, RoutedEventArgs e)
+        {
+            string message = $"Are you sure you would like to delete this keyword for '{SelectedUserKeywordSearchResult.Name}'?";
+            string caption = "Keyword Deleted";
+            MessageBoxResult result = MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                XmlDocument doc = GetXmlDocument("UserSearch");
+                string xpath = $"//Searches/Namespace[@ID='{SelectedUserKeywordSearchResult.ID}']";
+                XmlNode currentNode = doc.SelectSingleNode(xpath);
+                string iconPath = currentNode["Icon"].InnerText;
+                if (File.Exists(iconPath))
+                {
+                    File.Delete(iconPath);
+                }
+                currentNode.ParentNode.RemoveChild(currentNode);
+                SaveXmlDocument(doc, "UserSearch");
+                UserKeywordSearchResults.Remove(SelectedUserKeywordSearchResult);
+            }
         }
 
         private static SearchResultModel[] MakeSearchResultModels(XmlDocument doc, string attribute, SearchResultModel.Category category)

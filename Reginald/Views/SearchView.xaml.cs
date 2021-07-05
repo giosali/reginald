@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 
 namespace Reginald.Views
@@ -22,17 +21,14 @@ namespace Reginald.Views
             base.OnDeactivated(e);
             if (!_isClosing)
             {
-                Hide();
-                //Close();
+                Close();
             }
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            e.Cancel = true;
-            Hide();
-            //base.OnClosing(e);
-            //_isClosing = true;
+            base.OnClosing(e);
+            _isClosing = true;
         }
 
         public SearchView()

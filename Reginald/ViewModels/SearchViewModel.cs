@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
 
@@ -21,22 +20,28 @@ namespace Reginald.ViewModels
 {
     public class SearchViewModel : Screen
     {
-        private readonly string applicationImagesDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "ApplicationIcons");
-        private readonly string applicationsTxtFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "Applications.txt");
-        private readonly XmlDocument searchDoc = GetXmlDocument("Search");
-        private Dictionary<string, string> applicationsDict = MakeApplicationsDictionary();
+        private string applicationImagesDirectoryPath;
+        private string applicationsTxtFilePath;
+        private XmlDocument searchDoc;
+        private Dictionary<string, string> applicationsDict;
 
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             UserInput = String.Empty;
             SearchResults.Clear();
+            applicationImagesDirectoryPath = null;
+            searchDoc = null;
+            applicationsDict = null;
 
             return base.OnDeactivateAsync(close, cancellationToken);
         }
 
         public SearchViewModel()
         {
-
+            applicationImagesDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "ApplicationIcons");
+            applicationsTxtFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "Applications.txt");
+            searchDoc = GetXmlDocument("Search");
+            applicationsDict = MakeApplicationsDictionary();
         }
 
         private string _userInput;
@@ -312,7 +317,6 @@ namespace Reginald.ViewModels
         {
             XmlNodeList nodes = doc.GetNodes(attribute);
             List<SearchResultModel> models = new();
-            //SearchResultModel[] models = new SearchResultModel[nodes.Count];
             for (int i = 0; i < nodes.Count; i++)
             {
                 XmlNode node = nodes[i];

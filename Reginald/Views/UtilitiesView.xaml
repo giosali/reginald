@@ -8,7 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800"
              
              xmlns:cal="http://caliburnmicro.com"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             
+             xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF">
     <UserControl.Resources>
         <ResourceDictionary>
             <!-- ControlTemplate for ListBoxItems-->
@@ -38,10 +40,11 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer x:Name="ScrollViewer">
+    <ScrollViewer x:Name="ScrollViewer"
+                  fw:PointerTracker.Enabled="True">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="PreviewMouseWheel">
-                <cal:ActionMessage MethodName="KeywordSearchResults_PreviewMouseWheel">
+                <cal:ActionMessage MethodName="ScrollViewer_PreviewMouseWheel">
                     <cal:Parameter Value="{Binding ElementName=ScrollViewer}"/>
                     <cal:Parameter Value="$eventargs"/>
                 </cal:ActionMessage>
@@ -72,12 +75,16 @@
                               IsChecked="True"
                               Margin="0 8 0 0"/>
             </StackPanel>
+            <Label Content="Default keywords"
+                   Foreground="White"
+                   FontWeight="Light"
+                   Margin="30 32 0 0"/>
             <DataGrid x:Name="KeywordSearchResults"
                       SelectedItem="{Binding Path=SelectedKeywordSearchResult, Mode=TwoWay}"
                       AutoGenerateColumns="False"
-                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" SelectionMode="Single"
                       HeadersVisibility="Column"
-                      Margin="30 32 0 30"
+                      Margin="30 0 0 32"
                       BorderBrush="Gray">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Icon"
@@ -109,12 +116,14 @@
                                             <cal:ActionMessage MethodName="KeywordSearchResults_Checked">
                                                 <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
+                                                <cal:Parameter Value="Search"/>
                                             </cal:ActionMessage>
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="Unchecked">
                                             <cal:ActionMessage MethodName="KeywordSearchResults_Unchecked">
                                                 <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
+                                                <cal:Parameter Value="Search"/>
                                             </cal:ActionMessage>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
@@ -122,19 +131,133 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--<DataGridCheckBoxColumn Header="Enabled"
-                                            Binding="{Binding IsEnabled}"
-                                            IsReadOnly="False">
-                        
-                        <DataGridCheckBoxColumn.ElementStyle>
-                            <Style TargetType="CheckBox">
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                            </Style>
-                        </DataGridCheckBoxColumn.ElementStyle>
-                    </DataGridCheckBoxColumn>-->
                 </DataGrid.Columns>
             </DataGrid>
+            <Label Content="Your personal keywords"
+                   Foreground="White"
+                   FontWeight="Light"
+                   Margin="30 0 0 0"/>
+            <DataGrid x:Name="UserKeywordSearchResults"
+                      SelectedItem="{Binding Path=SelectedUserKeywordSearchResult, Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" SelectionMode="Single"
+                      HeadersVisibility="Column"
+                      Margin="30 0 0 0"
+                      BorderBrush="Gray">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Icon"
+                                            IsReadOnly="True"
+                                            Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Icon}"
+                                       Width="20" Height="20"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Keyword" Binding="{Binding Keyword}"
+                                        IsReadOnly="True"
+                                        Width="*"
+                                        FontSize="16" FontWeight="Light"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"
+                                        IsReadOnly="True"
+                                        Width="2*"
+                                        FontSize="16" FontWeight="Light"/>
+                    <DataGridTemplateColumn Header="Enabled" 
+                                            IsReadOnly="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsEnabled}"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <cal:ActionMessage MethodName="UserKeywordSearchResults_Checked">
+                                                <cal:Parameter Value="{Binding ElementName=UserKeywordSearchResults}"/>
+                                                <cal:Parameter Value="$eventargs"/>
+                                                <cal:Parameter Value="UserSearch"/>
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <cal:ActionMessage MethodName="UserKeywordSearchResults_Unchecked">
+                                                <cal:Parameter Value="{Binding ElementName=UserKeywordSearchResults}"/>
+                                                <cal:Parameter Value="$eventargs"/>
+                                                <cal:Parameter Value="UserSearch"/>
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0 15 0 0">
+                <Button Padding="5 2.5"
+                        Margin="0 0 5 0"
+                        Background="#4A4A4A"
+                        Content="Delete keyword"
+                        Width="Auto"
+                        FontWeight="Light" FontSize="14">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="DeleteKeyword_Click">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRevealStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=UserKeywordSearchResults, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Padding="5 2.5"
+                        Margin="0 0 5 0"
+                        Background="#4A4A4A"
+                        Content="Edit keyword"
+                        Width="Auto"
+                        FontWeight="Light" FontSize="14">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="EditKeyword_ClickAsync">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRevealStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=UserKeywordSearchResults, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Style="{StaticResource ButtonRevealStyle}"
+                        Padding="5 2.5"
+                        Background="#4A4A4A"
+                        Content="Create keyword"
+                        Width="Auto"
+                        FontWeight="Light" FontSize="14">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="CreateKeyword_ClickAsync">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

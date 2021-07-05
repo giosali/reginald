@@ -25,6 +25,11 @@
         <WindowChrome CaptionHeight="20"
                       ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
     </WindowChrome.WindowChrome>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Alt + Space"
+                    Command="{Binding OpenWindowCommand}"
+                    HotkeyManager.RegisterGlobalHotkey="True"/>
+    </Window.InputBindings>
     <Window.Resources>
         <ResourceDictionary>
             <Style x:Key="TitleBarButtonStyle" TargetType="Button">
@@ -68,11 +73,6 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Window.InputBindings>
-        <KeyBinding Gesture="Alt + Space"
-                    Command="{Binding OpenWindowCommand}"
-                    HotkeyManager.RegisterGlobalHotkey="True"/>
-    </Window.InputBindings>
 
     <Grid fw:PointerTracker.Enabled="True">
         <Grid.ColumnDefinitions>

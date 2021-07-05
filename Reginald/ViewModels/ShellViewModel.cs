@@ -27,7 +27,9 @@ namespace Reginald.ViewModels
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             foreach (Window window in Application.Current.Windows)
+            {
                 window.Close();
+            }
 
             return base.OnDeactivateAsync(close, cancellationToken);
         }
@@ -37,10 +39,17 @@ namespace Reginald.ViewModels
             OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
         }
 
-        private readonly SearchViewModel _searchViewModel = new();
+        private SearchViewModel _searchViewModel = new();
         public SearchViewModel SearchViewModel
         {
-            get => _searchViewModel;
+            get
+            {
+                return _searchViewModel;
+            }
+            set
+            {
+                _searchViewModel = value;
+            }
         }
 
         public ICommand OpenWindowCommand { get; set; }
@@ -50,16 +59,17 @@ namespace Reginald.ViewModels
             return true;
         }
 
-        private void ExecuteMethod(object parameter)
+        private async void ExecuteMethod(object parameter)
         {
             if (SearchViewModel.IsActive)
             {
-                SearchViewModel.TryCloseAsync();
+                await SearchViewModel.TryCloseAsync();
+                SearchViewModel = new SearchViewModel();
             }
             else
             {
                 IWindowManager manager = new WindowManager();
-                manager.ShowWindowAsync(SearchViewModel);
+                await manager.ShowWindowAsync(SearchViewModel);
             }
         }
 
@@ -101,19 +111,23 @@ namespace Reginald.ViewModels
             await ActivateItemAsync(new UtilitiesViewModel());
         }
 
-        private async static void SetUpApplication()
+        private static async void SetUpApplication()
         {
             string appDataDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string applicationName = "Reginald";
             string iconsDirectoryName = "ApplicationIcons";
-            string xmlFilename = "Search.xml";
-            string xmlSearchContent = GetSearchXmlStructure();
+            string userIconsDirectoryName = "UserIcons";
+            string xmlKeywordFilename = "Search.xml";
+            string xmlKeywordSearchContent = GetKeywordXmlStructure();
+            string xmlUserKeywordFilename = "UserSearch.xml";
             string txtFilename = "Applications.txt";
 
             MakeAppDataDirectory(appDataDirectoryPath, applicationName);
-            await MakeXmlFile(appDataDirectoryPath, applicationName, xmlFilename, xmlSearchContent);
+            await MakeUserIconsDirectory(appDataDirectoryPath, applicationName, userIconsDirectoryName);
+            await MakeXmlFile(appDataDirectoryPath, applicationName, xmlKeywordFilename, xmlKeywordSearchContent);
             await CacheApplicationIcons(appDataDirectoryPath, applicationName, iconsDirectoryName);
             await MakeApplicationsTextFile(appDataDirectoryPath, applicationName, txtFilename);
+            await MakeUserKeywordXmlFile(appDataDirectoryPath, applicationName, xmlUserKeywordFilename);
         }
 
         private static void MakeAppDataDirectory(string appDataDirectoryPath, string applicationName)
@@ -121,13 +135,22 @@ namespace Reginald.ViewModels
             Directory.CreateDirectory(System.IO.Path.Combine(appDataDirectoryPath, applicationName));
         }
 
-        private static Task MakeXmlFile(string appDataDirectoryPath, string applicationName, string xmlFilename, string xmlContent)
+        private static Task MakeUserIconsDirectory(string appDataDirectoryPath, string applicationName, string directoryName)
+        {
+            Task task = Task.Run(() =>
+            {
+                Directory.CreateDirectory(System.IO.Path.Combine(appDataDirectoryPath, applicationName, directoryName));
+            });
+            return task;
+        }
+
+        private static Task MakeXmlFile(string appDataDirectoryPath, string applicationName, string filename, string xmlContent)
         {
             Task task = Task.Run(() =>
             {
                 XmlDocument doc = new();
                 doc.LoadXml(xmlContent);
-                string path = System.IO.Path.Combine(appDataDirectoryPath, applicationName, xmlFilename);
+                string path = System.IO.Path.Combine(appDataDirectoryPath, applicationName, filename);
                 if (File.Exists(path))
                 {
                     XmlDocument searchDoc = new();
@@ -154,7 +177,7 @@ namespace Reginald.ViewModels
             return task;
         }
 
-        private static string GetSearchXmlStructure()
+        private static string GetKeywordXmlStructure()
         {
             string xmlStructure = "<?xml version=\"1.0\"?> \n" +
                 "<Searches> \n" +
@@ -387,6 +410,24 @@ namespace Reginald.ViewModels
                 "    </Namespace>" +
                 "</Searches>";
             return xmlStructure;
+        }
+
+        private static Task MakeUserKeywordXmlFile(string appDataDirectory, string applicationName, string filename)
+        {
+            Task task = Task.Run(() =>
+            {
+                string path = System.IO.Path.Combine(appDataDirectory, applicationName, filename);
+                if (!File.Exists(path))
+                {
+                    XmlDocument doc = new();
+                    string xmlStructure = "<?xml version=\"1.0\"?> \n" +
+                    "<Searches> \n" +
+                    "</Searches>";
+                    doc.LoadXml(xmlStructure);
+                    doc.Save(path);
+                }
+            });
+            return task;
         }
 
         private static Task CacheApplicationIcons(string appDataDirectory, string applicationName, string iconsDirectoryName)
