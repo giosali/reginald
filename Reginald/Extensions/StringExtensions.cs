@@ -25,6 +25,36 @@ namespace Reginald.Extensions
             return (expression, String.Empty, String.Empty);
         }
 
+        public static (string Left, string Separator, string Right) RPartition(this String expression, string separator)
+        {
+            string[] results = expression.Split(separator);
+            if (results.Length > 1)
+            {
+                string left = String.Empty;
+                for (int i = 0; i < results.Length - 1; i++)
+                {
+                    left += results[i];
+                }
+                return (left, separator, results[^1]);
+            }
+            return (String.Empty, String.Empty, expression);
+        }
+
+        public static (string Left, string Separator, string Right) RPartition(this String expression, char separator)
+        {
+            string[] results = expression.Split(separator);
+            if (results.Length > 1)
+            {
+                string left = String.Empty;
+                for (int i = 0; i < results.Length - 1; i++)
+                {
+                    left += results[i];
+                }
+                return (left, separator.ToString(), results[^1]);
+            }
+            return (expression, String.Empty, String.Empty);
+        }
+
         public static string Eval(this String expression)
         {
             string result;
