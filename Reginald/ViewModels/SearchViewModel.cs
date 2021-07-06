@@ -23,24 +23,15 @@ namespace Reginald.ViewModels
         private string applicationImagesDirectoryPath;
         private string applicationsTxtFilePath;
         private XmlDocument searchDoc;
+        private XmlDocument userSearchDoc;
         private Dictionary<string, string> applicationsDict;
-
-        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
-        {
-            UserInput = String.Empty;
-            SearchResults.Clear();
-            applicationImagesDirectoryPath = null;
-            searchDoc = null;
-            applicationsDict = null;
-
-            return base.OnDeactivateAsync(close, cancellationToken);
-        }
 
         public SearchViewModel()
         {
             applicationImagesDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "ApplicationIcons");
             applicationsTxtFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "Applications.txt");
             searchDoc = GetXmlDocument("Search");
+            userSearchDoc = GetXmlDocument("UserSearch");
             applicationsDict = MakeApplicationsDictionary();
         }
 
@@ -143,6 +134,7 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> models;
                 Task<IEnumerable<SearchResultModel>> applicationModelsTask;
                 Task<IEnumerable<SearchResultModel>> keywordModelsTask;
+                Task<IEnumerable<SearchResultModel>> userKeywordModelsTask;
                 Task<SearchResultModel[]> mathModelsTask = null;
 
                 if (UserInput.HasTopLevelDomain())
@@ -171,6 +163,24 @@ namespace Reginald.ViewModels
                         return keywordModels;
                     });
 
+                    userKeywordModelsTask = Task.Run(() =>
+                    {
+                        (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
+
+                        List<string> attributes = userSearchDoc.GetNodesAttributes();
+                        string format = @"((?<!\w){0}.*)";
+                        Regex rx = new(String.Format(format, partition.Left), RegexOptions.IgnoreCase);
+                        IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
+                                                                .Distinct();
+
+                        IEnumerable<SearchResultModel> userKeywordModels = Array.Empty<SearchResultModel>();
+                        foreach (string match in matches)
+                        {
+                            userKeywordModels = userKeywordModels.Concat(MakeSearchResultModels(userSearchDoc, match, SearchResultModel.Category.Keyword, partition.Right));
+                        }
+                        return userKeywordModels;
+                    });
+
                     mathModelsTask = Task.Run(() =>
                     {
                         if (UserInput.IsMathExpression())
@@ -180,11 +190,12 @@ namespace Reginald.ViewModels
 
                     IEnumerable<SearchResultModel> applicationModels = await applicationModelsTask;
                     IEnumerable<SearchResultModel> keywordModels = await keywordModelsTask;
+                    IEnumerable<SearchResultModel> userKeywordModels = await userKeywordModelsTask;
                     SearchResultModel[] mathModels = await mathModelsTask;
 
                     try
                     {
-                        models = applicationModels.Concat(keywordModels).Concat(mathModels);
+                        models = applicationModels.Concat(keywordModels).Concat(userKeywordModels).Concat(mathModels);
                     }
                     catch (ArgumentNullException)
                     {
@@ -193,10 +204,11 @@ namespace Reginald.ViewModels
 
                     if (!models.Any())
                     {
-                        models = new SearchResultModel[2]
+                        models = new SearchResultModel[3]
                         {
                             MakeSearchResultModel("g", SearchResultModel.Category.SearchEngine),
-                            MakeSearchResultModel("ddg", SearchResultModel.Category.SearchEngine)
+                            MakeSearchResultModel("ddg", SearchResultModel.Category.SearchEngine),
+                            MakeSearchResultModel("amazon", SearchResultModel.Category.SearchEngine)
                         };
                     }
                 }
@@ -316,6 +328,8 @@ namespace Reginald.ViewModels
         private List<SearchResultModel> MakeSearchResultModels(XmlDocument doc, string attribute, SearchResultModel.Category category, string input)
         {
             XmlNodeList nodes = doc.GetNodes(attribute);
+            if (nodes is null)
+                return new List<SearchResultModel>();
             List<SearchResultModel> models = new();
             for (int i = 0; i < nodes.Count; i++)
             {
