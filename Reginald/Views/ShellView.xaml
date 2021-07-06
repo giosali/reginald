@@ -11,8 +11,8 @@
         
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         fw:AcrylicWindow.Enabled="True"
-        fw:AcrylicWindow.TintColor="Black"
-        fw:AcrylicWindow.TintOpacity="0.4"
+        fw:AcrylicWindow.TintColor="#171717"
+        fw:AcrylicWindow.TintOpacity="0.8"
         fw:AcrylicWindow.NoiseOpacity="0"
         fw:AcrylicWindow.AcrylicWindowStyle="None"
         

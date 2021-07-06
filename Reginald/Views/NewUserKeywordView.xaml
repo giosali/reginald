@@ -62,7 +62,19 @@
 
         <!-- Row 0 -->
         <Label Grid.Row="0" Grid.Column="0"
-               Content="URL/Separator"/>
+               Content="URL/Separator">
+            <Label.ToolTip>
+                <ToolTip>
+                    <DockPanel Width="Auto" Height="Auto">
+                        <TextBlock>
+                            The separator is used to replace spaces in input.
+                            <LineBreak/>
+                            Leave blank if you want spaces to be left alone.
+                        </TextBlock>
+                    </DockPanel>
+                </ToolTip>
+            </Label.ToolTip>
+        </Label>
         <TextBox x:Name="UrlTextBox"
                  Text="{Binding Path=SelectedKeywordSearchResult.URL, Mode=TwoWay}"
                  Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1"/>
@@ -82,14 +94,38 @@
         
         <!-- Row 4 -->
         <Label Grid.Row="4" Grid.Column="0"
-               Content="Name"/>
+               Content="Name">
+            <Label.ToolTip>
+                <ToolTip>
+                    <DockPanel Width="Auto" Height="Auto">
+                        <TextBlock>
+                            The name of the keyword.
+                            <LineBreak/>
+                            You are allowed to have as many keywords as you want with the same name.
+                        </TextBlock>
+                    </DockPanel>
+                </ToolTip>
+            </Label.ToolTip>
+        </Label>
         <TextBox x:Name="NameTextBox"
                  Text="{Binding Path=SelectedKeywordSearchResult.Name, Mode=TwoWay}"
                  Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
 
         <!-- Row 6 -->
         <Label Grid.Row="6" Grid.Column="0"
-               Content="Keyword"/>
+               Content="Keyword">
+            <Label.ToolTip>
+                <ToolTip>
+                    <DockPanel Width="Auto" Height="Auto">
+                        <TextBlock>
+                            The characters to type to have this appear in your search results.
+                            <LineBreak/>
+                            You are allowed to have as many keywords as you want with the same name.
+                        </TextBlock>
+                    </DockPanel>
+                </ToolTip>
+            </Label.ToolTip>
+        </Label>
         <TextBox x:Name="KeywordTextBox"
                  Text="{Binding Path=SelectedKeywordSearchResult.Keyword, Mode=TwoWay}"
                  Grid.Row="6" Grid.Column="1"
@@ -99,14 +135,40 @@
         
         <!-- Row 8 -->
         <Label Grid.Row="8" Grid.Column="0"
-               Content="Description"/>
+               Content="Description">
+            <Label.ToolTip>
+                <ToolTip>
+                    <DockPanel Width="Auto" Height="Auto">
+                        <TextBlock>
+                            The text that will appear when this keyword appears in your search results.
+                            <LineBreak/>
+                            Use {0} to have your input replace {0}. For example:
+                            <LineBreak/>
+                            'Search Google for '{0}'' will appear as 'Search Google for 'input''
+                        </TextBlock>
+                    </DockPanel>
+                </ToolTip>
+            </Label.ToolTip>
+        </Label>
         <TextBox x:Name="DescriptionTextBox"
                  Text="{Binding Path=SelectedKeywordSearchResult.Format, Mode=TwoWay}"
                  Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2"/>
         
         <!-- Row 9 -->
         <Label Grid.Row="9" Grid.Column="0"
-               Content="Filler"/>
+               Content="Filler">
+            <Label.ToolTip>
+                <ToolTip>
+                    <DockPanel Width="Auto" Height="Auto">
+                        <TextBlock>
+                            Default text which will appear in the description of keyword search results.
+                            <LineBreak/>
+                            It's recommended to use ... for input with spaces and _ for input without spaces.
+                        </TextBlock>
+                    </DockPanel>
+                </ToolTip>
+            </Label.ToolTip>
+        </Label>
         <TextBox x:Name="FillerTextBox"
                  Text="{Binding Path=SelectedKeywordSearchResult.DefaultText, Mode=TwoWay}"
                  Grid.Row="9" Grid.Column="1"
@@ -116,7 +178,19 @@
 
         <!-- Row 11 -->
         <Label Grid.Row="11" Grid.Column="0"
-               Content="Sub-description"/>
+               Content="Sub-description">
+            <Label.ToolTip>
+                <ToolTip >
+                    <DockPanel Width="Auto" Height="Auto">
+                        <TextBlock>
+                            The footer to the description that will appear in your search results.
+                            <LineBreak/>
+                            It's recommended to leave this to be the same as the Name of the keyword.
+                        </TextBlock>
+                    </DockPanel>
+                </ToolTip>
+            </Label.ToolTip>
+        </Label>
         <TextBox x:Name="SubdescriptionTextBox"
                  Grid.Row="11" Grid.Column="1"
                  Text="{Binding ElementName=NameTextBox, Path=Text, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -125,7 +199,19 @@
         
         <!-- Row 13 -->
         <Label Grid.Row="13" Grid.Column="0"
-               Content="Icon"/>
+               Content="Icon">
+            <Label.ToolTip>
+                <ToolTip>
+                    <DockPanel Width="Auto" Height="Auto">
+                        <TextBlock>
+                            A PNG/JPG file with dimensions greater than 75x75.
+                            <LineBreak/>
+                            Use PNGs whenever possible.
+                        </TextBlock>
+                    </DockPanel>
+                </ToolTip>
+            </Label.ToolTip>
+        </Label>
         <Border x:Name="IconPanel"
                 Grid.Row="13" Grid.Column="1"
                 Background="Transparent"
@@ -168,9 +254,6 @@
                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRevealStyle}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Text.Length, ElementName=UrlTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=SeparatorTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Text.Length, ElementName=NameTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
