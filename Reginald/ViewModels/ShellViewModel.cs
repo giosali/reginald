@@ -1,43 +1,28 @@
 ﻿using Caliburn.Micro;
+using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.WindowsAPICodePack.Shell;
 using Reginald.Commands;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Xml;
 
 namespace Reginald.ViewModels
 {
     public class ShellViewModel : Conductor<object>
     {
-        protected override Task OnActivateAsync(CancellationToken cancellationToken)
-        {
-            SetUpApplication();
-            return base.OnActivateAsync(cancellationToken);
-        }
-
-        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
-        {
-            foreach (Window window in Application.Current.Windows)
-            {
-                window.Close();
-            }
-
-            return base.OnDeactivateAsync(close, cancellationToken);
-        }
-
         public ShellViewModel()
         {
+            SetUpApplication();
+            tb = (TaskbarIcon)Application.Current.FindResource("ReginaldNotifyIcon");
             OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
         }
+
+        private TaskbarIcon tb;
 
         private SearchViewModel _searchViewModel = new();
         public SearchViewModel SearchViewModel
@@ -73,44 +58,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        public void OnSettingsButtonClick(UIElement element, RoutedEventArgs e)
-        {
-            if (element is StackPanel stackPnl)
-            {
-                foreach (object child in stackPnl.Children)
-                {
-                    if (child is Button btn)
-                    {
-                        if (btn.Content is StackPanel btnStackPnl)
-                        {
-                            if (btnStackPnl.Children.Count == 2)
-                                btnStackPnl.Children.RemoveAt(0);
-                        }
-                    }
-                }
-            }
-
-            Button sourceBtn = (Button)e.Source;
-            if (sourceBtn.Content is StackPanel sourceStackPnl)
-            {
-                if (sourceStackPnl.Children.Count == 1)
-                {
-                    Rectangle rectangle = new()
-                    {
-                        Stroke = Brushes.DarkOrange,
-                        Width = 2,
-                        HorizontalAlignment = HorizontalAlignment.Left
-                    };
-                    sourceStackPnl.Children.Insert(0, rectangle);
-                }
-            }
-        }
-
-        public async Task LoadUtilitiesViewAsync(object sender, RoutedEventArgs e)
-        {
-            await ActivateItemAsync(new UtilitiesViewModel());
-        }
-
         private static async void SetUpApplication()
         {
             string appDataDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -132,14 +79,14 @@ namespace Reginald.ViewModels
 
         private static void MakeAppDataDirectory(string appDataDirectoryPath, string applicationName)
         {
-            Directory.CreateDirectory(System.IO.Path.Combine(appDataDirectoryPath, applicationName));
+            Directory.CreateDirectory(Path.Combine(appDataDirectoryPath, applicationName));
         }
 
         private static Task MakeUserIconsDirectory(string appDataDirectoryPath, string applicationName, string directoryName)
         {
             Task task = Task.Run(() =>
             {
-                Directory.CreateDirectory(System.IO.Path.Combine(appDataDirectoryPath, applicationName, directoryName));
+                Directory.CreateDirectory(Path.Combine(appDataDirectoryPath, applicationName, directoryName));
             });
             return task;
         }
@@ -150,7 +97,7 @@ namespace Reginald.ViewModels
             {
                 XmlDocument doc = new();
                 doc.LoadXml(xmlContent);
-                string path = System.IO.Path.Combine(appDataDirectoryPath, applicationName, filename);
+                string path = Path.Combine(appDataDirectoryPath, applicationName, filename);
                 if (File.Exists(path))
                 {
                     XmlDocument searchDoc = new();
@@ -416,7 +363,7 @@ namespace Reginald.ViewModels
         {
             Task task = Task.Run(() =>
             {
-                string path = System.IO.Path.Combine(appDataDirectory, applicationName, filename);
+                string path = Path.Combine(appDataDirectory, applicationName, filename);
                 if (!File.Exists(path))
                 {
                     XmlDocument doc = new();
@@ -475,28 +422,10 @@ namespace Reginald.ViewModels
                         applicationNames.Add(application.Name);
                     }
                 }
-                string path = System.IO.Path.Combine(appDataDirectory, applicationName, txtFilename);
+                string path = Path.Combine(appDataDirectory, applicationName, txtFilename);
                 await File.WriteAllLinesAsync(path, applicationNames);
             });
             return task;
-        }
-
-        private static XmlNode MakeXmlNode(string keyword, string name, string icon,
-                                           string url, string separator, string description)
-        {
-            string xml = $"<Namespace Name=\"{keyword}\">" +
-               $"    <Name>{name}</Name> \n" +
-               $"    <Keyword>{keyword}</Keyword> \n" +
-               $"    <Icon>{icon}</Icon> \n" +
-               $"    <URL>{url}</URL> \n" +
-               $"    <Separator>{separator}</Separator> \n" +
-               $"    <Description>{description}</Description> \n" +
-               "</Namespace>";
-
-            XmlDocument newDoc = new();
-            newDoc.LoadXml(xml);
-            XmlNode newNode = newDoc.DocumentElement;
-            return newNode;
         }
     }
 }
