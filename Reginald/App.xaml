@@ -1,9 +1,27 @@
 ﻿<Application x:Class="Reginald.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Reginald">
+             xmlns:local="clr-namespace:Reginald"
+             ShutdownMode="OnExplicitShutdown"
+             
+             xmlns:tb="http://www.hardcodet.net/taskbar">
     <Application.Resources>
         <ResourceDictionary>
+             <!-- NotifyIcon -->
+            <tb:TaskbarIcon x:Key="ReginaldNotifyIcon"
+                            IconSource="pack://application:,,,/Reginald;component/Reginald.ico"
+                            ToolTipText="Reginald v0.1.0"
+                            MenuActivation="LeftOrRightClick">
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Open Settings"
+                                  Click="OpenSettingsMenuItem_Click"/>
+                        <MenuItem Header="Exit"
+                                  Click="ExitMenuItem_Click"/>
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+            </tb:TaskbarIcon>
+            
             <ResourceDictionary.MergedDictionaries>
                 <!-- Reginald -->
                 <ResourceDictionary Source="Styles.xaml"/>
