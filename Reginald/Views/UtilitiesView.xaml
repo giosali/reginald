@@ -13,6 +13,38 @@
              xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF">
     <UserControl.Resources>
         <ResourceDictionary>
+            <!-- TextBlock Styles -->
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+            <Style x:Key="TextBlockHeaderOne" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="32"/>
+            </Style>
+            <Style x:Key="TextBlockHeaderTwo" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="24"/>
+            </Style>
+            <Style x:Key="TextBlockParagraph" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontWeight" Value="Light"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+
+            <!-- Label Styles -->
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="Light"/>
+            </Style>
+
+            <!-- ToggleButton Styles -->
+            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonStyle}">
+                <Setter Property="Margin" Value="0 8 0 0"/>
+            </Style>
+
+            <!-- StackPanel Styles -->
+            <Style x:Key="StackPanelSection" TargetType="{x:Type StackPanel}">
+                <Setter Property="Margin" Value="0 16 16 0"/>
+            </Style>
+            
             <!-- ControlTemplate for ListBoxItems-->
             <ControlTemplate x:Key="KeywordSearchResultsListBoxItems" TargetType="ListBoxItem">
                 <Border x:Name="listBoxItemBorder"
@@ -51,33 +83,21 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <StackPanel Margin="20 7 20 10">
-            <TextBlock Text="Utilities"
-                       FontSize="32"
-                       Foreground="White"/>
-            <StackPanel Margin="0 16 16 0">
-                <TextBlock Text="Search Results"
-                           FontSize="24"
-                           Foreground="White"/>
-                <TextBlock Text="Include installed applications in your search results and have them indexed"
-                           TextWrapping="Wrap"
-                           FontSize="16" FontWeight="Light"
-                           Foreground="White"
+            <TextBlock Style="{StaticResource TextBlockHeaderOne}"
+                       Text="Utilities"/>
+            <StackPanel Style="{StaticResource StackPanelSection}">
+                <TextBlock Style="{StaticResource TextBlockHeaderTwo}"
+                           Text="Search Results"/>
+                <TextBlock Style="{StaticResource TextBlockParagraph}"
+                           Text="Include installed applications in your search results and have them indexed"
                            Margin="0 16 0 0"/>
-                <ToggleButton Style="{StaticResource ToggleButtonStyle}"
-                              IsChecked="True"
-                              Margin="0 8 0 0"/>
-                <TextBlock Text="Include default keyword searches in your search results"
-                           TextWrapping="Wrap"
-                           FontSize="16" FontWeight="Light"
-                           Foreground="White"
+                <ToggleButton IsChecked="True"/>
+                <TextBlock Style="{StaticResource TextBlockParagraph}"
+                           Text="Include default keyword searches in your search results"
                            Margin="0 12 0 0"/>
-                <ToggleButton Style="{StaticResource ToggleButtonStyle}"
-                              IsChecked="True"
-                              Margin="0 8 0 0"/>
+                <ToggleButton IsChecked="True"/>
             </StackPanel>
             <Label Content="Default keywords"
-                   Foreground="White"
-                   FontWeight="Light"
                    Margin="30 32 0 0"/>
             <DataGrid x:Name="KeywordSearchResults"
                       SelectedItem="{Binding Path=SelectedKeywordSearchResult, Mode=TwoWay}"
@@ -134,8 +154,6 @@
                 </DataGrid.Columns>
             </DataGrid>
             <Label Content="Your personal keywords"
-                   Foreground="White"
-                   FontWeight="Light"
                    Margin="30 0 0 0"/>
             <DataGrid x:Name="UserKeywordSearchResults"
                       SelectedItem="{Binding Path=SelectedUserKeywordSearchResult, Mode=TwoWay}"

@@ -12,6 +12,8 @@
                   
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         fw:AcrylicWindow.Enabled="True"
+        fw:AcrylicWindow.TintColor="{Binding Settings.SearchBackgroundColor}"
+        fw:AcrylicWindow.TintOpacity="0.8"
         fw:AcrylicWindow.NoiseOpacity="0"
         fw:AcrylicWindow.AcrylicWindowStyle="None"
                   
@@ -21,7 +23,7 @@
         FontFamily="Segoe UI"
         ResizeMode="NoResize"
         SizeToContent="Height"
-        BorderBrush="#7d4500"
+        BorderBrush="Transparent"
         
         WindowStartupLocation="Manual"
         WindowStyle="None"
@@ -29,7 +31,7 @@
         ShowInTaskbar="False">
     <Window.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="searchResultsTemplate">
+            <DataTemplate x:Key="SearchResultsTemplate">
                 <Grid Width="{Binding ElementName=searchWindow, Path=Width}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -45,20 +47,20 @@
                                 Margin="0 0 0 5"
                                 Grid.Column="1" Grid.ColumnSpan="2">
                         <TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis"
-                                   Background="Transparent" Foreground="White"
+                                   Background="Transparent" Foreground="{Binding ElementName=searchWindow, Path=DataContext.Settings.SearchDescriptionTextBrush}"
                                    FontSize="24" FontWeight="Light"
                                    Margin="0" Padding="0"/>
                         <TextBlock Text="{Binding Alt}"
-                                   Background="Transparent" Foreground="Gray"
+                                   Background="Transparent" Foreground="{Binding ElementName=searchWindow, Path=DataContext.Settings.SearchAltTextBrush}"
                                    FontSize="12" FontWeight="Light"
                                    Margin="0" Padding="0"/>
                     </StackPanel>
-                    <TextBlock Text="{Binding Count}"
+                    <!--<TextBlock Text="{Binding Count}"
                                Background="Transparent" Foreground="Gray"
                                FontSize="12" FontWeight="Light"
                                VerticalAlignment="Center" HorizontalAlignment="Right"
                                Grid.Column="3"
-                               Margin="5 0 0 0" Padding="0 0 30 0"/>
+                               Margin="5 0 0 0" Padding="0 0 30 0"/>-->
                 </Grid>
             </DataTemplate>
 
@@ -82,7 +84,8 @@
                     </Trigger>
                     <Trigger Property="IsSelected" Value="True">
                         <Setter TargetName="listBoxItemBorder"
-                                Property="Background" Value="#33d16c00"/>
+                                Property="Background" Value="#33ff8d00"/>
+                        <!-- #33d16c00 -->
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -92,8 +95,8 @@
     <Grid>
         <StackPanel>
             <TextBox x:Name="UserInput"
-                     Background="Transparent" Foreground="White"
-                     CaretBrush="Gray"
+                     Background="Transparent" Foreground="{Binding Settings.SearchInputTextBrush}"
+                     CaretBrush="{Binding Settings.SearchInputCaretBrush}"
                      BorderThickness="0"
                      FontSize="32" FontWeight="Light"
                      Padding="10 0"
@@ -116,7 +119,7 @@
             </TextBox>
 
             <ListBox x:Name="SearchResults"
-                     ItemTemplate="{StaticResource searchResultsTemplate}"
+                     ItemTemplate="{StaticResource SearchResultsTemplate}"
                      SelectedItem="{Binding Path=SelectedSearchResult, Mode=TwoWay}"
                      Background="Transparent"
                      MaxHeight="330"
@@ -153,8 +156,8 @@
                             </Trigger>
                         </Style.Triggers>
                         <Setter Property="Padding" Value="10 0"/>
-                        <Setter Property="Height" Value="55"/>
-                        <Setter Property="Template" Value="{StaticResource SearchResultsListBoxItems}"/>
+                            <Setter Property="Height" Value="55"/>
+                            <Setter Property="Template" Value="{StaticResource SearchResultsListBoxItems}"/>
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>

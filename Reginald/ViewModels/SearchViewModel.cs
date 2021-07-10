@@ -8,11 +8,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
 
@@ -28,20 +28,24 @@ namespace Reginald.ViewModels
 
         public SearchViewModel()
         {
-            applicationImagesDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "ApplicationIcons");
-            applicationsTxtFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "Applications.txt");
-            searchDoc = GetXmlDocument("Search");
-            userSearchDoc = GetXmlDocument("UserSearch");
-            applicationsDict = MakeApplicationsDictionary();
+            SetUpViewModel();
+        }
+
+        private SettingsModel _settings = new();
+        public SettingsModel Settings
+        {
+            get => _settings;
+            set
+            {
+                _settings = value;
+                NotifyOfPropertyChange(() => Settings);
+            }
         }
 
         private string _userInput;
         public string UserInput
         {
-            get
-            {
-                return _userInput;
-            }
+            get => _userInput;
             set
             {
                 _userInput = value;
@@ -72,10 +76,7 @@ namespace Reginald.ViewModels
         private BindableCollection<SearchResultModel> _searchResults = new();
         public BindableCollection<SearchResultModel> SearchResults
         {
-            get
-            {
-                return _searchResults;
-            }
+            get => _searchResults;
             set
             {
                 _searchResults = value;
@@ -87,10 +88,7 @@ namespace Reginald.ViewModels
         private SearchResultModel _selectedSearchResult = new();
         public SearchResultModel SelectedSearchResult
         {
-            get
-            {
-                return _selectedSearchResult;
-            }
+            get => _selectedSearchResult;
             set
             {
                 LastSelectedSearchResult = SelectedSearchResult;
@@ -102,10 +100,7 @@ namespace Reginald.ViewModels
         private SearchResultModel _lastSelectedSearchResult;
         public SearchResultModel LastSelectedSearchResult
         {
-            get
-            {
-                return _lastSelectedSearchResult;
-            }
+            get => _lastSelectedSearchResult;
             set
             {
                 _lastSelectedSearchResult = value;
@@ -116,15 +111,52 @@ namespace Reginald.ViewModels
         private Visibility _isVisible;
         public Visibility IsVisible
         {
-            get
-            {
-                return _isVisible;
-            }
+            get => _isVisible;
             set
             {
                 _isVisible = value;
                 NotifyOfPropertyChange(() => IsVisible);
             }
+        }
+
+        private async void SetUpViewModel()
+        {
+            applicationImagesDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "ApplicationIcons");
+            applicationsTxtFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "Applications.txt");
+            searchDoc = GetXmlDocument("Search");
+            userSearchDoc = GetXmlDocument("UserSearch");
+            applicationsDict = await Task.Run(() =>
+            {
+                return MakeApplicationsDictionary();
+            });
+
+            Properties.Settings settings = Properties.Settings.Default;
+            System.Drawing.Color searchBackgroundColor;
+            System.Drawing.Color searchDescriptionTextColor;
+            System.Drawing.Color searchAltTextColor;
+            System.Drawing.Color searchInputTextColor;
+            System.Drawing.Color searchInputCaretColor;
+            if (settings.IsDarkModeEnabled)
+            {
+                searchBackgroundColor = settings.SearchBackgroundColorDark;
+                searchDescriptionTextColor = settings.SearchDescriptionTextColorDark;
+                searchAltTextColor = settings.SearchAltTextColorDark;
+                searchInputTextColor = settings.SearchInputTextColorDark;
+                searchInputCaretColor = settings.SearchInputCaretColorDark;
+            }
+            else
+            {
+                searchBackgroundColor = settings.SearchBackgroundColorLight;
+                searchDescriptionTextColor = settings.SearchDescriptionTextColorLight;
+                searchAltTextColor = settings.SearchAltTextColorLight;
+                searchInputTextColor = settings.SearchInputTextColorLight;
+                searchInputCaretColor = settings.SearchInputCaretColorLight;
+            }
+            Settings.SearchBackgroundColor = Color.FromRgb(searchBackgroundColor.R, searchBackgroundColor.G, searchBackgroundColor.B);
+            Settings.SearchDescriptionTextBrush = new SolidColorBrush(Color.FromRgb(searchDescriptionTextColor.R, searchDescriptionTextColor.G, searchDescriptionTextColor.B));
+            Settings.SearchAltTextBrush = new SolidColorBrush(Color.FromRgb(searchAltTextColor.R, searchAltTextColor.G, searchAltTextColor.B));
+            Settings.SearchInputTextBrush = new SolidColorBrush(Color.FromRgb(searchInputTextColor.R, searchInputTextColor.G, searchInputTextColor.B));
+            Settings.SearchInputCaretBrush = new SolidColorBrush(Color.FromRgb(searchInputCaretColor.R, searchInputCaretColor.G, searchInputCaretColor.B));
         }
 
         public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)
