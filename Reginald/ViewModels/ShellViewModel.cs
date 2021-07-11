@@ -27,14 +27,8 @@ namespace Reginald.ViewModels
         private SearchViewModel _searchViewModel = new();
         public SearchViewModel SearchViewModel
         {
-            get
-            {
-                return _searchViewModel;
-            }
-            set
-            {
-                _searchViewModel = value;
-            }
+            get => _searchViewModel;
+            set => _searchViewModel = value;
         }
 
         public ICommand OpenWindowCommand { get; set; }

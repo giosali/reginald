@@ -11,7 +11,12 @@ namespace Reginald.ViewModels
     {
         public SettingsViewModel()
         {
+            SetUpViewModel();
+        }
 
+        private async void SetUpViewModel()
+        {
+            await ActivateItemAsync(new GeneralViewModel());
         }
 
         public void OnSettingsButtonClick(UIElement element, RoutedEventArgs e)
@@ -47,6 +52,11 @@ namespace Reginald.ViewModels
             }
         }
 
+        public async Task LoadGeneralViewAsync(object sender, RoutedEventArgs e)
+        {
+            await ActivateItemAsync(new GeneralViewModel());
+        }
+
         public async Task LoadUtilitiesViewAsync(object sender, RoutedEventArgs e)
         {
             await ActivateItemAsync(new UtilitiesViewModel());
@@ -55,6 +65,11 @@ namespace Reginald.ViewModels
         public async Task LoadAppearanceViewAsync(object sender, RoutedEventArgs e)
         {
             await ActivateItemAsync(new AppearanceViewModel());
+        }
+
+        public async Task LoadInfoViewAsync(object sender, RoutedEventArgs e)
+        {
+            await ActivateItemAsync(new InfoViewModel());
         }
     }
 }

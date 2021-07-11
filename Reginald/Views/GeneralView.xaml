@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Reginald.Views.AppearanceView"
+﻿<UserControl x:Class="Reginald.Views.GeneralView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -34,6 +34,15 @@
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="FontWeight" Value="Light"/>
             </Style>
+            
+            <!-- Button Styles -->
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRevealStyle}">
+                <Setter Property="Margin" Value="0 8 0 0"/>
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
 
             <!-- ToggleButton Styles -->
             <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonStyle}">
@@ -60,23 +69,53 @@
 
         <StackPanel Margin="20 7 20 10">
             <TextBlock Style="{StaticResource TextBlockHeaderOne}"
-                       Text="Appearance"/>
+                       Text="General"/>
             <StackPanel Style="{StaticResource StackPanelSection}">
                 <TextBlock Style="{StaticResource TextBlockHeaderTwo}"
-                           Text="Search Box"/>
+                           Text="Application"/>
                 <TextBlock Style="{StaticResource TextBlockParagraph}"
-                           Text="Use dark mode for your search results"
+                           Text="Restart application"
                            Margin="0 12 0 0"/>
-                <ToggleButton IsChecked="{Binding Settings.IsDarkModeEnabled}">
+                <Button Content="Restart">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <cal:ActionMessage MethodName="IsDarkModeEnabledToggleButton_Click">
+                            <cal:ActionMessage MethodName="RestartButton_Click">
                                 <cal:Parameter Value="$this"/>
                                 <cal:Parameter Value="$eventargs"/>
                             </cal:ActionMessage>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </ToggleButton>
+                </Button>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0 12 0 0">
+                    <TextBlock Style="{StaticResource TextBlockParagraph}"
+                               Text="Shutdown application"
+                               VerticalAlignment="Center"/>
+                    <Label Content="ⓘ"
+                           FontSize="20">
+                        <Label.ToolTip>
+                            <fw:AcrylicToolTip>
+                                <DockPanel Width="Auto" Height="Auto">
+                                    <TextBlock>
+                                    You can also quit Reginald by right-clicking
+                                    <LineBreak/>
+                                    on the System Tray icon and clicking "Exit"
+                                    </TextBlock>
+                                </DockPanel>
+                            </fw:AcrylicToolTip>
+                        </Label.ToolTip>
+                    </Label>
+                </StackPanel>
+                <Button Content="Shutdown">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="ShutdownButton_Click">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

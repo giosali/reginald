@@ -34,6 +34,7 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
+    
     <Grid fw:PointerTracker.Enabled="True" 
           Margin="20 20 20 10">
         <Grid.ColumnDefinitions>
@@ -64,15 +65,15 @@
         <Label Grid.Row="0" Grid.Column="0"
                Content="URL/Separator">
             <Label.ToolTip>
-                <ToolTip>
+                <fw:AcrylicToolTip>
                     <DockPanel Width="Auto" Height="Auto">
-                        <TextBlock>
+                        <TextBlock Foreground="White">
                             The separator is used to replace spaces in input.
                             <LineBreak/>
                             Leave blank if you want spaces to be left alone.
                         </TextBlock>
                     </DockPanel>
-                </ToolTip>
+                </fw:AcrylicToolTip>
             </Label.ToolTip>
         </Label>
         <TextBox x:Name="UrlTextBox"
@@ -96,15 +97,15 @@
         <Label Grid.Row="4" Grid.Column="0"
                Content="Name">
             <Label.ToolTip>
-                <ToolTip>
+                <fw:AcrylicToolTip>
                     <DockPanel Width="Auto" Height="Auto">
-                        <TextBlock>
+                        <TextBlock Foreground="White">
                             The name of the keyword.
                             <LineBreak/>
                             You are allowed to have as many keywords as you want with the same name.
                         </TextBlock>
                     </DockPanel>
-                </ToolTip>
+                </fw:AcrylicToolTip>
             </Label.ToolTip>
         </Label>
         <TextBox x:Name="NameTextBox"
@@ -115,15 +116,15 @@
         <Label Grid.Row="6" Grid.Column="0"
                Content="Keyword">
             <Label.ToolTip>
-                <ToolTip>
+                <fw:AcrylicToolTip>
                     <DockPanel Width="Auto" Height="Auto">
-                        <TextBlock>
+                        <TextBlock Foreground="White">
                             The characters to type to have this appear in your search results.
                             <LineBreak/>
                             You are allowed to have as many keywords as you want with the same name.
                         </TextBlock>
                     </DockPanel>
-                </ToolTip>
+                </fw:AcrylicToolTip>
             </Label.ToolTip>
         </Label>
         <TextBox x:Name="KeywordTextBox"
@@ -137,9 +138,9 @@
         <Label Grid.Row="8" Grid.Column="0"
                Content="Description">
             <Label.ToolTip>
-                <ToolTip>
+                <fw:AcrylicToolTip>
                     <DockPanel Width="Auto" Height="Auto">
-                        <TextBlock>
+                        <TextBlock Foreground="White">
                             The text that will appear when this keyword appears in your search results.
                             <LineBreak/>
                             Use {0} to have your input replace {0}. For example:
@@ -147,7 +148,7 @@
                             'Search Google for '{0}'' will appear as 'Search Google for 'input''
                         </TextBlock>
                     </DockPanel>
-                </ToolTip>
+                </fw:AcrylicToolTip>
             </Label.ToolTip>
         </Label>
         <TextBox x:Name="DescriptionTextBox"
@@ -158,15 +159,15 @@
         <Label Grid.Row="9" Grid.Column="0"
                Content="Filler">
             <Label.ToolTip>
-                <ToolTip>
+                <fw:AcrylicToolTip>
                     <DockPanel Width="Auto" Height="Auto">
-                        <TextBlock>
+                        <TextBlock Foreground="White">
                             Default text which will appear in the description of keyword search results.
                             <LineBreak/>
                             It's recommended to use ... for input with spaces and _ for input without spaces.
                         </TextBlock>
                     </DockPanel>
-                </ToolTip>
+                </fw:AcrylicToolTip>
             </Label.ToolTip>
         </Label>
         <TextBox x:Name="FillerTextBox"
@@ -180,15 +181,15 @@
         <Label Grid.Row="11" Grid.Column="0"
                Content="Sub-description">
             <Label.ToolTip>
-                <ToolTip >
+                <fw:AcrylicToolTip>
                     <DockPanel Width="Auto" Height="Auto">
-                        <TextBlock>
+                        <TextBlock Foreground="White">
                             The footer to the description that will appear in your search results.
                             <LineBreak/>
                             It's recommended to leave this to be the same as the Name of the keyword.
                         </TextBlock>
                     </DockPanel>
-                </ToolTip>
+                </fw:AcrylicToolTip>
             </Label.ToolTip>
         </Label>
         <TextBox x:Name="SubdescriptionTextBox"
@@ -201,15 +202,15 @@
         <Label Grid.Row="13" Grid.Column="0"
                Content="Icon">
             <Label.ToolTip>
-                <ToolTip>
+                <fw:AcrylicToolTip>
                     <DockPanel Width="Auto" Height="Auto">
-                        <TextBlock>
+                        <TextBlock Foreground="White">
                             A PNG/JPG file with dimensions greater than 75x75.
                             <LineBreak/>
                             Use PNGs whenever possible.
                         </TextBlock>
                     </DockPanel>
-                </ToolTip>
+                </fw:AcrylicToolTip>
             </Label.ToolTip>
         </Label>
         <Border x:Name="IconPanel"

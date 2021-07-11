@@ -109,6 +109,12 @@
                             <cal:Parameter Value="$eventargs"/>
                         </cal:ActionMessage>
                     </i:EventTrigger>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="LoadGeneralViewAsync">
+                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
             <Button Style="{StaticResource SettingsButtonStyle}">
@@ -155,6 +161,33 @@
                     </i:EventTrigger>
                     <i:EventTrigger EventName="Click">
                         <cal:ActionMessage MethodName="LoadAppearanceViewAsync">
+                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button Style="{StaticResource SettingsButtonStyle}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}"
+                                   VerticalAlignment="Center">
+                            <Run Style="{StaticResource SettingsButton__TextBlock__RunStyle}"
+                                 Text="ⓘ   "
+                                 FontSize="16"/>
+                            Info
+                        </TextBlock>
+                    </StackPanel>
+                </Button.Content>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="OnSettingsButtonClick">
+                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="LoadInfoViewAsync">
                             <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
                             <cal:Parameter Value="$eventargs"/>
                         </cal:ActionMessage>
