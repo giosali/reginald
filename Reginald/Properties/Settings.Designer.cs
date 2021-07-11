@@ -124,5 +124,29 @@ namespace Reginald.Properties {
                 return ((global::System.Drawing.Color)(this["SearchInputCaretColorLight"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IncludeInstalledApplications {
+            get {
+                return ((bool)(this["IncludeInstalledApplications"]));
+            }
+            set {
+                this["IncludeInstalledApplications"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IncludeDefaultKeywords {
+            get {
+                return ((bool)(this["IncludeDefaultKeywords"]));
+            }
+            set {
+                this["IncludeDefaultKeywords"] = value;
+            }
+        }
     }
 }

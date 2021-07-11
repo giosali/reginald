@@ -91,11 +91,29 @@
                 <TextBlock Style="{StaticResource TextBlockParagraph}"
                            Text="Include installed applications in your search results and have them indexed"
                            Margin="0 16 0 0"/>
-                <ToggleButton IsChecked="True"/>
+                <ToggleButton IsChecked="{Binding Settings.IncludeInstalledApplications}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="IncludeApplicationsToggleButton_Click">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ToggleButton>
                 <TextBlock Style="{StaticResource TextBlockParagraph}"
                            Text="Include default keyword searches in your search results"
                            Margin="0 12 0 0"/>
-                <ToggleButton IsChecked="True"/>
+                <ToggleButton IsChecked="{Binding Settings.IncludeDefaultKeywords}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="IncludeDefaultKeywordToggleButton_Click">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ToggleButton>
             </StackPanel>
             <Label Content="Default keywords"
                    Margin="30 32 0 0"/>

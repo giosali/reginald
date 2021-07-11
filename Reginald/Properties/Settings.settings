@@ -35,5 +35,11 @@
     <Setting Name="SearchInputCaretColorLight" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Gray</Value>
     </Setting>
+    <Setting Name="IncludeInstalledApplications" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="IncludeDefaultKeywords" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

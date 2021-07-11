@@ -21,6 +21,20 @@ namespace Reginald.ViewModels
             string userKeywordXmlName = "UserSearch";
             LoadKeywordSearchResults(keywordXmlName, KeywordSearchResults);
             LoadKeywordSearchResults(userKeywordXmlName, UserKeywordSearchResults);
+
+            Settings.IncludeInstalledApplications = Properties.Settings.Default.IncludeInstalledApplications;
+            Settings.IncludeDefaultKeywords = Properties.Settings.Default.IncludeDefaultKeywords;
+        }
+
+        private SettingsModel _settings = new();
+        public SettingsModel Settings
+        {
+            get => _settings;
+            set
+            {
+                _settings = value;
+                NotifyOfPropertyChange(() => Settings);
+            }
         }
 
         private BindableCollection<SearchResultModel> _keywordSearchResults = new();
@@ -98,6 +112,22 @@ namespace Reginald.ViewModels
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
+        }
+
+        public void IncludeApplicationsToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool value = !Properties.Settings.Default.IncludeInstalledApplications;
+            Properties.Settings.Default.IncludeInstalledApplications = value;
+            Properties.Settings.Default.Save();
+            Settings.IncludeInstalledApplications = value;
+        }
+
+        public void IncludeDefaultKeywordToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool value = !Properties.Settings.Default.IncludeDefaultKeywords;
+            Properties.Settings.Default.IncludeDefaultKeywords = value;
+            Properties.Settings.Default.Save();
+            Settings.IncludeDefaultKeywords = value;
         }
 
         public void KeywordSearchResults_Checked(object sender, RoutedEventArgs e, string name)

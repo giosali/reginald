@@ -175,24 +175,35 @@ namespace Reginald.ViewModels
                 }
                 else
                 {
-                    applicationModelsTask = Task.Run(() => GetApplications(UserInput));
+                    applicationModelsTask = Task.Run(() =>
+                    {
+                        if (Properties.Settings.Default.IncludeInstalledApplications)
+                            return GetApplications(UserInput);
+                        else
+                            return Enumerable.Empty<SearchResultModel>();
+                    });
 
                     keywordModelsTask = Task.Run(() =>
                     {
-                        (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
-
-                        List<string> attributes = searchDoc.GetNodesAttributes();
-                        string format = @"((?<!\w){0}.*)";
-                        Regex rx = new(String.Format(format, partition.Left), RegexOptions.IgnoreCase);
-                        IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
-                                                                .Distinct();
-
-                        IEnumerable<SearchResultModel> keywordModels = Array.Empty<SearchResultModel>();
-                        foreach (string match in matches)
+                        if (Properties.Settings.Default.IncludeDefaultKeywords)
                         {
-                            keywordModels = keywordModels.Concat(MakeSearchResultModels(searchDoc, match, SearchResultModel.Category.Keyword, partition.Right));
+                            (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
+
+                            List<string> attributes = searchDoc.GetNodesAttributes();
+                            string format = @"((?<!\w){0}.*)";
+                            Regex rx = new(String.Format(format, partition.Left), RegexOptions.IgnoreCase);
+                            IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
+                                                                    .Distinct();
+
+                            IEnumerable<SearchResultModel> keywordModels = Array.Empty<SearchResultModel>();
+                            foreach (string match in matches)
+                            {
+                                keywordModels = keywordModels.Concat(MakeSearchResultModels(searchDoc, match, SearchResultModel.Category.Keyword, partition.Right));
+                            }
+                            return keywordModels;
                         }
-                        return keywordModels;
+                        else
+                            return Enumerable.Empty<SearchResultModel>();
                     });
 
                     userKeywordModelsTask = Task.Run(() =>
@@ -582,7 +593,7 @@ namespace Reginald.ViewModels
         {
             try
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo
+                ProcessStartInfo startInfo = new()
                 {
                     FileName = uri,
                     UseShellExecute = true
