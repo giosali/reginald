@@ -84,7 +84,7 @@
                     </Trigger>
                     <Trigger Property="IsSelected" Value="True">
                         <Setter TargetName="listBoxItemBorder"
-                                Property="Background" Value="#33ff8d00"/>
+                                Property="Background" Value="#99ff8d00"/>
                         <!-- #33d16c00 -->
                     </Trigger>
                 </ControlTemplate.Triggers>

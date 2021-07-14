@@ -46,7 +46,7 @@ namespace Reginald.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("221, 221, 221")]
+        [global::System.Configuration.DefaultSettingValueAttribute("204, 204, 204")]
         public global::System.Drawing.Color SearchBackgroundColorLight {
             get {
                 return ((global::System.Drawing.Color)(this["SearchBackgroundColorLight"]));

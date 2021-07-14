@@ -23,6 +23,7 @@
     <None Remove="Images\instagram.png" />
     <None Remove="Images\pinterest.png" />
     <None Remove="Images\reddit.png" />
+    <None Remove="Images\reginald.png" />
     <None Remove="Images\tiktok.png" />
     <None Remove="Images\tumblr.png" />
     <None Remove="Images\twitch.png" />
@@ -38,6 +39,10 @@
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="NHotkey.Wpf" Version="2.1.0" />
     <PackageReference Include="WinCopies.WindowsAPICodePack.Shell" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Reginald.Core\Reginald.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,6 +86,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\reddit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\reginald.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\tiktok.png">

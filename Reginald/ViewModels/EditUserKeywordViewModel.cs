@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Reginald.Core.Helpers;
 using Reginald.Models;
 using System;
 using System.IO;
@@ -15,12 +16,12 @@ namespace Reginald.ViewModels
 {
     public class EditUserKeywordViewModel : Screen
     {
-        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
-        {
-            NotifyOfPropertyChange(() => UserKeywordSearchResults);
-            NotifyOfPropertyChange(() => SelectedKeywordSearchResult);
-            return base.OnDeactivateAsync(close, cancellationToken);
-        }
+        //protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
+        //{
+        //    NotifyOfPropertyChange(() => UserKeywordSearchResults);
+        //    NotifyOfPropertyChange(() => SelectedKeywordSearchResult);
+        //    return base.OnDeactivateAsync(close, cancellationToken);
+        //}
 
         public EditUserKeywordViewModel(BindableCollection<SearchResultModel> collection, SearchResultModel model)
         {
@@ -106,7 +107,7 @@ namespace Reginald.ViewModels
             string path = Path.Combine(appDataDirectoryPath, applicationName, xmlUserKeywordFilename);
             XmlDocument doc = new();
             doc.Load(path);
-            XmlNode currentNode = GetCurrentNode(doc, SelectedKeywordSearchResult.ID);
+            XmlNode currentNode = XmlHelper.GetCurrentNodeFromID(doc, SelectedKeywordSearchResult.ID);
             UpdateCurrentNode(currentNode);
             doc.Save(path);
 
@@ -117,11 +118,11 @@ namespace Reginald.ViewModels
             TryCloseAsync();
         }
 
-        private static XmlNode GetCurrentNode(XmlDocument doc, int id)
-        {
-            string xpath = $"//Searches/Namespace[@ID='{id}']";
-            return doc.SelectSingleNode(xpath);
-        }
+        //private static XmlNode GetCurrentNode(XmlDocument doc, int id)
+        //{
+        //    string xpath = $"//Searches/Namespace[@ID='{id}']";
+        //    return doc.SelectSingleNode(xpath);
+        //}
 
         private void UpdateCurrentNode(XmlNode currentNode)
         {

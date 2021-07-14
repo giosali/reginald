@@ -1,4 +1,7 @@
 ﻿using Caliburn.Micro;
+using Reginald.Core.Base;
+using Reginald.Core.Helpers;
+using Reginald.Core.IO;
 using Reginald.Extensions;
 using Reginald.Models;
 using System;
@@ -8,7 +11,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Xml;
 
 namespace Reginald.ViewModels
@@ -17,10 +19,8 @@ namespace Reginald.ViewModels
     {
         public UtilitiesViewModel()
         {
-            string keywordXmlName = "Search";
-            string userKeywordXmlName = "UserSearch";
-            LoadKeywordSearchResults(keywordXmlName, KeywordSearchResults);
-            LoadKeywordSearchResults(userKeywordXmlName, UserKeywordSearchResults);
+            LoadKeywordSearchResults(ApplicationPaths.XmlKeywordFilename, KeywordSearchResults);
+            LoadKeywordSearchResults(ApplicationPaths.XmlUserKeywordFilename, UserKeywordSearchResults);
 
             Settings.IncludeInstalledApplications = Properties.Settings.Default.IncludeInstalledApplications;
             Settings.IncludeDefaultKeywords = Properties.Settings.Default.IncludeDefaultKeywords;
@@ -40,10 +40,7 @@ namespace Reginald.ViewModels
         private BindableCollection<SearchResultModel> _keywordSearchResults = new();
         public BindableCollection<SearchResultModel> KeywordSearchResults
         {
-            get
-            {
-                return _keywordSearchResults;
-            }
+            get => _keywordSearchResults;
             set
             {
                 _keywordSearchResults = value;
@@ -54,10 +51,7 @@ namespace Reginald.ViewModels
         private SearchResultModel _selectedKeywordSearchResult = new();
         public SearchResultModel SelectedKeywordSearchResult
         {
-            get
-            {
-                return _selectedKeywordSearchResult;
-            }
+            get => _selectedKeywordSearchResult;
             set
             {
                 _selectedKeywordSearchResult = value;
@@ -68,10 +62,7 @@ namespace Reginald.ViewModels
         private BindableCollection<SearchResultModel> _userKeywordSearchResults = new();
         public BindableCollection<SearchResultModel> UserKeywordSearchResults
         {
-            get
-            {
-                return _userKeywordSearchResults;
-            }
+            get => _userKeywordSearchResults;
             set
             {
                 _userKeywordSearchResults = value;
@@ -82,10 +73,7 @@ namespace Reginald.ViewModels
         private SearchResultModel _selectedUserKeywordSearchResult = new();
         public SearchResultModel SelectedUserKeywordSearchResult
         {
-            get
-            {
-                return _selectedUserKeywordSearchResult;
-            }
+            get => _selectedUserKeywordSearchResult;
             set
             {
                 _selectedUserKeywordSearchResult = value;
@@ -95,14 +83,15 @@ namespace Reginald.ViewModels
 
         private void LoadKeywordSearchResults(string name, BindableCollection<SearchResultModel> collection)
         {
-            XmlDocument doc = GetXmlDocument(name);
-            IEnumerable<string> attributes = doc.GetNodesAttributes().Where(x => !x.StartsWith("__"))
-                                                                     .Distinct();
+            XmlDocument doc = XmlHelper.GetXmlDocument(name);
+            IEnumerable<string> attributes = doc.GetNodesAttributes(Constants.NamespacesXpath).Where(x => !x.StartsWith("__"))
+                                                                                              .Distinct();
 
             IEnumerable<SearchResultModel> keywordSearchResults = Array.Empty<SearchResultModel>();
             foreach (string attribute in attributes)
             {
-                keywordSearchResults = keywordSearchResults.Concat(MakeSearchResultModels(doc, attribute, SearchResultModel.Category.Keyword));
+                //keywordSearchResults = keywordSearchResults.Concat(MakeSearchResultModels(doc, attribute, SearchResultModel.Category.Keyword));
+                keywordSearchResults = keywordSearchResults.Concat(SearchResultModel.MakeArray(doc, attribute, SearchResultModel.Category.Keyword));
             }
             collection.AddRange(keywordSearchResults);
         }
@@ -130,14 +119,14 @@ namespace Reginald.ViewModels
             Settings.IncludeDefaultKeywords = value;
         }
 
-        public void KeywordSearchResults_Checked(object sender, RoutedEventArgs e, string name)
+        public void KeywordSearchResults_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
-            ChangeIsEnabledState(name, SelectedKeywordSearchResult.ID);
+            ChangeIsEnabledState(ApplicationPaths.XmlKeywordFilename, SelectedKeywordSearchResult.ID);
         }
 
-        public void KeywordSearchResults_Unchecked(object sender, RoutedEventArgs e, string name)
+        public void UserKeywordSearchResults_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
-            ChangeIsEnabledState(name, SelectedKeywordSearchResult.ID);
+            ChangeIsEnabledState(ApplicationPaths.XmlUserKeywordFilename, SelectedKeywordSearchResult.ID);
         }
 
         public async void CreateKeyword_ClickAsync(object sender, RoutedEventArgs e)
@@ -160,7 +149,7 @@ namespace Reginald.ViewModels
             MessageBoxResult result = MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                XmlDocument doc = GetXmlDocument("UserSearch");
+                XmlDocument doc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
                 string xpath = $"//Searches/Namespace[@ID='{SelectedUserKeywordSearchResult.ID}']";
                 XmlNode currentNode = doc.SelectSingleNode(xpath);
                 string iconPath = currentNode["Icon"].InnerText;
@@ -169,93 +158,78 @@ namespace Reginald.ViewModels
                     File.Delete(iconPath);
                 }
                 currentNode.ParentNode.RemoveChild(currentNode);
-                SaveXmlDocument(doc, "UserSearch");
+                XmlHelper.SaveXmlDocument(doc, ApplicationPaths.XmlUserKeywordFilename);
                 UserKeywordSearchResults.Remove(SelectedUserKeywordSearchResult);
             }
         }
 
-        private static SearchResultModel[] MakeSearchResultModels(XmlDocument doc, string attribute, SearchResultModel.Category category)
-        {
-            XmlNodeList nodes = doc.GetNodes(attribute);
-            SearchResultModel[] models = new SearchResultModel[nodes.Count];
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                try
-                {
-                    XmlNode node = nodes[i];
-                    string name = node.Attributes["Name"].Value;
-                    int id = int.Parse(node.Attributes["ID"].Value);
+        //private static SearchResultModel[] MakeSearchResultModels(XmlDocument doc, string attribute, SearchResultModel.Category category)
+        //{
+        //    //XmlNodeList nodes = doc.GetNodes(attribute);
+        //    XmlNodeList nodes = doc.GetNodes(String.Format(Constants.NamespaceNameXpathFormat, attribute));
+        //    SearchResultModel[] models = new SearchResultModel[nodes.Count];
+        //    for (int i = 0; i < nodes.Count; i++)
+        //    {
+        //        try
+        //        {
+        //            XmlNode node = nodes[i];
+        //            string name = node.Attributes["Name"].Value;
+        //            int id = int.Parse(node.Attributes["ID"].Value);
 
-                    BitmapImage icon = new();
-                    icon.BeginInit();
-                    icon.UriSource = new Uri(node["Icon"].InnerText);
-                    icon.CacheOption = BitmapCacheOption.OnLoad;
-                    icon.DecodePixelWidth = 75;
-                    icon.DecodePixelHeight = 75;
-                    icon.EndInit();
-                    icon.Freeze();
+        //            BitmapImage icon = new();
+        //            icon.BeginInit();
+        //            icon.UriSource = new Uri(node["Icon"].InnerText);
+        //            icon.CacheOption = BitmapCacheOption.OnLoad;
+        //            icon.DecodePixelWidth = 75;
+        //            icon.DecodePixelHeight = 75;
+        //            icon.EndInit();
+        //            icon.Freeze();
 
-                    string keyword = node["Keyword"].InnerText;
-                    string separator = node["Separator"].InnerText;
-                    string url = node["URL"].InnerText;
-                    string format = node["Format"].InnerText;
-                    string defaultText = node["DefaultText"].InnerText;
-                    string text = defaultText;
-                    string description = String.Format(format, text);
-                    string alt = node["Alt"].InnerText;
-                    bool isEnabled = Boolean.Parse(node["IsEnabled"].InnerText);
+        //            string keyword = node["Keyword"].InnerText;
+        //            string separator = node["Separator"].InnerText;
+        //            string url = node["URL"].InnerText;
+        //            string format = node["Format"].InnerText;
+        //            string defaultText = node["DefaultText"].InnerText;
+        //            string text = defaultText;
+        //            string description = String.Format(format, text);
+        //            string alt = node["Alt"].InnerText;
+        //            bool isEnabled = Boolean.Parse(node["IsEnabled"].InnerText);
 
-                    SearchResultModel model = new()
-                    {
-                        Name = name,
-                        CategoryName = category,
-                        Icon = icon,
-                        ID = id,
-                        Keyword = keyword,
-                        Separator = separator,
-                        URL = url,
-                        Text = text,
-                        Format = format,
-                        DefaultText = defaultText,
-                        Description = description,
-                        Alt = alt,
-                        IsEnabled = isEnabled
-                    };
-                    models[i] = model;
-                }
-                catch (NullReferenceException)
-                {
-                    continue;
-                }
-            }
-            return models;
-        }
+        //            SearchResultModel model = new()
+        //            {
+        //                Name = name,
+        //                CategoryName = category,
+        //                Icon = icon,
+        //                ID = id,
+        //                Keyword = keyword,
+        //                Separator = separator,
+        //                URL = url,
+        //                Text = text,
+        //                Format = format,
+        //                DefaultText = defaultText,
+        //                Description = description,
+        //                Alt = alt,
+        //                IsEnabled = isEnabled
+        //            };
+        //            models[i] = model;
+        //        }
+        //        catch (NullReferenceException)
+        //        {
+        //            continue;
+        //        }
+        //    }
+        //    return models;
+        //}
 
         private static void ChangeIsEnabledState(string name, int id)
         {
-            XmlDocument doc = GetXmlDocument(name);
+            XmlDocument doc = XmlHelper.GetXmlDocument(name);
             string xpath = $"//Searches/Namespace[@ID='{id}']";
             XmlNode node = doc.SelectSingleNode(xpath);
             XmlNode isEnabledNode = node.SelectSingleNode("IsEnabled");
             bool isEnabled = Boolean.Parse(isEnabledNode.InnerText);
             isEnabledNode.InnerText = (!isEnabled).ToString().ToLower();
-            SaveXmlDocument(doc, name);
-        }
-
-        private static XmlDocument GetXmlDocument(string name)
-        {
-            string appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string xmlFileLocation = $"Reginald/{name}.xml";
-            XmlDocument doc = new();
-            doc.Load(Path.Combine(appDataDirectory, xmlFileLocation));
-            return doc;
-        }
-
-        private static void SaveXmlDocument(XmlDocument doc, string name)
-        {
-            string appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string xmlFileLocation = $"Reginald/{name}.xml";
-            doc.Save(Path.Combine(appDataDirectory, xmlFileLocation));
+            XmlHelper.SaveXmlDocument(doc, name);
         }
     }
 }

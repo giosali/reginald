@@ -151,17 +151,15 @@
                                           HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Checked">
-                                            <cal:ActionMessage MethodName="KeywordSearchResults_Checked">
+                                            <cal:ActionMessage MethodName="KeywordSearchResults_IsCheckedChanged">
                                                 <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
-                                                <cal:Parameter Value="Search"/>
                                             </cal:ActionMessage>
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="Unchecked">
-                                            <cal:ActionMessage MethodName="KeywordSearchResults_Unchecked">
+                                            <cal:ActionMessage MethodName="KeywordSearchResults_IsCheckedChanged">
                                                 <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
-                                                <cal:Parameter Value="Search"/>
                                             </cal:ActionMessage>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
@@ -207,17 +205,15 @@
                                           HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Checked">
-                                            <cal:ActionMessage MethodName="UserKeywordSearchResults_Checked">
+                                            <cal:ActionMessage MethodName="UserKeywordSearchResults_IsCheckedChanged">
                                                 <cal:Parameter Value="{Binding ElementName=UserKeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
-                                                <cal:Parameter Value="UserSearch"/>
                                             </cal:ActionMessage>
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="Unchecked">
-                                            <cal:ActionMessage MethodName="UserKeywordSearchResults_Unchecked">
+                                            <cal:ActionMessage MethodName="UserKeywordSearchResults_IsCheckedChanged">
                                                 <cal:Parameter Value="{Binding ElementName=UserKeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
-                                                <cal:Parameter Value="UserSearch"/>
                                             </cal:ActionMessage>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>

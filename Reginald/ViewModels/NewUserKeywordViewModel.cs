@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Reginald.Core.Helpers;
 using Reginald.Extensions;
 using Reginald.Models;
 using System;
@@ -109,11 +110,11 @@ namespace Reginald.ViewModels
             string path = Path.Combine(appDataDirectoryPath, applicationName, xmlUserKeywordFilename);
             XmlDocument doc = new();
             doc.Load(path);
-            XmlNode lastNode = GetLastNode(doc);
+            XmlNode lastNode = XmlHelper.GetLastNode(doc);
             int id = lastNode is null ? 0 : int.Parse(lastNode.Attributes["ID"].Value) + 1;
             XmlNode parentNode = lastNode is null ? doc.SelectSingleNode(@"//Searches") : lastNode.ParentNode;
 
-            XmlNode node = MakeXmlNode(keyword, id, name, IconPath, url, separator, format, defaultText, alt);
+            XmlNode node = XmlHelper.MakeXmlNode(keyword, id, name, IconPath, url, separator, format, defaultText, alt);
             XmlNode importedNode = parentNode.OwnerDocument.ImportNode(node, true);
             parentNode.AppendChild(importedNode);
             doc.Save(path);
@@ -124,32 +125,6 @@ namespace Reginald.ViewModels
             NotifyOfPropertyChange(() => SelectedKeywordSearchResult);
             NotifyOfPropertyChange(() => UserKeywordSearchResults);
             TryCloseAsync();
-        }
-
-        private static XmlNode GetLastNode(XmlDocument doc)
-        {
-            string xpath = @"//Searches//Namespace[position() = last()]";
-            return doc.SelectSingleNode(xpath);
-        }
-
-        private static XmlNode MakeXmlNode(string keyword, int id, string name, string icon, string url,
-                                           string separator, string format, string defaultText, string alt)
-        {
-            string xml = $"<Namespace Name=\"{keyword}\" ID=\"{id}\">" +
-               $"    <Name>{name}</Name> \n" +
-               $"    <Keyword>{keyword}</Keyword> \n" +
-               $"    <Icon>{icon}</Icon> \n" +
-               $"    <URL>{url}</URL> \n" +
-               $"    <Separator>{separator}</Separator> \n" +
-               $"    <Format>{format}</Format> \n" +
-               $"    <DefaultText>{defaultText}</DefaultText> \n" +
-               $"    <Alt>{alt}</Alt> \n" +
-               $"    <IsEnabled>true</IsEnabled> \n" +
-               "</Namespace>";
-            XmlDocument doc = new();
-            doc.LoadXml(xml);
-            XmlNode node = doc.DocumentElement;
-            return node;
         }
     }
 }
