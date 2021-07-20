@@ -8,6 +8,12 @@
 	Reginald is an application for Windows 10 designed to make your life easier and more productive.	
 </p>
 
+<p align="center">
+  <img alt="ci workflow" src="https://github.com/GBS3/reginald/actions/workflows/ci.yml/badge.svg">
+  <img alt="license" src="https://img.shields.io/github/license/gbs3/reginald">
+  <img alt="version" src="https://img.shields.io/github/v/release/gbs3/reginald">
+</p>
+
 ## Features
 
 ### Application Launcher
