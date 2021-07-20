@@ -1,10 +1,12 @@
 <h1 align="center">Reginald</h1>
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald.png" width="250">
+	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald.png" width="150">
 </p>
 
-Reginald is an application for Windows 10 designed to make your life easier and more productive.
+<p align="center">
+	Reginald is an application for Windows 10 designed to make your life easier and more productive.	
+</p>
 
 ## Features
 
@@ -13,7 +15,7 @@ Reginald is an application for Windows 10 designed to make your life easier and 
 Reginald can help you find your applications quickly and effortlessly. Press <kbd>Alt</kbd> + <kbd>Space</kbd> to open the Reginald search window and type away.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_search_dark.png">
+	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_search_dark.png" width="750">
 </p>
 
 ### Calculations
@@ -21,7 +23,7 @@ Reginald can help you find your applications quickly and effortlessly. Press <kb
 Need to work out some quick math? Let Reginald take care of that for you.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_math_dark.png">
+	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_math_dark.png" width="750">
 </p>
 
 You can also press <kbd>Enter</kbd> to copy the result to your clipboard.
@@ -33,7 +35,7 @@ You can also press <kbd>Enter</kbd> to copy the result to your clipboard.
 Quickly launch websites and make web searches without the hassle of opening a new tab by using keywords.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_keyword_dark.png">
+	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_keyword_dark.png" width="750">
 </p>
 
 Reginald comes ready with some keywords that you can use straight out of the box:
@@ -67,11 +69,13 @@ Not satisfied with these? Create your own keywords under the `Utilities` section
 Got a URL on hand? Paste it into Reginald's search window and hit <kbd>Enter</kbd> to go there.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_website_dark.png">
+	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_website_dark.png" width="750">
 </p>
 
 ### Dark Mode & Light Mode
 
 Reginald uses a dark mode by default for the search window but if you prefer a lighter look, you can disable dark mode.
 
-<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_dark_light_mode.gif">
+<p align="center">
+	<img src="https://raw.githubusercontent.com/GBS3/reginald/main/media/reginald_dark_light_mode.gif" width="600">
+</p>
