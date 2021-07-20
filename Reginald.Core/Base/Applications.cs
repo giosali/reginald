@@ -6,6 +6,10 @@ namespace Reginald.Core.Base
 {
     public static class Applications
     {
+        /// <summary>
+        /// Returns a dictionary consisting of the user's installed applications' names and parsing names.
+        /// </summary>
+        /// <returns>A dictionary.</returns>
         public static Dictionary<string, string> MakeDictionary()
         {
             ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(Constants.ApplicationsGuid);

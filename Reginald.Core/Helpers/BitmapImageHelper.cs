@@ -5,6 +5,11 @@ namespace Reginald.Core.Helpers
 {
     public class BitmapImageHelper
     {
+        /// <summary>
+        /// Returns a processed BitmapImage from a URI string.
+        /// </summary>
+        /// <param name="uriString">The URI string for the BitmapImage's UriSource.</param>
+        /// <returns>A BitmapImage based on the URI string.</returns>
         public static BitmapImage MakeFromUri(string uriString)
         {
             BitmapImage icon = new();

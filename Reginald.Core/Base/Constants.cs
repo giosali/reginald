@@ -6,10 +6,10 @@ namespace Reginald.Core.Base
     {
         // XML
 
-        public static string LastNodeXpath = @"//Searches//Namespace[position() = last()]";
-        public static string NamespacesXpath = @"//Searches//Namespace";
-        public static string NamespaceIDXpathFormat = "//Searches/Namespace[@ID='{0}']";
-        public static string NamespaceNameXpathFormat = "//Searches/Namespace[@Name='{0}']";
+        public const string LastNodeXpath = @"//Searches//Namespace[position() = last()]";
+        public const string NamespacesXpath = @"//Searches//Namespace";
+        public const string NamespaceIDXpathFormat = "//Searches/Namespace[@ID='{0}']";
+        public const string NamespaceNameXpathFormat = "//Searches/Namespace[@Name='{0}']";
 
         // Applications
 

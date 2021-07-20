@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
+using Reginald.Core.Base;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -305,8 +306,8 @@ namespace Reginald.Core.IO
             string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
             Directory.CreateDirectory(path);
 
-            Guid applicationsFolderGuid = new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
-            ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(applicationsFolderGuid);
+            //Guid applicationsFolderGuid = new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
+            ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(Constants.ApplicationsGuid);
             foreach (ShellObject application in (IKnownFolder)applicationsFolder)
             {
                 if (!application.Name.EndsWith(".url") && !application.ParsingName.EndsWith("url"))
