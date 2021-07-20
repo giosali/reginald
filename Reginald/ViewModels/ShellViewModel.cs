@@ -3,29 +3,69 @@ using Hardcodet.Wpf.TaskbarNotification;
 using Reginald.Commands;
 using Reginald.Core.IO;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Reginald.ViewModels
 {
+    public class Indicator
+    {
+        private bool _isDeactivated;
+        public bool IsDeactivated
+        {
+            get => _isDeactivated;
+            set
+            {
+                _isDeactivated = value;
+                ShellViewModel.SearchViewModel.TryCloseAsync();
+                ShellViewModel.SearchViewModel = new SearchViewModel(new Indicator());
+            }
+        }
+    }
+
     public class ShellViewModel : Conductor<object>
     {
         public ShellViewModel()
         {
-            SetUpApplication();
             tb = (TaskbarIcon)Application.Current.FindResource("ReginaldNotifyIcon");
             OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
+
+            // Creates "Reginald" in %AppData%
+            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
+
+            // Creates "Reginald\UserIcons" in %AppData%
+            string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.UserIconsDirectoryName);
+            Directory.CreateDirectory(path);
+
+            // Creates "Reginald\Search.xml" in %AppData%
+            FileOperations.MakeDefaultKeywordXmlFile();
+
+            FileOperations.CacheApplicationIcons();
+
+            // Creates "Reginald\Applications.txt" in %AppData%
+            FileOperations.MakeApplicationsTextFile();
+
+            // Creates "Reginald\UserSearch.xml" in %AppData%
+            FileOperations.MakeUserKeywordsXmlFile();
+
+            SearchViewModel = new(new Indicator());
         }
 
         // NotifyIcon for System Tray
         private TaskbarIcon tb;
 
-        private SearchViewModel _searchViewModel = new();
-        public SearchViewModel SearchViewModel
+        private static SearchViewModel _searchViewModel;
+        public static SearchViewModel SearchViewModel
         {
             get => _searchViewModel;
             set => _searchViewModel = value;
+        }
+
+        private static Indicator _indicator;
+        public static Indicator Indicator
+        {
+            get => _indicator;
+            set => _indicator = value;
         }
 
         public ICommand OpenWindowCommand { get; set; }
@@ -40,47 +80,12 @@ namespace Reginald.ViewModels
             if (SearchViewModel.IsActive)
             {
                 await SearchViewModel.TryCloseAsync();
-                SearchViewModel = new SearchViewModel();
             }
             else
             {
                 IWindowManager manager = new WindowManager();
                 await manager.ShowWindowAsync(SearchViewModel);
             }
-        }
-
-        /// <summary>
-        /// Creates files necessary for the program.
-        /// </summary>
-        private static async void SetUpApplication()
-        {
-            // Creates "Reginald" in %AppData%
-            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
-            // Creates "Reginald\UserIcons" in %AppData%
-            await Task.Run(() =>
-            {
-                string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.UserIconsDirectoryName);
-                Directory.CreateDirectory(path);
-            });
-            // Creates "Reginald\Search.xml" in %AppData%
-            await Task.Run(() =>
-            {
-                FileOperations.MakeDefaultKeywordXmlFile();
-            });
-            await Task.Run(() =>
-            {
-                FileOperations.CacheApplicationIcons();
-            });
-            // Creates "Reginald\Applications.txt" in %AppData%
-            await Task.Run(() =>
-            {
-                FileOperations.MakeApplicationsTextFile();
-            });
-            // Creates "Reginald\UserSearch.xml" in %AppData%
-            await Task.Run(() =>
-            {
-                FileOperations.MakeUserKeywordsXmlFile();
-            });
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using Reginald.Core.Base;
+using Reginald.Core.Enums;
 using Reginald.Core.Helpers;
 using Reginald.Core.IO;
 using Reginald.Extensions;
@@ -90,8 +91,7 @@ namespace Reginald.ViewModels
             IEnumerable<SearchResultModel> keywordSearchResults = Array.Empty<SearchResultModel>();
             foreach (string attribute in attributes)
             {
-                //keywordSearchResults = keywordSearchResults.Concat(MakeSearchResultModels(doc, attribute, SearchResultModel.Category.Keyword));
-                keywordSearchResults = keywordSearchResults.Concat(SearchResultModel.MakeArray(doc, attribute, SearchResultModel.Category.Keyword));
+                keywordSearchResults = keywordSearchResults.Concat(SearchResultModel.MakeArray(doc, attribute, Category.Keyword));
             }
             collection.AddRange(keywordSearchResults);
         }
@@ -162,64 +162,6 @@ namespace Reginald.ViewModels
                 UserKeywordSearchResults.Remove(SelectedUserKeywordSearchResult);
             }
         }
-
-        //private static SearchResultModel[] MakeSearchResultModels(XmlDocument doc, string attribute, SearchResultModel.Category category)
-        //{
-        //    //XmlNodeList nodes = doc.GetNodes(attribute);
-        //    XmlNodeList nodes = doc.GetNodes(String.Format(Constants.NamespaceNameXpathFormat, attribute));
-        //    SearchResultModel[] models = new SearchResultModel[nodes.Count];
-        //    for (int i = 0; i < nodes.Count; i++)
-        //    {
-        //        try
-        //        {
-        //            XmlNode node = nodes[i];
-        //            string name = node.Attributes["Name"].Value;
-        //            int id = int.Parse(node.Attributes["ID"].Value);
-
-        //            BitmapImage icon = new();
-        //            icon.BeginInit();
-        //            icon.UriSource = new Uri(node["Icon"].InnerText);
-        //            icon.CacheOption = BitmapCacheOption.OnLoad;
-        //            icon.DecodePixelWidth = 75;
-        //            icon.DecodePixelHeight = 75;
-        //            icon.EndInit();
-        //            icon.Freeze();
-
-        //            string keyword = node["Keyword"].InnerText;
-        //            string separator = node["Separator"].InnerText;
-        //            string url = node["URL"].InnerText;
-        //            string format = node["Format"].InnerText;
-        //            string defaultText = node["DefaultText"].InnerText;
-        //            string text = defaultText;
-        //            string description = String.Format(format, text);
-        //            string alt = node["Alt"].InnerText;
-        //            bool isEnabled = Boolean.Parse(node["IsEnabled"].InnerText);
-
-        //            SearchResultModel model = new()
-        //            {
-        //                Name = name,
-        //                CategoryName = category,
-        //                Icon = icon,
-        //                ID = id,
-        //                Keyword = keyword,
-        //                Separator = separator,
-        //                URL = url,
-        //                Text = text,
-        //                Format = format,
-        //                DefaultText = defaultText,
-        //                Description = description,
-        //                Alt = alt,
-        //                IsEnabled = isEnabled
-        //            };
-        //            models[i] = model;
-        //        }
-        //        catch (NullReferenceException)
-        //        {
-        //            continue;
-        //        }
-        //    }
-        //    return models;
-        //}
 
         private static void ChangeIsEnabledState(string name, int id)
         {

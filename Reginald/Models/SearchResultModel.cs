@@ -1,4 +1,5 @@
-﻿using Reginald.Core.Helpers;
+﻿using Reginald.Core.Enums;
+using Reginald.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -16,7 +17,7 @@ namespace Reginald.Models
         public SearchResultModel(string name, string parsingName, BitmapImage icon)
         {
             Name = name;
-            CategoryName = SearchResultModel.Category.Application;
+            Category = Category.Application;
             ParsingName = parsingName;
             Icon = icon;
             Text = name;
@@ -25,9 +26,8 @@ namespace Reginald.Models
             Alt = "Application";
         }
 
-        public SearchResultModel(XmlDocument doc, string input, string attribute, SearchResultModel.Category category)
+        public SearchResultModel(XmlDocument doc, string input, string attribute, Category category)
         {
-            //XmlNode node = doc.GetNode(attribute);
             XmlNode node = doc.GetNode(String.Format(Constants.NamespaceNameXpathFormat, attribute));
             if (node is null) { }
             else
@@ -43,7 +43,7 @@ namespace Reginald.Models
                 string alt = node["Alt"].InnerText;
 
                 Name = name;
-                CategoryName = category;
+                Category = category;
                 Icon = icon;
                 Keyword = keyword;
                 Separator = separator;
@@ -55,17 +55,17 @@ namespace Reginald.Models
             }
         }
 
-        public enum Category
-        {
-            Application,
-            Math,
-            HTTP,
-            Keyword,
-            SearchEngine
-        }
+        //public enum Category
+        //{
+        //    Application,
+        //    Math,
+        //    HTTP,
+        //    Keyword,
+        //    SearchEngine
+        //}
 
         public string Name { get; set; }
-        public Category CategoryName { get; set; }
+        public Category Category { get; set; }
         public ImageSource Icon { get; set; }
         public string ParsingName { get; set; }
         public int ID { get; set; }
@@ -80,9 +80,8 @@ namespace Reginald.Models
         public string Count { get; set; }
         public bool IsEnabled { get; set; }
 
-        public static List<SearchResultModel> MakeList(XmlDocument doc, string input, string attribute, SearchResultModel.Category category)
+        public static List<SearchResultModel> MakeList(XmlDocument doc, string input, string attribute, Category category)
         {
-            //XmlNodeList nodes = doc.GetNodes(attribute);
             XmlNodeList nodes = doc.GetNodes(String.Format(Constants.NamespaceNameXpathFormat, attribute));
             if (nodes is null)
                 return new List<SearchResultModel>();
@@ -117,7 +116,7 @@ namespace Reginald.Models
                     models.Add(new SearchResultModel
                     {
                         Name = name,
-                        CategoryName = category,
+                        Category = category,
                         Icon = icon,
                         Keyword = keyword,
                         Separator = separator,
@@ -133,10 +132,8 @@ namespace Reginald.Models
             }
         }
 
-        public static SearchResultModel[] MakeArray(XmlDocument doc, string input, string attribute, SearchResultModel.Category category, string text = null)
+        public static SearchResultModel[] MakeArray(XmlDocument doc, string input, string attribute, Category category, string text = null)
         {
-            //XmlDocument doc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
-            //XmlNodeList nodes = doc.GetNodes(attribute);
             XmlNodeList nodes = doc.GetNodes(String.Format(Constants.NamespaceNameXpathFormat, attribute));
             if (nodes is null)
                 return Array.Empty<SearchResultModel>();
@@ -162,7 +159,7 @@ namespace Reginald.Models
                         models[i] = new SearchResultModel()
                         {
                             Name = name,
-                            CategoryName = category,
+                            Category = category,
                             Icon = icon,
                             ID = id,
                             Keyword = keyword,
@@ -173,11 +170,6 @@ namespace Reginald.Models
                             Description = description,
                             Alt = alt
                         };
-                        //SearchResultModel model = new()
-                        //{
-
-                        //};
-                        //models[i] = model;
                     }
                     catch (NullReferenceException)
                     {
@@ -188,7 +180,7 @@ namespace Reginald.Models
             }
         }
 
-        public static SearchResultModel[] MakeArray(XmlDocument doc, string attribute, SearchResultModel.Category category)
+        public static SearchResultModel[] MakeArray(XmlDocument doc, string attribute, Category category)
         {
             XmlNodeList nodes = doc.GetNodes(String.Format(Constants.NamespaceNameXpathFormat, attribute));
             if (nodes is null)
@@ -201,7 +193,6 @@ namespace Reginald.Models
                     try
                     {
                         XmlNode node = nodes[i];
-                        //string name = node.Attributes["Name"].Value;
                         string name = node["Name"].InnerText;
                         int id = int.Parse(node.Attributes["ID"].Value);
                         BitmapImage icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
@@ -218,7 +209,7 @@ namespace Reginald.Models
                         models[i] = new SearchResultModel()
                         {
                             Name = name,
-                            CategoryName = category,
+                            Category = category,
                             Icon = icon,
                             ID = id,
                             Keyword = keyword,
@@ -231,7 +222,6 @@ namespace Reginald.Models
                             Alt = alt,
                             IsEnabled = isEnabled
                         };
-                        //models[i] = model;
                     }
                     catch (NullReferenceException)
                     {

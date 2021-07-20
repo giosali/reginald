@@ -3,9 +3,6 @@ using Reginald.Core.Helpers;
 using Reginald.Models;
 using System;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,13 +13,6 @@ namespace Reginald.ViewModels
 {
     public class EditUserKeywordViewModel : Screen
     {
-        //protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
-        //{
-        //    NotifyOfPropertyChange(() => UserKeywordSearchResults);
-        //    NotifyOfPropertyChange(() => SelectedKeywordSearchResult);
-        //    return base.OnDeactivateAsync(close, cancellationToken);
-        //}
-
         public EditUserKeywordViewModel(BindableCollection<SearchResultModel> collection, SearchResultModel model)
         {
             UserKeywordSearchResults = collection;
@@ -32,10 +22,7 @@ namespace Reginald.ViewModels
         private BindableCollection<SearchResultModel> _userKeywordSearchResults;
         public BindableCollection<SearchResultModel> UserKeywordSearchResults
         {
-            get
-            {
-                return _userKeywordSearchResults;
-            }
+            get => _userKeywordSearchResults;
             set
             {
                 _userKeywordSearchResults = value;
@@ -46,10 +33,7 @@ namespace Reginald.ViewModels
         private SearchResultModel _selectedKeywordSearchResult;
         public SearchResultModel SelectedKeywordSearchResult
         {
-            get
-            {
-                return _selectedKeywordSearchResult;
-            }
+            get => _selectedKeywordSearchResult;
             set
             {
                 _selectedKeywordSearchResult = value;
@@ -117,12 +101,6 @@ namespace Reginald.ViewModels
             UserKeywordSearchResults.Refresh();
             TryCloseAsync();
         }
-
-        //private static XmlNode GetCurrentNode(XmlDocument doc, int id)
-        //{
-        //    string xpath = $"//Searches/Namespace[@ID='{id}']";
-        //    return doc.SelectSingleNode(xpath);
-        //}
 
         private void UpdateCurrentNode(XmlNode currentNode)
         {

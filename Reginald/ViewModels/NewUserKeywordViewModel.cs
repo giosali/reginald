@@ -29,10 +29,7 @@ namespace Reginald.ViewModels
         private BindableCollection<SearchResultModel> _userKeywordSearchResults;
         public BindableCollection<SearchResultModel> UserKeywordSearchResults
         {
-            get
-            {
-                return _userKeywordSearchResults;
-            }
+            get => _userKeywordSearchResults;
             set
             {
                 _userKeywordSearchResults = value;
@@ -43,10 +40,7 @@ namespace Reginald.ViewModels
         private SearchResultModel _selectedKeywordSearchResult;
         public SearchResultModel SelectedKeywordSearchResult
         {
-            get
-            {
-                return _selectedKeywordSearchResult;
-            }
+            get => _selectedKeywordSearchResult;
             set
             {
                 _selectedKeywordSearchResult = value;

@@ -7,10 +7,7 @@ namespace Reginald.ViewModels
 {
     class GeneralViewModel
     {
-        public GeneralViewModel()
-        {
-
-        }
+        public GeneralViewModel() { }
 
         public void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
