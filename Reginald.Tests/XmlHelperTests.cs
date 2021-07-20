@@ -15,6 +15,18 @@ namespace Reginald.Tests
         [InlineData(ApplicationPaths.XmlUserKeywordFilename)]
         public static void GetXmlDocument_ShouldReturnXmlDocument(string filename)
         {
+            // SETUP
+
+            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
+
+            // Creates "Reginald\Search.xml" in %AppData%
+            FileOperations.MakeDefaultKeywordXmlFile();
+
+            // Creates "Reginald\UserSearch.xml" in %AppData%
+            FileOperations.MakeUserKeywordsXmlFile();
+
+            ////
+
             bool expected = true;
 
             var doc = XmlHelper.GetXmlDocument(filename);
@@ -26,6 +38,18 @@ namespace Reginald.Tests
         [Fact]
         public static void GetXmlDocument_ShouldThrowFileNotFoundException()
         {
+            // SETUP
+
+            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
+
+            // Creates "Reginald\Search.xml" in %AppData%
+            FileOperations.MakeDefaultKeywordXmlFile();
+
+            // Creates "Reginald\UserSearch.xml" in %AppData%
+            FileOperations.MakeUserKeywordsXmlFile();
+
+            ////
+
             Assert.Throws<FileNotFoundException>(() =>
             {
                 _ = XmlHelper.GetXmlDocument("Foo.xml");
@@ -45,9 +69,20 @@ namespace Reginald.Tests
 
         [Theory]
         [InlineData(ApplicationPaths.XmlKeywordFilename)]
-        [InlineData(ApplicationPaths.XmlUserKeywordFilename)]
         public static void GetLastNode_ShouldReturnXmlNode(string filename)
         {
+            // SETUP
+
+            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
+
+            // Creates "Reginald\Search.xml" in %AppData%
+            FileOperations.MakeDefaultKeywordXmlFile();
+
+            // Creates "Reginald\UserSearch.xml" in %AppData%
+            FileOperations.MakeUserKeywordsXmlFile();
+
+            ////
+
             bool expected = true;
 
             XmlDocument doc = new();
@@ -60,9 +95,20 @@ namespace Reginald.Tests
 
         [Theory]
         [InlineData(ApplicationPaths.XmlKeywordFilename, Constants.LastNodeXpath)]
-        [InlineData(ApplicationPaths.XmlUserKeywordFilename, Constants.LastNodeXpath)]
         public static void GetLastNode_ShouldReturnLastXmlNode(string filename, string xpath)
         {
+            // SETUP
+
+            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
+
+            // Creates "Reginald\Search.xml" in %AppData%
+            FileOperations.MakeDefaultKeywordXmlFile();
+
+            // Creates "Reginald\UserSearch.xml" in %AppData%
+            FileOperations.MakeUserKeywordsXmlFile();
+
+            ////
+
             XmlDocument doc = new();
             doc.Load(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, filename));
             XmlNode expected = doc.SelectSingleNode(xpath);
@@ -76,6 +122,18 @@ namespace Reginald.Tests
         [InlineData(ApplicationPaths.XmlKeywordFilename, 2)]
         public static void GetCurrentNodeFromID_ShouldReturnXmlNode(string filename, int id)
         {
+            // SETUP
+
+            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
+
+            // Creates "Reginald\Search.xml" in %AppData%
+            FileOperations.MakeDefaultKeywordXmlFile();
+
+            // Creates "Reginald\UserSearch.xml" in %AppData%
+            FileOperations.MakeUserKeywordsXmlFile();
+
+            ////
+
             bool expected = true;
 
             XmlDocument doc = new();
@@ -89,6 +147,18 @@ namespace Reginald.Tests
         [Fact]
         public static void GetCurrentNodeFromID_NodeIDShouldMatch()
         {
+            // SETUP
+
+            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
+
+            // Creates "Reginald\Search.xml" in %AppData%
+            FileOperations.MakeDefaultKeywordXmlFile();
+
+            // Creates "Reginald\UserSearch.xml" in %AppData%
+            FileOperations.MakeUserKeywordsXmlFile();
+
+            ////
+
             int expected = 1;
 
             XmlDocument doc = new();
@@ -104,6 +174,18 @@ namespace Reginald.Tests
         [InlineData(int.MinValue)]
         public static void GetCurrentNodeFromID_ShouldReturnNullIfIDInvalid(int id)
         {
+            // SETUP
+
+            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
+
+            // Creates "Reginald\Search.xml" in %AppData%
+            FileOperations.MakeDefaultKeywordXmlFile();
+
+            // Creates "Reginald\UserSearch.xml" in %AppData%
+            FileOperations.MakeUserKeywordsXmlFile();
+
+            ////
+
             XmlDocument doc = new();
             doc.Load(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.XmlKeywordFilename));
             XmlNode node = XmlHelper.GetCurrentNodeFromID(doc, id);
