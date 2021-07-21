@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reginald.Core.Base;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -143,8 +144,17 @@ namespace Reginald.Extensions
                 }
                 catch (System.Data.SyntaxErrorException)
                 {
-                    result = "...";
-                    break;
+                    Regex rx = new Regex($@"{Constants.FactorialRegexPattern}");
+                    MatchCollection matches = rx.Matches(expression);
+                    if (matches.Count > 0)
+                    {
+                        expression = expression.Factorial();
+                    }
+                    else
+                    {
+                        result = "...";
+                        break;
+                    }
                 }
                 catch (OverflowException)
                 {
@@ -206,7 +216,7 @@ namespace Reginald.Extensions
         /// <returns>True if the string is a math expression; otherwise, false.</returns>
         public static bool IsMathExpression(this string expression)
         {
-            Regex rx = new Regex(@"^[0-9\s+-/^*()><]+$");
+            Regex rx = new Regex(@"^[0-9\s+-/^*()><!]+$");
             MatchCollection matches = rx.Matches(expression);
             if (matches.Count > 0)
                 return true;
@@ -275,6 +285,29 @@ namespace Reginald.Extensions
             if (matches.Count == 0)
                 expression = "https://" + expression;
             return expression;
+        }
+
+        /// <summary>
+        /// Replaces all factorial instances in a string with their respective product of positive integers.
+        /// </summary>
+        /// <param name="expression">The string with factorials.</param>
+        /// <returns>A string with the product of positive integers.</returns>
+        public static string Factorial(this string expression)
+        {
+            Regex rx = new Regex($@"{Constants.FactorialRegexPattern}");
+            string result = rx.Replace(expression, new MatchEvaluator(m =>
+            {
+                string x = m.Groups[1].ToString();
+                int y = int.Parse(x);
+                string concat = String.Empty;
+                for (int i = y; i > 0; i--)
+                {
+                    concat += $"{i} * ";
+                }
+                concat += "1";
+                return concat;
+            }));
+            return result;
         }
     }
 }
