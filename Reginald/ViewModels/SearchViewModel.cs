@@ -142,14 +142,20 @@ namespace Reginald.ViewModels
 
         private async void SetUpViewModel()
         {
-            applicationImagesDirectoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
-            applicationsTxtFilePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
-            searchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
-            userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
-            applicationsDict = await Task.Run(() =>
+            var assignmentTask = Task.Run(() =>
+            {
+                applicationImagesDirectoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
+                applicationsTxtFilePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
+                searchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
+                userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
+            });
+            var applicationsDictTask = Task.Run(() =>
             {
                 return Applications.MakeDictionary();
             });
+
+            await assignmentTask;
+            applicationsDict = await applicationsDictTask;
 
             Properties.Settings settings = Properties.Settings.Default;
             System.Drawing.Color searchBackgroundColor;
@@ -182,14 +188,7 @@ namespace Reginald.ViewModels
             Settings.SearchAltTextBrush = new SolidColorBrush(Color.FromRgb(searchAltTextColor.R, searchAltTextColor.G, searchAltTextColor.B));
             Settings.SearchInputTextBrush = new SolidColorBrush(Color.FromRgb(searchInputTextColor.R, searchInputTextColor.G, searchInputTextColor.B));
             Settings.SearchInputCaretBrush = new SolidColorBrush(Color.FromRgb(searchInputCaretColor.R, searchInputCaretColor.G, searchInputCaretColor.B));
-            if (!settings.IsSearchBoxBorderEnabled)
-            {
-                Settings.SearchViewBorderBrush = Brushes.Transparent;
-            }
-            else
-            {
-                Settings.SearchViewBorderBrush = new SolidColorBrush(Color.FromRgb(searchViewBorderColor.R, searchViewBorderColor.G, searchViewBorderColor.B));
-            }
+            Settings.SearchViewBorderBrush = !settings.IsSearchBoxBorderEnabled ? Brushes.Transparent : new SolidColorBrush(Color.FromRgb(searchViewBorderColor.R, searchViewBorderColor.G, searchViewBorderColor.B));
         }
 
         public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)

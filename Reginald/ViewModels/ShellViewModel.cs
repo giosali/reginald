@@ -2,7 +2,9 @@
 using Hardcodet.Wpf.TaskbarNotification;
 using Reginald.Commands;
 using Reginald.Core.IO;
+using Reginald.Core.Utils;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 
@@ -49,24 +51,14 @@ namespace Reginald.ViewModels
             FileOperations.MakeUserKeywordsXmlFile();
 
             SearchViewModel = new(new Indicator());
+            SetUpAsync();
         }
 
         // NotifyIcon for System Tray
         private TaskbarIcon tb;
 
-        private static SearchViewModel _searchViewModel;
-        public static SearchViewModel SearchViewModel
-        {
-            get => _searchViewModel;
-            set => _searchViewModel = value;
-        }
-
-        private static Indicator _indicator;
-        public static Indicator Indicator
-        {
-            get => _indicator;
-            set => _indicator = value;
-        }
+        public static SearchViewModel SearchViewModel { get; set; }
+        public static Indicator Indicator { get; set; }
 
         public ICommand OpenWindowCommand { get; set; }
 
@@ -86,6 +78,12 @@ namespace Reginald.ViewModels
                 IWindowManager manager = new WindowManager();
                 await manager.ShowWindowAsync(SearchViewModel);
             }
+        }
+
+        private async static void SetUpAsync()
+        {
+            CancellationToken cancellationToken = new();
+            await TimerUtils.DoEveryTenSecondsAsync(cancellationToken);
         }
     }
 }
