@@ -13,6 +13,7 @@ namespace Reginald.Models
         public Brush SearchAltTextBrush { get; set; }
         public Brush SearchInputTextBrush { get; set; }
         public Brush SearchInputCaretBrush { get; set; }
+        public Brush SearchViewBorderBrush { get; set; }
 
         // UtilitiesView
         public bool IncludeInstalledApplications { get; set; }

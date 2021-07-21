@@ -148,5 +148,23 @@ namespace Reginald.Properties {
                 this["IncludeDefaultKeywords"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color SearchViewBorderColorDark {
+            get {
+                return ((global::System.Drawing.Color)(this["SearchViewBorderColorDark"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color SearchViewBorderColorLight {
+            get {
+                return ((global::System.Drawing.Color)(this["SearchViewBorderColorLight"]));
+            }
+        }
     }
 }

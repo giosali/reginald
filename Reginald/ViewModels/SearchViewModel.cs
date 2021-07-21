@@ -157,6 +157,7 @@ namespace Reginald.ViewModels
             System.Drawing.Color searchAltTextColor;
             System.Drawing.Color searchInputTextColor;
             System.Drawing.Color searchInputCaretColor;
+            System.Drawing.Color searchViewBorderColor;
             if (settings.IsDarkModeEnabled)
             {
                 searchBackgroundColor = settings.SearchBackgroundColorDark;
@@ -164,6 +165,7 @@ namespace Reginald.ViewModels
                 searchAltTextColor = settings.SearchAltTextColorDark;
                 searchInputTextColor = settings.SearchInputTextColorDark;
                 searchInputCaretColor = settings.SearchInputCaretColorDark;
+                searchViewBorderColor = settings.SearchViewBorderColorDark;
             }
             else
             {
@@ -172,12 +174,14 @@ namespace Reginald.ViewModels
                 searchAltTextColor = settings.SearchAltTextColorLight;
                 searchInputTextColor = settings.SearchInputTextColorLight;
                 searchInputCaretColor = settings.SearchInputCaretColorLight;
+                searchViewBorderColor = settings.SearchViewBorderColorLight;
             }
             Settings.SearchBackgroundColor = Color.FromRgb(searchBackgroundColor.R, searchBackgroundColor.G, searchBackgroundColor.B);
             Settings.SearchDescriptionTextBrush = new SolidColorBrush(Color.FromRgb(searchDescriptionTextColor.R, searchDescriptionTextColor.G, searchDescriptionTextColor.B));
             Settings.SearchAltTextBrush = new SolidColorBrush(Color.FromRgb(searchAltTextColor.R, searchAltTextColor.G, searchAltTextColor.B));
             Settings.SearchInputTextBrush = new SolidColorBrush(Color.FromRgb(searchInputTextColor.R, searchInputTextColor.G, searchInputTextColor.B));
             Settings.SearchInputCaretBrush = new SolidColorBrush(Color.FromRgb(searchInputCaretColor.R, searchInputCaretColor.G, searchInputCaretColor.B));
+            Settings.SearchViewBorderBrush = new SolidColorBrush(Color.FromRgb(searchViewBorderColor.R, searchViewBorderColor.G, searchViewBorderColor.B));
         }
 
         public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)

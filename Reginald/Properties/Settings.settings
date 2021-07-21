@@ -41,5 +41,11 @@
     <Setting Name="IncludeDefaultKeywords" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="SearchViewBorderColorDark" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="SearchViewBorderColorLight" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
