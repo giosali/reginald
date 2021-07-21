@@ -260,5 +260,35 @@ namespace Reginald.Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData("5!", "120")]
+        [InlineData("4!", "24")]
+        [InlineData("3!", "6")]
+        [InlineData("2!", "2")]
+        [InlineData("1!", "1")]
+        [InlineData("0!", "1")]
+        public static void Factorial_ShouldCalculateCorrectly(string expression, string expected)
+        {
+            Assert.Equal(expression.Factorial().Eval(), expected);
+        }
+
+        [Theory]
+        [InlineData("2 + 5!", "122")]
+        [InlineData("5! + 5!", "240")]
+        public static void Factorial_ShouldCalculate(string expression, string expected)
+        {
+            Assert.Equal(expression.Factorial().Eval(), expected);
+        }
+
+        [Theory]
+        [InlineData("5.5!")]
+        [InlineData("5.55!")]
+        [InlineData("-5!")]
+        public static void Factorial_ShouldNotCalculate(string expression)
+        {
+            string expected = "...";
+            Assert.Equal(expression.Factorial().Eval(), expected);
+        }
     }
 }
