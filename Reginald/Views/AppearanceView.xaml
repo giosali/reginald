@@ -77,6 +77,19 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ToggleButton>
+                <TextBlock Style="{StaticResource TextBlockParagraph}"
+                           Text="Place a border around the search box to improve visibility"
+                           Margin="0 12 0 0"/>
+                <ToggleButton IsChecked="{Binding Settings.IsSearchBoxBorderEnabled}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="IsSearchBoxBorderEnabledToggleButton_Click">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ToggleButton>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

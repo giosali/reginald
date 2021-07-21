@@ -6,6 +6,7 @@ namespace Reginald.Models
     {
         // AppearanceView
         public bool IsDarkModeEnabled { get; set; }
+        public bool IsSearchBoxBorderEnabled { get; set; }
 
         // SearchView
         public Color SearchBackgroundColor { get; set; }

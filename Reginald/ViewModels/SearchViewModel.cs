@@ -176,12 +176,20 @@ namespace Reginald.ViewModels
                 searchInputCaretColor = settings.SearchInputCaretColorLight;
                 searchViewBorderColor = settings.SearchViewBorderColorLight;
             }
+
             Settings.SearchBackgroundColor = Color.FromRgb(searchBackgroundColor.R, searchBackgroundColor.G, searchBackgroundColor.B);
             Settings.SearchDescriptionTextBrush = new SolidColorBrush(Color.FromRgb(searchDescriptionTextColor.R, searchDescriptionTextColor.G, searchDescriptionTextColor.B));
             Settings.SearchAltTextBrush = new SolidColorBrush(Color.FromRgb(searchAltTextColor.R, searchAltTextColor.G, searchAltTextColor.B));
             Settings.SearchInputTextBrush = new SolidColorBrush(Color.FromRgb(searchInputTextColor.R, searchInputTextColor.G, searchInputTextColor.B));
             Settings.SearchInputCaretBrush = new SolidColorBrush(Color.FromRgb(searchInputCaretColor.R, searchInputCaretColor.G, searchInputCaretColor.B));
-            Settings.SearchViewBorderBrush = new SolidColorBrush(Color.FromRgb(searchViewBorderColor.R, searchViewBorderColor.G, searchViewBorderColor.B));
+            if (!settings.IsSearchBoxBorderEnabled)
+            {
+                Settings.SearchViewBorderBrush = Brushes.Transparent;
+            }
+            else
+            {
+                Settings.SearchViewBorderBrush = new SolidColorBrush(Color.FromRgb(searchViewBorderColor.R, searchViewBorderColor.G, searchViewBorderColor.B));
+            }
         }
 
         public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)

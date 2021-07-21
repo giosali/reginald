@@ -47,5 +47,8 @@
     <Setting Name="SearchViewBorderColorLight" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Black</Value>
     </Setting>
+    <Setting Name="IsSearchBoxBorderEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

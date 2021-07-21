@@ -166,5 +166,17 @@ namespace Reginald.Properties {
                 return ((global::System.Drawing.Color)(this["SearchViewBorderColorLight"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsSearchBoxBorderEnabled {
+            get {
+                return ((bool)(this["IsSearchBoxBorderEnabled"]));
+            }
+            set {
+                this["IsSearchBoxBorderEnabled"] = value;
+            }
+        }
     }
 }
