@@ -151,7 +151,7 @@ namespace Reginald.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DarkGray")]
         public global::System.Drawing.Color SearchViewBorderColorDark {
             get {
                 return ((global::System.Drawing.Color)(this["SearchViewBorderColorDark"]));
