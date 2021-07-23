@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reginald.Views"
         mc:Ignorable="d"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
         
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -18,8 +19,8 @@
         fw:AcrylicWindow.AcrylicWindowStyle="None"
                   
         Title="Search"
-        Height="75" MinHeight="75"
-        Width="650"
+        Height="65" MinHeight="65"
+        Width="600"
         FontFamily="Segoe UI"
         ResizeMode="NoResize"
         SizeToContent="Height"
@@ -31,8 +32,9 @@
         ShowInTaskbar="False">
     <Window.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="SearchResultsTemplate">
-                <Grid Width="{Binding ElementName=searchWindow, Path=Width}">
+            <!-- ItemTemplate for SearchResults -->
+            <DataTemplate x:Key="SearchResultsItemTemplate">
+                <Grid Width="570">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -85,10 +87,72 @@
                     <Trigger Property="IsSelected" Value="True">
                         <Setter TargetName="listBoxItemBorder"
                                 Property="Background" Value="#99ff8d00"/>
-                        <!-- #33d16c00 -->
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
+
+            <!-- ItemTemplate for SpecialSearchResult -->
+            <DataTemplate x:Key="SpecialSearchResultItemTemplate">
+                <DataTemplate.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="18"/>
+                    </Style>
+                </DataTemplate.Resources>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <!-- Row 0 -->
+                    <Image Source="{Binding Icon}"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           Width="30" Height="30"/>
+                    <TextBlock Text="{Binding Name}"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               FontSize="32"/>
+                    <TextBlock Text="{Binding Description}"
+                               Grid.Column="4" Grid.Row="0"
+                               FontSize="18"/>
+                    <!-- Row 1 -->
+                    <Border Grid.Row="1"
+                            Grid.Column="0" Grid.ColumnSpan="{x:Static sys:Int32.MaxValue}"
+                            BorderBrush="White"
+                            BorderThickness="0.5"/>
+                    <!-- Row 2 -->
+                    <TextBlock Text="{Binding Major}"
+                               Grid.Row="2"
+                               Grid.Column="0" Grid.ColumnSpan="1"
+                               FontSize="48" FontWeight="Bold"/>
+                    <!-- Row 3 -->
+                    <TextBlock Text="{Binding Minor}"
+                               Grid.Row="3"
+                               Grid.Column="0" Grid.ColumnSpan="1"
+                               FontSize="32" FontWeight="Light"/>
+                    <!-- Row 4 -->
+                    <TextBlock Text="{Binding SubOne}"
+                               Grid.Row="4"
+                               Grid.Column="0"
+                               FontSize="16" FontWeight="Light"/>
+                    <!-- Row 5 -->
+                    <TextBlock Text="{Binding SubTwo}"
+                               Grid.Row="4"
+                               Grid.Column="0"
+                               FontSize="16" FontWeight="Light"/>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -119,7 +183,7 @@
             </TextBox>
 
             <ListBox x:Name="SearchResults"
-                     ItemTemplate="{StaticResource SearchResultsTemplate}"
+                     ItemTemplate="{StaticResource SearchResultsItemTemplate}"
                      SelectedItem="{Binding Path=SelectedSearchResult, Mode=TwoWay}"
                      Background="Transparent"
                      MaxHeight="330"
@@ -156,11 +220,19 @@
                             </Trigger>
                         </Style.Triggers>
                         <Setter Property="Padding" Value="10 0"/>
-                            <Setter Property="Height" Value="55"/>
-                            <Setter Property="Template" Value="{StaticResource SearchResultsListBoxItems}"/>
+                        <Setter Property="Height" Value="55"/>
+                        <Setter Property="Template" Value="{StaticResource SearchResultsListBoxItems}"/>
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
+
+            <ItemsControl x:Name="SpecialSearchResult"
+                          ItemTemplate="{StaticResource SpecialSearchResultItemTemplate}"
+                          Background="Transparent"
+                          MaxHeight="330"
+                          BorderThickness="0"
+                          Visibility="Collapsed">
+            </ItemsControl>
         </StackPanel>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Reginald.Core.Api.Styvio;
 using Reginald.Core.Base;
 using Reginald.Core.Enums;
 using Reginald.Core.Helpers;
@@ -40,6 +41,7 @@ namespace Reginald.ViewModels
         private string applicationsTxtFilePath;
         private XmlDocument searchDoc;
         private XmlDocument userSearchDoc;
+        private XmlDocument specialKeywordDoc;
         private Dictionary<string, string> applicationsDict;
 
         private Indicator _indicator;
@@ -129,6 +131,17 @@ namespace Reginald.ViewModels
             }
         }
 
+        private SpecialSearchResultModel _specialSearchResult;
+        public SpecialSearchResultModel SpecialSearchResult
+        {
+            get => _specialSearchResult;
+            set
+            {
+                _specialSearchResult = value;
+                NotifyOfPropertyChange(() => SpecialSearchResult);
+            }
+        }
+
         private Visibility _isVisible;
         public Visibility IsVisible
         {
@@ -142,14 +155,15 @@ namespace Reginald.ViewModels
 
         private async void SetUpViewModel()
         {
-            var assignmentTask = Task.Run(() =>
+            Task assignmentTask = Task.Run(() =>
             {
                 applicationImagesDirectoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
                 applicationsTxtFilePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
                 searchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
                 userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
+                specialKeywordDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSpecialKeywordFilename);
             });
-            var applicationsDictTask = Task.Run(() =>
+            Task<Dictionary<string, string>> applicationsDictTask = Task.Run(() =>
             {
                 return Applications.MakeDictionary();
             });
@@ -196,10 +210,11 @@ namespace Reginald.ViewModels
             if (UserInput != String.Empty)
             {
                 IEnumerable<SearchResultModel> models;
-                Task<IEnumerable<SearchResultModel>> applicationModelsTask;
-                Task<IEnumerable<SearchResultModel>> keywordModelsTask;
-                Task<IEnumerable<SearchResultModel>> userKeywordModelsTask;
-                Task<SearchResultModel[]> mathModelsTask = null;
+                //Task<IEnumerable<SearchResultModel>> applicationModelsTask = GetApplicationModels(UserInput);
+                //Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetKeywordModels(UserInput);
+                //Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetUserKeywordModels(UserInput);
+                ////Task<SearchResultModel[]> mathModelsTask = null;
+                //Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
 
                 if (UserInput.HasScheme() || UserInput.HasTopLevelDomain())
                 {
@@ -207,61 +222,66 @@ namespace Reginald.ViewModels
                 }
                 else
                 {
-                    applicationModelsTask = Task.Run(() =>
-                    {
-                        if (Properties.Settings.Default.IncludeInstalledApplications)
-                            return GetApplications(UserInput);
-                        return Enumerable.Empty<SearchResultModel>();
-                    });
+                    Task<IEnumerable<SearchResultModel>> applicationModelsTask = GetApplicationModels(UserInput);
+                    Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetKeywordModels(UserInput);
+                    Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetUserKeywordModels(UserInput);
+                    Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
 
-                    keywordModelsTask = Task.Run(() =>
-                    {
-                        if (Properties.Settings.Default.IncludeDefaultKeywords)
-                        {
-                            (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
+                    //applicationModelsTask = Task.Run(() =>
+                    //{
+                    //    if (Properties.Settings.Default.IncludeInstalledApplications)
+                    //        return GetApplications(UserInput);
+                    //    return Enumerable.Empty<SearchResultModel>();
+                    //});
 
-                            List<string> attributes = searchDoc.GetNodesAttributes(Constants.NamespacesXpath);
-                            string format = @"((?<!\w){0}.*)";
-                            Regex rx = new(String.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
-                            IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
-                                                                    .Distinct();
+                    //keywordModelsTask = Task.Run(() =>
+                    //{
+                    //    if (Properties.Settings.Default.IncludeDefaultKeywords)
+                    //    {
+                    //        (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
 
-                            IEnumerable<SearchResultModel> keywordModels = Array.Empty<SearchResultModel>();
-                            foreach (string match in matches)
-                            {
-                                keywordModels = keywordModels.Concat(SearchResultModel.MakeList(searchDoc, partition.Right, match, Category.Keyword));
-                            }
-                            return keywordModels;
-                        }
-                        return Enumerable.Empty<SearchResultModel>();
-                    });
+                    //        List<string> attributes = searchDoc.GetNodesAttributes(Constants.NamespacesXpath);
+                    //        string format = @"((?<!\w){0}.*)";
+                    //        Regex rx = new(String.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
+                    //        IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
+                    //                                                .Distinct();
 
-                    userKeywordModelsTask = Task.Run(() =>
-                    {
-                        (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
+                    //        IEnumerable<SearchResultModel> keywordModels = Array.Empty<SearchResultModel>();
+                    //        foreach (string match in matches)
+                    //        {
+                    //            keywordModels = keywordModels.Concat(SearchResultModel.MakeList(searchDoc, partition.Right, match, Category.Keyword));
+                    //        }
+                    //        return keywordModels;
+                    //    }
+                    //    return Enumerable.Empty<SearchResultModel>();
+                    //});
 
-                        List<string> attributes = userSearchDoc.GetNodesAttributes(Constants.NamespacesXpath);
-                        string format = @"((?<!\w){0}.*)";
-                        Regex rx = new(String.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
-                        IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
-                                                                .Distinct();
+                    //userKeywordModelsTask = Task.Run(() =>
+                    //{
+                    //    (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
 
-                        IEnumerable<SearchResultModel> userKeywordModels = Array.Empty<SearchResultModel>();
-                        foreach (string match in matches)
-                        {
-                            userKeywordModels = userKeywordModels.Concat(SearchResultModel.MakeList(userSearchDoc, partition.Right, match, Category.Keyword));
-                        }
-                        return userKeywordModels;
-                    });
+                    //    List<string> attributes = userSearchDoc.GetNodesAttributes(Constants.NamespacesXpath);
+                    //    string format = @"((?<!\w){0}.*)";
+                    //    Regex rx = new(String.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
+                    //    IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
+                    //                                            .Distinct();
 
-                    mathModelsTask = Task.Run(() =>
-                    {
-                        if (UserInput.IsMathExpression())
-                        {
-                            return SearchResultModel.MakeArray(searchDoc, UserInput, "__math", Category.Math, UserInput.Eval());
-                        }
-                        return Array.Empty<SearchResultModel>();
-                    });
+                    //    IEnumerable<SearchResultModel> userKeywordModels = Array.Empty<SearchResultModel>();
+                    //    foreach (string match in matches)
+                    //    {
+                    //        userKeywordModels = userKeywordModels.Concat(SearchResultModel.MakeList(userSearchDoc, partition.Right, match, Category.Keyword));
+                    //    }
+                    //    return userKeywordModels;
+                    //});
+
+                    //mathModelsTask = Task.Run(() =>
+                    //{
+                    //    if (UserInput.IsMathExpression())
+                    //    {
+                    //        return SearchResultModel.MakeArray(searchDoc, UserInput, "__math", Category.Math, UserInput.Eval());
+                    //    }
+                    //    return Array.Empty<SearchResultModel>();
+                    //});
 
                     IEnumerable<SearchResultModel> applicationModels = await applicationModelsTask;
                     IEnumerable<SearchResultModel> keywordModels = await keywordModelsTask;
@@ -298,58 +318,194 @@ namespace Reginald.ViewModels
             }
         }
 
-        private IEnumerable<SearchResultModel> GetApplications(string input)
+        private Task<IEnumerable<SearchResultModel>> GetApplicationModels(string input)
         {
-            List<SearchResultModel> applications = new();
-            List<string> applicationNames = new();
-            Regex rx;
             try
             {
-                string format = @".*((?<![a-z]){0}.*)";
-                rx = new(String.Format(format, input), RegexOptions.IgnoreCase);
+                if (Properties.Settings.Default.IncludeInstalledApplications)
+                {
+                    List<SearchResultModel> applications = new();
+                    List<string> applicationNames = new();
+                    string format = @".*((?<![a-z]){0}.*)";
+                    Regex rx = new(String.Format(format, input), RegexOptions.IgnoreCase);
+
+                    using (StreamReader sr = new(applicationsTxtFilePath))
+                    {
+                        string fileContent = sr.ReadToEnd();
+                        MatchCollection matches = rx.Matches(fileContent);
+                        foreach (Match match in matches)
+                        {
+                            applicationNames.Add(match.Value.Trim());
+                        }
+                    }
+                    foreach (string name in applicationNames)
+                    {
+                        if (applicationsDict.TryGetValue(name, out string value))
+                        {
+                            applications.Add(new SearchResultModel(name, value, BitmapImageHelper.GetIcon(applicationImagesDirectoryPath, name)));
+                        }
+                    }
+                    IEnumerable<SearchResultModel> models = applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
+                                                                        .ThenBy(x => x.Name);
+                    return Task.FromResult(models);
+                    //return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    //                   .ThenBy(x => x.Name);
+                }
+                else
+                    return Task.FromResult(Enumerable.Empty<SearchResultModel>());
+                //return Enumerable.Empty<SearchResultModel>();
             }
             catch (RegexParseException)
             {
-                return Enumerable.Empty<SearchResultModel>();
+                return Task.FromResult(Enumerable.Empty<SearchResultModel>());
+                //return Enumerable.Empty<SearchResultModel>();
             }
-
-            using (StreamReader sr = new(applicationsTxtFilePath))
-            {
-                string fileContent = sr.ReadToEnd();
-                MatchCollection matches = rx.Matches(fileContent);
-                foreach (Match match in matches)
-                {
-                    applicationNames.Add(match.Value.Trim());
-                }
-            }
-            foreach (string name in applicationNames)
-            {
-                if (applicationsDict.TryGetValue(name, out string value))
-                {
-                    applications.Add(new SearchResultModel(name, value, GetApplicationIcon(applicationImagesDirectoryPath, name)));
-                }
-            }
-            return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
-                               .ThenBy(x => x.Name);
         }
 
-        private BitmapImage GetApplicationIcon(string path, string name)
+        private Task<IEnumerable<SearchResultModel>> GetKeywordModels(string input)
         {
-            string iconPath = Path.Combine(path, name + ".png");
-            if (!File.Exists(iconPath))
+            if (Properties.Settings.Default.IncludeDefaultKeywords)
             {
-                iconPath = "pack://application:,,,/Reginald;component/Images/help-light.png";
-            }
+                (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
 
-            BitmapImage icon = new();
-            icon.BeginInit();
-            icon.UriSource = new Uri(iconPath);
-            icon.CacheOption = BitmapCacheOption.OnLoad;
-            icon.DecodePixelWidth = 75;
-            icon.DecodePixelHeight = 75;
-            icon.EndInit();
-            icon.Freeze();
-            return icon;
+                List<string> attributes = searchDoc.GetNodesAttributes(Constants.NamespacesXpath);
+                string format = @"((?<!\w){0}.*)";
+                Regex rx = new(String.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
+                IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
+                                                        .Distinct();
+
+                IEnumerable<SearchResultModel> keywordModels = Array.Empty<SearchResultModel>();
+                foreach (string match in matches)
+                {
+                    keywordModels = keywordModels.Concat(SearchResultModel.MakeList(searchDoc, partition.Right, match, Category.Keyword));
+                }
+                return Task.FromResult(keywordModels);
+                //return keywordModels;
+            }
+            return Task.FromResult(Enumerable.Empty<SearchResultModel>());
+            //return Enumerable.Empty<SearchResultModel>();
+        }
+
+        private Task<IEnumerable<SearchResultModel>> GetUserKeywordModels(string input)
+        {
+            (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
+
+            List<string> attributes = userSearchDoc.GetNodesAttributes(Constants.NamespacesXpath);
+            string format = @"((?<!\w){0}.*)";
+            Regex rx = new(String.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
+            IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
+                                                    .Distinct();
+
+            IEnumerable<SearchResultModel> userKeywordModels = Array.Empty<SearchResultModel>();
+            foreach (string match in matches)
+            {
+                userKeywordModels = userKeywordModels.Concat(SearchResultModel.MakeList(userSearchDoc, partition.Right, match, Category.Keyword));
+            }
+            return Task.FromResult(userKeywordModels);
+            //return userKeywordModels;
+        }
+
+        private Task<SearchResultModel[]> GetMathModels(string input)
+        {
+            if (UserInput.IsMathExpression())
+            {
+                return Task.FromResult(SearchResultModel.MakeArray(searchDoc, UserInput, "__math", Category.Math, UserInput.Eval()));
+                //return SearchResultModel.MakeArray(searchDoc, UserInput, "__math", Category.Math, UserInput.Eval());
+            }
+            return Task.FromResult(Array.Empty<SearchResultModel>());
+            //return Array.Empty<SearchResultModel>();
+        }
+
+        //private IEnumerable<SearchResultModel> GetApplications(string input)
+        //{
+        //    List<SearchResultModel> applications = new();
+        //    List<string> applicationNames = new();
+        //    Regex rx;
+        //    try
+        //    {
+        //        string format = @".*((?<![a-z]){0}.*)";
+        //        rx = new(String.Format(format, input), RegexOptions.IgnoreCase);
+        //    }
+        //    catch (RegexParseException)
+        //    {
+        //        return Enumerable.Empty<SearchResultModel>();
+        //    }
+
+        //    using (StreamReader sr = new(applicationsTxtFilePath))
+        //    {
+        //        string fileContent = sr.ReadToEnd();
+        //        MatchCollection matches = rx.Matches(fileContent);
+        //        foreach (Match match in matches)
+        //        {
+        //            applicationNames.Add(match.Value.Trim());
+        //        }
+        //    }
+        //    foreach (string name in applicationNames)
+        //    {
+        //        if (applicationsDict.TryGetValue(name, out string value))
+        //        {
+        //            applications.Add(new SearchResultModel(name, value, GetApplicationIcon(applicationImagesDirectoryPath, name)));
+        //        }
+        //    }
+        //    return applications.OrderByDescending(x => x.Name.StartsWith(input[0].ToString(), StringComparison.InvariantCultureIgnoreCase))
+        //                       .ThenBy(x => x.Name);
+        //}
+
+        //private BitmapImage GetApplicationIcon(string path, string name)
+        //{
+        //    string iconPath = Path.Combine(path, name + ".png");
+        //    if (!File.Exists(iconPath))
+        //    {
+        //        iconPath = "pack://application:,,,/Reginald;component/Images/help-light.png";
+        //    }
+
+        //    BitmapImage icon = BitmapImageHelper.MakeFromUri(iconPath);
+        //    return icon;
+        //}
+
+        private async Task<SpecialSearchResultModel> GetSpecialResultAsync(string input)
+        {
+            (string Left, string Separator, string Right) partition = input.Partition(" ");
+            if (partition.Right != String.Empty)
+            {
+                XmlNode node = specialKeywordDoc.GetNode(String.Format(Constants.NamespaceNameXpathFormat, partition.Left));
+                if (node is not null)
+                {
+                    SpecialSearchResultModel model = new()
+                    {
+                        Name = node["Name"].InnerText,
+                        ID = int.Parse(node.Attributes["ID"].Value),
+                        Keyword = node["Keyword"].InnerText,
+                        API = node["API"].InnerText,
+                        Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
+                        Description = node["Description"].InnerText,
+                        SubOneFormat = node["SubOneFormat"].InnerText,
+                        SubTwoFormat = node["SubTwoFormat"].InnerText,
+                        CanHaveSpaces = bool.Parse(node["CanHaveSpaces"].InnerText),
+                        IsEnabled = bool.Parse(node["IsEnabled"].InnerText)
+                    };
+
+                    if (model.IsEnabled)
+                    {
+                        Api api = (Api)Enum.Parse(typeof(Api), model.API);
+                        switch (api)
+                        {
+                            case Api.Styvio:
+                                StyvioStock stock = await StyvioApi.GetStock(partition.Right);
+                                model.Major = stock.CurrentPrice;
+                                model.Minor = stock.PercentText;
+                                model.SubOne = String.Format(model.SubOneFormat, stock.DailyPrices.Max());
+                                model.SubTwo = String.Format(model.SubTwoFormat, stock.DailyPrices.Min());
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                    return null;
+                }
+            }
+            return null;
         }
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)

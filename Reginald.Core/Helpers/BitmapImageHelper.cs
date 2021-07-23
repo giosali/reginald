@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace Reginald.Core.Helpers
@@ -20,6 +21,18 @@ namespace Reginald.Core.Helpers
             icon.DecodePixelHeight = 75;
             icon.EndInit();
             icon.Freeze();
+            return icon;
+        }
+
+        public static BitmapImage GetIcon(string path, string name)
+        {
+            string iconPath = Path.Combine(path, name + ".png");
+            if (!File.Exists(iconPath))
+            {
+                iconPath = "pack://application:,,,/Reginald;component/Images/help-light.png";
+            }
+
+            BitmapImage icon = MakeFromUri(iconPath);
             return icon;
         }
     }

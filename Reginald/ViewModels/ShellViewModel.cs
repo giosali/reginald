@@ -39,8 +39,16 @@ namespace Reginald.ViewModels
             string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.UserIconsDirectoryName);
             Directory.CreateDirectory(path);
 
-            // Creates "Reginald\Search.xml" in %AppData%
-            FileOperations.MakeDefaultKeywordXmlFile();
+            // Creates and updates "Reginald\Search.xml" in %AppData%
+            //FileOperations.MakeDefaultKeywordXmlFile();
+            string defaultKeywordsXml = FileOperations.GetDefaultKeywordsXml();
+            FileOperations.MakeXmlFile(defaultKeywordsXml, ApplicationPaths.XmlKeywordFilename);
+            FileOperations.UpdateXmlFile(defaultKeywordsXml, ApplicationPaths.XmlKeywordFilename);
+
+            // Creates and updates "Reginald\SpecialKeywords.xml" in %AppData%
+            string specialKeywordsXml = FileOperations.GetSpecialKeywordsXml();
+            FileOperations.MakeXmlFile(specialKeywordsXml, ApplicationPaths.XmlSpecialKeywordFilename);
+            FileOperations.UpdateXmlFile(specialKeywordsXml, ApplicationPaths.XmlSpecialKeywordFilename);
 
             FileOperations.CacheApplicationIcons();
 

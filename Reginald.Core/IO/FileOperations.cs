@@ -250,21 +250,38 @@ namespace Reginald.Core.IO
         }
 
         /// <summary>
-        /// Creates a XML file containing default keywords.
+        /// Creates a XML file on disk from provided xml content.
         /// </summary>
-        public static void MakeDefaultKeywordXmlFile()
+        /// <param name="xml">The XML content.</param>
+        /// <param name="filename">The name of the file to be saved in the application's %AppData% directory.</param>
+        public static void MakeXmlFile(string xml, string filename)
         {
             XmlDocument doc = new();
-            doc.LoadXml(GetDefaultKeywordsXml());
-            string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.XmlKeywordFilename);
+            doc.LoadXml(xml);
+            string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, filename);
+            if (!File.Exists(path))
+            {
+                doc.Save(path);
+            }
+        }
+
+        /// <summary>
+        /// Updates a XML file on disk.
+        /// </summary>
+        /// <param name="xml">The XML content to compare against.</param>
+        /// <param name="filename">The name of the XML file to update in the application's %AppData% directory.</param>
+        public static void UpdateXmlFile(string xml, string filename)
+        {
+            XmlDocument doc = new();
+            doc.LoadXml(xml);
+            string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, filename);
             if (File.Exists(path))
             {
-                XmlDocument searchDoc = new();
-                searchDoc.Load(path);
+                XmlDocument docOnDisk = new();
+                docOnDisk.Load(path);
 
-                string xpath = $"//Searches//Namespace";
-                XmlNodeList searchDocNamespaceNodes = searchDoc.SelectNodes(xpath);
-                XmlNodeList docNamespaceNodes = doc.SelectNodes(xpath);
+                XmlNodeList docOnDiskNamespaceNodes = docOnDisk.SelectNodes(Constants.NamespacesXpath);
+                XmlNodeList docNamespaceNodes = doc.SelectNodes(Constants.NamespacesXpath);
                 for (int i = 0; i < docNamespaceNodes.Count; i++)
                 {
                     try
@@ -272,13 +289,13 @@ namespace Reginald.Core.IO
                         XmlNode isEnabledNode = docNamespaceNodes[i].SelectSingleNode("IsEnabled");
                         if (isEnabledNode is not null)
                         {
-                            isEnabledNode.InnerText = searchDocNamespaceNodes[i].SelectSingleNode("IsEnabled").InnerText;
+                            isEnabledNode.InnerText = docOnDiskNamespaceNodes[i].SelectSingleNode("IsEnabled").InnerText;
                         }
                     }
                     catch (ArgumentOutOfRangeException) { }
                 }
+                doc.Save(path);
             }
-            doc.Save(path);
         }
 
         /// <summary>
@@ -345,6 +362,25 @@ namespace Reginald.Core.IO
             }
             string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
             await File.WriteAllLinesAsync(path, applicationNames);
+        }
+
+        public static string GetSpecialKeywordsXml()
+        {
+            string xml = "<?xml version=\"1.0\"?> \n" +
+                "<Searches> \n" +
+                "    <Namespace Name=\"stock\" ID=\"0\">" +
+                "        <Name>Stock</Name> \n" +
+                "        <Keyword>stock</Keyword> \n" +
+                "        <API>Styvio</API> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/calculator.png</Icon> \n" +
+                "        <Description>Stock information for '{0}'</Description> \n" +
+                "        <SubOneFormat>MAX: {0}</SubOneFormat> \n" +
+                "        <SubTwoFormat>MIN: {0}</SubTwoFormat> \n" +
+                "        <CanHaveSpaces>false</CanHaveSpaces> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
+                "    </Namespace>" +
+                "</Searches>";
+            return xml;
         }
     }
 }

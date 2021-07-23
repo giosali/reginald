@@ -55,15 +55,6 @@ namespace Reginald.Models
             }
         }
 
-        //public enum Category
-        //{
-        //    Application,
-        //    Math,
-        //    HTTP,
-        //    Keyword,
-        //    SearchEngine
-        //}
-
         public string Name { get; set; }
         public Category Category { get; set; }
         public ImageSource Icon { get; set; }
