@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Reginald.Core.IO
 {
@@ -10,6 +11,7 @@ namespace Reginald.Core.IO
         public const string UserIconsDirectoryName = "UserIcons";
         public const string XmlKeywordFilename = "Search.xml";
         public const string XmlUserKeywordFilename = "UserSearch.xml";
+        public const string XmlSpecialKeywordFilename = "SpecialKeywords.xml";
         public const string TxtFilename = "Applications.txt";
     }
 }

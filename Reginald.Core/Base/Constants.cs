@@ -10,6 +10,7 @@ namespace Reginald.Core.Base
         public const string NamespacesXpath = @"//Searches//Namespace";
         public const string NamespaceIDXpathFormat = "//Searches/Namespace[@ID='{0}']";
         public const string NamespaceNameXpathFormat = "//Searches/Namespace[@Name='{0}']";
+        public const string NamespaceNameRegexPattern = @"((?<!\w){0}.*)";
 
         // Applications
 
@@ -18,5 +19,13 @@ namespace Reginald.Core.Base
         // Extensions
 
         public const string FactorialRegexPattern = @"(?<!\.\d*)(?<!-\d*)(\d+)!";
+
+        // APIs
+
+        public const string StyvioStockEpFormat = "https://www.styvio.com/api/{0}";
+
+        // Assembly
+
+        public const string AssemblyPath = "pack://application:,,,/Reginald;component/{0}";
     }
 }
