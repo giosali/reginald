@@ -113,7 +113,7 @@ namespace Reginald.ViewModels
             parentNode.AppendChild(importedNode);
             doc.Save(path);
 
-            SelectedKeywordSearchResult.Description = String.Format(format, defaultText);
+            SelectedKeywordSearchResult.Description = string.Format(format, defaultText);
             SelectedKeywordSearchResult.IsEnabled = true;
             UserKeywordSearchResults.Add(SelectedKeywordSearchResult);
             NotifyOfPropertyChange(() => SelectedKeywordSearchResult);

@@ -95,7 +95,7 @@ namespace Reginald.ViewModels
             UpdateCurrentNode(currentNode);
             doc.Save(path);
 
-            SelectedKeywordSearchResult.Description = String.Format(format, defaultText);
+            SelectedKeywordSearchResult.Description = string.Format(format, defaultText);
             NotifyOfPropertyChange(() => SelectedKeywordSearchResult);
             NotifyOfPropertyChange(() => UserKeywordSearchResults);
             UserKeywordSearchResults.Refresh();

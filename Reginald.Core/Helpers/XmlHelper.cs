@@ -82,7 +82,7 @@ namespace Reginald.Core.Helpers
         /// <returns>The matching XML node or null.</returns>
         public static XmlNode GetCurrentNodeFromID(XmlDocument doc, int id)
         {
-            string xpath = String.Format(Constants.NamespaceIDXpathFormat, id);
+            string xpath = string.Format(Constants.NamespaceIDXpathFormat, id);
             return doc.SelectSingleNode(xpath);
         }
     }

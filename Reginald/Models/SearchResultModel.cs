@@ -28,7 +28,7 @@ namespace Reginald.Models
 
         public SearchResultModel(XmlDocument doc, string input, string attribute, Category category)
         {
-            XmlNode node = doc.GetNode(String.Format(Constants.NamespaceNameXpathFormat, attribute));
+            XmlNode node = doc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, attribute));
             if (node is null) { }
             else
             {
@@ -39,7 +39,7 @@ namespace Reginald.Models
                 string url = node["URL"].InnerText;
                 string text = input;
                 string format = node["Format"].InnerText;
-                string description = String.Format(format, text);
+                string description = string.Format(format, text);
                 string alt = node["Alt"].InnerText;
 
                 Name = name;
@@ -73,7 +73,7 @@ namespace Reginald.Models
 
         public static List<SearchResultModel> MakeList(XmlDocument doc, string input, string attribute, Category category)
         {
-            XmlNodeList nodes = doc.GetNodes(String.Format(Constants.NamespaceNameXpathFormat, attribute));
+            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
             if (nodes is null)
                 return new List<SearchResultModel>();
             else
@@ -100,8 +100,8 @@ namespace Reginald.Models
                     string url = node["URL"].InnerText;
                     string format = node["Format"].InnerText;
                     string defaultText = node["DefaultText"].InnerText;
-                    string text = input == String.Empty ? defaultText : input;
-                    string description = String.Format(format, text);
+                    string text = input == string.Empty ? defaultText : input;
+                    string description = string.Format(format, text);
                     string alt = node["Alt"].InnerText;
 
                     models.Add(new SearchResultModel
@@ -125,7 +125,7 @@ namespace Reginald.Models
 
         public static SearchResultModel[] MakeArray(XmlDocument doc, string input, string attribute, Category category, string text = null)
         {
-            XmlNodeList nodes = doc.GetNodes(String.Format(Constants.NamespaceNameXpathFormat, attribute));
+            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
             if (nodes is null)
                 return Array.Empty<SearchResultModel>();
             else
@@ -144,7 +144,7 @@ namespace Reginald.Models
                         string url = node["URL"].InnerText;
                         string format = node["Format"].InnerText;
                         text = text is not null ? text : input;
-                        string description = String.Format(format, text);
+                        string description = string.Format(format, text);
                         string alt = node["Alt"].InnerText;
 
                         models[i] = new SearchResultModel()
@@ -173,7 +173,7 @@ namespace Reginald.Models
 
         public static SearchResultModel[] MakeArray(XmlDocument doc, string attribute, Category category)
         {
-            XmlNodeList nodes = doc.GetNodes(String.Format(Constants.NamespaceNameXpathFormat, attribute));
+            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
             if (nodes is null)
                 return Array.Empty<SearchResultModel>();
             else
@@ -193,7 +193,7 @@ namespace Reginald.Models
                         string format = node["Format"].InnerText;
                         string defaultText = node["DefaultText"].InnerText;
                         string text = defaultText;
-                        string description = String.Format(format, text);
+                        string description = string.Format(format, text);
                         string alt = node["Alt"].InnerText;
                         bool isEnabled = Boolean.Parse(node["IsEnabled"].InnerText);
 

@@ -23,12 +23,12 @@ namespace Reginald.Extensions
         /// Console.WriteLine(result.Right);
         /// </code>
         /// </example>
-        public static (string Left, string Separator, string Right) Partition(this String expression, string separator)
+        public static (string Left, string Separator, string Right) Partition(this string expression, string separator)
         {
             string[] results = expression.Split(separator, 2);
             if (results.Length > 1)
                 return (results[0], separator, results[1]);
-            return (expression, String.Empty, String.Empty);
+            return (expression, string.Empty, string.Empty);
         }
 
         /// <summary>
@@ -47,12 +47,12 @@ namespace Reginald.Extensions
         /// Console.WriteLine(result.Right);
         /// </code>
         /// </example>
-        public static (string Left, string Separator, string Right) Partition(this String expression, char separator)
+        public static (string Left, string Separator, string Right) Partition(this string expression, char separator)
         {
             string[] results = expression.Split(separator, 2);
             if (results.Length > 1)
                 return (results[0], separator.ToString(), results[1]);
-            return (expression, String.Empty, String.Empty);
+            return (expression, string.Empty, string.Empty);
         }
 
         /// <summary>
@@ -71,19 +71,19 @@ namespace Reginald.Extensions
         /// Console.WriteLine(result.Right);
         /// </code>
         /// </example>
-        public static (string Left, string Separator, string Right) RPartition(this String expression, string separator)
+        public static (string Left, string Separator, string Right) RPartition(this string expression, string separator)
         {
             string[] results = expression.Split(separator);
             if (results.Length > 1)
             {
-                string left = String.Empty;
+                string left = string.Empty;
                 for (int i = 0; i < results.Length - 1; i++)
                 {
                     left += results[i];
                 }
                 return (left, separator, results[^1]);
             }
-            return (String.Empty, String.Empty, expression);
+            return (string.Empty, string.Empty, expression);
         }
 
         /// <summary>
@@ -102,19 +102,19 @@ namespace Reginald.Extensions
         /// Console.WriteLine(result.Right);
         /// </code>
         /// </example>
-        public static (string Left, string Separator, string Right) RPartition(this String expression, char separator)
+        public static (string Left, string Separator, string Right) RPartition(this string expression, char separator)
         {
             string[] results = expression.Split(separator);
             if (results.Length > 1)
             {
-                string left = String.Empty;
+                string left = string.Empty;
                 for (int i = 0; i < results.Length - 1; i++)
                 {
                     left += results[i];
                 }
                 return (left, separator.ToString(), results[^1]);
             }
-            return (String.Empty, String.Empty, expression);
+            return (string.Empty, string.Empty, expression);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Reginald.Extensions
         /// Console.WriteLine(result);
         /// </code>
         /// </example>
-        public static string Eval(this String expression)
+        public static string Eval(this string expression)
         {
             string result;
             while (true)
@@ -137,9 +137,9 @@ namespace Reginald.Extensions
                 try
                 {
                     System.Data.DataTable table = new();
-                    result = Convert.ToString(table.Compute("1.0 * " + expression, String.Empty));
+                    result = Convert.ToString(table.Compute("1.0 * " + expression, string.Empty));
                     if (result.EndsWith(".0"))
-                        result = result.Replace(".0", String.Empty);
+                        result = result.Replace(".0", string.Empty);
                     break;
                 }
                 catch (System.Data.SyntaxErrorException)
@@ -166,7 +166,7 @@ namespace Reginald.Extensions
                     Regex rx = new Regex(@"/\s*0");
                     result = rx.Replace(expression, new MatchEvaluator(m =>
                     {
-                        return String.Empty;
+                        return string.Empty;
                     }));
                     result = result.Eval();
                     if (double.TryParse(result, out double d))
@@ -190,7 +190,7 @@ namespace Reginald.Extensions
                             (string Left, string Separator, string Right) partition = x.Partition("^");
                             string b = partition.Left;
                             int power = Convert.ToInt32(partition.Right);
-                            string concat = String.Concat(Enumerable.Repeat(b + "*", Math.Abs(power)));
+                            string concat = string.Concat(Enumerable.Repeat(b + "*", Math.Abs(power)));
 
                             concat = concat.Remove(concat.Length - 1);
                             if (power < 0)
@@ -299,7 +299,7 @@ namespace Reginald.Extensions
             {
                 string x = m.Groups[1].ToString();
                 int y = int.Parse(x);
-                string concat = String.Empty;
+                string concat = string.Empty;
                 for (int i = y; i > 0; i--)
                 {
                     concat += $"{i} * ";
