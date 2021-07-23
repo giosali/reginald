@@ -20,7 +20,10 @@ namespace Reginald.Tests
             Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
 
             // Creates "Reginald\Search.xml" in %AppData%
-            FileOperations.MakeDefaultKeywordXmlFile();
+            string xml = FileOperations.GetDefaultKeywordsXml();
+            string xmlFilename = ApplicationPaths.XmlKeywordFilename;
+            FileOperations.MakeXmlFile(xml, xmlFilename);
+            FileOperations.UpdateXmlFile(xml, xmlFilename);
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
@@ -43,7 +46,10 @@ namespace Reginald.Tests
             Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
 
             // Creates "Reginald\Search.xml" in %AppData%
-            FileOperations.MakeDefaultKeywordXmlFile();
+            string xml = FileOperations.GetDefaultKeywordsXml();
+            string xmlFilename = ApplicationPaths.XmlKeywordFilename;
+            FileOperations.MakeXmlFile(xml, xmlFilename);
+            FileOperations.UpdateXmlFile(xml, xmlFilename);
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
@@ -76,7 +82,10 @@ namespace Reginald.Tests
             Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
 
             // Creates "Reginald\Search.xml" in %AppData%
-            FileOperations.MakeDefaultKeywordXmlFile();
+            string xml = FileOperations.GetDefaultKeywordsXml();
+            string xmlFilename = ApplicationPaths.XmlKeywordFilename;
+            FileOperations.MakeXmlFile(xml, xmlFilename);
+            FileOperations.UpdateXmlFile(xml, xmlFilename);
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
@@ -102,7 +111,10 @@ namespace Reginald.Tests
             Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
 
             // Creates "Reginald\Search.xml" in %AppData%
-            FileOperations.MakeDefaultKeywordXmlFile();
+            string xml = FileOperations.GetDefaultKeywordsXml();
+            string xmlFilename = ApplicationPaths.XmlKeywordFilename;
+            FileOperations.MakeXmlFile(xml, xmlFilename);
+            FileOperations.UpdateXmlFile(xml, xmlFilename);
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
@@ -127,7 +139,10 @@ namespace Reginald.Tests
             Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
 
             // Creates "Reginald\Search.xml" in %AppData%
-            FileOperations.MakeDefaultKeywordXmlFile();
+            string xml = FileOperations.GetDefaultKeywordsXml();
+            string xmlFilename = ApplicationPaths.XmlKeywordFilename;
+            FileOperations.MakeXmlFile(xml, xmlFilename);
+            FileOperations.UpdateXmlFile(xml, xmlFilename);
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
@@ -152,7 +167,10 @@ namespace Reginald.Tests
             Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
 
             // Creates "Reginald\Search.xml" in %AppData%
-            FileOperations.MakeDefaultKeywordXmlFile();
+            string xml = FileOperations.GetDefaultKeywordsXml();
+            string xmlFilename = ApplicationPaths.XmlKeywordFilename;
+            FileOperations.MakeXmlFile(xml, xmlFilename);
+            FileOperations.UpdateXmlFile(xml, xmlFilename);
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
@@ -179,7 +197,10 @@ namespace Reginald.Tests
             Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
 
             // Creates "Reginald\Search.xml" in %AppData%
-            FileOperations.MakeDefaultKeywordXmlFile();
+            string xml = FileOperations.GetDefaultKeywordsXml();
+            string xmlFilename = ApplicationPaths.XmlKeywordFilename;
+            FileOperations.MakeXmlFile(xml, xmlFilename);
+            FileOperations.UpdateXmlFile(xml, xmlFilename);
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
