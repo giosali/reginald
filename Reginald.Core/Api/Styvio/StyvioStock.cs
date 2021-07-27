@@ -10,6 +10,12 @@ namespace Reginald.Core.Api.Styvio
         [JsonProperty("ticker")]
         public string Ticker { get; set; }
 
+        [JsonProperty("shortName")]
+        public string ShortName { get; set; }
+
+        [JsonProperty("companyLocation")]
+        public string CompanyLocation { get; set; }
+
         [JsonProperty("currentPrice")]
         public string CurrentPrice { get; set; }
 

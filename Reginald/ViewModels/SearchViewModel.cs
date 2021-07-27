@@ -33,7 +33,7 @@ namespace Reginald.ViewModels
         public SearchViewModel(Indicator indicator)
         {
             Indicator = indicator;
-            SetUpViewModel();
+            SetUpViewModelAsync();
         }
 
         private string applicationImagesDirectoryPath;
@@ -130,17 +130,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private SpecialSearchResultModel _specialSearchResult;
-        public SpecialSearchResultModel SpecialSearchResult
-        {
-            get => _specialSearchResult;
-            set
-            {
-                _specialSearchResult = value;
-                NotifyOfPropertyChange(() => SpecialSearchResult);
-            }
-        }
-
         private Visibility _isVisible;
         public Visibility IsVisible
         {
@@ -152,7 +141,56 @@ namespace Reginald.ViewModels
             }
         }
 
-        private async void SetUpViewModel()
+        private BindableCollection<SpecialSearchResultModel> _specialSearchResults = new();
+        public BindableCollection<SpecialSearchResultModel> SpecialSearchResults
+        {
+            get => _specialSearchResults;
+            set
+            {
+                //if (SpecialSearchResults.Any())
+                //{
+                //    SpecialSearchResults.Clear();
+                //}
+                _specialSearchResults = value;
+                NotifyOfPropertyChange(() => SpecialSearchResults);
+            }
+        }
+
+        private SpecialSearchResultModel _specialSearchResult;
+        public SpecialSearchResultModel SpecialSearchResult
+        {
+            get => _specialSearchResult;
+            set
+            {
+                _specialSearchResult = value;
+                NotifyOfPropertyChange(() => SpecialSearchResult);
+                SpecialSearchResults.Add(SpecialSearchResult);
+                //if (SpecialSearchResult is null)
+                //{
+                //    //SpecialSearchResultVisibility = Visibility.Collapsed;
+                //    SpecialSearchResults.Clear();
+                //}
+                //else
+                //{
+                //    SpecialSearchResults.Add(SpecialSearchResult);
+                //    //SpecialSearchResultVisibility = Visibility.Visible;
+                //    SearchResults.Clear();
+                //}
+            }
+        }
+
+        private Visibility _specialSearchResultVisibility;
+        public Visibility SpecialSearchResultVisibility
+        {
+            get => _specialSearchResultVisibility;
+            set
+            {
+                _specialSearchResultVisibility = value;
+                NotifyOfPropertyChange(() => SpecialSearchResultVisibility);
+            }
+        }
+
+        private async void SetUpViewModelAsync()
         {
             Task assignmentTask = Task.Run(() =>
             {
@@ -206,53 +244,61 @@ namespace Reginald.ViewModels
 
         public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)
         {
+            SearchResults.Clear();
+            SpecialSearchResults.Clear();
             if (UserInput != string.Empty)
             {
-                IEnumerable<SearchResultModel> models;
+                IEnumerable<SearchResultModel> models = Enumerable.Empty<SearchResultModel>();
 
-                if (UserInput.HasScheme() || UserInput.HasTopLevelDomain())
+                Task<IEnumerable<SearchResultModel>> applicationModelsTask = GetApplicationModels(UserInput);
+                Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetKeywordModels(UserInput);
+                Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetUserKeywordModels(UserInput);
+                Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
+                Task<SpecialSearchResultModel> specialKeywordModelTask = GetSpecialKeywordModelAsync(UserInput);
+
+                IEnumerable<SearchResultModel> applicationModels = await applicationModelsTask;
+                IEnumerable<SearchResultModel> keywordModels = await keywordModelsTask;
+                IEnumerable<SearchResultModel> userKeywordModels = await userKeywordModelsTask;
+                SearchResultModel[] mathModels = await mathModelsTask;
+                SpecialSearchResultModel specialSearchResult = await specialKeywordModelTask;
+
+                if (specialSearchResult is not null)
                 {
-                    models = SearchResultModel.MakeArray(searchDoc, UserInput, "__http", Category.HTTP);
+                    if (specialSearchResult.IsCancelled)
+                        return;
+                    SpecialSearchResult = specialSearchResult;
                 }
                 else
                 {
-                    Task<IEnumerable<SearchResultModel>> applicationModelsTask = GetApplicationModels(UserInput);
-                    Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetKeywordModels(UserInput);
-                    Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetUserKeywordModels(UserInput);
-                    Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
-
-                    IEnumerable<SearchResultModel> applicationModels = await applicationModelsTask;
-                    IEnumerable<SearchResultModel> keywordModels = await keywordModelsTask;
-                    IEnumerable<SearchResultModel> userKeywordModels = await userKeywordModelsTask;
-                    SearchResultModel[] mathModels = await mathModelsTask;
-
-                    try
+                    if (UserInput.HasScheme() || UserInput.HasTopLevelDomain())
                     {
-                        models = applicationModels.Concat(keywordModels).Concat(userKeywordModels).Concat(mathModels);
+                        models = SearchResultModel.MakeArray(searchDoc, UserInput, "__http", Category.HTTP);
                     }
-                    catch (ArgumentNullException)
+                    else
                     {
-                        return;
-                    }
-
-                    if (!models.Any())
-                    {
-                        models = new SearchResultModel[3]
+                        try
                         {
-                            new SearchResultModel(searchDoc, UserInput, "g", Category.SearchEngine),
-                            new SearchResultModel(searchDoc, UserInput, "ddg", Category.SearchEngine),
-                            new SearchResultModel(searchDoc, UserInput, "amazon", Category.SearchEngine),
-                        };
-                    }
-                }
+                            models = applicationModels.Concat(keywordModels).Concat(userKeywordModels).Concat(mathModels);
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            return;
+                        }
 
-                SearchResults.Clear();
-                SearchResults.AddRange(models);
-                SelectedSearchResult = SearchResults[0];
-            }
-            else
-            {
-                SearchResults.Clear();
+                        if (!models.Any())
+                        {
+                            models = new SearchResultModel[3]
+                            {
+                                    new SearchResultModel(searchDoc, UserInput, "g", Category.SearchEngine),
+                                    new SearchResultModel(searchDoc, UserInput, "ddg", Category.SearchEngine),
+                                    new SearchResultModel(searchDoc, UserInput, "amazon", Category.SearchEngine),
+                            };
+                        }
+                    }
+
+                    SearchResults.AddRange(models);
+                    SelectedSearchResult = SearchResults[0];
+                }
             }
         }
 
@@ -300,7 +346,7 @@ namespace Reginald.ViewModels
         {
             if (Properties.Settings.Default.IncludeDefaultKeywords)
             {
-                (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
+                (string Left, string Separator, string Right) partition = input.Partition(" ");
 
                 List<string> attributes = searchDoc.GetNodesAttributes(Constants.NamespacesXpath);
                 string format = @"((?<!\w){0}.*)";
@@ -320,7 +366,7 @@ namespace Reginald.ViewModels
 
         private Task<IEnumerable<SearchResultModel>> GetUserKeywordModels(string input)
         {
-            (string Left, string Separator, string Right) partition = UserInput.Partition(" ");
+            (string Left, string Separator, string Right) partition = input.Partition(" ");
 
             List<string> attributes = userSearchDoc.GetNodesAttributes(Constants.NamespacesXpath);
             string format = @"((?<!\w){0}.*)";
@@ -340,49 +386,57 @@ namespace Reginald.ViewModels
         {
             if (UserInput.IsMathExpression())
             {
-                return Task.FromResult(SearchResultModel.MakeArray(searchDoc, UserInput, "__math", Category.Math, UserInput.Eval()));
+                return Task.FromResult(SearchResultModel.MakeArray(searchDoc, input, "__math", Category.Math, input.Eval()));
             }
             return Task.FromResult(Array.Empty<SearchResultModel>());
         }
 
-        private async Task<SpecialSearchResultModel> GetSpecialResultAsync(string input)
+        private CancellationTokenSource tokenSource;
+
+        private async Task<SpecialSearchResultModel> GetSpecialKeywordModelAsync(string input)
         {
+            if (tokenSource is not null)
+            {
+                tokenSource.Cancel();
+            }
             (string Left, string Separator, string Right) partition = input.Partition(" ");
             if (partition.Right != string.Empty)
             {
                 XmlNode node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, partition.Left));
                 if (node is not null)
                 {
-                    SpecialSearchResultModel model = new()
+                    SpecialSearchResultModel model = new();
+                    bool canHaveSpaces = bool.Parse(node["CanHaveSpaces"].InnerText);
+                    if (!canHaveSpaces)
                     {
-                        Name = node["Name"].InnerText,
-                        ID = int.Parse(node.Attributes["ID"].Value),
-                        Keyword = node["Keyword"].InnerText,
-                        API = node["API"].InnerText,
-                        Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
-                        Description = node["Description"].InnerText,
-                        SubOneFormat = node["SubOneFormat"].InnerText,
-                        SubTwoFormat = node["SubTwoFormat"].InnerText,
-                        CanHaveSpaces = bool.Parse(node["CanHaveSpaces"].InnerText),
-                        IsEnabled = bool.Parse(node["IsEnabled"].InnerText)
-                    };
+                        if (partition.Right.Contains(" "))
+                            return null;
+                    }
 
-                    if (model.IsEnabled)
+                    bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
+                    if (isEnabled)
                     {
-                        Api api = (Api)Enum.Parse(typeof(Api), model.API);
+                        tokenSource = new();
+                        string apiText = node["API"].InnerText;
+                        Api api = (Api)Enum.Parse(typeof(Api), apiText);
                         switch (api)
                         {
                             case Api.Styvio:
-                                StyvioStock stock = await StyvioApi.GetStock(partition.Right);
-                                model.Major = stock.CurrentPrice;
-                                model.Minor = stock.PercentText;
-                                model.SubOne = string.Format(model.SubOneFormat, stock.DailyPrices.Max());
-                                model.SubTwo = string.Format(model.SubTwoFormat, stock.DailyPrices.Min());
+                                if (partition.Right.Length > 5)
+                                {
+                                    return null;
+                                }                                        
+                                model = await SpecialSearchResultModel.MakeStyvioSpecialSearchResultModelAsync(node, partition.Right, tokenSource.Token);
+                                //if (model.Major is null)
+                                //{
+                                //    return model;
+                                //}
                                 break;
 
                             default:
                                 break;
                         }
+                        return model;
                     }
                     return null;
                 }
@@ -392,56 +446,59 @@ namespace Reginald.ViewModels
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.Key)
+            if (SearchResults.Any())
             {
-                case Key.Enter:
-                    try
-                    {
-                        HandleSelectedSearchResultBasedOnCategoryName(SelectedSearchResult.Category);
-                    }
-                    catch (NullReferenceException) { }
-                    e.Handled = true;
-                    break;
-
-                case Key.Up:
-                    try
-                    {
-                        SelectedSearchResult = SearchResults[SearchResults.IndexOf(SelectedSearchResult) - 1];
-                    }
-                    catch (ArgumentOutOfRangeException) { }
-                    break;
-
-                case Key.Down:
-                    try
-                    {
-                        SelectedSearchResult = SearchResults[SearchResults.IndexOf(SelectedSearchResult) + 1];
-                    }
-                    catch (ArgumentOutOfRangeException) { }
-                    break;
-
-                case Key.Tab:
-                    TextBox textBox = (TextBox)sender;
-                    if (SelectedSearchResult.Keyword is not null)
-                    {
-                        if (!UserInput.StartsWith(SelectedSearchResult.Keyword, StringComparison.InvariantCultureIgnoreCase))
+                switch (e.Key)
+                {
+                    case Key.Enter:
+                        try
                         {
-                            UserInput = SelectedSearchResult.Keyword;
-                            textBox.SelectionStart = UserInput.Length;
+                            HandleSelectedSearchResultBasedOnCategoryName(SelectedSearchResult.Category);
                         }
-                    }
-                    else
-                    {
-                        if (!UserInput.StartsWith(SelectedSearchResult.Name, StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            UserInput = SelectedSearchResult.Name;
-                            textBox.SelectionStart = UserInput.Length;
-                        }
-                    }
-                    e.Handled = true;
-                    break;
+                        catch (NullReferenceException) { }
+                        e.Handled = true;
+                        break;
 
-                default:
-                    break;
+                    case Key.Up:
+                        try
+                        {
+                            SelectedSearchResult = SearchResults[SearchResults.IndexOf(SelectedSearchResult) - 1];
+                        }
+                        catch (ArgumentOutOfRangeException) { }
+                        break;
+
+                    case Key.Down:
+                        try
+                        {
+                            SelectedSearchResult = SearchResults[SearchResults.IndexOf(SelectedSearchResult) + 1];
+                        }
+                        catch (ArgumentOutOfRangeException) { }
+                        break;
+
+                    case Key.Tab:
+                        TextBox textBox = (TextBox)sender;
+                        if (SelectedSearchResult.Keyword is not null)
+                        {
+                            if (!UserInput.StartsWith(SelectedSearchResult.Keyword, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                UserInput = SelectedSearchResult.Keyword;
+                                textBox.SelectionStart = UserInput.Length;
+                            }
+                        }
+                        else
+                        {
+                            if (!UserInput.StartsWith(SelectedSearchResult.Name, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                UserInput = SelectedSearchResult.Name;
+                                textBox.SelectionStart = UserInput.Length;
+                            }
+                        }
+                        e.Handled = true;
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
 

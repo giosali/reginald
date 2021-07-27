@@ -17,9 +17,6 @@ namespace Reginald.Core.Api.Styvio
                     response.EnsureSuccessStatusCode();
                     StyvioStock styvioStock = JsonConvert.DeserializeObject<StyvioStock>(await response.Content.ReadAsStringAsync());
                     return styvioStock;
-                    //IEnumerable<string> propertyNames = typeof(StyvioStock).GetProperties()
-                    //                                                       .Select(p => p.GetCustomAttribute<JsonPropertyAttribute>())
-                    //                                                       .Select(a => a.PropertyName);
                 }
             }
             catch (HttpRequestException)

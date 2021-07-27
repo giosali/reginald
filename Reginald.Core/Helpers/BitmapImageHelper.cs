@@ -24,6 +24,19 @@ namespace Reginald.Core.Helpers
             return icon;
         }
 
+        public static BitmapImage MakeHigherQualityFromUri(string uriString)
+        {
+            BitmapImage icon = new();
+            icon.BeginInit();
+            icon.UriSource = new Uri(uriString);
+            icon.CacheOption = BitmapCacheOption.OnLoad;
+            icon.DecodePixelWidth = 200;
+            icon.DecodePixelHeight = 200;
+            icon.EndInit();
+            icon.Freeze();
+            return icon;
+        }
+
         public static BitmapImage GetIcon(string path, string name)
         {
             string iconPath = Path.Combine(path, name + ".png");

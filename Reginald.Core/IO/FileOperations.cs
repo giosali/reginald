@@ -372,8 +372,9 @@ namespace Reginald.Core.IO
                 "        <Name>Stock</Name> \n" +
                 "        <Keyword>stock</Keyword> \n" +
                 "        <API>Styvio</API> \n" +
-                "        <Icon>pack://application:,,,/Reginald;component/Images/calculator.png</Icon> \n" +
-                "        <Description>Stock information for '{0}'</Description> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/Special/stock_increase.png</Icon> \n" +
+                "        <AltIcon>pack://application:,,,/Reginald;component/Images/Special/stock_decrease.png</AltIcon> \n" +
+                "        <Description>Stock information for {0}</Description> \n" +
                 "        <SubOneFormat>MAX: {0}</SubOneFormat> \n" +
                 "        <SubTwoFormat>MIN: {0}</SubTwoFormat> \n" +
                 "        <CanHaveSpaces>false</CanHaveSpaces> \n" +
