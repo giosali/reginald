@@ -35,7 +35,9 @@ namespace Reginald.Tests
             string filename = "__Dummy.xml";
             FileOperations.MakeXmlFile(xml, filename);
 
-            string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, filename);
+            string directoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName);
+            Directory.CreateDirectory(directoryPath);
+            string path = Path.Combine(directoryPath, filename);
             bool fileExists = File.Exists(path);
 
             Assert.True(fileExists);
