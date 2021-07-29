@@ -1,0 +1,31 @@
+.button--windows {
+    text-align: center;
+    color: white;
+    background: #CCCCCC;
+}
+
+/* @media (prefers-color-scheme: dark) {
+    .button--windows {
+        background: #333333;
+    }
+} */
+
+.button--windows:hover {
+    box-shadow: inset 0px 0px 0px 4px #7A7A7A;
+}
+
+/* @media (prefers-color-scheme: dark) {
+    .button--windows:hover {
+        box-shadow: inset 0px 0px 0px 4px #858585;
+    }
+} */
+
+.no-scroll {
+    height: 100%;
+    overflow: hidden;
+}
+
+.non-transparent {
+    margin: 3em auto;
+    display: block;
+}
