@@ -282,17 +282,23 @@ namespace Reginald.Core.IO
 
                 XmlNodeList docOnDiskNamespaceNodes = docOnDisk.SelectNodes(Constants.NamespacesXpath);
                 XmlNodeList docNamespaceNodes = doc.SelectNodes(Constants.NamespacesXpath);
-                for (int i = 0; i < docNamespaceNodes.Count; i++)
+                for (int i = 0; i < docOnDiskNamespaceNodes.Count; i++)
                 {
+                    XmlNode isEnabledNode = docNamespaceNodes[i].SelectSingleNode("IsEnabled");
                     try
                     {
-                        XmlNode isEnabledNode = docNamespaceNodes[i].SelectSingleNode("IsEnabled");
+                        //XmlNode isEnabledNode = docNamespaceNodes[i].SelectSingleNode("IsEnabled");
                         if (isEnabledNode is not null)
                         {
                             isEnabledNode.InnerText = docOnDiskNamespaceNodes[i].SelectSingleNode("IsEnabled").InnerText;
                         }
                     }
                     catch (ArgumentOutOfRangeException) { }
+                    catch (NullReferenceException)
+                    {
+                        XmlNode importedNode = docOnDisk.ImportNode(isEnabledNode, true);
+                        isEnabledNode.ParentNode.AppendChild(importedNode);
+                    }
                 }
                 doc.Save(path);
             }
@@ -378,6 +384,20 @@ namespace Reginald.Core.IO
                 "        <SubOneFormat>MAX: {0}</SubOneFormat> \n" +
                 "        <SubTwoFormat>MIN: {0}</SubTwoFormat> \n" +
                 "        <CanHaveSpaces>false</CanHaveSpaces> \n" +
+                "        <IsCommand>false</IsCommand> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
+                "    </Namespace>" +
+                "    <Namespace Name=\"ip\" ID=\"1\">" +
+                "        <Name>IP Address</Name> \n" +
+                "        <Keyword>ip</Keyword> \n" +
+                "        <API>Cloudflare</API> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/Special/ip_address.png</Icon> \n" +
+                "        <AltIcon></AltIcon> \n" +
+                "        <Description>{0}</Description> \n" +
+                "        <SubOneFormat></SubOneFormat> \n" +
+                "        <SubTwoFormat></SubTwoFormat> \n" +
+                "        <CanHaveSpaces>false</CanHaveSpaces> \n" +
+                "        <IsCommand>true</IsCommand> \n" +
                 "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
                 "</Searches>";
