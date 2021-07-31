@@ -12,6 +12,8 @@
   <img alt="ci workflow" src="https://github.com/GBS3/reginald/actions/workflows/ci.yml/badge.svg">
   <img alt="license" src="https://img.shields.io/github/license/gbs3/reginald">
   <img alt="version" src="https://img.shields.io/github/v/release/gbs3/reginald">
+  <img alt="os" src="https://img.shields.io/badge/Windows-0078D6?style=flat&logo=windows&logoColor=white">
+  <img alt="language" src="https://img.shields.io/badge/c%23-%23239120.svg?style=flat&logo=c-sharp&logoColor=white">
 </p>
 
 ## Features
