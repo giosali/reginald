@@ -23,6 +23,7 @@ namespace Reginald.Core.Base
         // APIs
 
         public const string StyvioStockEpFormat = "https://www.styvio.com/api/{0}";
+        public const string CloudflareEp = "https://cloudflare-quic.com/b/ip";
 
         // Assembly
 
