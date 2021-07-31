@@ -115,6 +115,7 @@
                     </i:Interaction.Triggers>
                 </ToggleButton>
             </StackPanel>
+            <!-- Default keywords -->
             <Label Content="Default keywords"
                    Margin="30 32 0 0"/>
             <DataGrid x:Name="KeywordSearchResults"
@@ -169,6 +170,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
+            <!-- User keywords -->
             <Label Content="Your personal keywords"
                    Margin="30 0 0 0"/>
             <DataGrid x:Name="UserKeywordSearchResults"
@@ -226,6 +228,7 @@
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         Margin="0 15 0 0">
+                <!-- Delete keyword button -->
                 <Button Padding="5 2.5"
                         Margin="0 0 5 0"
                         Background="#4A4A4A"
@@ -250,6 +253,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                <!-- Edit keyword button -->
                 <Button Padding="5 2.5"
                         Margin="0 0 5 0"
                         Background="#4A4A4A"
@@ -274,6 +278,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                <!-- Create keyword button -->
                 <Button Style="{StaticResource ButtonRevealStyle}"
                         Padding="5 2.5"
                         Background="#4A4A4A"
@@ -290,6 +295,74 @@
                     </i:Interaction.Triggers>
                 </Button>
             </StackPanel>
+            <!-- Special Keywords -->
+            <TextBlock Style="{StaticResource TextBlockParagraph}"
+                       Text="Include special keyword searches in your search results (requires an internet connection)"
+                       Margin="0 64 0 0"/>
+            <ToggleButton IsChecked="{Binding Settings.IncludeSpecialKeywords}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="IncludeSpecialKeywordsToggleButton_Click">
+                            <cal:Parameter Value="$this"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ToggleButton>
+            <Label Content="Special keywords"
+                   Margin="30 16 0 0"/>
+            <DataGrid x:Name="SpecialKeywordSearchResults"
+                      SelectedItem="{Binding Path=SelectedSpecialKeywordSearchResult, Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" SelectionMode="Single"
+                      HeadersVisibility="Column"
+                      Margin="30 0 0 0"
+                      BorderBrush="Gray">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Icon"
+                                            IsReadOnly="True"
+                                            Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Icon}"
+                                       Width="20" Height="20"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Keyword" Binding="{Binding Keyword}"
+                                        IsReadOnly="True"
+                                        Width="*"
+                                        FontSize="16" FontWeight="Light"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"
+                                        IsReadOnly="True"
+                                        Width="2*"
+                                        FontSize="16" FontWeight="Light"/>
+                    <DataGridTemplateColumn Header="Enabled" 
+                                            IsReadOnly="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsEnabled}"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <cal:ActionMessage MethodName="SpecialKeywordSearchResults_IsCheckedChanged">
+                                                <cal:Parameter Value="{Binding ElementName=SpecialKeywordSearchResults}"/>
+                                                <cal:Parameter Value="$eventargs"/>
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <cal:ActionMessage MethodName="SpecialKeywordSearchResults_IsCheckedChanged">
+                                                <cal:Parameter Value="{Binding ElementName=SpecialKeywordSearchResults}"/>
+                                                <cal:Parameter Value="$eventargs"/>
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

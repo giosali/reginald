@@ -24,6 +24,7 @@
     <None Remove="Images\pinterest.png" />
     <None Remove="Images\reddit.png" />
     <None Remove="Images\reginald.png" />
+    <None Remove="Images\Special\ip_address.png" />
     <None Remove="Images\Special\stock_decrease.png" />
     <None Remove="Images\Special\stock_increase.png" />
     <None Remove="Images\tiktok.png" />
@@ -90,6 +91,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\reginald.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Special\ip_address.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Special\stock_decrease.png">

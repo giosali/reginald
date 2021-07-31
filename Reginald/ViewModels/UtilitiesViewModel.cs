@@ -22,9 +22,11 @@ namespace Reginald.ViewModels
         {
             LoadKeywordSearchResults(ApplicationPaths.XmlKeywordFilename, KeywordSearchResults);
             LoadKeywordSearchResults(ApplicationPaths.XmlUserKeywordFilename, UserKeywordSearchResults);
+            LoadSpecialKeywordSearchResults(ApplicationPaths.XmlSpecialKeywordFilename, SpecialKeywordSearchResults);
 
             Settings.IncludeInstalledApplications = Properties.Settings.Default.IncludeInstalledApplications;
             Settings.IncludeDefaultKeywords = Properties.Settings.Default.IncludeDefaultKeywords;
+            Settings.IncludeSpecialKeywords = Properties.Settings.Default.IncludeSpecialKeywords;
         }
 
         private SettingsModel _settings = new();
@@ -82,6 +84,39 @@ namespace Reginald.ViewModels
             }
         }
 
+        private BindableCollection<SpecialSearchResultModel> _specialKeywordSearchResults = new();
+        public BindableCollection<SpecialSearchResultModel> SpecialKeywordSearchResults
+        {
+            get => _specialKeywordSearchResults;
+            set
+            {
+                _specialKeywordSearchResults = value;
+                NotifyOfPropertyChange(() => SpecialKeywordSearchResults);
+            }
+        }
+
+        private SpecialSearchResultModel _specialKeywordSearchResult = new();
+        public SpecialSearchResultModel SpecialKeywordSearchResult
+        {
+            get => _specialKeywordSearchResult;
+            set
+            {
+                _specialKeywordSearchResult = value;
+                NotifyOfPropertyChange(() => SpecialKeywordSearchResult);
+            }
+        }
+
+        private SpecialSearchResultModel _selectedKeywordSpecialSearchResult = new();
+        public SpecialSearchResultModel SelectedSpecialKeywordSearchResult
+        {
+            get => _selectedKeywordSpecialSearchResult;
+            set
+            {
+                _selectedKeywordSpecialSearchResult = value;
+                NotifyOfPropertyChange(() => SelectedSpecialKeywordSearchResult);
+            }
+        }
+
         private void LoadKeywordSearchResults(string name, BindableCollection<SearchResultModel> collection)
         {
             XmlDocument doc = XmlHelper.GetXmlDocument(name);
@@ -94,6 +129,17 @@ namespace Reginald.ViewModels
                 keywordSearchResults = keywordSearchResults.Concat(SearchResultModel.MakeArray(doc, attribute, Category.Keyword));
             }
             collection.AddRange(keywordSearchResults);
+        }
+
+        private void LoadSpecialKeywordSearchResults(string name, BindableCollection<SpecialSearchResultModel> collection)
+        {
+            XmlDocument doc = XmlHelper.GetXmlDocument(name);
+            XmlNodeList nodes = doc.GetNodes(Constants.NamespacesXpath);
+
+            foreach (XmlNode node in nodes)
+            {
+                collection.Add(new SpecialSearchResultModel(node, string.Empty));
+            }
         }
 
         public void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -119,6 +165,14 @@ namespace Reginald.ViewModels
             Settings.IncludeDefaultKeywords = value;
         }
 
+        public void IncludeSpecialKeywordsToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool value = !Properties.Settings.Default.IncludeSpecialKeywords;
+            Properties.Settings.Default.IncludeSpecialKeywords = value;
+            Properties.Settings.Default.Save();
+            Settings.IncludeSpecialKeywords = value;
+        }
+
         public void KeywordSearchResults_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
             ChangeIsEnabledState(ApplicationPaths.XmlKeywordFilename, SelectedKeywordSearchResult.ID);
@@ -126,7 +180,12 @@ namespace Reginald.ViewModels
 
         public void UserKeywordSearchResults_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
-            ChangeIsEnabledState(ApplicationPaths.XmlUserKeywordFilename, SelectedKeywordSearchResult.ID);
+            ChangeIsEnabledState(ApplicationPaths.XmlUserKeywordFilename, SelectedUserKeywordSearchResult.ID);
+        }
+
+        public void SpecialKeywordSearchResults_IsCheckedChanged(object sender, RoutedEventArgs e)
+        {
+            ChangeIsEnabledState(ApplicationPaths.XmlSpecialKeywordFilename, SelectedSpecialKeywordSearchResult.ID);
         }
 
         public async void CreateKeyword_ClickAsync(object sender, RoutedEventArgs e)
@@ -166,10 +225,11 @@ namespace Reginald.ViewModels
         private static void ChangeIsEnabledState(string name, int id)
         {
             XmlDocument doc = XmlHelper.GetXmlDocument(name);
-            string xpath = $"//Searches/Namespace[@ID='{id}']";
+            string xpath = string.Format(Constants.NamespaceIDXpathFormat, id);
+            //string xpath = $"//Searches/Namespace[@ID='{id}']";
             XmlNode node = doc.SelectSingleNode(xpath);
             XmlNode isEnabledNode = node.SelectSingleNode("IsEnabled");
-            bool isEnabled = Boolean.Parse(isEnabledNode.InnerText);
+            bool isEnabled = bool.Parse(isEnabledNode.InnerText);
             isEnabledNode.InnerText = (!isEnabled).ToString().ToLower();
             XmlHelper.SaveXmlDocument(doc, name);
         }

@@ -2,6 +2,7 @@
 {
     public enum Api
     {
-        Styvio
+        Styvio,
+        Cloudflare
     }
 }

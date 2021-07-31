@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using Reginald.Core.Api.Styvio;
 using Reginald.Core.Base;
 using Reginald.Core.Enums;
 using Reginald.Core.Helpers;
@@ -147,10 +146,6 @@ namespace Reginald.ViewModels
             get => _specialSearchResults;
             set
             {
-                //if (SpecialSearchResults.Any())
-                //{
-                //    SpecialSearchResults.Clear();
-                //}
                 _specialSearchResults = value;
                 NotifyOfPropertyChange(() => SpecialSearchResults);
             }
@@ -165,28 +160,6 @@ namespace Reginald.ViewModels
                 _specialSearchResult = value;
                 NotifyOfPropertyChange(() => SpecialSearchResult);
                 SpecialSearchResults.Add(SpecialSearchResult);
-                //if (SpecialSearchResult is null)
-                //{
-                //    //SpecialSearchResultVisibility = Visibility.Collapsed;
-                //    SpecialSearchResults.Clear();
-                //}
-                //else
-                //{
-                //    SpecialSearchResults.Add(SpecialSearchResult);
-                //    //SpecialSearchResultVisibility = Visibility.Visible;
-                //    SearchResults.Clear();
-                //}
-            }
-        }
-
-        private Visibility _specialSearchResultVisibility;
-        public Visibility SpecialSearchResultVisibility
-        {
-            get => _specialSearchResultVisibility;
-            set
-            {
-                _specialSearchResultVisibility = value;
-                NotifyOfPropertyChange(() => SpecialSearchResultVisibility);
             }
         }
 
@@ -215,6 +188,10 @@ namespace Reginald.ViewModels
             System.Drawing.Color searchInputTextColor;
             System.Drawing.Color searchInputCaretColor;
             System.Drawing.Color searchViewBorderColor;
+            System.Drawing.Color specialSearchResultSubColor;
+            System.Drawing.Color specialSearchResultBorderColor;
+            System.Drawing.Color specialSearchResultSecondaryColor;
+            System.Drawing.Color specialSearchResultMainColor;
             if (settings.IsDarkModeEnabled)
             {
                 searchBackgroundColor = settings.SearchBackgroundColorDark;
@@ -223,6 +200,10 @@ namespace Reginald.ViewModels
                 searchInputTextColor = settings.SearchInputTextColorDark;
                 searchInputCaretColor = settings.SearchInputCaretColorDark;
                 searchViewBorderColor = settings.SearchViewBorderColorDark;
+                specialSearchResultSubColor = settings.SpecialSearchResultSubColorDark;
+                specialSearchResultBorderColor = settings.SpecialSearchResultBorderColorDark;
+                specialSearchResultSecondaryColor = settings.SpecialSearchResultSecondaryColorDark;
+                specialSearchResultMainColor = settings.SpecialSearchResultMainColorDark;
             }
             else
             {
@@ -232,14 +213,22 @@ namespace Reginald.ViewModels
                 searchInputTextColor = settings.SearchInputTextColorLight;
                 searchInputCaretColor = settings.SearchInputCaretColorLight;
                 searchViewBorderColor = settings.SearchViewBorderColorLight;
+                specialSearchResultSubColor = settings.SpecialSearchResultSubColorLight;
+                specialSearchResultBorderColor = settings.SpecialSearchResultBorderColorLight;
+                specialSearchResultSecondaryColor = settings.SpecialSearchResultSecondaryColorLight;
+                specialSearchResultMainColor = settings.SpecialSearchResultMainColorLight;
             }
 
             Settings.SearchBackgroundColor = Color.FromRgb(searchBackgroundColor.R, searchBackgroundColor.G, searchBackgroundColor.B);
-            Settings.SearchDescriptionTextBrush = new SolidColorBrush(Color.FromRgb(searchDescriptionTextColor.R, searchDescriptionTextColor.G, searchDescriptionTextColor.B));
-            Settings.SearchAltTextBrush = new SolidColorBrush(Color.FromRgb(searchAltTextColor.R, searchAltTextColor.G, searchAltTextColor.B));
-            Settings.SearchInputTextBrush = new SolidColorBrush(Color.FromRgb(searchInputTextColor.R, searchInputTextColor.G, searchInputTextColor.B));
-            Settings.SearchInputCaretBrush = new SolidColorBrush(Color.FromRgb(searchInputCaretColor.R, searchInputCaretColor.G, searchInputCaretColor.B));
-            Settings.SearchViewBorderBrush = !settings.IsSearchBoxBorderEnabled ? Brushes.Transparent : new SolidColorBrush(Color.FromRgb(searchViewBorderColor.R, searchViewBorderColor.G, searchViewBorderColor.B));
+            Settings.SearchDescriptionTextBrush = SolidColorBrushHelper.FromRgb(searchDescriptionTextColor);
+            Settings.SearchAltTextBrush = SolidColorBrushHelper.FromRgb(searchAltTextColor);
+            Settings.SearchInputTextBrush = SolidColorBrushHelper.FromRgb(searchInputTextColor);
+            Settings.SearchInputCaretBrush = SolidColorBrushHelper.FromRgb(searchInputCaretColor);
+            Settings.SearchViewBorderBrush = !settings.IsSearchBoxBorderEnabled ? Brushes.Transparent : SolidColorBrushHelper.FromRgb(searchViewBorderColor);
+            Settings.SpecialSearchResultSubBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSubColor);
+            Settings.SpecialSearchResultBorderBrush = SolidColorBrushHelper.FromRgb(specialSearchResultBorderColor);
+            Settings.SpecialSearchResultSecondaryBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSecondaryColor);
+            Settings.SpecialSearchResultMainBrush = SolidColorBrushHelper.FromRgb(specialSearchResultMainColor);
         }
 
         public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)
@@ -392,53 +381,88 @@ namespace Reginald.ViewModels
         }
 
         private CancellationTokenSource tokenSource;
-
         private async Task<SpecialSearchResultModel> GetSpecialKeywordModelAsync(string input)
         {
-            if (tokenSource is not null)
+            if (Properties.Settings.Default.IncludeSpecialKeywords)
             {
-                tokenSource.Cancel();
-            }
-            (string Left, string Separator, string Right) partition = input.Partition(" ");
-            if (partition.Right != string.Empty)
-            {
-                XmlNode node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, partition.Left));
+                if (tokenSource is not null)
+                {
+                    tokenSource.Cancel();
+                }
+
+                XmlNode node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, input));
                 if (node is not null)
                 {
-                    SpecialSearchResultModel model = new();
-                    bool canHaveSpaces = bool.Parse(node["CanHaveSpaces"].InnerText);
-                    if (!canHaveSpaces)
-                    {
-                        if (partition.Right.Contains(" "))
-                            return null;
-                    }
-
                     bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
                     if (isEnabled)
                     {
-                        tokenSource = new();
-                        string apiText = node["API"].InnerText;
-                        Api api = (Api)Enum.Parse(typeof(Api), apiText);
-                        switch (api)
+                        bool isCommand = bool.Parse(node["IsCommand"].InnerText);
+                        if (isCommand)
                         {
-                            case Api.Styvio:
-                                if (partition.Right.Length > 5)
-                                {
-                                    return null;
-                                }                                        
-                                model = await SpecialSearchResultModel.MakeStyvioSpecialSearchResultModelAsync(node, partition.Right, tokenSource.Token);
-                                //if (model.Major is null)
-                                //{
-                                //    return model;
-                                //}
-                                break;
+                            tokenSource = new();
+                            SpecialSearchResultModel model = new();
 
-                            default:
-                                break;
+                            string apiText = node["API"].InnerText;
+                            Api api = (Api)Enum.Parse(typeof(Api), apiText);
+                            switch (api)
+                            {
+                                case Api.Cloudflare:
+                                    model = await SpecialSearchResultModel.MakeCloudflareSpecialSearchResultModelAsync(node, tokenSource.Token);
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                            return model;
                         }
-                        return model;
                     }
-                    return null;
+                }
+                else
+                {
+                    (string Left, string Separator, string Right) partition = input.Partition(" ");
+                    if (partition.Right != string.Empty)
+                    {
+                        node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, partition.Left));
+                        if (node is not null)
+                        {
+                            bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
+                            if (isEnabled)
+                            {
+                                bool isCommand = bool.Parse(node["IsCommand"].InnerText);
+                                if (!isCommand)
+                                {
+                                    bool canHaveSpaces = bool.Parse(node["CanHaveSpaces"].InnerText);
+                                    if (!canHaveSpaces)
+                                    {
+                                        if (partition.Right.Contains(" "))
+                                        {
+                                            return null;
+                                        }
+                                    }
+
+                                    tokenSource = new();
+                                    SpecialSearchResultModel model = new();
+
+                                    string apiText = node["API"].InnerText;
+                                    Api api = (Api)Enum.Parse(typeof(Api), apiText);
+                                    switch (api)
+                                    {
+                                        case Api.Styvio:
+                                            if (partition.Right.Length > 5)
+                                            {
+                                                return null;
+                                            }                                                
+                                            model = await SpecialSearchResultModel.MakeStyvioSpecialSearchResultModelAsync(node, partition.Right, tokenSource.Token);
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                    return model;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             return null;

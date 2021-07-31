@@ -9,7 +9,7 @@
       <Value Profile="(Default)">23, 23, 23</Value>
     </Setting>
     <Setting Name="SearchBackgroundColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">204, 204, 204</Value>
+      <Value Profile="(Default)">232, 232, 232</Value>
     </Setting>
     <Setting Name="SearchDescriptionTextColorDark" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">White</Value>
@@ -21,7 +21,7 @@
       <Value Profile="(Default)">LightGray</Value>
     </Setting>
     <Setting Name="SearchAltTextColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">64, 64, 64</Value>
+      <Value Profile="(Default)">34, 34, 34</Value>
     </Setting>
     <Setting Name="SearchInputTextColorDark" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">White</Value>
@@ -48,6 +48,33 @@
       <Value Profile="(Default)">Black</Value>
     </Setting>
     <Setting Name="IsSearchBoxBorderEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SpecialSearchResultSubColorDark" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">DarkGray</Value>
+    </Setting>
+    <Setting Name="SpecialSearchResultSubColorLight" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">34, 34, 34</Value>
+    </Setting>
+    <Setting Name="SpecialSearchResultBorderColorDark" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">183, 173, 172</Value>
+    </Setting>
+    <Setting Name="SpecialSearchResultBorderColorLight" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">72, 82, 83</Value>
+    </Setting>
+    <Setting Name="SpecialSearchResultSecondaryColorDark" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">LightGray</Value>
+    </Setting>
+    <Setting Name="SpecialSearchResultSecondaryColorLight" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">44, 44, 44</Value>
+    </Setting>
+    <Setting Name="SpecialSearchResultMainColorDark" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="SpecialSearchResultMainColorLight" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="IncludeSpecialKeywords" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

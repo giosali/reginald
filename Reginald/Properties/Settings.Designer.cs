@@ -46,7 +46,7 @@ namespace Reginald.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("204, 204, 204")]
+        [global::System.Configuration.DefaultSettingValueAttribute("232, 232, 232")]
         public global::System.Drawing.Color SearchBackgroundColorLight {
             get {
                 return ((global::System.Drawing.Color)(this["SearchBackgroundColorLight"]));
@@ -82,7 +82,7 @@ namespace Reginald.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("64, 64, 64")]
+        [global::System.Configuration.DefaultSettingValueAttribute("34, 34, 34")]
         public global::System.Drawing.Color SearchAltTextColorLight {
             get {
                 return ((global::System.Drawing.Color)(this["SearchAltTextColorLight"]));
@@ -176,6 +176,90 @@ namespace Reginald.Properties {
             }
             set {
                 this["IsSearchBoxBorderEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DarkGray")]
+        public global::System.Drawing.Color SpecialSearchResultSubColorDark {
+            get {
+                return ((global::System.Drawing.Color)(this["SpecialSearchResultSubColorDark"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("34, 34, 34")]
+        public global::System.Drawing.Color SpecialSearchResultSubColorLight {
+            get {
+                return ((global::System.Drawing.Color)(this["SpecialSearchResultSubColorLight"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("183, 173, 172")]
+        public global::System.Drawing.Color SpecialSearchResultBorderColorDark {
+            get {
+                return ((global::System.Drawing.Color)(this["SpecialSearchResultBorderColorDark"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("72, 82, 83")]
+        public global::System.Drawing.Color SpecialSearchResultBorderColorLight {
+            get {
+                return ((global::System.Drawing.Color)(this["SpecialSearchResultBorderColorLight"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightGray")]
+        public global::System.Drawing.Color SpecialSearchResultSecondaryColorDark {
+            get {
+                return ((global::System.Drawing.Color)(this["SpecialSearchResultSecondaryColorDark"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("44, 44, 44")]
+        public global::System.Drawing.Color SpecialSearchResultSecondaryColorLight {
+            get {
+                return ((global::System.Drawing.Color)(this["SpecialSearchResultSecondaryColorLight"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color SpecialSearchResultMainColorDark {
+            get {
+                return ((global::System.Drawing.Color)(this["SpecialSearchResultMainColorDark"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color SpecialSearchResultMainColorLight {
+            get {
+                return ((global::System.Drawing.Color)(this["SpecialSearchResultMainColorLight"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IncludeSpecialKeywords {
+            get {
+                return ((bool)(this["IncludeSpecialKeywords"]));
+            }
+            set {
+                this["IncludeSpecialKeywords"] = value;
             }
         }
     }
