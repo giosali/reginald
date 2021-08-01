@@ -75,7 +75,7 @@ namespace Reginald.Models
                 model.MajorTwo = stock.ShortName;
                 model.Minor = string.Format("{0} ({1})", priceDifferenceText, stock.PercentText);
                 model.MinorTwo = stock.CompanyLocation;
-                model.MinorTextBrush = stock.PercentText.StartsWith("-") ? Brushes.Red : Brushes.LimeGreen;
+                model.MinorTextBrush = stock.PercentText.StartsWith("-") ? Brushes.Red : Brushes.Green;
                 model.SubOne = string.Format(model.SubOneFormat, stock.DailyPrices.Max());
                 model.SubTwo = string.Format(model.SubTwoFormat, stock.DailyPrices.Min());
 
