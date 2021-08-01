@@ -33,7 +33,8 @@ namespace Reginald.Views
 
         public SearchView()
         {
-            Left = (SystemParameters.WorkArea.Width - ActualWidth) / 4;
+            double windowWidth = 600;
+            Left = (SystemParameters.WorkArea.Width - windowWidth) / 2;
             Top = (SystemParameters.WorkArea.Height - ActualHeight) / 8;
             InitializeComponent();
 

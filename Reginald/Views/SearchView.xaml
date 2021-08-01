@@ -25,7 +25,6 @@
         ResizeMode="NoResize"
         SizeToContent="Height"
         BorderBrush="{Binding Settings.SearchViewBorderBrush}"
-        
         WindowStartupLocation="Manual"
         WindowStyle="None"
         Topmost="True"
