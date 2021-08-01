@@ -33,10 +33,10 @@ namespace Reginald.Tests
                 "    </Namespace>" +
                 "</Searches>";
             string filename = "__Dummy.xml";
-            FileOperations.MakeXmlFile(xml, filename);
-
             string directoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName);
             Directory.CreateDirectory(directoryPath);
+            FileOperations.MakeXmlFile(xml, filename);
+
             string path = Path.Combine(directoryPath, filename);
             bool fileExists = File.Exists(path);
 
