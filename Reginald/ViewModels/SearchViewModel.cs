@@ -3,6 +3,7 @@ using Reginald.Core.Base;
 using Reginald.Core.Enums;
 using Reginald.Core.Helpers;
 using Reginald.Core.IO;
+using Reginald.Core.Utils;
 using Reginald.Extensions;
 using Reginald.Models;
 using System;
@@ -40,6 +41,7 @@ namespace Reginald.ViewModels
         private XmlDocument searchDoc;
         private XmlDocument userSearchDoc;
         private XmlDocument specialKeywordDoc;
+        //private XmlDocument commandsDoc;
         private Dictionary<string, string> applicationsDict;
 
         private Indicator _indicator;
@@ -71,26 +73,26 @@ namespace Reginald.ViewModels
             {
                 _userInput = value;
                 NotifyOfPropertyChange(() => UserInput);
-                foreach (SearchResultModel model in SearchResults)
-                {
-                    if (model.Category == Category.Application)
-                    {
-                        continue;
-                    }
-                    else if (model.Category == Category.Math)
-                    {
-                        model.Text = value.Eval();
-                    }
-                    else if (model.Category == Category.Keyword)
-                    {
-                        (string left, _, string right) = value.Partition(" ");
-                        model.Text = right == string.Empty ? model.DefaultText : right;
-                    }
-                    else
-                        model.Text = value;
+                //foreach (SearchResultModel model in SearchResults)
+                //{
+                //    if (model.Category == Category.Application)
+                //    {
+                //        continue;
+                //    }
+                //    else if (model.Category == Category.Math)
+                //    {
+                //        model.Text = value.Eval();
+                //    }
+                //    else if (model.Category == Category.Keyword)
+                //    {
+                //        (string left, _, string right) = value.Partition(" ");
+                //        model.Text = right == string.Empty ? model.DefaultText : right;
+                //    }
+                //    else
+                //        model.Text = value;
 
-                    model.Description = string.Format(model.Format, model.Text);
-                }
+                //    model.Description = string.Format(model.Format, model.Text);
+                //}
             }
         }
 
@@ -172,6 +174,7 @@ namespace Reginald.ViewModels
                 searchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
                 userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
                 specialKeywordDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSpecialKeywordFilename);
+                //commandsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlCommandsFilename);
             });
             Task<Dictionary<string, string>> applicationsDictTask = Task.Run(() =>
             {
@@ -244,12 +247,14 @@ namespace Reginald.ViewModels
                 Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetUserKeywordModels(UserInput);
                 Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
                 Task<SpecialSearchResultModel> specialKeywordModelTask = GetSpecialKeywordModelAsync(UserInput);
+                //Task<SearchResultModel> commandKeywordModelTask = GetCommandModelsAsync(UserInput);
 
                 IEnumerable<SearchResultModel> applicationModels = await applicationModelsTask;
                 IEnumerable<SearchResultModel> keywordModels = await keywordModelsTask;
                 IEnumerable<SearchResultModel> userKeywordModels = await userKeywordModelsTask;
                 SearchResultModel[] mathModels = await mathModelsTask;
                 SpecialSearchResultModel specialSearchResult = await specialKeywordModelTask;
+                //SearchResultModel commandKeywordResult = await commandKeywordModelTask;
 
                 if (specialSearchResult is not null)
                 {
@@ -346,6 +351,11 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> keywordModels = Array.Empty<SearchResultModel>();
                 foreach (string match in matches)
                 {
+                    if (partition.Separator != string.Empty)
+                    {
+                        if (partition.Left != match)
+                            continue;
+                    }
                     keywordModels = keywordModels.Concat(SearchResultModel.MakeList(searchDoc, partition.Right, match, Category.Keyword));
                 }
                 return Task.FromResult(keywordModels);
@@ -366,6 +376,11 @@ namespace Reginald.ViewModels
             IEnumerable<SearchResultModel> userKeywordModels = Array.Empty<SearchResultModel>();
             foreach (string match in matches)
             {
+                if (partition.Separator != string.Empty)
+                {
+                    if (partition.Left != match)
+                        continue;
+                }
                 userKeywordModels = userKeywordModels.Concat(SearchResultModel.MakeList(userSearchDoc, partition.Right, match, Category.Keyword));
             }
             return Task.FromResult(userKeywordModels);
@@ -451,7 +466,7 @@ namespace Reginald.ViewModels
                                             if (partition.Right.Length > 5)
                                             {
                                                 return null;
-                                            }                                                
+                                            }
                                             model = await SpecialSearchResultModel.MakeStyvioSpecialSearchResultModelAsync(node, partition.Right, tokenSource.Token);
                                             break;
 
@@ -467,6 +482,67 @@ namespace Reginald.ViewModels
             }
             return null;
         }
+
+        //private async Task<SearchResultModel> GetCommandModelsAsync(string input)
+        //{
+        //    (string keyword, _, string statement) = input.Partition(" ");
+
+        //    XmlNode node = commandsDoc.GetNode(keyword);
+        //    if (node is not null)
+        //    {
+        //        Command command = (Command)Enum.Parse(typeof(Command), keyword.Capitalize());
+        //        switch (command)
+        //        {
+        //            case Command.Timer:
+        //                SearchResultModel model = new();
+        //                int minSplit = int.Parse(node["MinSplit"].InnerText);
+        //                string[] substrings = statement.Split(' ', minSplit);
+        //                if (substrings.Length > 1)
+        //                {
+        //                    string time = substrings[0];
+        //                    string remainder = substrings[^1];
+        //                    if (double.TryParse(time, out double result))
+        //                    {
+        //                        string firstWord = remainder.FirstWord(out string rest);
+        //                        double? seconds = await TimeUtils.GetTimeAsSecondsAsync(result, firstWord);
+        //                        string unit;
+        //                        string text;
+        //                        if (seconds is null)
+        //                        {
+        //                            seconds = result;
+        //                            unit = TimeUtils.GetTimeUnit("s", result);
+        //                            text = remainder;
+        //                        }
+        //                        else
+        //                        {
+        //                            unit = TimeUtils.GetTimeUnit(firstWord, result);
+        //                            text = rest;
+        //                        }
+        //                        string description = string.Format(node["Format"].InnerText, time, unit, text);
+        //                        model = new(node, description, Category.Command);
+        //                        return model;
+        //                    }
+        //                }
+        //                else if (substrings.Length == 1)
+        //                {
+        //                    string time = substrings[0];
+        //                    if (double.TryParse(time, out double seconds))
+        //                    {
+        //                        string unit = TimeUtils.GetTimeUnit("s", seconds);
+        //                        string description = string.Format(node["Format"].InnerText, time, unit, node["DefaultText"].InnerText);
+        //                        model = new(node, description, Category.Command);
+        //                        return model;
+        //                    }
+        //                }
+
+        //                break;
+
+        //            default:
+        //                break;
+        //        }
+        //    }
+        //    return null;
+        //}
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
