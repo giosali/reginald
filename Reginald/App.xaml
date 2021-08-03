@@ -10,7 +10,7 @@
              <!-- NotifyIcon -->
             <tb:TaskbarIcon x:Key="ReginaldNotifyIcon"
                             IconSource="pack://application:,,,/Reginald;component/Reginald.ico"
-                            ToolTipText="Reginald v0.1.0"
+                            ToolTipText="Reginald v0.2.1"
                             MenuActivation="LeftOrRightClick">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>
