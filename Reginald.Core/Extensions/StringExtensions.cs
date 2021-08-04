@@ -144,7 +144,7 @@ namespace Reginald.Extensions
                 }
                 catch (System.Data.SyntaxErrorException)
                 {
-                    Regex rx = new Regex($@"{Constants.FactorialRegexPattern}");
+                    Regex rx = new($@"{Constants.FactorialRegexPattern}");
                     MatchCollection matches = rx.Matches(expression);
                     if (matches.Count > 0)
                     {
@@ -163,7 +163,7 @@ namespace Reginald.Extensions
                 }
                 catch (DivideByZeroException)
                 {
-                    Regex rx = new Regex(@"/\s*0");
+                    Regex rx = new(@"/\s*0");
                     result = rx.Replace(expression, new MatchEvaluator(m =>
                     {
                         return string.Empty;
@@ -180,7 +180,7 @@ namespace Reginald.Extensions
                 }
                 catch (System.Data.EvaluateException)
                 {
-                    Regex rx = new Regex(@"\d+\^-?(\d+)");
+                    Regex rx = new(@"\d+\^-?(\d+)");
                     MatchCollection matches = rx.Matches(expression);
                     if (matches.Count > 0)
                     {
@@ -216,7 +216,7 @@ namespace Reginald.Extensions
         /// <returns>True if the string is a math expression; otherwise, false.</returns>
         public static bool IsMathExpression(this string expression)
         {
-            Regex rx = new Regex(@"^[0-9\s+-/^*()><!]+$");
+            Regex rx = new(@"^[0-9\s+-/^*()><!]+$");
             MatchCollection matches = rx.Matches(expression);
             if (matches.Count > 0)
                 return true;
@@ -231,7 +231,7 @@ namespace Reginald.Extensions
         /// <returns>The string with whitespace characters replaced.</returns>
         public static string Quote(this string expression, string replacement)
         {
-            Regex rx = new Regex(@"\s");
+            Regex rx = new(@"\s");
             string result = rx.Replace(expression, new MatchEvaluator(m =>
             {
                 return replacement;
@@ -251,10 +251,14 @@ namespace Reginald.Extensions
             {
                 if (!char.IsDigit(tld[0]))
                 {
-                    Regex rx = new Regex(@"\s");
+                    Regex rx = new(@"\s");
                     MatchCollection matches = rx.Matches(domain);
                     if (matches.Count == 0)
+                    {
+                        if (tld.Contains(" ") && !tld.Contains(@"/"))
+                            return false;
                         return true;
+                    }
                 }
             }
             return false;
@@ -269,7 +273,9 @@ namespace Reginald.Extensions
         {
             StringComparison comparison = StringComparison.InvariantCultureIgnoreCase;
             if (expression.StartsWith("https://", comparison) || expression.StartsWith("http://", comparison))
+            {
                 return true;
+            }
             return false;
         }
 
@@ -280,7 +286,7 @@ namespace Reginald.Extensions
         /// <returns>The string with "https://" prepended.</returns>
         public static string PrependScheme(this string expression)
         {
-            Regex rx = new Regex("https*://", RegexOptions.IgnoreCase);
+            Regex rx = new("https*://", RegexOptions.IgnoreCase);
             MatchCollection matches = rx.Matches(expression);
             if (matches.Count == 0)
                 expression = "https://" + expression;
@@ -294,7 +300,7 @@ namespace Reginald.Extensions
         /// <returns>A string with the product of positive integers.</returns>
         public static string Factorial(this string expression)
         {
-            Regex rx = new Regex($@"{Constants.FactorialRegexPattern}");
+            Regex rx = new($@"{Constants.FactorialRegexPattern}");
             string result = rx.Replace(expression, new MatchEvaluator(m =>
             {
                 string x = m.Groups[1].ToString();
@@ -308,6 +314,30 @@ namespace Reginald.Extensions
                 return concat;
             }));
             return result;
+        }
+
+        public static string Capitalize(this string expression)
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                throw new ArgumentException();
+            }
+            char firstChar = char.ToUpper(expression[0]);
+            return firstChar + expression.Substring(1);
+        }
+
+        public static string FirstWord(this string expression, out string remainder)
+        {
+            remainder = string.Empty;
+            if (string.IsNullOrEmpty(expression))
+            {
+                return string.Empty;
+            }
+
+            string[] substrings = expression.Split(' ', 1);
+            string firstWord = substrings[0];
+            remainder = substrings[^1];
+            return firstWord;
         }
     }
 }
