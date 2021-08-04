@@ -50,6 +50,11 @@ namespace Reginald.ViewModels
             FileOperations.MakeXmlFile(specialKeywordsXml, ApplicationPaths.XmlSpecialKeywordFilename);
             FileOperations.UpdateXmlFile(specialKeywordsXml, ApplicationPaths.XmlSpecialKeywordFilename);
 
+            // Creates and updates "Reginald\Commands.xml" in %AppData%
+            //string commandsXml = FileOperations.GetCommandsXml();
+            //FileOperations.MakeXmlFile(specialKeywordsXml, ApplicationPaths.XmlCommandsFilename);
+            //FileOperations.UpdateXmlFile(specialKeywordsXml, ApplicationPaths.XmlCommandsFilename);
+
             FileOperations.CacheApplicationIcons();
 
             // Creates "Reginald\Applications.txt" in %AppData%
@@ -91,7 +96,8 @@ namespace Reginald.ViewModels
         private async static void SetUpAsync()
         {
             CancellationToken cancellationToken = new();
-            await TimerUtils.DoEveryTenSecondsAsync(cancellationToken);
+            int time = 8000;
+            await TimerUtils.DoEveryXSecondsAsync(time, cancellationToken);
         }
     }
 }

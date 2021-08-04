@@ -10,9 +10,9 @@ namespace Reginald.Core.Utils
         /// </summary>
         /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns></returns>
-        public static async Task DoEveryTenSecondsAsync(CancellationToken cancellationToken)
+        public static async Task DoEveryXSecondsAsync(int time, CancellationToken cancellationToken)
         {
-            int millisecondsDelay = 10000;
+            int millisecondsDelay = time;
             while (true)
             {
                 await Task.Delay(millisecondsDelay, cancellationToken);
