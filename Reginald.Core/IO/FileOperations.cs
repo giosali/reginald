@@ -370,6 +370,10 @@ namespace Reginald.Core.IO
             await File.WriteAllLinesAsync(path, applicationNames);
         }
 
+        /// <summary>
+        /// Returns XML for special keywords.
+        /// </summary>
+        /// <returns></returns>
         public static string GetSpecialKeywordsXml()
         {
             string xml = "<?xml version=\"1.0\"?> \n" +
@@ -404,6 +408,10 @@ namespace Reginald.Core.IO
             return xml;
         }
 
+        /// <summary>
+        /// Returns XML for command keywords.
+        /// </summary>
+        /// <returns></returns>
         public static string GetCommandsXml()
         {
             string xml = "<?xml version=\"1.0\"?> \n" +
