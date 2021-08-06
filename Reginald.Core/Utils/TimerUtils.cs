@@ -21,53 +21,6 @@ namespace Reginald.Core.Utils
             }
         }
 
-        //public static async Task<(string, double?)> ParseTimeFromStringAsync(string expression, string format, string split, string defaultText)
-        //{
-        //    int minSplit = int.Parse(split);
-        //    string description = null;
-        //    double? seconds = null;
-        //    string[] substrings = expression.Split(' ', minSplit);
-        //    if (substrings.Length > 1)
-        //    {
-        //        string time = substrings[0];
-        //        string remainder = substrings[^1];
-        //        if (double.TryParse(time, out double result))
-        //        {
-        //            string firstWord = remainder.FirstWord(out string rest);
-        //            seconds = await TimeUtils.GetTimeAsSecondsAsync(result, firstWord);
-        //            string unit;
-        //            string text;
-        //            if (seconds is null)
-        //            {
-        //                seconds = result;
-        //                unit = TimeUtils.GetTimeUnit("s", result);
-        //                text = remainder;
-        //            }
-        //            else
-        //            {
-        //                unit = TimeUtils.GetTimeUnit(firstWord, result);
-        //                text = rest;
-        //            }
-        //            description = string.Format(format, time, unit, text);
-        //        }
-        //    }
-        //    else if (substrings.Length == 1)
-        //    {
-        //        string time = substrings[0];
-        //        if (double.TryParse(time, out double result))
-        //        {
-        //            string unit = TimeUtils.GetTimeUnit("s", result);
-        //            description = string.Format(format, time, unit, defaultText);
-        //        }
-        //        seconds = result;
-        //    }
-        //    else
-        //    {
-        //        description = string.Format(format, defaultText, defaultText, defaultText);
-        //    }
-        //    return (description, seconds);
-        //}
-
         /// <summary>
         /// Parses a string potentially containing a measure of time, a unit of time, and other text and returns a tuple consisting of the time and other text.
         /// </summary>
@@ -100,19 +53,16 @@ namespace Reginald.Core.Utils
             else
             {
                 (string time, string timeSeparator, string timeRemainder) = expression.Partition(" ");
-                //string time = expression.FirstWord(out string timeRemainder);
                 if (double.TryParse(time, out double timeValue))
                 {
                     formatArgs[count++] = time;
                     (string unit, string unitSeparator, string unitRemainder) = timeRemainder.Partition(" ");
-                    //string unit = timeRemainder.FirstWord(out string unitRemainder);
                     string timerDescription;
                     seconds = await TimeUtils.GetTimeAsSecondsAsync(unit, timeValue);
                     if (seconds is not null)
                     {
                         unit = TimeUtils.GetTimeUnit(unit, timeValue);
                         timerDescription = string.IsNullOrEmpty(unitSeparator) ? defaultText : unitRemainder;
-                        //timerDescription = unitRemainder;
                     }
                     else
                     {
