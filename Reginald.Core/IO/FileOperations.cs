@@ -403,5 +403,24 @@ namespace Reginald.Core.IO
                 "</Searches>";
             return xml;
         }
+
+        public static string GetCommandsXml()
+        {
+            string xml = "<?xml version=\"1.0\"?> \n" +
+                "<Searches> \n" +
+                "    <Namespace Name=\"timer\" ID=\"0\">" +
+                "        <Name>Timer</Name> \n" +
+                "        <Keyword>timer</Keyword> \n" +
+                "        <Command>Timer</Command> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/Commands/timer.png</Icon> \n" +
+                "        <Format>In {0} {1}: {2}</Format> \n" +
+                "        <DefaultText>...</DefaultText> \n" +
+                "        <Alt>Timer</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
+                "        <Split>3</Split> \n" +
+                "    </Namespace>" +
+                "</Searches>";
+            return xml;
+        }
     }
 }

@@ -6,6 +6,8 @@
         Math,
         HTTP,
         Keyword,
-        SearchEngine
+        SearchEngine,
+        Command,
+        Notifier
     }
 }

@@ -51,9 +51,9 @@ namespace Reginald.ViewModels
             FileOperations.UpdateXmlFile(specialKeywordsXml, ApplicationPaths.XmlSpecialKeywordFilename);
 
             // Creates and updates "Reginald\Commands.xml" in %AppData%
-            //string commandsXml = FileOperations.GetCommandsXml();
-            //FileOperations.MakeXmlFile(specialKeywordsXml, ApplicationPaths.XmlCommandsFilename);
-            //FileOperations.UpdateXmlFile(specialKeywordsXml, ApplicationPaths.XmlCommandsFilename);
+            string commandsXml = FileOperations.GetCommandsXml();
+            FileOperations.MakeXmlFile(commandsXml, ApplicationPaths.XmlCommandsFilename);
+            FileOperations.UpdateXmlFile(commandsXml, ApplicationPaths.XmlCommandsFilename);
 
             FileOperations.CacheApplicationIcons();
 

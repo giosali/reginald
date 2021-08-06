@@ -334,7 +334,7 @@ namespace Reginald.Extensions
                 return string.Empty;
             }
 
-            string[] substrings = expression.Split(' ', 1);
+            string[] substrings = expression.Split(' ', 2);
             string firstWord = substrings[0];
             remainder = substrings[^1];
             return firstWord;

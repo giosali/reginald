@@ -7,6 +7,8 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using Reginald.Extensions;
 using Reginald.Core.Base;
+using Reginald.Core.Utils;
+using System.Threading.Tasks;
 
 namespace Reginald.Models
 {
@@ -55,6 +57,17 @@ namespace Reginald.Models
             }
         }
 
+        public SearchResultModel(XmlNode node, string description, Category category)
+        {
+            Name = node["Name"].InnerText;
+            Category = category;
+            Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
+            Keyword = node["Keyword"].InnerText;
+            Format = node["Format"].InnerText;
+            Description = description;
+            Alt = node["Alt"].InnerText;
+        }
+
         public string Name { get; set; }
         public Category Category { get; set; }
         public ImageSource Icon { get; set; }
@@ -70,6 +83,7 @@ namespace Reginald.Models
         public string Alt { get; set; }
         public string Count { get; set; }
         public bool IsEnabled { get; set; }
+        public double? Time { get; set; }
 
         public static List<SearchResultModel> MakeList(XmlDocument doc, string input, string attribute, Category category)
         {
@@ -87,7 +101,7 @@ namespace Reginald.Models
                     XmlNode isEnabledNode = node["IsEnabled"];
                     if (isEnabledNode is not null)
                     {
-                        bool isEnabled = Boolean.Parse(isEnabledNode.InnerText);
+                        bool isEnabled = bool.Parse(isEnabledNode.InnerText);
                         if (!isEnabled)
                             continue;
                     }
@@ -195,7 +209,7 @@ namespace Reginald.Models
                         string text = defaultText;
                         string description = string.Format(format, text);
                         string alt = node["Alt"].InnerText;
-                        bool isEnabled = Boolean.Parse(node["IsEnabled"].InnerText);
+                        bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
 
                         models[i] = new SearchResultModel()
                         {
@@ -221,6 +235,64 @@ namespace Reginald.Models
                 }
                 return models;
             }
+        }
+
+        public static async Task<List<SearchResultModel>> MakeListForCommandsAsync(XmlDocument doc, string input, string attribute, Category category)
+        {
+            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+            if (nodes is not null)
+            {
+                List<SearchResultModel> models = new();
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    try
+                    {
+                        XmlNode node = nodes[i];
+                        if (bool.Parse(node["IsEnabled"].InnerText))
+                        {
+                            SearchResultModel model = new()
+                            {
+                                Name = node["Name"].InnerText,
+                                Category = category,
+                                Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
+                                Keyword = node["Keyword"].InnerText,
+                                Format = node["Format"].InnerText,
+                                DefaultText = node["DefaultText"].InnerText,
+                                Alt = node["Alt"].InnerText
+                            };
+
+                            Command command = (Command)Enum.Parse(typeof(Command), node["Command"].InnerText.Capitalize());
+                            switch (command)
+                            {
+                                case Command.Timer:
+                                    (string description, double? seconds) = await TimerUtils.ParseTimeFromStringAsync(input, model.Format, node["Split"].InnerText, model.DefaultText);
+                                    model.Description = description;
+                                    model.Time = seconds;
+                                    (_, string separator, string remainder) = description.Partition(": ");
+                                    if (!string.IsNullOrEmpty(separator))
+                                    {
+                                        model.Text = remainder;
+                                    }
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+                            if (model.Description is not null)
+                            {
+                                models.Add(model);
+                            }
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        continue;
+                    }
+                }
+                return models;
+            }
+            return new List<SearchResultModel>();
         }
     }
 }

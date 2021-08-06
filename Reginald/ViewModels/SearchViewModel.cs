@@ -3,7 +3,7 @@ using Reginald.Core.Base;
 using Reginald.Core.Enums;
 using Reginald.Core.Helpers;
 using Reginald.Core.IO;
-using Reginald.Core.Utils;
+using Reginald.Core.Notifications;
 using Reginald.Extensions;
 using Reginald.Models;
 using System;
@@ -41,7 +41,7 @@ namespace Reginald.ViewModels
         private XmlDocument searchDoc;
         private XmlDocument userSearchDoc;
         private XmlDocument specialKeywordDoc;
-        //private XmlDocument commandsDoc;
+        private XmlDocument commandsDoc;
         private Dictionary<string, string> applicationsDict;
 
         private Indicator _indicator;
@@ -73,26 +73,6 @@ namespace Reginald.ViewModels
             {
                 _userInput = value;
                 NotifyOfPropertyChange(() => UserInput);
-                //foreach (SearchResultModel model in SearchResults)
-                //{
-                //    if (model.Category == Category.Application)
-                //    {
-                //        continue;
-                //    }
-                //    else if (model.Category == Category.Math)
-                //    {
-                //        model.Text = value.Eval();
-                //    }
-                //    else if (model.Category == Category.Keyword)
-                //    {
-                //        (string left, _, string right) = value.Partition(" ");
-                //        model.Text = right == string.Empty ? model.DefaultText : right;
-                //    }
-                //    else
-                //        model.Text = value;
-
-                //    model.Description = string.Format(model.Format, model.Text);
-                //}
             }
         }
 
@@ -174,7 +154,7 @@ namespace Reginald.ViewModels
                 searchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
                 userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
                 specialKeywordDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSpecialKeywordFilename);
-                //commandsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlCommandsFilename);
+                commandsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlCommandsFilename);
             });
             Task<Dictionary<string, string>> applicationsDictTask = Task.Run(() =>
             {
@@ -243,18 +223,20 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> models = Enumerable.Empty<SearchResultModel>();
 
                 Task<IEnumerable<SearchResultModel>> applicationModelsTask = GetApplicationModels(UserInput);
-                Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetKeywordModels(UserInput);
-                Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetUserKeywordModels(UserInput);
+                //Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetKeywordModels(UserInput);
+                Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetModels(Properties.Settings.Default.IncludeDefaultKeywords, searchDoc, UserInput);
+                //Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetUserKeywordModels(UserInput);
+                Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetModels(true, userSearchDoc, UserInput);
+                Task<IEnumerable<SearchResultModel>> commandKeywordModelsTask = GetCommandModelsAsync(commandsDoc, UserInput);
                 Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
                 Task<SpecialSearchResultModel> specialKeywordModelTask = GetSpecialKeywordModelAsync(UserInput);
-                //Task<SearchResultModel> commandKeywordModelTask = GetCommandModelsAsync(UserInput);
 
                 IEnumerable<SearchResultModel> applicationModels = await applicationModelsTask;
                 IEnumerable<SearchResultModel> keywordModels = await keywordModelsTask;
                 IEnumerable<SearchResultModel> userKeywordModels = await userKeywordModelsTask;
+                IEnumerable<SearchResultModel> commandModels = await commandKeywordModelsTask;
                 SearchResultModel[] mathModels = await mathModelsTask;
                 SpecialSearchResultModel specialSearchResult = await specialKeywordModelTask;
-                //SearchResultModel commandKeywordResult = await commandKeywordModelTask;
 
                 if (specialSearchResult is not null)
                 {
@@ -272,7 +254,7 @@ namespace Reginald.ViewModels
                     {
                         try
                         {
-                            models = applicationModels.Concat(keywordModels).Concat(userKeywordModels).Concat(mathModels);
+                            models = applicationModels.Concat(keywordModels).Concat(userKeywordModels).Concat(mathModels).Concat(commandModels);
                         }
                         catch (ArgumentNullException)
                         {
@@ -336,55 +318,93 @@ namespace Reginald.ViewModels
             }
         }
 
-        private Task<IEnumerable<SearchResultModel>> GetKeywordModels(string input)
+        private Task<IEnumerable<SearchResultModel>> GetModels(bool isIncluded, XmlDocument doc, string input)
         {
-            if (Properties.Settings.Default.IncludeDefaultKeywords)
+            if (isIncluded)
             {
-                (string Left, string Separator, string Right) partition = input.Partition(" ");
+                (string keyword, string separator, string description) = input.Partition(" ");
+                IEnumerable<string> keywords = MatchKeywordsInDoc(doc, keyword, separator);
 
-                List<string> attributes = searchDoc.GetNodesAttributes(Constants.NamespacesXpath);
-                string format = @"((?<!\w){0}.*)";
-                Regex rx = new(string.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
-                IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
-                                                        .Distinct();
-
-                IEnumerable<SearchResultModel> keywordModels = Array.Empty<SearchResultModel>();
-                foreach (string match in matches)
+                IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
+                foreach (string k in keywords)
                 {
-                    if (partition.Separator != string.Empty)
-                    {
-                        if (partition.Left != match)
-                            continue;
-                    }
-                    keywordModels = keywordModels.Concat(SearchResultModel.MakeList(searchDoc, partition.Right, match, Category.Keyword));
+                    models = models.Concat(SearchResultModel.MakeList(doc, description, k, Category.Keyword));
                 }
-                return Task.FromResult(keywordModels);
+                return Task.FromResult(models);
             }
             return Task.FromResult(Enumerable.Empty<SearchResultModel>());
         }
 
-        private Task<IEnumerable<SearchResultModel>> GetUserKeywordModels(string input)
+        private IEnumerable<string> MatchKeywordsInDoc(XmlDocument doc, string keyword, string separator)
         {
-            (string Left, string Separator, string Right) partition = input.Partition(" ");
-
-            List<string> attributes = userSearchDoc.GetNodesAttributes(Constants.NamespacesXpath);
+            IEnumerable<string> attributes = doc.GetNodesAttributes(Constants.NamespacesXpath);
             string format = @"((?<!\w){0}.*)";
-            Regex rx = new(string.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
+            Regex rx = new(string.Format(format, keyword.Replace("[", "\\[")), RegexOptions.IgnoreCase);
             IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
-                                                    .Distinct();
-
-            IEnumerable<SearchResultModel> userKeywordModels = Array.Empty<SearchResultModel>();
-            foreach (string match in matches)
-            {
-                if (partition.Separator != string.Empty)
-                {
-                    if (partition.Left != match)
-                        continue;
-                }
-                userKeywordModels = userKeywordModels.Concat(SearchResultModel.MakeList(userSearchDoc, partition.Right, match, Category.Keyword));
-            }
-            return Task.FromResult(userKeywordModels);
+                                                    .Distinct()
+                                                    .Where(x =>
+                                                    {
+                                                        if (separator != string.Empty)
+                                                        {
+                                                            if (keyword != x)
+                                                            {
+                                                                return false;
+                                                            }
+                                                        }
+                                                        return true;
+                                                    });
+            return matches;
         }
+
+        //private Task<IEnumerable<SearchResultModel>> GetKeywordModels(string input)
+        //{
+        //    if (Properties.Settings.Default.IncludeDefaultKeywords)
+        //    {
+        //        (string Left, string Separator, string Right) partition = input.Partition(" ");
+
+        //        List<string> attributes = searchDoc.GetNodesAttributes(Constants.NamespacesXpath);
+        //        string format = @"((?<!\w){0}.*)";
+        //        Regex rx = new(string.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
+        //        IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
+        //                                                .Distinct();
+
+        //        IEnumerable<SearchResultModel> keywordModels = Array.Empty<SearchResultModel>();
+        //        foreach (string match in matches)
+        //        {
+        //            if (partition.Separator != string.Empty)
+        //            {
+        //                if (partition.Left != match)
+        //                    continue;
+        //            }
+        //            keywordModels = keywordModels.Concat(SearchResultModel.MakeList(searchDoc, partition.Right, match, Category.Keyword));
+        //        }
+        //        return Task.FromResult(keywordModels);
+        //    }
+        //    return Task.FromResult(Enumerable.Empty<SearchResultModel>());
+        //}
+
+        //private Task<IEnumerable<SearchResultModel>> GetUserKeywordModels(string input)
+        //{
+        //    (string Left, string Separator, string Right) partition = input.Partition(" ");
+
+        //    List<string> attributes = userSearchDoc.GetNodesAttributes(Constants.NamespacesXpath);
+        //    string format = @"((?<!\w){0}.*)";
+        //    Regex rx = new(string.Format(format, partition.Left.Replace("[", "\\[")), RegexOptions.IgnoreCase);
+        //    IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
+        //                                            .Distinct();
+
+        //    IEnumerable<SearchResultModel> userKeywordModels = Array.Empty<SearchResultModel>();
+        //    foreach (string match in matches)
+        //    {
+        //        if (partition.Separator != string.Empty)
+        //        {
+        //            if (partition.Left != match)
+        //                continue;
+        //        }
+        //        userKeywordModels = userKeywordModels.Concat(SearchResultModel.MakeList(userSearchDoc, partition.Right, match, Category.Keyword));
+        //    }
+        //    return Task.FromResult(userKeywordModels);
+        //}
 
         private Task<SearchResultModel[]> GetMathModels(string input)
         {
@@ -483,6 +503,19 @@ namespace Reginald.ViewModels
             return null;
         }
 
+        private async Task<IEnumerable<SearchResultModel>> GetCommandModelsAsync(XmlDocument doc, string input)
+        {
+            (string keyword, string separator, string description) = input.Partition(" ");
+            IEnumerable<string> keywords = MatchKeywordsInDoc(doc, keyword, separator);
+
+            IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
+            foreach (string k in keywords)
+            {
+                models = models.Concat(await SearchResultModel.MakeListForCommandsAsync(doc, description, k, Category.Notifier));
+            }
+            return models;
+        }
+
         //private async Task<SearchResultModel> GetCommandModelsAsync(string input)
         //{
         //    (string keyword, _, string statement) = input.Partition(" ");
@@ -504,7 +537,7 @@ namespace Reginald.ViewModels
         //                    if (double.TryParse(time, out double result))
         //                    {
         //                        string firstWord = remainder.FirstWord(out string rest);
-        //                        double? seconds = await TimeUtils.GetTimeAsSecondsAsync(result, firstWord);
+        //                        double? seconds = await TimeUtils.GetTimeAsSecondsAsync(firstWord, result);
         //                        string unit;
         //                        string text;
         //                        if (seconds is null)
@@ -553,10 +586,11 @@ namespace Reginald.ViewModels
                     case Key.Enter:
                         try
                         {
-                            HandleSelectedSearchResultBasedOnCategoryName(SelectedSearchResult.Category);
+                            _ = HandleSelectedSearchResultBasedOnCategoryNameAsync(SelectedSearchResult.Category);
                         }
                         catch (NullReferenceException) { }
                         e.Handled = true;
+                        TryCloseAsync();
                         break;
 
                     case Key.Up:
@@ -604,21 +638,21 @@ namespace Reginald.ViewModels
 
         public void SearchResults_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            HandleSelectedSearchResultBasedOnCategoryName(SelectedSearchResult.Category);
+            _ = HandleSelectedSearchResultBasedOnCategoryNameAsync(SelectedSearchResult.Category);
         }
 
-        private void HandleSelectedSearchResultBasedOnCategoryName(Category category)
+        private async Task HandleSelectedSearchResultBasedOnCategoryNameAsync(Category category)
         {
             switch (category)
             {
                 case Category.Application:
                     Process.Start("explorer.exe", @"shell:appsfolder\" + SelectedSearchResult.ParsingName);
-                    TryCloseAsync();
+                    //TryCloseAsync();
                     break;
 
                 case Category.Math:
                     Clipboard.SetText(SelectedSearchResult.Text);
-                    TryCloseAsync();
+                    //TryCloseAsync();
                     break;
 
                 case Category.Keyword:
@@ -643,6 +677,14 @@ namespace Reginald.ViewModels
                         GoToWebsite(uri);
                         break;
                     }
+
+                case Category.Notifier:
+                    if (!string.IsNullOrEmpty(SelectedSearchResult.Text))
+                    {
+                        await Task.Delay((int)SelectedSearchResult.Time * 1000);
+                        ToastNotifications.SendSimpleToastNotification(SelectedSearchResult.Name, SelectedSearchResult.Text);
+                    }
+                    break;
 
                 default:
                     break;
