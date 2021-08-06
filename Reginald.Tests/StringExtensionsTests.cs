@@ -290,5 +290,30 @@ namespace Reginald.Tests
             string expected = "...";
             Assert.Equal(expression.Factorial().Eval(), expected);
         }
+
+        [Fact]
+        public static void Capitalize_ShouldCapitalizeFirstCharacter()
+        {
+            string expression = "hello world";
+            string expected = "Hello world";
+
+            string actual = expression.Capitalize();
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public static void Capitalize_ShouldThrowIfNull()
+        {
+            string expression = null;
+            Assert.Throws<ArgumentException>(() => expression.Capitalize());
+        }
+
+        [Fact]
+        public static void Capitalize_ShouldThrowIfEmpty()
+        {
+            string expression = string.Empty;
+            Assert.Throws<ArgumentException>(() => expression.Capitalize());
+        }
     }
 }
