@@ -316,6 +316,19 @@ namespace Reginald.Extensions
             return result;
         }
 
+        /// <summary>
+        /// Capitalizes the first character of a string. If the first character is null or empty, an ArgumentException will be thrown.
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns>The original string with the first character capitalized.</returns>
+        /// <example>
+        /// <code>
+        /// string sentence = "hello world";
+        /// string expected = "Hello world";
+        /// string actual = sentence.Capitalize();
+        /// Console.WriteLine(expected == actual);
+        /// </code>
+        /// </example>
         public static string Capitalize(this string expression)
         {
             if (string.IsNullOrEmpty(expression))
@@ -326,18 +339,18 @@ namespace Reginald.Extensions
             return firstChar + expression.Substring(1);
         }
 
-        public static string FirstWord(this string expression, out string remainder)
-        {
-            remainder = string.Empty;
-            if (string.IsNullOrEmpty(expression))
-            {
-                return string.Empty;
-            }
+        //public static string FirstWord(this string expression, out string remainder)
+        //{
+        //    remainder = string.Empty;
+        //    if (string.IsNullOrEmpty(expression))
+        //    {
+        //        return string.Empty;
+        //    }
 
-            string[] substrings = expression.Split(' ', 2);
-            string firstWord = substrings[0];
-            remainder = substrings[^1];
-            return firstWord;
-        }
+        //    string[] substrings = expression.Split(' ', 2);
+        //    string firstWord = substrings[0];
+        //    remainder = substrings[^1];
+        //    return firstWord;
+        //}
     }
 }
