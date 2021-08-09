@@ -5,9 +5,9 @@ namespace Reginald.Views
     /// <summary>
     /// Interaction logic for ShellView.xaml
     /// </summary>
-    public partial class ShellView : Window
+    public partial class SettingsView : Window
     {
-        public ShellView()
+        public SettingsView()
         {
             InitializeComponent();
         }
