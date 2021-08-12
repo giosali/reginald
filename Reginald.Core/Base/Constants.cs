@@ -7,10 +7,14 @@ namespace Reginald.Core.Base
         // XML
 
         public const string LastNodeXpath = @"//Searches//Namespace[position() = last()]";
+
         public const string NamespacesXpath = @"//Searches//Namespace";
         public const string NamespaceIDXpathFormat = "//Searches/Namespace[@ID='{0}']";
         public const string NamespaceNameXpathFormat = "//Searches/Namespace[@Name='{0}']";
         public const string NamespaceNameRegexPattern = @"((?<!\w){0}.*)";
+
+        public const string SettingsNamespacesXpath = @"//Settings//Namespace";
+        public const string SettingsNamespaceNameXpathFormat = "//Settings/Namespace[@Name='{0}']";
 
         // Applications
 

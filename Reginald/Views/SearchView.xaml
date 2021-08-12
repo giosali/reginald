@@ -6,7 +6,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reginald.Views"
         mc:Ignorable="d"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
         
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -31,6 +30,11 @@
         ShowInTaskbar="False">
     <Window.Resources>
         <ResourceDictionary>
+            <!-- Disable FocusVisualStyle for TextBoxes-->
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            </Style>
+            
             <!-- ItemTemplate for SearchResults -->
             <DataTemplate x:Key="SearchResultsItemTemplate">
                 <Grid Width="570">
@@ -85,7 +89,7 @@
                     </Trigger>
                     <Trigger Property="IsSelected" Value="True">
                         <Setter TargetName="listBoxItemBorder"
-                                Property="Background" Value="#99ff8d00"/>
+                                Property="Background" Value="{Binding ElementName=searchWindow, Path=DataContext.Settings.SearchResultHighlightColor}"/>
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>

@@ -12,6 +12,7 @@ namespace Reginald.Core.IO
         public const string XmlUserKeywordFilename = "UserSearch.xml";
         public const string XmlSpecialKeywordFilename = "SpecialKeywords.xml";
         public const string XmlCommandsFilename = "Commands.xml";
+        public const string XmlSettingsFilename = "Settings.xml";
         public const string TxtFilename = "Applications.txt";
     }
 }

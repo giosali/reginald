@@ -39,6 +39,10 @@ namespace Reginald.ViewModels
             string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.UserIconsDirectoryName);
             Directory.CreateDirectory(path);
 
+            // Creates and updates "Reginald\Settings.xml" in %AppData%
+            string settingsXml = FileOperations.GetSettingsXml();
+            FileOperations.MakeAndUpdateSettingsXmlFile(settingsXml, ApplicationPaths.XmlSettingsFilename);
+
             // Creates and updates "Reginald\Search.xml" in %AppData%
             //FileOperations.MakeDefaultKeywordXmlFile();
             string defaultKeywordsXml = FileOperations.GetDefaultKeywordsXml();
@@ -93,7 +97,7 @@ namespace Reginald.ViewModels
             }
         }
 
-        private async static void SetUpAsync()
+        private static async void SetUpAsync()
         {
             CancellationToken cancellationToken = new();
             int time = 8000;

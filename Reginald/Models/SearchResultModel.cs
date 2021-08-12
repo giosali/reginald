@@ -258,7 +258,8 @@ namespace Reginald.Models
                                 Keyword = node["Keyword"].InnerText,
                                 Format = node["Format"].InnerText,
                                 DefaultText = node["DefaultText"].InnerText,
-                                Alt = node["Alt"].InnerText
+                                Alt = node["Alt"].InnerText,
+                                IsEnabled = bool.Parse(node["IsEnabled"].InnerText)
                             };
 
                             Command command = (Command)Enum.Parse(typeof(Command), node["Command"].InnerText.Capitalize());

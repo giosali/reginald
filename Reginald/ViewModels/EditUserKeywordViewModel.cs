@@ -1,5 +1,7 @@
 ﻿using Caliburn.Micro;
 using Reginald.Core.Helpers;
+using Reginald.Core.IO;
+using Reginald.Extensions;
 using Reginald.Models;
 using System;
 using System.IO;
@@ -52,12 +54,12 @@ namespace Reginald.ViewModels
                 System.Drawing.Image image = System.Drawing.Image.FromFile(openFileDialog.FileName);
                 if (image.Width < 75 || image.Height < 75)
                 {
-                    MessageBox.Show($"Images cannot be smaller than 75x75. This file's dimensions: {image.Width}x{image.Height}");
+                    MessageBox.Show($"Images cannot be smaller than 75x75. This file: {image.Width}x{image.Height}");
                 }
                 else
                 {
                     string[] results = openFileDialog.FileName.Split(@"\");
-                    string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "UserIcons", results[^1]);
+                    string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.UserIconsDirectoryName, results[^1]);
                     while (File.Exists(path))
                     {
                         path += "_copy";
@@ -81,19 +83,13 @@ namespace Reginald.ViewModels
 
         public void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectedKeywordSearchResult.Alt = ((TextBox)sender).Text;
             string format = SelectedKeywordSearchResult.Format;
             string defaultText = SelectedKeywordSearchResult.DefaultText;
 
-            string appDataDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string applicationName = "Reginald";
-            string xmlUserKeywordFilename = "UserSearch.xml";
-            string path = Path.Combine(appDataDirectoryPath, applicationName, xmlUserKeywordFilename);
-            XmlDocument doc = new();
-            doc.Load(path);
+            XmlDocument doc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
             XmlNode currentNode = XmlHelper.GetCurrentNodeFromID(doc, SelectedKeywordSearchResult.ID);
             UpdateCurrentNode(currentNode);
-            doc.Save(path);
+            XmlHelper.SaveXmlDocument(doc, ApplicationPaths.XmlUserKeywordFilename);
 
             SelectedKeywordSearchResult.Description = string.Format(format, defaultText);
             NotifyOfPropertyChange(() => SelectedKeywordSearchResult);
@@ -104,7 +100,7 @@ namespace Reginald.ViewModels
 
         private void UpdateCurrentNode(XmlNode currentNode)
         {
-            currentNode["Name"].InnerText = SelectedKeywordSearchResult.Name;
+            currentNode["Name"].InnerText = SelectedKeywordSearchResult.Alt.Capitalize();
             currentNode["Keyword"].InnerText = SelectedKeywordSearchResult.Keyword;
             if (IconPath is not null)
             {

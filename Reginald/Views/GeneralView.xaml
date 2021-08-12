@@ -10,72 +10,77 @@
              xmlns:cal="http://caliburnmicro.com"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
-             xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <!-- TextBlock Styles -->
-            <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="White"/>
-            </Style>
-            <Style x:Key="TextBlockHeaderOne" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="32"/>
-            </Style>
-            <Style x:Key="TextBlockHeaderTwo" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="24"/>
-            </Style>
-            <Style x:Key="TextBlockParagraph" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="FontWeight" Value="Light"/>
-                <Setter Property="TextWrapping" Value="Wrap"/>
-            </Style>
-
-            <!-- Label Styles -->
-            <Style TargetType="{x:Type Label}">
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="FontWeight" Value="Light"/>
-            </Style>
+             xmlns:ui="http://schemas.modernwpf.com/2019">
+    <ScrollViewer x:Name="ScrollViewer">
+        <ui:SimpleStackPanel Margin="12"
+                             Spacing="24">
+            <!-- # General -->
+            <TextBlock Text="General"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
             
-            <!-- Button Styles -->
-            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRevealStyle}">
-                <Setter Property="Margin" Value="0 8 0 0"/>
-                <Setter Property="Width" Value="100"/>
-                <Setter Property="Height" Value="30"/>
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="FontSize" Value="14"/>
-            </Style>
-
-            <!-- ToggleButton Styles -->
-            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonStyle}">
-                <Setter Property="Margin" Value="0 8 0 0"/>
-            </Style>
-
-            <!-- StackPanel Styles -->
-            <Style x:Key="StackPanelSection" TargetType="{x:Type StackPanel}">
-                <Setter Property="Margin" Value="0 16 16 0"/>
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    
-    <ScrollViewer x:Name="ScrollViewer"
-                  fw:PointerTracker.Enabled="True">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="PreviewMouseWheel">
-                <cal:ActionMessage MethodName="ScrollViewer_PreviewMouseWheel">
-                    <cal:Parameter Value="{Binding ElementName=ScrollViewer}"/>
-                    <cal:Parameter Value="$eventargs"/>
-                </cal:ActionMessage>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-
-        <StackPanel Margin="20 7 20 10">
-            <TextBlock Style="{StaticResource TextBlockHeaderOne}"
-                       Text="General"/>
-            <StackPanel Style="{StaticResource StackPanelSection}">
-                <TextBlock Style="{StaticResource TextBlockHeaderTwo}"
-                           Text="Application"/>
-                <TextBlock Style="{StaticResource TextBlockParagraph}"
-                           Text="Restart application"
-                           Margin="0 12 0 0"/>
+            <!-- ## Gestures -->
+            <TextBlock Text="Gestures"
+                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+            <!-- ### Key bindings -->
+            <TextBlock Text="You must restart the application for key binding changes to take effect"
+                       FontStyle="Italic"
+                       FontWeight="Light"/>
+            <ui:SimpleStackPanel Spacing="6">
+                <ui:SimpleStackPanel Spacing="6"
+                                     Orientation="Horizontal">
+                    <TextBlock Text="Key bindings for opening the search box window"/>
+                    <Label Content="ⓘ"
+                           ToolTipService.ShowDuration="25000">
+                        <ToolTipService.ToolTip>
+                            <ui:SimpleStackPanel Spacing="4">
+                                <TextBlock Text="Possible combinations:"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="1 Key"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="1 Modifier Key + 1 Key"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="2 Modifier Keys + 1 Key"
+                                           TextWrapping="Wrap"/>
+                                <Border/>
+                                <TextBlock Text="1 Key example: S"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="1 Modifier Key + 1 Key example: Alt + S"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="2 Modifier Keys + 1 Key example: Shift + Alt + S"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="If you only use 1 Modifier Key, leave the other Modifier Key blank"
+                                           TextWrapping="Wrap"/>
+                            </ui:SimpleStackPanel>
+                        </ToolTipService.ToolTip>
+                    </Label>
+                </ui:SimpleStackPanel>
+                <ui:SimpleStackPanel Spacing="6"
+                                     Orientation="Horizontal">
+                    <Label Content="Modifier Key:"
+                           VerticalAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding ModKeys}"
+                              SelectedItem="{Binding SelectedModKeyTwo, Mode=TwoWay}"/>
+                    <Label Content="+"
+                           VerticalAlignment="Center"/>
+                    <Label Content="Modifier Key:"
+                           VerticalAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding ModKeys}"
+                              SelectedItem="{Binding SelectedModKeyOne, Mode=TwoWay}"/>
+                    <Label Content="+"
+                           VerticalAlignment="Center"/>
+                    <Label Content="Key:"
+                           VerticalAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding Keys}"
+                              SelectedItem="{Binding SelectedKey, Mode=TwoWay}"/>
+                </ui:SimpleStackPanel>
+            </ui:SimpleStackPanel>
+            
+            <!-- ## Application-->
+            <TextBlock Text="Application"
+                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+            <!-- ### Restart application -->
+            <ui:SimpleStackPanel Spacing="6">
+                <TextBlock Text="Restart application"/>
                 <Button Content="Restart">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -86,26 +91,10 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <StackPanel Orientation="Horizontal"
-                            Margin="0 12 0 0">
-                    <TextBlock Style="{StaticResource TextBlockParagraph}"
-                               Text="Shutdown application"
-                               VerticalAlignment="Center"/>
-                    <Label Content="ⓘ"
-                           FontSize="20">
-                        <Label.ToolTip>
-                            <fw:AcrylicToolTip>
-                                <DockPanel Width="Auto" Height="Auto">
-                                    <TextBlock>
-                                    You can also quit Reginald by right-clicking
-                                    <LineBreak/>
-                                    on the System Tray icon and clicking "Exit"
-                                    </TextBlock>
-                                </DockPanel>
-                            </fw:AcrylicToolTip>
-                        </Label.ToolTip>
-                    </Label>
-                </StackPanel>
+            </ui:SimpleStackPanel>
+            <!-- ### Shutdown application -->
+            <ui:SimpleStackPanel Spacing="6">
+                <TextBlock Text="Shutdown application"/>
                 <Button Content="Shutdown">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -116,7 +105,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-            </StackPanel>
-        </StackPanel>
+            </ui:SimpleStackPanel>
+        </ui:SimpleStackPanel>
     </ScrollViewer>
 </UserControl>

@@ -1,9 +1,6 @@
 ﻿using Caliburn.Micro;
+using ModernWpf.Controls;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Reginald.ViewModels
 {
@@ -19,57 +16,46 @@ namespace Reginald.ViewModels
             await ActivateItemAsync(new GeneralViewModel());
         }
 
-        public void OnSettingsButtonClick(UIElement element, RoutedEventArgs e)
+        public async Task NavigationView_ItemInvokedAsync(NavigationView sender, NavigationViewItemInvokedEventArgs e)
         {
-            if (element is StackPanel stackPnl)
+            string invokedItem = e.InvokedItem.ToString();
+            switch (invokedItem)
             {
-                foreach (object child in stackPnl.Children)
-                {
-                    if (child is Button btn)
-                    {
-                        if (btn.Content is StackPanel btnStackPnl)
-                        {
-                            if (btnStackPnl.Children.Count == 2)
-                                btnStackPnl.Children.RemoveAt(0);
-                        }
-                    }
-                }
+                case "Themes":
+                    await ActivateItemAsync(new ThemesViewModel());
+                    break;
+
+                case "Search Box":
+                    await ActivateItemAsync(new SearchBoxAppearanceViewModel());
+                    break;
+
+                case "Default Keywords":
+                    await ActivateItemAsync(new DefaultKeywordViewModel());
+                    break;
+
+                case "User Keywords":
+                    await ActivateItemAsync(new UserKeywordViewModel());
+                    break;
+
+                case "Special Keywords":
+                    await ActivateItemAsync(new SpecialKeywordViewModel());
+                    break;
+
+                case "Commands":
+                    await ActivateItemAsync(new CommandsViewModel());
+                    break;
+
+                case "Info":
+                    await ActivateItemAsync(new InfoViewModel());
+                    break;
+
+                case "Settings":
+                    await ActivateItemAsync(new GeneralViewModel());
+                    break;
+
+                default:
+                    break;
             }
-
-            Button sourceBtn = (Button)e.Source;
-            if (sourceBtn.Content is StackPanel sourceStackPnl)
-            {
-                if (sourceStackPnl.Children.Count == 1)
-                {
-                    Rectangle rectangle = new()
-                    {
-                        Stroke = Brushes.DarkOrange,
-                        Width = 2,
-                        HorizontalAlignment = HorizontalAlignment.Left
-                    };
-                    sourceStackPnl.Children.Insert(0, rectangle);
-                }
-            }
-        }
-
-        public async Task LoadGeneralViewAsync(object sender, RoutedEventArgs e)
-        {
-            await ActivateItemAsync(new GeneralViewModel());
-        }
-
-        public async Task LoadUtilitiesViewAsync(object sender, RoutedEventArgs e)
-        {
-            await ActivateItemAsync(new UtilitiesViewModel());
-        }
-
-        public async Task LoadAppearanceViewAsync(object sender, RoutedEventArgs e)
-        {
-            await ActivateItemAsync(new AppearanceViewModel());
-        }
-
-        public async Task LoadInfoViewAsync(object sender, RoutedEventArgs e)
-        {
-            await ActivateItemAsync(new InfoViewModel());
         }
     }
 }

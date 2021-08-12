@@ -12,7 +12,7 @@
         ShowInTaskbar="False"
         Visibility="Hidden">
     <Window.InputBindings>
-        <KeyBinding Gesture="Alt + Space"
+        <KeyBinding Gesture="{x:Static local:ShellView.SearchBoxKeyGesture}"
                     Command="{Binding OpenWindowCommand}"
                     HotkeyManager.RegisterGlobalHotkey="True"/>
     </Window.InputBindings>

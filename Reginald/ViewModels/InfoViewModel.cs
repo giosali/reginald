@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Reginald.ViewModels
 {
-    class InfoViewModel
+    public class InfoViewModel
     {
         public ICommand HyperlinkCommand { get; set; }
 

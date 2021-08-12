@@ -5,232 +5,90 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reginald.Views"
         mc:Ignorable="d"
+        Title="Reginald"
+        Height="550" Width="700"
+        BorderThickness="0"
+        WindowStartupLocation="CenterScreen"
         
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         
-        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
-        fw:AcrylicWindow.Enabled="True"
-        fw:AcrylicWindow.TintColor="#171717"
-        fw:AcrylicWindow.TintOpacity="0.8"
-        fw:AcrylicWindow.NoiseOpacity="0"
-        fw:AcrylicWindow.AcrylicWindowStyle="None"
-        
-        Title="Reginald"
-        Height="500" Width="900"
-        FontSize="18" FontFamily="Segoe UI"
-        BorderThickness="0"
-        WindowStartupLocation="CenterScreen">
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="20"
-                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
-    </WindowChrome.WindowChrome>
-    <Window.Resources>
-        <ResourceDictionary>
-            <Style x:Key="TitleBarButtonStyle" TargetType="Button">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="IsTabStop" Value="False"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border Background="{TemplateBinding Background}">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="DarkGray"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True">
+    <Grid>
+        <!-- # NavigationView -->
+        <ui:NavigationView x:Name="NavigationView"
+                           IsBackButtonVisible="Collapsed"
+                           IsPaneOpen="True">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ItemInvoked">
+                    <cal:ActionMessage MethodName="NavigationView_ItemInvokedAsync">
+                        <cal:Parameter Value="{Binding ElementName=NavigationView}"/>
+                        <cal:Parameter Value="$eventargs"/>
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
 
-            <Style x:Key="SettingsButtonStyle" TargetType="Button"
-                   BasedOn="{StaticResource ButtonRevealStyle}">
-                <Setter Property="Foreground" Value="LightGray"/>
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Height" Value="42"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            </Style>
+            <ui:NavigationView.MenuItems>
+                <!-- ## Appearances -->
+                <ui:NavigationViewItemHeader Content="Appearances"/>
+                <!-- ### Themes -->
+                <ui:NavigationViewItem Content="Themes">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon FontFamily="Segoe MDL2 Assets"
+                                     Glyph="&#xE790;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <!-- ### Search Box -->
+                <ui:NavigationViewItem Content="Search Box">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon FontFamily="Segoe MDL2 Assets"
+                                     Glyph="&#xE771;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItemSeparator/>
+                <!-- ## Utilities -->
+                <ui:NavigationViewItemHeader Content="Utilities"/>
+                <!-- ### Default Keywords -->
+                <ui:NavigationViewItem Content="Default Keywords">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon FontFamily="Segoe MDL2 Assets"
+                                     Glyph="&#xE77B;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <!-- ### User Keywords -->
+                <ui:NavigationViewItem Content="User Keywords">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon FontFamily="Segoe MDL2 Assets"
+                                     Glyph="&#xE8FA;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <!-- ### Special Keywords -->
+                <ui:NavigationViewItem Content="Special Keywords"
+                                       Icon="Globe"/>
+                <!-- ### Commands -->
+                <ui:NavigationViewItem Content="Commands">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon FontFamily="Segoe MDL2 Assets"
+                                     Glyph="&#xE99A;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                
+                <!-- ### Info -->
+                <ui:NavigationViewItemSeparator/>
+                <ui:NavigationViewItem Content="Info">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon FontFamily="Segoe MDL2 Assets"
+                                     Glyph="&#xE946;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.MenuItems>
 
-            <Style x:Key="SettingsButton__TextBlockStyle" TargetType="TextBlock">
-                <Setter Property="Padding" Value="12.5 0 0 0"/>
-            </Style>
-
-            <Style x:Key="SettingsButton__TextBlock__RunStyle" TargetType="Run">
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
-            </Style>
-        </ResourceDictionary>
-    </Window.Resources>
-
-    <Grid fw:PointerTracker.Enabled="True">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" MinWidth="225"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <!-- # Navigation Menu -->
-        <!-- ## Column 0 -->
-        <StackPanel x:Name="navigationMenu"
-                    Grid.Column="0"
-                    Margin="0 10 0 0">
-            <TextBlock Text="Settings"
-                       Foreground="LightGray"
-                       FontSize="14"
-                       TextAlignment="Center"
-                       Margin="0 0 0 10"/>
-            <Button Style="{StaticResource SettingsButtonStyle}">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Stroke="DarkOrange"
-                                   Width="2"
-                                   HorizontalAlignment="Left"/>
-                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}">
-                            <Run Style="{StaticResource SettingsButton__TextBlock__RunStyle}"
-                                 Text="&#xE10F;   "/>
-                            General
-                        </TextBlock>
-                    </StackPanel>
-                </Button.Content>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="OnSettingsButtonClick">
-                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="LoadGeneralViewAsync">
-                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Style="{StaticResource SettingsButtonStyle}">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}">
-                            <Run Style="{StaticResource SettingsButton__TextBlock__RunStyle}"
-                                 Text="&#xE15E;   "/>
-                            Utilities
-                        </TextBlock>
-                    </StackPanel>
-                </Button.Content>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="OnSettingsButtonClick">
-                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="LoadUtilitiesViewAsync">
-                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Style="{StaticResource SettingsButtonStyle}">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}">
-                            <Run Style="{StaticResource SettingsButton__TextBlock__RunStyle}"
-                                 Text="&#xE104;   "/>
-                            Appearance
-                        </TextBlock>
-                    </StackPanel>
-                </Button.Content>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="OnSettingsButtonClick">
-                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="LoadAppearanceViewAsync">
-                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Style="{StaticResource SettingsButtonStyle}">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource SettingsButton__TextBlockStyle}"
-                                   VerticalAlignment="Center">
-                            <Run Style="{StaticResource SettingsButton__TextBlock__RunStyle}"
-                                 Text="ⓘ   "
-                                 FontSize="16"/>
-                            Info
-                        </TextBlock>
-                    </StackPanel>
-                </Button.Content>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="OnSettingsButtonClick">
-                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="LoadInfoViewAsync">
-                            <cal:Parameter Value="{Binding ElementName=navigationMenu}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-        </StackPanel>
-
-        <!-- ## Column 1 -->
-        <StackPanel Background="Black"
-                    Grid.Column="1" Grid.ColumnSpan="2"
-                    Grid.Row="0">
-            <!-- ### Title Bar -->
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-                <Button Style="{StaticResource TitleBarButtonStyle}"
-                        RenderOptions.EdgeMode="Aliased">
-                    <Path Width="46" Height="30"
-                          Data="M 18,15 H 28"
-                          Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-                          StrokeThickness="1"/>
-                </Button>
-                <Button Style="{StaticResource TitleBarButtonStyle}">
-                    <Path Width="46" Height="30"
-                          Data="M 18.5,10.5 H 27.5 V 19.5 H 18.5 Z"
-                          Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-                          StrokeThickness="1"/>
-                </Button>
-                <Button x:Name="OnCloseButtonClick"
-                        Style="{StaticResource TitleBarButtonStyle}">
-                    <Path Width="46" Height="30"
-                          Data="M 18,11 27,20 M 18,20 27,11"
-                          Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-                          StrokeThickness="1"/>
-                </Button>
-            </StackPanel>
-        </StackPanel>
-        
-        <!-- ### Other Pages -->
-        <ContentControl x:Name="ActiveItem"
-                        Grid.Row="1"
-                        Grid.Column="1" Grid.ColumnSpan="2"
-                        Margin="0 25 0 0">
-        </ContentControl>
+            <Border Margin="20 12 0 0">
+                <!-- Other Views -->
+                <ContentControl x:Name="ActiveItem">
+                </ContentControl>
+            </Border>
+        </ui:NavigationView>
     </Grid>
 </Window>

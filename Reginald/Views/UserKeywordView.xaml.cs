@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Reginald.Views
 {
     /// <summary>
-    /// Interaction logic for AppearanceView.xaml
+    /// Interaction logic for UserKeywordView.xaml
     /// </summary>
-    public partial class AppearanceView : UserControl
+    public partial class UserKeywordView : UserControl
     {
-        public AppearanceView()
+        public UserKeywordView()
         {
             InitializeComponent();
         }

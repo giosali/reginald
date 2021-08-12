@@ -4,13 +4,15 @@
              xmlns:local="clr-namespace:Reginald"
              ShutdownMode="OnExplicitShutdown"
              
-             xmlns:tb="http://www.hardcodet.net/taskbar">
+             xmlns:tb="http://www.hardcodet.net/taskbar"
+             
+             xmlns:ui="http://schemas.modernwpf.com/2019">
     <Application.Resources>
         <ResourceDictionary>
              <!-- NotifyIcon -->
             <tb:TaskbarIcon x:Key="ReginaldNotifyIcon"
                             IconSource="pack://application:,,,/Reginald;component/Reginald.ico"
-                            ToolTipText="Reginald v0.2.1"
+                            ToolTipText="Reginald v0.3.0"
                             MenuActivation="LeftOrRightClick">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>
@@ -21,11 +23,8 @@
                     </ContextMenu>
                 </tb:TaskbarIcon.ContextMenu>
             </tb:TaskbarIcon>
-            
-            <ResourceDictionary.MergedDictionaries>
-                <!-- Reginald -->
-                <ResourceDictionary Source="Styles.xaml"/>
 
+            <ResourceDictionary.MergedDictionaries>
                 <!-- Caliburn.Micro -->
                 <ResourceDictionary>
                     <local:Bootstrapper x:Key="Bootstrapper"/>
@@ -33,6 +32,10 @@
 
                 <!-- FluentWPF Controls -->
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml"/>
+                
+                <!-- ModernWpfUI -->
+                <ui:ThemeResources AccentColor="DarkOrange"/>
+                <ui:XamlControlsResources/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

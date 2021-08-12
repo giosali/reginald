@@ -77,5 +77,23 @@
     <Setting Name="IncludeSpecialKeywords" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="IsDefaultColorEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="IsSystemColorEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SearchBoxKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Space</Value>
+    </Setting>
+    <Setting Name="SearchBoxModifierOne" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt</Value>
+    </Setting>
+    <Setting Name="SearchBoxModifierTwo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">None</Value>
+    </Setting>
+    <Setting Name="IncludeCommands" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

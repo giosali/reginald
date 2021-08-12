@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Reginald.Views
 {
     /// <summary>
-    /// Interaction logic for NewUserKeywordView.xaml
+    /// Interaction logic for CommandsView.xaml
     /// </summary>
-    public partial class NewUserKeywordView : Window
+    public partial class CommandsView : UserControl
     {
-        public NewUserKeywordView()
+        public CommandsView()
         {
             InitializeComponent();
         }

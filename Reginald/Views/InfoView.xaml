@@ -10,40 +10,8 @@
              xmlns:cal="http://caliburnmicro.com"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
-             xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <!-- TextBlock Styles -->
-            <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="White"/>
-            </Style>
-            <Style x:Key="TextBlockHeaderOne" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="32"/>
-            </Style>
-            <Style x:Key="TextBlockHeaderTwo" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="24"/>
-            </Style>
-            <Style x:Key="TextBlockParagraph" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="FontWeight" Value="Light"/>
-                <Setter Property="TextWrapping" Value="Wrap"/>
-            </Style>
-
-            <!-- Label Styles -->
-            <Style TargetType="{x:Type Label}">
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="FontWeight" Value="Light"/>
-            </Style>
-
-            <!-- StackPanel Styles -->
-            <Style x:Key="StackPanelSection" TargetType="{x:Type StackPanel}">
-                <Setter Property="Margin" Value="0 16 16 0"/>
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
-    <ScrollViewer x:Name="ScrollViewer"
-                  fw:PointerTracker.Enabled="True">
+             xmlns:ui="http://schemas.modernwpf.com/2019">
+    <ScrollViewer x:Name="ScrollViewer">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="PreviewMouseWheel">
                 <cal:ActionMessage MethodName="ScrollViewer_PreviewMouseWheel">
@@ -52,20 +20,18 @@
                 </cal:ActionMessage>
             </i:EventTrigger>
         </i:Interaction.Triggers>
-        <StackPanel Margin="20 7 20 10">
-            <TextBlock Style="{StaticResource TextBlockHeaderOne}"
-                       Text="Info"/>
-            <StackPanel Style="{StaticResource StackPanelSection}">
-                <TextBlock Style="{StaticResource TextBlockHeaderTwo}"
-                           Text="Developer"/>
-                <TextBlock Style="{StaticResource TextBlockParagraph}"
-                           Text="Name: Giovanni Salinas"
-                           Margin="0 16 0 0"/>
-                <TextBlock Style="{StaticResource TextBlockParagraph}"
-                           Text="Email: gbs3@protonmail.com"
-                           Margin="0 4 0 0"/>
-                <TextBlock Style="{StaticResource TextBlockParagraph}"
-                           Margin="0 4 0 0">
+        
+        <ui:SimpleStackPanel Spacing="24">
+            <!-- # Info -->
+            <TextBlock Text="Info"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <!-- ## Developer -->
+            <TextBlock Text="Developer"
+                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+            <ui:SimpleStackPanel Spacing="6">
+                <TextBlock Text="Name: Giovanni Salinas"/>
+                <TextBlock Text="Email: gbs3@protonmail.com"/>
+                <TextBlock>
                     GitHub account:
                     <Hyperlink NavigateUri="https://github.com/GBS3"
                                Command="{Binding HyperlinkCommand}"
@@ -73,12 +39,13 @@
                         <Run Text="github.com/GBS3"/>
                     </Hyperlink>
                 </TextBlock>
-            </StackPanel>
-            <StackPanel Style="{StaticResource StackPanelSection}">
-                <TextBlock Style="{StaticResource TextBlockHeaderTwo}"
-                           Text="Issues"/>
-                <TextBlock Style="{StaticResource TextBlockParagraph}"
-                           Margin="0 16 0 0">
+            </ui:SimpleStackPanel>
+            
+            <!-- ## Issues -->
+            <TextBlock Text="Issues"
+                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+            <ui:SimpleStackPanel Spacing="6">
+                <TextBlock>
                     <Run Text="If you encounter any issues, feel free to open an issue at:"/>
                     <Hyperlink NavigateUri="https://github.com/GBS3/reginald/issues"
                                Command="{Binding HyperlinkCommand}"
@@ -86,7 +53,7 @@
                         <Run Text="github.com/GBS3/reginald/issues/new"/>
                     </Hyperlink>
                 </TextBlock>
-            </StackPanel>
-        </StackPanel>
+            </ui:SimpleStackPanel>
+        </ui:SimpleStackPanel>
     </ScrollViewer>
 </UserControl>

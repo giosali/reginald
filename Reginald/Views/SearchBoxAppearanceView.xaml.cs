@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Reginald.Views
 {
     /// <summary>
-    /// Interaction logic for UtilitiesView.xaml
+    /// Interaction logic for SearchBoxAppearanceView.xaml
     /// </summary>
-    public partial class UtilitiesView : UserControl
+    public partial class SearchBoxAppearanceView : UserControl
     {
-        public UtilitiesView()
+        public SearchBoxAppearanceView()
         {
             InitializeComponent();
         }

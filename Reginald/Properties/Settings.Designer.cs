@@ -262,5 +262,77 @@ namespace Reginald.Properties {
                 this["IncludeSpecialKeywords"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsDefaultColorEnabled {
+            get {
+                return ((bool)(this["IsDefaultColorEnabled"]));
+            }
+            set {
+                this["IsDefaultColorEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsSystemColorEnabled {
+            get {
+                return ((bool)(this["IsSystemColorEnabled"]));
+            }
+            set {
+                this["IsSystemColorEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Space")]
+        public string SearchBoxKey {
+            get {
+                return ((string)(this["SearchBoxKey"]));
+            }
+            set {
+                this["SearchBoxKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alt")]
+        public string SearchBoxModifierOne {
+            get {
+                return ((string)(this["SearchBoxModifierOne"]));
+            }
+            set {
+                this["SearchBoxModifierOne"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("None")]
+        public string SearchBoxModifierTwo {
+            get {
+                return ((string)(this["SearchBoxModifierTwo"]));
+            }
+            set {
+                this["SearchBoxModifierTwo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IncludeCommands {
+            get {
+                return ((bool)(this["IncludeCommands"]));
+            }
+            set {
+                this["IncludeCommands"] = value;
+            }
+        }
     }
 }

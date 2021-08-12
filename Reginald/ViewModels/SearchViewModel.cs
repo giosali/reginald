@@ -1,11 +1,13 @@
 ﻿using Caliburn.Micro;
 using Reginald.Core.Base;
 using Reginald.Core.Enums;
+using Reginald.Core.Extensions;
 using Reginald.Core.Helpers;
 using Reginald.Core.IO;
 using Reginald.Core.Notifications;
 using Reginald.Extensions;
 using Reginald.Models;
+using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,15 +46,7 @@ namespace Reginald.ViewModels
         private XmlDocument commandsDoc;
         private Dictionary<string, string> applicationsDict;
 
-        private Indicator _indicator;
-        public Indicator Indicator
-        {
-            get => _indicator;
-            set
-            {
-                _indicator = value;
-            }
-        }
+        public Indicator Indicator { get; set; }
 
         private SettingsModel _settings = new();
         public SettingsModel Settings
@@ -175,6 +169,7 @@ namespace Reginald.ViewModels
             System.Drawing.Color specialSearchResultBorderColor;
             System.Drawing.Color specialSearchResultSecondaryColor;
             System.Drawing.Color specialSearchResultMainColor;
+            System.Drawing.Color searchResultHighlightColor;
             if (settings.IsDarkModeEnabled)
             {
                 searchBackgroundColor = settings.SearchBackgroundColorDark;
@@ -212,6 +207,10 @@ namespace Reginald.ViewModels
             Settings.SpecialSearchResultBorderBrush = SolidColorBrushHelper.FromRgb(specialSearchResultBorderColor);
             Settings.SpecialSearchResultSecondaryBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSecondaryColor);
             Settings.SpecialSearchResultMainBrush = SolidColorBrushHelper.FromRgb(specialSearchResultMainColor);
+
+            string highlightHex = settings.IsSystemColorEnabled ? AccentColors.ImmersiveSystemAccentBrush.GetTransparentHex("#99") : "#99ff8d00";
+            searchResultHighlightColor = System.Drawing.ColorTranslator.FromHtml(highlightHex);
+            Settings.SearchResultHighlightColor = SolidColorBrushHelper.FromArgb(searchResultHighlightColor);
         }
 
         public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)
@@ -225,7 +224,7 @@ namespace Reginald.ViewModels
                 Task<IEnumerable<SearchResultModel>> applicationModelsTask = GetApplicationModels(UserInput);
                 Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetModels(Properties.Settings.Default.IncludeDefaultKeywords, searchDoc, UserInput);
                 Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetModels(true, userSearchDoc, UserInput);
-                Task<IEnumerable<SearchResultModel>> commandKeywordModelsTask = GetCommandModelsAsync(commandsDoc, UserInput);
+                Task<IEnumerable<SearchResultModel>> commandKeywordModelsTask = GetCommandModelsAsync(commandsDoc, UserInput, Properties.Settings.Default.IncludeCommands);
                 Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
                 Task<SpecialSearchResultModel> specialKeywordModelTask = GetSpecialKeywordModelAsync(UserInput);
 
@@ -451,17 +450,21 @@ namespace Reginald.ViewModels
             return null;
         }
 
-        private async Task<IEnumerable<SearchResultModel>> GetCommandModelsAsync(XmlDocument doc, string input)
+        private async Task<IEnumerable<SearchResultModel>> GetCommandModelsAsync(XmlDocument doc, string input, bool isIncluded)
         {
-            (string keyword, string separator, string description) = input.Partition(" ");
-            IEnumerable<string> keywords = MatchKeywordsInDoc(doc, keyword, separator);
-
-            IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
-            foreach (string k in keywords)
+            if (isIncluded)
             {
-                models = models.Concat(await SearchResultModel.MakeListForCommandsAsync(doc, description, k, Category.Notifier));
+                (string keyword, string separator, string description) = input.Partition(" ");
+                IEnumerable<string> keywords = MatchKeywordsInDoc(doc, keyword, separator);
+
+                IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
+                foreach (string k in keywords)
+                {
+                    models = models.Concat(await SearchResultModel.MakeListForCommandsAsync(doc, description, k, Category.Notifier));
+                }
+                return models;
             }
-            return models;
+            return Array.Empty<SearchResultModel>();
         }
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)

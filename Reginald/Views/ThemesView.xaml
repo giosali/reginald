@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="Reginald.Views.ThemesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Reginald.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             
+             xmlns:cal="http://caliburnmicro.com"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             
+             xmlns:ui="http://schemas.modernwpf.com/2019">
+    <ScrollViewer>
+        <ui:SimpleStackPanel Spacing="24">
+            <!-- # Title -->
+            <TextBlock Text="Themes"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            
+            <!-- ## Search Box -->
+            <TextBlock Text="Search Box"
+                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+            <ui:SimpleStackPanel>
+                <!-- ### ToggleSwitch -->
+                <ui:ToggleSwitch Header="Use dark mode for your search results"
+                             IsOn="{Binding Settings.IsDarkModeEnabled}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Toggled">
+                            <cal:ActionMessage MethodName="IsDarkModeEnabledToggleSwitch_Toggled">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ui:ToggleSwitch>
+                <!-- ### ToggleSwitch -->
+                <ui:ToggleSwitch Header="Place a border around the search box to improve visibility"
+                             IsOn="{Binding Settings.IsSearchBoxBorderEnabled}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Toggled">
+                            <cal:ActionMessage MethodName="IsSearchBoxBorderEnabledToggleSwitch_Toggled">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ui:ToggleSwitch>
+            </ui:SimpleStackPanel>
+        </ui:SimpleStackPanel>
+        
+        <!--<Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    BorderThickness="0 0 1 0"
+                    BorderBrush="Gray">
+                <ui:SimpleStackPanel Spacing="12">
+                    <TextBlock Text="Reginald"/>
+                    <TextBlock Text="Reginald Light"/>
+                </ui:SimpleStackPanel>
+            </Border>
+            
+            <ui:SimpleStackPanel Grid.Column="1">
+                <ui:SimpleStackPanel.Background>
+                    <ImageBrush ImageSource="mountains.png"
+                                Stretch="UniformToFill"/>
+                </ui:SimpleStackPanel.Background>
+                <Border BorderBrush="DarkGray"
+                        BorderThickness="1"
+                        Margin="0 65 0 0"
+                        Width="300"
+                        Height="50">
+                    <Rectangle Width="300"
+                           Height="50"
+                           Fill="Black"
+                           Opacity="0.8"/>
+                </Border>
+            </ui:SimpleStackPanel>
+        </Grid>-->
+    </ScrollViewer>
+</UserControl>

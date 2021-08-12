@@ -1,21 +1,20 @@
 ﻿using Caliburn.Micro;
 using Reginald.Core.Helpers;
+using Reginald.Core.IO;
 using Reginald.Extensions;
 using Reginald.Models;
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Xml;
 
 namespace Reginald.ViewModels
 {
-    public class NewUserKeywordViewModel : Screen
+    public class CreateUserKeywordViewModel : Screen
     {
-        public NewUserKeywordViewModel(BindableCollection<SearchResultModel> collection)
+        public CreateUserKeywordViewModel(BindableCollection<SearchResultModel> collection)
         {
             UserKeywordSearchResults = collection;
             SelectedKeywordSearchResult = new SearchResultModel
@@ -64,11 +63,10 @@ namespace Reginald.ViewModels
                 else
                 {
                     string[] results = openFileDialog.FileName.Split(@"\");
-                    string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Reginald", "UserIcons", results[results.Count() - 1]);
+                    string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.UserIconsDirectoryName, results[^1]);
                     while (File.Exists(path))
                     {
-                        (string Left, string Separator, string Right) rpartition = path.RPartition(".");
-                        path = rpartition.Left + "_copy" + rpartition.Separator + rpartition.Right;
+                        path += "_copy";
                     }
                     File.Copy(openFileDialog.FileName, path);
                     IconPath = path;
@@ -89,21 +87,15 @@ namespace Reginald.ViewModels
 
         public void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectedKeywordSearchResult.Alt = ((TextBox)sender).Text;
             string keyword = SelectedKeywordSearchResult.Keyword;
-            string name = SelectedKeywordSearchResult.Name;
+            string name = SelectedKeywordSearchResult.Alt.Capitalize();
             string url = SelectedKeywordSearchResult.URL;
             string separator = SelectedKeywordSearchResult.Separator;
             string format = SelectedKeywordSearchResult.Format;
             string defaultText = SelectedKeywordSearchResult.DefaultText;
             string alt = SelectedKeywordSearchResult.Alt;
 
-            string appDataDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string applicationName = "Reginald";
-            string xmlUserKeywordFilename = "UserSearch.xml";
-            string path = Path.Combine(appDataDirectoryPath, applicationName, xmlUserKeywordFilename);
-            XmlDocument doc = new();
-            doc.Load(path);
+            XmlDocument doc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
             XmlNode lastNode = XmlHelper.GetLastNode(doc);
             int id = lastNode is null ? 0 : int.Parse(lastNode.Attributes["ID"].Value) + 1;
             XmlNode parentNode = lastNode is null ? doc.SelectSingleNode(@"//Searches") : lastNode.ParentNode;
@@ -111,7 +103,7 @@ namespace Reginald.ViewModels
             XmlNode node = XmlHelper.MakeXmlNode(keyword, id, name, IconPath, url, separator, format, defaultText, alt);
             XmlNode importedNode = parentNode.OwnerDocument.ImportNode(node, true);
             parentNode.AppendChild(importedNode);
-            doc.Save(path);
+            XmlHelper.SaveXmlDocument(doc, ApplicationPaths.XmlUserKeywordFilename);
 
             SelectedKeywordSearchResult.Description = string.Format(format, defaultText);
             SelectedKeywordSearchResult.IsEnabled = true;

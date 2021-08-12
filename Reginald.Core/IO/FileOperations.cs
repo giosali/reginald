@@ -287,7 +287,6 @@ namespace Reginald.Core.IO
                     XmlNode isEnabledNode = docNamespaceNodes[i].SelectSingleNode("IsEnabled");
                     try
                     {
-                        //XmlNode isEnabledNode = docNamespaceNodes[i].SelectSingleNode("IsEnabled");
                         if (isEnabledNode is not null)
                         {
                             isEnabledNode.InnerText = docOnDiskNamespaceNodes[i].SelectSingleNode("IsEnabled").InnerText;
@@ -429,6 +428,66 @@ namespace Reginald.Core.IO
                 "    </Namespace>" +
                 "</Searches>";
             return xml;
+        }
+
+        public static string GetSettingsXml()
+        {
+            string xml = "<?xml version=\"1.0\"?> \n" +
+                "<Settings> \n" +
+                "    <Namespace Name=\"IsDefaultColorEnabled\" ID=\"0\">" +
+                "        <Value>true</Value> \n" +
+                "    </Namespace>" +
+                "    <Namespace Name=\"IsSystemColorEnabled\" ID=\"1\">" +
+                "        <Value>false</Value> \n" +
+                "    </Namespace>" +
+                "    <Namespace Name=\"SearchBoxKey\" ID=\"2\">" +
+                "        <Value>Space</Value> \n" +
+                "    </Namespace>" +
+                "    <Namespace Name=\"SearchBoxModifierKeyOne\" ID=\"3\">" +
+                "        <Value>Alt</Value> \n" +
+                "    </Namespace>" +
+                "    <Namespace Name=\"SearchBoxModifierKeyTwo\" ID=\"4\">" +
+                "        <Value>None</Value> \n" +
+                "    </Namespace>" +
+                "</Settings>";
+            return xml;
+        }
+
+        public static void MakeAndUpdateSettingsXmlFile(string xml, string filename)
+        {
+            XmlDocument doc = new();
+            doc.LoadXml(xml);
+            string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, filename);
+            if (!File.Exists(path))
+            {
+                doc.Save(path);
+            }
+            else
+            {
+                XmlDocument docOnDisk = new();
+                docOnDisk.Load(path);
+
+                XmlNodeList docOnDiskNamespaceNodes = docOnDisk.SelectNodes(Constants.SettingsNamespacesXpath);
+                XmlNodeList docNamespaceNodes = doc.SelectNodes(Constants.SettingsNamespacesXpath);
+                for (int i = 0; i < docOnDiskNamespaceNodes.Count; i++)
+                {
+                    XmlNode valueNode = docNamespaceNodes[i].SelectSingleNode("Value");
+                    try
+                    {
+                        if (valueNode is not null)
+                        {
+                            valueNode.InnerText = docOnDiskNamespaceNodes[i].SelectSingleNode("Value").InnerText;
+                        }
+                    }
+                    catch (ArgumentOutOfRangeException) { }
+                    catch (NullReferenceException)
+                    {
+                        XmlNode importedNode = docOnDisk.ImportNode(valueNode, true);
+                        valueNode.ParentNode.AppendChild(importedNode);
+                    }
+                }
+                doc.Save(path);
+            }
         }
     }
 }

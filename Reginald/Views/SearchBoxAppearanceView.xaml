@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Reginald.Views.SearchBoxAppearanceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Reginald.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             
+             xmlns:cal="http://caliburnmicro.com"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             
+             xmlns:ui="http://schemas.modernwpf.com/2019">
+    <ScrollViewer x:Name="ScrollViewer">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewMouseWheel">
+                <cal:ActionMessage MethodName="ScrollViewer_PreviewMouseWheel">
+                    <cal:Parameter Value="{Binding ElementName=ScrollViewer}"/>
+                    <cal:Parameter Value="$eventargs"/>
+                </cal:ActionMessage>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
+        <ui:SimpleStackPanel Spacing="24">
+            <!-- # Search Box -->
+            <TextBlock Text="Search Box"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            
+            <!-- ## Colors -->
+            <TextBlock Text="Colors"
+                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+            <!-- ### Default color -->
+            <ui:SimpleStackPanel Spacing="6">
+                <TextBlock Text="Color to use for highlighted search results"/>
+                <RadioButton x:Name="DefaultColor"
+                             Content="Default color"
+                             GroupName="Color"
+                             IsChecked="{Binding Settings.IsDefaultColorEnabled, Mode=TwoWay}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <cal:ActionMessage MethodName="ColorRadioButton_Checked">
+                                <cal:Parameter Value="{Binding ElementName=DefaultColor}"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </RadioButton>
+                <RadioButton x:Name="SystemColor"
+                             Content="System color"
+                             GroupName="Color"
+                             IsChecked="{Binding Settings.IsSystemColorEnabled, Mode=TwoWay}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <cal:ActionMessage MethodName="ColorRadioButton_Checked">
+                                <cal:Parameter Value="{Binding ElementName=SystemColor}"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </RadioButton>
+            </ui:SimpleStackPanel>
+        </ui:SimpleStackPanel>
+    </ScrollViewer>
+</UserControl>
