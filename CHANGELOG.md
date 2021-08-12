@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.3.0
+
+### Added
+
+* Added the `timer` keyword which allows users to create notifications that will be displayed after a set amount of time
+* Added ability for user to change the highlight color of search results to the system highlight color
+* Added new tabs in the side navigation menu
+* Added ability for user to change key binding for opening the search box window
+
+### Changed
+
+* Massively revamped the UI
+
 ## v0.2.1
 
 ### Changed
