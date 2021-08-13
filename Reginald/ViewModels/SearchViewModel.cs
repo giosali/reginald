@@ -480,7 +480,6 @@ namespace Reginald.ViewModels
                         }
                         catch (NullReferenceException) { }
                         e.Handled = true;
-                        TryCloseAsync();
                         break;
 
                     case Key.Up:
@@ -537,10 +536,12 @@ namespace Reginald.ViewModels
             {
                 case Category.Application:
                     Process.Start("explorer.exe", @"shell:appsfolder\" + SelectedSearchResult.ParsingName);
+                    await TryCloseAsync();
                     break;
 
                 case Category.Math:
                     Clipboard.SetText(SelectedSearchResult.Text);
+                    await TryCloseAsync();
                     break;
 
                 case Category.Keyword:

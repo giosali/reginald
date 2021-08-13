@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.3.1
+
+### Changed
+
+* Changed minimum supported version of Windows 10 to Build 18362 (version: 1903; codename: 19H1; released: May 21, 2019; marketing name: May 2019 Update)
+
+### Fixed
+
+* Fixed issue where new tabs opened in the web browser would lose focus after being opened
+
 ## v0.3.0
 
 ### Added
