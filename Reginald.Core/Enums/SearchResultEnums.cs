@@ -8,6 +8,8 @@
         Keyword,
         SearchEngine,
         Command,
-        Notifier
+        Notifier,
+        Utility,
+        Confirmation
     }
 }

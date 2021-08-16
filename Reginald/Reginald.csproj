@@ -17,6 +17,7 @@
     <None Remove="Images\duckduckgo.png" />
     <None Remove="Images\ebay.png" />
     <None Remove="Images\edge.png" />
+    <None Remove="Images\exclamation.png" />
     <None Remove="Images\facebook.png" />
     <None Remove="Images\github.png" />
     <None Remove="Images\google.png" />
@@ -34,6 +35,7 @@
     <None Remove="Images\tumblr.png" />
     <None Remove="Images\twitch.png" />
     <None Remove="Images\twitter.png" />
+    <None Remove="Images\Utilities\recycle-bin.png" />
     <None Remove="Images\wikipedia.png" />
     <None Remove="Images\youtube.png" />
     <None Remove="Reginald.ico" />
@@ -68,6 +70,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\edge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\exclamation.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\facebook.png">
@@ -119,6 +124,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\twitter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Utilities\recycle-bin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\wikipedia.png">

@@ -430,6 +430,25 @@ namespace Reginald.Core.IO
             return xml;
         }
 
+        public static string GetUtilitiesXml()
+        {
+            string xml = "<?xml version=\"1.0\"?> \n" +
+                "<Searches> \n" +
+                "    <Namespace Name=\"recycle\" ID=\"0\">" +
+                "        <Name>Recycle</Name> \n" +
+                "        <Keyword>recycle</Keyword> \n" +
+                "        <Utility>Recycle</Utility> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/Utilities/recycle-bin.png</Icon> \n" +
+                "        <Description>Empty Recycle Bin</Description> \n" +
+                "        <Alt>Recycle Bin</Alt> \n" +
+                "        <RequiresConfirmation>true</RequiresConfirmation> \n" +
+                "        <ConfirmationMessage>Are you sure you would like to empty your recycle bin?</ConfirmationMessage> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
+                "    </Namespace>" +
+                "</Searches>";
+            return xml;
+        }
+
         public static string GetSettingsXml()
         {
             string xml = "<?xml version=\"1.0\"?> \n" +

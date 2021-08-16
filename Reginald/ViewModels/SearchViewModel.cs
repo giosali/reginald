@@ -5,6 +5,7 @@ using Reginald.Core.Extensions;
 using Reginald.Core.Helpers;
 using Reginald.Core.IO;
 using Reginald.Core.Notifications;
+using Reginald.Core.Utilities;
 using Reginald.Extensions;
 using Reginald.Models;
 using SourceChord.FluentWPF;
@@ -44,6 +45,7 @@ namespace Reginald.ViewModels
         private XmlDocument userSearchDoc;
         private XmlDocument specialKeywordDoc;
         private XmlDocument commandsDoc;
+        private XmlDocument utilitiesDoc;
         private Dictionary<string, string> applicationsDict;
 
         public Indicator Indicator { get; set; }
@@ -149,6 +151,7 @@ namespace Reginald.ViewModels
                 userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
                 specialKeywordDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSpecialKeywordFilename);
                 commandsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlCommandsFilename);
+                utilitiesDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUtilitiesFilename);
             });
             Task<Dictionary<string, string>> applicationsDictTask = Task.Run(() =>
             {
@@ -224,7 +227,8 @@ namespace Reginald.ViewModels
                 Task<IEnumerable<SearchResultModel>> applicationModelsTask = GetApplicationModels(UserInput);
                 Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetModels(Properties.Settings.Default.IncludeDefaultKeywords, searchDoc, UserInput);
                 Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetModels(true, userSearchDoc, UserInput);
-                Task<IEnumerable<SearchResultModel>> commandKeywordModelsTask = GetCommandModelsAsync(commandsDoc, UserInput, Properties.Settings.Default.IncludeCommands);
+                Task<IEnumerable<SearchResultModel>> commandKeywordModelsTask = GetCommandModelsAsync(Properties.Settings.Default.IncludeCommands, commandsDoc, UserInput);
+                Task<IEnumerable<SearchResultModel>> utilityKeywordModelsTask = GetUtilityModels(true, utilitiesDoc, UserInput);
                 Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
                 Task<SpecialSearchResultModel> specialKeywordModelTask = GetSpecialKeywordModelAsync(UserInput);
 
@@ -232,6 +236,7 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> keywordModels = await keywordModelsTask;
                 IEnumerable<SearchResultModel> userKeywordModels = await userKeywordModelsTask;
                 IEnumerable<SearchResultModel> commandModels = await commandKeywordModelsTask;
+                IEnumerable<SearchResultModel> utilityModels = await utilityKeywordModelsTask;
                 SearchResultModel[] mathModels = await mathModelsTask;
                 SpecialSearchResultModel specialSearchResult = await specialKeywordModelTask;
 
@@ -251,7 +256,7 @@ namespace Reginald.ViewModels
                     {
                         try
                         {
-                            models = applicationModels.Concat(keywordModels).Concat(userKeywordModels).Concat(mathModels).Concat(commandModels);
+                            models = applicationModels.Concat(keywordModels).Concat(userKeywordModels).Concat(mathModels).Concat(commandModels).Concat(utilityModels);
                         }
                         catch (ArgumentNullException)
                         {
@@ -450,7 +455,7 @@ namespace Reginald.ViewModels
             return null;
         }
 
-        private async Task<IEnumerable<SearchResultModel>> GetCommandModelsAsync(XmlDocument doc, string input, bool isIncluded)
+        private async Task<IEnumerable<SearchResultModel>> GetCommandModelsAsync(bool isIncluded, XmlDocument doc, string input)
         {
             if (isIncluded)
             {
@@ -467,62 +472,74 @@ namespace Reginald.ViewModels
             return Array.Empty<SearchResultModel>();
         }
 
+        private Task<IEnumerable<SearchResultModel>> GetUtilityModels(bool isIncluded, XmlDocument doc, string input)
+        {
+            if (isIncluded)
+            {
+                IEnumerable<string> keywords = MatchKeywordsInDoc(doc, input, string.Empty);
+
+                IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
+                foreach (string k in keywords)
+                {
+                    models = models.Concat(SearchResultModel.MakeListForUtilities(doc, k, Category.Utility));
+                }
+                return Task.FromResult(models);
+            }
+            return Task.FromResult(Enumerable.Empty<SearchResultModel>());
+        }
+
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (SearchResults.Any())
+            try
             {
-                switch (e.Key)
+                if (SearchResults.Any())
                 {
-                    case Key.Enter:
-                        try
-                        {
+                    switch (e.Key)
+                    {
+                        case Key.Enter:
                             _ = HandleSelectedSearchResultBasedOnCategoryNameAsync(SelectedSearchResult.Category);
-                        }
-                        catch (NullReferenceException) { }
-                        e.Handled = true;
-                        break;
+                            e.Handled = true;
+                            break;
 
-                    case Key.Up:
-                        try
-                        {
+                        case Key.Up:
                             SelectedSearchResult = SearchResults[SearchResults.IndexOf(SelectedSearchResult) - 1];
-                        }
-                        catch (ArgumentOutOfRangeException) { }
-                        break;
+                            break;
 
-                    case Key.Down:
-                        try
-                        {
+                        case Key.Down:
                             SelectedSearchResult = SearchResults[SearchResults.IndexOf(SelectedSearchResult) + 1];
-                        }
-                        catch (ArgumentOutOfRangeException) { }
-                        break;
+                            break;
 
-                    case Key.Tab:
-                        TextBox textBox = (TextBox)sender;
-                        if (SelectedSearchResult.Keyword is not null)
-                        {
-                            if (!UserInput.StartsWith(SelectedSearchResult.Keyword, StringComparison.InvariantCultureIgnoreCase))
+                        case Key.Tab:
+                            TextBox textBox = (TextBox)sender;
+                            if (SelectedSearchResult.Keyword is not null)
                             {
-                                UserInput = SelectedSearchResult.Keyword;
-                                textBox.SelectionStart = UserInput.Length;
+                                if (!UserInput.StartsWith(SelectedSearchResult.Keyword, StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    UserInput = SelectedSearchResult.Keyword;
+                                    textBox.SelectionStart = UserInput.Length;
+                                }
                             }
-                        }
-                        else
-                        {
-                            if (!UserInput.StartsWith(SelectedSearchResult.Name, StringComparison.InvariantCultureIgnoreCase))
+                            else
                             {
-                                UserInput = SelectedSearchResult.Name;
-                                textBox.SelectionStart = UserInput.Length;
+                                if (!UserInput.StartsWith(SelectedSearchResult.Name, StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    UserInput = SelectedSearchResult.Name;
+                                    textBox.SelectionStart = UserInput.Length;
+                                }
                             }
-                        }
-                        e.Handled = true;
-                        break;
+                            e.Handled = true;
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
             }
+            catch (NullReferenceException)
+            {
+                e.Handled = true;
+            }
+            catch (ArgumentOutOfRangeException) { }
         }
 
         public void SearchResults_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -573,6 +590,25 @@ namespace Reginald.ViewModels
                         await Task.Delay((int)SelectedSearchResult.Time * 1000);
                         ToastNotifications.SendSimpleToastNotification(SelectedSearchResult.Name, SelectedSearchResult.Text);
                     }
+                    break;
+
+                case Category.Utility:
+                    if (SelectedSearchResult.RequiresConfirmation)
+                    {
+                        string confirmationMessage = SelectedSearchResult.ConfirmationMessage;
+                        Utility utility = SelectedSearchResult.Utility;
+                        SearchResults.Clear();
+                        SearchResults.Add(new SearchResultModel(confirmationMessage, utility));
+                        SelectedSearchResult = SearchResults[0];
+                    }
+                    else
+                    {
+                        UtilityBase.HandleUtility(SelectedSearchResult.Utility);
+                    }
+                    break;
+
+                case Category.Confirmation:
+                    UtilityBase.HandleUtility(SelectedSearchResult.Utility);
                     break;
 
                 default:

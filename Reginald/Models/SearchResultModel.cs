@@ -68,8 +68,18 @@ namespace Reginald.Models
             Alt = node["Alt"].InnerText;
         }
 
+        public SearchResultModel(string message, Utility utility)
+        {
+            Description = message;
+            Icon = BitmapImageHelper.MakeFromUri(string.Format(Constants.AssemblyPath, "Images/exclamation.png"));
+            Alt = "Confirmation Required";
+            Category = Category.Confirmation;
+            Utility = utility;
+        }
+
         public string Name { get; set; }
         public Category Category { get; set; }
+        public Utility Utility { get; set; }
         public ImageSource Icon { get; set; }
         public string ParsingName { get; set; }
         public int ID { get; set; }
@@ -84,6 +94,8 @@ namespace Reginald.Models
         public string Count { get; set; }
         public bool IsEnabled { get; set; }
         public double? Time { get; set; }
+        public bool RequiresConfirmation { get; set; }
+        public string ConfirmationMessage { get; set; }
 
         public static List<SearchResultModel> MakeList(XmlDocument doc, string input, string attribute, Category category)
         {
@@ -284,6 +296,45 @@ namespace Reginald.Models
                             {
                                 models.Add(model);
                             }
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        continue;
+                    }
+                }
+                return models;
+            }
+            return new List<SearchResultModel>();
+        }
+
+        public static List<SearchResultModel> MakeListForUtilities(XmlDocument doc, string attribute, Category category)
+        {
+            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+            if (nodes is not null)
+            {
+                List<SearchResultModel> models = new();
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    try
+                    {
+                        XmlNode node = nodes[i];
+                        if (bool.Parse(node["IsEnabled"].InnerText))
+                        {
+                            SearchResultModel model = new()
+                            {
+                                Name = node["Name"].InnerText,
+                                Category = category,
+                                Utility = (Utility)Enum.Parse(typeof(Utility), node["Utility"].InnerText),
+                                Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
+                                Keyword = node["Keyword"].InnerText,
+                                Description = node["Description"].InnerText,
+                                Alt = node["Alt"].InnerText,
+                                IsEnabled = bool.Parse(node["IsEnabled"].InnerText),
+                                RequiresConfirmation = bool.Parse(node["RequiresConfirmation"].InnerText),
+                                ConfirmationMessage = node["ConfirmationMessage"].InnerText
+                            };
+                            models.Add(model);
                         }
                     }
                     catch (NullReferenceException)

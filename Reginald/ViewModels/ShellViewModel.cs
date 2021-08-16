@@ -59,6 +59,11 @@ namespace Reginald.ViewModels
             FileOperations.MakeXmlFile(commandsXml, ApplicationPaths.XmlCommandsFilename);
             FileOperations.UpdateXmlFile(commandsXml, ApplicationPaths.XmlCommandsFilename);
 
+            // Creates and updates "Reginald\Utilities.xml" in %AppData%
+            string utilitiesXml = FileOperations.GetUtilitiesXml();
+            FileOperations.MakeXmlFile(utilitiesXml, ApplicationPaths.XmlUtilitiesFilename);
+            FileOperations.UpdateXmlFile(utilitiesXml, ApplicationPaths.XmlUtilitiesFilename);
+
             FileOperations.CacheApplicationIcons();
 
             // Creates "Reginald\Applications.txt" in %AppData%
