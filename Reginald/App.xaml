@@ -14,6 +14,10 @@
                             IconSource="pack://application:,,,/Reginald;component/Reginald.ico"
                             ToolTipText="Reginald v0.3.1"
                             MenuActivation="LeftOrRightClick">
+                <tb:TaskbarIcon.Resources>
+                    <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+                    </Style>
+                </tb:TaskbarIcon.Resources>
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Open Settings"
