@@ -589,6 +589,7 @@ namespace Reginald.ViewModels
                     {
                         await Task.Delay((int)SelectedSearchResult.Time * 1000);
                         ToastNotifications.SendSimpleToastNotification(SelectedSearchResult.Name, SelectedSearchResult.Text);
+                        await TryCloseAsync();
                     }
                     break;
 
@@ -604,11 +605,13 @@ namespace Reginald.ViewModels
                     else
                     {
                         UtilityBase.HandleUtility(SelectedSearchResult.Utility);
+                        await TryCloseAsync();
                     }
                     break;
 
                 case Category.Confirmation:
                     UtilityBase.HandleUtility(SelectedSearchResult.Utility);
+                    await TryCloseAsync();
                     break;
 
                 default:
