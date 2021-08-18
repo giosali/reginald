@@ -105,7 +105,7 @@ namespace Reginald.ViewModels
         private static async void SetUpAsync()
         {
             CancellationToken cancellationToken = new();
-            int time = 8000;
+            int time = 5000;
             await TimerUtils.DoEveryXSecondsAsync(time, cancellationToken);
         }
     }
