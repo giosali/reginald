@@ -15,7 +15,7 @@ using System.Xml;
 
 namespace Reginald.ViewModels
 {
-    class GeneralViewModel : Screen
+    public class GeneralViewModel : Screen
     {
         public GeneralViewModel()
         {
@@ -103,7 +103,13 @@ namespace Reginald.ViewModels
 
         public void RestartButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(Application.ResourceAssembly.Location);
+            ProcessStartInfo startInfo = new();
+            string filename = Process.GetCurrentProcess().MainModule.FileName;
+            startInfo.Arguments = $"/C ping 127.0.0.1 -n 2 && \"{filename}\"";
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.CreateNoWindow = true;
+            startInfo.FileName = "cmd.exe";
+            Process.Start(startInfo);
             Application.Current.Shutdown();
         }
 
