@@ -70,7 +70,7 @@ namespace Reginald.ViewModels
             e.Handled = true;
         }
 
-        public void IncludeSpecialKeywordsToggleButton_Click(object sender, RoutedEventArgs e)
+        public void IncludeSpecialKeywordsToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             bool value = !Properties.Settings.Default.IncludeSpecialKeywords;
             Properties.Settings.Default.IncludeSpecialKeywords = value;

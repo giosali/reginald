@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using ModernWpf.Controls;
+using HandyControl.Data;
 using Reginald.Core.Base;
 using Reginald.Core.Enums;
 using Reginald.Core.Helpers;
@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -70,23 +69,40 @@ namespace Reginald.ViewModels
             XmlHelper.SaveXmlDocument(doc, name);
         }
 
-        public async Task DeleteKeyword_ClickAsync(object sender, RoutedEventArgs e)
+        public void DeleteKeyword_Click(object sender, RoutedEventArgs e)
         {
-            ContentDialog dialog = new Dialogs.DeleteUserKeywordDialog(SelectedUserKeywordSearchResult.Name);
-            ContentDialogResult result = await dialog.ShowAsync();
-
-            if (result == ContentDialogResult.Secondary)
+            string message = $"Are you sure you would like to delete the '{SelectedUserKeywordSearchResult.Name}' keyword?";
+            string caption = "Confirmation Required";
+            MessageBoxResult result = HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
             {
-                XmlDocument doc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
-                XmlNode currentNode = XmlHelper.GetCurrentNodeFromID(doc, SelectedUserKeywordSearchResult.ID);
-                string iconPath = currentNode["Icon"].InnerText;
-                if (File.Exists(iconPath))
-                {
-                    File.Delete(iconPath);
-                }
-                currentNode.ParentNode.RemoveChild(currentNode);
-                XmlHelper.SaveXmlDocument(doc, ApplicationPaths.XmlUserKeywordFilename);
-                UserKeywordSearchResults.Remove(SelectedUserKeywordSearchResult);
+                Message = message,
+                Caption = caption,
+                Button = MessageBoxButton.OKCancel,
+                IconBrushKey = ResourceToken.AccentBrush,
+                IconKey = ResourceToken.AskGeometry
+            });
+            //MessageBoxResult result = MessageBox.Show(message, ApplicationPaths.ApplicationName, MessageBoxButton.OKCancel);
+
+            switch (result)
+            {
+                case MessageBoxResult.OK:
+                    XmlDocument doc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
+                    XmlNode currentNode = XmlHelper.GetCurrentNodeFromID(doc, SelectedUserKeywordSearchResult.ID);
+                    string iconPath = currentNode["Icon"].InnerText;
+                    if (File.Exists(iconPath))
+                    {
+                        File.Delete(iconPath);
+                    }
+                    currentNode.ParentNode.RemoveChild(currentNode);
+                    XmlHelper.SaveXmlDocument(doc, ApplicationPaths.XmlUserKeywordFilename);
+                    UserKeywordSearchResults.Remove(SelectedUserKeywordSearchResult);
+                    break;
+
+                case MessageBoxResult.Cancel:
+                    break;
+
+                default:
+                    break;
             }
         }
 

@@ -10,32 +10,28 @@
              xmlns:cal="http://caliburnmicro.com"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
-             xmlns:ui="http://schemas.modernwpf.com/2019">
+             xmlns:hc="https://handyorg.github.io/handycontrol">
     <ScrollViewer x:Name="ScrollViewer">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="PreviewMouseWheel">
-                <cal:ActionMessage MethodName="ScrollViewer_PreviewMouseWheel">
-                    <cal:Parameter Value="{Binding ElementName=ScrollViewer}"/>
-                    <cal:Parameter Value="$eventargs"/>
-                </cal:ActionMessage>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-
-        <ui:SimpleStackPanel Spacing="24">
+        <hc:UniformSpacingPanel Spacing="24"
+                                Orientation="Vertical">
             <!-- # Search Box -->
             <TextBlock Text="Search Box"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
+                       Style="{StaticResource HeaderOneTextBlockStyle}"/>
             
             <!-- ## Colors -->
             <TextBlock Text="Colors"
-                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
             <!-- ### Default color -->
-            <ui:SimpleStackPanel Spacing="6">
-                <TextBlock Text="Color to use for highlighted search results"/>
+            <hc:UniformSpacingPanel Spacing="6"
+                                    Orientation="Vertical">
+                <TextBlock Text="Color to use for highlighted search results"
+                           Style="{StaticResource NormalTextBlockStyle}"/>
                 <RadioButton x:Name="DefaultColor"
                              Content="Default color"
                              GroupName="Color"
-                             IsChecked="{Binding Settings.IsDefaultColorEnabled, Mode=TwoWay}">
+                             IsChecked="{Binding Settings.IsDefaultColorEnabled, Mode=TwoWay}"
+                             HorizontalAlignment="Left"
+                             FontSize="14">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
                             <cal:ActionMessage MethodName="ColorRadioButton_Checked">
@@ -48,7 +44,9 @@
                 <RadioButton x:Name="SystemColor"
                              Content="System color"
                              GroupName="Color"
-                             IsChecked="{Binding Settings.IsSystemColorEnabled, Mode=TwoWay}">
+                             IsChecked="{Binding Settings.IsSystemColorEnabled, Mode=TwoWay}"
+                             HorizontalAlignment="Left"
+                             FontSize="14">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
                             <cal:ActionMessage MethodName="ColorRadioButton_Checked">
@@ -58,7 +56,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </RadioButton>
-            </ui:SimpleStackPanel>
-        </ui:SimpleStackPanel>
+            </hc:UniformSpacingPanel>
+        </hc:UniformSpacingPanel>
     </ScrollViewer>
 </UserControl>

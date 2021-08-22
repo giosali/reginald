@@ -26,7 +26,7 @@ namespace Reginald.ViewModels
             }
         }
 
-        public void IsDarkModeEnabledToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        public void IsDarkModeEnabledToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             bool isDarkModeEnabled = Properties.Settings.Default.IsDarkModeEnabled;
             Properties.Settings.Default.IsDarkModeEnabled = !isDarkModeEnabled;
@@ -35,7 +35,7 @@ namespace Reginald.ViewModels
             Settings.IsDarkModeEnabled = !isDarkModeEnabled;
         }
 
-        public void IsSearchBoxBorderEnabledToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        public void IsSearchBoxBorderEnabledToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             bool isSearchBoxBorderEnabled = Properties.Settings.Default.IsSearchBoxBorderEnabled;
             Properties.Settings.Default.IsSearchBoxBorderEnabled = !isSearchBoxBorderEnabled;

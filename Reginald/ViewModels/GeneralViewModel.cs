@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using ModernWpf.Controls;
 using Reginald.Core.Base;
 using Reginald.Core.Helpers;
 using Reginald.Core.IO;
@@ -8,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
@@ -85,13 +83,7 @@ namespace Reginald.ViewModels
             get => _selectedKey;
             set
             {
-                if (value == Key.None)
-                {
-                    string message = "This key cannot be left blank";
-                    _ = DisplayWarningAsync(message);
-                    SelectedKey = _selectedKey;
-                }
-                else
+                if (value != Key.None)
                 {
                     _selectedKey = value;
                     UpdatePropertySettings(SelectedKey);
@@ -116,12 +108,6 @@ namespace Reginald.ViewModels
         public void ShutdownButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private static async Task DisplayWarningAsync(string message)
-        {
-            ContentDialog dialog = new Dialogs.WarningDialog(message);
-            _ = await dialog.ShowAsync();
         }
 
         private static void UpdatePropertySettings(Key key)

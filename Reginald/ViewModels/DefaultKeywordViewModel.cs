@@ -63,7 +63,7 @@ namespace Reginald.ViewModels
             e.Handled = true;
         }
 
-        public void IncludeDefaultKeywordsToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        public void IncludeDefaultKeywordsToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             bool value = !Properties.Settings.Default.IncludeDefaultKeywords;
             Properties.Settings.Default.IncludeDefaultKeywords = value;

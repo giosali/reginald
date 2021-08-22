@@ -10,7 +10,7 @@
              xmlns:cal="http://caliburnmicro.com"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
-             xmlns:ui="http://schemas.modernwpf.com/2019">
+             xmlns:hc="https://handyorg.github.io/handycontrol">
     <ScrollViewer x:Name="ScrollViewer">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="PreviewMouseWheel">
@@ -20,40 +20,45 @@
                 </cal:ActionMessage>
             </i:EventTrigger>
         </i:Interaction.Triggers>
-        
-        <ui:SimpleStackPanel Spacing="24">
+
+        <hc:UniformSpacingPanel Spacing="24"
+                                Orientation="Vertical">
             <!-- # Info -->
             <TextBlock Text="Info"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
+                       Style="{StaticResource HeaderOneTextBlockStyle}"/>
             <!-- ## Developer -->
             <TextBlock Text="Developer"
-                       Style="{StaticResource SubheaderTextBlockStyle}"/>
-            <ui:SimpleStackPanel Spacing="6">
-                <TextBlock Text="Name: Giovanni Salinas"/>
-                <TextBlock Text="Email: gbs3@protonmail.com"/>
-                <TextBlock>
+                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
+            <hc:UniformSpacingPanel Spacing="6"
+                                    Orientation="Vertical">
+                <TextBlock Text="Name: Giovanni Salinas"
+                           Style="{StaticResource NormalTextBlockStyle}"/>
+                <TextBlock Text="Email: gbs3@protonmail.com"
+                           Style="{StaticResource NormalTextBlockStyle}"/>
+                <TextBlock Style="{StaticResource NormalTextBlockStyle}">
                     GitHub account:
                     <Hyperlink NavigateUri="https://github.com/GBS3"
                                Command="{Binding HyperlinkCommand}"
-                               CommandParameter="https://github.com/GBS3">
+                               CommandParameter="https://github.com/giosali">
                         <Run Text="github.com/GBS3"/>
                     </Hyperlink>
                 </TextBlock>
-            </ui:SimpleStackPanel>
+            </hc:UniformSpacingPanel>
             
             <!-- ## Issues -->
             <TextBlock Text="Issues"
-                       Style="{StaticResource SubheaderTextBlockStyle}"/>
-            <ui:SimpleStackPanel Spacing="6">
-                <TextBlock>
+                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
+            <hc:UniformSpacingPanel Spacing="6"
+                                    Orientation="Vertical">
+                <TextBlock Style="{StaticResource NormalTextBlockStyle}">
                     <Run Text="If you encounter any issues, feel free to open an issue at:"/>
                     <Hyperlink NavigateUri="https://github.com/GBS3/reginald/issues"
                                Command="{Binding HyperlinkCommand}"
-                               CommandParameter="https://github.com/GBS3/reginald/issues/new">
+                               CommandParameter="https://github.com/giosali/reginald/issues/new">
                         <Run Text="github.com/GBS3/reginald/issues/new"/>
                     </Hyperlink>
                 </TextBlock>
-            </ui:SimpleStackPanel>
-        </ui:SimpleStackPanel>
+            </hc:UniformSpacingPanel>
+        </hc:UniformSpacingPanel>
     </ScrollViewer>
 </UserControl>

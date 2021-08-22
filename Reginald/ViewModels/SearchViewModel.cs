@@ -311,8 +311,7 @@ namespace Reginald.ViewModels
                                                                         .ThenBy(x => x.Name);
                     return Task.FromResult(models);
                 }
-                else
-                    return Task.FromResult(Enumerable.Empty<SearchResultModel>());
+                return Task.FromResult(Enumerable.Empty<SearchResultModel>());
             }
             catch (RegexParseException)
             {
@@ -587,9 +586,9 @@ namespace Reginald.ViewModels
                 case Category.Notifier:
                     if (!string.IsNullOrEmpty(SelectedSearchResult.Text))
                     {
+                        await TryCloseAsync();
                         await Task.Delay((int)SelectedSearchResult.Time * 1000);
                         ToastNotifications.SendSimpleToastNotification(SelectedSearchResult.Name, SelectedSearchResult.Text);
-                        await TryCloseAsync();
                     }
                     break;
 
@@ -604,14 +603,14 @@ namespace Reginald.ViewModels
                     }
                     else
                     {
-                        UtilityBase.HandleUtility(SelectedSearchResult.Utility);
                         await TryCloseAsync();
+                        await UtilityBase.HandleUtilityAsync(SelectedSearchResult.Utility);
                     }
                     break;
 
                 case Category.Confirmation:
-                    UtilityBase.HandleUtility(SelectedSearchResult.Utility);
                     await TryCloseAsync();
+                    await UtilityBase.HandleUtilityAsync(SelectedSearchResult.Utility);
                     break;
 
                 default:

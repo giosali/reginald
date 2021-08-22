@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using static Reginald.Core.Enums.RecycleBinEnums;
 
 namespace Reginald.Core.Utilities

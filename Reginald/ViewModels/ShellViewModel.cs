@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using Hardcodet.Wpf.TaskbarNotification;
 using Reginald.Commands;
 using Reginald.Core.IO;
 using Reginald.Core.Utils;
@@ -29,9 +28,44 @@ namespace Reginald.ViewModels
     {
         public ShellViewModel()
         {
-            tb = (TaskbarIcon)Application.Current.FindResource("ReginaldNotifyIcon");
+            SetUpIO();
             OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
 
+            SearchViewModel = new(new Indicator());
+            SetUpAsync();
+        }
+
+        public static SearchViewModel SearchViewModel { get; set; }
+        public static Indicator Indicator { get; set; }
+
+        public ICommand OpenWindowCommand { get; set; }
+
+        private bool CanExecuteMethod(object parameter)
+        {
+            return true;
+        }
+
+        private async void ExecuteMethod(object parameter)
+        {
+            if (SearchViewModel.IsActive)
+            {
+                await SearchViewModel.TryCloseAsync();
+            }
+            else
+            {
+                IWindowManager manager = new WindowManager();
+                await manager.ShowWindowAsync(SearchViewModel);
+            }
+        }
+
+        public void OpenSettingsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            IWindowManager manager = new WindowManager();
+            manager.ShowWindowAsync(new SettingsViewModel());
+        }
+
+        private static void SetUpIO()
+        {
             // Creates "Reginald" in %AppData%
             Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
 
@@ -71,35 +105,6 @@ namespace Reginald.ViewModels
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
-
-            SearchViewModel = new(new Indicator());
-            SetUpAsync();
-        }
-
-        // NotifyIcon for System Tray
-        private TaskbarIcon tb;
-
-        public static SearchViewModel SearchViewModel { get; set; }
-        public static Indicator Indicator { get; set; }
-
-        public ICommand OpenWindowCommand { get; set; }
-
-        private bool CanExecuteMethod(object parameter)
-        {
-            return true;
-        }
-
-        private async void ExecuteMethod(object parameter)
-        {
-            if (SearchViewModel.IsActive)
-            {
-                await SearchViewModel.TryCloseAsync();
-            }
-            else
-            {
-                IWindowManager manager = new WindowManager();
-                await manager.ShowWindowAsync(SearchViewModel);
-            }
         }
 
         private static async void SetUpAsync()

@@ -442,7 +442,7 @@ namespace Reginald.Core.IO
                 "        <Description>Empty Recycle Bin</Description> \n" +
                 "        <Alt>Recycle Bin</Alt> \n" +
                 "        <RequiresConfirmation>true</RequiresConfirmation> \n" +
-                "        <ConfirmationMessage>Are you sure you would like to empty your recycle bin?</ConfirmationMessage> \n" +
+                "        <ConfirmationMessage>Are you sure? (This action cannot be undone)</ConfirmationMessage> \n" +
                 "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
                 "</Searches>";

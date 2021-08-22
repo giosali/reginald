@@ -10,7 +10,7 @@
              xmlns:cal="http://caliburnmicro.com"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
-             xmlns:ui="http://schemas.modernwpf.com/2019">
+             xmlns:hc="https://handyorg.github.io/handycontrol">
     <ScrollViewer x:Name="ScrollViewer">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="PreviewMouseWheel">
@@ -21,10 +21,11 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
 
-        <ui:SimpleStackPanel Spacing="24">
+        <hc:UniformSpacingPanel Spacing="24"
+                                Orientation="Vertical">
             <!-- ## Utilities -->
             <TextBlock Text="Your keywords"
-                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
             
             <!-- ### DataGrid -->
             <DataGrid x:Name="UserKeywordSearchResults"
@@ -82,20 +83,20 @@
             </DataGrid>
 
             <!-- ### Buttons -->
-            <ui:SimpleStackPanel Spacing="6"
-                                 Orientation="Horizontal">
+            <hc:UniformSpacingPanel Spacing="6"
+                                    Orientation="Horizontal">
                 <!-- #### Delete keyword button -->
                 <Button Content="Delete keyword">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <cal:ActionMessage MethodName="DeleteKeyword_ClickAsync">
+                            <cal:ActionMessage MethodName="DeleteKeyword_Click">
                                 <cal:Parameter Value="$this"/>
                                 <cal:Parameter Value="$eventargs"/>
                             </cal:ActionMessage>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource AccentButtonStyle}">
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonPrimary}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ElementName=UserKeywordSearchResults, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
                                     <Setter Property="IsEnabled" Value="False"/>
@@ -115,7 +116,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource AccentButtonStyle}">
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonPrimary}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ElementName=UserKeywordSearchResults, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
                                     <Setter Property="IsEnabled" Value="False"/>
@@ -135,7 +136,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-            </ui:SimpleStackPanel>
-        </ui:SimpleStackPanel>
+            </hc:UniformSpacingPanel>
+        </hc:UniformSpacingPanel>
     </ScrollViewer>
 </UserControl>

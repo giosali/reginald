@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
-using ModernWpf.Controls;
+using HandyControl.Controls;
+using HandyControl.Data;
 using System.Threading.Tasks;
 
 namespace Reginald.ViewModels
@@ -16,28 +17,70 @@ namespace Reginald.ViewModels
             await ActivateItemAsync(new GeneralViewModel());
         }
 
-        public async Task NavigationView_ItemInvokedAsync(NavigationView sender, NavigationViewItemInvokedEventArgs e)
+        //public async Task NavigationView_ItemInvokedAsync(NavigationView sender, NavigationViewItemInvokedEventArgs e)
+        //{
+        //    string invokedItem = e.InvokedItem.ToString();
+        //    switch (invokedItem)
+        //    {
+        //        case "Themes":
+        //            await ActivateItemAsync(new ThemesViewModel());
+        //            break;
+
+        //        case "Search Box":
+        //            await ActivateItemAsync(new SearchBoxAppearanceViewModel());
+        //            break;
+
+        //        case "Default Keywords":
+        //            await ActivateItemAsync(new DefaultKeywordViewModel());
+        //            break;
+
+        //        case "User Keywords":
+        //            await ActivateItemAsync(new UserKeywordViewModel());
+        //            break;
+
+        //        case "Special Keywords":
+        //            await ActivateItemAsync(new SpecialKeywordViewModel());
+        //            break;
+
+        //        case "Commands":
+        //            await ActivateItemAsync(new CommandsViewModel());
+        //            break;
+
+        //        case "Info":
+        //            await ActivateItemAsync(new InfoViewModel());
+        //            break;
+
+        //        case "Settings":
+        //            await ActivateItemAsync(new GeneralViewModel());
+        //            break;
+
+        //        default:
+        //            break;
+        //    }
+        //}
+
+        public async Task SideMenu_SelectionChangedAsync(object sender, FunctionEventArgs<object> e)
         {
-            string invokedItem = e.InvokedItem.ToString();
-            switch (invokedItem)
+            SideMenuItem sideMenuItem = sender as SideMenuItem;
+            switch (sideMenuItem.Name)
             {
                 case "Themes":
                     await ActivateItemAsync(new ThemesViewModel());
                     break;
 
-                case "Search Box":
+                case "SearchBox":
                     await ActivateItemAsync(new SearchBoxAppearanceViewModel());
                     break;
 
-                case "Default Keywords":
+                case "DefaultKeywords":
                     await ActivateItemAsync(new DefaultKeywordViewModel());
                     break;
 
-                case "User Keywords":
+                case "UserKeywords":
                     await ActivateItemAsync(new UserKeywordViewModel());
                     break;
 
-                case "Special Keywords":
+                case "SpecialKeywords":
                     await ActivateItemAsync(new SpecialKeywordViewModel());
                     break;
 

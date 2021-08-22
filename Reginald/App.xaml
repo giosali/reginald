@@ -4,31 +4,13 @@
              xmlns:local="clr-namespace:Reginald"
              ShutdownMode="OnExplicitShutdown"
              
-             xmlns:tb="http://www.hardcodet.net/taskbar"
-             
-             xmlns:ui="http://schemas.modernwpf.com/2019">
+             xmlns:hc="https://handyorg.github.io/handycontrol">
     <Application.Resources>
         <ResourceDictionary>
-             <!-- NotifyIcon -->
-            <tb:TaskbarIcon x:Key="ReginaldNotifyIcon"
-                            IconSource="pack://application:,,,/Reginald;component/Reginald.ico"
-                            ToolTipText="Reginald v0.3.1"
-                            MenuActivation="LeftOrRightClick">
-                <tb:TaskbarIcon.Resources>
-                    <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
-                    </Style>
-                </tb:TaskbarIcon.Resources>
-                <tb:TaskbarIcon.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Open Settings"
-                                  Click="OpenSettingsMenuItem_Click"/>
-                        <MenuItem Header="Exit"
-                                  Click="ExitMenuItem_Click"/>
-                    </ContextMenu>
-                </tb:TaskbarIcon.ContextMenu>
-            </tb:TaskbarIcon>
-
             <ResourceDictionary.MergedDictionaries>
+                <!-- Reginald -->
+                <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/TextBlockStyles.xaml"/>
+
                 <!-- Caliburn.Micro -->
                 <ResourceDictionary>
                     <local:Bootstrapper x:Key="Bootstrapper"/>
@@ -36,10 +18,11 @@
 
                 <!-- FluentWPF Controls -->
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml"/>
-                
-                <!-- ModernWpfUI -->
-                <ui:ThemeResources AccentColor="DarkOrange"/>
-                <ui:XamlControlsResources/>
+
+                <!-- HandyControls -->
+                <hc:ThemeResources RequestedTheme="Dark"
+                                   AccentColor="DarkOrange"/>
+                <hc:Theme/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

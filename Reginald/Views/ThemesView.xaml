@@ -10,43 +10,59 @@
              xmlns:cal="http://caliburnmicro.com"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
-             xmlns:ui="http://schemas.modernwpf.com/2019">
+             xmlns:hc="https://handyorg.github.io/handycontrol">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ToggleButtonStyle"
+                   TargetType="{x:Type ToggleButton}"
+                   BasedOn="{StaticResource ToggleButtonSwitch}">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="Light"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <ScrollViewer>
-        <ui:SimpleStackPanel Spacing="24">
+        <hc:UniformSpacingPanel Spacing="24"
+                                Orientation="Vertical">
             <!-- # Title -->
             <TextBlock Text="Themes"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
+                       Style="{StaticResource HeaderOneTextBlockStyle}"/>
             
             <!-- ## Search Box -->
             <TextBlock Text="Search Box"
-                       Style="{StaticResource SubheaderTextBlockStyle}"/>
-            <ui:SimpleStackPanel>
+                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
+            <hc:UniformSpacingPanel Spacing="12"
+                                    Orientation="Vertical">
                 <!-- ### ToggleSwitch -->
-                <ui:ToggleSwitch Header="Use dark mode for your search results"
-                             IsOn="{Binding Settings.IsDarkModeEnabled}">
+                <ToggleButton Content="Use dark mode for your search results"
+                              Style="{StaticResource ToggleButtonStyle}"
+                              IsChecked="{Binding Settings.IsDarkModeEnabled}">
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Toggled">
-                            <cal:ActionMessage MethodName="IsDarkModeEnabledToggleSwitch_Toggled">
+                        <i:EventTrigger EventName="Checked">
+                            <cal:ActionMessage MethodName="IsDarkModeEnabledToggleSwitch_Checked">
                                 <cal:Parameter Value="$this"/>
                                 <cal:Parameter Value="$eventargs"/>
                             </cal:ActionMessage>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </ui:ToggleSwitch>
+                </ToggleButton>
                 <!-- ### ToggleSwitch -->
-                <ui:ToggleSwitch Header="Place a border around the search box to improve visibility"
-                             IsOn="{Binding Settings.IsSearchBoxBorderEnabled}">
+                <ToggleButton Content="Place a border around the search box to improve visibility"
+                              Style="{StaticResource ToggleButtonStyle}"
+                              IsChecked="{Binding Settings.IsSearchBoxBorderEnabled}">
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Toggled">
-                            <cal:ActionMessage MethodName="IsSearchBoxBorderEnabledToggleSwitch_Toggled">
+                        <i:EventTrigger EventName="Checked">
+                            <cal:ActionMessage MethodName="IsSearchBoxBorderEnabledToggleSwitch_Checked">
                                 <cal:Parameter Value="$this"/>
                                 <cal:Parameter Value="$eventargs"/>
                             </cal:ActionMessage>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </ui:ToggleSwitch>
-            </ui:SimpleStackPanel>
-        </ui:SimpleStackPanel>
+                </ToggleButton>
+            </hc:UniformSpacingPanel>
+        </hc:UniformSpacingPanel>
         
         <!--<Grid>
             <Grid.ColumnDefinitions>

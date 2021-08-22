@@ -10,7 +10,19 @@
              xmlns:cal="http://caliburnmicro.com"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
-             xmlns:ui="http://schemas.modernwpf.com/2019">
+             xmlns:hc="https://handyorg.github.io/handycontrol">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ToggleButtonStyle"
+                   TargetType="{x:Type ToggleButton}"
+                   BasedOn="{StaticResource ToggleButtonSwitch}">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="Light"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <ScrollViewer x:Name="ScrollViewer">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="PreviewMouseWheel">
@@ -21,22 +33,24 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
 
-        <ui:SimpleStackPanel Spacing="24">
+        <hc:UniformSpacingPanel Spacing="24"
+                                Orientation="Vertical">
             <!-- ## Utilities -->
             <TextBlock Text="Default keywords"
-                       Style="{StaticResource SubheaderTextBlockStyle}"/>
-            <!-- ### ToggleSwitch -->
-            <ui:ToggleSwitch Header="Include default keyword searches in your search results"
-                             IsOn="{Binding Settings.IncludeDefaultKeywords}">
+                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
+            <!-- ### ToggleButton -->
+            <ToggleButton Content="Include default keyword searches in your search results"
+                          Style="{StaticResource ToggleButtonStyle}"
+                          IsChecked="{Binding Settings.IncludeDefaultKeywords}">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Toggled">
-                        <cal:ActionMessage MethodName="IncludeDefaultKeywordsToggleSwitch_Toggled">
+                    <i:EventTrigger EventName="Checked">
+                        <cal:ActionMessage MethodName="IncludeDefaultKeywordsToggleSwitch_Checked">
                             <cal:Parameter Value="$this"/>
                             <cal:Parameter Value="$eventargs"/>
                         </cal:ActionMessage>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-            </ui:ToggleSwitch>
+            </ToggleButton>
 
             <!-- ### DataGrid -->
             <DataGrid x:Name="KeywordSearchResults"
@@ -58,11 +72,13 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Keyword" Binding="{Binding Keyword}"
+                    <DataGridTextColumn Header="Keyword"
+                                        Binding="{Binding Keyword}"
                                         IsReadOnly="True"
                                         Width="*"
                                         FontSize="16" FontWeight="Light"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"
+                    <DataGridTextColumn Header="Description"
+                                        Binding="{Binding Description}"
                                         IsReadOnly="True"
                                         Width="2*"
                                         FontSize="16" FontWeight="Light"/>
@@ -93,6 +109,6 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </ui:SimpleStackPanel>
+        </hc:UniformSpacingPanel>
     </ScrollViewer>
 </UserControl>

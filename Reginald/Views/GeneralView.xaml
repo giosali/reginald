@@ -10,78 +10,97 @@
              xmlns:cal="http://caliburnmicro.com"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
-             xmlns:ui="http://schemas.modernwpf.com/2019">
+             xmlns:hc="https://handyorg.github.io/handycontrol">
     <ScrollViewer x:Name="ScrollViewer">
-        <ui:SimpleStackPanel Margin="12"
-                             Spacing="24">
+        <hc:UniformSpacingPanel Spacing="24"
+                                Orientation="Vertical">
             <!-- # General -->
             <TextBlock Text="General"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
+                       Style="{StaticResource HeaderOneTextBlockStyle}"/>
             
             <!-- ## Gestures -->
             <TextBlock Text="Gestures"
-                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
             <!-- ### Key bindings -->
             <TextBlock Text="You must restart the application for key binding changes to take effect"
                        FontStyle="Italic"
                        FontWeight="Light"/>
-            <ui:SimpleStackPanel Spacing="6">
-                <ui:SimpleStackPanel Spacing="6"
-                                     Orientation="Horizontal">
-                    <TextBlock Text="Key bindings for opening the search box window"/>
+            <hc:UniformSpacingPanel Spacing="6"
+                                    Orientation="Vertical">
+                <hc:UniformSpacingPanel Spacing="6"
+                                        Orientation="Horizontal">
+                    <TextBlock Text="Key bindings for opening the search box window"
+                               Style="{StaticResource NormalTextBlockStyle}"/>
                     <Label Content="ⓘ"
-                           ToolTipService.ShowDuration="25000">
-                        <ToolTipService.ToolTip>
-                            <ui:SimpleStackPanel Spacing="4">
-                                <TextBlock Text="Possible combinations:"
-                                           TextWrapping="Wrap"/>
-                                <TextBlock Text="1 Key"
-                                           TextWrapping="Wrap"/>
-                                <TextBlock Text="1 Modifier Key + 1 Key"
-                                           TextWrapping="Wrap"/>
-                                <TextBlock Text="2 Modifier Keys + 1 Key"
-                                           TextWrapping="Wrap"/>
-                                <Border/>
-                                <TextBlock Text="1 Key example: S"
-                                           TextWrapping="Wrap"/>
-                                <TextBlock Text="1 Modifier Key + 1 Key example: Alt + S"
-                                           TextWrapping="Wrap"/>
-                                <TextBlock Text="2 Modifier Keys + 1 Key example: Shift + Alt + S"
-                                           TextWrapping="Wrap"/>
-                                <TextBlock Text="If you only use 1 Modifier Key, leave the other Modifier Key blank"
-                                           TextWrapping="Wrap"/>
-                            </ui:SimpleStackPanel>
-                        </ToolTipService.ToolTip>
+                           Style="{DynamicResource LabelWarning}"
+                           VerticalAlignment="Center">
+                        <hc:Poptip.Instance>
+                            <hc:Poptip>
+                                <hc:Poptip.Content>
+                                    <TextBlock>
+                                        <Run Text="Here are some possible combinations:"/>
+                                        <LineBreak/>
+                                        <Run Text="1 Key"
+                                             TextDecorations="Underline"/>
+                                        <LineBreak/>
+                                        <Run Text="S"/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="1 Modifier Key + 1 Key"
+                                             TextDecorations="Underline"/>
+                                        <LineBreak/>
+                                        <Run Text="Alt + S"/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="2 Modifier Keys + 1 Key"
+                                             TextDecorations="Underline"/>
+                                        <LineBreak/>
+                                        <Run Text="Shift + Alt + S"/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="If you only use 1 Modifier Key, leave"/>
+                                        <LineBreak/>
+                                        <Run Text="the other Modifier Key blank"/>
+                                    </TextBlock>
+                                </hc:Poptip.Content>
+                            </hc:Poptip>
+                        </hc:Poptip.Instance>
                     </Label>
-                </ui:SimpleStackPanel>
-                <ui:SimpleStackPanel Spacing="6"
-                                     Orientation="Horizontal">
+                </hc:UniformSpacingPanel>
+                <hc:UniformSpacingPanel Spacing="6"
+                                        Orientation="Horizontal">
                     <Label Content="Modifier Key:"
+                           Style="{DynamicResource LabelPrimary}"
                            VerticalAlignment="Center"/>
                     <ComboBox ItemsSource="{Binding ModKeys}"
                               SelectedItem="{Binding SelectedModKeyTwo, Mode=TwoWay}"/>
-                    <Label Content="+"
-                           VerticalAlignment="Center"/>
+                    <TextBlock Text="+"
+                               VerticalAlignment="Center"/>
                     <Label Content="Modifier Key:"
+                           Style="{DynamicResource LabelPrimary}"
                            VerticalAlignment="Center"/>
                     <ComboBox ItemsSource="{Binding ModKeys}"
                               SelectedItem="{Binding SelectedModKeyOne, Mode=TwoWay}"/>
-                    <Label Content="+"
-                           VerticalAlignment="Center"/>
+                    <TextBlock Text="+"
+                               VerticalAlignment="Center"/>
                     <Label Content="Key:"
+                           Style="{DynamicResource LabelPrimary}"
                            VerticalAlignment="Center"/>
                     <ComboBox ItemsSource="{Binding Keys}"
                               SelectedItem="{Binding SelectedKey, Mode=TwoWay}"/>
-                </ui:SimpleStackPanel>
-            </ui:SimpleStackPanel>
+                </hc:UniformSpacingPanel>
+            </hc:UniformSpacingPanel>
             
             <!-- ## Application-->
             <TextBlock Text="Application"
                        Style="{StaticResource SubheaderTextBlockStyle}"/>
             <!-- ### Restart application -->
-            <ui:SimpleStackPanel Spacing="6">
-                <TextBlock Text="Restart application"/>
-                <Button Content="Restart">
+            <hc:UniformSpacingPanel Spacing="6"
+                                    Orientation="Vertical">
+                <TextBlock Text="Restart application"
+                           Style="{StaticResource NormalTextBlockStyle}"/>
+                <Button Content="Restart"
+                        HorizontalAlignment="Left">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <cal:ActionMessage MethodName="RestartButton_Click">
@@ -91,11 +110,14 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-            </ui:SimpleStackPanel>
+            </hc:UniformSpacingPanel>
             <!-- ### Shutdown application -->
-            <ui:SimpleStackPanel Spacing="6">
-                <TextBlock Text="Shutdown application"/>
-                <Button Content="Shutdown">
+            <hc:UniformSpacingPanel Spacing="6"
+                                    Orientation="Vertical">
+                <TextBlock Text="Shutdown application"
+                           Style="{StaticResource NormalTextBlockStyle}"/>
+                <Button Content="Shutdown"
+                        HorizontalAlignment="Left">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <cal:ActionMessage MethodName="ShutdownButton_Click">
@@ -105,7 +127,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-            </ui:SimpleStackPanel>
-        </ui:SimpleStackPanel>
+            </hc:UniformSpacingPanel>
+        </hc:UniformSpacingPanel>
     </ScrollViewer>
 </UserControl>

@@ -30,11 +30,6 @@
         ShowInTaskbar="False">
     <Window.Resources>
         <ResourceDictionary>
-            <!-- Disable FocusVisualStyle for TextBoxes-->
-            <Style TargetType="{x:Type TextBox}">
-                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            </Style>
-            
             <!-- ItemTemplate for SearchResults -->
             <DataTemplate x:Key="SearchResultsItemTemplate">
                 <Grid Width="570">

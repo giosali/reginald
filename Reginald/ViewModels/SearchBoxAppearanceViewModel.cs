@@ -4,8 +4,6 @@ using Reginald.Core.Helpers;
 using Reginald.Core.IO;
 using Reginald.Models;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Xml;
 
 namespace Reginald.ViewModels
@@ -34,15 +32,6 @@ namespace Reginald.ViewModels
                 _settings = value;
                 NotifyOfPropertyChange(() => Settings);
             }
-        }
-
-        //public int Count { get; set; } = 1;
-
-        public void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            ScrollViewer scv = (ScrollViewer)sender;
-            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
-            e.Handled = true;
         }
 
         public void ColorRadioButton_Checked(object sender, RoutedEventArgs e)

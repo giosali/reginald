@@ -63,7 +63,7 @@ namespace Reginald.ViewModels
             e.Handled = true;
         }
 
-        public void IncludeCommandsToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        public void IncludeCommandsToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             bool value = !Properties.Settings.Default.IncludeCommands;
             Properties.Settings.Default.IncludeCommands = value;

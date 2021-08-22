@@ -6,17 +6,40 @@
         xmlns:local="clr-namespace:Reginald.Views"
         mc:Ignorable="d"
         Title="Reginald Shell" Height="1" Width="1"
-        
         WindowStyle="None"
         AllowsTransparency="True"
         ShowInTaskbar="False"
-        Visibility="Hidden">
+        Visibility="Hidden"
+        
+        xmlns:cal="http://caliburnmicro.com"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        
+        xmlns:hc="https://handyorg.github.io/handycontrol">
     <Window.InputBindings>
         <KeyBinding Gesture="{x:Static local:ShellView.SearchBoxKeyGesture}"
                     Command="{Binding OpenWindowCommand}"
                     HotkeyManager.RegisterGlobalHotkey="True"/>
     </Window.InputBindings>
-    <Grid>
-
-    </Grid>
+    
+    <hc:TransitioningContentControl>
+        <hc:NotifyIcon Text="Reginald v0.4.0"
+                       Icon="pack://application:,,,/Reginald;component/Reginald.ico">
+            <hc:NotifyIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open Settings">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="OpenSettingsMenuItem_Click">
+                                    <cal:Parameter Value="$this"/>
+                                    <cal:Parameter Value="$eventargs"/>
+                                </cal:ActionMessage>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                    <MenuItem Header="Exit"
+                              Command="hc:ControlCommands.ShutdownApp"/>
+                </ContextMenu>
+            </hc:NotifyIcon.ContextMenu>
+        </hc:NotifyIcon>
+    </hc:TransitioningContentControl>
 </Window>
