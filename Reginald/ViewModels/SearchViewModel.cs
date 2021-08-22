@@ -340,7 +340,15 @@ namespace Reginald.ViewModels
         {
             IEnumerable<string> attributes = doc.GetNodesAttributes(Constants.NamespacesXpath);
             string format = @"((?<!\w){0}.*)";
-            Regex rx = new(string.Format(format, keyword.Replace("[", "\\[")), RegexOptions.IgnoreCase);
+
+            string[] characters = new string[] { "[", "(", ")"};
+            for (int i = 0; i < characters.Length; i++)
+            {
+                string character = characters[i];
+                keyword = keyword.Replace(character, $"\\{character}");
+            }
+
+            Regex rx = new(string.Format(format, keyword), RegexOptions.IgnoreCase);
             IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
                                                     .Distinct()
                                                     .Where(x =>
