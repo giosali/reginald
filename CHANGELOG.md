@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.4.0
+
+### Added
+
+* Added a new utility: empty recycle bin
+
+### Changed
+
+* Changed UI again due to major issues with the previous UI library
+* Made text selectable in special keyword search results
+* Updated developer info
+
+### Fixed
+
+* Fixed issue where restart button wouldn't reopen the application
+* Fixed issue where search box would not close after using the timer command
+* Fixed issue where the system tray icon would no longer function after a period of time
+* Fixed several responsiveness issues
+
 ## v0.3.1
 
 ### Changed
