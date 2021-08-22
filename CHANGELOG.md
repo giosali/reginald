@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.4.1
+
+### Fixed
+
+* Fixed issue where entering parentheses into the search box would crash the application
+
 ## v0.4.0
 
 ### Added
