@@ -37,6 +37,7 @@ namespace Reginald.ViewModels
         {
             Indicator = indicator;
             SetUpViewModelAsync();
+            StyleSearchView();
         }
 
         private string applicationImagesDirectoryPath;
@@ -160,8 +161,12 @@ namespace Reginald.ViewModels
 
             await assignmentTask;
             applicationsDict = await applicationsDictTask;
+        }
 
+        private void StyleSearchView()
+        {
             Properties.Settings settings = Properties.Settings.Default;
+
             System.Drawing.Color searchBackgroundColor;
             System.Drawing.Color searchDescriptionTextColor;
             System.Drawing.Color searchAltTextColor;
