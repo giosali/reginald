@@ -240,9 +240,8 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid>
-        <StackPanel>
-            <TextBox x:Name="UserInput"
+    <StackPanel>
+        <TextBox x:Name="UserInput"
                      Background="Transparent" Foreground="{Binding Settings.SearchInputTextBrush}"
                      CaretBrush="{Binding Settings.SearchInputCaretBrush}"
                      BorderThickness="0"
@@ -250,23 +249,23 @@
                      Padding="10 0"
                      VerticalContentAlignment="Center"
                      Height="{Binding ElementName=searchWindow, Path=MinHeight}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="TextChanged">
-                        <cal:ActionMessage MethodName="UserInput_TextChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="PreviewKeyDown">
-                        <cal:ActionMessage MethodName="UserInput_PreviewKeyDown">
-                            <cal:Parameter Value="{Binding ElementName=UserInput}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </TextBox>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="TextChanged">
+                    <cal:ActionMessage MethodName="UserInput_TextChangedAsync">
+                        <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
+                        <cal:Parameter Value="$eventargs"/>
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviewKeyDown">
+                    <cal:ActionMessage MethodName="UserInput_PreviewKeyDown">
+                        <cal:Parameter Value="{Binding ElementName=UserInput}"/>
+                        <cal:Parameter Value="$eventargs"/>
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
-            <ListBox x:Name="SearchResults"
+        <ListBox x:Name="SearchResults"
                      ItemTemplate="{StaticResource SearchResultsItemTemplate}"
                      SelectedItem="{Binding Path=SelectedSearchResult, Mode=TwoWay}"
                      Background="Transparent"
@@ -276,48 +275,47 @@
                      ScrollViewer.CanContentScroll="False"
                      BorderThickness="0"
                      Visibility="{Binding Path=IsVisible}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                        <cal:ActionMessage MethodName="SearchResults_PreviewMouseLeftButtonDown">
-                            <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <cal:ActionMessage MethodName="SearchResults_MouseLeave">
-                            <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <cal:ActionMessage MethodName="SearchResults_SelectionChanged">
-                            <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="IsSelected" Value="True"/>
-                            </Trigger>
-                        </Style.Triggers>
-                        <Setter Property="Padding" Value="10 0"/>
-                        <Setter Property="Height" Value="55"/>
-                        <Setter Property="Template" Value="{StaticResource SearchResultsListBoxItems}"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <cal:ActionMessage MethodName="SearchResults_PreviewMouseLeftButtonDown">
+                        <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
+                        <cal:Parameter Value="$eventargs"/>
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeave">
+                    <cal:ActionMessage MethodName="SearchResults_MouseLeave">
+                        <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
+                        <cal:Parameter Value="$eventargs"/>
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <cal:ActionMessage MethodName="SearchResults_SelectionChanged">
+                        <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
+                        <cal:Parameter Value="$eventargs"/>
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="IsSelected" Value="True"/>
+                        </Trigger>
+                    </Style.Triggers>
+                    <Setter Property="Padding" Value="10 0"/>
+                    <Setter Property="Height" Value="55"/>
+                    <Setter Property="Template" Value="{StaticResource SearchResultsListBoxItems}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
 
-            <ItemsControl x:Name="SpecialSearchResults"
+        <ItemsControl x:Name="SpecialSearchResults"
                           ItemTemplate="{StaticResource SpecialSearchResultItemTemplate}"
                           Background="Transparent"
                           MaxHeight="330"
                           MaxWidth="600"
                           BorderThickness="0"
                           Visibility="Visible">
-            </ItemsControl>
-        </StackPanel>
-    </Grid>
+        </ItemsControl>
+    </StackPanel>
 </Window>

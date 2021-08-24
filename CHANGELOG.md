@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.4.2
+
+### Added
+
+* Added acrylic blur behind search box window
+
 ## v0.4.1
 
 ### Fixed
