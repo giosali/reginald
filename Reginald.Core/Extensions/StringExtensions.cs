@@ -1,5 +1,6 @@
 ﻿using Reginald.Core.Base;
 using System;
+using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -136,13 +137,13 @@ namespace Reginald.Extensions
             {
                 try
                 {
-                    System.Data.DataTable table = new();
+                    DataTable table = new();
                     result = Convert.ToString(table.Compute("1.0 * " + expression, string.Empty));
                     if (result.EndsWith(".0"))
                         result = result.Replace(".0", string.Empty);
                     break;
                 }
-                catch (System.Data.SyntaxErrorException)
+                catch (SyntaxErrorException)
                 {
                     Regex rx = new($@"{Constants.FactorialRegexPattern}");
                     MatchCollection matches = rx.Matches(expression);
@@ -171,14 +172,15 @@ namespace Reginald.Extensions
                     result = result.Eval();
                     if (double.TryParse(result, out double d))
                     {
-                        if (d > 0)
-                            result = "+∞";
-                        else
-                            result = "-∞";
+                        result = d > 0 ? "+∞" : "-∞";
+                        //if (d > 0)
+                        //    result = "+∞";
+                        //else
+                        //    result = "-∞";
                     }
                     break;
                 }
-                catch (System.Data.EvaluateException)
+                catch (EvaluateException)
                 {
                     Regex rx = new(@"\d+\^-?(\d+)");
                     MatchCollection matches = rx.Matches(expression);
@@ -202,7 +204,9 @@ namespace Reginald.Extensions
                     }
                     else
                     {
-                        throw;
+                        result = "...";
+                        break;
+                        //throw;
                     }
                 }
             }
@@ -338,19 +342,5 @@ namespace Reginald.Extensions
             char firstChar = char.ToUpper(expression[0]);
             return firstChar + expression.Substring(1);
         }
-
-        //public static string FirstWord(this string expression, out string remainder)
-        //{
-        //    remainder = string.Empty;
-        //    if (string.IsNullOrEmpty(expression))
-        //    {
-        //        return string.Empty;
-        //    }
-
-        //    string[] substrings = expression.Split(' ', 2);
-        //    string firstWord = substrings[0];
-        //    remainder = substrings[^1];
-        //    return firstWord;
-        //}
     }
 }
