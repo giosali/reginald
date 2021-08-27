@@ -138,8 +138,20 @@ namespace Reginald.Extensions
                 try
                 {
                     DataTable table = new();
-                    decimal computation = (decimal)table.Compute($"1.0 * {expression}", string.Empty);
-                    result = Convert.ToString(Math.Round(computation, 8));
+                    //result = Math.Round(table.Compute($"1.0 * {expression}", string.Empty), 8);
+                    object computation = table.Compute($"1.0 * {expression}", string.Empty);
+                    if (computation is bool)
+                    {
+                        result = Convert.ToString((bool)computation);
+                        //result = Convert.ToString(Math.Round(Convert.ToDouble(computation)), 8);
+                    }
+                    else
+                    {
+                        double calculation = Math.Round(Convert.ToDouble(computation), 8);
+                        result = Convert.ToString(calculation);
+                    }
+                    //double computation = Convert.ToDouble(table.Compute($"1.0 * {expression}", string.Empty));
+                    //result = Convert.ToString(Math.Round(computation, 8));
                     //result = Convert.ToString(table.Compute("1.0 * " + expression, string.Empty));
                     if (result.EndsWith(".0"))
                         result = result.Replace(".0", string.Empty);
@@ -175,10 +187,6 @@ namespace Reginald.Extensions
                     if (double.TryParse(result, out double d))
                     {
                         result = d > 0 ? "+∞" : "-∞";
-                        //if (d > 0)
-                        //    result = "+∞";
-                        //else
-                        //    result = "-∞";
                     }
                     break;
                 }
@@ -208,7 +216,6 @@ namespace Reginald.Extensions
                     {
                         result = "...";
                         break;
-                        //throw;
                     }
                 }
             }
