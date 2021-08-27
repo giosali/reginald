@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.4.3
+
+### Fixed
+
+* Fixed issue where calculations involving a single, lone decimal ('.') would cause the application to crash
+* Fixed issue where apostrophes would cause the application to crash
+
 ## v0.4.2
 
 ### Added
