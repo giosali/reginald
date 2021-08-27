@@ -138,7 +138,9 @@ namespace Reginald.Extensions
                 try
                 {
                     DataTable table = new();
-                    result = Convert.ToString(table.Compute("1.0 * " + expression, string.Empty));
+                    decimal computation = (decimal)table.Compute($"1.0 * {expression}", string.Empty);
+                    result = Convert.ToString(Math.Round(computation, 8));
+                    //result = Convert.ToString(table.Compute("1.0 * " + expression, string.Empty));
                     if (result.EndsWith(".0"))
                         result = result.Replace(".0", string.Empty);
                     break;
