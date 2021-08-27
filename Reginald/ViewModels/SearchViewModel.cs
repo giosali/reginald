@@ -382,88 +382,92 @@ namespace Reginald.ViewModels
         private CancellationTokenSource tokenSource;
         private async Task<SpecialSearchResultModel> GetSpecialKeywordModelAsync(string input)
         {
-            if (Properties.Settings.Default.IncludeSpecialKeywords)
+            try
             {
-                if (tokenSource is not null)
+                if (Properties.Settings.Default.IncludeSpecialKeywords)
                 {
-                    tokenSource.Cancel();
-                }
-
-                XmlNode node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, input));
-                if (node is not null)
-                {
-                    bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
-                    if (isEnabled)
+                    if (tokenSource is not null)
                     {
-                        bool isCommand = bool.Parse(node["IsCommand"].InnerText);
-                        if (isCommand)
+                        tokenSource.Cancel();
+                    }
+
+                    XmlNode node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, input));
+                    if (node is not null)
+                    {
+                        bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
+                        if (isEnabled)
                         {
-                            tokenSource = new();
-                            SpecialSearchResultModel model = new();
-
-                            string apiText = node["API"].InnerText;
-                            Api api = (Api)Enum.Parse(typeof(Api), apiText);
-                            switch (api)
+                            bool isCommand = bool.Parse(node["IsCommand"].InnerText);
+                            if (isCommand)
                             {
-                                case Api.Cloudflare:
-                                    model = await SpecialSearchResultModel.MakeCloudflareSpecialSearchResultModelAsync(node, tokenSource.Token);
-                                    break;
+                                tokenSource = new();
+                                SpecialSearchResultModel model = new();
 
-                                default:
-                                    break;
+                                string apiText = node["API"].InnerText;
+                                Api api = (Api)Enum.Parse(typeof(Api), apiText);
+                                switch (api)
+                                {
+                                    case Api.Cloudflare:
+                                        model = await SpecialSearchResultModel.MakeCloudflareSpecialSearchResultModelAsync(node, tokenSource.Token);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                                return model;
                             }
-                            return model;
                         }
                     }
-                }
-                else
-                {
-                    (string Left, string Separator, string Right) partition = input.Partition(" ");
-                    if (partition.Right != string.Empty)
+                    else
                     {
-                        node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, partition.Left));
-                        if (node is not null)
+                        (string Left, string Separator, string Right) partition = input.Partition(" ");
+                        if (partition.Right != string.Empty)
                         {
-                            bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
-                            if (isEnabled)
+                            node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, partition.Left));
+                            if (node is not null)
                             {
-                                bool isCommand = bool.Parse(node["IsCommand"].InnerText);
-                                if (!isCommand)
+                                bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
+                                if (isEnabled)
                                 {
-                                    bool canHaveSpaces = bool.Parse(node["CanHaveSpaces"].InnerText);
-                                    if (!canHaveSpaces)
+                                    bool isCommand = bool.Parse(node["IsCommand"].InnerText);
+                                    if (!isCommand)
                                     {
-                                        if (partition.Right.Contains(" "))
+                                        bool canHaveSpaces = bool.Parse(node["CanHaveSpaces"].InnerText);
+                                        if (!canHaveSpaces)
                                         {
-                                            return null;
-                                        }
-                                    }
-
-                                    tokenSource = new();
-                                    SpecialSearchResultModel model = new();
-
-                                    string apiText = node["API"].InnerText;
-                                    Api api = (Api)Enum.Parse(typeof(Api), apiText);
-                                    switch (api)
-                                    {
-                                        case Api.Styvio:
-                                            if (partition.Right.Length > 5)
+                                            if (partition.Right.Contains(" "))
                                             {
                                                 return null;
                                             }
-                                            model = await SpecialSearchResultModel.MakeStyvioSpecialSearchResultModelAsync(node, partition.Right, tokenSource.Token);
-                                            break;
+                                        }
 
-                                        default:
-                                            break;
+                                        tokenSource = new();
+                                        SpecialSearchResultModel model = new();
+
+                                        string apiText = node["API"].InnerText;
+                                        Api api = (Api)Enum.Parse(typeof(Api), apiText);
+                                        switch (api)
+                                        {
+                                            case Api.Styvio:
+                                                if (partition.Right.Length > 5)
+                                                {
+                                                    return null;
+                                                }
+                                                model = await SpecialSearchResultModel.MakeStyvioSpecialSearchResultModelAsync(node, partition.Right, tokenSource.Token);
+                                                break;
+
+                                            default:
+                                                break;
+                                        }
+                                        return model;
                                     }
-                                    return model;
                                 }
                             }
                         }
                     }
                 }
             }
+            catch (System.Xml.XPath.XPathException) { }
             return null;
         }
 

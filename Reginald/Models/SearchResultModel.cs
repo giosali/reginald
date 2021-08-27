@@ -99,136 +99,44 @@ namespace Reginald.Models
 
         public static List<SearchResultModel> MakeList(XmlDocument doc, string input, string attribute, Category category)
         {
-            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-            if (nodes is null)
-                return new List<SearchResultModel>();
-            else
+            try
             {
-                List<SearchResultModel> models = new();
-                for (int i = 0; i < nodes.Count; i++)
+                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+                if (nodes is null)
+                    return new List<SearchResultModel>();
+                else
                 {
-                    XmlNode node = nodes[i];
-                    string name = node["Name"].InnerText;
-
-                    XmlNode isEnabledNode = node["IsEnabled"];
-                    if (isEnabledNode is not null)
-                    {
-                        bool isEnabled = bool.Parse(isEnabledNode.InnerText);
-                        if (!isEnabled)
-                            continue;
-                    }
-                    else
-                        continue;
-
-                    BitmapImage icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
-                    string keyword = node["Keyword"].InnerText;
-                    string separator = node["Separator"].InnerText;
-                    string url = node["URL"].InnerText;
-                    string format = node["Format"].InnerText;
-                    string defaultText = node["DefaultText"].InnerText;
-                    string text = input == string.Empty ? defaultText : input;
-                    string description = string.Format(format, text);
-                    string alt = node["Alt"].InnerText;
-
-                    models.Add(new SearchResultModel
-                    {
-                        Name = name,
-                        Category = category,
-                        Icon = icon,
-                        Keyword = keyword,
-                        Separator = separator,
-                        URL = url,
-                        Text = text,
-                        Format = format,
-                        DefaultText = defaultText,
-                        Description = description,
-                        Alt = alt
-                    });
-                }
-                return models;
-            }
-        }
-
-        public static SearchResultModel[] MakeArray(XmlDocument doc, string input, string attribute, Category category, string text = null)
-        {
-            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-            if (nodes is null)
-                return Array.Empty<SearchResultModel>();
-            else
-            {
-                SearchResultModel[] models = new SearchResultModel[nodes.Count];
-                for (int i = 0; i < nodes.Count; i++)
-                {
-                    try
+                    List<SearchResultModel> models = new();
+                    for (int i = 0; i < nodes.Count; i++)
                     {
                         XmlNode node = nodes[i];
                         string name = node["Name"].InnerText;
-                        int id = int.Parse(node.Attributes["ID"].Value);
-                        BitmapImage icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
-                        string keyword = node["Keyword"].InnerText;
-                        string separator = node["Separator"].InnerText;
-                        string url = node["URL"].InnerText;
-                        string format = node["Format"].InnerText;
-                        text = text is not null ? text : input;
-                        string description = string.Format(format, text);
-                        string alt = node["Alt"].InnerText;
 
-                        models[i] = new SearchResultModel()
+                        XmlNode isEnabledNode = node["IsEnabled"];
+                        if (isEnabledNode is not null)
                         {
-                            Name = name,
-                            Category = category,
-                            Icon = icon,
-                            ID = id,
-                            Keyword = keyword,
-                            Separator = separator,
-                            URL = url,
-                            Text = text,
-                            Format = format,
-                            Description = description,
-                            Alt = alt
-                        };
-                    }
-                    catch (NullReferenceException)
-                    {
-                        continue;
-                    }
-                }
-                return models;
-            }
-        }
+                            bool isEnabled = bool.Parse(isEnabledNode.InnerText);
+                            if (!isEnabled)
+                                continue;
+                        }
+                        else
+                            continue;
 
-        public static SearchResultModel[] MakeArray(XmlDocument doc, string attribute, Category category)
-        {
-            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-            if (nodes is null)
-                return Array.Empty<SearchResultModel>();
-            else
-            {
-                SearchResultModel[] models = new SearchResultModel[nodes.Count];
-                for (int i = 0; i < nodes.Count; i++)
-                {
-                    try
-                    {
-                        XmlNode node = nodes[i];
-                        string name = node["Name"].InnerText;
-                        int id = int.Parse(node.Attributes["ID"].Value);
                         BitmapImage icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
                         string keyword = node["Keyword"].InnerText;
                         string separator = node["Separator"].InnerText;
                         string url = node["URL"].InnerText;
                         string format = node["Format"].InnerText;
                         string defaultText = node["DefaultText"].InnerText;
-                        string text = defaultText;
+                        string text = input == string.Empty ? defaultText : input;
                         string description = string.Format(format, text);
                         string alt = node["Alt"].InnerText;
-                        bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
 
-                        models[i] = new SearchResultModel()
+                        models.Add(new SearchResultModel
                         {
                             Name = name,
                             Category = category,
                             Icon = icon,
-                            ID = id,
                             Keyword = keyword,
                             Separator = separator,
                             URL = url,
@@ -236,115 +144,242 @@ namespace Reginald.Models
                             Format = format,
                             DefaultText = defaultText,
                             Description = description,
-                            Alt = alt,
-                            IsEnabled = isEnabled
-                        };
+                            Alt = alt
+                        });
                     }
-                    catch (NullReferenceException)
-                    {
-                        continue;
-                    }
+                    return models;
                 }
-                return models;
+            }
+            catch (System.Xml.XPath.XPathException)
+            {
+                return new List<SearchResultModel>();
+            }
+        }
+
+        public static SearchResultModel[] MakeArray(XmlDocument doc, string input, string attribute, Category category, string text = null)
+        {
+            try
+            {
+                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+                if (nodes is null)
+                    return Array.Empty<SearchResultModel>();
+                else
+                {
+                    SearchResultModel[] models = new SearchResultModel[nodes.Count];
+                    for (int i = 0; i < nodes.Count; i++)
+                    {
+                        try
+                        {
+                            XmlNode node = nodes[i];
+                            string name = node["Name"].InnerText;
+                            int id = int.Parse(node.Attributes["ID"].Value);
+                            BitmapImage icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
+                            string keyword = node["Keyword"].InnerText;
+                            string separator = node["Separator"].InnerText;
+                            string url = node["URL"].InnerText;
+                            string format = node["Format"].InnerText;
+                            text = text is not null ? text : input;
+                            string description = string.Format(format, text);
+                            string alt = node["Alt"].InnerText;
+
+                            models[i] = new SearchResultModel()
+                            {
+                                Name = name,
+                                Category = category,
+                                Icon = icon,
+                                ID = id,
+                                Keyword = keyword,
+                                Separator = separator,
+                                URL = url,
+                                Text = text,
+                                Format = format,
+                                Description = description,
+                                Alt = alt
+                            };
+                        }
+                        catch (NullReferenceException)
+                        {
+                            continue;
+                        }
+                    }
+                    return models;
+                }
+            }
+            catch (System.Xml.XPath.XPathException)
+            {
+                return Array.Empty<SearchResultModel>();
+            }
+        }
+
+        public static SearchResultModel[] MakeArray(XmlDocument doc, string attribute, Category category)
+        {
+            try
+            {
+                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+                if (nodes is null)
+                    return Array.Empty<SearchResultModel>();
+                else
+                {
+                    SearchResultModel[] models = new SearchResultModel[nodes.Count];
+                    for (int i = 0; i < nodes.Count; i++)
+                    {
+                        try
+                        {
+                            XmlNode node = nodes[i];
+                            string name = node["Name"].InnerText;
+                            int id = int.Parse(node.Attributes["ID"].Value);
+                            BitmapImage icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
+                            string keyword = node["Keyword"].InnerText;
+                            string separator = node["Separator"].InnerText;
+                            string url = node["URL"].InnerText;
+                            string format = node["Format"].InnerText;
+                            string defaultText = node["DefaultText"].InnerText;
+                            string text = defaultText;
+                            string description = string.Format(format, text);
+                            string alt = node["Alt"].InnerText;
+                            bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
+
+                            models[i] = new SearchResultModel()
+                            {
+                                Name = name,
+                                Category = category,
+                                Icon = icon,
+                                ID = id,
+                                Keyword = keyword,
+                                Separator = separator,
+                                URL = url,
+                                Text = text,
+                                Format = format,
+                                DefaultText = defaultText,
+                                Description = description,
+                                Alt = alt,
+                                IsEnabled = isEnabled
+                            };
+                        }
+                        catch (NullReferenceException)
+                        {
+                            continue;
+                        }
+                    }
+                    return models;
+                }
+            }
+            catch (System.Xml.XPath.XPathException)
+            {
+                return Array.Empty<SearchResultModel>();
             }
         }
 
         public static async Task<List<SearchResultModel>> MakeListForCommandsAsync(XmlDocument doc, string input, string attribute, Category category)
         {
-            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-            if (nodes is not null)
+            try
             {
-                List<SearchResultModel> models = new();
-                for (int i = 0; i < nodes.Count; i++)
+                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+                if (nodes is not null)
                 {
-                    try
+                    List<SearchResultModel> models = new();
+                    for (int i = 0; i < nodes.Count; i++)
                     {
-                        XmlNode node = nodes[i];
-                        if (bool.Parse(node["IsEnabled"].InnerText))
+                        try
                         {
-                            SearchResultModel model = new()
+                            XmlNode node = nodes[i];
+                            if (bool.Parse(node["IsEnabled"].InnerText))
                             {
-                                Name = node["Name"].InnerText,
-                                Category = category,
-                                Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
-                                Keyword = node["Keyword"].InnerText,
-                                Format = node["Format"].InnerText,
-                                DefaultText = node["DefaultText"].InnerText,
-                                Alt = node["Alt"].InnerText,
-                                IsEnabled = bool.Parse(node["IsEnabled"].InnerText)
-                            };
+                                SearchResultModel model = new()
+                                {
+                                    Name = node["Name"].InnerText,
+                                    Category = category,
+                                    Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
+                                    Keyword = node["Keyword"].InnerText,
+                                    Format = node["Format"].InnerText,
+                                    DefaultText = node["DefaultText"].InnerText,
+                                    Alt = node["Alt"].InnerText,
+                                    IsEnabled = bool.Parse(node["IsEnabled"].InnerText)
+                                };
 
-                            Command command = (Command)Enum.Parse(typeof(Command), node["Command"].InnerText.Capitalize());
-                            switch (command)
-                            {
-                                case Command.Timer:
-                                    (string description, double? seconds) = await TimerUtils.ParseTimeFromStringAsync(input, model.Format, node["Split"].InnerText, model.DefaultText);
-                                    model.Description = description;
-                                    model.Time = seconds;
-                                    (_, string separator, string remainder) = description.Partition(": ");
-                                    if (!string.IsNullOrEmpty(separator))
-                                    {
-                                        model.Text = remainder;
-                                    }
-                                    break;
+                                Command command = (Command)Enum.Parse(typeof(Command), node["Command"].InnerText.Capitalize());
+                                switch (command)
+                                {
+                                    case Command.Timer:
+                                        (string description, double? seconds) = await TimerUtils.ParseTimeFromStringAsync(input, model.Format, node["Split"].InnerText, model.DefaultText);
+                                        model.Description = description;
+                                        model.Time = seconds;
+                                        (_, string separator, string remainder) = description.Partition(": ");
+                                        if (!string.IsNullOrEmpty(separator))
+                                        {
+                                            model.Text = remainder;
+                                        }
+                                        break;
 
-                                default:
-                                    break;
-                            }
+                                    default:
+                                        break;
+                                }
 
-                            if (model.Description is not null)
-                            {
-                                models.Add(model);
+                                if (model.Description is not null)
+                                {
+                                    models.Add(model);
+                                }
                             }
                         }
+                        catch (NullReferenceException)
+                        {
+                            continue;
+                        }
                     }
-                    catch (NullReferenceException)
-                    {
-                        continue;
-                    }
+                    return models;
                 }
-                return models;
+                return new List<SearchResultModel>();
             }
-            return new List<SearchResultModel>();
+            catch (System.Xml.XPath.XPathException)
+            {
+                return new List<SearchResultModel>();
+            }
         }
 
         public static List<SearchResultModel> MakeListForUtilities(XmlDocument doc, string attribute, Category category)
         {
-            XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-            if (nodes is not null)
+            try
             {
-                List<SearchResultModel> models = new();
-                for (int i = 0; i < nodes.Count; i++)
+                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+                if (nodes is not null)
                 {
-                    try
+                    List<SearchResultModel> models = new();
+                    for (int i = 0; i < nodes.Count; i++)
                     {
-                        XmlNode node = nodes[i];
-                        if (bool.Parse(node["IsEnabled"].InnerText))
+                        try
                         {
-                            SearchResultModel model = new()
+                            XmlNode node = nodes[i];
+                            if (bool.Parse(node["IsEnabled"].InnerText))
                             {
-                                Name = node["Name"].InnerText,
-                                Category = category,
-                                Utility = (Utility)Enum.Parse(typeof(Utility), node["Utility"].InnerText),
-                                Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
-                                Keyword = node["Keyword"].InnerText,
-                                Description = node["Description"].InnerText,
-                                Alt = node["Alt"].InnerText,
-                                IsEnabled = bool.Parse(node["IsEnabled"].InnerText),
-                                RequiresConfirmation = bool.Parse(node["RequiresConfirmation"].InnerText),
-                                ConfirmationMessage = node["ConfirmationMessage"].InnerText
-                            };
-                            models.Add(model);
+                                SearchResultModel model = new()
+                                {
+                                    Name = node["Name"].InnerText,
+                                    Category = category,
+                                    Utility = (Utility)Enum.Parse(typeof(Utility), node["Utility"].InnerText),
+                                    Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
+                                    Keyword = node["Keyword"].InnerText,
+                                    Description = node["Description"].InnerText,
+                                    Alt = node["Alt"].InnerText,
+                                    IsEnabled = bool.Parse(node["IsEnabled"].InnerText),
+                                    RequiresConfirmation = bool.Parse(node["RequiresConfirmation"].InnerText),
+                                    ConfirmationMessage = node["ConfirmationMessage"].InnerText
+                                };
+                                models.Add(model);
+                            }
+                        }
+                        catch (NullReferenceException)
+                        {
+                            continue;
                         }
                     }
-                    catch (NullReferenceException)
-                    {
-                        continue;
-                    }
+                    return models;
                 }
-                return models;
+                return new List<SearchResultModel>();
             }
-            return new List<SearchResultModel>();
+            catch (System.Xml.XPath.XPathException)
+            {
+                return new List<SearchResultModel>();
+            }
         }
     }
 }
