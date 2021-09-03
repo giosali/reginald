@@ -77,6 +77,18 @@ namespace Reginald.Models
             Utility = utility;
         }
 
+        public SearchResultModel(XmlNode node, Category category)
+        {
+            Name = node["Name"]?.InnerText;
+            Category = category;
+            Icon = node["Icon"] is null ? null : BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
+            Keyword = node["Keyword"]?.InnerText;
+            Format = node["Format"]?.InnerText;
+            Description = node["Description"]?.InnerText;
+            URI = node["URI"]?.InnerText;
+            Alt = node["Alt"]?.InnerText;
+        }
+
         public string Name { get; set; }
         public Category Category { get; set; }
         public Utility Utility { get; set; }
@@ -86,6 +98,7 @@ namespace Reginald.Models
         public string Keyword { get; set; }
         public string Separator { get; set; }
         public string URL { get; set; }
+        public string URI { get; set; }
         public string Text { get; set; }
         public string Format { get; set; }
         public string DefaultText { get; set; }
@@ -96,6 +109,19 @@ namespace Reginald.Models
         public double? Time { get; set; }
         public bool RequiresConfirmation { get; set; }
         public string ConfirmationMessage { get; set; }
+
+        //public static List<SearchResultModel> GatherModels(XmlDocument doc, string attribute, Category category, string input = null)
+        //{
+        //    try
+        //    {
+        //        XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+        //        List<SearchResultModel> models = new();
+        //    }
+        //    catch (System.Xml.XPath.XPathException)
+        //    {
+        //        return new List<SearchResultModel>();
+        //    }
+        //}
 
         public static List<SearchResultModel> MakeList(XmlDocument doc, string input, string attribute, Category category)
         {

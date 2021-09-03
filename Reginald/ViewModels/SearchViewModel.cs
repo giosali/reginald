@@ -37,7 +37,7 @@ namespace Reginald.ViewModels
         {
             Indicator = indicator;
             SetUpViewModelAsync();
-            StyleSearchView();
+            //StyleSearchView();
         }
 
         private string applicationImagesDirectoryPath;
@@ -47,7 +47,111 @@ namespace Reginald.ViewModels
         private XmlDocument specialKeywordDoc;
         private XmlDocument commandsDoc;
         private XmlDocument utilitiesDoc;
+        private XmlDocument settingsDoc;
         private Dictionary<string, string> applicationsDict;
+
+        private async void SetUpViewModelAsync()
+        {
+            Task assignmentTask = Task.Run(() =>
+            {
+                applicationImagesDirectoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
+                applicationsTxtFilePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
+                searchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
+                userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
+                specialKeywordDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSpecialKeywordFilename);
+                commandsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlCommandsFilename);
+                utilitiesDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUtilitiesFilename);
+                settingsDoc = XmlHelper.GetXmlDocument("Resources/MSSettings.xml", true);
+            });
+            Task<Dictionary<string, string>> applicationsDictTask = Task.Run(() =>
+            {
+                return Applications.MakeDictionary();
+            });
+            Task stylesTask = Task.Run(() =>
+            {
+                StyleSearchView();
+            });
+
+            await assignmentTask;
+            applicationsDict = await applicationsDictTask;
+            await stylesTask;
+        }
+
+        private void StyleSearchView()
+        {
+            Properties.Settings settings = Properties.Settings.Default;
+
+            System.Drawing.Color searchBackgroundColor;
+            System.Drawing.Color searchDescriptionTextColor;
+            System.Drawing.Color searchAltTextColor;
+            System.Drawing.Color searchInputTextColor;
+            System.Drawing.Color searchInputCaretColor;
+            System.Drawing.Color searchViewBorderColor;
+            System.Drawing.Color specialSearchResultSubColor;
+            System.Drawing.Color specialSearchResultBorderColor;
+            System.Drawing.Color specialSearchResultSecondaryColor;
+            System.Drawing.Color specialSearchResultMainColor;
+            System.Drawing.Color searchResultHighlightColor;
+            if (settings.IsDarkModeEnabled)
+            {
+                searchBackgroundColor = settings.SearchBackgroundColorDark;
+                searchDescriptionTextColor = settings.SearchDescriptionTextColorDark;
+                searchAltTextColor = settings.SearchAltTextColorDark;
+                searchInputTextColor = settings.SearchInputTextColorDark;
+                searchInputCaretColor = settings.SearchInputCaretColorDark;
+                searchViewBorderColor = settings.SearchViewBorderColorDark;
+                specialSearchResultSubColor = settings.SpecialSearchResultSubColorDark;
+                specialSearchResultBorderColor = settings.SpecialSearchResultBorderColorDark;
+                specialSearchResultSecondaryColor = settings.SpecialSearchResultSecondaryColorDark;
+                specialSearchResultMainColor = settings.SpecialSearchResultMainColorDark;
+            }
+            else
+            {
+                searchBackgroundColor = settings.SearchBackgroundColorLight;
+                searchDescriptionTextColor = settings.SearchDescriptionTextColorLight;
+                searchAltTextColor = settings.SearchAltTextColorLight;
+                searchInputTextColor = settings.SearchInputTextColorLight;
+                searchInputCaretColor = settings.SearchInputCaretColorLight;
+                searchViewBorderColor = settings.SearchViewBorderColorLight;
+                specialSearchResultSubColor = settings.SpecialSearchResultSubColorLight;
+                specialSearchResultBorderColor = settings.SpecialSearchResultBorderColorLight;
+                specialSearchResultSecondaryColor = settings.SpecialSearchResultSecondaryColorLight;
+                specialSearchResultMainColor = settings.SpecialSearchResultMainColorLight;
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Settings.SearchBackgroundColor = Color.FromRgb(searchBackgroundColor.R, searchBackgroundColor.G, searchBackgroundColor.B);
+                Settings.SearchDescriptionTextBrush = SolidColorBrushHelper.FromRgb(searchDescriptionTextColor);
+                Settings.SearchAltTextBrush = SolidColorBrushHelper.FromRgb(searchAltTextColor);
+                Settings.SearchInputTextBrush = SolidColorBrushHelper.FromRgb(searchInputTextColor);
+                Settings.SearchInputCaretBrush = SolidColorBrushHelper.FromRgb(searchInputCaretColor);
+                Settings.SearchViewBorderBrush = !settings.IsSearchBoxBorderEnabled ? Brushes.Transparent : SolidColorBrushHelper.FromRgb(searchViewBorderColor);
+                Settings.SpecialSearchResultSubBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSubColor);
+                Settings.SpecialSearchResultBorderBrush = SolidColorBrushHelper.FromRgb(specialSearchResultBorderColor);
+                Settings.SpecialSearchResultSecondaryBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSecondaryColor);
+                Settings.SpecialSearchResultMainBrush = SolidColorBrushHelper.FromRgb(specialSearchResultMainColor);
+
+                string highlightHex = settings.IsSystemColorEnabled ? AccentColors.ImmersiveSystemAccentBrush.GetTransparentHex("#99") : "#99ff8d00";
+                searchResultHighlightColor = System.Drawing.ColorTranslator.FromHtml(highlightHex);
+                Settings.SearchResultHighlightColor = SolidColorBrushHelper.FromArgb(searchResultHighlightColor);
+            });
+
+            //Settings.SearchBackgroundColor = Color.FromRgb(searchBackgroundColor.R, searchBackgroundColor.G, searchBackgroundColor.B);
+            //Settings.SearchDescriptionTextBrush = SolidColorBrushHelper.FromRgb(searchDescriptionTextColor);
+            //Settings.SearchAltTextBrush = SolidColorBrushHelper.FromRgb(searchAltTextColor);
+            //Settings.SearchInputTextBrush = SolidColorBrushHelper.FromRgb(searchInputTextColor);
+            //Settings.SearchInputCaretBrush = SolidColorBrushHelper.FromRgb(searchInputCaretColor);
+            //Settings.SearchViewBorderBrush = !settings.IsSearchBoxBorderEnabled ? Brushes.Transparent : SolidColorBrushHelper.FromRgb(searchViewBorderColor);
+            //Settings.SpecialSearchResultSubBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSubColor);
+            //Settings.SpecialSearchResultBorderBrush = SolidColorBrushHelper.FromRgb(specialSearchResultBorderColor);
+            //Settings.SpecialSearchResultSecondaryBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSecondaryColor);
+            //Settings.SpecialSearchResultMainBrush = SolidColorBrushHelper.FromRgb(specialSearchResultMainColor);
+
+            //string highlightHex = settings.IsSystemColorEnabled ? AccentColors.ImmersiveSystemAccentBrush.GetTransparentHex("#99") : "#99ff8d00";
+            //searchResultHighlightColor = System.Drawing.ColorTranslator.FromHtml(highlightHex);
+            //Settings.SearchResultHighlightColor = SolidColorBrushHelper.FromArgb(searchResultHighlightColor);
+        }
 
         public Indicator Indicator { get; set; }
 
@@ -142,85 +246,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private async void SetUpViewModelAsync()
-        {
-            Task assignmentTask = Task.Run(() =>
-            {
-                applicationImagesDirectoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
-                applicationsTxtFilePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
-                searchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
-                userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
-                specialKeywordDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSpecialKeywordFilename);
-                commandsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlCommandsFilename);
-                utilitiesDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUtilitiesFilename);
-            });
-            Task<Dictionary<string, string>> applicationsDictTask = Task.Run(() =>
-            {
-                return Applications.MakeDictionary();
-            });
-
-            await assignmentTask;
-            applicationsDict = await applicationsDictTask;
-        }
-
-        private void StyleSearchView()
-        {
-            Properties.Settings settings = Properties.Settings.Default;
-
-            System.Drawing.Color searchBackgroundColor;
-            System.Drawing.Color searchDescriptionTextColor;
-            System.Drawing.Color searchAltTextColor;
-            System.Drawing.Color searchInputTextColor;
-            System.Drawing.Color searchInputCaretColor;
-            System.Drawing.Color searchViewBorderColor;
-            System.Drawing.Color specialSearchResultSubColor;
-            System.Drawing.Color specialSearchResultBorderColor;
-            System.Drawing.Color specialSearchResultSecondaryColor;
-            System.Drawing.Color specialSearchResultMainColor;
-            System.Drawing.Color searchResultHighlightColor;
-            if (settings.IsDarkModeEnabled)
-            {
-                searchBackgroundColor = settings.SearchBackgroundColorDark;
-                searchDescriptionTextColor = settings.SearchDescriptionTextColorDark;
-                searchAltTextColor = settings.SearchAltTextColorDark;
-                searchInputTextColor = settings.SearchInputTextColorDark;
-                searchInputCaretColor = settings.SearchInputCaretColorDark;
-                searchViewBorderColor = settings.SearchViewBorderColorDark;
-                specialSearchResultSubColor = settings.SpecialSearchResultSubColorDark;
-                specialSearchResultBorderColor = settings.SpecialSearchResultBorderColorDark;
-                specialSearchResultSecondaryColor = settings.SpecialSearchResultSecondaryColorDark;
-                specialSearchResultMainColor = settings.SpecialSearchResultMainColorDark;
-            }
-            else
-            {
-                searchBackgroundColor = settings.SearchBackgroundColorLight;
-                searchDescriptionTextColor = settings.SearchDescriptionTextColorLight;
-                searchAltTextColor = settings.SearchAltTextColorLight;
-                searchInputTextColor = settings.SearchInputTextColorLight;
-                searchInputCaretColor = settings.SearchInputCaretColorLight;
-                searchViewBorderColor = settings.SearchViewBorderColorLight;
-                specialSearchResultSubColor = settings.SpecialSearchResultSubColorLight;
-                specialSearchResultBorderColor = settings.SpecialSearchResultBorderColorLight;
-                specialSearchResultSecondaryColor = settings.SpecialSearchResultSecondaryColorLight;
-                specialSearchResultMainColor = settings.SpecialSearchResultMainColorLight;
-            }
-
-            Settings.SearchBackgroundColor = Color.FromRgb(searchBackgroundColor.R, searchBackgroundColor.G, searchBackgroundColor.B);
-            Settings.SearchDescriptionTextBrush = SolidColorBrushHelper.FromRgb(searchDescriptionTextColor);
-            Settings.SearchAltTextBrush = SolidColorBrushHelper.FromRgb(searchAltTextColor);
-            Settings.SearchInputTextBrush = SolidColorBrushHelper.FromRgb(searchInputTextColor);
-            Settings.SearchInputCaretBrush = SolidColorBrushHelper.FromRgb(searchInputCaretColor);
-            Settings.SearchViewBorderBrush = !settings.IsSearchBoxBorderEnabled ? Brushes.Transparent : SolidColorBrushHelper.FromRgb(searchViewBorderColor);
-            Settings.SpecialSearchResultSubBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSubColor);
-            Settings.SpecialSearchResultBorderBrush = SolidColorBrushHelper.FromRgb(specialSearchResultBorderColor);
-            Settings.SpecialSearchResultSecondaryBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSecondaryColor);
-            Settings.SpecialSearchResultMainBrush = SolidColorBrushHelper.FromRgb(specialSearchResultMainColor);
-
-            string highlightHex = settings.IsSystemColorEnabled ? AccentColors.ImmersiveSystemAccentBrush.GetTransparentHex("#99") : "#99ff8d00";
-            searchResultHighlightColor = System.Drawing.ColorTranslator.FromHtml(highlightHex);
-            Settings.SearchResultHighlightColor = SolidColorBrushHelper.FromArgb(searchResultHighlightColor);
-        }
-
         public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)
         {
             SearchResults.Clear();
@@ -235,6 +260,7 @@ namespace Reginald.ViewModels
                 Task<IEnumerable<SearchResultModel>> commandKeywordModelsTask = GetCommandModelsAsync(Properties.Settings.Default.IncludeCommands, commandsDoc, UserInput);
                 Task<IEnumerable<SearchResultModel>> utilityKeywordModelsTask = GetUtilityModels(true, utilitiesDoc, UserInput);
                 Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
+                Task<List<SearchResultModel>> settingsModelsTask = GetSettingsModels(true, settingsDoc, UserInput);
                 Task<SpecialSearchResultModel> specialKeywordModelTask = GetSpecialKeywordModelAsync(UserInput);
 
                 IEnumerable<SearchResultModel> applicationModels = await applicationModelsTask;
@@ -243,6 +269,7 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> commandModels = await commandKeywordModelsTask;
                 IEnumerable<SearchResultModel> utilityModels = await utilityKeywordModelsTask;
                 SearchResultModel[] mathModels = await mathModelsTask;
+                List<SearchResultModel> settingsModels = await settingsModelsTask;
                 SpecialSearchResultModel specialSearchResult = await specialKeywordModelTask;
 
                 if (specialSearchResult is not null)
@@ -261,7 +288,7 @@ namespace Reginald.ViewModels
                     {
                         try
                         {
-                            models = applicationModels.Concat(keywordModels).Concat(userKeywordModels).Concat(mathModels).Concat(commandModels).Concat(utilityModels);
+                            models = applicationModels.Concat(keywordModels).Concat(userKeywordModels).Concat(mathModels).Concat(commandModels).Concat(utilityModels).Concat(settingsModels);
                         }
                         catch (ArgumentNullException)
                         {
@@ -316,12 +343,9 @@ namespace Reginald.ViewModels
                                                                         .ThenBy(x => x.Name);
                     return Task.FromResult(models);
                 }
-                return Task.FromResult(Enumerable.Empty<SearchResultModel>());
             }
-            catch (RegexParseException)
-            {
-                return Task.FromResult(Enumerable.Empty<SearchResultModel>());
-            }
+            catch (RegexParseException) { }
+            return Task.FromResult(Enumerable.Empty<SearchResultModel>());
         }
 
         private Task<IEnumerable<SearchResultModel>> GetModels(bool isIncluded, XmlDocument doc, string input)
@@ -346,12 +370,7 @@ namespace Reginald.ViewModels
             IEnumerable<string> attributes = doc.GetNodesAttributes(Constants.NamespacesXpath);
             string format = @"((?<!\w){0}.*)";
 
-            string[] characters = new string[] { "[", "(", ")"};
-            for (int i = 0; i < characters.Length; i++)
-            {
-                string character = characters[i];
-                keyword = keyword.Replace(character, $"\\{character}");
-            }
+            keyword = StringHelpers.RegexClean(keyword);
 
             Regex rx = new(string.Format(format, keyword), RegexOptions.IgnoreCase);
             IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
@@ -369,6 +388,16 @@ namespace Reginald.ViewModels
                                                     });
             return matches;
         }
+
+        //private IEnumerable<string> MatchAttributesInDoc(XmlDocument doc, string input, string format)
+        //{
+        //    IEnumerable<string> attributes = doc.GetNodesAttributes(Constants.NamespacesXpath);
+
+        //    Regex rx = new(string.Format(format, StringHelpers.RegexClean(input)), RegexOptions.IgnoreCase);
+        //    IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
+        //                                            .Distinct();
+        //    return matches;
+        //}
 
         private Task<SearchResultModel[]> GetMathModels(string input)
         {
@@ -391,78 +420,44 @@ namespace Reginald.ViewModels
                         tokenSource.Cancel();
                     }
 
-                    XmlNode node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, input));
+                    (string keyword, string separator, string after) = input.Partition(" ");
+                    XmlNode node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, keyword));
                     if (node is not null)
                     {
                         bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
                         if (isEnabled)
                         {
                             bool isCommand = bool.Parse(node["IsCommand"].InnerText);
-                            if (isCommand)
+                            bool canHaveSpaces = bool.Parse(node["CanHaveSpaces"].InnerText);
+                            if ((isCommand && separator != string.Empty) || (!canHaveSpaces && after.Contains(" ")))
                             {
-                                tokenSource = new();
-                                SpecialSearchResultModel model = new();
-
-                                string apiText = node["API"].InnerText;
-                                Api api = (Api)Enum.Parse(typeof(Api), apiText);
-                                switch (api)
-                                {
-                                    case Api.Cloudflare:
-                                        model = await SpecialSearchResultModel.MakeCloudflareSpecialSearchResultModelAsync(node, tokenSource.Token);
-                                        break;
-
-                                    default:
-                                        break;
-                                }
-                                return model;
+                                return null;
                             }
-                        }
-                    }
-                    else
-                    {
-                        (string Left, string Separator, string Right) partition = input.Partition(" ");
-                        if (partition.Right != string.Empty)
-                        {
-                            node = specialKeywordDoc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, partition.Left));
-                            if (node is not null)
+
+                            tokenSource = new();
+                            SpecialSearchResultModel model = new();
+
+                            string apiText = node["API"].InnerText;
+                            Api api = (Api)Enum.Parse(typeof(Api), apiText);
+                            switch (api)
                             {
-                                bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
-                                if (isEnabled)
-                                {
-                                    bool isCommand = bool.Parse(node["IsCommand"].InnerText);
-                                    if (!isCommand)
+                                case Api.Cloudflare:
+                                    model = await SpecialSearchResultModel.CloudflareAsync(node, tokenSource.Token);
+                                    break;
+
+                                case Api.Styvio:
+                                    if (after == string.Empty || after.Length > 5)
                                     {
-                                        bool canHaveSpaces = bool.Parse(node["CanHaveSpaces"].InnerText);
-                                        if (!canHaveSpaces)
-                                        {
-                                            if (partition.Right.Contains(" "))
-                                            {
-                                                return null;
-                                            }
-                                        }
-
-                                        tokenSource = new();
-                                        SpecialSearchResultModel model = new();
-
-                                        string apiText = node["API"].InnerText;
-                                        Api api = (Api)Enum.Parse(typeof(Api), apiText);
-                                        switch (api)
-                                        {
-                                            case Api.Styvio:
-                                                if (partition.Right.Length > 5)
-                                                {
-                                                    return null;
-                                                }
-                                                model = await SpecialSearchResultModel.MakeStyvioSpecialSearchResultModelAsync(node, partition.Right, tokenSource.Token);
-                                                break;
-
-                                            default:
-                                                break;
-                                        }
-                                        return model;
+                                        return null;
                                     }
-                                }
+                                    model = await SpecialSearchResultModel.StyvioAsync(node, after, tokenSource.Token);
+                                    break;
+
+                                default:
+                                    break;
                             }
+
+                            return model;
                         }
                     }
                 }
@@ -502,6 +497,34 @@ namespace Reginald.ViewModels
                 return Task.FromResult(models);
             }
             return Task.FromResult(Enumerable.Empty<SearchResultModel>());
+        }
+
+        private Task<List<SearchResultModel>> GetSettingsModels(bool isIncluded, XmlDocument doc, string input)
+        {
+            if (isIncluded)
+            {
+                if (input.Length > 2)
+                {
+                    string format = @"{0}";
+                    string formatInput = StringHelpers.RegexOrBoundarySplit(StringHelpers.RegexClean(input), out int count);
+                    Regex rx = new(string.Format(format, formatInput), RegexOptions.IgnoreCase);
+                    IEnumerable<string> attributes = doc.GetNodesAttributes(Constants.NamespacesXpath)
+                                                        .Where(x =>
+                                                         {
+                                                             MatchCollection matches = rx.Matches(x);
+                                                             return matches.Count == count;
+                                                         });
+                    List<SearchResultModel> models = new();
+                    foreach (string attribute in attributes)
+                    {
+                        XmlNode node = doc.GetNode(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+                        models.Add(new SearchResultModel(node, Category.URI));
+                    }
+
+                    return Task.FromResult(models);
+                }
+            }
+            return Task.FromResult(new List<SearchResultModel>());
         }
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -628,6 +651,10 @@ namespace Reginald.ViewModels
                 case Category.Confirmation:
                     await TryCloseAsync();
                     await UtilityBase.HandleUtilityAsync(SelectedSearchResult.Utility);
+                    break;
+
+                case Category.URI:
+                    GoToWebsite(SelectedSearchResult.URI);
                     break;
 
                 default:

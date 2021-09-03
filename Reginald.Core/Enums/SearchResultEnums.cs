@@ -10,6 +10,7 @@
         Command,
         Notifier,
         Utility,
-        Confirmation
+        Confirmation,
+        URI
     }
 }

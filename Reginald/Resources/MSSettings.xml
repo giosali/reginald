@@ -1,0 +1,704 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Searches>
+	<!-- Source: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/launch-settings-app -->
+	<!-- Accounts -->
+	<Namespace Name="Access work or school">
+		<URI>ms-settings:workplace</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Access work or school</Description>
+		<Alt>Accounts</Alt>
+	</Namespace>
+	<Namespace Name="Email and accounts">
+		<URI>ms-settings:emailandaccounts</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Email &amp; accounts</Description>
+		<Alt>Accounts</Alt>
+	</Namespace>
+	<Namespace Name="Other users">
+		<URI>ms-settings:otherusers</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Other users</Description>
+		<Alt>Accounts</Alt>
+	</Namespace>
+	<Namespace Name="Sign-in options/Signin options">
+		<URI>ms-settings:signinoptions</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Sign-in options</Description>
+		<Alt>Accounts</Alt>
+	</Namespace>
+	<Namespace Name="Dynamic lock">
+		<URI>ms-settings:signinoptions-dynamiclock</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Dynamic lock</Description>
+		<Alt>Accounts</Alt>
+	</Namespace>
+	<Namespace Name="Sync your settings">
+		<URI>ms-settings:sync</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Sync your settings</Description>
+		<Alt>Accounts</Alt>
+	</Namespace>
+	<Namespace Name="Set up face sign-in/signin">
+		<URI>ms-settings:signinoptions-launchfaceenrollment</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Set up face sign-in</Description>
+		<Alt>Accounts</Alt>
+	</Namespace>
+	<Namespace Name="Set up fingerprint sign-in/signin">
+		<URI>ms-settings:signinoptions-launchfingerprintenrollment</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Set up fingerprint sign-in</Description>
+		<Alt>Accounts</Alt>
+	</Namespace>
+	<Namespace Name="Your account info">
+		<URI>ms-settings:yourinfo</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Your account info</Description>
+		<Alt>Accounts</Alt>
+	</Namespace>
+
+	<!-- Apps -->
+	<Namespace Name="Apps and&amp; features">
+		<URI>ms-settings:appsfeatures</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Apps &amp; features</Description>
+		<Alt>Apps</Alt>
+	</Namespace>
+	<Namespace Name="Choose a default app for each website">
+		<URI>ms-settings:appsforwebsites</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Choose a default app for each website</Description>
+		<Alt>Apps</Alt>
+	</Namespace>
+	<Namespace Name="Manage optional features">
+		<URI>ms-settings:optionalfeatures</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Manage optional features</Description>
+		<Alt>Apps</Alt>
+	</Namespace>
+	<Namespace Name="Offline maps">
+		<URI>ms-settings:maps</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Offline maps</Description>
+		<Alt>Apps</Alt>
+	</Namespace>
+	<Namespace Name="Download maps for offline use">
+		<URI>ms-settings:maps-downloadmaps</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Download maps for offline use</Description>
+		<Alt>Apps</Alt>
+	</Namespace>
+	<Namespace Name="Startup Apps">
+		<URI>ms-settings:startupapps</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Startup Apps</Description>
+		<Alt>Apps</Alt>
+	</Namespace>
+	<Namespace Name="Video playback">
+		<URI>ms-settings:videoplayback</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Video playback</Description>
+		<Alt>Apps</Alt>
+	</Namespace>
+
+	<!-- Devices -->
+	<Namespace Name="AutoPlay settings">
+		<URI>ms-settings:autoplay</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>AutoPlay settings</Description>
+		<Alt>Devices</Alt>
+	</Namespace>
+	<Namespace Name="Bluetooth and other devices settings">
+		<URI>ms-settings:bluetooth</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Bluetooth and other devices settings</Description>
+		<Alt>Devices</Alt>
+	</Namespace>
+	<Namespace Name="Mouse settings">
+		<URI>ms-settings:mousetouchpad</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Mouse settings</Description>
+		<Alt>Devices</Alt>
+	</Namespace>
+	<Namespace Name="Pen and Windows Ink settings">
+		<URI>ms-settings:pen</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Pen &amp; Windows Ink settings</Description>
+		<Alt>Devices</Alt>
+	</Namespace>
+	<Namespace Name="Printers and scanners">
+		<URI>ms-settings:printers</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Printers and scanners</Description>
+		<Alt>Devices</Alt>
+	</Namespace>
+	<Namespace Name="Typing settings">
+		<URI>ms-settings:typing</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Typing settings</Description>
+		<Alt>Devices</Alt>
+	</Namespace>
+	<Namespace Name="USB settings">
+		<URI>ms-settings:usb</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>USB settings</Description>
+		<Alt>Devices</Alt>
+	</Namespace>
+	<Namespace Name="Link your phone">
+		<URI>ms-settings:mobile-devices</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Link your phone</Description>
+		<Alt>Devices</Alt>
+	</Namespace>
+
+	<!-- Ease of access -->
+	<Namespace Name="Ease of Access audio settings">
+		<URI>ms-settings:easeofaccess-audio</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Ease of Access audio settings</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Closed captions">
+		<URI>ms-settings:easeofaccess-closedcaptioning</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Closed captions</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Color filters">
+		<URI>ms-settings:easeofaccess-colorfilter</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Color filters</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Ease of Access display settings">
+		<URI>ms-settings:easeofaccess-display</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Ease of Access display settings</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Eye control settings">
+		<URI>ms-settings:easeofaccess-eyecontrol</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Eye control settings</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Font settings">
+		<URI>ms-settings:fonts</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Font settings</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Ease of Access contrast settings">
+		<URI>ms-settings:easeofaccess-highcontrast</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Ease of Access contrast settings</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Ease of Access keyboard settings">
+		<URI>ms-settings:easeofaccess-keyboard</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Ease of Access keyboard settings</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Ease of Access Magnifier settings">
+		<URI>ms-settings:easeofaccess-magnifier</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Ease of Access Magnifier settings</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Ease of Access mouse settings">
+		<URI>ms-settings:easeofaccess-mouse</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Ease of Access mouse settings</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+	<Namespace Name="Ease of Access speech settings">
+		<URI>ms-settings:easeofaccess-speechrecognition</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Ease of Access speech settings</Description>
+		<Alt>Ease of Access</Alt>
+	</Namespace>
+
+	<!-- Gaming -->
+	<Namespace Name="Game bar settings">
+		<URI>ms-settings:gaming-gamebar</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Game bar settings</Description>
+		<Alt>Gaming</Alt>
+	</Namespace>
+	<Namespace Name="Game DVR Captures settings">
+		<URI>ms-settings:gaming-gamedvr</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Captures settings</Description>
+		<Alt>Gaming</Alt>
+	</Namespace>
+	<Namespace Name="Game Mode settings">
+		<URI>ms-settings:gaming-gamemode</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Game Mode settings</Description>
+		<Alt>Gaming</Alt>
+	</Namespace>
+	<Namespace Name="Xbox networking">
+		<URI>ms-settings:gaming-xboxnetworking</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Xbox networking</Description>
+		<Alt>Gaming</Alt>
+	</Namespace>
+
+	<!-- Networking and internet -->
+	<Namespace Name="Turn airplane mode on or off">
+		<URI>ms-settings:network-airplanemode</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Turn airplane mode on or off</Description>
+		<Alt>Network and Internet</Alt>
+	</Namespace>
+	<Namespace Name="Data usage overview">
+		<URI>ms-settings:datausage</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Data usage overview</Description>
+		<Alt>Network and Internet</Alt>
+	</Namespace>
+	<Namespace Name="Dial-up settings">
+		<URI>ms-settings:network-dialup</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Dial-up settings</Description>
+		<Alt>Network and Internet</Alt>
+	</Namespace>
+	<Namespace Name="Wi-Fiwifi settings">
+		<URI>ms-settings:network-wifisettings</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Wi-Fi settings</Description>
+		<Alt>Network and Internet</Alt>
+	</Namespace>
+	<Namespace Name="Mobile hotspot">
+		<URI>ms-settings:network-mobilehotspot</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Mobile hotspot</Description>
+		<Alt>Network and Internet</Alt>
+	</Namespace>
+	<Namespace Name="Proxy settings">
+		<URI>ms-settings:network-proxy</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Proxy settings</Description>
+		<Alt>Network and Internet</Alt>
+	</Namespace>
+	<Namespace Name="Network status">
+		<URI>ms-settings:network-status</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Network status</Description>
+		<Alt>Network and Internet</Alt>
+	</Namespace>
+	<Namespace Name="VPN settings">
+		<URI>ms-settings:network-vpn</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>VPN settings</Description>
+		<Alt>Network and Internet</Alt>
+	</Namespace>
+
+	<!-- Personalization -->
+	<Namespace Name="Choose your desktop Background image settings">
+		<URI>ms-settings:personalization-background</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Choose your desktop background</Description>
+		<Alt>Personalization</Alt>
+	</Namespace>
+	<Namespace Name="Choose which folders appear on Start">
+		<URI>ms-settings:personalization-start-places</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Background image settings</Description>
+		<Alt>Personalization</Alt>
+	</Namespace>
+	<Namespace Name="Choose your accent color">
+		<URI>ms-settings:personalization-colors</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Choose your accent color</Description>
+		<Alt>Personalization</Alt>
+	</Namespace>
+	<Namespace Name="Lock screen settings">
+		<URI>ms-settings:lockscreens</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Lock screen settings</Description>
+		<Alt>Personalization</Alt>
+	</Namespace>
+	<Namespace Name="Personalization settings">
+		<URI>ms-settings:personalization</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Personalization settings</Description>
+		<Alt>Personalization</Alt>
+	</Namespace>
+	<Namespace Name="Start settings">
+		<URI>ms-settings:personalization-start</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Start settings</Description>
+		<Alt>Personalization</Alt>
+	</Namespace>
+	<Namespace Name="Taskbar settings">
+		<URI>ms-settings:taskbar</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Taskbar settings</Description>
+		<Alt>Personalization</Alt>
+	</Namespace>
+	<Namespace Name="Themes and related settings">
+		<URI>ms-settings:themes</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Themes and related settings</Description>
+		<Alt>Personalization</Alt>
+	</Namespace>
+
+	<!-- Privacy -->
+	<Namespace Name="Activity history privacy settings">
+		<URI>ms-settings:privacy-activityhistory</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Activity history privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="App diagnositics privacy settings">
+		<URI>ms-settings:privacy-appdiagnostics</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>App diagnositics privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Automatic file downloads privacy settings">
+		<URI>ms-settings:privacy-automaticfiledownloads</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Automatic file downloads privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Background apps">
+		<URI>ms-settings:privacy-backgroundapps</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Background apps</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Calendar privacy settings">
+		<URI>ms-settings:privacy-calendar</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Calendar privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Call history privacy settings">
+		<URI>ms-settings:privacy-callhistory</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Call history privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Camera privacy settings">
+		<URI>ms-settings:privacy-webcam</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Camera privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Contacts privacy settings">
+		<URI>ms-settings:privacy-contacts</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Contacts privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Documents library privacy settings">
+		<URI>ms-settings:privacy-documents</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Documents library privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Email privacy settings">
+		<URI>ms-settings:privacy-email</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Email privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Diagnostics and&amp; feedback settings">
+		<URI>ms-settings:privacy-feedback</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Diagnostics &amp; feedback settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="File system privacy settings">
+		<URI>ms-settings:privacy-broadfilesystemaccess</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>File system privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Inking and&amp; typing personalization privacy settings">
+		<URI>ms-settings:privacy-speechtyping</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Inking &amp; typing personalization privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Location privacy settings">
+		<URI>ms-settings:privacy-location</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Location privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Messaging privacy settings">
+		<URI>ms-settings:privacy-messaging</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Messaging privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Microphone privacy settings">
+		<URI>ms-settings:privacy-microphone</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Microphone privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Notifications privacy settings">
+		<URI>ms-settings:privacy-notifications</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Notifications privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Device privacy settings">
+		<URI>ms-settings:privacy-customdevices</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Device privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Phone calls privacy settings">
+		<URI>ms-settings:privacy-phonecalls</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Phone calls privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Pictures library privacy settings">
+		<URI>ms-settings:privacy-pictures</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Pictures library privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Radio privacy settings">
+		<URI>ms-settings:privacy-radios</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Radio privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Speech privacy settings">
+		<URI>ms-settings:privacy-speech</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Speech privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Task privacy settings">
+		<URI>ms-settings:privacy-tasks</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Task privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Videos library privacy settings">
+		<URI>ms-settings:privacy-videos</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Videos library privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+	<Namespace Name="Voice activation privacy settings">
+		<URI>ms-settings:privacy-voiceactivation</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Voice activation privacy settings</Description>
+		<Alt>Privacy</Alt>
+	</Namespace>
+
+	<!-- System -->
+	<Namespace Name="About your PC">
+		<URI>ms-settings:abouts</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>About your PC</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Sound mixer options App volume">
+		<URI>ms-settings:apps-volume</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Sound mixer options</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Clipboard settings">
+		<URI>ms-settings:clipboard</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Clipboard settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Display settings">
+		<URI>ms-settings:display</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Display settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Default save locations">
+		<URI>ms-settings:savelocations</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Default save locations</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Focus assist">
+		<URI>ms-settings:quiethours</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Focus assist</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Graphics settings">
+		<URI>ms-settings:display-advancedgraphics</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Graphics settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Multitasking settings">
+		<URI>ms-settings:multitasking</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Multitasking settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Night light">
+		<URI>ms-settings:nightlight</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Night light</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Projection settings">
+		<URI>ms-settings:project</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Projection settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Shared experience settings">
+		<URI>ms-settings:crossdevice</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Shared experience settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Notifications and&amp; actions settings">
+		<URI>ms-settings:notifications</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Notifications &amp; actions settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Remote desktop settings">
+		<URI>ms-settings:remotedesktop</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Remote desktop settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Power and&amp; sleep settings">
+		<URI>ms-settings:powersleep</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Power &amp; sleep settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Sound settings">
+		<URI>ms-settings:sound</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Sound settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+	<Namespace Name="Storage settings">
+		<URI>ms-settings:storagesense</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Storage settings</Description>
+		<Alt>System</Alt>
+	</Namespace>
+
+	<!-- Time and language -->
+	<Namespace Name="Date and&amp; time settings">
+		<URI>ms-settings:dateandtime</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Date &amp; time settings</Description>
+		<Alt>Time and Language</Alt>
+	</Namespace>
+	<Namespace Name="Region settings">
+		<URI>ms-settings:regionformatting</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Region settings</Description>
+		<Alt>Time and Language</Alt>
+	</Namespace>
+	<Namespace Name="Language settings">
+		<URI>ms-settings:keyboard</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Language settings</Description>
+		<Alt>Time and Language</Alt>
+	</Namespace>
+	<Namespace Name="Speech settings">
+		<URI>ms-settings:speech</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Speech settings</Description>
+		<Alt>Time and Language</Alt>
+	</Namespace>
+
+	
+	<!-- Update and security -->
+	<Namespace Name="Activation settings">
+		<URI>ms-settings:activation</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Activation settings</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Backup settings">
+		<URI>ms-settings:backup</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Backup settings</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Delivery Optimization advanced settings">
+		<URI>ms-settings:delivery-optimization</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Delivery Optimization advanced settings</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Find My Device">
+		<URI>ms-settings:findmydevice</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Find My Device</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Developer settings">
+		<URI>ms-settings:developers</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Developer settings</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Recovery options">
+		<URI>ms-settings:recovery</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Recovery options</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Troubleshoot settings">
+		<URI>ms-settings:troubleshoot</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Troubleshoot settings</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Windows Security settings">
+		<URI>ms-settings:windowsdefender</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Windows Security settings</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Windows Update settings">
+		<URI>ms-settings:windowsupdate</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Windows Update settings</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Check for updates">
+		<URI>ms-settings:windowsupdate-action</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Check for updates</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Advanced Windows Update options">
+		<URI>ms-settings:windowsupdate-options</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Advanced Windows Update options</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="Windows Update Restart options/Schedule your restart">
+		<URI>ms-settings:windowsupdate-restartoptions</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Schedule your restart</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+	<Namespace Name="View your Update history">
+		<URI>ms-settings:windowsupdate-history</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>View your Update history</Description>
+		<Alt>Update and Security</Alt>
+	</Namespace>
+</Searches>

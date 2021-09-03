@@ -54,7 +54,7 @@ namespace Reginald.Models
         // Miscellaneous
         public bool IsCancelled { get; set; }
 
-        public static async Task<SpecialSearchResultModel> MakeStyvioSpecialSearchResultModelAsync(XmlNode node, string input, CancellationToken token)
+        public static async Task<SpecialSearchResultModel> StyvioAsync(XmlNode node, string input, CancellationToken token)
         {
             try
             {
@@ -76,8 +76,8 @@ namespace Reginald.Models
                 model.Minor = string.Format("{0} ({1})", priceDifferenceText, stock.PercentText);
                 model.MinorTwo = stock.CompanyLocation;
                 model.MinorTextBrush = stock.PercentText.StartsWith("-") ? Brushes.Red : Brushes.Green;
-                model.SubOne = string.Format(model.SubOneFormat, stock.DailyPrices.Max());
-                model.SubTwo = string.Format(model.SubTwoFormat, stock.DailyPrices.Min());
+                model.SubOne = string.Format(model.SubOneFormat, stock.DailyPrices.DefaultIfEmpty(0).Max());
+                model.SubTwo = string.Format(model.SubTwoFormat, stock.DailyPrices.DefaultIfEmpty(0).Min());
 
                 if (token.IsCancellationRequested)
                     token.ThrowIfCancellationRequested();
@@ -93,7 +93,7 @@ namespace Reginald.Models
             }
         }
 
-        public static async Task<SpecialSearchResultModel> MakeCloudflareSpecialSearchResultModelAsync(XmlNode node, CancellationToken token)
+        public static async Task<SpecialSearchResultModel> CloudflareAsync(XmlNode node, CancellationToken token)
         {
             try
             {

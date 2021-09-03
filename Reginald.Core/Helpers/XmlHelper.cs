@@ -12,9 +12,9 @@ namespace Reginald.Core.Helpers
         /// </summary>
         /// <param name="documentName">Name of the XML file to retrieve.</param>
         /// <returns>The corresponding XML file from %AppData%.</returns>
-        public static XmlDocument GetXmlDocument(string documentName)
+        public static XmlDocument GetXmlDocument(string documentName, bool isLocal = false)
         {
-            string path = Path.Combine(IO.ApplicationPaths.AppDataDirectoryPath, IO.ApplicationPaths.ApplicationName, documentName);
+            string path = isLocal ? documentName : Path.Combine(IO.ApplicationPaths.AppDataDirectoryPath, IO.ApplicationPaths.ApplicationName, documentName);
             XmlDocument doc = new();
             doc.Load(path);
             return doc;
