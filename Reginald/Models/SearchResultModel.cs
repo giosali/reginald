@@ -57,17 +57,6 @@ namespace Reginald.Models
             }
         }
 
-        public SearchResultModel(XmlNode node, string description, Category category)
-        {
-            Name = node["Name"].InnerText;
-            Category = category;
-            Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
-            Keyword = node["Keyword"].InnerText;
-            Format = node["Format"].InnerText;
-            Description = description;
-            Alt = node["Alt"].InnerText;
-        }
-
         public SearchResultModel(string message, Utility? utility)
         {
             Description = message;

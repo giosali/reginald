@@ -35,8 +35,6 @@ namespace Reginald.ViewModels
             NotifyOfPropertyChange(() => SelectedKeywordSearchResult);
             KeywordSearchResults.Clear();
             LoadKeywordSearchResults(Filename, KeywordSearchResults);
-            //NotifyOfPropertyChange(() => KeywordSearchResults);
-            //KeywordSearchResults.Refresh();
             _ = TryCloseAsync();
         }
 

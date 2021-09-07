@@ -266,7 +266,6 @@ namespace Reginald.ViewModels
                 {
                     if (UserInput.HasScheme() || UserInput.HasTopLevelDomain())
                     {
-                        //models = SearchResultModel.MakeArray(searchDoc, "__http", Category.HTTP, UserInput);
                         models = SearchResultModel.MakeList(searchDoc, "__http", Category.HTTP, UserInput);
                     }
                     else
@@ -343,8 +342,6 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
                 foreach (string k in keywords)
                 {
-                    //models = models.Concat(SearchResultModel.MakeList(doc, description, k, Category.Keyword));
-                    //models = models.Concat(SearchResultModel.MakeArray(doc, k, Category.Keyword, description));
                     models = models.Concat(SearchResultModel.MakeList(doc, k, Category.Keyword, description));
                 }
                 return Task.FromResult(models);
@@ -376,21 +373,10 @@ namespace Reginald.ViewModels
             return matches;
         }
 
-        //private IEnumerable<string> MatchAttributesInDoc(XmlDocument doc, string input, string format)
-        //{
-        //    IEnumerable<string> attributes = doc.GetNodesAttributes(Constants.NamespacesXpath);
-
-        //    Regex rx = new(string.Format(format, StringHelpers.RegexClean(input)), RegexOptions.IgnoreCase);
-        //    IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
-        //                                            .Distinct();
-        //    return matches;
-        //}
-
         private Task<List<SearchResultModel>> GetMathModels(string input)
         {
             if (UserInput.IsMathExpression())
             {
-                //return Task.FromResult(SearchResultModel.MakeArray(searchDoc, "__math", Category.Math, input, input.Eval()));
                 return Task.FromResult(SearchResultModel.MakeList(searchDoc, "__math", Category.Math, input, input.Eval()));
             }
             return Task.FromResult(new List<SearchResultModel>());
@@ -480,8 +466,6 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
                 foreach (string k in keywords)
                 {
-                    //models = models.Concat(SearchResultModel.MakeListForUtilities(doc, k, Category.Utility));
-                    //models = models.Concat(SearchResultModel.MakeArray(doc, k, Category.Utility));
                     models = models.Concat(SearchResultModel.MakeList(doc, k, Category.Utility));
                 }
                 return Task.FromResult(models);

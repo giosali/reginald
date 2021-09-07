@@ -16,7 +16,6 @@ namespace Reginald.Core.Helpers
         public static XmlDocument GetXmlDocument(string documentName, bool isLocal = false)
         {
             string path = Path.Combine(isLocal ? AppDomain.CurrentDomain.BaseDirectory : Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName), documentName);
-            //string path = isLocal ? documentName : Path.Combine(IO.ApplicationPaths.AppDataDirectoryPath, IO.ApplicationPaths.ApplicationName, documentName);
             XmlDocument doc = new();
             doc.Load(path);
             return doc;
