@@ -68,7 +68,7 @@ namespace Reginald.Models
             Alt = node["Alt"].InnerText;
         }
 
-        public SearchResultModel(string message, Utility utility)
+        public SearchResultModel(string message, Utility? utility)
         {
             Description = message;
             Icon = BitmapImageHelper.MakeFromUri(string.Format(Constants.AssemblyPath, "Images/exclamation.png"));
@@ -77,21 +77,44 @@ namespace Reginald.Models
             Utility = utility;
         }
 
-        public SearchResultModel(XmlNode node, Category category)
+        public SearchResultModel(XmlNode node, Category category, string input = null, string text = null)
         {
             Name = node["Name"]?.InnerText;
             Category = category;
+
+            _ = Enum.TryParse(typeof(Utility), node["Utility"]?.InnerText, out object utilityResult);
+            Utility = utilityResult is null ? null : (Utility)utilityResult;
+
+            _ = int.TryParse(node.Attributes["ID"]?.Value, out int idResult);
+            ID = idResult;
+
             Icon = node["Icon"] is null ? null : BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
             Keyword = node["Keyword"]?.InnerText;
-            Format = node["Format"]?.InnerText;
-            Description = node["Description"]?.InnerText;
+            Separator = node["Separator"]?.InnerText;
+            URL = node["URL"]?.InnerText;
             URI = node["URI"]?.InnerText;
+
+            string description = node["Description"]?.InnerText;
+            DefaultText = node["DefaultText"]?.InnerText;
+            input = string.IsNullOrEmpty(input) ? null : input;
+            Text = description ?? text ?? input ?? DefaultText;
+            Format = node["Format"]?.InnerText ?? "{0}";
+            _ = Text.TryFormat(Format, out string descriptionResult);
+            Description = descriptionResult;
+
             Alt = node["Alt"]?.InnerText;
+
+            bool isEnabledConversionState = bool.TryParse(node["IsEnabled"]?.InnerText, out bool isEnabledResult);
+            IsEnabled = isEnabledConversionState ? isEnabledResult : true;
+
+            _ = bool.TryParse(node["RequiresConfirmation"]?.InnerText, out bool requiresConfirmation);
+            RequiresConfirmation = requiresConfirmation;
+            ConfirmationMessage = node["ConfirmationMessage"]?.InnerText;
         }
 
         public string Name { get; set; }
         public Category Category { get; set; }
-        public Utility Utility { get; set; }
+        public Utility? Utility { get; set; }
         public ImageSource Icon { get; set; }
         public string ParsingName { get; set; }
         public int ID { get; set; }
@@ -110,190 +133,57 @@ namespace Reginald.Models
         public bool RequiresConfirmation { get; set; }
         public string ConfirmationMessage { get; set; }
 
-        //public static List<SearchResultModel> GatherModels(XmlDocument doc, string attribute, Category category, string input = null)
-        //{
-        //    try
-        //    {
-        //        XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-        //        List<SearchResultModel> models = new();
-        //    }
-        //    catch (System.Xml.XPath.XPathException)
-        //    {
-        //        return new List<SearchResultModel>();
-        //    }
-        //}
-
-        public static List<SearchResultModel> MakeList(XmlDocument doc, string input, string attribute, Category category)
+        public static SearchResultModel[] MakeArray(XmlDocument doc, string attribute, Category category, string input = null, string text = null)
         {
             try
             {
                 XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-                if (nodes is null)
-                    return new List<SearchResultModel>();
-                else
+                if (nodes is not null)
+                {
+                    SearchResultModel[] models = new SearchResultModel[nodes.Count];
+                    for (int i = 0; i < nodes.Count; i++)
+                    {
+                        try
+                        {
+                            XmlNode node = nodes[i];
+                            SearchResultModel model = new(node, category, input, text);
+                            models[i] = model;
+                        }
+                        catch (NullReferenceException) { continue; }
+                    }
+                    return models;
+                }
+            }
+            catch (System.Xml.XPath.XPathException) { }
+            return Array.Empty<SearchResultModel>();
+        }
+
+        public static List<SearchResultModel> MakeList(XmlDocument doc, string attribute, Category category, string input = null, string text = null, bool overrideIsEnabled = false)
+        {
+            try
+            {
+                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
+                if (nodes is not null)
                 {
                     List<SearchResultModel> models = new();
                     for (int i = 0; i < nodes.Count; i++)
                     {
-                        XmlNode node = nodes[i];
-                        string name = node["Name"].InnerText;
-
-                        XmlNode isEnabledNode = node["IsEnabled"];
-                        if (isEnabledNode is not null)
-                        {
-                            bool isEnabled = bool.Parse(isEnabledNode.InnerText);
-                            if (!isEnabled)
-                                continue;
-                        }
-                        else
-                            continue;
-
-                        BitmapImage icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
-                        string keyword = node["Keyword"].InnerText;
-                        string separator = node["Separator"].InnerText;
-                        string url = node["URL"].InnerText;
-                        string format = node["Format"].InnerText;
-                        string defaultText = node["DefaultText"].InnerText;
-                        string text = input == string.Empty ? defaultText : input;
-                        string description = string.Format(format, text);
-                        string alt = node["Alt"].InnerText;
-
-                        models.Add(new SearchResultModel
-                        {
-                            Name = name,
-                            Category = category,
-                            Icon = icon,
-                            Keyword = keyword,
-                            Separator = separator,
-                            URL = url,
-                            Text = text,
-                            Format = format,
-                            DefaultText = defaultText,
-                            Description = description,
-                            Alt = alt
-                        });
-                    }
-                    return models;
-                }
-            }
-            catch (System.Xml.XPath.XPathException)
-            {
-                return new List<SearchResultModel>();
-            }
-        }
-
-        public static SearchResultModel[] MakeArray(XmlDocument doc, string input, string attribute, Category category, string text = null)
-        {
-            try
-            {
-                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-                if (nodes is null)
-                    return Array.Empty<SearchResultModel>();
-                else
-                {
-                    SearchResultModel[] models = new SearchResultModel[nodes.Count];
-                    for (int i = 0; i < nodes.Count; i++)
-                    {
                         try
                         {
                             XmlNode node = nodes[i];
-                            string name = node["Name"].InnerText;
-                            int id = int.Parse(node.Attributes["ID"].Value);
-                            BitmapImage icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
-                            string keyword = node["Keyword"].InnerText;
-                            string separator = node["Separator"].InnerText;
-                            string url = node["URL"].InnerText;
-                            string format = node["Format"].InnerText;
-                            text = text is not null ? text : input;
-                            string description = string.Format(format, text);
-                            string alt = node["Alt"].InnerText;
-
-                            models[i] = new SearchResultModel()
+                            SearchResultModel model = new(node, category, input, text);
+                            if (model.IsEnabled || overrideIsEnabled)
                             {
-                                Name = name,
-                                Category = category,
-                                Icon = icon,
-                                ID = id,
-                                Keyword = keyword,
-                                Separator = separator,
-                                URL = url,
-                                Text = text,
-                                Format = format,
-                                Description = description,
-                                Alt = alt
-                            };
+                                models.Add(model);
+                            }
                         }
-                        catch (NullReferenceException)
-                        {
-                            continue;
-                        }
+                        catch (NullReferenceException) { continue; }
                     }
                     return models;
                 }
             }
-            catch (System.Xml.XPath.XPathException)
-            {
-                return Array.Empty<SearchResultModel>();
-            }
-        }
-
-        public static SearchResultModel[] MakeArray(XmlDocument doc, string attribute, Category category)
-        {
-            try
-            {
-                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-                if (nodes is null)
-                    return Array.Empty<SearchResultModel>();
-                else
-                {
-                    SearchResultModel[] models = new SearchResultModel[nodes.Count];
-                    for (int i = 0; i < nodes.Count; i++)
-                    {
-                        try
-                        {
-                            XmlNode node = nodes[i];
-                            string name = node["Name"].InnerText;
-                            int id = int.Parse(node.Attributes["ID"].Value);
-                            BitmapImage icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText);
-                            string keyword = node["Keyword"].InnerText;
-                            string separator = node["Separator"].InnerText;
-                            string url = node["URL"].InnerText;
-                            string format = node["Format"].InnerText;
-                            string defaultText = node["DefaultText"].InnerText;
-                            string text = defaultText;
-                            string description = string.Format(format, text);
-                            string alt = node["Alt"].InnerText;
-                            bool isEnabled = bool.Parse(node["IsEnabled"].InnerText);
-
-                            models[i] = new SearchResultModel()
-                            {
-                                Name = name,
-                                Category = category,
-                                Icon = icon,
-                                ID = id,
-                                Keyword = keyword,
-                                Separator = separator,
-                                URL = url,
-                                Text = text,
-                                Format = format,
-                                DefaultText = defaultText,
-                                Description = description,
-                                Alt = alt,
-                                IsEnabled = isEnabled
-                            };
-                        }
-                        catch (NullReferenceException)
-                        {
-                            continue;
-                        }
-                    }
-                    return models;
-                }
-            }
-            catch (System.Xml.XPath.XPathException)
-            {
-                return Array.Empty<SearchResultModel>();
-            }
+            catch (System.Xml.XPath.XPathException) { }
+            return new List<SearchResultModel>();
         }
 
         public static async Task<List<SearchResultModel>> MakeListForCommandsAsync(XmlDocument doc, string input, string attribute, Category category)
@@ -347,65 +237,13 @@ namespace Reginald.Models
                                 }
                             }
                         }
-                        catch (NullReferenceException)
-                        {
-                            continue;
-                        }
+                        catch (NullReferenceException) { continue; }
                     }
                     return models;
                 }
-                return new List<SearchResultModel>();
             }
-            catch (System.Xml.XPath.XPathException)
-            {
-                return new List<SearchResultModel>();
-            }
-        }
-
-        public static List<SearchResultModel> MakeListForUtilities(XmlDocument doc, string attribute, Category category)
-        {
-            try
-            {
-                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-                if (nodes is not null)
-                {
-                    List<SearchResultModel> models = new();
-                    for (int i = 0; i < nodes.Count; i++)
-                    {
-                        try
-                        {
-                            XmlNode node = nodes[i];
-                            if (bool.Parse(node["IsEnabled"].InnerText))
-                            {
-                                SearchResultModel model = new()
-                                {
-                                    Name = node["Name"].InnerText,
-                                    Category = category,
-                                    Utility = (Utility)Enum.Parse(typeof(Utility), node["Utility"].InnerText),
-                                    Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
-                                    Keyword = node["Keyword"].InnerText,
-                                    Description = node["Description"].InnerText,
-                                    Alt = node["Alt"].InnerText,
-                                    IsEnabled = bool.Parse(node["IsEnabled"].InnerText),
-                                    RequiresConfirmation = bool.Parse(node["RequiresConfirmation"].InnerText),
-                                    ConfirmationMessage = node["ConfirmationMessage"].InnerText
-                                };
-                                models.Add(model);
-                            }
-                        }
-                        catch (NullReferenceException)
-                        {
-                            continue;
-                        }
-                    }
-                    return models;
-                }
-                return new List<SearchResultModel>();
-            }
-            catch (System.Xml.XPath.XPathException)
-            {
-                return new List<SearchResultModel>();
-            }
+            catch (System.Xml.XPath.XPathException) { }
+            return new List<SearchResultModel>();
         }
     }
 }

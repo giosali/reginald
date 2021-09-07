@@ -132,6 +132,42 @@
                 </hc:SideMenuItem.Icon>
             </hc:SideMenuItem>
 
+            <!-- ## Utilities -->
+            <hc:SideMenuItem x:Name="Utilities"
+                             Header="Utilities">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Selected">
+                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
+                            <cal:Parameter Value="{Binding ElementName=Utilities}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <hc:SideMenuItem.Icon>
+                    <TextBlock Text="&#xE99A;"
+                               FontFamily="Segoe MDL2 Assets"/>
+                </hc:SideMenuItem.Icon>
+            </hc:SideMenuItem>
+
+            <!-- ## Miscellaneous -->
+            <hc:SideMenuItem x:Name="Miscellaneous"
+                             Header="Miscellaneous">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Selected">
+                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
+                            <cal:Parameter Value="{Binding ElementName=Miscellaneous}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <hc:SideMenuItem.Icon>
+                    <TextBlock Text="&#xE712;"
+                               FontFamily="Segoe MDL2 Assets"/>
+                </hc:SideMenuItem.Icon>
+            </hc:SideMenuItem>
+
             <!-- ## Info -->
             <hc:SideMenuItem x:Name="Info"
                              Header="Info">

@@ -1,4 +1,5 @@
 ﻿using Reginald.Core.Base;
+using Reginald.Core.IO;
 using System;
 using System.IO;
 using System.Xml;
@@ -14,7 +15,8 @@ namespace Reginald.Core.Helpers
         /// <returns>The corresponding XML file from %AppData%.</returns>
         public static XmlDocument GetXmlDocument(string documentName, bool isLocal = false)
         {
-            string path = isLocal ? documentName : Path.Combine(IO.ApplicationPaths.AppDataDirectoryPath, IO.ApplicationPaths.ApplicationName, documentName);
+            string path = Path.Combine(isLocal ? AppDomain.CurrentDomain.BaseDirectory : Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName), documentName);
+            //string path = isLocal ? documentName : Path.Combine(IO.ApplicationPaths.AppDataDirectoryPath, IO.ApplicationPaths.ApplicationName, documentName);
             XmlDocument doc = new();
             doc.Load(path);
             return doc;

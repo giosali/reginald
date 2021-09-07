@@ -37,7 +37,6 @@ namespace Reginald.ViewModels
         {
             Indicator = indicator;
             SetUpViewModelAsync();
-            //StyleSearchView();
         }
 
         private string applicationImagesDirectoryPath;
@@ -136,21 +135,6 @@ namespace Reginald.ViewModels
                 searchResultHighlightColor = System.Drawing.ColorTranslator.FromHtml(highlightHex);
                 Settings.SearchResultHighlightColor = SolidColorBrushHelper.FromArgb(searchResultHighlightColor);
             });
-
-            //Settings.SearchBackgroundColor = Color.FromRgb(searchBackgroundColor.R, searchBackgroundColor.G, searchBackgroundColor.B);
-            //Settings.SearchDescriptionTextBrush = SolidColorBrushHelper.FromRgb(searchDescriptionTextColor);
-            //Settings.SearchAltTextBrush = SolidColorBrushHelper.FromRgb(searchAltTextColor);
-            //Settings.SearchInputTextBrush = SolidColorBrushHelper.FromRgb(searchInputTextColor);
-            //Settings.SearchInputCaretBrush = SolidColorBrushHelper.FromRgb(searchInputCaretColor);
-            //Settings.SearchViewBorderBrush = !settings.IsSearchBoxBorderEnabled ? Brushes.Transparent : SolidColorBrushHelper.FromRgb(searchViewBorderColor);
-            //Settings.SpecialSearchResultSubBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSubColor);
-            //Settings.SpecialSearchResultBorderBrush = SolidColorBrushHelper.FromRgb(specialSearchResultBorderColor);
-            //Settings.SpecialSearchResultSecondaryBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSecondaryColor);
-            //Settings.SpecialSearchResultMainBrush = SolidColorBrushHelper.FromRgb(specialSearchResultMainColor);
-
-            //string highlightHex = settings.IsSystemColorEnabled ? AccentColors.ImmersiveSystemAccentBrush.GetTransparentHex("#99") : "#99ff8d00";
-            //searchResultHighlightColor = System.Drawing.ColorTranslator.FromHtml(highlightHex);
-            //Settings.SearchResultHighlightColor = SolidColorBrushHelper.FromArgb(searchResultHighlightColor);
         }
 
         public Indicator Indicator { get; set; }
@@ -258,9 +242,9 @@ namespace Reginald.ViewModels
                 Task<IEnumerable<SearchResultModel>> keywordModelsTask = GetModels(Properties.Settings.Default.IncludeDefaultKeywords, searchDoc, UserInput);
                 Task<IEnumerable<SearchResultModel>> userKeywordModelsTask = GetModels(true, userSearchDoc, UserInput);
                 Task<IEnumerable<SearchResultModel>> commandKeywordModelsTask = GetCommandModelsAsync(Properties.Settings.Default.IncludeCommands, commandsDoc, UserInput);
-                Task<IEnumerable<SearchResultModel>> utilityKeywordModelsTask = GetUtilityModels(true, utilitiesDoc, UserInput);
-                Task<SearchResultModel[]> mathModelsTask = GetMathModels(UserInput);
-                Task<List<SearchResultModel>> settingsModelsTask = GetSettingsModels(true, settingsDoc, UserInput);
+                Task<IEnumerable<SearchResultModel>> utilityKeywordModelsTask = GetUtilityModels(Properties.Settings.Default.IncludeUtilities, utilitiesDoc, UserInput);
+                Task<List<SearchResultModel>> mathModelsTask = GetMathModels(UserInput);
+                Task<List<SearchResultModel>> settingsModelsTask = GetSettingsModels(Properties.Settings.Default.IncludeSettingsPages, settingsDoc, UserInput);
                 Task<SpecialSearchResultModel> specialKeywordModelTask = GetSpecialKeywordModelAsync(UserInput);
 
                 IEnumerable<SearchResultModel> applicationModels = await applicationModelsTask;
@@ -268,7 +252,7 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> userKeywordModels = await userKeywordModelsTask;
                 IEnumerable<SearchResultModel> commandModels = await commandKeywordModelsTask;
                 IEnumerable<SearchResultModel> utilityModels = await utilityKeywordModelsTask;
-                SearchResultModel[] mathModels = await mathModelsTask;
+                List<SearchResultModel> mathModels = await mathModelsTask;
                 List<SearchResultModel> settingsModels = await settingsModelsTask;
                 SpecialSearchResultModel specialSearchResult = await specialKeywordModelTask;
 
@@ -282,7 +266,8 @@ namespace Reginald.ViewModels
                 {
                     if (UserInput.HasScheme() || UserInput.HasTopLevelDomain())
                     {
-                        models = SearchResultModel.MakeArray(searchDoc, UserInput, "__http", Category.HTTP);
+                        //models = SearchResultModel.MakeArray(searchDoc, "__http", Category.HTTP, UserInput);
+                        models = SearchResultModel.MakeList(searchDoc, "__http", Category.HTTP, UserInput);
                     }
                     else
                     {
@@ -358,7 +343,9 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
                 foreach (string k in keywords)
                 {
-                    models = models.Concat(SearchResultModel.MakeList(doc, description, k, Category.Keyword));
+                    //models = models.Concat(SearchResultModel.MakeList(doc, description, k, Category.Keyword));
+                    //models = models.Concat(SearchResultModel.MakeArray(doc, k, Category.Keyword, description));
+                    models = models.Concat(SearchResultModel.MakeList(doc, k, Category.Keyword, description));
                 }
                 return Task.FromResult(models);
             }
@@ -399,13 +386,14 @@ namespace Reginald.ViewModels
         //    return matches;
         //}
 
-        private Task<SearchResultModel[]> GetMathModels(string input)
+        private Task<List<SearchResultModel>> GetMathModels(string input)
         {
             if (UserInput.IsMathExpression())
             {
-                return Task.FromResult(SearchResultModel.MakeArray(searchDoc, input, "__math", Category.Math, input.Eval()));
+                //return Task.FromResult(SearchResultModel.MakeArray(searchDoc, "__math", Category.Math, input, input.Eval()));
+                return Task.FromResult(SearchResultModel.MakeList(searchDoc, "__math", Category.Math, input, input.Eval()));
             }
-            return Task.FromResult(Array.Empty<SearchResultModel>());
+            return Task.FromResult(new List<SearchResultModel>());
         }
 
         private CancellationTokenSource tokenSource;
@@ -492,7 +480,9 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
                 foreach (string k in keywords)
                 {
-                    models = models.Concat(SearchResultModel.MakeListForUtilities(doc, k, Category.Utility));
+                    //models = models.Concat(SearchResultModel.MakeListForUtilities(doc, k, Category.Utility));
+                    //models = models.Concat(SearchResultModel.MakeArray(doc, k, Category.Utility));
+                    models = models.Concat(SearchResultModel.MakeList(doc, k, Category.Utility));
                 }
                 return Task.FromResult(models);
             }
@@ -591,7 +581,7 @@ namespace Reginald.ViewModels
             switch (category)
             {
                 case Category.Application:
-                    Process.Start("explorer.exe", @"shell:appsfolder\" + SelectedSearchResult.ParsingName);
+                    _ = Process.Start("explorer.exe", @"shell:appsfolder\" + SelectedSearchResult.ParsingName);
                     await TryCloseAsync();
                     break;
 
@@ -636,7 +626,7 @@ namespace Reginald.ViewModels
                     if (SelectedSearchResult.RequiresConfirmation)
                     {
                         string confirmationMessage = SelectedSearchResult.ConfirmationMessage;
-                        Utility utility = SelectedSearchResult.Utility;
+                        Utility? utility = SelectedSearchResult.Utility;
                         SearchResults.Clear();
                         SearchResults.Add(new SearchResultModel(confirmationMessage, utility));
                         SelectedSearchResult = SearchResults[0];
@@ -685,16 +675,18 @@ namespace Reginald.ViewModels
                     FileName = uri,
                     UseShellExecute = true
                 };
-                Process.Start(startInfo);
+                _ = Process.Start(startInfo);
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
                 if (ex.ErrorCode == -2147467259)
-                    MessageBox.Show(ex.Message);
+                {
+                    _ = MessageBox.Show(ex.Message);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                _ = MessageBox.Show(ex.Message);
             }
         }
     }

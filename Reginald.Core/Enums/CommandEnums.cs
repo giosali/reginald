@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Reginald.Core.Enums
+﻿namespace Reginald.Core.Enums
 {
     public enum Command
     {
+        None = 0,
         Timer
     }
 }

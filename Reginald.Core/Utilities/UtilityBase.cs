@@ -5,7 +5,7 @@ namespace Reginald.Core.Utilities
 {
     public class UtilityBase
     {
-        public static async Task HandleUtilityAsync(Utility utility)
+        public static async Task HandleUtilityAsync(Utility? utility)
         {
             switch (utility)
             {

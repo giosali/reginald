@@ -2,6 +2,7 @@
 {
     public enum Category
     {
+        None = 0,
         Application,
         Math,
         HTTP,

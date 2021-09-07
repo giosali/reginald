@@ -32,7 +32,7 @@
                     <TextBlock Text="Key bindings for opening the search box window"
                                Style="{StaticResource NormalTextBlockStyle}"/>
                     <Label Content="ⓘ"
-                           Style="{DynamicResource LabelWarning}"
+                           Style="{DynamicResource LabelInfo}"
                            VerticalAlignment="Center">
                         <hc:Poptip.Instance>
                             <hc:Poptip>

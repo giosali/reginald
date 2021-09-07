@@ -46,6 +46,14 @@ namespace Reginald.ViewModels
                     await ActivateItemAsync(new CommandsViewModel());
                     break;
 
+                case "Utilities":
+                    await ActivateItemAsync(new UtilitiesViewModel());
+                    break;
+
+                case "Miscellaneous":
+                    await ActivateItemAsync(new MiscellaneousViewModel());
+                    break;
+
                 case "Info":
                     await ActivateItemAsync(new InfoViewModel());
                     break;

@@ -334,5 +334,29 @@ namespace Reginald.Properties {
                 this["IncludeCommands"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IncludeUtilities {
+            get {
+                return ((bool)(this["IncludeUtilities"]));
+            }
+            set {
+                this["IncludeUtilities"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IncludeSettingsPages {
+            get {
+                return ((bool)(this["IncludeSettingsPages"]));
+            }
+            set {
+                this["IncludeSettingsPages"] = value;
+            }
+        }
     }
 }

@@ -44,7 +44,7 @@
                           IsChecked="{Binding Settings.IncludeSpecialKeywords}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Checked">
-                        <cal:ActionMessage MethodName="IncludeSpecialKeywordsToggleSwitch_Checked">
+                        <cal:ActionMessage MethodName="IncludeSpecialKeywordsToggleButton_Checked">
                             <cal:Parameter Value="$this"/>
                             <cal:Parameter Value="$eventargs"/>
                         </cal:ActionMessage>
@@ -53,8 +53,8 @@
             </ToggleButton>
 
             <!-- ### DataGrid -->
-            <DataGrid x:Name="SpecialKeywordSearchResults"
-                      SelectedItem="{Binding Path=SelectedSpecialKeywordSearchResult, Mode=TwoWay}"
+            <DataGrid x:Name="KeywordSearchResults"
+                      SelectedItem="{Binding Path=SelectedKeywordSearchResult, Mode=TwoWay}"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
@@ -89,13 +89,13 @@
                                           HorizontalContentAlignment="Center">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Checked">
-                                            <cal:ActionMessage MethodName="SpecialKeywordSearchResults_IsCheckedChanged">
+                                            <cal:ActionMessage MethodName="KeywordSearchResults_IsCheckedChanged">
                                                 <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
                                             </cal:ActionMessage>
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="Unchecked">
-                                            <cal:ActionMessage MethodName="SpecialKeywordSearchResults_IsCheckedChanged">
+                                            <cal:ActionMessage MethodName="KeywordSearchResults_IsCheckedChanged">
                                                 <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
                                             </cal:ActionMessage>

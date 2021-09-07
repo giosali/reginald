@@ -30,5 +30,7 @@ namespace Reginald.Models
         public bool IncludeDefaultKeywords { get; set; }
         public bool IncludeSpecialKeywords { get; set; }
         public bool IncludeCommands { get; set; }
+        public bool IncludeUtilities { get; set; }
+        public bool IncludeSettingsPages { get; set; }
     }
 }

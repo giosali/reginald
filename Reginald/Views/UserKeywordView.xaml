@@ -28,8 +28,8 @@
                        Style="{StaticResource HeaderTwoTextBlockStyle}"/>
             
             <!-- ### DataGrid -->
-            <DataGrid x:Name="UserKeywordSearchResults"
-                      SelectedItem="{Binding Path=SelectedUserKeywordSearchResult, Mode=TwoWay}"
+            <DataGrid x:Name="KeywordSearchResults"
+                      SelectedItem="{Binding Path=SelectedKeywordSearchResult, Mode=TwoWay}"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
@@ -63,14 +63,14 @@
                                           HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Checked">
-                                            <cal:ActionMessage MethodName="UserKeywordSearchResults_IsCheckedChanged">
-                                                <cal:Parameter Value="{Binding ElementName=UserKeywordSearchResults}"/>
+                                            <cal:ActionMessage MethodName="KeywordSearchResults_IsCheckedChanged">
+                                                <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
                                             </cal:ActionMessage>
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="Unchecked">
-                                            <cal:ActionMessage MethodName="UserKeywordSearchResults_IsCheckedChanged">
-                                                <cal:Parameter Value="{Binding ElementName=UserKeywordSearchResults}"/>
+                                            <cal:ActionMessage MethodName="KeywordSearchResults_IsCheckedChanged">
+                                                <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
                                                 <cal:Parameter Value="$eventargs"/>
                                             </cal:ActionMessage>
                                         </i:EventTrigger>
@@ -98,7 +98,7 @@
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonPrimary}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=UserKeywordSearchResults, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
+                                <DataTrigger Binding="{Binding ElementName=KeywordSearchResults, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -118,7 +118,7 @@
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonPrimary}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=UserKeywordSearchResults, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
+                                <DataTrigger Binding="{Binding ElementName=KeywordSearchResults, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
                             </Style.Triggers>

@@ -64,6 +64,12 @@
 		<Description>Apps &amp; features</Description>
 		<Alt>Apps</Alt>
 	</Namespace>
+	<Namespace Name="Add or remove programs">
+		<URI>ms-settings:appsfeatures</URI>
+		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>
+		<Description>Add or remove programs</Description>
+		<Alt>Apps</Alt>
+	</Namespace>
 	<Namespace Name="Choose a default app for each website">
 		<URI>ms-settings:appsforwebsites</URI>
 		<Icon>pack://application:,,,/Reginald;component/Images/Settings/settings.png</Icon>

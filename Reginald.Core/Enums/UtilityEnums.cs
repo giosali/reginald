@@ -2,6 +2,7 @@
 {
     public enum Utility
     {
+        None = 0,
         Recycle
     }
 }

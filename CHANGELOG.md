@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.5.0
+
+### Added
+
+* Added ability to open settings pages from search bar
+
+### Fixed
+
+* Fixed issue where Styvio API would cause application to crash if certain values are empty
+
 ## v0.4.3
 
 ### Fixed

@@ -4,11 +4,11 @@
     {
         public static string RegexClean(string expression)
         {
-            string[] characters = new string[] { "[", "(", ")", "\\" };
+            string[] characters = new string[] { @"\", "[", "(", ")" };
             for (int i = 0; i < characters.Length; i++)
             {
                 string character = characters[i];
-                expression = expression.Replace(character, $"\\{character}");
+                expression = expression.Replace(character, @$"\{character}");
             }
             return expression;
         }

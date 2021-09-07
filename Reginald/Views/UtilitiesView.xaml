@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Reginald.Views.DefaultKeywordView"
+﻿<UserControl x:Class="Reginald.Views.UtilitiesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -41,10 +41,10 @@
             <!-- ### ToggleButton -->
             <ToggleButton Content="Include default keyword searches in your search results"
                           Style="{StaticResource ToggleButtonStyle}"
-                          IsChecked="{Binding Settings.IncludeDefaultKeywords}">
+                          IsChecked="{Binding Settings.IncludeUtilities}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Checked">
-                        <cal:ActionMessage MethodName="IncludeDefaultKeywordsToggleButton_Checked">
+                        <cal:ActionMessage MethodName="IncludeUtilitiesToggleButton_Checked">
                             <cal:Parameter Value="$this"/>
                             <cal:Parameter Value="$eventargs"/>
                         </cal:ActionMessage>
