@@ -33,6 +33,15 @@
             <!-- ItemTemplate for SearchResults -->
             <DataTemplate x:Key="SearchResultsItemTemplate">
                 <Grid Width="570">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseMove">
+                            <cal:ActionMessage MethodName="SearchResults_MouseMove">
+                                <cal:Parameter Value="{Binding ElementName=SearchResults}"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -242,13 +251,13 @@
 
     <StackPanel>
         <TextBox x:Name="UserInput"
-                     Background="Transparent" Foreground="{Binding Settings.SearchInputTextBrush}"
-                     CaretBrush="{Binding Settings.SearchInputCaretBrush}"
-                     BorderThickness="0"
-                     FontSize="32" FontWeight="Light"
-                     Padding="10 0"
-                     VerticalContentAlignment="Center"
-                     Height="{Binding ElementName=searchWindow, Path=MinHeight}">
+                 Background="Transparent" Foreground="{Binding Settings.SearchInputTextBrush}"
+                 CaretBrush="{Binding Settings.SearchInputCaretBrush}"
+                 BorderThickness="0"
+                 FontSize="32" FontWeight="Light"
+                 Padding="10 0"
+                 VerticalContentAlignment="Center"
+                 Height="{Binding ElementName=searchWindow, Path=MinHeight}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="TextChanged">
                     <cal:ActionMessage MethodName="UserInput_TextChangedAsync">
@@ -266,15 +275,15 @@
         </TextBox>
 
         <ListBox x:Name="SearchResults"
-                     ItemTemplate="{StaticResource SearchResultsItemTemplate}"
-                     SelectedItem="{Binding Path=SelectedSearchResult, Mode=TwoWay}"
-                     Background="Transparent"
-                     MaxHeight="330"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     ScrollViewer.CanContentScroll="False"
-                     BorderThickness="0"
-                     Visibility="{Binding Path=IsVisible}">
+                 ItemTemplate="{StaticResource SearchResultsItemTemplate}"
+                 SelectedItem="{Binding Path=SelectedSearchResult, Mode=TwoWay}"
+                 Background="Transparent"
+                 MaxHeight="330"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ScrollViewer.CanContentScroll="False"
+                 BorderThickness="0"
+                 Visibility="{Binding Path=IsVisible}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                     <cal:ActionMessage MethodName="SearchResults_PreviewMouseLeftButtonDown">
@@ -298,9 +307,29 @@
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                     <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Binding="{Binding ElementName=searchWindow, Path=DataContext.IsMouseOverChanged}" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="IsSelected" Value="True"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>-->
+                        
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=searchWindow, Path=DataContext.IsMouseOverChanged}" Value="True"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="IsSelected" Value="True"/>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        
+                        <!--<Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="IsSelected" Value="True"/>
-                        </Trigger>
+                        </Trigger>-->
                     </Style.Triggers>
                     <Setter Property="Padding" Value="10 0"/>
                     <Setter Property="Height" Value="55"/>
@@ -310,12 +339,12 @@
         </ListBox>
 
         <ItemsControl x:Name="SpecialSearchResults"
-                          ItemTemplate="{StaticResource SpecialSearchResultItemTemplate}"
-                          Background="Transparent"
-                          MaxHeight="330"
-                          MaxWidth="600"
-                          BorderThickness="0"
-                          Visibility="Visible">
+                      ItemTemplate="{StaticResource SpecialSearchResultItemTemplate}"
+                      Background="Transparent"
+                      MaxHeight="330"
+                      MaxWidth="600"
+                      BorderThickness="0"
+                      Visibility="Visible">
         </ItemsControl>
     </StackPanel>
 </Window>

@@ -230,10 +230,34 @@ namespace Reginald.ViewModels
             }
         }
 
+        private bool _isMouseOverChanged;
+        public bool IsMouseOverChanged
+        {
+            get => _isMouseOverChanged;
+            set
+            {
+                _isMouseOverChanged = value;
+                NotifyOfPropertyChange(() => IsMouseOverChanged);
+            }
+        }
+
+        private Point _mousePosition;
+        public Point MousePosition
+        {
+            get => _mousePosition;
+            set
+            {
+                _mousePosition = value;
+                NotifyOfPropertyChange(() => MousePosition);
+            }
+        }
+
         public async void UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)
         {
             SearchResults.Clear();
             SpecialSearchResults.Clear();
+            IsMouseOverChanged = false;
+            MousePosition = new();
             if (UserInput != string.Empty)
             {
                 IEnumerable<SearchResultModel> models = Enumerable.Empty<SearchResultModel>();
@@ -640,7 +664,29 @@ namespace Reginald.ViewModels
         {
             try
             {
-                SelectedSearchResult = LastSelectedSearchResult;
+                bool lastSelectedSearchResultRemains = false;
+                for (int i = 0; i < SearchResults.Count; i++)
+                {
+                    if (LastSelectedSearchResult == SearchResults[i])
+                    {
+                        SelectedSearchResult = LastSelectedSearchResult;
+                        lastSelectedSearchResultRemains = true;
+                        break;
+                    }
+                }
+                if (!lastSelectedSearchResultRemains)
+                {
+                    SelectedSearchResult = SearchResults[0];
+                }
+                //foreach (SearchResultModel model in SearchResults)
+                //{
+                //    if (LastSelectedSearchResult == model)
+                //    {
+
+                //        break;
+                //    }
+                //}
+                //SelectedSearchResult = LastSelectedSearchResult;
             }
             catch (ArgumentOutOfRangeException) { }
         }
@@ -648,6 +694,18 @@ namespace Reginald.ViewModels
         public void SearchResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             (sender as ListBox).ScrollIntoView(SelectedSearchResult);
+        }
+
+        public void SearchResults_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point position = e.GetPosition((IInputElement)sender);
+            Point defaultPosition = new();
+            if (position != MousePosition && MousePosition != defaultPosition)
+            {
+                IsMouseOverChanged = true;
+            }
+            MousePosition = position;
+            //MousePosition = string.IsNullOrEmpty(UserInput) ? defaultPosition : position;
         }
 
         private static void GoToWebsite(string uri)
