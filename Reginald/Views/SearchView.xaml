@@ -249,7 +249,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <StackPanel>
+    <StackPanel FocusManager.FocusedElement="{Binding ElementName=UserInput}">
         <TextBox x:Name="UserInput"
                  Background="Transparent" Foreground="{Binding Settings.SearchInputTextBrush}"
                  CaretBrush="{Binding Settings.SearchInputCaretBrush}"
@@ -307,16 +307,6 @@
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                     <Style.Triggers>
-                        <!--<MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True"/>
-                                <Condition Binding="{Binding ElementName=searchWindow, Path=DataContext.IsMouseOverChanged}" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter Property="IsSelected" Value="True"/>
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>-->
-                        
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding ElementName=searchWindow, Path=DataContext.IsMouseOverChanged}" Value="True"/>
@@ -326,10 +316,6 @@
                                 <Setter Property="IsSelected" Value="True"/>
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
-                        
-                        <!--<Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="IsSelected" Value="True"/>
-                        </Trigger>-->
                     </Style.Triggers>
                     <Setter Property="Padding" Value="10 0"/>
                     <Setter Property="Height" Value="55"/>

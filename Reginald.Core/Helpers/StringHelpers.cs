@@ -1,7 +1,14 @@
-﻿namespace Reginald.Core.Helpers
+﻿using System;
+
+namespace Reginald.Core.Helpers
 {
     public static class StringHelpers
     {
+        /// <summary>
+        /// Takes a string and returns a string with any backslashes, left square brackets, and parentheses replaced by backslashes behind those characters.
+        /// </summary>
+        /// <param name="expression">The input.</param>
+        /// <returns></returns>
         public static string RegexClean(string expression)
         {
             string[] characters = new string[] { @"\", "[", "(", ")" };
@@ -40,6 +47,18 @@
             }
             count = substrings.Length;
             return concatenation;
+        }
+
+        public static bool TryFormat(string format, string input, out string output)
+        {
+            try
+            {
+                output = string.Format(format, input);
+                return true;
+            }
+            catch (ArgumentNullException) { }
+            output = null;
+            return false;
         }
     }
 }

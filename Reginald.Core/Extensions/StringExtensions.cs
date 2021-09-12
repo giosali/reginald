@@ -352,16 +352,16 @@ namespace Reginald.Extensions
             return firstChar + expression.Substring(1);
         }
 
-        public static bool TryFormat(this string expression, string format, out string output)
-        {
-            try
-            {
-                output = string.Format(format, expression);
-                return true;
-            }
-            catch (ArgumentNullException) { }
-            output = null;
-            return false;
-        }
+        //public static bool TryFormat(this string expression, string format, out string output)
+        //{
+        //    try
+        //    {
+        //        output = string.Format(format, expression);
+        //        return true;
+        //    }
+        //    catch (ArgumentNullException) { }
+        //    output = null;
+        //    return false;
+        //}
     }
 }

@@ -37,8 +37,6 @@ namespace Reginald.Views
             Left = (SystemParameters.WorkArea.Width - windowWidth) / 2;
             Top = (SystemParameters.WorkArea.Height - ActualHeight) / 8;
             InitializeComponent();
-
-            UserInput.Focus();
         }
     }
 }

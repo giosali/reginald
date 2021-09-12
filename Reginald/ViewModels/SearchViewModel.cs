@@ -678,15 +678,6 @@ namespace Reginald.ViewModels
                 {
                     SelectedSearchResult = SearchResults[0];
                 }
-                //foreach (SearchResultModel model in SearchResults)
-                //{
-                //    if (LastSelectedSearchResult == model)
-                //    {
-
-                //        break;
-                //    }
-                //}
-                //SelectedSearchResult = LastSelectedSearchResult;
             }
             catch (ArgumentOutOfRangeException) { }
         }
@@ -705,7 +696,6 @@ namespace Reginald.ViewModels
                 IsMouseOverChanged = true;
             }
             MousePosition = position;
-            //MousePosition = string.IsNullOrEmpty(UserInput) ? defaultPosition : position;
         }
 
         private static void GoToWebsite(string uri)
