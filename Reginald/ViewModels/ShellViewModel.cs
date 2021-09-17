@@ -1,42 +1,21 @@
 ﻿using Caliburn.Micro;
 using Reginald.Commands;
 using Reginald.Core.IO;
-using Reginald.Core.Utils;
 using System.IO;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Reginald.ViewModels
 {
-    public class Indicator
-    {
-        private bool _isDeactivated;
-        public bool IsDeactivated
-        {
-            get => _isDeactivated;
-            set
-            {
-                _isDeactivated = value;
-                ShellViewModel.SearchViewModel.TryCloseAsync();
-                ShellViewModel.SearchViewModel = new SearchViewModel(new Indicator());
-            }
-        }
-    }
-
     public class ShellViewModel : Conductor<object>
     {
         public ShellViewModel()
         {
             SetUpIO();
             OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
-
-            SearchViewModel = new(new Indicator());
-            SetUpAsync();
         }
 
-        public static SearchViewModel SearchViewModel { get; set; }
-        public static Indicator Indicator { get; set; }
+        public static SearchViewModel SearchViewModel { get; set; } = new();
 
         public ICommand OpenWindowCommand { get; set; }
 
@@ -47,21 +26,22 @@ namespace Reginald.ViewModels
 
         private async void ExecuteMethod(object parameter)
         {
-            if (SearchViewModel.IsActive)
+            IWindowManager manager = new WindowManager();
+            if (!SearchViewModel.IsActive)
             {
-                await SearchViewModel.TryCloseAsync();
+                await manager.ShowWindowAsync(SearchViewModel);
             }
             else
             {
-                IWindowManager manager = new WindowManager();
-                await manager.ShowWindowAsync(SearchViewModel);
+                SearchViewModel.UserInput = string.Empty;
+                SearchViewModel.ShowOrHide();
             }
         }
 
         public void OpenSettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             IWindowManager manager = new WindowManager();
-            manager.ShowWindowAsync(new SettingsViewModel());
+            _ = manager.ShowWindowAsync(new SettingsViewModel());
         }
 
         private static void SetUpIO()
@@ -105,13 +85,6 @@ namespace Reginald.ViewModels
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
-        }
-
-        private static async void SetUpAsync()
-        {
-            CancellationToken cancellationToken = new();
-            int time = 5000;
-            await TimerUtils.DoEveryXSecondsAsync(time, cancellationToken);
         }
     }
 }

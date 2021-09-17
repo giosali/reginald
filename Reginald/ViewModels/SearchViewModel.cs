@@ -27,15 +27,8 @@ namespace Reginald.ViewModels
 {
     public class SearchViewModel : Screen
     {
-        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
+        public SearchViewModel()
         {
-            Indicator.IsDeactivated = true;
-            return base.OnDeactivateAsync(close, cancellationToken);
-        }
-
-        public SearchViewModel(Indicator indicator)
-        {
-            Indicator = indicator;
             SetUpViewModelAsync();
         }
 
@@ -137,7 +130,21 @@ namespace Reginald.ViewModels
             });
         }
 
-        public Indicator Indicator { get; set; }
+        public void ShowOrHide()
+        {
+            Window window = GetView() as Window;
+            if (window is not null)
+            {
+                if (window.IsVisible)
+                {
+                    window.Hide();
+                }
+                else
+                {
+                    window.Show();
+                }
+            }
+        }
 
         private SettingsModel _settings = new();
         public SettingsModel Settings
@@ -590,12 +597,12 @@ namespace Reginald.ViewModels
             {
                 case Category.Application:
                     _ = Process.Start("explorer.exe", @"shell:appsfolder\" + SelectedSearchResult.ParsingName);
-                    await TryCloseAsync();
+                    ShowOrHide();
                     break;
 
                 case Category.Math:
                     Clipboard.SetText(SelectedSearchResult.Text);
-                    await TryCloseAsync();
+                    ShowOrHide();
                     break;
 
                 case Category.Keyword:
@@ -609,7 +616,9 @@ namespace Reginald.ViewModels
                     {
                         string uri = UserInput;
                         if (!Uri.IsWellFormedUriString(uri, UriKind.Absolute))
+                        {
                             uri = uri.PrependScheme();
+                        }
                         GoToWebsite(uri);
                         break;
                     }
@@ -624,7 +633,7 @@ namespace Reginald.ViewModels
                 case Category.Notifier:
                     if (!string.IsNullOrEmpty(SelectedSearchResult.Text))
                     {
-                        await TryCloseAsync();
+                        ShowOrHide();
                         await Task.Delay((int)SelectedSearchResult.Time * 1000);
                         ToastNotifications.SendSimpleToastNotification(SelectedSearchResult.Name, SelectedSearchResult.Text);
                     }
@@ -641,13 +650,13 @@ namespace Reginald.ViewModels
                     }
                     else
                     {
-                        await TryCloseAsync();
+                        ShowOrHide();
                         await UtilityBase.HandleUtilityAsync(SelectedSearchResult.Utility);
                     }
                     break;
 
                 case Category.Confirmation:
-                    await TryCloseAsync();
+                    ShowOrHide();
                     await UtilityBase.HandleUtilityAsync(SelectedSearchResult.Utility);
                     break;
 
