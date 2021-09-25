@@ -292,12 +292,12 @@ namespace Reginald.Core.IO
                             isEnabledNode.InnerText = docOnDiskNamespaceNodes[i].SelectSingleNode("IsEnabled").InnerText;
                         }
                     }
-                    catch (ArgumentOutOfRangeException) { }
                     catch (NullReferenceException)
                     {
                         XmlNode importedNode = docOnDisk.ImportNode(isEnabledNode, true);
                         isEnabledNode.ParentNode.AppendChild(importedNode);
                     }
+                    catch (ArgumentOutOfRangeException) { }
                 }
                 doc.Save(path);
             }
@@ -321,52 +321,36 @@ namespace Reginald.Core.IO
         }
 
         /// <summary>
-        /// Creates the "Reginald/ApplicationIcons" directory in %AppData% and creates PNG files containing images from installed applications.
+        /// Create "Reginald/ApplicationIcons" directory in %AppData%, caches applications icons in that directory, and writes a .txt file containing a list of all applications installed on the user's machine.
         /// </summary>
-        public static void CacheApplicationIcons()
+        async public static void CacheApplications()
         {
-            string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
-            Directory.CreateDirectory(path);
+            string iconsDirectoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
+            Directory.CreateDirectory(iconsDirectoryPath);
 
-            //Guid applicationsFolderGuid = new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
+            List<string> applicationNames = new();
             ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(Constants.ApplicationsGuid);
             foreach (ShellObject application in (IKnownFolder)applicationsFolder)
             {
                 if (!application.Name.EndsWith(".url") && !application.ParsingName.EndsWith("url"))
                 {
-                    string filename = Path.Combine(path, application.Name + ".png");
+                    string filename = Path.Combine(iconsDirectoryPath, application.Name + ".png");
                     if (!File.Exists(filename))
                     {
                         BitmapSource source = application.Thumbnail.MediumBitmapSource;
                         PngBitmapEncoder encoder = new();
                         BitmapFrame frame = BitmapFrame.Create(source);
                         encoder.Frames.Add(frame);
-                        using (FileStream stream = new(filename, FileMode.Create))
-                        {
-                            encoder.Save(stream);
-                        }
+                        using FileStream stream = new(filename, FileMode.Create);
+                        encoder.Save(stream);
                     }
-                }
-            }
-        }
 
-        /// <summary>
-        /// Creates a text file containing a list of names of installed applications.
-        /// </summary>
-        public async static void MakeApplicationsTextFile()
-        {
-            List<string> applicationNames = new();
-            Guid applicationsFolderGuid = new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
-            ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(applicationsFolderGuid);
-            foreach (ShellObject application in (IKnownFolder)applicationsFolder)
-            {
-                if (!application.Name.EndsWith(".url") && !application.ParsingName.EndsWith("url"))
-                {
                     applicationNames.Add(application.Name);
                 }
             }
-            string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
-            await File.WriteAllLinesAsync(path, applicationNames);
+
+            string txtFilePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
+            await File.WriteAllLinesAsync(txtFilePath, applicationNames);
         }
 
         /// <summary>
