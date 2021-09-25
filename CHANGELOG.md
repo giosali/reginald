@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.6.0
+
+### Added
+
+* Themes have been properly added to the settings window, paving the way for more proprietary and user-generated themes
+
+### Changed
+
+* Search box window should now open significantly more quickly than before
+
+### Fixed
+
+* Fixed issue where a search result would become highlighted if the cursor is already over the area of the search result when it appears
+
+### Removed
+
+* Removed ability to toggle the light/dark modes and the border around the search box window
+
 ## v0.5.0
 
 ### Added
