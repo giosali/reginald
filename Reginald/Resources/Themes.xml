@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Themes>
+	<Theme Name="Acrylic Dark" Author="Reginald">
+		<GUID>553a4cdf-11c6-49ce-b634-7ce6945f6958</GUID>
+		<IsEditable>false</IsEditable>
+		
+		<BackgroundColor>#171717</BackgroundColor>
+		<InputColor>White</InputColor>
+		<CaretColor>DarkGray</CaretColor>
+		<DescriptionColor>White</DescriptionColor>
+		<AltColor>LightGray</AltColor>
+		<BorderColor>DarkGray</BorderColor>
+		<HighlightColor>#99FF8D00</HighlightColor>
+
+		<SpecialMainColor>White</SpecialMainColor>
+		<SpecialSecondaryColor>LightGray</SpecialSecondaryColor>
+		<SpecialSubColor>DarkGray</SpecialSubColor>
+		<SpecialBorderColor>#B7ADAC</SpecialBorderColor>
+	</Theme>
+	<Theme Name="Acrylic Light" Author="Reginald">
+		<GUID>2b4b110c-6e4b-4dd6-aee0-ef290aabd982</GUID>
+		<IsEditable>false</IsEditable>
+		
+		<BackgroundColor>#DDDDDD</BackgroundColor>
+		<InputColor>Black</InputColor>
+		<CaretColor>Gray</CaretColor>
+		<DescriptionColor>Black</DescriptionColor>
+		<AltColor>#222222</AltColor>
+		<BorderColor>Black</BorderColor>
+		<HighlightColor>#99FF8D00</HighlightColor>
+
+		<SpecialMainColor>Black</SpecialMainColor>
+		<SpecialSecondaryColor>#2C2C2C</SpecialSecondaryColor>
+		<SpecialSubColor>#222222</SpecialSubColor>
+		<SpecialBorderColor>#485253</SpecialBorderColor>
+	</Theme>
+</Themes>
