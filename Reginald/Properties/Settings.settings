@@ -2,77 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Reginald.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="IsDarkModeEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="SearchBackgroundColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">23, 23, 23</Value>
-    </Setting>
-    <Setting Name="SearchBackgroundColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">232, 232, 232</Value>
-    </Setting>
-    <Setting Name="SearchDescriptionTextColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">White</Value>
-    </Setting>
-    <Setting Name="SearchDescriptionTextColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">Black</Value>
-    </Setting>
-    <Setting Name="SearchAltTextColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">LightGray</Value>
-    </Setting>
-    <Setting Name="SearchAltTextColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">34, 34, 34</Value>
-    </Setting>
-    <Setting Name="SearchInputTextColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">White</Value>
-    </Setting>
-    <Setting Name="SearchInputTextColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">Black</Value>
-    </Setting>
-    <Setting Name="SearchInputCaretColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">DarkGray</Value>
-    </Setting>
-    <Setting Name="SearchInputCaretColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">Gray</Value>
-    </Setting>
     <Setting Name="IncludeInstalledApplications" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="IncludeDefaultKeywords" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="SearchViewBorderColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">DarkGray</Value>
-    </Setting>
-    <Setting Name="SearchViewBorderColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">Black</Value>
-    </Setting>
-    <Setting Name="IsSearchBoxBorderEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="SpecialSearchResultSubColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">DarkGray</Value>
-    </Setting>
-    <Setting Name="SpecialSearchResultSubColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">34, 34, 34</Value>
-    </Setting>
-    <Setting Name="SpecialSearchResultBorderColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">183, 173, 172</Value>
-    </Setting>
-    <Setting Name="SpecialSearchResultBorderColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">72, 82, 83</Value>
-    </Setting>
-    <Setting Name="SpecialSearchResultSecondaryColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">LightGray</Value>
-    </Setting>
-    <Setting Name="SpecialSearchResultSecondaryColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">44, 44, 44</Value>
-    </Setting>
-    <Setting Name="SpecialSearchResultMainColorDark" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">White</Value>
-    </Setting>
-    <Setting Name="SpecialSearchResultMainColorLight" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">Black</Value>
     </Setting>
     <Setting Name="IncludeSpecialKeywords" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -100,6 +34,9 @@
     </Setting>
     <Setting Name="IncludeSettingsPages" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ThemeIdentifier" Type="System.Guid" Scope="User">
+      <Value Profile="(Default)">553a4cdf-11c6-49ce-b634-7ce6945f6958</Value>
     </Setting>
   </Settings>
 </SettingsFile>
