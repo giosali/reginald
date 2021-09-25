@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.6.1
+
+### Fixed
+
+* Fixed issue where search results would become highlighted if the cursor was already over the area of the search result *again*
+
 ## v0.6.0
 
 ### Added
