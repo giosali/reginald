@@ -41,11 +41,15 @@
     <None Remove="Images\youtube.png" />
     <None Remove="Reginald.ico" />
     <None Remove="Resources\MSSettings.xml" />
+    <None Remove="Resources\Themes.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\MSSettings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Themes.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 

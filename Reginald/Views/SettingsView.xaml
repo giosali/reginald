@@ -6,9 +6,10 @@
            xmlns:local="clr-namespace:Reginald.Views"
            mc:Ignorable="d"
            Title="Reginald"
-           Height="550" Width="750"
+           Height="550" Width="900"
            BorderThickness="0"
            WindowStartupLocation="CenterScreen"
+           ResizeMode="NoResize"
         
            xmlns:cal="http://www.caliburnproject.org"
            xmlns:i="http://schemas.microsoft.com/xaml/behaviors"

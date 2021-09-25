@@ -12,6 +12,12 @@
         <Setter Property="FontWeight" Value="Light"/>
     </Style>
 
+    <Style x:Key="HeaderThreeTextBlockStyle"
+           TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontWeight" Value="Light"/>
+    </Style>
+
     <Style x:Key="NormalTextBlockStyle"
            TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="16"/>

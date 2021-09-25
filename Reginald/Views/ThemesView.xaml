@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reginald.Views"
+             xmlns:src="clr-namespace:Reginald.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              
@@ -13,6 +14,12 @@
              xmlns:hc="https://handyorg.github.io/handycontrol">
     <UserControl.Resources>
         <ResourceDictionary>
+            <!-- Converters -->
+            <src:SolidColorBrushConverter x:Key="solidColorBrushConverter"/>
+            <src:ColorToStringConverter x:Key="colorToStringConverter"/>
+            <src:ColorToSolidColorBrushConverter x:Key="colorToSolidColorBrushConverter"/>
+
+            <!-- Styles -->
             <Style x:Key="ToggleButtonStyle"
                    TargetType="{x:Type ToggleButton}"
                    BasedOn="{StaticResource ToggleButtonSwitch}">
@@ -20,81 +27,226 @@
                 <Setter Property="FontWeight" Value="Light"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>
             </Style>
+
+            <Style x:Key="TextBoxStyle"
+                   TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource TextBoxExtend}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontWeight" Value="Light"/>
+                <Setter Property="Cursor" Value="IBeam"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="DockPanel.Dock" Value="Right"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTheme.IsEditable}" Value="False">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                        <Setter Property="Cursor" Value="No"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="RectangleStyle"
+                   TargetType="{x:Type Rectangle}">
+                <Setter Property="Width" Value="25"/>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="Margin" Value="0 0 12 0"/>
+                <Setter Property="DockPanel.Dock" Value="Left"/>
+            </Style>
+            
+            <!-- DataTemplates -->
+            <DataTemplate x:Key="ThemesDataTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border>
+                        <StackPanel Grid.Column="0"
+                                    Margin="2.5 10 0 10">
+                            <TextBlock Text="{Binding Name}"
+                                   FontSize="14"/>
+                            <TextBlock Text="{Binding Author}"
+                                   FontSize="12"
+                                   FontWeight="Light"
+                                   Foreground="LightGray"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
-    
-    <ScrollViewer>
-        <hc:UniformSpacingPanel Spacing="24"
-                                Orientation="Vertical">
-            <!-- # Title -->
-            <TextBlock Text="Themes"
-                       Style="{StaticResource HeaderOneTextBlockStyle}"/>
-            
-            <!-- ## Search Box -->
-            <TextBlock Text="Search Box"
-                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
-            <hc:UniformSpacingPanel Spacing="12"
-                                    Orientation="Vertical">
-                <!-- ### ToggleSwitch -->
-                <ToggleButton Content="Use dark mode for your search results"
-                              Style="{StaticResource ToggleButtonStyle}"
-                              IsChecked="{Binding Settings.IsDarkModeEnabled}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Checked">
-                            <cal:ActionMessage MethodName="IsDarkModeEnabledToggleSwitch_Checked">
-                                <cal:Parameter Value="$this"/>
-                                <cal:Parameter Value="$eventargs"/>
-                            </cal:ActionMessage>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <!-- ### ToggleSwitch -->
-                <ToggleButton Content="Place a border around the search box to improve visibility"
-                              Style="{StaticResource ToggleButtonStyle}"
-                              IsChecked="{Binding Settings.IsSearchBoxBorderEnabled}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Checked">
-                            <cal:ActionMessage MethodName="IsSearchBoxBorderEnabledToggleSwitch_Checked">
-                                <cal:Parameter Value="$this"/>
-                                <cal:Parameter Value="$eventargs"/>
-                            </cal:ActionMessage>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-            </hc:UniformSpacingPanel>
-        </hc:UniformSpacingPanel>
-        
-        <!--<Grid>
+
+    <ScrollViewer Margin="-12 0 0 0">
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="175"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0"
-                    BorderThickness="0 0 1 0"
-                    BorderBrush="Gray">
-                <ui:SimpleStackPanel Spacing="12">
-                    <TextBlock Text="Reginald"/>
-                    <TextBlock Text="Reginald Light"/>
-                </ui:SimpleStackPanel>
-            </Border>
-            
-            <ui:SimpleStackPanel Grid.Column="1">
-                <ui:SimpleStackPanel.Background>
-                    <ImageBrush ImageSource="mountains.png"
-                                Stretch="UniformToFill"/>
-                </ui:SimpleStackPanel.Background>
-                <Border BorderBrush="DarkGray"
-                        BorderThickness="1"
-                        Margin="0 65 0 0"
-                        Width="300"
-                        Height="50">
-                    <Rectangle Width="300"
-                           Height="50"
-                           Fill="Black"
-                           Opacity="0.8"/>
-                </Border>
-            </ui:SimpleStackPanel>
-        </Grid>-->
+            <ListBox x:Name="Themes"
+                     ItemTemplate="{StaticResource ThemesDataTemplate}"
+                     SelectedItem="{Binding SelectedTheme}"
+                     Grid.Column="0"
+                     BorderThickness="0 0 1 0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <cal:ActionMessage MethodName="Themes_SelectionChanged">
+                            <cal:Parameter Value="$this"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+           
+            <hc:UniformSpacingPanel Grid.Column="1"
+                                    Spacing="12"
+                                    Margin="12 0 0 0"
+                                    Orientation="Vertical">
+                <!-- NAME -->
+                <TextBlock Text="{Binding SelectedTheme.Name}"
+                           Style="{StaticResource HeaderOneTextBlockStyle}"/>
+                
+                <!-- AUTHOR -->
+                <StackPanel Orientation="Horizontal"
+                            Margin="0 -12 0 0">
+                    <TextBlock Text="Created by: "
+                               Style="{StaticResource HeaderThreeTextBlockStyle}"
+                               Foreground="DarkGray"/>
+                    <TextBlock Text="{Binding SelectedTheme.Author}"
+                               Style="{StaticResource HeaderThreeTextBlockStyle}"
+                               Foreground="DarkGray"/>
+                </StackPanel>
+
+                
+                <!-- Regular Search Results -->
+                <TextBlock Text="Regular Search Result Colors"
+                           Style="{StaticResource HeaderThreeTextBlockStyle}"
+                           Margin="0 12 0 0"/>
+                <hc:UniformSpacingPanel Margin="0 6 0 0"
+                                        Spacing="12"
+                                        Orientation="Vertical">
+                    
+                    <!-- BACKGROUND COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.BackgroundColor, Converter={StaticResource colorToSolidColorBrushConverter}}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.BackgroundColor, Converter={StaticResource colorToStringConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Background color:"
+                                 DockPanel.Dock="Right"/>
+                    </DockPanel>
+                    
+                    <!-- INPUT COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.InputColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.InputColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Input color:"/>
+                    </DockPanel>
+
+                    <!-- CARET COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.CaretColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.CaretColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Caret color:"/>
+                    </DockPanel>
+
+                    <!-- DESCRIPTION COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.DescriptionColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.DescriptionColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Description color:"/>
+                    </DockPanel>
+
+                    <!-- ALT COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.AltColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.AltColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Alt color:"/>
+                    </DockPanel>
+
+                    <!-- BORDER COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.BorderColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.BorderColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Border color:"/>
+                    </DockPanel>
+
+                    <!-- HIGHLIGHT COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.DefaultHighlightColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.DefaultHighlightColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Highlight color:"/>
+                    </DockPanel>
+                </hc:UniformSpacingPanel>
+
+                <!-- Special Search Results -->
+                <TextBlock Text="Special Search Result Colors"
+                           Style="{StaticResource HeaderThreeTextBlockStyle}"
+                           Margin="0 12 0 0"/>
+                <hc:UniformSpacingPanel Margin="0 6 0 0"
+                                        Spacing="12"
+                                        Orientation="Vertical">
+                    
+                    <!-- SPECIAL MAIN COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.SpecialMainColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.SpecialMainColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Main color:"/>
+                    </DockPanel>
+
+                    <!-- SPECIAL SECONDARY COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.SpecialSecondaryColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.SpecialSecondaryColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Secondary color:"/>
+                    </DockPanel>
+
+                    <!-- SPECIAL SUB COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.SpecialSubColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.SpecialSubColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Sub color:"/>
+                    </DockPanel>
+
+                    <!-- SPECIAL BORDER COLOR -->
+                    <DockPanel VerticalAlignment="Center">
+                        <Rectangle Fill="{Binding SelectedTheme.SpecialBorderColor}"
+                                   Style="{StaticResource RectangleStyle}"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding SelectedTheme.SpecialBorderColor, Converter={StaticResource solidColorBrushConverter}}"
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 hc:InfoElement.Title="Border color:"/>
+                    </DockPanel>
+                </hc:UniformSpacingPanel>
+            </hc:UniformSpacingPanel>
+        </Grid>
     </ScrollViewer>
 </UserControl>

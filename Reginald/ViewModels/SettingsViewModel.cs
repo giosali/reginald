@@ -1,21 +1,20 @@
 ﻿using Caliburn.Micro;
 using HandyControl.Controls;
 using HandyControl.Data;
+using Reginald.Models;
 using System.Threading.Tasks;
 
 namespace Reginald.ViewModels
 {
     public class SettingsViewModel : Conductor<object>
     {
-        public SettingsViewModel()
+        public SettingsViewModel(System.Action action)
         {
-            SetUpViewModel();
+            Action = action;
+            _ = ActivateItemAsync(new GeneralViewModel());
         }
 
-        private async void SetUpViewModel()
-        {
-            await ActivateItemAsync(new GeneralViewModel());
-        }
+        private System.Action Action { get; set; }
 
         public async Task SideMenu_SelectionChangedAsync(object sender, FunctionEventArgs<object> e)
         {
@@ -23,7 +22,7 @@ namespace Reginald.ViewModels
             switch (sideMenuItem.Name)
             {
                 case "Themes":
-                    await ActivateItemAsync(new ThemesViewModel());
+                    await ActivateItemAsync(new ThemesViewModel(Action));
                     break;
 
                 case "SearchBox":

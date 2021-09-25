@@ -41,7 +41,7 @@ namespace Reginald.ViewModels
         public void OpenSettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             IWindowManager manager = new WindowManager();
-            _ = manager.ShowWindowAsync(new SettingsViewModel());
+            _ = manager.ShowWindowAsync(new SettingsViewModel(SearchViewModel.StyleSearchView));
         }
 
         private static void SetUpIO()
@@ -78,10 +78,8 @@ namespace Reginald.ViewModels
             FileOperations.MakeXmlFile(utilitiesXml, ApplicationPaths.XmlUtilitiesFilename);
             FileOperations.UpdateXmlFile(utilitiesXml, ApplicationPaths.XmlUtilitiesFilename);
 
-            FileOperations.CacheApplicationIcons();
-
-            // Creates "Reginald\Applications.txt" in %AppData%
-            FileOperations.MakeApplicationsTextFile();
+            // Creates "Reginald\ApplicationIcons", caches icons, and creates "Reginald\Applications.txt" in %AppData%
+            FileOperations.CacheApplications();
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();

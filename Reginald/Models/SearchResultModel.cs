@@ -88,7 +88,7 @@ namespace Reginald.Models
             input = string.IsNullOrEmpty(input) ? null : input;
             Text = description ?? text ?? input ?? DefaultText;
             Format = node["Format"]?.InnerText ?? "{0}";
-            _ = StringHelpers.TryFormat(Format, Text, out string descriptionResult);
+            _ = StringHelper.TryFormat(Format, Text, out string descriptionResult);
             Description = descriptionResult;
 
             Alt = node["Alt"]?.InnerText;

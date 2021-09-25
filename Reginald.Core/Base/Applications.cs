@@ -1,5 +1,4 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
-using System;
 using System.Collections.Generic;
 
 namespace Reginald.Core.Base
@@ -19,7 +18,7 @@ namespace Reginald.Core.Base
             {
                 if (!app.Name.EndsWith(".url") && !app.ParsingName.EndsWith("url"))
                 {
-                    applications.TryAdd(app.Name, app.ParsingName);
+                    _ = applications.TryAdd(app.Name, app.ParsingName);
                 }
             }
             return applications;

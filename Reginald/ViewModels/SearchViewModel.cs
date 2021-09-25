@@ -1,14 +1,13 @@
 ﻿using Caliburn.Micro;
 using Reginald.Core.Base;
 using Reginald.Core.Enums;
-using Reginald.Core.Extensions;
 using Reginald.Core.Helpers;
 using Reginald.Core.IO;
 using Reginald.Core.Notifications;
 using Reginald.Core.Utilities;
+using Reginald.Core.Utils;
 using Reginald.Extensions;
 using Reginald.Models;
-using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +19,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Xml;
 
 namespace Reginald.ViewModels
@@ -69,65 +67,22 @@ namespace Reginald.ViewModels
             await stylesTask;
         }
 
-        private void StyleSearchView()
+        public void StyleSearchView()
         {
-            Properties.Settings settings = Properties.Settings.Default;
-
-            System.Drawing.Color searchBackgroundColor;
-            System.Drawing.Color searchDescriptionTextColor;
-            System.Drawing.Color searchAltTextColor;
-            System.Drawing.Color searchInputTextColor;
-            System.Drawing.Color searchInputCaretColor;
-            System.Drawing.Color searchViewBorderColor;
-            System.Drawing.Color specialSearchResultSubColor;
-            System.Drawing.Color specialSearchResultBorderColor;
-            System.Drawing.Color specialSearchResultSecondaryColor;
-            System.Drawing.Color specialSearchResultMainColor;
-            System.Drawing.Color searchResultHighlightColor;
-            if (settings.IsDarkModeEnabled)
+            XmlDocument doc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlThemesFileLocation, true);
+            XmlNodeList nodes = doc.GetNodes(Constants.ThemesXpath);
+            ThemeModel model = new();
+            for (int i = 0; i < nodes.Count; i++)
             {
-                searchBackgroundColor = settings.SearchBackgroundColorDark;
-                searchDescriptionTextColor = settings.SearchDescriptionTextColorDark;
-                searchAltTextColor = settings.SearchAltTextColorDark;
-                searchInputTextColor = settings.SearchInputTextColorDark;
-                searchInputCaretColor = settings.SearchInputCaretColorDark;
-                searchViewBorderColor = settings.SearchViewBorderColorDark;
-                specialSearchResultSubColor = settings.SpecialSearchResultSubColorDark;
-                specialSearchResultBorderColor = settings.SpecialSearchResultBorderColorDark;
-                specialSearchResultSecondaryColor = settings.SpecialSearchResultSecondaryColorDark;
-                specialSearchResultMainColor = settings.SpecialSearchResultMainColorDark;
+                XmlNode node = nodes[i];
+                _ = Guid.TryParse(node["GUID"]?.InnerText, out Guid result);
+                if (result == Properties.Settings.Default.ThemeIdentifier)
+                {
+                    model = new ThemeModel(node);
+                    break;
+                }
             }
-            else
-            {
-                searchBackgroundColor = settings.SearchBackgroundColorLight;
-                searchDescriptionTextColor = settings.SearchDescriptionTextColorLight;
-                searchAltTextColor = settings.SearchAltTextColorLight;
-                searchInputTextColor = settings.SearchInputTextColorLight;
-                searchInputCaretColor = settings.SearchInputCaretColorLight;
-                searchViewBorderColor = settings.SearchViewBorderColorLight;
-                specialSearchResultSubColor = settings.SpecialSearchResultSubColorLight;
-                specialSearchResultBorderColor = settings.SpecialSearchResultBorderColorLight;
-                specialSearchResultSecondaryColor = settings.SpecialSearchResultSecondaryColorLight;
-                specialSearchResultMainColor = settings.SpecialSearchResultMainColorLight;
-            }
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                Settings.SearchBackgroundColor = Color.FromRgb(searchBackgroundColor.R, searchBackgroundColor.G, searchBackgroundColor.B);
-                Settings.SearchDescriptionTextBrush = SolidColorBrushHelper.FromRgb(searchDescriptionTextColor);
-                Settings.SearchAltTextBrush = SolidColorBrushHelper.FromRgb(searchAltTextColor);
-                Settings.SearchInputTextBrush = SolidColorBrushHelper.FromRgb(searchInputTextColor);
-                Settings.SearchInputCaretBrush = SolidColorBrushHelper.FromRgb(searchInputCaretColor);
-                Settings.SearchViewBorderBrush = !settings.IsSearchBoxBorderEnabled ? Brushes.Transparent : SolidColorBrushHelper.FromRgb(searchViewBorderColor);
-                Settings.SpecialSearchResultSubBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSubColor);
-                Settings.SpecialSearchResultBorderBrush = SolidColorBrushHelper.FromRgb(specialSearchResultBorderColor);
-                Settings.SpecialSearchResultSecondaryBrush = SolidColorBrushHelper.FromRgb(specialSearchResultSecondaryColor);
-                Settings.SpecialSearchResultMainBrush = SolidColorBrushHelper.FromRgb(specialSearchResultMainColor);
-
-                string highlightHex = settings.IsSystemColorEnabled ? AccentColors.ImmersiveSystemAccentBrush.GetTransparentHex("#99") : "#99ff8d00";
-                searchResultHighlightColor = System.Drawing.ColorTranslator.FromHtml(highlightHex);
-                Settings.SearchResultHighlightColor = SolidColorBrushHelper.FromArgb(searchResultHighlightColor);
-            });
+            Theme = model;
         }
 
         public void ShowOrHide()
@@ -138,11 +93,24 @@ namespace Reginald.ViewModels
                 if (window.IsVisible)
                 {
                     window.Hide();
+                    FileOperations.CacheApplications();
+                    applicationsDict = Applications.MakeDictionary();
                 }
                 else
                 {
                     window.Show();
                 }
+            }
+        }
+
+        private ThemeModel _theme = new();
+        public ThemeModel Theme
+        {
+            get => _theme;
+            set
+            {
+                _theme = value;
+                NotifyOfPropertyChange(() => Theme);
             }
         }
 
@@ -380,12 +348,12 @@ namespace Reginald.ViewModels
             return Task.FromResult(Enumerable.Empty<SearchResultModel>());
         }
 
-        private IEnumerable<string> MatchKeywordsInDoc(XmlDocument doc, string keyword, string separator)
+        private static IEnumerable<string> MatchKeywordsInDoc(XmlDocument doc, string keyword, string separator)
         {
             IEnumerable<string> attributes = doc.GetNodesAttributes(Constants.NamespacesXpath);
             string format = @"((?<!\w){0}.*)";
 
-            keyword = StringHelpers.RegexClean(keyword);
+            keyword = StringHelper.RegexClean(keyword);
 
             Regex rx = new(string.Format(format, keyword), RegexOptions.IgnoreCase);
             IEnumerable<string> matches = attributes.Where(x => rx.IsMatch(x))
@@ -471,7 +439,7 @@ namespace Reginald.ViewModels
             return null;
         }
 
-        private async Task<IEnumerable<SearchResultModel>> GetCommandModelsAsync(bool isIncluded, XmlDocument doc, string input)
+        private static async Task<IEnumerable<SearchResultModel>> GetCommandModelsAsync(bool isIncluded, XmlDocument doc, string input)
         {
             if (isIncluded)
             {
@@ -488,7 +456,7 @@ namespace Reginald.ViewModels
             return Array.Empty<SearchResultModel>();
         }
 
-        private Task<IEnumerable<SearchResultModel>> GetUtilityModels(bool isIncluded, XmlDocument doc, string input)
+        private static Task<IEnumerable<SearchResultModel>> GetUtilityModels(bool isIncluded, XmlDocument doc, string input)
         {
             if (isIncluded)
             {
@@ -504,14 +472,14 @@ namespace Reginald.ViewModels
             return Task.FromResult(Enumerable.Empty<SearchResultModel>());
         }
 
-        private Task<List<SearchResultModel>> GetSettingsModels(bool isIncluded, XmlDocument doc, string input)
+        private static Task<List<SearchResultModel>> GetSettingsModels(bool isIncluded, XmlDocument doc, string input)
         {
             if (isIncluded)
             {
                 if (input.Length > 2)
                 {
                     string format = @"{0}";
-                    string formatInput = StringHelpers.RegexOrBoundarySplit(StringHelpers.RegexClean(input), out int count);
+                    string formatInput = StringHelper.RegexOrBoundarySplit(StringHelper.RegexClean(input), out int count);
                     Regex rx = new(string.Format(format, formatInput), RegexOptions.IgnoreCase);
                     IEnumerable<string> attributes = doc.GetNodesAttributes(Constants.NamespacesXpath)
                                                         .Where(x =>
@@ -608,7 +576,7 @@ namespace Reginald.ViewModels
                 case Category.Keyword:
                     {
                         string uri = string.Format(SelectedSearchResult.URL, SelectedSearchResult.Text);
-                        GoToWebsite(uri);
+                        UriUtils.GoTo(uri);
                         break;
                     }
 
@@ -619,14 +587,14 @@ namespace Reginald.ViewModels
                         {
                             uri = uri.PrependScheme();
                         }
-                        GoToWebsite(uri);
+                        UriUtils.GoTo(uri);
                         break;
                     }
 
                 case Category.SearchEngine:
                     {
                         string uri = string.Format(SelectedSearchResult.URL, UserInput.Quote(SelectedSearchResult.Separator));
-                        GoToWebsite(uri);
+                        UriUtils.GoTo(uri);
                         break;
                     }
 
@@ -661,7 +629,7 @@ namespace Reginald.ViewModels
                     break;
 
                 case Category.URI:
-                    GoToWebsite(SelectedSearchResult.URI);
+                    UriUtils.GoTo(SelectedSearchResult.URI);
                     break;
 
                 default:
@@ -705,30 +673,6 @@ namespace Reginald.ViewModels
                 IsMouseOverChanged = true;
             }
             MousePosition = position;
-        }
-
-        private static void GoToWebsite(string uri)
-        {
-            try
-            {
-                ProcessStartInfo startInfo = new()
-                {
-                    FileName = uri,
-                    UseShellExecute = true
-                };
-                _ = Process.Start(startInfo);
-            }
-            catch (System.ComponentModel.Win32Exception ex)
-            {
-                if (ex.ErrorCode == -2147467259)
-                {
-                    _ = MessageBox.Show(ex.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                _ = MessageBox.Show(ex.Message);
-            }
         }
     }
 }
