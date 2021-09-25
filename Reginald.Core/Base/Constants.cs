@@ -16,6 +16,8 @@ namespace Reginald.Core.Base
         public const string SettingsNamespacesXpath = @"//Settings//Namespace";
         public const string SettingsNamespaceNameXpathFormat = "//Settings/Namespace[@Name='{0}']";
 
+        public const string ThemesXpath = "//Themes//Theme";
+
         // Applications
 
         public static Guid ApplicationsGuid = new("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
