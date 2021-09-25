@@ -93,6 +93,7 @@ namespace Reginald.ViewModels
                 if (window.IsVisible)
                 {
                     window.Hide();
+                    MousePosition = new();
                     FileOperations.CacheApplications();
                     applicationsDict = Applications.MakeDictionary();
                 }
