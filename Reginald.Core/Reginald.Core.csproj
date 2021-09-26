@@ -2,21 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
-	<PlatformTarget>x86</PlatformTarget>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-
-  <ItemGroup>
-    <COMReference Include="Shell32">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>0</VersionMinor>
-      <VersionMajor>1</VersionMajor>
-      <Guid>50a7e9b0-70ef-11d1-b75a-00a0c90564fe</Guid>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.0.2" />
