@@ -603,8 +603,10 @@ namespace Reginald.ViewModels
                     if (!string.IsNullOrEmpty(SelectedSearchResult.Text))
                     {
                         ShowOrHide();
+                        string name = SelectedSearchResult.Name;
+                        string text = SelectedSearchResult.Text;
                         await Task.Delay((int)SelectedSearchResult.Time * 1000);
-                        ToastNotifications.SendSimpleToastNotification(SelectedSearchResult.Name, SelectedSearchResult.Text);
+                        ToastNotifications.SendSimpleToastNotification(name, text);
                     }
                     break;
 
