@@ -70,6 +70,7 @@ namespace Reginald.Core.Utils
                         timerDescription = timeRemainder;
                         seconds = timeValue;
                     }
+
                     formatArgs[count++] = unit;
                     if (!string.IsNullOrEmpty(timeSeparator))
                     {

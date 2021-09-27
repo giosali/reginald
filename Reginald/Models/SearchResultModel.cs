@@ -94,16 +94,20 @@ namespace Reginald.Models
             Alt = node["Alt"]?.InnerText;
 
             bool isEnabledConversionState = bool.TryParse(node["IsEnabled"]?.InnerText, out bool isEnabledResult);
-            IsEnabled = isEnabledConversionState ? isEnabledResult : true;
+            IsEnabled = !isEnabledConversionState || isEnabledResult;
 
             _ = bool.TryParse(node["RequiresConfirmation"]?.InnerText, out bool requiresConfirmation);
             RequiresConfirmation = requiresConfirmation;
             ConfirmationMessage = node["ConfirmationMessage"]?.InnerText;
+
+            string command = node["Command"]?.InnerText.Capitalize();
+            Command = (Command)Enum.Parse(typeof(Command), command ?? "None");
         }
 
         public string Name { get; set; }
         public Category Category { get; set; }
         public Utility? Utility { get; set; }
+        public Command Command { get; set; }
         public ImageSource Icon { get; set; }
         public string ParsingName { get; set; }
         public int ID { get; set; }
@@ -121,31 +125,6 @@ namespace Reginald.Models
         public double? Time { get; set; }
         public bool RequiresConfirmation { get; set; }
         public string ConfirmationMessage { get; set; }
-
-        public static SearchResultModel[] MakeArray(XmlDocument doc, string attribute, Category category, string input = null, string text = null)
-        {
-            try
-            {
-                XmlNodeList nodes = doc.GetNodes(string.Format(Constants.NamespaceNameXpathFormat, attribute));
-                if (nodes is not null)
-                {
-                    SearchResultModel[] models = new SearchResultModel[nodes.Count];
-                    for (int i = 0; i < nodes.Count; i++)
-                    {
-                        try
-                        {
-                            XmlNode node = nodes[i];
-                            SearchResultModel model = new(node, category, input, text);
-                            models[i] = model;
-                        }
-                        catch (NullReferenceException) { continue; }
-                    }
-                    return models;
-                }
-            }
-            catch (System.Xml.XPath.XPathException) { }
-            return Array.Empty<SearchResultModel>();
-        }
 
         public static List<SearchResultModel> MakeList(XmlDocument doc, string attribute, Category category, string input = null, string text = null, bool overrideIsEnabled = false)
         {
@@ -188,42 +167,27 @@ namespace Reginald.Models
                         try
                         {
                             XmlNode node = nodes[i];
-                            if (bool.Parse(node["IsEnabled"].InnerText))
+                            SearchResultModel model = new(node, category);
+                            switch (model.Command)
                             {
-                                SearchResultModel model = new()
-                                {
-                                    Name = node["Name"].InnerText,
-                                    Category = category,
-                                    Icon = BitmapImageHelper.MakeFromUri(node["Icon"].InnerText),
-                                    Keyword = node["Keyword"].InnerText,
-                                    Format = node["Format"].InnerText,
-                                    DefaultText = node["DefaultText"].InnerText,
-                                    Alt = node["Alt"].InnerText,
-                                    IsEnabled = bool.Parse(node["IsEnabled"].InnerText)
-                                };
+                                case Command.Timer:
+                                    (string description, double? seconds) = await TimerUtils.ParseTimeFromStringAsync(input, model.Format, node["Split"].InnerText, model.DefaultText);
+                                    model.Description = description;
+                                    model.Time = seconds;
+                                    (_, string separator, string remainder) = description.Partition(": ");
+                                    if (!string.IsNullOrEmpty(separator))
+                                    {
+                                        model.Text = remainder;
+                                    }
+                                    break;
 
-                                Command command = (Command)Enum.Parse(typeof(Command), node["Command"].InnerText.Capitalize());
-                                switch (command)
-                                {
-                                    case Command.Timer:
-                                        (string description, double? seconds) = await TimerUtils.ParseTimeFromStringAsync(input, model.Format, node["Split"].InnerText, model.DefaultText);
-                                        model.Description = description;
-                                        model.Time = seconds;
-                                        (_, string separator, string remainder) = description.Partition(": ");
-                                        if (!string.IsNullOrEmpty(separator))
-                                        {
-                                            model.Text = remainder;
-                                        }
-                                        break;
+                                default:
+                                    break;
+                            }
 
-                                    default:
-                                        break;
-                                }
-
-                                if (model.Description is not null)
-                                {
-                                    models.Add(model);
-                                }
+                            if (model.Description is not null && model.IsEnabled)
+                            {
+                                models.Add(model);
                             }
                         }
                         catch (NullReferenceException) { continue; }

@@ -26,9 +26,14 @@ namespace Reginald.Extensions
         /// </example>
         public static (string Left, string Separator, string Right) Partition(this string expression, string separator)
         {
-            string[] results = expression.Split(separator, 2);
-            if (results.Length > 1)
-                return (results[0], separator, results[1]);
+            if (expression is not null)
+            {
+                string[] results = expression.Split(separator, 2);
+                if (results.Length > 1)
+                {
+                    return (results[0], separator, results[1]);
+                }
+            }
             return (expression, string.Empty, string.Empty);
         }
 

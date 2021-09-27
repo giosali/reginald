@@ -56,8 +56,14 @@ namespace Reginald.Core.Helpers
                 output = string.Format(format, input);
                 return true;
             }
-            catch (ArgumentNullException) { }
-            output = null;
+            catch (FormatException)
+            {
+                output = format;
+            }
+            catch (ArgumentNullException)
+            {
+                output = null;
+            }
             return false;
         }
     }
