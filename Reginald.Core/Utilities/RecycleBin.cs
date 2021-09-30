@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.WindowsAPICodePack.Shell;
+using Reginald.Core.Base;
+using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using static Reginald.Core.Enums.RecycleBinEnums;
 
@@ -11,7 +14,11 @@ namespace Reginald.Core.Utilities
 
         public static void Empty()
         {
-            _ = SHEmptyRecycleBin(IntPtr.Zero, null, RecycleFlag.SHERB_NOCONFIRMATION | RecycleFlag.SHERB_NOPROGRESSUI | RecycleFlag.SHERB_NOSOUND);
+            IKnownFolder folder = Applications.GetKnownFolder(Constants.RecycleBinGuid);
+            if (folder.Any())
+            {
+                _ = SHEmptyRecycleBin(IntPtr.Zero, null, RecycleFlag.SHERB_NOCONFIRMATION | RecycleFlag.SHERB_NOPROGRESSUI | RecycleFlag.SHERB_NOSOUND);
+            }
         }
     }
 }

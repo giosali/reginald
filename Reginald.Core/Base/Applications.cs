@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
+using System;
 using System.Collections.Generic;
 
 namespace Reginald.Core.Base
@@ -11,17 +12,24 @@ namespace Reginald.Core.Base
         /// <returns>A dictionary.</returns>
         public static Dictionary<string, string> MakeDictionary()
         {
-            ShellObject applicationsFolder = (ShellObject)KnownFolderHelper.FromKnownFolderId(Constants.ApplicationsGuid);
+            IKnownFolder applicationsFolder = KnownFolderHelper.FromKnownFolderId(Constants.ApplicationsGuid);
             Dictionary<string, string> applications = new();
 
-            foreach (ShellObject app in (IKnownFolder)applicationsFolder)
+            foreach (ShellObject app in applicationsFolder)
             {
-                if (!app.Name.EndsWith(".url") && !app.ParsingName.EndsWith("url"))
+                if (app.Name.EndsWith(".url") || app.ParsingName.EndsWith("url"))
                 {
-                    _ = applications.TryAdd(app.Name, app.ParsingName);
+                    continue;
                 }
+                _ = applications.TryAdd(app.Name, app.ParsingName);
             }
             return applications;
+        }
+
+        public static IKnownFolder GetKnownFolder(Guid guid)
+        {
+            IKnownFolder folder = KnownFolderHelper.FromKnownFolderId(guid);
+            return folder;
         }
     }
 }

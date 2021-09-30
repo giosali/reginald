@@ -20,7 +20,8 @@ namespace Reginald.Core.Base
 
         // Applications
 
-        public static Guid ApplicationsGuid = new("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
+        public static Guid ApplicationsGuid { get; } = new("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
+        public static Guid RecycleBinGuid { get; } = new("{B7534046-3ECB-4C18-BE4E-64CD4CB7D6AC}");
 
         // Extensions
 
