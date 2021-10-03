@@ -16,6 +16,7 @@ namespace Reginald.Core.IO
         public const string XmlUtilitiesFilename = "Utilities.xml";
         public const string XmlSettingsPagesFileLocation = "Resources/MSSettings.xml";
         public const string TxtFilename = "Applications.txt";
+        public const string CompressedTxtFilename = "ApplicationsCompressed.txt";
         public const string XmlThemesFileLocation = "Resources/Themes.xml";
     }
 }

@@ -3,6 +3,7 @@
     public enum Command
     {
         None = 0,
-        Timer
+        Timer,
+        Quit
     }
 }

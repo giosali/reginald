@@ -9,6 +9,10 @@ using Reginald.Extensions;
 using Reginald.Core.Base;
 using Reginald.Core.Utils;
 using System.Threading.Tasks;
+using System.IO;
+using Reginald.Core.IO;
+using System.Text.RegularExpressions;
+using Reginald.Core.Utilities;
 
 namespace Reginald.Models
 {
@@ -16,10 +20,10 @@ namespace Reginald.Models
     {
         public SearchResultModel() { }
 
-        public SearchResultModel(string name, string parsingName, BitmapImage icon)
+        public SearchResultModel(string name, string parsingName, BitmapImage icon, Category? category = null)
         {
             Name = name;
-            Category = Category.Application;
+            Category = category ?? Category.Application;
             ParsingName = parsingName;
             Icon = icon;
             Text = name;
@@ -154,7 +158,7 @@ namespace Reginald.Models
             return new List<SearchResultModel>();
         }
 
-        public static async Task<List<SearchResultModel>> MakeListForCommandsAsync(XmlDocument doc, string input, string attribute, Category category)
+        public static async Task<List<SearchResultModel>> MakeListForCommandsAsync(XmlDocument doc, string input, string attribute, Category category, bool isForDisplay = false)
         {
             try
             {
@@ -168,26 +172,63 @@ namespace Reginald.Models
                         {
                             XmlNode node = nodes[i];
                             SearchResultModel model = new(node, category);
-                            switch (model.Command)
+                            if (model.IsEnabled && !isForDisplay)
                             {
-                                case Command.Timer:
-                                    (string description, double? seconds) = await TimerUtils.ParseTimeFromStringAsync(input, model.Format, node["Split"].InnerText, model.DefaultText);
-                                    model.Description = description;
-                                    model.Time = seconds;
-                                    (_, string separator, string remainder) = description.Partition(": ");
-                                    if (!string.IsNullOrEmpty(separator))
-                                    {
-                                        model.Text = remainder;
-                                    }
-                                    break;
+                                switch (model.Command)
+                                {
+                                    case Command.Timer:
+                                        (string description, double? seconds) = await TimerUtils.ParseTimeFromStringAsync(input, model.Format, node["Split"].InnerText, model.DefaultText);
+                                        model.Description = description;
+                                        model.Time = seconds;
+                                        (_, string separator, string remainder) = description.Partition(": ");
+                                        if (!string.IsNullOrEmpty(separator))
+                                        {
+                                            model.Text = remainder;
+                                        }
+                                        break;
 
-                                default:
-                                    break;
+                                    case Command.Quit:
+                                        string filePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
+                                        string directoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
+
+                                        string line;
+                                        string[] processNames = Processes.GetTopLevelProcessNames(input);
+                                        for (int j = 0; j < processNames.Length; j++)
+                                        {
+                                            using StreamReader sr = new(filePath);
+                                            string processName = processNames[j];
+                                            string pattern = $@"(?x){processName.Replace(".exe", string.Empty)}";
+                                            Regex rx = new(pattern, RegexOptions.IgnoreCase);
+                                            while ((line = sr.ReadLine()) is not null)
+                                            {
+                                                if (rx.IsMatch(line.Replace(" ", string.Empty)))
+                                                {
+                                                    string name = "Quit " + line;
+                                                    BitmapImage image = BitmapImageHelper.GetIcon(directoryPath, line);
+                                                    SearchResultModel m = new(name, processName, image, category);
+                                                    m.Command = Command.Quit;
+                                                    models.Add(m);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                if (model.Description is not null)
+                                {
+                                    models.Add(model);
+                                }
                             }
-
-                            if (model.Description is not null && model.IsEnabled)
+                            else
                             {
-                                models.Add(model);
+                                if (isForDisplay)
+                                {
+                                    models.Add(model);
+                                }
                             }
                         }
                         catch (NullReferenceException) { continue; }

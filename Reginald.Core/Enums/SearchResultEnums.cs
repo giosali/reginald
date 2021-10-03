@@ -9,7 +9,6 @@
         Keyword,
         SearchEngine,
         Command,
-        Notifier,
         Utility,
         Confirmation,
         URI

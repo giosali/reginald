@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Remove="Images\amazon.png" />
     <None Remove="Images\calculator.png" />
+    <None Remove="Images\Commands\quit.png" />
     <None Remove="Images\Commands\timer.png" />
     <None Remove="Images\duckduckgo.png" />
     <None Remove="Images\ebay.png" />
@@ -69,6 +70,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\calculator.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Commands\quit.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Commands\timer.png">

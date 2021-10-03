@@ -345,7 +345,8 @@ namespace Reginald.Core.IO
                         encoder.Save(stream);
                     }
 
-                    applicationNames.Add(application.Name);
+                    string applicationName = application.Name;
+                    applicationNames.Add(applicationName);
                 }
             }
 
@@ -409,6 +410,15 @@ namespace Reginald.Core.IO
                 "        <Alt>Timer</Alt> \n" +
                 "        <IsEnabled>true</IsEnabled> \n" +
                 "        <Split>3</Split> \n" +
+                "    </Namespace>" +
+                "    <Namespace Name=\"quit\" ID=\"1\">" +
+                "        <Name>Quit</Name> \n" +
+                "        <Keyword>quit</Keyword> \n" +
+                "        <Command>Quit</Command> \n" +
+                "        <Icon>pack://application:,,,/Reginald;component/Images/Commands/quit.png</Icon> \n" +
+                "        <Format>{0}</Format> \n" +
+                "        <Alt>Quit Application</Alt> \n" +
+                "        <IsEnabled>true</IsEnabled> \n" +
                 "    </Namespace>" +
                 "</Searches>";
             return xml;

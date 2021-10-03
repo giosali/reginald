@@ -49,12 +49,33 @@ namespace Reginald.Core.Helpers
             return concatenation;
         }
 
+        public static string Boundarize(string expression)
+        {
+            string[] substrings = expression.Split(' ');
+            for (int i = 0; i < substrings.Length; i++)
+            {
+                string substring = substrings[i];
+                if (substring != string.Empty)
+                {
+                    substrings[i] = @"\b" + substring + @"\w*\b";
+                }
+            }
+            return string.Join(' ', substrings);
+        }
+
         public static bool TryFormat(string format, string input, out string output)
         {
             try
             {
-                output = string.Format(format, input);
-                return true;
+                if (input is not null)
+                {
+                    output = string.Format(format, input);
+                    return true;
+                }
+                else
+                {
+                    output = input;
+                }
             }
             catch (FormatException)
             {

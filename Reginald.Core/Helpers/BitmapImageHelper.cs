@@ -13,15 +13,22 @@ namespace Reginald.Core.Helpers
         /// <returns>A BitmapImage based on the URI string.</returns>
         public static BitmapImage MakeFromUri(string uriString)
         {
-            BitmapImage icon = new();
-            icon.BeginInit();
-            icon.UriSource = new Uri(uriString);
-            icon.CacheOption = BitmapCacheOption.OnLoad;
-            icon.DecodePixelWidth = 75;
-            icon.DecodePixelHeight = 75;
-            icon.EndInit();
-            icon.Freeze();
-            return icon;
+            try
+            {
+                BitmapImage icon = new();
+                icon.BeginInit();
+                icon.UriSource = new Uri(uriString);
+                icon.CacheOption = BitmapCacheOption.OnLoad;
+                icon.DecodePixelWidth = 75;
+                icon.DecodePixelHeight = 75;
+                icon.EndInit();
+                icon.Freeze();
+                return icon;
+            }
+            catch (UriFormatException)
+            {
+                return null;
+            }
         }
 
         public static BitmapImage MakeHigherQualityFromUri(string uriString)

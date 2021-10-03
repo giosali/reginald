@@ -44,14 +44,7 @@ namespace Reginald.ViewModels
         {
             Task assignmentTask = Task.Run(() =>
             {
-                applicationImagesDirectoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
-                applicationsTxtFilePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
-                searchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
-                userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
-                specialKeywordDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSpecialKeywordFilename);
-                commandsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlCommandsFilename);
-                utilitiesDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUtilitiesFilename);
-                settingsDoc = XmlHelper.GetXmlDocument("Resources/MSSettings.xml", true);
+                SetDocuments();
             });
             Task<Dictionary<string, string>> applicationsDictTask = Task.Run(() =>
             {
@@ -65,6 +58,18 @@ namespace Reginald.ViewModels
             await assignmentTask;
             applicationsDict = await applicationsDictTask;
             await stylesTask;
+        }
+
+        private void SetDocuments()
+        {
+            applicationImagesDirectoryPath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.IconsDirectoryName);
+            applicationsTxtFilePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.TxtFilename);
+            searchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlKeywordFilename);
+            userSearchDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUserKeywordFilename);
+            specialKeywordDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSpecialKeywordFilename);
+            commandsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlCommandsFilename);
+            utilitiesDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlUtilitiesFilename);
+            settingsDoc = XmlHelper.GetXmlDocument("Resources/MSSettings.xml", true);
         }
 
         public void StyleSearchView()
@@ -94,6 +99,7 @@ namespace Reginald.ViewModels
                 {
                     window.Hide();
                     MousePosition = new();
+                    SetDocuments();
                     FileOperations.CacheApplications();
                     applicationsDict = Applications.MakeDictionary();
                 }
@@ -302,22 +308,23 @@ namespace Reginald.ViewModels
             {
                 if (Properties.Settings.Default.IncludeInstalledApplications)
                 {
-                    List<SearchResultModel> applications = new();
                     List<string> applicationNames = new();
-                    string format = @".*((?<![a-z]){0}.*)";
-                    Regex rx = new(string.Format(format, input), RegexOptions.IgnoreCase);
-
+                    string pattern = $@".*((?<![a-z]){input}.*)";
+                    Regex rx = new(pattern, RegexOptions.IgnoreCase);
                     using (StreamReader sr = new(applicationsTxtFilePath))
                     {
                         string fileContent = sr.ReadToEnd();
                         MatchCollection matches = rx.Matches(fileContent);
-                        foreach (Match match in matches)
+                        for (int i = 0; i < matches.Count; i++)
                         {
-                            applicationNames.Add(match.Value.Trim());
+                            applicationNames.Add(matches[i].Value.Trim());
                         }
                     }
-                    foreach (string name in applicationNames)
+
+                    List<SearchResultModel> applications = new();
+                    for (int i = 0; i < applicationNames.Count; i++)
                     {
+                        string name = applicationNames[i];
                         if (applicationsDict.TryGetValue(name, out string value))
                         {
                             applications.Add(new SearchResultModel(name, value, BitmapImageHelper.GetIcon(applicationImagesDirectoryPath, name)));
@@ -375,11 +382,9 @@ namespace Reginald.ViewModels
 
         private Task<List<SearchResultModel>> GetMathModels(string input)
         {
-            if (UserInput.IsMathExpression())
-            {
-                return Task.FromResult(SearchResultModel.MakeList(searchDoc, "__math", Category.Math, input, input.Eval()));
-            }
-            return Task.FromResult(new List<SearchResultModel>());
+            return UserInput.IsMathExpression()
+                ? Task.FromResult(SearchResultModel.MakeList(searchDoc, "__math", Category.Math, input, input.Eval()))
+                : Task.FromResult(new List<SearchResultModel>());
         }
 
         private CancellationTokenSource tokenSource;
@@ -450,7 +455,7 @@ namespace Reginald.ViewModels
                 IEnumerable<SearchResultModel> models = Array.Empty<SearchResultModel>();
                 foreach (string k in keywords)
                 {
-                    models = models.Concat(await SearchResultModel.MakeListForCommandsAsync(doc, description, k, Category.Notifier));
+                    models = models.Concat(await SearchResultModel.MakeListForCommandsAsync(doc, description, k, Category.Command));
                 }
                 return models;
             }
@@ -599,14 +604,27 @@ namespace Reginald.ViewModels
                         break;
                     }
 
-                case Category.Notifier:
-                    if (!string.IsNullOrEmpty(SelectedSearchResult.Text))
+                case Category.Command:
+                    switch (SelectedSearchResult.Command)
                     {
-                        ShowOrHide();
-                        string name = SelectedSearchResult.Name;
-                        string text = SelectedSearchResult.Text;
-                        await Task.Delay((int)SelectedSearchResult.Time * 1000);
-                        ToastNotifications.SendSimpleToastNotification(name, text);
+                        case Command.Timer:
+                            if (!string.IsNullOrEmpty(SelectedSearchResult.Text))
+                            {
+                                ShowOrHide();
+                                string name = SelectedSearchResult.Name;
+                                string text = SelectedSearchResult.Text;
+                                await Task.Delay((int)SelectedSearchResult.Time * 1000);
+                                ToastNotifications.SendSimpleToastNotification(name, text);
+                            }
+                            break;
+
+                        case Command.Quit:
+                            ShowOrHide();
+                            Processes.QuitProcess(SelectedSearchResult.ParsingName);
+                            break;
+
+                        default:
+                            break;
                     }
                     break;
 

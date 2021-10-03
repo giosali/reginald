@@ -39,7 +39,7 @@ namespace Reginald.ViewModels
             string description = string.Empty;
             foreach (string attribute in attributes)
             {
-                commands = commands.Concat(await SearchResultModel.MakeListForCommandsAsync(doc, description, attribute, Category.Notifier));
+                commands = commands.Concat(await SearchResultModel.MakeListForCommandsAsync(doc, description, attribute, Category.Command, true));
             }
             models.AddRange(commands);
         }
