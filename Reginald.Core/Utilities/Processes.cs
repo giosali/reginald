@@ -71,7 +71,7 @@ namespace Reginald.Core.Utilities
                     string fileDescription = process.MainModule.FileVersionInfo.FileDescription;
                     if (fileDescription == name)
                     {
-                        process.CloseMainWindow();
+                        _ = process.CloseMainWindow();
                         process.Close();
                     }
                 }
