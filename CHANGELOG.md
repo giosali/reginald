@@ -12,8 +12,7 @@ All notable changes to this project will be documented in this file.
 
 * Fixed issue where timer messages would become overridden by other search results
 * Fixed issue where the application would crash if alphabetical characters were provided after the timer command instead of a number
-
-* Fixed issue where fields would disappear from settings app if they were disenabled
+* Fixed issue where fields would disappear from settings app if they were disabled
 
 ## v0.6.1
 
