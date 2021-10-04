@@ -33,7 +33,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\Reginald-0.6.1.msi"
+        "OutputFilename" = "8:Debug\\Reginald-0.7.0.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -70,7 +70,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Reginald-0.6.1.msi"
+        "OutputFilename" = "8:Release\\Reginald-0.7.0.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -94,10 +94,10 @@
                     "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
                     "ProductCode" = "8:.NETFramework,Version=v4.7.2"
                     }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.5.0.x86"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.5.0.x64"
                     {
-                    "Name" = "8:.NET Desktop Runtime 5.0.7 (x86)"
-                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.5.0.x86"
+                    "Name" = "8:.NET Desktop Runtime 5.0.7 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.5.0.x64"
                     }
                 }
             }
@@ -171,7 +171,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_89A7B62951EB4AFC85159B6A4CFE259A"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -208,15 +208,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Reginald"
-        "ProductCode" = "8:{EBADAA0F-E2C7-45E6-B186-3EA9E06BF501}"
-        "PackageCode" = "8:{93DD1AD5-24E6-43CE-951C-12105291646A}"
+        "ProductCode" = "8:{E8C131B2-8151-4BBB-B964-34924C111758}"
+        "PackageCode" = "8:{DCA7381F-4C52-4C3A-8926-F0207B698BFB}"
         "UpgradeCode" = "8:{16C43A52-0921-4B50-80CC-FC93372355D7}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:0.6.1"
+        "ProductVersion" = "8:0.7.0"
         "Manufacturer" = "8:Reginald"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -230,7 +230,7 @@
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
-        "TargetPlatform" = "3:0"
+        "TargetPlatform" = "3:1"
         "PreBuildEvent" = "8:"
         "PostBuildEvent" = "8:"
         "RunPostBuildEvent" = "3:0"
@@ -758,7 +758,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0209D39A4ECB4238BF3F152E86DD547B"
             {
-            "SourcePath" = "8:..\\Reginald\\bin\\Release\\net5.0-windows10.0.18362.0\\publish\\Reginald.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_89A7B62951EB4AFC85159B6A4CFE259A"
