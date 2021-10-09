@@ -36,6 +36,13 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
+
+                    <MenuItem Header="Enabled"
+                              IsCheckable="True"
+                              IsChecked="{Binding IsEnabled}"/>
+
+                    <Separator/>
+                    
                     <MenuItem Header="Exit"
                               Command="hc:ControlCommands.ShutdownApp"/>
                 </ContextMenu>

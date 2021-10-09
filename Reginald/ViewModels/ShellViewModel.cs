@@ -15,43 +15,14 @@ namespace Reginald.ViewModels
             OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
         }
 
-        public static SearchViewModel SearchViewModel { get; set; } = new();
-
-        public ICommand OpenWindowCommand { get; set; }
-
-        private bool CanExecuteMethod(object parameter)
-        {
-            return true;
-        }
-
-        private async void ExecuteMethod(object parameter)
-        {
-            IWindowManager manager = new WindowManager();
-            if (!SearchViewModel.IsActive)
-            {
-                await manager.ShowWindowAsync(SearchViewModel);
-            }
-            else
-            {
-                SearchViewModel.UserInput = string.Empty;
-                SearchViewModel.ShowOrHide();
-            }
-        }
-
-        public void OpenSettingsMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            IWindowManager manager = new WindowManager();
-            _ = manager.ShowWindowAsync(new SettingsViewModel(SearchViewModel.StyleSearchView));
-        }
-
         private static void SetUpIO()
         {
             // Creates "Reginald" in %AppData%
-            Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
+            _ = Directory.CreateDirectory(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName));
 
             // Creates "Reginald\UserIcons" in %AppData%
             string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.UserIconsDirectoryName);
-            Directory.CreateDirectory(path);
+            _ = Directory.CreateDirectory(path);
 
             // Creates and updates "Reginald\Settings.xml" in %AppData%
             string settingsXml = FileOperations.GetSettingsXml();
@@ -83,6 +54,49 @@ namespace Reginald.ViewModels
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
+        }
+
+        private bool _isEnabled = true;
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                _isEnabled = value;
+                NotifyOfPropertyChange(() => IsEnabled);
+            }
+        }
+
+        public static SearchViewModel SearchViewModel { get; set; } = new();
+
+        public ICommand OpenWindowCommand { get; set; }
+
+        private bool CanExecuteMethod(object parameter)
+        {
+            return true;
+        }
+
+        private async void ExecuteMethod(object parameter)
+        {
+            if (IsEnabled)
+            {
+                IWindowManager manager = new WindowManager();
+                if (!SearchViewModel.IsActive)
+                {
+                    await manager.ShowWindowAsync(SearchViewModel);
+                }
+                else
+                {
+                    SearchViewModel.UserInput = string.Empty;
+                    SearchViewModel.ShowOrHide();
+                }
+            }
+        }
+
+        public void OpenSettingsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            IWindowManager manager = new WindowManager();
+            _ = manager.ShowWindowAsync(new SettingsViewModel(SearchViewModel.StyleSearchView));
         }
     }
 }
