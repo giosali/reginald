@@ -13,7 +13,7 @@
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         fw:AcrylicWindow.Enabled="True"
         fw:AcrylicWindow.TintColor="{Binding Theme.BackgroundColor}"
-        fw:AcrylicWindow.TintOpacity="0.8"
+        fw:AcrylicWindow.TintOpacity="{Binding Theme.TintOpacity}"
         fw:AcrylicWindow.NoiseOpacity="0"
         fw:AcrylicWindow.AcrylicWindowStyle="None"
                   
@@ -49,20 +49,29 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Image Source="{Binding Icon}"
-                           Width="30" Height="30"
+                           Width="30"
+                           Height="30"
                            Margin="0 0 12.5 0"
                            Grid.Column="0"/>
                     <StackPanel VerticalAlignment="Center"
                                 Margin="0 0 0 5"
-                                Grid.Column="1" Grid.ColumnSpan="2">
-                        <TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis"
-                                   Background="Transparent" Foreground="{Binding ElementName=searchWindow, Path=DataContext.Theme.DescriptionColor}"
-                                   FontSize="24" FontWeight="Light"
-                                   Margin="0" Padding="0"/>
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2">
+                        <TextBlock Text="{Binding Description}"
+                                   TextTrimming="CharacterEllipsis"
+                                   Background="Transparent"
+                                   Foreground="{Binding ElementName=searchWindow, Path=DataContext.Theme.DescriptionColor}"
+                                   FontSize="24"
+                                   FontWeight="Light"
+                                   Margin="0"
+                                   Padding="0"/>
                         <TextBlock Text="{Binding Alt}"
-                                   Background="Transparent" Foreground="{Binding ElementName=searchWindow, Path=DataContext.Theme.AltColor}"
-                                   FontSize="12" FontWeight="Light"
-                                   Margin="0" Padding="0"/>
+                                   Background="Transparent"
+                                   Foreground="{Binding ElementName=searchWindow, Path=DataContext.Theme.AltColor}"
+                                   FontSize="12"
+                                   FontWeight="Light"
+                                   Margin="0"
+                                   Padding="0"/>
                     </StackPanel>
                     <!--<TextBlock Text="{Binding Count}"
                                Background="Transparent" Foreground="Gray"
@@ -74,26 +83,32 @@
             </DataTemplate>
 
             <!-- ControlTemplate for ListBoxItems-->
-            <ControlTemplate x:Key="SearchResultsListBoxItems" TargetType="ListBoxItem">
+            <ControlTemplate x:Key="SearchResultsListBoxItems"
+                             TargetType="ListBoxItem">
                 <Border x:Name="listBoxItemBorder"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}"
-                            SnapsToDevicePixels="True">
-                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}"
+                        SnapsToDevicePixels="True">
+                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                       Content="{TemplateBinding ContentControl.Content}"
                                       ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"/>
                 </Border>
                 <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger Property="IsMouseOver"
+                             Value="True">
                         <Setter TargetName="listBoxItemBorder"
-                                Property="Background" Value="Transparent"/>
+                                Property="Background"
+                                Value="Transparent"/>
                     </Trigger>
-                    <Trigger Property="IsSelected" Value="True">
+                    <Trigger Property="IsSelected"
+                             Value="True">
                         <Setter TargetName="listBoxItemBorder"
-                                Property="Background" Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.HighlightColor}"/>
+                                Property="Background"
+                                Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.HighlightColor}"/>
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -102,25 +117,42 @@
             <DataTemplate x:Key="SpecialSearchResultItemTemplate">
                 <DataTemplate.Resources>
                     <Style TargetType="TextBox">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="IsReadOnly" Value="True"/>
+                        <Setter Property="VerticalAlignment"
+                                Value="Center"/>
+                        <Setter Property="Background"
+                                Value="Transparent"/>
+                        <Setter Property="BorderThickness"
+                                Value="0"/>
+                        <Setter Property="IsReadOnly"
+                                Value="True"/>
                     </Style>
-                    <Style x:Key="SubTextBox" TargetType="TextBox">
-                        <Setter Property="Foreground" Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.SpecialSubColor}"/>
-                        <Setter Property="FontWeight" Value="Light"/>
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="IsReadOnly" Value="True"/>
+                    <Style x:Key="SubTextBox"
+                           TargetType="TextBox">
+                        <Setter Property="Foreground"
+                                Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.SpecialSubColor}"/>
+                        <Setter Property="FontWeight"
+                                Value="Light"/>
+                        <Setter Property="FontSize"
+                                Value="16"/>
+                        <Setter Property="Background"
+                                Value="Transparent"/>
+                        <Setter Property="BorderThickness"
+                                Value="0"/>
+                        <Setter Property="IsReadOnly"
+                                Value="True"/>
                     </Style>
-                    <Style x:Key="MainTextBox" TargetType="TextBox">
-                        <Setter Property="Foreground" Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.SpecialMainColor}"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="IsReadOnly" Value="True"/>
+                    <Style x:Key="MainTextBox"
+                           TargetType="TextBox">
+                        <Setter Property="Foreground"
+                                Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.SpecialMainColor}"/>
+                        <Setter Property="VerticalAlignment"
+                                Value="Center"/>
+                        <Setter Property="Background"
+                                Value="Transparent"/>
+                        <Setter Property="BorderThickness"
+                                Value="0"/>
+                        <Setter Property="IsReadOnly"
+                                Value="True"/>
                     </Style>
                 </DataTemplate.Resources>
                 <StackPanel>
@@ -130,18 +162,21 @@
                             Margin="0 0 0 10"/>
                     <!-- Row 1 -->
                     <DockPanel HorizontalAlignment="Stretch"
-                               Width="Auto" Height="Auto"
+                               Width="Auto"
+                               Height="Auto"
                                LastChildFill="True"
                                Margin="20 0">
                         <Image Source="{Binding Icon}"
-                               Width="70" Height="70"/>
+                               Width="70"
+                               Height="70"/>
                         <TextBox Text="{Binding Name}"
                                  Style="{StaticResource MainTextBox}"
                                  FontSize="32"
                                  Margin="20 0 0 0"/>
                         <TextBox Text="{Binding Description}"
                                  DockPanel.Dock="Right"
-                                 FontSize="18" FontWeight="Light"
+                                 FontSize="18"
+                                 FontWeight="Light"
                                  Foreground="{Binding ElementName=searchWindow, Path=DataContext.Theme.SpecialSecondaryColor}"/>
                         <Border/>
                     </DockPanel>
@@ -152,8 +187,10 @@
                         <Border.Style>
                             <Style TargetType="Border">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Major}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    <DataTrigger Binding="{Binding Major}"
+                                                 Value="{x:Null}">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -175,33 +212,40 @@
                         </DockPanel.Style>
                         <TextBox Text="{Binding Major}"
                                  Style="{StaticResource MainTextBox}"
-                                 FontSize="40" FontWeight="Bold"/>
+                                 FontSize="40"
+                                 FontWeight="Bold"/>
                         <TextBox Text="{Binding MajorTwo}"
                                  DockPanel.Dock="Right"
                                  Style="{StaticResource MainTextBox}"
-                                 FontSize="24" FontWeight="Light"/>
+                                 FontSize="24"
+                                 FontWeight="Light"/>
                         <Border/>
                     </DockPanel>
                     <!-- Row 4 -->
                     <DockPanel HorizontalAlignment="Stretch"
-                               Width="Auto" Height="Auto"
+                               Width="Auto"
+                               Height="Auto"
                                LastChildFill="True"
                                Margin="20 0">
                         <DockPanel.Style>
                             <Style TargetType="DockPanel">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Minor}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    <DataTrigger Binding="{Binding Minor}"
+                                                 Value="{x:Null}">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </DockPanel.Style>
                         <TextBox Text="{Binding Minor}"
-                                 FontSize="32" FontWeight="Light"
+                                 FontSize="32"
+                                 FontWeight="Light"
                                  Foreground="{Binding MinorTextBrush}"/>
                         <TextBox Text="{Binding MinorTwo}"
                                  DockPanel.Dock="Right"
-                                 FontSize="18" FontWeight="Light"
+                                 FontSize="18"
+                                 FontWeight="Light"
                                  Foreground="{Binding ElementName=searchWindow, Path=DataContext.Theme.SpecialSecondaryColor}"/>
                         <Border/>
                     </DockPanel>
@@ -209,14 +253,17 @@
                     <Border Margin="0 10"/>
                     <!-- Row 6 -->
                     <DockPanel HorizontalAlignment="Stretch"
-                               Width="Auto" Height="Auto"
+                               Width="Auto"
+                               Height="Auto"
                                LastChildFill="True"
                                Margin="20 0">
                         <DockPanel.Style>
                             <Style TargetType="DockPanel">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SubOne}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    <DataTrigger Binding="{Binding SubOne}"
+                                                 Value="{x:Null}">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -227,14 +274,17 @@
                     </DockPanel>
                     <!-- Row 7 -->
                     <DockPanel HorizontalAlignment="Stretch"
-                               Width="Auto" Height="Auto"
+                               Width="Auto"
+                               Height="Auto"
                                LastChildFill="True"
                                Margin="20 0">
                         <DockPanel.Style>
                             <Style TargetType="DockPanel">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SubTwo}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    <DataTrigger Binding="{Binding SubTwo}"
+                                                 Value="{x:Null}">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -251,10 +301,12 @@
 
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=UserInput}">
         <TextBox x:Name="UserInput"
-                 Background="Transparent" Foreground="{Binding Theme.InputColor}"
+                 Background="Transparent"
+                 Foreground="{Binding Theme.InputColor}"
                  CaretBrush="{Binding Theme.CaretColor}"
                  BorderThickness="0"
-                 FontSize="32" FontWeight="Light"
+                 FontSize="32"
+                 FontWeight="Light"
                  Padding="10 0"
                  VerticalContentAlignment="Center"
                  Height="{Binding ElementName=searchWindow, Path=MinHeight}">
@@ -317,9 +369,12 @@
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                     </Style.Triggers>
-                    <Setter Property="Padding" Value="10 0"/>
-                    <Setter Property="Height" Value="55"/>
-                    <Setter Property="Template" Value="{StaticResource SearchResultsListBoxItems}"/>
+                    <Setter Property="Padding"
+                            Value="10 0"/>
+                    <Setter Property="Height"
+                            Value="55"/>
+                    <Setter Property="Template"
+                            Value="{StaticResource SearchResultsListBoxItems}"/>
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
@@ -330,7 +385,6 @@
                       MaxHeight="330"
                       MaxWidth="600"
                       BorderThickness="0"
-                      Visibility="Visible">
-        </ItemsControl>
+                      Visibility="Visible"/>
     </StackPanel>
 </Window>

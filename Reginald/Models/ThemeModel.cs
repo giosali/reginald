@@ -27,6 +27,7 @@ namespace Reginald.Models
             Application.Current.Dispatcher.Invoke(() =>
             {
                 BackgroundColor = ColorHelper.FromString(node["BackgroundColor"]?.InnerText);
+                TintOpacity = double.Parse(node["TintOpacity"]?.InnerText);
                 InputColor = SolidColorBrushHelper.FromString(node["InputColor"]?.InnerText);
                 CaretColor = SolidColorBrushHelper.FromString(node["CaretColor"]?.InnerText);
                 DescriptionColor = SolidColorBrushHelper.FromString(node["DescriptionColor"]?.InnerText);
@@ -53,6 +54,7 @@ namespace Reginald.Models
         public bool IsEditable { get; set; }
 
         public Color BackgroundColor { get; set; }
+        public double TintOpacity { get; set; }
         public Brush InputColor { get; set; }
         public Brush CaretColor { get; set; }
         public Brush DescriptionColor { get; set; }
