@@ -56,7 +56,7 @@
 
   <ItemGroup>
     <PackageReference Include="Caliburn.Micro" Version="4.0.173" />
-    <PackageReference Include="FluentWPF" Version="0.10.0" />
+    <PackageReference Include="FluentWPF" Version="0.9.0" />
     <PackageReference Include="HandyControls" Version="3.3.7" />
     <PackageReference Include="NHotkey.Wpf" Version="2.1.0" />
   </ItemGroup>
