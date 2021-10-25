@@ -5,6 +5,7 @@
 		<IsEditable>false</IsEditable>
 		
 		<BackgroundColor>#171717</BackgroundColor>
+		<TintOpacity>0.8</TintOpacity>
 		<InputColor>White</InputColor>
 		<CaretColor>DarkGray</CaretColor>
 		<DescriptionColor>White</DescriptionColor>
@@ -22,6 +23,7 @@
 		<IsEditable>false</IsEditable>
 		
 		<BackgroundColor>#DDDDDD</BackgroundColor>
+		<TintOpacity>0.8</TintOpacity>
 		<InputColor>Black</InputColor>
 		<CaretColor>Gray</CaretColor>
 		<DescriptionColor>Black</DescriptionColor>
@@ -33,5 +35,23 @@
 		<SpecialSecondaryColor>#2C2C2C</SpecialSecondaryColor>
 		<SpecialSubColor>#222222</SpecialSubColor>
 		<SpecialBorderColor>#485253</SpecialBorderColor>
+	</Theme>
+	<Theme Name="Black Cherry" Author="Reginald">
+		<GUID>fea6b940-29e7-4e02-9f85-154e691789ca</GUID>
+		<IsEditable>false</IsEditable>
+
+		<BackgroundColor>Black</BackgroundColor>
+		<TintOpacity>1.0</TintOpacity>
+		<InputColor>White</InputColor>
+		<CaretColor>DarkRed</CaretColor>
+		<DescriptionColor>White</DescriptionColor>
+		<AltColor>LightGray</AltColor>
+		<BorderColor>Black</BorderColor>
+		<HighlightColor>#99FF0000</HighlightColor>
+
+		<SpecialMainColor>White</SpecialMainColor>
+		<SpecialSecondaryColor>LightGray</SpecialSecondaryColor>
+		<SpecialSubColor>DarkGray</SpecialSubColor>
+		<SpecialBorderColor>#B7ADAC</SpecialBorderColor>
 	</Theme>
 </Themes>
