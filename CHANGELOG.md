@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.8.0
+
+### Added
+
+* Added ability to to disable the application through the system tray icon
+* Added fluent support for Windows 11
+* Added new theme: "Black Cherry"
+
 ## v0.7.0
 
 ### Added

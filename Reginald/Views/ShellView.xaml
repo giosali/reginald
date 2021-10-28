@@ -22,7 +22,7 @@
     </Window.InputBindings>
     
     <hc:TransitioningContentControl>
-        <hc:NotifyIcon Text="Reginald v0.7.0"
+        <hc:NotifyIcon Text="Reginald v0.8.0"
                        Icon="pack://application:,,,/Reginald;component/Reginald.ico">
             <hc:NotifyIcon.ContextMenu>
                 <ContextMenu>
