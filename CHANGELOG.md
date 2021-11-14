@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.9.0
+
+### Added
+
+* Added a new and exciting feature: text expansions
+  * You can configure these within the settings panel of the app under `Expansions`
+
 ## v0.8.0
 
 ### Added
