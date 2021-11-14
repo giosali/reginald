@@ -1,7 +1,10 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
+using Newtonsoft.Json;
 using Reginald.Core.Base;
+using Reginald.Core.DataModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -501,6 +504,38 @@ namespace Reginald.Core.IO
                 }
                 doc.Save(path);
             }
+        }
+
+        public static void WriteFile(string filename, string json = null)
+        {
+            // If the file doesn't exist, create it
+            string filePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, filename);
+            if (!File.Exists(filePath))
+            {
+                using FileStream stream = File.Create(filePath);
+            }
+
+            // Write contents to the file
+            if (json is not null)
+            {
+                File.WriteAllText(filePath, json);
+            }
+        }
+
+        public static List<ExpansionDataModel> GetExpansionData(string filename)
+        {
+            // Check if settings file exists
+            string filePath = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, filename);
+            List<ExpansionDataModel> models = new();
+            if (File.Exists(filePath))
+            {
+                // if so, extract its contents
+                using StreamReader sr = new(filePath);
+                string json = sr.ReadToEnd();
+                models = JsonConvert.DeserializeObject<List<ExpansionDataModel>>(json);
+            }
+
+            return models;
         }
     }
 }

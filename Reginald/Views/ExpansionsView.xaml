@@ -1,0 +1,234 @@
+﻿<UserControl x:Class="Reginald.Views.ExpansionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Reginald.Views"
+             xmlns:cal="http://caliburnmicro.com"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TextBoxStyle"
+                   TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource TextBoxExtend}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontWeight" Value="Light"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <ScrollViewer x:Name="ScrollViewer"
+                  Margin="0 0 0 20">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewMouseWheel">
+                <cal:ActionMessage MethodName="ScrollViewer_PreviewMouseWheel">
+                    <cal:Parameter Value="{Binding ElementName=ScrollViewer}"/>
+                    <cal:Parameter Value="$eventargs"/>
+                </cal:ActionMessage>
+            </i:EventTrigger>
+
+            <i:EventTrigger EventName="MouseLeftButtonDown">
+                <cal:ActionMessage MethodName="ScrollViewer_MouseLeftButtonDown">
+                    <cal:Parameter Value="$this"/>
+                    <cal:Parameter Value="$eventargs"/>
+                </cal:ActionMessage>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
+        <hc:UniformSpacingPanel Spacing="24"
+                                Orientation="Vertical">
+            <TextBlock Text="Expansions"
+                       Style="{StaticResource HeaderOneTextBlockStyle}"/>
+            <TextBlock Text="Text expansions are useful for preventing you from repeatedly typing the same thing. When characters that you type match one of your triggers, that text will be replaced by some other text that you designate."
+                       Style="{StaticResource NormalTextBlockStyle}"/>
+            <hc:UniformSpacingPanel Spacing="6"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                <TextBlock Text="You can activate an expansion by typing a dollar sign ($) and then your trigger."
+                           Style="{StaticResource NormalTextBlockStyle}"/>
+                <Label Content="ⓘ"
+                       Style="{DynamicResource LabelPrimary}">
+                    <hc:Poptip.Instance>
+                        <hc:Poptip>
+                            <hc:Poptip.Content>
+                                <TextBlock>
+                                    <Run Text="For example, if you have a trigger called 'hello',"/>
+                                    <LineBreak/>
+                                    <Run Text="you can trigger the exapnsion by typing: $hello"/>
+                                </TextBlock>
+                            </hc:Poptip.Content>
+                        </hc:Poptip>
+                    </hc:Poptip.Instance>
+                </Label>
+            </hc:UniformSpacingPanel>
+
+            <hc:UniformSpacingPanel Spacing="6"
+                                    Orientation="Vertical">
+                <TextBlock Text="Your expansions"
+                           Style="{StaticResource HeaderTwoTextBlockStyle}"/>
+
+                <DataGrid x:Name="Expansions"
+                          SelectedItem="{Binding Path=SelectedExpansion, Mode=TwoWay}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CanUserReorderColumns="False"
+                          SelectionMode="Single"
+                          HeadersVisibility="Column">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="LostFocus">
+                            <cal:ActionMessage MethodName="Expansions_LostFocus">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+
+                        <i:EventTrigger EventName="BeginningEdit">
+                            <cal:ActionMessage MethodName="Expansions_BeginningEdit">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+
+                        <i:EventTrigger EventName="CellEditEnding">
+                            <cal:ActionMessage MethodName="Expansions_CellEditEnding">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+
+                    </i:Interaction.Triggers>
+
+                    <DataGrid.ContextMenu>
+                        <ContextMenu >
+                            <ContextMenu.Style>
+                                <Style TargetType="{x:Type ContextMenu}"
+                                       BasedOn="{StaticResource ContextMenuBaseStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedExpansion}"
+                                                     Value="{x:Null}">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContextMenu.Style>
+
+                            <MenuItem Header="Delete">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <cal:ActionMessage MethodName="DeleteMenuItem_Click">
+                                            <cal:Parameter Value="$this"/>
+                                            <cal:Parameter Value="$eventargs"/>
+                                        </cal:ActionMessage>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                            </MenuItem>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Trigger"
+                                            Binding="{Binding Trigger, UpdateSourceTrigger=LostFocus}"
+                                            IsReadOnly="False"
+                                            Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="TextBlock.TextWrapping"
+                                            Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="Replacement"
+                                            Binding="{Binding Replacement, UpdateSourceTrigger=LostFocus}"
+                                            IsReadOnly="False"
+                                            Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="TextBlock.TextWrapping"
+                                            Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        
+                    </DataGrid.Columns>
+                </DataGrid>
+            </hc:UniformSpacingPanel>
+
+            <hc:UniformSpacingPanel Spacing="12"
+                                    Orientation="Vertical">
+                <TextBlock Text="Add an expansion"
+                           Style="{StaticResource HeaderTwoTextBlockStyle}"/>
+
+                <TextBox x:Name="Trigger"
+                         Style="{StaticResource TextBoxStyle}"
+                         hc:InfoElement.TitlePlacement="Left"
+                         hc:InfoElement.Title="Trigger [a-z0-9]:"/>
+                
+                <TextBox x:Name="Replacement"
+                         Style="{StaticResource TextBoxStyle}"
+                         hc:InfoElement.TitlePlacement="Left"
+                         hc:InfoElement.Title="Replacement:"/>
+                
+                <Button Content="Add"
+                        HorizontalAlignment="Right">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="AddButton_Click">
+                                <cal:Parameter Value="$this"/>
+                                <cal:Parameter Value="$eventargs"/>
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}"
+                               BasedOn="{StaticResource ButtonPrimary}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Trigger}"
+                                            Value="{x:Null}">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                    <Setter Property="Cursor"
+                                            Value="No"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Trigger}"
+                                             Value="">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                    <Setter Property="Cursor"
+                                            Value="No"/>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Replacement}"
+                                             Value="{x:Null}">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                    <Setter Property="Cursor"
+                                            Value="No"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Replacement}"
+                                             Value="">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                    <Setter Property="Cursor"
+                                            Value="No"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </hc:UniformSpacingPanel>
+
+        </hc:UniformSpacingPanel>
+            
+    </ScrollViewer>
+</UserControl>

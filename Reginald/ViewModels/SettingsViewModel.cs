@@ -1,7 +1,6 @@
 ﻿using Caliburn.Micro;
 using HandyControl.Controls;
 using HandyControl.Data;
-using Reginald.Models;
 using System.Threading.Tasks;
 
 namespace Reginald.ViewModels
@@ -47,6 +46,10 @@ namespace Reginald.ViewModels
 
                 case "Utilities":
                     await ActivateItemAsync(new UtilitiesViewModel());
+                    break;
+
+                case "Expansions":
+                    await ActivateItemAsync(new ExpansionsViewModel());
                     break;
 
                 case "Miscellaneous":

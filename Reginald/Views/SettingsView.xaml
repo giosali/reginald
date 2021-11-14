@@ -150,6 +150,24 @@
                                FontFamily="Segoe MDL2 Assets"/>
                 </hc:SideMenuItem.Icon>
             </hc:SideMenuItem>
+            
+            <!-- ## Expansions -->
+            <hc:SideMenuItem x:Name="Expansions"
+                             Header="Expansions">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Selected">
+                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
+                            <cal:Parameter Value="{Binding ElementName=Expansions}"/>
+                            <cal:Parameter Value="$eventargs"/>
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <hc:SideMenuItem.Icon>
+                    <TextBlock Text="&#xE71D;"
+                               FontFamily="Segoe MDL2 Assets"/>
+                </hc:SideMenuItem.Icon>
+            </hc:SideMenuItem>
 
             <!-- ## Miscellaneous -->
             <hc:SideMenuItem x:Name="Miscellaneous"

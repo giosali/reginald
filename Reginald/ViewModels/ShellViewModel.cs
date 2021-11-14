@@ -1,9 +1,11 @@
 ﻿using Caliburn.Micro;
 using Reginald.Commands;
 using Reginald.Core.IO;
+using Reginald.Core.InputInjection;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using static Reginald.Core.Enums.KeyboardHookEnums;
 
 namespace Reginald.ViewModels
 {
@@ -13,6 +15,9 @@ namespace Reginald.ViewModels
         {
             SetUpIO();
             OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
+
+            KeyboardHook keyboardHook = new(Hook.Expansion);
+            keyboardHook.Add();
         }
 
         private static void SetUpIO()
@@ -54,6 +59,9 @@ namespace Reginald.ViewModels
 
             // Creates "Reginald\UserSearch.xml" in %AppData%
             FileOperations.MakeUserKeywordsXmlFile();
+
+            // Creates "Reginald\Expansions.json" in %AppData%
+            FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename);
         }
 
         private bool _isEnabled = true;
