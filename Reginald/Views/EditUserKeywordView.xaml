@@ -255,7 +255,8 @@
                         CornerRadius="5"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Width="75" Height="75"
+                        Width="75"
+                        Height="75"
                         Cursor="Hand">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
@@ -267,7 +268,8 @@
                     </i:Interaction.Triggers>
                     <StackPanel VerticalAlignment="Center">
                         <Image Source="{Binding SelectedKeywordSearchResult.Icon}"
-                               Width="50" Height="50"
+                               Width="50"
+                               Height="50"
                                VerticalAlignment="Center"/>
                     </StackPanel>
                 </Border>
@@ -276,7 +278,8 @@
             <!-- ## Save Button -->
             <Button x:Name="SaveButton"
                     Content="Save"
-                    Grid.Row="15" Grid.Column="2"
+                    Grid.Row="15"
+                    Grid.Column="2"
                     HorizontalAlignment="Right">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -287,22 +290,33 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Button.Style>
-                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonPrimary}">
+                    <Style TargetType="{x:Type Button}"
+                           BasedOn="{StaticResource ButtonPrimary}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Text.Length, ElementName=UrlTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                <Setter Property="IsEnabled" Value="False"/>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=UrlTextBox, UpdateSourceTrigger=PropertyChanged}"
+                                         Value="0">
+                                <Setter Property="IsEnabled"
+                                        Value="False"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Text.Length, ElementName=KeywordTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                <Setter Property="IsEnabled" Value="False"/>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=KeywordTextBox, UpdateSourceTrigger=PropertyChanged}"
+                                         Value="0">
+                                <Setter Property="IsEnabled"
+                                        Value="False"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Text.Length, ElementName=DescriptionTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                <Setter Property="IsEnabled" Value="False"/>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=DescriptionTextBox, UpdateSourceTrigger=PropertyChanged}"
+                                         Value="0">
+                                <Setter Property="IsEnabled"
+                                        Value="False"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Text.Length, ElementName=FillerTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                <Setter Property="IsEnabled" Value="False"/>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=FillerTextBox, UpdateSourceTrigger=PropertyChanged}"
+                                         Value="0">
+                                <Setter Property="IsEnabled"
+                                        Value="False"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Text.Length, ElementName=SubdescriptionTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                <Setter Property="IsEnabled" Value="False"/>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=SubdescriptionTextBox, UpdateSourceTrigger=PropertyChanged}"
+                                         Value="0">
+                                <Setter Property="IsEnabled"
+                                        Value="False"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
