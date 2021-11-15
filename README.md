@@ -42,10 +42,13 @@
     + [HTTP](#http)
   * [Special Keywords](#special-keywords)
   * [Commands](#commands)
+  * [Text Expansions](#text-expansions)
   * [Key Bindings](#key-bindings)
   * [Dark Mode & Light Mode](#dark-mode---light-mode)
 - [Installation](#installation)
   * [Microsoft Defender Smartscreen Message](#microsoft-defender-smartscreen-message)
+    + [How to Bypass It](#how-to-bypass-it)
+    + [Why Is This Appearing?](#why-is-this-appearing-)
 - [Issues and Suggestions](#issues-and-suggestions)
 
 ## Features
@@ -143,6 +146,22 @@ Reginald comes with keywords that sometimes require additional input for them to
 | ---------- | ----------------- |
 | timer      | Set up a reminder |
 
+### Text Expansions
+
+Text expansions allow you to save time by helping you prevent repeatedly typing the same text. When the text you type matches a *trigger*, that text will be replaced by replacement text designated by you.
+
+<p align="center">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/expansion_preview.gif" width="400">
+</p>
+
+Expansions can only be called by typing a dollar sign ($) and then the trigger.
+
+To get started, go to the `Expansions` panel in the settings portion of the application. You'll be able to create an expansion by entering a trigger and the replacement text that will replace the trigger.
+
+```
+ℹ️ NOTE: Triggers should only consist of lowercase letters and/or numbers
+```
+
 ### Key Bindings
 
 Don't like using <kbd>Alt</kbd> + <kbd>Space</kbd>? No problem. Feel free to change it to something more comfortable and suitable for you through the settings panel.
@@ -181,8 +200,8 @@ There's a chance you may receive the following message while attempting to insta
 
 It's easy to get around the Smartscreen message. All you need to do is:
 
-1. Click on `More info`
-2. Click on `Run anyway`
+1. Click on `More info` in the Smartscreen window
+2. And then click on `Run anyway`
 
 Once you do that, you should be able to install Reginald free of any issues.
 
