@@ -5,16 +5,48 @@
 </p>
 
 <p align="center">
-	Reginald is an application for Windows 10 designed to make your life easier and more productive.	
+	Reginald is an application launcher and general productivity application designed for Windows 10 and Windows 11.	
 </p>
 
 <p align="center">
-  <img alt="ci workflow" src="https://github.com/giosali/reginald/actions/workflows/ci.yml/badge.svg">
-  <img alt="license" src="https://img.shields.io/github/license/giosali/reginald">
-  <img alt="version" src="https://img.shields.io/github/v/release/giosali/reginald">
-  <img alt="os" src="https://img.shields.io/badge/Windows-0078D6?style=flat&logo=windows&logoColor=white">
-  <img alt="language" src="https://img.shields.io/badge/c%23-%23239120.svg?style=flat&logo=c-sharp&logoColor=white">
+	<a href="https://github.com/giosali/reginald/releases">
+		<img src="https://img.shields.io/badge/Windows 10-0078D6?style=flat&logo=windows&logoColor=white" alt="Windows 10">
+	</a>
+	<a href="https://github.com/giosali/reginald/releases">
+		<img src="https://img.shields.io/badge/-Windows%2011-1976D2.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAEs2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iCiAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgZXhpZjpQaXhlbFhEaW1lbnNpb249IjI1NiIKICAgZXhpZjpQaXhlbFlEaW1lbnNpb249IjI1NiIKICAgZXhpZjpDb2xvclNwYWNlPSIxIgogICB0aWZmOkltYWdlV2lkdGg9IjI1NiIKICAgdGlmZjpJbWFnZUxlbmd0aD0iMjU2IgogICB0aWZmOlJlc29sdXRpb25Vbml0PSIyIgogICB0aWZmOlhSZXNvbHV0aW9uPSI3Mi4wIgogICB0aWZmOllSZXNvbHV0aW9uPSI3Mi4wIgogICBwaG90b3Nob3A6Q29sb3JNb2RlPSIzIgogICBwaG90b3Nob3A6SUNDUHJvZmlsZT0ic1JHQiBJRUM2MTk2Ni0yLjEiCiAgIHhtcDpNb2RpZnlEYXRlPSIyMDIxLTExLTEzVDIzOjE1OjMzLTA2OjAwIgogICB4bXA6TWV0YWRhdGFEYXRlPSIyMDIxLTExLTEzVDIzOjE1OjMzLTA2OjAwIj4KICAgPHhtcE1NOkhpc3Rvcnk+CiAgICA8cmRmOlNlcT4KICAgICA8cmRmOmxpCiAgICAgIHN0RXZ0OmFjdGlvbj0icHJvZHVjZWQiCiAgICAgIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFmZmluaXR5IFBob3RvIDEuOC41IgogICAgICBzdEV2dDp3aGVuPSIyMDIxLTExLTEzVDIzOjE1OjMzLTA2OjAwIi8+CiAgICA8L3JkZjpTZXE+CiAgIDwveG1wTU06SGlzdG9yeT4KICA8L3JkZjpEZXNjcmlwdGlvbj4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cjw/eHBhY2tldCBlbmQ9InIiPz5nSMBlAAABgWlDQ1BzUkdCIElFQzYxOTY2LTIuMQAAKJF1kc8rRFEUxz/zEDGMYmFhMQmrIT9qYmMx8quwmBllsHnz5peaH6/3ZtJkq2wVJTZ+LfgL2CprpYiU7JQ1sUHPeTNTM8mc27nnc7/3ntO954ISTGops3YAUums4Z/yuRdDS+76F5pooQ4FRdVMfS4wGaSqfd7jsONtn12r+rl/rSkSNTVwNAiPabqRFZ4Wnl3L6jbvCLdrCTUifCbsMeSCwne2Hi7yq83xIn/bbAT946C0CrvjFRyuYC1hpITl5XSnkjmtdB/7Jc5oeiEgsUu8ExM/U/hwM8ME43gZZFRmL30M0S8rquQPFPLnyUiuJrNOHoNV4iTI4hE1J9WjEmOiR2Ukydv9/9tXMzY8VKzu9EHds2W990D9NvxsWdbXkWX9HEPNE1ymy/mZQxj5EH2rrHUfgGsDzq/KWngXLjah41FXDbUg1YgrsRi8nUJzCNpuoHG52LPSPicPEFyXr7qGvX3olfOulV/c12en8R36twAAAAlwSFlzAAALEwAACxMBAJqcGAAAAzhJREFUeJzt27FRxDAQQFGLoTAKoBso464bCrjOloQYAnk8x/z3YnlnA+tnOg4AAAAAAAAAAAAAAAAAAADg2azdATMzZyzCJe5rrc/fDszM7TiOj4v2YdNaa+sOv5y1CPD/CACECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCECQCEvZ4w437CDK7xOOkMAAAAAAAAAABPZu0OmJnbGYtwicda6+u3AzPzfhzH2zXrsGut9bn1/e4CMzO7M7jM/a8f5ifoHxftw6a11tYd9hYAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAwgQAAAAAAAAAAAAAAAAAAAAAAJ7IN8OVHr2liargAAAAAElFTkSuQmCC" alt="Windows 11">
+	</a>
 </p>
+
+<p align="center">
+	<a href="https://github.com/giosali/reginald/actions/workflows/ci.yml">
+		<img src="https://github.com/giosali/reginald/actions/workflows/ci.yml/badge.svg" alt="CI Workflow">
+	</a>
+	<a href="https://github.com/giosali/reginald/blob/main/LICENSE">
+		<img src="https://img.shields.io/github/license/giosali/reginald" alt="MIT License">
+	</a>
+	<a href="https://github.com/giosali/reginald/releases">
+		<img src="https://img.shields.io/github/v/release/giosali/reginald" alt="Version">
+	</a>
+	<a href="https://github.com/giosali/reginald/search?l=c%23">
+		<img src="https://img.shields.io/badge/c%23-%23239120.svg?style=flat&logo=c-sharp&logoColor=white" alt="C#">
+	</a>
+</p>
+
+## Table of Contents
+
+- [Features](#features)
+  * [Application Launcher](#application-launcher)
+  * [Calculations](#calculations)
+  * [Web Searches](#web-searches)
+    + [Keywords](#keywords)
+    + [HTTP](#http)
+  * [Special Keywords](#special-keywords)
+  * [Commands](#commands)
+  * [Key Bindings](#key-bindings)
+  * [Dark Mode & Light Mode](#dark-mode---light-mode)
+- [Installation](#installation)
+  * [Microsoft Defender Smartscreen Message](#microsoft-defender-smartscreen-message)
+- [Issues and Suggestions](#issues-and-suggestions)
 
 ## Features
 
@@ -129,7 +161,13 @@ Reginald uses a dark mode by default for the search window but if you prefer a l
 
 ## Installation
 
-In order to install Reginald, you can head over to the [Releases](https://github.com/giosali/reginald/releases) section of the repository, find the latest release, and click on the `Reginald-x.x.x.msi` installer file under `Assets`. Once you've downloaded the installer, open it and follow the installer's instructions. After that, you're all set to use it!
+In order to install Reginald, head over to the [Releases](https://github.com/giosali/reginald/releases) section of the repository and within the latest release, you'll be able to find the installer file under `Assets`. The name of the installer file should look similar to `Reginald-x.x.x.msi`. 
+
+```
+ℹ️ NOTE: The same installer file works for both Windows 10 and Windows 11
+```
+
+Once you've downloaded the installer, open it and follow the installer's instructions. After that, you're all set.
 
 ### Microsoft Defender Smartscreen Message
 
@@ -139,15 +177,18 @@ There's a chance you may receive the following message while attempting to insta
 	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/smartscreen.png" width="450">
 </p>
 
-One reason why this may occur is because the application doesn't currently have a code signing certificate. Code signing ensures that the source code hasn't been tampered with since being signed but these certificates also cost quite a bit and I'm not currently willing to invest money into it *yet*.
+#### How to Bypass It
 
-In order to get around the Smartscreen message, you'll need to do the following steps:
+It's easy to get around the Smartscreen message. All you need to do is:
 
-* Right-click on the `.msi` installer file
-* Click on `Properties`
-* Check the `Unblock` checkbox towards the bottom of the `General` tab
+1. Click on `More info`
+2. Click on `Run anyway`
 
-Once you do that, you should be able to install Reginald without issue.
+Once you do that, you should be able to install Reginald free of any issues.
+
+#### Why Is This Appearing?
+
+One reason why you might see the message is because the application doesn't currently have a code signing certificate. Code signing ensures that the source code hasn't been tampered with since being signed. Reginald currently doesn't have a code signing certificate because the certificates cost quite a bit and I'm not currently willing to invest money into it *yet*.
 
 ## Issues and Suggestions
 
