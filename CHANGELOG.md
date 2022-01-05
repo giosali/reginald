@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.9.1
+
+### Changed
+
+* Changed interface for adding user keywords
+* `Search Box Appearance` has been removed from the menu sidebar
+* UI has been made more consistent in the settings portion of the application
+* Changed icons for a few of the default keywords
+* Refactored a majority of the codebase
+  * Adding new features will be much more seamless and quicker
+
 ## v0.9.0
 
 ### Added
