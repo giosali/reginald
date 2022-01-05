@@ -7,13 +7,10 @@ namespace Reginald.ViewModels
 {
     public class SettingsViewModel : Conductor<object>
     {
-        public SettingsViewModel(System.Action action)
+        public SettingsViewModel()
         {
-            Action = action;
             _ = ActivateItemAsync(new GeneralViewModel());
         }
-
-        private System.Action Action { get; set; }
 
         public async Task SideMenu_SelectionChangedAsync(object sender, FunctionEventArgs<object> e)
         {
@@ -21,11 +18,7 @@ namespace Reginald.ViewModels
             switch (sideMenuItem.Name)
             {
                 case "Themes":
-                    await ActivateItemAsync(new ThemesViewModel(Action));
-                    break;
-
-                case "SearchBox":
-                    await ActivateItemAsync(new SearchBoxAppearanceViewModel());
+                    await ActivateItemAsync(new ThemesViewModel());
                     break;
 
                 case "DefaultKeywords":
@@ -33,11 +26,11 @@ namespace Reginald.ViewModels
                     break;
 
                 case "UserKeywords":
-                    await ActivateItemAsync(new UserKeywordViewModel());
+                    await ActivateItemAsync(new UserKeywordsViewModel());
                     break;
 
-                case "SpecialKeywords":
-                    await ActivateItemAsync(new SpecialKeywordViewModel());
+                case "HttpKeywords":
+                    await ActivateItemAsync(new HttpKeywordsViewModel());
                     break;
 
                 case "Commands":
@@ -62,9 +55,6 @@ namespace Reginald.ViewModels
 
                 case "General":
                     await ActivateItemAsync(new GeneralViewModel());
-                    break;
-
-                default:
                     break;
             }
         }

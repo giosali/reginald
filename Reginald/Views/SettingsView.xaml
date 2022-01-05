@@ -3,76 +3,38 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-           xmlns:local="clr-namespace:Reginald.Views"
+           xmlns:cal="http://www.caliburnproject.org"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
            mc:Ignorable="d"
            Title="Reginald"
            Height="550" Width="900"
            BorderThickness="0"
            WindowStartupLocation="CenterScreen"
-           ResizeMode="NoResize"
-        
-           xmlns:cal="http://www.caliburnproject.org"
-           xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        
-           xmlns:hc="https://handyorg.github.io/handycontrol">
+           ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <hc:SideMenu Width="200"
+        <hc:SideMenu Grid.Column="0"
                      BorderThickness="0 0 1 0"
                      SideBrush="DarkOrange"
-                     Grid.Column="0">
+                     Width="200">
             <!-- ## Themes -->
             <hc:SideMenuItem x:Name="Themes"
-                             Header="Themes">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=Themes}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                             Header="Themes"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE790;"
                                FontFamily="Segoe MDL2 Assets"/>
                 </hc:SideMenuItem.Icon>
             </hc:SideMenuItem>
 
-            <!-- ## SearchBox -->
-            <hc:SideMenuItem x:Name="SearchBox"
-                             Header="Search Box">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=SearchBox}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-                <hc:SideMenuItem.Icon>
-                    <TextBlock Text="&#xE771;"
-                               FontFamily="Segoe MDL2 Assets"/>
-                </hc:SideMenuItem.Icon>
-            </hc:SideMenuItem>
-
             <!-- ## Default Keywords -->
             <hc:SideMenuItem x:Name="DefaultKeywords"
-                             Header="Default Keywords">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=DefaultKeywords}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                             Header="Default Keywords"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE77B;"
                                FontFamily="Segoe MDL2 Assets"/>
@@ -81,34 +43,18 @@
 
             <!-- ## User Keywords -->
             <hc:SideMenuItem x:Name="UserKeywords"
-                             Header="User Keywords">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=UserKeywords}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                             Header="User Keywords"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE8FA;"
                                FontFamily="Segoe MDL2 Assets"/>
                 </hc:SideMenuItem.Icon>
             </hc:SideMenuItem>
 
-            <!-- ## Special Keywords -->
-            <hc:SideMenuItem x:Name="SpecialKeywords"
-                             Header="Special Keywords">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=SpecialKeywords}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+            <!-- ## HTTP Keywords -->
+            <hc:SideMenuItem x:Name="HttpKeywords"
+                             Header="HTTP Keywords"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE774;"
                                FontFamily="Segoe MDL2 Assets"/>
@@ -117,16 +63,8 @@
 
             <!-- ## Commands -->
             <hc:SideMenuItem x:Name="Commands"
-                             Header="Commands">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=Commands}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                             Header="Commands"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE99A;"
                                FontFamily="Segoe MDL2 Assets"/>
@@ -135,16 +73,8 @@
 
             <!-- ## Utilities -->
             <hc:SideMenuItem x:Name="Utilities"
-                             Header="Utilities">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=Utilities}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                             Header="Utilities"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE99A;"
                                FontFamily="Segoe MDL2 Assets"/>
@@ -153,16 +83,8 @@
             
             <!-- ## Expansions -->
             <hc:SideMenuItem x:Name="Expansions"
-                             Header="Expansions">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=Expansions}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                             Header="Expansions"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE71D;"
                                FontFamily="Segoe MDL2 Assets"/>
@@ -171,16 +93,8 @@
 
             <!-- ## Miscellaneous -->
             <hc:SideMenuItem x:Name="Miscellaneous"
-                             Header="Miscellaneous">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=Miscellaneous}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                             Header="Miscellaneous"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE712;"
                                FontFamily="Segoe MDL2 Assets"/>
@@ -189,16 +103,8 @@
 
             <!-- ## Info -->
             <hc:SideMenuItem x:Name="Info"
-                             Header="Info">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=Info}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                             Header="Info"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE946;"
                                FontFamily="Segoe MDL2 Assets"/>
@@ -208,16 +114,8 @@
             <!-- ## Settings -->
             <hc:SideMenuItem x:Name="General"
                              Header="General"
-                             IsSelected="True">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <cal:ActionMessage MethodName="SideMenu_SelectionChangedAsync">
-                            <cal:Parameter Value="{Binding ElementName=General}"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                             IsSelected="True"
+                             cal:Message.Attach="[Event Selected] = [Action SideMenu_SelectionChangedAsync($source, $eventargs)]">
                 <hc:SideMenuItem.Icon>
                     <TextBlock Text="&#xE713;"
                                FontFamily="Segoe MDL2 Assets"/>
@@ -227,7 +125,7 @@
         
         <!-- # Other Views -->
         <ContentControl x:Name="ActiveItem"
-                        Margin="12 0"
-                        Grid.Column="1"/>
+                        Grid.Column="1"
+                        Margin="16 8 0 8"/>
     </Grid>
 </hc:Window>

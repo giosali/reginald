@@ -1,81 +1,23 @@
-﻿using Caliburn.Micro;
-using Reginald.Core.Base;
-using Reginald.Core.Helpers;
+﻿using Reginald.Core.Extensions;
 using Reginald.Core.IO;
+using Reginald.Core.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using System.Xml;
 
 namespace Reginald.ViewModels
 {
-    public class GeneralViewModel : Screen
+    public class GeneralViewModel : ViewViewModelBase
     {
-        public GeneralViewModel()
-        {
-            ModKeys = Enum.GetValues(typeof(ModifierKeys))
-                          .Cast<ModifierKeys>()
-                          .Where(x =>
-                          {
-                              Regex rx = new(@"windows", RegexOptions.IgnoreCase);
-                              return !rx.IsMatch(x.ToString());
-                          });
+        public IEnumerable<Key> Keys { get; set; }
 
-            Keys = Enum.GetValues(typeof(Key))
-                       .Cast<Key>()
-                       .Where(x =>
-                       {
-                           Regex rx = new(@"mode|dbe|eof|oem|system|ime|abnt|launch|browser|shift|ctrl|alt|scroll|win|apps|noname|pa1|dead|none", RegexOptions.IgnoreCase);
-                           return !rx.IsMatch(x.ToString());
-                       })
-                       .Distinct();
-
-            XmlDocument settingsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSettingsFilename);
-            string searchBoxKey = settingsDoc.SelectSingleNode(string.Format(Constants.SettingsNamespaceNameXpathFormat, "SearchBoxKey"))["Value"].InnerText;
-            string searchBoxModifierKeyOne = settingsDoc.SelectSingleNode(string.Format(Constants.SettingsNamespaceNameXpathFormat, "SearchBoxModifierKeyOne"))["Value"].InnerText;
-            string searchBoxModifierKeyTwo = settingsDoc.SelectSingleNode(string.Format(Constants.SettingsNamespaceNameXpathFormat, "SearchBoxModifierKeyTwo"))["Value"].InnerText;
-
-            Properties.Settings.Default.SearchBoxKey = searchBoxKey;
-            Properties.Settings.Default.SearchBoxModifierOne = searchBoxModifierKeyOne;
-            Properties.Settings.Default.SearchBoxModifierTwo = searchBoxModifierKeyTwo;
-            SelectedKey = (Key)Enum.Parse(typeof(Key), searchBoxKey);
-            SelectedModKeyOne = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), searchBoxModifierKeyOne);
-            SelectedModKeyTwo = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), searchBoxModifierKeyTwo);
-        }
-
-        public static IEnumerable<ModifierKeys> ModKeys { get; set; }
-
-        private ModifierKeys _selectedModKeyTwo;
-        public ModifierKeys SelectedModKeyTwo
-        {
-            get => _selectedModKeyTwo;
-            set
-            {
-                _selectedModKeyTwo = value;
-                NotifyOfPropertyChange(() => SelectedModKeyTwo);
-                UpdatePropertySettings(SelectedModKeyTwo, 2);
-                UpdateSetting("SearchBoxModifierKeyTwo", SelectedModKeyTwo.ToString());
-            }
-        }
-
-        private ModifierKeys _selectedModKeyOne;
-        public ModifierKeys SelectedModKeyOne
-        {
-            get => _selectedModKeyOne;
-            set
-            {
-                _selectedModKeyOne = value;
-                NotifyOfPropertyChange(() => SelectedModKeyOne);
-                UpdatePropertySettings(SelectedModKeyOne, 1);
-                UpdateSetting("SearchBoxModifierKeyOne", SelectedModKeyOne.ToString());
-            }
-        }
-
-        public static IEnumerable<Key> Keys { get; set; }
+        public IEnumerable<ModifierKeys> ModifierKeys { get; set; }
 
         private Key _selectedKey;
         public Key SelectedKey
@@ -83,26 +25,64 @@ namespace Reginald.ViewModels
             get => _selectedKey;
             set
             {
-                if (value != Key.None)
-                {
-                    _selectedKey = value;
-                    UpdatePropertySettings(SelectedKey);
-                    UpdateSetting("SearchBoxKey", SelectedKey.ToString());
-                }
+                _selectedKey = value;
                 NotifyOfPropertyChange(() => SelectedKey);
             }
         }
 
+        private ModifierKeys _selectedModifierKeyOne;
+        public ModifierKeys SelectedModifierKeyOne
+        {
+            get => _selectedModifierKeyOne;
+            set
+            {
+                _selectedModifierKeyOne = value;
+                NotifyOfPropertyChange(() => SelectedModifierKeyOne);
+            }
+        }
+
+        private ModifierKeys _selectedModifierKeyTwo;
+        public ModifierKeys SelectedModifierKeyTwo
+        {
+            get => _selectedModifierKeyTwo;
+            set
+            {
+                _selectedModifierKeyTwo = value;
+                NotifyOfPropertyChange(() => SelectedModifierKeyTwo);
+            }
+        }
+
+        public GeneralViewModel()
+        {
+            SelectedKey = (Key)Enum.Parse(typeof(Key), Settings.SearchBoxKey);
+            SelectedModifierKeyOne = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), Settings.SearchBoxModifierOne);
+            SelectedModifierKeyTwo = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), Settings.SearchBoxModifierTwo);
+        }
+
+        public void SelectedKey_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectedKey != Key.None)
+            {
+                Settings.SearchBoxKey = SelectedKey.ToString();
+                FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+            }
+        }
+
+        public void SelectedModifierKeyOne_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Settings.SearchBoxModifierOne = SelectedModifierKeyOne.ToString();
+            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+        }
+
+        public void SelectedModifierKeyTwo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Settings.SearchBoxModifierTwo = SelectedModifierKeyTwo.ToString();
+            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+        }
+
         public void RestartButton_Click(object sender, RoutedEventArgs e)
         {
-            ProcessStartInfo startInfo = new();
-            string filename = Process.GetCurrentProcess().MainModule.FileName;
-            startInfo.Arguments = $"/C ping 127.0.0.1 -n 2 && \"{filename}\"";
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.CreateNoWindow = true;
-            startInfo.FileName = "cmd.exe";
-            Process.Start(startInfo);
-            Application.Current.Shutdown();
+            Processes.RestartApplication();
         }
 
         public void ShutdownButton_Click(object sender, RoutedEventArgs e)
@@ -110,37 +90,26 @@ namespace Reginald.ViewModels
             Application.Current.Shutdown();
         }
 
-        private static void UpdatePropertySettings(Key key)
+        protected override Task OnInitializeAsync(CancellationToken cancellationToken)
         {
-            Properties.Settings.Default.SearchBoxKey = key.ToString();
-            Properties.Settings.Default.Save();
-        }
+            Keys = Enum.GetValues(typeof(Key))
+                       .Cast<Key>()
+                       .Where(key =>
+                       {
+                           Regex rx = new(@"mode|dbe|eof|oem|system|ime|abnt|launch|browser|shift|ctrl|alt|scroll|win|apps|noname|pa1|dead|none", RegexOptions.IgnoreCase);
+                           return !rx.IsMatch(key.ToString());
+                       })
+                       .Distinct();
 
-        private static void UpdatePropertySettings(ModifierKeys modifier, int number)
-        {
-            switch (number)
-            {
-                case 1:
-                    Properties.Settings.Default.SearchBoxKey = modifier.ToString();
-                    break;
+            ModifierKeys = Enum.GetValues(typeof(ModifierKeys))
+                               .Cast<ModifierKeys>()
+                               .Where(modifierKey =>
+                               {
+                                   Regex rx = new(@"windows", RegexOptions.IgnoreCase);
+                                   return !rx.IsMatch(modifierKey.ToString());
+                               });
 
-                case 2:
-                    Properties.Settings.Default.SearchBoxModifierTwo = modifier.ToString();
-                    break;
-
-                default:
-                    break;
-            }
-            Properties.Settings.Default.Save();
-        }
-
-        private static void UpdateSetting(string setting, string value)
-        {
-            XmlDocument settingsDoc = XmlHelper.GetXmlDocument(ApplicationPaths.XmlSettingsFilename);
-            string xpath = string.Format(Constants.SettingsNamespaceNameXpathFormat, setting);
-            XmlNode node = settingsDoc.SelectSingleNode(xpath);
-            node["Value"].InnerText = value;
-            XmlHelper.SaveXmlDocument(settingsDoc, ApplicationPaths.XmlSettingsFilename);
+            return base.OnInitializeAsync(cancellationToken);
         }
     }
 }

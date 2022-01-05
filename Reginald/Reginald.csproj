@@ -15,6 +15,9 @@
     <None Remove="Images\calculator.png" />
     <None Remove="Images\Commands\quit.png" />
     <None Remove="Images\Commands\timer.png" />
+    <None Remove="Images\DefaultKeywords\amazon.png" />
+    <None Remove="Images\DefaultKeywords\instagram.png" />
+    <None Remove="Images\DefaultKeywords\twitter.png" />
     <None Remove="Images\duckduckgo.png" />
     <None Remove="Images\ebay.png" />
     <None Remove="Images\edge.png" />
@@ -28,11 +31,10 @@
     <None Remove="Images\instagram.png" />
     <None Remove="Images\pinterest.png" />
     <None Remove="Images\reddit.png" />
-    <None Remove="Images\reginald.png" />
     <None Remove="Images\Settings\settings.png" />
-    <None Remove="Images\Special\ip_address.png" />
-    <None Remove="Images\Special\stock_decrease.png" />
-    <None Remove="Images\Special\stock_increase.png" />
+    <None Remove="Images\HttpKeywords\ip_address.png" />
+    <None Remove="Images\HttpKeywords\stock_decrease.png" />
+    <None Remove="Images\HttpKeywords\stock_increase.png" />
     <None Remove="Images\tiktok.png" />
     <None Remove="Images\tumblr.png" />
     <None Remove="Images\twitch.png" />
@@ -41,15 +43,53 @@
     <None Remove="Images\wikipedia.png" />
     <None Remove="Images\youtube.png" />
     <None Remove="Reginald.ico" />
-    <None Remove="Resources\MSSettings.xml" />
-    <None Remove="Resources\Themes.xml" />
+    <None Remove="Resources\Calculator.json" />
+    <None Remove="Resources\Commands.json" />
+    <None Remove="Resources\DefaultResults.json" />
+    <None Remove="Resources\HttpKeywords.json" />
+    <None Remove="Resources\Keywords.json" />
+    <None Remove="Resources\Link.json" />
+    <None Remove="Resources\MicrosoftSettings.json" />
+    <None Remove="Resources\Themes.json" />
+    <None Remove="Resources\TopLevelDomains.txt" />
+    <None Remove="Resources\Utilities.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MSSettings.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Resource Include="Images\DefaultKeywords\amazon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\DefaultKeywords\instagram.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <EmbeddedResource Include="Resources\Calculator.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Themes.xml">
+    <EmbeddedResource Include="Resources\Commands.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\DefaultResults.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\HttpKeywords.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Keywords.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Link.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MicrosoftSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Themes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\TopLevelDomains.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Utilities.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -66,10 +106,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\amazon.png">
+    <Resource Include="Images\DefaultKeywords\twitter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\calculator.png">
+    <Resource Include="Images\Representations\calculator.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Commands\quit.png">
@@ -78,43 +118,34 @@
     <Resource Include="Images\Commands\timer.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\duckduckgo.png">
+    <Resource Include="Images\DefaultKeywords\duckduckgo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\ebay.png">
+    <Resource Include="Images\DefaultKeywords\ebay.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\edge.png">
+    <Resource Include="Images\Representations\edge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\exclamation.png">
+    <Resource Include="Images\Results\exclamation.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\facebook.png">
+    <Resource Include="Images\DefaultKeywords\facebook.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\github.png">
+    <Resource Include="Images\DefaultKeywords\github.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\google.png">
+    <Resource Include="Images\DefaultKeywords\google.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\help-dark.png">
+    <Resource Include="Images\DefaultKeywords\imdb.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\help-light.png">
+    <Resource Include="Images\DefaultKeywords\pinterest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\imdb.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\instagram.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\pinterest.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\reddit.png">
+    <Resource Include="Images\DefaultKeywords\reddit.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\reginald.png">
@@ -123,34 +154,31 @@
     <Resource Include="Images\Settings\settings.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Special\ip_address.png">
+    <Resource Include="Images\HttpKeywords\ip_address.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Special\stock_decrease.png">
+    <Resource Include="Images\HttpKeywords\stock_decrease.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Special\stock_increase.png">
+    <Resource Include="Images\HttpKeywords\stock_increase.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\tiktok.png">
+    <Resource Include="Images\DefaultKeywords\tiktok.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\tumblr.png">
+    <Resource Include="Images\DefaultKeywords\tumblr.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\twitch.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\twitter.png">
+    <Resource Include="Images\DefaultKeywords\twitch.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Utilities\recycle-bin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\wikipedia.png">
+    <Resource Include="Images\DefaultKeywords\wikipedia.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\youtube.png">
+    <Resource Include="Images\DefaultKeywords\youtube.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Reginald.ico">

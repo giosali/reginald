@@ -4,17 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reginald.Views"
+        xmlns:cal="http://caliburnmicro.com"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
-        Title="Reginald Shell" Height="1" Width="1"
+        Title="Reginald Shell"
+        Height="1"
+        Width="1"
         WindowStyle="None"
         AllowsTransparency="True"
         ShowInTaskbar="False"
-        Visibility="Hidden"
-        
-        xmlns:cal="http://caliburnmicro.com"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        
-        xmlns:hc="https://handyorg.github.io/handycontrol">
+        Visibility="Hidden">
     <Window.InputBindings>
         <KeyBinding Gesture="{x:Static local:ShellView.SearchBoxKeyGesture}"
                     Command="{Binding OpenWindowCommand}"
@@ -22,27 +21,17 @@
     </Window.InputBindings>
     
     <hc:TransitioningContentControl>
-        <hc:NotifyIcon Text="Reginald v0.9.0"
+        <hc:NotifyIcon Text="Reginald v0.9.1"
                        Icon="pack://application:,,,/Reginald;component/Reginald.ico">
             <hc:NotifyIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Open Settings">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="OpenSettingsMenuItem_Click">
-                                    <cal:Parameter Value="$this"/>
-                                    <cal:Parameter Value="$eventargs"/>
-                                </cal:ActionMessage>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </MenuItem>
+                    <MenuItem Header="Open Settings"
+                              cal:Message.Attach="[Event Click] = [Action OpenSettingsMenuItem_Click($this, $eventargs)]"/>
 
-                    <MenuItem Header="Enabled"
+                    <MenuItem IsChecked="{Binding IsEnabled}"
                               IsCheckable="True"
-                              IsChecked="{Binding IsEnabled}"/>
-
+                              Header="Enabled"/>
                     <Separator/>
-                    
                     <MenuItem Header="Exit"
                               Command="hc:ControlCommands.ShutdownApp"/>
                 </ContextMenu>

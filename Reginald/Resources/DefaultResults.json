@@ -1,0 +1,44 @@
+[
+  {
+    "guid": "2088a843-cf3f-4bc3-8995-6762d46e4462",
+    "name": "Google",
+    "keyword": "g",
+    "icon": "pack://application:,,,/Reginald;component/Images/DefaultKeywords/google.png",
+    "url": "https://google.com/search?q={0}",
+    "altUrl": "https://google.com",
+    "separator": "+",
+    "format": "Search Google for '{0}'",
+    "placeholder": "...",
+    "caption": "Google",
+    "isEnabled": true,
+    "altDescription": "Go to Google's Homepage"
+  },
+  {
+    "guid": "125a4696-b458-400c-80db-b167f8ec5632",
+    "name": "DuckDuckGo",
+    "keyword": "ddg",
+    "icon": "pack://application:,,,/Reginald;component/Images/DefaultKeywords/duckduckgo.png",
+    "url": "https://duckduckgo.com/?q={0}",
+    "altUrl": "https://duckduckgo.com",
+    "separator": "+",
+    "format": "Search DuckDuckGo for '{0}'",
+    "placeholder": "...",
+    "caption": "DuckDuckGo",
+    "isEnabled": true,
+    "altDescription": "Go to DuckDuckGo's Homepage"
+  },
+  {
+    "guid": "35af0718-e3c2-4a40-bf32-a96ebc780171",
+    "name": "Amazon",
+    "keyword": "amazon",
+    "icon": "pack://application:,,,/Reginald;component/Images/DefaultKeywords/amazon.png",
+    "url": "https://amazon.com/s?k={0}",
+    "altUrl": "https://amazon.com",
+    "separator": "+",
+    "format": "Search Amazon for '{0}'",
+    "placeholder": "...",
+    "caption": "Amazon",
+    "isEnabled": true,
+    "altDescription": "Go to Amazon's Homepage"
+  }
+]

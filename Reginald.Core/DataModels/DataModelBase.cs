@@ -1,13 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace Reginald.Core.DataModels
+﻿namespace Reginald.Core.DataModels
 {
-    public class DataModelBase
+    public abstract class DataModelBase
     {
-        public string Serialize()
-        {
-            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
-            return json;
-        }
+
     }
 }

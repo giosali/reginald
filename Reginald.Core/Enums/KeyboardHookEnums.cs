@@ -1,11 +1,8 @@
 ﻿namespace Reginald.Core.Enums
 {
-    public class KeyboardHookEnums
+    public enum Hook
     {
-        public enum Hook
-        {
-            None = 0,
-            Expansion
-        }
+        None = 0,
+        Expansion
     }
 }

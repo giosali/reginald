@@ -1,21 +1,20 @@
-﻿using Reginald.Core.IO;
-using System.Windows;
+﻿using Reginald.Core.AbstractProducts;
+using Reginald.Core.DataModels;
+using Reginald.Core.IO;
+using System.Collections.Generic;
 
 namespace Reginald.ViewModels
 {
-    public class DefaultKeywordViewModel : KeywordViewModel
+    public class DefaultKeywordViewModel : KeywordViewModelBase
     {
-        public DefaultKeywordViewModel() : base(ApplicationPaths.XmlKeywordFilename)
+        public DefaultKeywordViewModel() : base(ApplicationPaths.KeywordsJsonFilename)
         {
-            Settings.IncludeDefaultKeywords = Properties.Settings.Default.IncludeDefaultKeywords;
-        }
-
-        public void IncludeDefaultKeywordsToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            bool value = !Properties.Settings.Default.IncludeDefaultKeywords;
-            Properties.Settings.Default.IncludeDefaultKeywords = value;
-            Properties.Settings.Default.Save();
-            Settings.IncludeDefaultKeywords = value;
+            IEnumerable<Keyword> keywords = UpdateKeywords<GenericKeywordDataModel>(Filename, true, false);
+            foreach (Keyword keyword in keywords)
+            {
+                keyword.Description = string.Format(keyword.Format, keyword.Placeholder);
+            }
+            Keywords.AddRange(keywords);
         }
     }
 }

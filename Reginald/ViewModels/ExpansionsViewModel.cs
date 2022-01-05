@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using Reginald.Core.DataModels;
-using Reginald.Core.Helpers;
+using Reginald.Core.Extensions;
 using Reginald.Core.IO;
 using System.Collections.Generic;
 using System.Windows;
@@ -68,7 +68,7 @@ namespace Reginald.ViewModels
 
         public ExpansionsViewModel()
         {
-            List<ExpansionDataModel> expansions = FileOperations.GetExpansionData(ApplicationPaths.ExpansionsJsonFilename);
+            IEnumerable<ExpansionDataModel> expansions = FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false);
             if (expansions is not null)
             {
                 Expansions.AddRange(expansions);
@@ -77,8 +77,11 @@ namespace Reginald.ViewModels
 
         public void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scv = (ScrollViewer)sender;
-            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            ScrollViewer scv = sender as ScrollViewer;
+            if (scv is not null)
+            {
+                scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            }
             e.Handled = true;
         }
 
@@ -127,7 +130,7 @@ namespace Reginald.ViewModels
                     }
                 }
 
-                // If there is a duplicate, inform user that's not allowed
+                // If there is a duplicate, inform user
                 if (exists)
                 {
                     string message = "Expansions cannot share the same trigger";
@@ -136,13 +139,13 @@ namespace Reginald.ViewModels
                 }
                 else
                 {
-                    ExpansionDataModelHelper.Save(Expansions);
+                    FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, Expansions.Serialize());
                 }
                 SelectedExpansion = null;
 
                 // Reread from file to refresh the expansions
                 Expansions.Clear();
-                Expansions.AddRange(FileOperations.GetExpansionData(ApplicationPaths.ExpansionsJsonFilename));
+                Expansions.AddRange(FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false));
             }
         }
 
@@ -152,7 +155,7 @@ namespace Reginald.ViewModels
             {
                 if (Expansions.Remove(SelectedExpansion))
                 {
-                    ExpansionDataModelHelper.Save(Expansions);
+                    FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, Expansions.Serialize());
                 }
             }
         }
@@ -185,7 +188,7 @@ namespace Reginald.ViewModels
                     Replacement = Replacement
                 });
 
-                ExpansionDataModelHelper.Save(Expansions);
+                FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, Expansions.Serialize());
                 Trigger = Replacement = null;
             }
         }

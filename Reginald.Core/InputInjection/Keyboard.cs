@@ -1,11 +1,9 @@
 ﻿using Reginald.Core.DataModels;
+using Reginald.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using static Reginald.Core.Enums.IOEnums;
-using static Reginald.Core.Enums.KeyboardEnums;
-using static Reginald.Core.Enums.MouseEnums;
 
 namespace Reginald.Core.InputInjection
 {

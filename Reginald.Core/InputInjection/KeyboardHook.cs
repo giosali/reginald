@@ -1,5 +1,6 @@
 ﻿using Reginald.Core.DataModels;
-using Reginald.Core.Helpers;
+using Reginald.Core.Enums;
+using Reginald.Core.Extensions;
 using Reginald.Core.IO;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
-using static Reginald.Core.Enums.KeyboardHookEnums;
 
 namespace Reginald.Core.InputInjection
 {
@@ -139,11 +139,11 @@ namespace Reginald.Core.InputInjection
         {
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                List<ExpansionDataModel> models = FileOperations.GetExpansionData(ApplicationPaths.ExpansionsJsonFilename);
+                IEnumerable<ExpansionDataModel> models = FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false);
                 if (models is not null)
                 {
-                    Expansions = models;
-                    _maxTriggerLength = ExpansionDataModelHelper.GetLongestTriggerLength(Expansions);
+                    Expansions.AddRange(models);
+                    _maxTriggerLength = Expansions.LongestTriggerLength();
                 }
             }
         }
@@ -154,17 +154,16 @@ namespace Reginald.Core.InputInjection
             {
                 case Hook.Expansion:
                     OnKeyPress = InterpretKey;
-                    List<ExpansionDataModel> models = FileOperations.GetExpansionData(ApplicationPaths.ExpansionsJsonFilename);
+                    IEnumerable<ExpansionDataModel> models = FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false);
                     if (models is not null)
                     {
-                        Expansions = models;
-                        _maxTriggerLength = ExpansionDataModelHelper.GetLongestTriggerLength(Expansions);
+                        Expansions.AddRange(models);
+                        _maxTriggerLength = Expansions.LongestTriggerLength();
                     }
 
-                    string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.ExpansionsJsonFilename);
-                    expansionsWatcher = new();
-                    expansionsWatcher.Path = Path.GetDirectoryName(path);
-                    expansionsWatcher.Filter = Path.GetFileName(path);
+                    string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName);
+                    string filter = ApplicationPaths.ExpansionsJsonFilename;
+                    expansionsWatcher = new(path, filter);
                     expansionsWatcher.NotifyFilter = NotifyFilters.Attributes
                                                     | NotifyFilters.CreationTime
                                                     | NotifyFilters.LastAccess

@@ -1,4 +1,4 @@
-﻿using Reginald.Commands;
+﻿using Reginald.Commanding;
 using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Input;

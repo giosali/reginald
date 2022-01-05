@@ -3,56 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Reginald.Views"
              xmlns:cal="http://caliburnmicro.com"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ScrollViewer x:Name="ScrollViewer">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="PreviewMouseWheel">
-                <cal:ActionMessage MethodName="ScrollViewer_PreviewMouseWheel">
-                    <cal:Parameter Value="{Binding ElementName=ScrollViewer}"/>
-                    <cal:Parameter Value="$eventargs"/>
-                </cal:ActionMessage>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-
-        <hc:UniformSpacingPanel Spacing="24"
-                                Orientation="Vertical">
-            <!-- # Info -->
-            <TextBlock Text="Info"
-                       Style="{StaticResource HeaderOneTextBlockStyle}"/>
+    <ScrollViewer Focusable="True"
+                  FocusVisualStyle="{x:Null}"
+                  cal:Message.Attach="[Event PreviewMouseWheel] = [Action ScrollViewer_PreviewMouseWheel($source, $eventargs)]">
+        <hc:UniformSpacingPanel Orientation="Vertical"
+                                Spacing="24">
+            <!-- # Title -->
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                       Text="Info"/>
+            
             <!-- ## Developer -->
-            <TextBlock Text="Developer"
-                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
-            <hc:UniformSpacingPanel Spacing="6"
-                                    Orientation="Vertical">
-                <TextBlock Text="Name: Giovanni Salinas"
-                           Style="{StaticResource NormalTextBlockStyle}"/>
-                <TextBlock Text="Email: gbs3@protonmail.com"
-                           Style="{StaticResource NormalTextBlockStyle}"/>
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                       Text="Developer"/>
+
+            <hc:UniformSpacingPanel Orientation="Vertical"
+                                    Spacing="4">
+                <TextBlock Style="{StaticResource NormalTextBlockStyle}"
+                           Text="Name: Giovanni Salinas"/>
+                <TextBlock Style="{StaticResource NormalTextBlockStyle}"
+                           Text="Email: gbs3@protonmail.com"/>
                 <TextBlock Style="{StaticResource NormalTextBlockStyle}">
                     GitHub account:
-                    <Hyperlink NavigateUri="https://github.com/GBS3"
-                               Command="{Binding HyperlinkCommand}"
-                               CommandParameter="https://github.com/giosali">
+                    <Hyperlink Command="{Binding HyperlinkCommand}"
+                               CommandParameter="https://github.com/giosali"
+                               NavigateUri="https://github.com/GBS3">
                         <Run Text="github.com/GBS3"/>
                     </Hyperlink>
                 </TextBlock>
             </hc:UniformSpacingPanel>
             
             <!-- ## Issues -->
-            <TextBlock Text="Issues"
-                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
-            <hc:UniformSpacingPanel Spacing="6"
-                                    Orientation="Vertical">
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                       Text="Issues"/>
+            <hc:UniformSpacingPanel Orientation="Vertical"
+                                    Spacing="4">
                 <TextBlock Style="{StaticResource NormalTextBlockStyle}">
                     <Run Text="If you encounter any issues, feel free to open an issue at:"/>
-                    <Hyperlink NavigateUri="https://github.com/GBS3/reginald/issues"
-                               Command="{Binding HyperlinkCommand}"
-                               CommandParameter="https://github.com/giosali/reginald/issues/new">
+                    <Hyperlink Command="{Binding HyperlinkCommand}"
+                               CommandParameter="https://github.com/giosali/reginald/issues/new"
+                               NavigateUri="https://github.com/GBS3/reginald/issues">
                         <Run Text="github.com/GBS3/reginald/issues/new"/>
                     </Hyperlink>
                 </TextBlock>

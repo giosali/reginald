@@ -26,5 +26,22 @@ namespace Reginald.Core.Helpers
             }
             return false;
         }
+
+        public static Color InvertColor(Color color, bool makeReadable)
+        {
+            byte r = (byte)~color.R;
+            byte g = (byte)~color.G;
+            byte b = (byte)~color.B;
+
+            if (makeReadable)
+            {
+                // If the current RGB values create a grey background,
+                // return a black brush for black text on a grey background
+                r = r is > 110 and < 160 ? (byte)0 : r;
+                g = g is > 110 and < 160 ? (byte)0 : g;
+                b = b is > 110 and < 160 ? (byte)0 : b;
+            }
+            return Color.FromRgb(r, g, b);
+        }
     }
 }

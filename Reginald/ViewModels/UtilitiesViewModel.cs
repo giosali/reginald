@@ -1,21 +1,13 @@
-﻿using Reginald.Core.IO;
-using System.Windows;
+﻿using Reginald.Core.DataModels;
+using Reginald.Core.IO;
 
 namespace Reginald.ViewModels
 {
-    public class UtilitiesViewModel : KeywordViewModel
+    public class UtilitiesViewModel : KeyphraseViewModelBase
     {
-        public UtilitiesViewModel() : base(ApplicationPaths.XmlUtilitiesFilename)
+        public UtilitiesViewModel() : base(ApplicationPaths.UtilitiesJsonFilename)
         {
-            Settings.IncludeUtilities = Properties.Settings.Default.IncludeUtilities;
-        }
-
-        public void IncludeUtilitiesToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            bool value = !Properties.Settings.Default.IncludeUtilities;
-            Properties.Settings.Default.IncludeUtilities = value;
-            Properties.Settings.Default.Save();
-            Settings.IncludeUtilities = value;
+            Keyphrases.AddRange(UpdateKeyphrases<UtilityDataModel>(Filename));
         }
     }
 }

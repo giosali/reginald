@@ -3,130 +3,126 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Reginald.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             
              xmlns:cal="http://caliburnmicro.com"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             
-             xmlns:hc="https://handyorg.github.io/handycontrol">
-    <ScrollViewer x:Name="ScrollViewer">
-        <hc:UniformSpacingPanel Spacing="24"
-                                Orientation="Vertical">
-            <!-- # General -->
-            <TextBlock Text="General"
-                       Style="{StaticResource HeaderOneTextBlockStyle}"/>
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <ScrollViewer Focusable="True"
+                  FocusVisualStyle="{x:Null}"
+                  cal:Message.Attach="[Event MouseDown] = [Action ScrollViewer_MouseDown($source, $eventargs)]">
+        <hc:UniformSpacingPanel Orientation="Vertical"
+                                Spacing="24"
+                                Margin="0 0 16 0">
+            <!-- # Title -->
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                       Text="General"/>
             
             <!-- ## Gestures -->
-            <TextBlock Text="Gestures"
-                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
-            <!-- ### Key bindings -->
-            <TextBlock Text="You must restart the application for key binding changes to take effect"
-                       FontStyle="Italic"
-                       FontWeight="Light"/>
-            <hc:UniformSpacingPanel Spacing="6"
-                                    Orientation="Vertical">
-                <hc:UniformSpacingPanel Spacing="6"
-                                        Orientation="Horizontal">
-                    <TextBlock Text="Key bindings for opening the search box window"
-                               Style="{StaticResource NormalTextBlockStyle}"/>
-                    <Label Content="ⓘ"
-                           Style="{DynamicResource LabelInfo}"
-                           VerticalAlignment="Center">
-                        <hc:Poptip.Instance>
-                            <hc:Poptip>
-                                <hc:Poptip.Content>
-                                    <TextBlock>
-                                        <Run Text="Here are some possible combinations:"/>
-                                        <LineBreak/>
-                                        <Run Text="1 Key"
-                                             TextDecorations="Underline"/>
-                                        <LineBreak/>
-                                        <Run Text="S"/>
-                                        <LineBreak/>
-                                        <LineBreak/>
-                                        <Run Text="1 Modifier Key + 1 Key"
-                                             TextDecorations="Underline"/>
-                                        <LineBreak/>
-                                        <Run Text="Alt + S"/>
-                                        <LineBreak/>
-                                        <LineBreak/>
-                                        <Run Text="2 Modifier Keys + 1 Key"
-                                             TextDecorations="Underline"/>
-                                        <LineBreak/>
-                                        <Run Text="Shift + Alt + S"/>
-                                        <LineBreak/>
-                                        <LineBreak/>
-                                        <Run Text="If you only use 1 Modifier Key, leave"/>
-                                        <LineBreak/>
-                                        <Run Text="the other Modifier Key blank"/>
-                                    </TextBlock>
-                                </hc:Poptip.Content>
-                            </hc:Poptip>
-                        </hc:Poptip.Instance>
-                    </Label>
-                </hc:UniformSpacingPanel>
-                <hc:UniformSpacingPanel Spacing="6"
-                                        Orientation="Horizontal">
-                    <Label Content="Modifier Key:"
-                           Style="{DynamicResource LabelPrimary}"
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                       Text="Gestures"/>
+            
+            <!-- ### Key Bindings -->
+            <hc:UniformSpacingPanel Orientation="Vertical"
+                                    Spacing="16">
+                <Expander>
+                    <Expander.Header>
+                        <TextBlock Text="❓"
+                                   Foreground="Orange"/>
+                    </Expander.Header>
+                    
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
+                                   Text="•  Here are some possible combinations:"/>
+                        
+                        <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}">
+                            <Run Text="    - "/>
+                            <Run Text="1 Key:"
+                                 FontWeight="Bold"/>
+                            <Run Text="S"/>
+                        </TextBlock>
+                        
+                        <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}">
+                            <Run Text="    - "/>
+                            <Run Text="1 Modifier Key + 1 Key:"
+                                 FontWeight="Bold"/>
+                            <Run Text="Alt + S"/>
+                        </TextBlock>
+
+                        <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}">
+                            <Run Text="    - "/>
+                            <Run Text="2 Modifier Keys + 1 Key:"
+                                 FontWeight="Bold"/>
+                            <Run Text="Shift + Alt + S"/>
+                        </TextBlock>
+                        
+                        <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
+                                   Text="•  If you only use one Modifier Key, leave the other blank"/>
+                    </StackPanel>
+                </Expander>
+
+                <TextBlock Style="{StaticResource NormalTextBlockStyle}"
+                           Text="Key bindings for opening the search box window"/>
+
+                <hc:UniformSpacingPanel Spacing="8">
+                    <Label Style="{DynamicResource LabelPrimary}"
+                           Content="Modifier Key:"
                            VerticalAlignment="Center"/>
-                    <ComboBox ItemsSource="{Binding ModKeys}"
-                              SelectedItem="{Binding SelectedModKeyTwo, Mode=TwoWay}"/>
+                    <ComboBox ItemsSource="{Binding ModifierKeys, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedModifierKeyTwo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              cal:Message.Attach="[Event SelectionChanged] = [Action SelectedKey_SelectionChanged($this, $eventargs)]"/>
+                    
                     <TextBlock Text="+"
                                VerticalAlignment="Center"/>
-                    <Label Content="Modifier Key:"
-                           Style="{DynamicResource LabelPrimary}"
+                    <Label Style="{DynamicResource LabelPrimary}"
+                           Content="Modifier Key:"
                            VerticalAlignment="Center"/>
-                    <ComboBox ItemsSource="{Binding ModKeys}"
-                              SelectedItem="{Binding SelectedModKeyOne, Mode=TwoWay}"/>
+                    <ComboBox ItemsSource="{Binding ModifierKeys, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedModifierKeyOne, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              cal:Message.Attach="[Event SelectionChanged] = [Action SelectedModifierKeyOne_SelectionChanged($this, $eventargs)]"/>
+                    
                     <TextBlock Text="+"
                                VerticalAlignment="Center"/>
-                    <Label Content="Key:"
-                           Style="{DynamicResource LabelPrimary}"
+                    <Label Style="{DynamicResource LabelPrimary}"
+                           Content="Key:"
                            VerticalAlignment="Center"/>
-                    <ComboBox ItemsSource="{Binding Keys}"
-                              SelectedItem="{Binding SelectedKey, Mode=TwoWay}"/>
+                    <ComboBox ItemsSource="{Binding Keys, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              cal:Message.Attach="[Event SelectionChanged] = [Action SelectedModifierKeyTwo_SelectionChanged($this, $eventargs)]"/>
                 </hc:UniformSpacingPanel>
+            </hc:UniformSpacingPanel>
+
+            <Expander>
+                <Expander.Header>
+                    <TextBlock Text="❓"
+                               Foreground="Orange"/>
+                </Expander.Header>
+                
+                <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
+                           Text="•  You must restart the application for key binding changes to take effect"/>
+            </Expander>
+
+            <!-- ## Application-->
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                       Text="Application"/>
+            
+            <!-- ### Restart Application Button -->
+            <hc:UniformSpacingPanel Spacing="8">
+                <TextBlock Style="{StaticResource DefaultTextBlockStyle}"
+                           Text="Restart application"/>
+                
+                <Button Content="Restart"
+                        HorizontalAlignment="Left"
+                        cal:Message.Attach="[Event Click] = [Action RestartButton_Click($this, $eventargs)]"/>
             </hc:UniformSpacingPanel>
             
-            <!-- ## Application-->
-            <TextBlock Text="Application"
-                       Style="{StaticResource SubheaderTextBlockStyle}"/>
-            <!-- ### Restart application -->
-            <hc:UniformSpacingPanel Spacing="6"
-                                    Orientation="Vertical">
-                <TextBlock Text="Restart application"
-                           Style="{StaticResource NormalTextBlockStyle}"/>
-                <Button Content="Restart"
-                        HorizontalAlignment="Left">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <cal:ActionMessage MethodName="RestartButton_Click">
-                                <cal:Parameter Value="$this"/>
-                                <cal:Parameter Value="$eventargs"/>
-                            </cal:ActionMessage>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-            </hc:UniformSpacingPanel>
-            <!-- ### Shutdown application -->
-            <hc:UniformSpacingPanel Spacing="6"
-                                    Orientation="Vertical">
-                <TextBlock Text="Shutdown application"
-                           Style="{StaticResource NormalTextBlockStyle}"/>
+            <!-- ### Shutdown Application Button -->
+            <hc:UniformSpacingPanel Spacing="8">
+                <TextBlock Style="{StaticResource DefaultTextBlockStyle}"
+                           Text="Shutdown application"/>
+
                 <Button Content="Shutdown"
-                        HorizontalAlignment="Left">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <cal:ActionMessage MethodName="ShutdownButton_Click">
-                                <cal:Parameter Value="$this"/>
-                                <cal:Parameter Value="$eventargs"/>
-                            </cal:ActionMessage>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
+                        HorizontalAlignment="Left"
+                        cal:Message.Attach="[Event Click] = [Action ShutdownButton_Click($this, $eventargs)]"/>
             </hc:UniformSpacingPanel>
         </hc:UniformSpacingPanel>
     </ScrollViewer>

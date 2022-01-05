@@ -3,107 +3,88 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Reginald.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             
+             xmlns:local="clr-namespace:Reginald.Converters"
              xmlns:cal="http://caliburnmicro.com"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             
-             xmlns:hc="https://handyorg.github.io/handycontrol">
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
-            <Style x:Key="ToggleButtonStyle"
-                   TargetType="{x:Type ToggleButton}"
-                   BasedOn="{StaticResource ToggleButtonSwitch}">
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="FontWeight" Value="Light"/>
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-            </Style>
+            <!-- # Converters -->
+            <local:ToggleSwitchBooleanToStringConverter x:Key="ToggleSwitchBooleanToStringConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer x:Name="ScrollViewer">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="PreviewMouseWheel">
-                <cal:ActionMessage MethodName="ScrollViewer_PreviewMouseWheel">
-                    <cal:Parameter Value="{Binding ElementName=ScrollViewer}"/>
-                    <cal:Parameter Value="$eventargs"/>
-                </cal:ActionMessage>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
+    <ScrollViewer Focusable="True"
+                  FocusVisualStyle="{x:Null}"
+                  cal:Message.Attach="[Event PreviewMouseWheel] = [Action ScrollViewer_PreviewMouseWheel($source, $eventargs)];
+                                      [Event MouseDown] = [Action ScrollViewer_MouseDown($source, $eventargs)]">
+        <hc:UniformSpacingPanel Orientation="Vertical"
+                                Spacing="24"
+                                Margin="0 0 16 0">
+            <!-- # Title -->
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                       Text="Utilities"/>
+            
+            <!-- ## ToggleButton for Include -->
+            <hc:UniformSpacingPanel Orientation="Vertical"
+                                    Spacing="8">
+                <TextBlock Style="{StaticResource NormalTextBlockStyle}"
+                           Text="Include utilities in your search results"/>
 
-        <hc:UniformSpacingPanel Spacing="24"
-                                Orientation="Vertical">
-            <!-- ## Utilities -->
-            <TextBlock Text="Default keywords"
-                       Style="{StaticResource HeaderTwoTextBlockStyle}"/>
-            <!-- ### ToggleButton -->
-            <ToggleButton Content="Include default keyword searches in your search results"
-                          Style="{StaticResource ToggleButtonStyle}"
-                          IsChecked="{Binding Settings.IncludeUtilities}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Checked">
-                        <cal:ActionMessage MethodName="IncludeUtilitiesToggleButton_Checked">
-                            <cal:Parameter Value="$this"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ToggleButton>
+                <ToggleButton Style="{StaticResource SwitchToggleButtonStyle}"
+                              Content="{Binding Settings.IncludeUtilities, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
+                              IsChecked="{Binding Settings.IncludeUtilities, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              cal:Message.Attach="[Event Click] = [Action Include_Click($this, $eventargs)]"/>
+            </hc:UniformSpacingPanel>
 
-            <!-- ### DataGrid -->
-            <DataGrid x:Name="KeywordSearchResults"
-                      SelectedItem="{Binding Path=SelectedKeywordSearchResult, Mode=TwoWay}"
+            <!-- ## DataGrid -->
+            <DataGrid ItemsSource="{Binding Keyphrases, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
                       CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
                       SelectionMode="Single"
                       HeadersVisibility="Column">
                 <DataGrid.Columns>
+                    <!-- ### Icon -->
                     <DataGridTemplateColumn Header="Icon"
                                             IsReadOnly="True"
                                             Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Image Source="{Binding Icon}"
-                                       Width="20" Height="20"/>
+                                       Width="20"
+                                       Height="20"
+                                       SnapsToDevicePixels="True"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Keyword"
-                                        Binding="{Binding Keyword}"
+
+                    <!-- ### Keyphrase -->
+                    <DataGridTextColumn Binding="{Binding Phrase}"
+                                        Header="Keyphrase"
                                         IsReadOnly="True"
                                         Width="*"
-                                        FontSize="16" FontWeight="Light"/>
-                    <DataGridTextColumn Header="Description"
-                                        Binding="{Binding Description}"
+                                        FontSize="16"
+                                        FontWeight="Light"/>
+
+                    <!-- ### Description -->
+                    <DataGridTextColumn Binding="{Binding Description}"
+                                        Header="Description"
                                         IsReadOnly="True"
                                         Width="2*"
-                                        FontSize="16" FontWeight="Light"/>
+                                        FontSize="16"
+                                        FontWeight="Light"/>
+
+                    <!-- ### Enabled -->
                     <DataGridTemplateColumn Header="Enabled" 
                                             IsReadOnly="False">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsEnabled}"
-                                          HorizontalAlignment="Center" VerticalAlignment="Center"
-                                          HorizontalContentAlignment="Center">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Checked">
-                                            <cal:ActionMessage MethodName="KeywordSearchResults_IsCheckedChanged">
-                                                <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
-                                                <cal:Parameter Value="$eventargs"/>
-                                            </cal:ActionMessage>
-                                        </i:EventTrigger>
-                                        <i:EventTrigger EventName="Unchecked">
-                                            <cal:ActionMessage MethodName="KeywordSearchResults_IsCheckedChanged">
-                                                <cal:Parameter Value="{Binding ElementName=KeywordSearchResults}"/>
-                                                <cal:Parameter Value="$eventargs"/>
-                                            </cal:ActionMessage>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </CheckBox>
+                                <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          cal:Message.Attach="[Event Click] = [Action KeyphraseIsEnabled_Click($this, $eventargs)]"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

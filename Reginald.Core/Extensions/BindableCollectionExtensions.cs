@@ -1,0 +1,24 @@
+﻿using Caliburn.Micro;
+
+namespace Reginald.Core.Extensions
+{
+    public static class BindableCollectionExtensions
+    {
+        public static void PrependFrom<T>(this BindableCollection<T> collection, int index)
+        {
+            T item = collection[index];
+            for (int i = index; i > 0; i--)
+            {
+                collection[i] = collection[i - 1];
+            }
+            collection[0] = item;
+        }
+
+        public static T Spotlight<T>(this BindableCollection<T> collection, T item)
+        {
+            collection.Clear();
+            collection.Add(item);
+            return item;
+        }
+    }
+}

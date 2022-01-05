@@ -1,35 +1,35 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Reginald.Core.Base
 {
     public static class Applications
     {
         /// <summary>
-        /// Returns a dictionary consisting of the user's installed applications' names and parsing names.
+        /// Returns a known folder from the specified globally unique identifier.
         /// </summary>
-        /// <returns>A dictionary.</returns>
-        public static Dictionary<string, string> MakeDictionary()
-        {
-            IKnownFolder applicationsFolder = KnownFolderHelper.FromKnownFolderId(Constants.ApplicationsGuid);
-            Dictionary<string, string> applications = new();
-
-            foreach (ShellObject app in applicationsFolder)
-            {
-                if (app.Name.EndsWith(".url") || app.ParsingName.EndsWith("url"))
-                {
-                    continue;
-                }
-                _ = applications.TryAdd(app.Name, app.ParsingName);
-            }
-            return applications;
-        }
-
+        /// <param name="guid">A globally unique identifier.</param>
+        /// <returns>An <see cref="IKnownFolder"/> related to the specified globally unique indentifier.</returns>
         public static IKnownFolder GetKnownFolder(Guid guid)
         {
             IKnownFolder folder = KnownFolderHelper.FromKnownFolderId(guid);
             return folder;
+        }
+
+        /// <summary>
+        /// Returns a sequence of applications represented by shell objects.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{ShellObject}"/> containing applications whose names and parsing names don't contain "url".</returns>
+        public static IEnumerable<ShellObject> GetApplications()
+        {
+            IKnownFolder applicationsFolder = KnownFolderHelper.FromKnownFolderId(Constants.ApplicationsGuid);
+            return applicationsFolder.Where(application =>
+            {
+                return !application.Name.EndsWith(".url", StringComparison.InvariantCulture) &&
+                       !application.ParsingName.EndsWith("url", StringComparison.InvariantCulture);
+            });
         }
     }
 }

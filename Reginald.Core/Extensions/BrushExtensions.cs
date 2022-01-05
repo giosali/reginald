@@ -4,12 +4,12 @@ namespace Reginald.Core.Extensions
 {
     public static class BrushExtensions
     {
-        public static string GetTransparentHex(this Brush brush, string transparency)
+        public static string MakeTransparent(this Brush brush, string transparency)
         {
             string hex = brush.ToString();
             if (hex.Length > 7)
             {
-                hex = transparency + hex.Substring(3);
+                hex = transparency + hex[3..];
             }
             return hex;
         }

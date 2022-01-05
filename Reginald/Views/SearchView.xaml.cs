@@ -11,7 +11,7 @@ namespace Reginald.Views
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
-            Activate();
+            _ = Activate();
         }
 
         protected override void OnDeactivated(EventArgs e)

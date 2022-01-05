@@ -1,59 +1,47 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace Reginald.Core.Helpers
 {
     public class BitmapImageHelper
     {
-        /// <summary>
-        /// Returns a processed BitmapImage from a URI string.
-        /// </summary>
-        /// <param name="uriString">The URI string for the BitmapImage's UriSource.</param>
-        /// <returns>A BitmapImage based on the URI string.</returns>
-        public static BitmapImage MakeFromUri(string uriString)
+        public static BitmapImage FromUri(string uri, int width = 75, int height = 75)
         {
             try
             {
+                if (uri is null)
+                {
+                    throw new ArgumentNullException(uri);
+                }
+
+                // Define a BitmapImage
                 BitmapImage icon = new();
+
+                // Begin initialization
                 icon.BeginInit();
-                icon.UriSource = new Uri(uriString);
+
+                // Assign properties
                 icon.CacheOption = BitmapCacheOption.OnLoad;
-                icon.DecodePixelWidth = 75;
-                icon.DecodePixelHeight = 75;
+                icon.DecodePixelWidth = width;
+                icon.DecodePixelHeight = height;
+                icon.UriSource = new Uri(uri);
+
+                // End initialization
                 icon.EndInit();
                 icon.Freeze();
                 return icon;
             }
-            catch (UriFormatException)
+            catch (Exception ex)
             {
-                return null;
+                if (ex is UriFormatException or ArgumentNullException)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw;
+                }
             }
-        }
-
-        public static BitmapImage MakeHigherQualityFromUri(string uriString)
-        {
-            BitmapImage icon = new();
-            icon.BeginInit();
-            icon.UriSource = new Uri(uriString);
-            icon.CacheOption = BitmapCacheOption.OnLoad;
-            icon.DecodePixelWidth = 200;
-            icon.DecodePixelHeight = 200;
-            icon.EndInit();
-            icon.Freeze();
-            return icon;
-        }
-
-        public static BitmapImage GetIcon(string path, string name)
-        {
-            string iconPath = Path.Combine(path, name + ".png");
-            if (!File.Exists(iconPath))
-            {
-                iconPath = "pack://application:,,,/Reginald;component/Images/help-light.png";
-            }
-
-            BitmapImage icon = MakeFromUri(iconPath);
-            return icon;
         }
     }
 }

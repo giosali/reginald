@@ -1,7 +1,7 @@
-﻿using Reginald.Core.Base;
+﻿using Reginald.Core.IO;
 using System;
-using System.Data;
-using System.Linq;
+using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Reginald.Extensions
@@ -9,11 +9,11 @@ namespace Reginald.Extensions
     public static class StringExtensions
     {
         /// <summary>
-        /// Splits a string into a tuple consisting of three strings: the separator, the left side, and the right side. If there is no match, the last two strings in the tuple will be set to String.Empty.
+        /// Splits a string at the first occurrence of <paramref name="separator"/> into a 3-tuple that consists solely of strings in the following order: the part preceding the separator, the separator itself, and the part proceeding the separator.
         /// </summary>
         /// <param name="expression">The string to split.</param>
-        /// <param name="separator">The text upon which the expression should be split.</param>
-        /// <returns>A tuple respectively containing three named strings: Left, Separator, Right.</returns>
+        /// <param name="separator">The text to search for in the string whose location will be the split point.</param>
+        /// <returns>A 3-tuple that consists of the part preceding the separator, the separator, and the part proceeding the separator. If no occurrence of <paramref name="separator"/> is found, the 3-tuple will consist of the following from left to right: <paramref name="expression"/>, <see cref="string.Empty"/>, and <see cref="string.Empty"/>.</returns>
         /// <example>
         /// <code>
         /// string expression = "This is a string";
@@ -26,23 +26,23 @@ namespace Reginald.Extensions
         /// </example>
         public static (string Left, string Separator, string Right) Partition(this string expression, string separator)
         {
-            if (expression is not null)
+            if (expression is null)
             {
-                string[] results = expression.Split(separator, 2);
-                if (results.Length > 1)
-                {
-                    return (results[0], separator, results[1]);
-                }
+                throw new ArgumentNullException(expression);
             }
-            return (expression, string.Empty, string.Empty);
+            else
+            {
+                string[] substrings = expression.Split(separator, 2);
+                return substrings.Length > 1 ? (substrings[0], separator, substrings[1]) : (expression, string.Empty, string.Empty);
+            }
         }
 
         /// <summary>
-        /// Splits a string into a tuple consisting of three strings: the separator, the left side, and the right side. If there is no match, the last two strings in the tuple will be set to String.Empty.
+        /// Splits a string at the first occurrence of <paramref name="separator"/> into a 3-tuple that consists solely of strings in the following order: the part preceding the separator, the separator itself, and the part proceeding the separator.
         /// </summary>
         /// <param name="expression">The string to split.</param>
-        /// <param name="separator">The character upon which the expression should be split.</param>
-        /// <returns>A tuple respectively containing three named strings: Left, Separator, Right.</returns>
+        /// <param name="separator">The character to search for in the string whose location will be the split point.</param>
+        /// <returns>A 3-tuple that consists of the part preceding the separator, the separator, and the part proceeding the separator. If no occurrence of <paramref name="separator"/> is found, the 3-tuple will consist of the following from left to right: <paramref name="expression"/>, <see cref="string.Empty"/>, and <see cref="string.Empty"/>.</returns>
         /// <example>
         /// <code>
         /// string expression = "This is a string";
@@ -55,18 +55,23 @@ namespace Reginald.Extensions
         /// </example>
         public static (string Left, string Separator, string Right) Partition(this string expression, char separator)
         {
-            string[] results = expression.Split(separator, 2);
-            if (results.Length > 1)
-                return (results[0], separator.ToString(), results[1]);
-            return (expression, string.Empty, string.Empty);
+            if (expression is null)
+            {
+                throw new ArgumentNullException(expression);
+            }
+            else
+            {
+                string[] substrings = expression.Split(separator, 2);
+                return substrings.Length > 1 ? (substrings[0], separator.ToString(), substrings[1]) : (expression, string.Empty, string.Empty);
+            }
         }
 
         /// <summary>
-        /// Splits a string from the *right* side into a tuple consisting of three strings: the separator, the left side, and the right side. If there is no match, the first two strings in the tuple will be set to String.Empty.
+        /// Splits a string at the first occurrence of <paramref name="separator"/> from the right side into a 3-tuple that consists solely of strings in the following order: the part preceding the separator, the separator itself, and the part proceeding the separator.
         /// </summary>
         /// <param name="expression">The string to split.</param>
-        /// <param name="separator">The text upon which the expression should be split.</param>
-        /// <returns>A tuple respectively containing three named strings: Left, Separator, Right.</returns>
+        /// <param name="separator">The text to search for in the string whose location will be the split point.</param>
+        /// <returns>A 3-tuple that consists of the part preceding the separator, the separator, and the part proceeding the separator. If no occurrence of <paramref name="separator"/> is found, the 3-tuple will consist of the following from left to right: <see cref="string.Empty"/>, <see cref="string.Empty"/>, and <paramref name="expression"/>.</returns>
         /// <example>
         /// <code>
         /// string expression = "This is a string";
@@ -79,25 +84,23 @@ namespace Reginald.Extensions
         /// </example>
         public static (string Left, string Separator, string Right) RPartition(this string expression, string separator)
         {
-            string[] results = expression.Split(separator);
-            if (results.Length > 1)
+            if (expression is null)
             {
-                string left = string.Empty;
-                for (int i = 0; i < results.Length - 1; i++)
-                {
-                    left += results[i];
-                }
-                return (left, separator, results[^1]);
+                throw new ArgumentNullException(expression);
             }
-            return (string.Empty, string.Empty, expression);
+            else
+            {
+                int separatorIndex = expression.LastIndexOf(separator);
+                return separatorIndex > -1 ? (expression.Substring(0, separatorIndex), separator, expression[(separatorIndex + separator.Length)..]) : (string.Empty, string.Empty, expression);
+            }
         }
 
         /// <summary>
-        /// Splits a string from the *right* side into a tuple consisting of three strings: the separator, the left side, and the right side. If there is no match, the first two strings in the tuple will be set to String.Empty.
+        /// Splits a string at the first occurrence of <paramref name="separator"/> from the right side into a 3-tuple that consists solely of strings in the following order: the part preceding the separator, the separator itself, and the part proceeding the separator.
         /// </summary>
         /// <param name="expression">The string to split.</param>
-        /// <param name="separator">The character upon which the expression should be split.</param>
-        /// <returns>A tuple respectively containing three named strings: Left, Separator, Right.</returns>
+        /// <param name="separator">The character to search for in the string whose location will be the split point.</param>
+        /// <returns>A 3-tuple that consists of the part preceding the separator, the separator, and the part proceeding the separator. If no occurrence of <paramref name="separator"/> is found, the 3-tuple will consist of the following from left to right: <see cref="string.Empty"/>, <see cref="string.Empty"/>, and <paramref name="expression"/>.</returns>
         /// <example>
         /// <code>
         /// string expression = "This is a string";
@@ -110,143 +113,23 @@ namespace Reginald.Extensions
         /// </example>
         public static (string Left, string Separator, string Right) RPartition(this string expression, char separator)
         {
-            string[] results = expression.Split(separator);
-            if (results.Length > 1)
+            if (expression is null)
             {
-                string left = string.Empty;
-                for (int i = 0; i < results.Length - 1; i++)
-                {
-                    left += results[i];
-                }
-                return (left, separator.ToString(), results[^1]);
+                throw new ArgumentNullException(expression);
             }
-            return (string.Empty, string.Empty, expression);
-        }
-
-        /// <summary>
-        /// Evaluates and returns the result of a mathematical expression in a string.
-        /// </summary>
-        /// <param name="expression">The string consisting of a mathematical expression.</param>
-        /// <returns>The result of the mathematical expression.</returns>
-        /// <example>
-        /// <code>
-        /// string expression = "2 + 2^4 - (5 / 2)";
-        /// string result = expression.Eval();
-        /// Console.WriteLine(result);
-        /// </code>
-        /// </example>
-        public static string Eval(this string expression)
-        {
-            string result;
-            while (true)
+            else
             {
-                try
-                {
-                    DataTable table = new();
-                    //result = Math.Round(table.Compute($"1.0 * {expression}", string.Empty), 8);
-                    object computation = table.Compute($"1.0 * {expression}", string.Empty);
-                    if (computation is bool)
-                    {
-                        result = Convert.ToString((bool)computation);
-                        //result = Convert.ToString(Math.Round(Convert.ToDouble(computation)), 8);
-                    }
-                    else
-                    {
-                        double calculation = Math.Round(Convert.ToDouble(computation), 8);
-                        result = Convert.ToString(calculation);
-                    }
-                    //double computation = Convert.ToDouble(table.Compute($"1.0 * {expression}", string.Empty));
-                    //result = Convert.ToString(Math.Round(computation, 8));
-                    //result = Convert.ToString(table.Compute("1.0 * " + expression, string.Empty));
-                    if (result.EndsWith(".0"))
-                        result = result.Replace(".0", string.Empty);
-                    break;
-                }
-                catch (SyntaxErrorException)
-                {
-                    Regex rx = new($@"{Constants.FactorialRegexPattern}");
-                    MatchCollection matches = rx.Matches(expression);
-                    if (matches.Count > 0)
-                    {
-                        expression = expression.Factorial();
-                    }
-                    else
-                    {
-                        result = "...";
-                        break;
-                    }
-                }
-                catch (OverflowException)
-                {
-                    result = "...";
-                    break;
-                }
-                catch (DivideByZeroException)
-                {
-                    Regex rx = new(@"/\s*0");
-                    result = rx.Replace(expression, new MatchEvaluator(m =>
-                    {
-                        return string.Empty;
-                    }));
-                    result = result.Eval();
-                    if (double.TryParse(result, out double d))
-                    {
-                        result = d > 0 ? "+∞" : "-∞";
-                    }
-                    break;
-                }
-                catch (EvaluateException)
-                {
-                    Regex rx = new(@"\d+\^-?(\d+)");
-                    MatchCollection matches = rx.Matches(expression);
-                    if (matches.Count > 0)
-                    {
-                        result = rx.Replace(expression, new MatchEvaluator(m =>
-                        {
-                            string x = m.ToString();
-                            (string Left, string Separator, string Right) partition = x.Partition("^");
-                            string b = partition.Left;
-                            int power = Convert.ToInt32(partition.Right);
-                            string concat = string.Concat(Enumerable.Repeat(b + "*", Math.Abs(power)));
-
-                            concat = concat.Remove(concat.Length - 1);
-                            if (power < 0)
-                                concat = "1 / (" + concat + ")";
-
-                            return concat;
-                        }));
-                        expression = result;
-                    }
-                    else
-                    {
-                        result = "...";
-                        break;
-                    }
-                }
+                int separatorIndex = expression.LastIndexOf(separator);
+                return separatorIndex > -1 ? (expression.Substring(0, separatorIndex), separator.ToString(), expression[(separatorIndex + 1)..]) : (string.Empty, string.Empty, expression);
             }
-            return result;
         }
 
         /// <summary>
-        /// Indicates whether the string is a math expression.
-        /// </summary>
-        /// <param name="expression">The string to evaluate.</param>
-        /// <returns>True if the string is a math expression; otherwise, false.</returns>
-        public static bool IsMathExpression(this string expression)
-        {
-            Regex rx = new(@"^[0-9\s+-/^*()><!]+$");
-            MatchCollection matches = rx.Matches(expression);
-            if (matches.Count > 0)
-                return true;
-            return false;
-        }
-
-        /// <summary>
-        /// Returns a string with whitespace characters replaced by a specified character.
+        /// Returns a new string in which all whitespace characters are replaced by a specified string.
         /// </summary>
         /// <param name="expression">The string with whitespace characters.</param>
-        /// <param name="replacement">The replacement character.</param>
-        /// <returns>The string with whitespace characters replaced.</returns>
+        /// <param name="replacement">The string to replace all whitespace characters.</param>
+        /// <returns>A new string of an instance where all whitespace characters in <paramref name="expression"/> are replaced by <paramref name="replacement"/>.</returns>
         public static string Quote(this string expression, string replacement)
         {
             Regex rx = new(@"\s");
@@ -261,100 +144,58 @@ namespace Reginald.Extensions
         /// Indicates whether the string contains a top-level domain.
         /// </summary>
         /// <param name="expression">The string to be evaluated.</param>
-        /// <returns>True if the string contains a top-level domain; otherwise, false.</returns>
-        public static bool HasTopLevelDomain(this string expression)
+        /// <returns><see langword="true"/> if <paramref name="expression"/> contains a top-level domain; otherwise, <see langword="false"/>.</returns>
+        public static bool ContainsTopLevelDomain(this string expression)
         {
-            (string domain, _, string tld) = expression.Partition(".");
-            if (tld.Length > 1)
+            if (expression.Contains('.'))
             {
-                if (!char.IsDigit(tld[0]))
+                HashSet<string> topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
+                foreach (string line in File.ReadLines(FileOperations.GetFilePath(ApplicationPaths.TopLevelDomainsTxtFilename, true)))
                 {
-                    Regex rx = new(@"\s");
-                    MatchCollection matches = rx.Matches(domain);
-                    if (matches.Count == 0)
-                    {
-                        if (tld.Contains(" ") && !tld.Contains(@"/"))
-                            return false;
-                        return true;
-                    }
+                    topLevelDomains.Add(line);
                 }
+
+                (_, _, string topLevelDomain) = expression.Partition(".");
+                int forwardSlashIndex = topLevelDomain.IndexOf('/');
+                int periodIndex = forwardSlashIndex > 0 ? topLevelDomain.LastIndexOf('.', forwardSlashIndex) : -1;
+                // We add 1 to periodIndex to eliminate the period before the top-level domain
+                // Example: 'com' instead of '.com'
+                if (periodIndex++ > -1)
+                {
+                    topLevelDomain = topLevelDomain.Substring(periodIndex, forwardSlashIndex - periodIndex);
+                }
+                else
+                {
+                    (_, _, topLevelDomain) = expression.RPartition(".");
+                    topLevelDomain = topLevelDomain.Trim('/');
+                }
+                return topLevelDomains.Contains(topLevelDomain);
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
-        /// Indicates whether the string contains an HTTP scheme.
+        /// Indicates whether the string starts with an HTTP scheme.
         /// </summary>
         /// <param name="expression">The string to evaluate.</param>
-        /// <returns>True if the string contains an HTTP scheme; otherwise, false.</returns>
-        public static bool HasScheme(this string expression)
+        /// <returns><see langword="true"/> if <paramref name="expression"/> starts with an HTTP scheme; otherwise, <see langword="false"/>.</returns>
+        public static bool StartsWithScheme(this string expression)
         {
             StringComparison comparison = StringComparison.InvariantCultureIgnoreCase;
-            if (expression.StartsWith("https://", comparison) || expression.StartsWith("http://", comparison))
-            {
-                return true;
-            }
-            return false;
+            return expression.StartsWith("https://", comparison) || expression.StartsWith("http://", comparison);
         }
 
         /// <summary>
-        /// Prepends "https://" to a string.
+        /// Returns a new string with an HTTP scheme prepended to the string if the string does not start with an HTTP scheme.
         /// </summary>
         /// <param name="expression">The string to have "https://" prepended.</param>
-        /// <returns>The string with "https://" prepended.</returns>
+        /// <returns>If <paramref name="expression"/> does not start with an HTTP scheme, a new string with "https://" prepended to <paramref name="expression"/> will be returned. Otherwise, <paramref name="expression"/> will be returned.</returns>
         public static string PrependScheme(this string expression)
         {
-            Regex rx = new("https*://", RegexOptions.IgnoreCase);
-            MatchCollection matches = rx.Matches(expression);
-            if (matches.Count == 0)
-                expression = "https://" + expression;
-            return expression;
-        }
-
-        /// <summary>
-        /// Replaces all factorial instances in a string with their respective product of positive integers.
-        /// </summary>
-        /// <param name="expression">The string with factorials.</param>
-        /// <returns>A string with the product of positive integers.</returns>
-        public static string Factorial(this string expression)
-        {
-            Regex rx = new($@"{Constants.FactorialRegexPattern}");
-            string result = rx.Replace(expression, new MatchEvaluator(m =>
-            {
-                string x = m.Groups[1].ToString();
-                int y = int.Parse(x);
-                string concat = string.Empty;
-                for (int i = y; i > 0; i--)
-                {
-                    concat += $"{i} * ";
-                }
-                concat += "1";
-                return concat;
-            }));
-            return result;
-        }
-
-        /// <summary>
-        /// Capitalizes the first character of a string. If the first character is null or empty, an ArgumentException will be thrown.
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns>The original string with the first character capitalized.</returns>
-        /// <example>
-        /// <code>
-        /// string sentence = "hello world";
-        /// string expected = "Hello world";
-        /// string actual = sentence.Capitalize();
-        /// Console.WriteLine(expected == actual);
-        /// </code>
-        /// </example>
-        public static string Capitalize(this string expression)
-        {
-            if (string.IsNullOrEmpty(expression))
-            {
-                throw new ArgumentException();
-            }
-            char firstChar = char.ToUpper(expression[0]);
-            return firstChar + expression.Substring(1);
+            return expression.StartsWithScheme() ? expression : "https://" + expression;
         }
     }
 }

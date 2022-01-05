@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Acrylic Dark",
+    "author": "Reginald",
+    "guid": "553a4cdf-11c6-49ce-b634-7ce6945f6958",
+    "isEditable": false,
+    "backgroundColor": "#171717",
+    "tintOpacity": 0.8,
+    "inputBrush": "White",
+    "caretBrush": "DarkGray",
+    "descriptionBrush": "White",
+    "captionBrush": "LightGray",
+    "borderBrush": "DarkGray",
+    "highlightBrush": "#99FF8D00"
+  },
+  {
+    "name": "Acrylic Light",
+    "author": "Reginald",
+    "guid": "2b4b110c-6e4b-4dd6-aee0-ef290aabd982",
+    "isEditable": false,
+    "backgroundColor": "#DDDDDD",
+    "tintOpacity": 0.8,
+    "inputBrush": "Black",
+    "caretBrush": "Gray",
+    "descriptionBrush": "Black",
+    "captionBrush": "#222222",
+    "borderBrush": "Black",
+    "highlightBrush": "#99FF8D00"
+  },
+  {
+    "name": "Black Cherry",
+    "author": "Reginald",
+    "guid": "fea6b940-29e7-4e02-9f85-154e691789ca",
+    "isEditable": false,
+    "backgroundColor": "Black",
+    "tintOpacity": 1.0,
+    "inputBrush": "White",
+    "caretBrush": "DarkRed",
+    "descriptionBrush": "White",
+    "captionBrush": "LightGray",
+    "borderBrush": "Black",
+    "highlightBrush": "#99FF0000"
+  }
+]

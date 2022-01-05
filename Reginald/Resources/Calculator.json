@@ -1,0 +1,8 @@
+{
+  "guid": "b34183ee-1f27-491a-af06-f9e63c4b7e11",
+  "name": "Calculator",
+  "icon": "pack://application:,,,/Reginald;component/Images/Representations/calculator.png",
+  "caption": "Copy to Clipboard",
+  "altCaption": "Replace Input with Result",
+  "isEnabled": true
+}

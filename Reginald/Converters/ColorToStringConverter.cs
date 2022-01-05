@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace Reginald.Converters
 {
-    [ValueConversion(typeof(Color), typeof(String))]
+    [ValueConversion(typeof(Color), typeof(string))]
     public class ColorToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

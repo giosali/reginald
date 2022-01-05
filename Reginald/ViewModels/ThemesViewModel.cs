@@ -1,91 +1,33 @@
-﻿using Caliburn.Micro;
-using Reginald.Core.Base;
-using Reginald.Core.Helpers;
+﻿using Reginald.Core.DataModels;
+using Reginald.Core.Extensions;
 using Reginald.Core.IO;
-using Reginald.Extensions;
-using Reginald.Models;
-using System;
-using System.Collections.Generic;
+using Reginald.Core.Products;
+using System.Linq;
 using System.Windows.Controls;
-using System.Xml;
+using System.Windows.Input;
 
 namespace Reginald.ViewModels
 {
-    public class ThemesViewModel : Screen
+    public class ThemesViewModel : UnitViewModelBase<Theme>
     {
-        public ThemesViewModel(System.Action action)
+        public ThemesViewModel()
         {
-            Action = action;
-
-            Themes.AddRange(GetThemes(ApplicationPaths.XmlThemesFileLocation, true));
-            SelectedTheme = GetThemeFromIdentifier(Themes, Identifier);
+            Units.AddRange(UpdateUnits<ThemeDataModel>(ApplicationPaths.ThemesJsonFilename, true));
+            SelectedUnit = Units.First(u => u.Guid.ToString() == Settings.ThemeIdentifier) as Theme;
         }
 
-        private System.Action Action { get; set; }
-
-        private BindableCollection<ThemeModel> _themes = new();
-        public BindableCollection<ThemeModel> Themes
+        public void ThemesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            get => _themes;
-            set
+            Settings.ThemeIdentifier = SelectedUnit.Guid.ToString();
+            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+        }
+
+        public void ThemesListBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                _themes = value;
-                NotifyOfPropertyChange(() => Themes);
+                e.Handled = true;
             }
-        }
-
-        private ThemeModel _selectedTheme;
-        public ThemeModel SelectedTheme
-        {
-            get => _selectedTheme;
-            set
-            {
-                _selectedTheme = value;
-                NotifyOfPropertyChange(() => SelectedTheme);
-            }
-        }
-
-        private Guid _identifier = Properties.Settings.Default.ThemeIdentifier;
-        public Guid Identifier
-        {
-            get => _identifier;
-            set
-            {
-                _identifier = value;
-                NotifyOfPropertyChange(() => Identifier);
-            }
-        }
-
-        public void Themes_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Properties.Settings.Default.ThemeIdentifier = SelectedTheme.Identifier;
-            Properties.Settings.Default.Save();
-            Action();
-        }
-
-        private static List<ThemeModel> GetThemes(string name, bool isLocal = false)
-        {
-            XmlDocument doc =  XmlHelper.GetXmlDocument(ApplicationPaths.XmlThemesFileLocation, isLocal);
-            XmlNodeList nodes = doc.GetNodes(Constants.ThemesXpath);
-            List<ThemeModel> themes = new();
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                themes.Add(new ThemeModel(nodes[i]));
-            }
-            return themes;
-        }
-
-        private static ThemeModel GetThemeFromIdentifier(BindableCollection<ThemeModel> themes, Guid identifier)
-        {
-            for (int i = 0; i < themes.Count; i++)
-            {
-                ThemeModel theme = themes[i];
-                if (theme.Identifier == identifier)
-                {
-                    return theme;
-                }
-            }
-            return null;
         }
     }
 }

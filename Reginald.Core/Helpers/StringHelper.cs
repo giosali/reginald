@@ -1,91 +1,21 @@
-﻿using System;
-
-namespace Reginald.Core.Helpers
+﻿namespace Reginald.Core.Helpers
 {
     public static class StringHelper
     {
         /// <summary>
-        /// Takes a string and returns a string with any backslashes, left square brackets, and parentheses replaced by backslashes behind those characters.
+        /// Receives a string and returns a new string with all unmatched or unterminated characters escaped.
         /// </summary>
-        /// <param name="expression">The input.</param>
-        /// <returns></returns>
+        /// <param name="expression">The string to clean.</param>
+        /// <returns>A new string with all unmatched or unterminated characters in <paramref name="expression"/> escaped.</returns>
         public static string RegexClean(string expression)
         {
-            string[] characters = new string[] { @"\", "[", "(", ")" };
+            string[] characters = new string[] { @"\", "[", "(", ")", ".", "+" };
             for (int i = 0; i < characters.Length; i++)
             {
                 string character = characters[i];
                 expression = expression.Replace(character, @$"\{character}");
             }
             return expression;
-        }
-
-        public static string RegexOrSplit(string expression, out int count)
-        {
-            string[] substrings = expression.Split(' ');
-            string concatenation = string.Join("|", substrings);
-            count = substrings.Length;
-            return concatenation;
-        }
-
-        public static string RegexOrBoundarySplit(string expression, out int count)
-        {
-            string[] substrings = expression.Split(' ');
-            string concatenation = string.Empty;
-            for (int i = 0; i < substrings.Length; i++)
-            {
-                string delimiter = i == substrings.Length - 1 ? string.Empty : "|";
-                string substring = substrings[i];
-                if (substring != string.Empty)
-                {
-                    concatenation += @"\b" + substring + delimiter;
-                }
-                else
-                {
-                    concatenation += substring;
-                }
-            }
-            count = substrings.Length;
-            return concatenation;
-        }
-
-        public static string Boundarize(string expression)
-        {
-            string[] substrings = expression.Split(' ');
-            for (int i = 0; i < substrings.Length; i++)
-            {
-                string substring = substrings[i];
-                if (substring != string.Empty)
-                {
-                    substrings[i] = @"\b" + substring + @"\w*\b";
-                }
-            }
-            return string.Join(' ', substrings);
-        }
-
-        public static bool TryFormat(string format, string input, out string output)
-        {
-            try
-            {
-                if (input is not null)
-                {
-                    output = string.Format(format, input);
-                    return true;
-                }
-                else
-                {
-                    output = input;
-                }
-            }
-            catch (FormatException)
-            {
-                output = format;
-            }
-            catch (ArgumentNullException)
-            {
-                output = null;
-            }
-            return false;
         }
     }
 }

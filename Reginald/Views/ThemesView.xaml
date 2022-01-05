@@ -3,250 +3,201 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Reginald.Views"
-             xmlns:src="clr-namespace:Reginald.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             
+             xmlns:local="clr-namespace:Reginald.Converters"
              xmlns:cal="http://caliburnmicro.com"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             
-             xmlns:hc="https://handyorg.github.io/handycontrol">
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
-            <!-- Converters -->
-            <src:SolidColorBrushConverter x:Key="solidColorBrushConverter"/>
-            <src:ColorToStringConverter x:Key="colorToStringConverter"/>
-            <src:ColorToSolidColorBrushConverter x:Key="colorToSolidColorBrushConverter"/>
-
-            <!-- Styles -->
-            <Style x:Key="ToggleButtonStyle"
-                   TargetType="{x:Type ToggleButton}"
-                   BasedOn="{StaticResource ToggleButtonSwitch}">
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="FontWeight" Value="Light"/>
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-            </Style>
-
-            <Style x:Key="TextBoxStyle"
+            <!-- # Styles -->
+            <Style x:Key="ColorDisplayTextBoxStyle"
                    TargetType="{x:Type TextBox}"
                    BasedOn="{StaticResource TextBoxExtend}">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="FontWeight" Value="Light"/>
-                <Setter Property="Cursor" Value="IBeam"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="DockPanel.Dock" Value="Right"/>
+                <Setter Property="FontWeight"
+                        Value="Bold"/>
+                <Setter Property="Margin"
+                        Value="0 0 -8 0"/>
+                <Setter Property="BorderThickness"
+                        Value="0"/>
+                <Setter Property="IsReadOnly"
+                        Value="True"/>
+                <Setter Property="Cursor"
+                        Value="Arrow"/>
+            </Style>
+
+            <Style x:Key="ValueDisplayTextBoxStyle"
+                   TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource TextBoxExtend}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding SelectedTheme.IsEditable}" Value="False">
-                        <Setter Property="IsReadOnly" Value="True"/>
-                        <Setter Property="Cursor" Value="No"/>
-                        <Setter Property="BorderThickness" Value="0"/>
+                    <DataTrigger Binding="{Binding SelectedUnit.IsEditable}"
+                                 Value="False">
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Center"/>
+                        <Setter Property="BorderThickness"
+                                Value="0"/>
+                        <Setter Property="IsReadOnly"
+                                Value="True"/>
+                        <Setter Property="Cursor"
+                                Value="No"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
 
-            <Style x:Key="RectangleStyle"
-                   TargetType="{x:Type Rectangle}">
-                <Setter Property="Width" Value="25"/>
-                <Setter Property="Height" Value="25"/>
-                <Setter Property="Margin" Value="0 0 12 0"/>
-                <Setter Property="DockPanel.Dock" Value="Left"/>
-            </Style>
-            
-            <!-- DataTemplates -->
+            <!-- # DataTemplates -->
             <DataTemplate x:Key="ThemesDataTemplate">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
                     <Border>
-                        <StackPanel Grid.Column="0"
-                                    Margin="2.5 10 0 10">
+                        <StackPanel Margin="2.5 10 0 10">
                             <TextBlock Text="{Binding Name}"
-                                   FontSize="14"/>
+                                       FontSize="14"/>
                             <TextBlock Text="{Binding Author}"
-                                   FontSize="12"
-                                   FontWeight="Light"
-                                   Foreground="LightGray"/>
+                                       FontSize="12"
+                                       FontWeight="Light"
+                                       Foreground="LightGray"/>
                         </StackPanel>
                     </Border>
                 </Grid>
             </DataTemplate>
+
+            <!-- # Converters -->
+            <local:ColorToStringConverter x:Key="ColorToStringConverter"/>
+            <local:BrushToStringConverter x:Key="BrushToStringConverter"/>
+            <local:ColorToInvertedBrushConverter x:Key="ColorToInvertedBrushConverter"/>
+            <local:BrushToInvertedBrushConverter x:Key="BrushToInvertedBrushConverter"/>
+            <local:ColorToSolidColorBrushConverter x:Key="colorToSolidColorBrushConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer Margin="-12 0 0 0">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="175"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="175"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <ListBox x:Name="Themes"
+        <!-- # Themes -->
+        <ScrollViewer Grid.Column="0"
+                      Focusable="True"
+                      FocusVisualStyle="{x:Null}"
+                      Margin="-16 -6.5 0 -6"
+                      cal:Message.Attach="[Event PreviewMouseWheel] = [Action ScrollViewer_PreviewMouseWheel($source, $eventargs)];
+                                          [Event MouseDown] = [Action ScrollViewer_MouseDown($source, $eventargs)]">
+            <ListBox ItemsSource="{Binding Units, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      ItemTemplate="{StaticResource ThemesDataTemplate}"
-                     SelectedItem="{Binding SelectedTheme}"
-                     Grid.Column="0"
-                     BorderThickness="0 0 1 0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <cal:ActionMessage MethodName="Themes_SelectionChanged">
-                            <cal:Parameter Value="$this"/>
-                            <cal:Parameter Value="$eventargs"/>
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ListBox>
-           
-            <hc:UniformSpacingPanel Grid.Column="1"
+                     SelectedItem="{Binding SelectedUnit}"
+                     BorderThickness="0 0 1 0"
+                     cal:Message.Attach="[Event SelectionChanged] = [Action ThemesListBox_SelectionChanged($this, $eventargs)];
+                                         [Event PreviewKeyDown] = [Action ThemesListBox_PreviewKeyDown($this, $eventargs)]"/>
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Column="1"
+                      Focusable="True"
+                      FocusVisualStyle="{x:Null}"
+                      cal:Message.Attach="[Event PreviewMouseWheel] = [Action ScrollViewer_PreviewMouseWheel($source, $eventargs)];
+                                          [Event MouseDown] = [Action ScrollViewer_MouseDown($source, $eventargs)]">
+            <hc:UniformSpacingPanel Orientation="Vertical"
                                     Spacing="12"
-                                    Margin="12 0 0 0"
-                                    Orientation="Vertical">
-                <!-- NAME -->
-                <TextBlock Text="{Binding SelectedTheme.Name}"
-                           Style="{StaticResource HeaderOneTextBlockStyle}"/>
-                
-                <!-- AUTHOR -->
-                <StackPanel Orientation="Horizontal"
-                            Margin="0 -12 0 0">
-                    <TextBlock Text="Created by: "
-                               Style="{StaticResource HeaderThreeTextBlockStyle}"
-                               Foreground="DarkGray"/>
-                    <TextBlock Text="{Binding SelectedTheme.Author}"
-                               Style="{StaticResource HeaderThreeTextBlockStyle}"
-                               Foreground="DarkGray"/>
-                </StackPanel>
+                                    Margin="16 0">
+                <!-- ## Name -->
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                           Text="{Binding SelectedUnit.Name}"/>
 
-                
-                <!-- Regular Search Results -->
-                <TextBlock Text="Regular Search Result Colors"
-                           Style="{StaticResource HeaderThreeTextBlockStyle}"
-                           Margin="0 12 0 0"/>
-                <hc:UniformSpacingPanel Margin="0 6 0 0"
-                                        Spacing="12"
-                                        Orientation="Vertical">
-                    
-                    <!-- BACKGROUND COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.BackgroundColor, Converter={StaticResource colorToSolidColorBrushConverter}}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.BackgroundColor, Converter={StaticResource colorToStringConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Background color:"
-                                 DockPanel.Dock="Right"/>
-                    </DockPanel>
-                    
-                    <!-- INPUT COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.InputColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.InputColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Input color:"/>
-                    </DockPanel>
+                <!-- ## Author -->
+                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="{Binding SelectedUnit.Author, StringFormat='Created by: {0}'}"
+                           Foreground="DarkGray"
+                           Margin="0 -16 0 0"/>
 
-                    <!-- CARET COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.CaretColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.CaretColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Caret color:"/>
-                    </DockPanel>
 
-                    <!-- DESCRIPTION COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.DescriptionColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.DescriptionColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Description color:"/>
-                    </DockPanel>
+                <!-- ## Search Box Palette -->
+                <TextBlock Style="{StaticResource DefaultTextBlockStyle}"
+                           Text="Search box palette"
+                           Margin="0 16 0 0"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <!-- ALT COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.AltColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.AltColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Alt color:"/>
-                    </DockPanel>
+                    <hc:UniformSpacingPanel Grid.Column="0"
+                                            Orientation="Vertical"
+                                            Spacing="8">
+                        <!-- ### Background Color -->
+                        <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
+                                 Background="{Binding SelectedUnit.BackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}}"
+                                 Foreground="{Binding SelectedUnit.BackgroundColor, Converter={StaticResource ColorToInvertedBrushConverter}}"
+                                 Text="Background color"/>
 
-                    <!-- BORDER COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.BorderColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.BorderColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Border color:"/>
-                    </DockPanel>
+                        <!-- ### Input Brush -->
+                        <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
+                                 Background="{Binding SelectedUnit.InputBrush}"
+                                 Foreground="{Binding SelectedUnit.InputBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Text="Input brush"/>
 
-                    <!-- HIGHLIGHT COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.DefaultHighlightColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.DefaultHighlightColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Highlight color:"/>
-                    </DockPanel>
-                </hc:UniformSpacingPanel>
+                        <!-- ### Caret Brush -->
+                        <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
+                                 Background="{Binding SelectedUnit.CaretBrush}"
+                                 Foreground="{Binding SelectedUnit.CaretBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Text="Caret brush"/>
 
-                <!-- Special Search Results -->
-                <TextBlock Text="Special Search Result Colors"
-                           Style="{StaticResource HeaderThreeTextBlockStyle}"
-                           Margin="0 12 0 0"/>
-                <hc:UniformSpacingPanel Margin="0 6 0 0"
-                                        Spacing="12"
-                                        Orientation="Vertical">
-                    
-                    <!-- SPECIAL MAIN COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.SpecialMainColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.SpecialMainColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Main color:"/>
-                    </DockPanel>
+                        <!-- ### Description Brush -->
+                        <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
+                                 Background="{Binding SelectedUnit.DescriptionBrush}"
+                                 Foreground="{Binding SelectedUnit.DescriptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Text="Description brush"/>
 
-                    <!-- SPECIAL SECONDARY COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.SpecialSecondaryColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.SpecialSecondaryColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Secondary color:"/>
-                    </DockPanel>
+                        <!-- ### Caption Brush -->
+                        <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
+                                 Background="{Binding SelectedUnit.CaptionBrush}"
+                                 Foreground="{Binding SelectedUnit.CaptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Text="Caption brush"/>
 
-                    <!-- SPECIAL SUB COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.SpecialSubColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.SpecialSubColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Sub color:"/>
-                    </DockPanel>
+                        <!-- ### Border Brush -->
+                        <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
+                                 Background="{Binding SelectedUnit.BorderBrush}"
+                                 Foreground="{Binding SelectedUnit.BorderBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Text="Border brush"/>
 
-                    <!-- SPECIAL BORDER COLOR -->
-                    <DockPanel VerticalAlignment="Center">
-                        <Rectangle Fill="{Binding SelectedTheme.SpecialBorderColor}"
-                                   Style="{StaticResource RectangleStyle}"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedTheme.SpecialBorderColor, Converter={StaticResource solidColorBrushConverter}}"
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 hc:InfoElement.Title="Border color:"/>
-                    </DockPanel>
-                </hc:UniformSpacingPanel>
+                        <!-- ### Highlight Brush -->
+                        <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
+                                 Background="{Binding SelectedUnit.HighlightBrush}"
+                                 Foreground="{Binding SelectedUnit.HighlightBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Text="Border brush"/>
+                    </hc:UniformSpacingPanel>
+
+                    <hc:UniformSpacingPanel Grid.Column="1"
+                                            Orientation="Vertical"
+                                            Spacing="8">
+                        <!-- ### Background Color Text -->
+                        <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
+                                 Text="{Binding SelectedUnit.BackgroundColor, Converter={StaticResource ColorToStringConverter}}"/>
+
+                        <!-- ### Input Brush Text -->
+                        <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
+                                 Text="{Binding SelectedUnit.InputBrush, Converter={StaticResource BrushToStringConverter}}"/>
+
+                        <!-- ### Caret Brush Text -->
+                        <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
+                                 Text="{Binding SelectedUnit.CaretBrush, Converter={StaticResource BrushToStringConverter}}"/>
+
+                        <!-- ### Description Brush Text -->
+                        <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
+                                 Text="{Binding SelectedUnit.DescriptionBrush, Converter={StaticResource BrushToStringConverter}}"/>
+
+                        <!-- ### Caption Brush Text -->
+                        <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
+                                 Text="{Binding SelectedUnit.CaptionBrush, Converter={StaticResource BrushToStringConverter}}"/>
+
+                        <!-- ### Border Brush Text -->
+                        <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
+                                 Text="{Binding SelectedUnit.BorderBrush, Converter={StaticResource BrushToStringConverter}}"/>
+
+                        <!-- ### Highlight Brush Text -->
+                        <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
+                                 Text="{Binding SelectedUnit.HighlightBrush, Converter={StaticResource BrushToStringConverter}}"/>
+                    </hc:UniformSpacingPanel>
+                </Grid>
             </hc:UniformSpacingPanel>
-        </Grid>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

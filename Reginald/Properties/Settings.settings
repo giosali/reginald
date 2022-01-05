@@ -1,42 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Reginald.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="IncludeInstalledApplications" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="IncludeDefaultKeywords" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="IncludeSpecialKeywords" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="IsDefaultColorEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="IsSystemColorEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="SearchBoxKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Space</Value>
-    </Setting>
-    <Setting Name="SearchBoxModifierOne" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Alt</Value>
-    </Setting>
-    <Setting Name="SearchBoxModifierTwo" Type="System.String" Scope="User">
-      <Value Profile="(Default)">None</Value>
-    </Setting>
-    <Setting Name="IncludeCommands" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="IncludeUtilities" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="IncludeSettingsPages" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="ThemeIdentifier" Type="System.Guid" Scope="User">
-      <Value Profile="(Default)">553a4cdf-11c6-49ce-b634-7ce6945f6958</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>

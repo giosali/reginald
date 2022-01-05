@@ -1,16 +1,16 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
 using Reginald.Core.Base;
+using Reginald.Core.Enums;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using static Reginald.Core.Enums.RecycleBinEnums;
 
 namespace Reginald.Core.Utilities
 {
     public class RecycleBin
     {
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode)]
-        static extern uint SHEmptyRecycleBin(IntPtr hwnd, string pszRootPath, RecycleFlag dwFlags);
+        private static extern uint SHEmptyRecycleBin(IntPtr hwnd, string pszRootPath, RecycleFlag dwFlags);
 
         public static void Empty()
         {

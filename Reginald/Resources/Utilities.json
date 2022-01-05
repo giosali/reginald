@@ -1,0 +1,15 @@
+[
+  {
+    "guid": "d2482f02-d5ad-4fa9-9f43-b8323bc35639",
+    "name": "Recycle",
+    "keyphrase": "empty recycle bin",
+    "icon": "pack://application:,,,/Reginald;component/Images/Utilities/recycle-bin.png",
+    "description": "Empty Recyle Bin",
+    "altDescription": "Show Recycle Bin",
+    "caption": "Utility",
+    "isEnabled": true,
+    "requiresConfirmation": true,
+    "confirmationMessage": "Are you sure? (This action cannot be undone)",
+    "utility": "Recycle"
+  }
+]

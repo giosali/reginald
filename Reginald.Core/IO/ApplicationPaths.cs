@@ -4,20 +4,36 @@ namespace Reginald.Core.IO
 {
     public static class ApplicationPaths
     {
-        public static string AppDataDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        public const string ApplicationName = "Reginald";
-        public const string IconsDirectoryName = "ApplicationIcons";
-        public const string UserIconsDirectoryName = "UserIcons";
-        public const string XmlKeywordFilename = "Search.xml";
-        public const string XmlUserKeywordFilename = "UserSearch.xml";
-        public const string XmlSpecialKeywordFilename = "SpecialKeywords.xml";
-        public const string XmlCommandsFilename = "Commands.xml";
-        public const string XmlSettingsFilename = "Settings.xml";
-        public const string XmlUtilitiesFilename = "Utilities.xml";
-        public const string XmlSettingsPagesFileLocation = "Resources/MSSettings.xml";
-        public const string TxtFilename = "Applications.txt";
-        public const string CompressedTxtFilename = "ApplicationsCompressed.txt";
-        public const string ExpansionsJsonFilename = "Expansions.json";
-        public const string XmlThemesFileLocation = "Resources/Themes.xml";
+        public static string AppDataDirectoryPath { get; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+        public static string ApplicationName { get; } = "Reginald";
+
+        public static string UserIconsDirectoryName { get; } = "UserIcons";
+
+        public static string SettingsFilename { get; } = "Settings.json";
+
+        public static string KeywordsJsonFilename { get; } = "Keywords.json";
+
+        public static string UserKeywordsJsonFilename { get; } = "UserKeywords.json";
+
+        public static string CalculatorJsonFilename { get; } = "Calculator.json";
+
+        public static string LinkJsonFilename { get; } = "Link.json";
+
+        public static string DefaultResultsJsonFilename { get; } = "DefaultResults.json";
+
+        public static string CommandsJsonFilename { get; } = "Commands.json";
+
+        public static string HttpKeywordsJsonFilename { get; } = "HttpKeywords.json";
+
+        public static string UtilitiesJsonFilename { get; } = "Utilities.json";
+
+        public static string MicrosoftSettingsJsonFilename { get; } = "MicrosoftSettings.json";
+
+        public static string ExpansionsJsonFilename { get; } = "Expansions.json";
+
+        public static string ThemesJsonFilename { get; } = "Themes.json";
+
+        public static string TopLevelDomainsTxtFilename { get; } = "TopLevelDomains.txt";
     }
 }

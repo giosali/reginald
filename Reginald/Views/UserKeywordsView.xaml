@@ -1,0 +1,388 @@
+﻿<UserControl x:Class="Reginald.Views.UserKeywordsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Reginald.Converters"
+             xmlns:cal="http://caliburnmicro.com"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!-- # Styles -->
+            <Style x:Key="TextBoxLabelStyle"
+                   TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource TextBoxBaseStyle}">
+                <Setter Property="IsReadOnly"
+                        Value="True"/>
+                <Setter Property="Background"
+                        Value="Transparent"/>
+                <Setter Property="BorderThickness"
+                        Value="0"/>
+                <Setter Property="HorizontalAlignment"
+                        Value="Right"/>
+            </Style>
+
+            <!-- # Converters -->
+            <local:VisibilityToBooleanConverter x:Key="VisibilityToBooleanConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer Focusable="True"
+                  FocusVisualStyle="{x:Null}"
+                  cal:Message.Attach="[Event PreviewMouseWheel] = [Action ScrollViewer_PreviewMouseWheel($source, $eventargs)];
+                                      [Event MouseDown] = [Action ScrollViewer_MouseDown($source, $eventargs)]">
+        <hc:UniformSpacingPanel Orientation="Vertical"
+                                Spacing="24"
+                                Margin="0 0 16 0">
+            <!-- # Title -->
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                       Text="Your keywords"/>
+            
+            <!-- ## DataGrid -->
+            <DataGrid ItemsSource="{Binding Keywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedKeyword, Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      SelectionMode="Single"
+                      HeadersVisibility="Column">
+                <DataGrid.Columns>
+                    <!-- ### Icon -->
+                    <DataGridTemplateColumn Header="Icon"
+                                            IsReadOnly="True"
+                                            Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Icon}"
+                                       Width="20"
+                                       Height="20"
+                                       SnapsToDevicePixels="True"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- ### Keyword -->
+                    <DataGridTextColumn Binding="{Binding Word}"
+                                        Header="Keyword"
+                                        IsReadOnly="True"
+                                        Width="*"
+                                        FontSize="16"
+                                        FontWeight="Light"/>
+
+                    <!-- ### Description -->
+                    <DataGridTextColumn Binding="{Binding Description}"
+                                        Header="Description"
+                                        IsReadOnly="True"
+                                        Width="2*"
+                                        FontSize="16"
+                                        FontWeight="Light"/>
+
+                    <!-- ### Enabled -->
+                    <DataGridTemplateColumn Header="Enabled" 
+                                            IsReadOnly="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          cal:Message.Attach="[Event Click] = [Action KeywordIsEnabled_Click($this, $eventargs)]"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- ## Buttons for Keywords -->
+            <hc:UniformSpacingPanel Orientation="Horizontal"
+                                    Spacing="8"
+                                    HorizontalAlignment="Right">
+                <!-- ### Delete Keyword Button -->
+                <Button Content="Delete keyword"
+                        cal:Message.Attach="[Event Click] = [Action DeleteKeywordButton_Click($this, $eventargs)]">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}"
+                               BasedOn="{StaticResource ButtonBaseStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Value="{x:Null}">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Visibility, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityToBooleanConverter}}"
+                                             Value="True">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                
+                <!-- ### Edit Keyword Button -->
+                <Button Content="Edit keyword"
+                        cal:Message.Attach="[Event Click] = [Action EditKeywordButton_Click($this, $eventargs)]">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}"
+                               BasedOn="{StaticResource ButtonBaseStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Value="{x:Null}">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Visibility, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityToBooleanConverter}}"
+                                             Value="True">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                
+                <!-- ### Create Keyword Button -->
+                <Button Content="Create keyword"
+                        cal:Message.Attach="[Event Click] = [Action CreateKeywordButton_Click($this, $eventargs)]">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}"
+                               BasedOn="{StaticResource ButtonPrimary}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Visibility, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityToBooleanConverter}}"
+                                             Value="True">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </hc:UniformSpacingPanel>
+            
+            <!-- ## Form -->
+            <StackPanel Margin="96 0 96 48"
+                        Visibility="{Binding Visibility}">
+                <!-- ### Sample Search Result -->
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Column="0"
+                               Grid.Row="1"
+                               Text="Sample search result:"
+                               Margin="0 0 8 0"/>
+                    <Border Grid.Column="1"
+                            Grid.RowSpan="3"
+                            BorderThickness="1"
+                            BorderBrush="LightGray"
+                            Background="#212121">
+                        <Grid Width="300"
+                              Height="50">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                                <Image Source="{Binding SelectedGenericKeyword.Icon}"
+                                       Grid.Column="0"
+                                       Width="30"
+                                       Height="30"
+                                       Margin="0 0 12.5 0"/>
+                                <StackPanel VerticalAlignment="Center"
+                                            Margin="0 0 0 5"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="2">
+                                    <TextBlock Text="{Binding SelectedGenericKeyword.Description}"
+                                               TextTrimming="CharacterEllipsis"
+                                               Background="Transparent"
+                                               Foreground="White"
+                                               FontSize="16"
+                                               FontWeight="Light"
+                                               Margin="0"
+                                               Padding="0"/>
+                                    <TextBlock Text="{Binding SelectedGenericKeyword.Caption}"
+                                               Background="Transparent"
+                                               Foreground="Gray"
+                                               FontSize="12"
+                                               FontWeight="Light"
+                                               Margin="0"
+                                               Padding="0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+                
+                <!-- ### Name-->
+                <TextBox Style="{StaticResource TextBoxExtend}"
+                         Text="{Binding SelectedGenericKeyword.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         hc:InfoElement.Title="Name"
+                         hc:InfoElement.TitlePlacement="Top"
+                         hc:InfoElement.Necessary="True"
+                         hc:InfoElement.Placeholder="DuckDuckGo"/>
+
+                <!-- ### Keyword-->
+                <TextBox Style="{StaticResource TextBoxExtend}"
+                         Text="{Binding SelectedGenericKeyword.Word, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         hc:InfoElement.Title="Keyword"
+                         hc:InfoElement.TitlePlacement="Top"
+                         hc:InfoElement.Necessary="True"
+                         hc:InfoElement.Placeholder="ddg"/>
+
+                <!-- ### URL-->
+                <hc:UniformSpacingPanel Orientation="Vertical"
+                                        Spacing="8"
+                                        Margin="8 24 8 4">
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}"
+                               Text="URLs must contain a placeholder that resembles a zero surrounded by curly braces: {0}"/>
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}"
+                               Text="The '{0}' will be replaced by the input you type after the keyword."/>
+                </hc:UniformSpacingPanel>
+                <TextBox Style="{StaticResource TextBoxExtend}"
+                         Text="{Binding SelectedGenericKeyword.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         hc:InfoElement.Title="URL"
+                         hc:InfoElement.TitlePlacement="Top"
+                         hc:InfoElement.Necessary="True"
+                         hc:InfoElement.Placeholder="https://duckduckgo.com/?q={0}"/>
+
+                <!-- ### Separator -->
+                <hc:UniformSpacingPanel Orientation="Vertical"
+                                        Spacing="8"
+                                        Margin="8 24 8 4">
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}"
+                               Text="The separator is what will be used to replace spaces in the input you type."/>
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}"
+                               Text="If the input you type should be treated as a query, use either the '+' or '%20'."/>
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}"
+                               Text="If you don't want spaces to be replaced by anything, leave it blank. Alternatively, you can enter your own custom separator"/>
+                </hc:UniformSpacingPanel>
+                <ComboBox Style="{StaticResource ComboBoxExtend}"
+                          Text="{Binding SelectedGenericKeyword.Separator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsEditable="True"
+                          Width="100"
+                          HorizontalAlignment="Left"
+                          HorizontalContentAlignment="Center"
+                          hc:InfoElement.Title="Separator"
+                          hc:InfoElement.TitlePlacement="Top"
+                          hc:InfoElement.Necessary="True"
+                          cal:Message.Attach="[Event SelectionChanged] = [Action SeparatorComboBox_SelectionChanged($source, $eventargs)];
+                                              [Event KeyUp] = [Action SeparatorComboBox_KeyUp($source, $eventargs)]">
+                    <ComboBoxItem Content="+"/>
+                    <ComboBoxItem Content="%20"/>
+                    <ComboBoxItem Content=""/>
+                </ComboBox>
+
+                <!-- ### Format -->
+                <hc:UniformSpacingPanel Orientation="Vertical"
+                                        Spacing="8"
+                                        Margin="8 24 8 4">
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}"
+                               Text="The description format must contain a placeholder that resembles a zero surrounded by curly braces: {0}"/>
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}"
+                               Text="The '{0}' will be dynamically replaced by the input you type after the keyword as you type."/>
+                </hc:UniformSpacingPanel>
+                <TextBox Style="{StaticResource TextBoxExtend}"
+                         Text="{Binding SelectedGenericKeyword.Format, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         hc:InfoElement.Title="Description format"
+                         hc:InfoElement.TitlePlacement="Top"
+                         hc:InfoElement.Necessary="True"
+                         hc:InfoElement.Placeholder="Search DuckDuckGo for '{0}'"
+                         cal:Message.Attach="[Event TextChanged] = [Action FormatTextBox_TextChanged($this, $eventargs)]"/>
+
+                <!-- ### Placeholder -->
+                <ComboBox Style="{StaticResource ComboBoxExtend}"
+                          Text="{Binding SelectedGenericKeyword.Placeholder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsEditable="True"
+                          Width="100"
+                          HorizontalAlignment="Left"
+                          HorizontalContentAlignment="Center"
+                          hc:InfoElement.Title="Placeholder"
+                          hc:InfoElement.TitlePlacement="Top"
+                          hc:InfoElement.Necessary="True"
+                          cal:Message.Attach="[Event SelectionChanged] = [Action PlaceholderComboBox_SelectionChanged($source, $eventargs)];
+                                              [Event KeyUp] = [Action PlaceholderComboBox_KeyUp($source, $eventargs)]">
+                    <ComboBoxItem Content="..."/>
+                    <ComboBoxItem Content="_"/>
+                </ComboBox>
+
+                <!-- ### Caption -->
+                <TextBox Text="{Binding SelectedGenericKeyword.Caption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource TextBoxExtend}"
+                         hc:InfoElement.Title="Caption"
+                         hc:InfoElement.TitlePlacement="Top"
+                         hc:InfoElement.Necessary="True"
+                         hc:InfoElement.Placeholder="DuckDuckGo"/>
+
+                <!-- ### Icon -->
+                <TextBlock Text="Icon"
+                           Margin="10 6 0 6"/>
+                <Border Background="Transparent"
+                        BorderBrush="Gray"
+                        BorderThickness="2"
+                        CornerRadius="5"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Width="75"
+                        Height="75"
+                        Cursor="Hand"
+                        cal:Message.Attach="[Event MouseDown] = [Action IconBorder_MouseDown($this, $eventargs)]">
+                    <StackPanel VerticalAlignment="Center">
+                        <Image Source="{Binding SelectedGenericKeyword.Icon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Width="50"
+                               Height="50"
+                               VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- ### Alt Description -->
+                <hc:UniformSpacingPanel Orientation="Vertical"
+                                        Spacing="8"
+                                        Margin="8 48 8 4">
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}"
+                               Text="The alt description replaces the description when this keyword is selected and the Alt key is being pressed."/>
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}"
+                               Text="The alt URL is the URL you will be redirected to when this keyword is selected and both the Alt and Enter keys are simultaneously pressed."/>
+                </hc:UniformSpacingPanel>
+                <TextBox Text="{Binding SelectedGenericKeyword.AltDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource TextBoxExtend}"
+                         hc:InfoElement.Title="Alt Description"
+                         hc:InfoElement.TitlePlacement="Top"
+                         hc:InfoElement.Placeholder="Go to DuckDuckGo's Homepage"/>
+
+                <!-- ### Alt URL -->
+                <TextBox Text="{Binding SelectedGenericKeyword.AltUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource TextBoxExtend}"
+                         hc:InfoElement.Title="Alt URL"
+                         hc:InfoElement.TitlePlacement="Top"
+                         hc:InfoElement.Placeholder="https://duckduckgo.com"/>
+
+                <!-- ### Buttons for New Keyword -->
+                <hc:UniformSpacingPanel Spacing="8"
+                                        Margin="0 16 0 0"
+                                        HorizontalAlignment="Right">
+                    <!-- #### Cancel Button-->
+                    <Button Style="{StaticResource ButtonBaseStyle}"
+                            Content="Cancel"
+                            cal:Message.Attach="[Event Click] = [Action CancelButton_Click($this, $eventargs)]"/>
+                    
+                    <!-- #### Save Button -->
+                    <Button Style="{StaticResource ButtonPrimary}"
+                            Content="Save keyword"
+                            cal:Message.Attach="[Event Click] = [Action SaveKeywordButton_Click($this, $eventargs)]"/>
+                </hc:UniformSpacingPanel>
+            </StackPanel>
+        </hc:UniformSpacingPanel>
+    </ScrollViewer>
+</UserControl>

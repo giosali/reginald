@@ -1,0 +1,8 @@
+{
+  "guid": "0fa9fdd3-dd24-47f0-a0b9-7b89112b961f",
+  "name": "Link",
+  "icon": "pack://application:,,,/Reginald;component/Images/Representations/edge.png",
+  "caption": "Go to Website",
+  "altCaption": null,
+  "isEnabled": true
+}

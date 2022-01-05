@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace Reginald.Converters
 {
-    [ValueConversion(typeof(Color), typeof(Brush))]
+    [ValueConversion(typeof(Color), typeof(SolidColorBrush))]
     public class ColorToSolidColorBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
