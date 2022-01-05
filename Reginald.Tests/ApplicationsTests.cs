@@ -1,5 +1,6 @@
-﻿using Reginald.Core.Base;
-using System.Collections.Generic;
+﻿using Microsoft.WindowsAPICodePack.Shell;
+using Reginald.Core.Base;
+using System;
 using Xunit;
 
 namespace Reginald.Tests
@@ -7,10 +8,11 @@ namespace Reginald.Tests
     public class ApplicationsTests
     {
         [Fact]
-        public static void MakeDictionary_ShouldReturnDictionary()
+        public void GetKnownFolder_WhenGivenGuid_ShouldReturnIKnownFolder()
         {
-            var dict = Applications.MakeDictionary();
-            Assert.True(dict is Dictionary<string, string>);
+            Guid guid = Constants.ApplicationsGuid;
+            IKnownFolder folder = Applications.GetKnownFolder(guid);
+            Assert.Equal(typeof(NonFileSystemKnownFolder), folder.GetType());
         }
     }
 }
