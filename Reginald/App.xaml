@@ -2,15 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Reginald"
-             ShutdownMode="OnExplicitShutdown"
-             
-             xmlns:hc="https://handyorg.github.io/handycontrol">
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- Reginald -->
-                <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/TextBlockStyles.xaml"/>
-
                 <!-- Caliburn.Micro -->
                 <ResourceDictionary>
                     <local:Bootstrapper x:Key="Bootstrapper"/>
@@ -23,6 +19,10 @@
                 <hc:ThemeResources RequestedTheme="Dark"
                                    AccentColor="DarkOrange"/>
                 <hc:Theme/>
+
+                <!-- Reginald -->
+                <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/ToggleButtonStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
