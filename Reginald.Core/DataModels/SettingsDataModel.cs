@@ -24,6 +24,9 @@ namespace Reginald.Core.DataModels
         [JsonProperty("includeSettingsPages")]
         public bool IncludeSettingsPages { get; set; }
 
+        [JsonProperty("launchOnStartup")]
+        public bool LaunchOnStartup { get; set; }
+
         [JsonProperty("searchBoxKey")]
         public string SearchBoxKey { get; set; }
 

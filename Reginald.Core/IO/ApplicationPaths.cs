@@ -8,6 +8,8 @@ namespace Reginald.Core.IO
 
         public static string ApplicationName { get; } = "Reginald";
 
+        public static string ApplicationShortcutName { get; } = "Reginald.lnk";
+
         public static string UserIconsDirectoryName { get; } = "UserIcons";
 
         public static string SettingsFilename { get; } = "Settings.json";

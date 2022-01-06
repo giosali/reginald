@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using IWshRuntimeLibrary;
+using Newtonsoft.Json;
 using Reginald.Core.DataModels;
 using Reginald.Core.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -10,13 +12,48 @@ namespace Reginald.Core.IO
 {
     public static class FileOperations
     {
+        /// <summary>
+        /// Creates a shortcut file that points to the Reginald executable. A return value indicates whether the shortcut was created.
+        /// </summary>
+        /// <returns><see langword="true"/> if the shortcut was created; otherwise, <see langword="false"/></returns>
+        public static bool TryCreateShortcut()
+        {
+            string executablePath = Process.GetCurrentProcess().MainModule.FileName;
+            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationPaths.ApplicationShortcutName);
+
+            if (System.IO.File.Exists(shortcutPath))
+            {
+                return false;
+            }
+            else
+            {
+                WshShell wsh = new();
+                IWshShortcut shortcut = wsh.CreateShortcut(shortcutPath) as IWshShortcut;
+                shortcut.Arguments = string.Empty;
+                shortcut.TargetPath = executablePath;
+                shortcut.WindowStyle = 1;
+                shortcut.WorkingDirectory = Directory.GetParent(executablePath).FullName;
+                shortcut.Save();
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Deletes the shortcut file that points to the Reginald executable.
+        /// </summary>
+        public static void DeleteShortcut()
+        {
+            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationPaths.ApplicationShortcutName);
+            System.IO.File.Delete(shortcutPath);
+        }
+
         public static void WriteFile(string filename, string json = null)
         {
             // If the file doesn't exist, create it
             string filePath = GetFilePath(filename, false);
-            if (!File.Exists(filePath))
+            if (!System.IO.File.Exists(filePath))
             {
-                using FileStream stream = File.Create(filePath);
+                using FileStream stream = System.IO.File.Create(filePath);
             }
 
             // Write contents to the file
@@ -26,7 +63,7 @@ namespace Reginald.Core.IO
                 {
                     try
                     {
-                        File.WriteAllText(filePath, json);
+                        System.IO.File.WriteAllText(filePath, json);
                         break;
                     }
                     catch (IOException) { }
@@ -114,6 +151,7 @@ namespace Reginald.Core.IO
                 IncludeCommands = protoSettings?.IncludeCommands ?? true,
                 IncludeUtilities = protoSettings?.IncludeUtilities ?? true,
                 IncludeSettingsPages = protoSettings?.IncludeSettingsPages ?? true,
+                LaunchOnStartup = protoSettings?.LaunchOnStartup ?? true,
                 SearchBoxKey = protoSettings?.SearchBoxKey ?? "Space",
                 SearchBoxModifierOne = protoSettings?.SearchBoxModifierOne ?? "Alt",
                 SearchBoxModifierTwo = protoSettings?.SearchBoxModifierTwo ?? "None",
@@ -184,7 +222,7 @@ namespace Reginald.Core.IO
         {
             T type = default;
             // Check if file exists
-            if (File.Exists(filePath))
+            if (System.IO.File.Exists(filePath))
             {
                 // If it does, extract its contents
                 while (true)

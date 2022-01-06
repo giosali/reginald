@@ -80,6 +80,15 @@ namespace Reginald.ViewModels
             FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
         }
 
+        public void LaunchOnStartupToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!FileOperations.TryCreateShortcut())
+            {
+                FileOperations.DeleteShortcut();
+            }
+            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+        }
+
         public void RestartButton_Click(object sender, RoutedEventArgs e)
         {
             Processes.RestartApplication();

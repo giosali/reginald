@@ -5,6 +5,7 @@ using Reginald.Core.IO;
 using Reginald.Core.InputInjection;
 using System.Windows;
 using System.Windows.Input;
+using Reginald.Core.Extensions;
 
 namespace Reginald.ViewModels
 {
@@ -38,6 +39,15 @@ namespace Reginald.ViewModels
         {
             IWindowManager manager = new WindowManager();
             _ = manager.ShowWindowAsync(new SettingsViewModel());
+        }
+
+        public void LaunchOnStartupMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (!FileOperations.TryCreateShortcut())
+            {
+                FileOperations.DeleteShortcut();
+            }
+            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, SearchViewModel.Settings.Serialize());
         }
 
         private bool CanExecuteMethod(object parameter)
