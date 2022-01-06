@@ -1,5 +1,5 @@
-﻿using IWshRuntimeLibrary;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Reginald.Core.Base;
 using Reginald.Core.DataModels;
 using Reginald.Core.Extensions;
 using System;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Reginald.Core.IO
 {
@@ -21,19 +22,27 @@ namespace Reginald.Core.IO
             string executablePath = Process.GetCurrentProcess().MainModule.FileName;
             string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationPaths.ApplicationShortcutName);
 
-            if (System.IO.File.Exists(shortcutPath))
+            if (File.Exists(shortcutPath))
             {
                 return false;
             }
             else
             {
-                WshShell wsh = new();
-                IWshShortcut shortcut = wsh.CreateShortcut(shortcutPath) as IWshShortcut;
-                shortcut.Arguments = string.Empty;
-                shortcut.TargetPath = executablePath;
-                shortcut.WindowStyle = 1;
-                shortcut.WorkingDirectory = Directory.GetParent(executablePath).FullName;
-                shortcut.Save();
+                Type t = Type.GetTypeFromCLSID(Constants.WindowsScriptHostShellObjectGuid);
+                dynamic wshShell = Activator.CreateInstance(t);
+                try
+                {
+                    dynamic iWshShortcut = wshShell.CreateShortcut(shortcutPath);
+                    iWshShortcut.Arguments = string.Empty;
+                    iWshShortcut.TargetPath = executablePath;
+                    iWshShortcut.WindowStyle = 1;
+                    iWshShortcut.WorkingDirectory = Directory.GetParent(executablePath).FullName;
+                    iWshShortcut.Save();
+                }
+                finally
+                {
+                    Marshal.FinalReleaseComObject(wshShell);
+                }
                 return true;
             }
         }
@@ -44,16 +53,16 @@ namespace Reginald.Core.IO
         public static void DeleteShortcut()
         {
             string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationPaths.ApplicationShortcutName);
-            System.IO.File.Delete(shortcutPath);
+            File.Delete(shortcutPath);
         }
 
         public static void WriteFile(string filename, string json = null)
         {
             // If the file doesn't exist, create it
             string filePath = GetFilePath(filename, false);
-            if (!System.IO.File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
-                using FileStream stream = System.IO.File.Create(filePath);
+                using FileStream stream = File.Create(filePath);
             }
 
             // Write contents to the file
@@ -63,7 +72,7 @@ namespace Reginald.Core.IO
                 {
                     try
                     {
-                        System.IO.File.WriteAllText(filePath, json);
+                        File.WriteAllText(filePath, json);
                         break;
                     }
                     catch (IOException) { }
@@ -222,7 +231,7 @@ namespace Reginald.Core.IO
         {
             T type = default;
             // Check if file exists
-            if (System.IO.File.Exists(filePath))
+            if (File.Exists(filePath))
             {
                 // If it does, extract its contents
                 while (true)

@@ -4,11 +4,15 @@ namespace Reginald.Core.Base
 {
     public static class Constants
     {
-        // Applications
+        // GUIDs
 
         public static Guid ApplicationsGuid { get; } = new("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
 
-        public static Guid RecycleBinGuid { get; } = new("{B7534046-3ECB-4C18-BE4E-64CD4CB7D6AC}");
+        public static Guid RecycleBinGuid { get; } = new("{b7534046-3ecb-4c18-be4e-64cd4cb7d6ac}");
+
+        public static Guid WindowsScriptHostShellObjectGuid { get; } = new("72c24dd5-d70a-438b-8a42-98424b88afb8");
+
+        // Applications
 
         public static string ShellAppsFolder { get; } = @"shell:AppsFolder\";
 
@@ -25,8 +29,6 @@ namespace Reginald.Core.Base
         public static string KeywordRegexFormat { get; } = @"^{0}";
 
         public static string ShellItemUppercaseRegexFormat { get; } = @"(?<!^){0}";
-
-        //public static string ApplicationRegexFormat { get; } = @".*((?<![a-z]){0}.*)";
 
         public static string IsMathRegexPattern { get; } = @"^[0-9\s+-/^*()><!]+$";
 
