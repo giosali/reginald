@@ -32,7 +32,7 @@
                               IsCheckable="True"
                               Header="Enabled"/>
 
-                    <MenuItem IsChecked="{Binding SearchViewModel.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    <MenuItem IsChecked="{Binding SearchView.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsCheckable="True"
                               Header="Launch on Startup"
                               cal:Message.Attach="[Event Click] = [Action LaunchOnStartupMenuItem_Click($this, $eventargs)]"/>

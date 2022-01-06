@@ -11,7 +11,7 @@ namespace Reginald.ViewModels
 {
     public class ShellViewModel : Conductor<object>
     {
-        public static SearchViewModel SearchViewModel { get; set; } = new();
+        public static SearchViewModel SearchView { get; set; } = new();
 
         public ICommand OpenWindowCommand { get; set; }
 
@@ -29,6 +29,10 @@ namespace Reginald.ViewModels
         public ShellViewModel()
         {
             FileOperations.SetUp();
+            if (SearchView.Settings.LaunchOnStartup)
+            {
+                FileOperations.TryCreateShortcut();
+            }
             OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
 
             KeyboardHook keyboardHook = new(Hook.Expansion);
@@ -47,7 +51,7 @@ namespace Reginald.ViewModels
             {
                 FileOperations.DeleteShortcut();
             }
-            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, SearchViewModel.Settings.Serialize());
+            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, SearchView.Settings.Serialize());
         }
 
         private bool CanExecuteMethod(object parameter)
@@ -60,14 +64,14 @@ namespace Reginald.ViewModels
             if (IsEnabled)
             {
                 IWindowManager manager = new WindowManager();
-                if (!SearchViewModel.IsActive)
+                if (!SearchView.IsActive)
                 {
-                    await manager.ShowWindowAsync(SearchViewModel);
+                    await manager.ShowWindowAsync(SearchView);
                 }
                 else
                 {
-                    SearchViewModel.UserInput = string.Empty;
-                    SearchViewModel.ShowOrHide();
+                    SearchView.UserInput = string.Empty;
+                    SearchView.ShowOrHide();
                 }
             }
         }
