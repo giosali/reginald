@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Reginald.ViewModels
 {
-    public class ExpansionsViewModel : Screen
+    public class ExpansionsViewModel : ViewViewModelBase
     {
         private BindableCollection<ExpansionDataModel> _expansions = new();
         public BindableCollection<ExpansionDataModel> Expansions
@@ -75,22 +75,17 @@ namespace Reginald.ViewModels
             }
         }
 
-        public void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            ScrollViewer scv = sender as ScrollViewer;
-            if (scv is not null)
-            {
-                scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
-            }
-            e.Handled = true;
-        }
-
         public void ScrollViewer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!IsBeingEdited)
             {
                 SelectedExpansion = null;
             }
+        }
+
+        public virtual void ExpansionsToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
         }
 
         public void Expansions_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)

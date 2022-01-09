@@ -160,6 +160,7 @@ namespace Reginald.Core.IO
                 IncludeCommands = protoSettings?.IncludeCommands ?? true,
                 IncludeUtilities = protoSettings?.IncludeUtilities ?? true,
                 IncludeSettingsPages = protoSettings?.IncludeSettingsPages ?? true,
+                AreExpansionsEnabled = protoSettings?.AreExpansionsEnabled ?? true,
                 LaunchOnStartup = protoSettings?.LaunchOnStartup ?? true,
                 SearchBoxKey = protoSettings?.SearchBoxKey ?? "Space",
                 SearchBoxModifierOne = protoSettings?.SearchBoxModifierOne ?? "Alt",

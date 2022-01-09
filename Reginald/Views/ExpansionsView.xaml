@@ -2,11 +2,19 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Reginald.Converters"
              xmlns:cal="http://caliburnmicro.com"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!-- # Converters -->
+            <local:ToggleSwitchBooleanToStringConverter x:Key="ToggleSwitchBooleanToStringConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <ScrollViewer Focusable="True"
                   FocusVisualStyle="{x:Null}"
                   cal:Message.Attach="[Event PreviewMouseWheel] = [Action ScrollViewer_PreviewMouseWheel($source, $eventargs)];
@@ -19,30 +27,39 @@
                        Text="Expansions"/>
 
             <!-- ## Description -->
-            <TextBlock Style="{StaticResource NormalTextBlockStyle}">
-                Text expansions are useful for preventing you from repeatedly typing the same thing. When characters that you type match one of your triggers, that text will be replaced by some other text designated by you.
-                <LineBreak/>
-                <LineBreak/>
-                You can activate an expansion by typing a dollar sign ($) and then by typing your trigger.
-            </TextBlock>
+            <TextBlock Style="{StaticResource NormalTextBlockStyle}"
+                       Text="Text expansions are useful for preventing you from repeatedly typing the same thing. When characters that you type match one of your triggers, that text will be replaced by some other text designated by you."/>
 
-            <Expander>
-                <Expander.Header>
-                    <TextBlock Text="❓"
-                               Foreground="Orange"/>
-                </Expander.Header>
-                
-                <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
-                           Text="•  If you have a trigger called 'hello', you can trigger the exapnsion by typing: $hello"/>
+            <Expander Style="{StaticResource InfoExpanderStyle}">
+                <StackPanel Style="{StaticResource ExpanderStackPanelStyle}">
+                    <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
+                               Text="•  It's recommended that you prefix your triggers with either a colon (:) or a dollar sign ($)"/>
+                    <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}"
+                               Text="    - :greeting"/>
+                    <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}"
+                               Text="    - $greeting"/>
+                </StackPanel>
             </Expander>
-            
+
+            <!-- ## ToggleButton for Enabled -->
+            <hc:UniformSpacingPanel Orientation="Vertical"
+                                    Spacing="8">
+                <TextBlock Style="{StaticResource NormalTextBlockStyle}"
+                           Text="Enable text expansions"/>
+
+                <ToggleButton Style="{StaticResource SwitchToggleButtonStyle}"
+                              Content="{Binding Settings.AreExpansionsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
+                              IsChecked="{Binding Settings.AreExpansionsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              cal:Message.Attach="[Event Click] = [Action ExpansionsToggleButton_Click($this, $eventargs)]"/>
+            </hc:UniformSpacingPanel>
+
             <!-- ## Expansions -->
             <hc:UniformSpacingPanel Orientation="Vertical"
                                     Spacing="8">
-                <TextBlock Text="Your expansions"
-                           Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="Your expansions"/>
 
-                <DataGrid x:Name="Expansions"
+                <DataGrid ItemsSource="{Binding Expansions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Path=SelectedExpansion, Mode=TwoWay}"
                           AutoGenerateColumns="False"
                           CanUserAddRows="False"
@@ -76,8 +93,8 @@
 
                     <DataGrid.Columns>
                         <!-- ### Trigger -->
-                        <DataGridTextColumn Header="Trigger"
-                                            Binding="{Binding Trigger, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                        <DataGridTextColumn Binding="{Binding Trigger, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                            Header="Trigger"
                                             IsReadOnly="False"
                                             Width="*">
                             <DataGridTextColumn.ElementStyle>
@@ -89,8 +106,8 @@
                         </DataGridTextColumn>
 
                         <!-- ### Replacement -->
-                        <DataGridTextColumn Header="Replacement"
-                                            Binding="{Binding Replacement, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                        <DataGridTextColumn Binding="{Binding Replacement, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                            Header="Replacement"
                                             IsReadOnly="False"
                                             Width="2*">
                             <DataGridTextColumn.ElementStyle>
@@ -107,17 +124,23 @@
             <!-- ## Add an Expansion-->
             <hc:UniformSpacingPanel Spacing="16"
                                     Orientation="Vertical">
-                <TextBlock Text="Add an expansion"
-                           Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="Add an expansion"/>
 
-                <Expander>
-                    <Expander.Header>
-                        <TextBlock Text="❓"
-                                   Foreground="Orange"/>
-                    </Expander.Header>
-
-                    <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
-                               Text="•  Triggers can only contain lowercase letters and numbers"/>
+                <Expander Style="{StaticResource InfoExpanderStyle}">
+                    <StackPanel Style="{StaticResource ExpanderStackPanelStyle}">
+                        <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
+                                   Text="•  Triggers are case-sensitive and can include letters, numbers, and symbols"/>
+                        
+                        <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
+                                   Text="•  Some examples of valid triggers:"/>
+                        <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}"
+                               Text="    - $hello"/>
+                        <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}"
+                               Text="    - $gr33tING"/>
+                        <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}"
+                               Text="    - @#$%"/>
+                    </StackPanel>
                 </Expander>
 
                 <TextBox Style="{StaticResource TextBoxExtend}"
