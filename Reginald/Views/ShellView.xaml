@@ -28,15 +28,18 @@
                     <MenuItem Header="Open Settings"
                               cal:Message.Attach="[Event Click] = [Action OpenSettingsMenuItem_Click($this, $eventargs)]"/>
 
+                    <Separator/>
+
                     <MenuItem IsChecked="{Binding IsEnabled}"
                               IsCheckable="True"
-                              Header="Enabled"/>
-
+                              Header="Search Box Enabled"/>
                     <MenuItem IsChecked="{Binding SearchView.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsCheckable="True"
                               Header="Launch on Startup"
                               cal:Message.Attach="[Event Click] = [Action LaunchOnStartupMenuItem_Click($this, $eventargs)]"/>
+                    
                     <Separator/>
+                    
                     <MenuItem Header="Exit"
                               Command="hc:ControlCommands.ShutdownApp"/>
                 </ContextMenu>

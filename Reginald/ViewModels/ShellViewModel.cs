@@ -31,7 +31,7 @@ namespace Reginald.ViewModels
             FileOperations.SetUp();
             if (SearchView.Settings.LaunchOnStartup)
             {
-                FileOperations.TryCreateShortcut();
+                _ = FileOperations.TryCreateShortcut();
             }
             OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
 
