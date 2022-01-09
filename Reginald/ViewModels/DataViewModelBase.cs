@@ -3,6 +3,7 @@ using Reginald.Core.AbstractProducts;
 using Reginald.Core.Clients;
 using Reginald.Core.DataModels;
 using Reginald.Core.Factories;
+using Reginald.Core.Helpers;
 using Reginald.Core.IO;
 using Reginald.Core.Products;
 using System.Collections.Generic;
@@ -168,10 +169,10 @@ namespace Reginald.ViewModels
                 string applicationName = ApplicationPaths.ApplicationName;
                 string appDataApplicationDirectoryPath = Path.Combine(appDataDirectoryPath, applicationName);
 
-                SettingsWatcher = CreateWatcher(appDataApplicationDirectoryPath, ApplicationPaths.SettingsFilename, OnSettingsChanged);
-                DefaultKeywordsWatcher = CreateWatcher(appDataApplicationDirectoryPath, ApplicationPaths.KeywordsJsonFilename, OnDefaultKeywordsChanged);
-                UserKeywordsWatcher = CreateWatcher(appDataApplicationDirectoryPath, ApplicationPaths.UserKeywordsJsonFilename, OnUserKeywordsChanged);
-                CommandsWatcher = CreateWatcher(appDataApplicationDirectoryPath, ApplicationPaths.CommandsJsonFilename, OnCommandsChanged);
+                SettingsWatcher = FileSystemWatcherHelper.Initialize(appDataApplicationDirectoryPath, ApplicationPaths.SettingsFilename, OnSettingsChanged);
+                DefaultKeywordsWatcher = FileSystemWatcherHelper.Initialize(appDataApplicationDirectoryPath, ApplicationPaths.KeywordsJsonFilename, OnDefaultKeywordsChanged);
+                UserKeywordsWatcher = FileSystemWatcherHelper.Initialize(appDataApplicationDirectoryPath, ApplicationPaths.UserKeywordsJsonFilename, OnUserKeywordsChanged);
+                CommandsWatcher = FileSystemWatcherHelper.Initialize(appDataApplicationDirectoryPath, ApplicationPaths.CommandsJsonFilename, OnCommandsChanged);
             }
         }
 
@@ -222,19 +223,6 @@ namespace Reginald.ViewModels
                 return client.Keyphrases;
             }
             return Enumerable.Empty<Keyphrase>();
-        }
-
-        private static FileSystemWatcher CreateWatcher(string directoryPath, string filename, FileSystemEventHandler handler)
-        {
-            FileSystemWatcher watcher = new(directoryPath, filename);
-            watcher.NotifyFilter = NotifyFilters.Attributes
-                                 | NotifyFilters.CreationTime
-                                 | NotifyFilters.LastAccess
-                                 | NotifyFilters.LastWrite
-                                 | NotifyFilters.Size;
-            watcher.Changed += handler;
-            watcher.EnableRaisingEvents = true;
-            return watcher;
         }
 
         private static Representation UpdateRepresentation<T>(string filename)
