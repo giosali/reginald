@@ -32,30 +32,22 @@
             <!-- ### Key Bindings -->
             <hc:UniformSpacingPanel Orientation="Vertical"
                                     Spacing="16">
-                <Expander>
-                    <Expander.Header>
-                        <TextBlock Text="❓"
-                                   Foreground="Orange"/>
-                    </Expander.Header>
-                    
-                    <StackPanel>
+                <Expander Style="{StaticResource InfoExpanderStyle}">
+                    <StackPanel Style="{StaticResource ExpanderStackPanelStyle}">
                         <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
                                    Text="•  Here are some possible combinations:"/>
-                        
                         <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}">
                             <Run Text="    - "/>
                             <Run Text="1 Key:"
                                  FontWeight="Bold"/>
                             <Run Text="S"/>
                         </TextBlock>
-                        
                         <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}">
                             <Run Text="    - "/>
                             <Run Text="1 Modifier Key + 1 Key:"
                                  FontWeight="Bold"/>
                             <Run Text="Alt + S"/>
                         </TextBlock>
-
                         <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}">
                             <Run Text="    - "/>
                             <Run Text="2 Modifier Keys + 1 Key:"
@@ -99,14 +91,11 @@
                 </hc:UniformSpacingPanel>
             </hc:UniformSpacingPanel>
 
-            <Expander>
-                <Expander.Header>
-                    <TextBlock Text="❓"
-                               Foreground="Orange"/>
-                </Expander.Header>
-
-                <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
-                           Text="•  You must restart the application for key binding changes to take effect"/>
+            <Expander Style="{StaticResource InfoExpanderStyle}">
+                <StackPanel Style="{StaticResource ExpanderStackPanelStyle}">
+                    <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
+                               Text="•  You must restart the application for key binding changes to take effect"/>
+                </StackPanel>
             </Expander>
 
             <!-- ## Application-->

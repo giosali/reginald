@@ -21,6 +21,8 @@
                 <hc:Theme/>
 
                 <!-- Reginald -->
+                <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/ExpanderStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/StackPanelStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/TextBlockStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/ToggleButtonStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
