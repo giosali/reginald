@@ -5,7 +5,7 @@ namespace Reginald.Core.Helpers
 {
     public class BitmapImageHelper
     {
-        public static BitmapImage FromUri(string uri, int width = 75, int height = 75)
+        public static BitmapImage FromUri(string uri, int width = 128, int height = 128)
         {
             try
             {

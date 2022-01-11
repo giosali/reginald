@@ -182,9 +182,9 @@ namespace Reginald.ViewModels
             {
                 // Images smaller than 75x75 will be rejected
                 System.Drawing.Image image = System.Drawing.Image.FromFile(openFileDialog.FileName);
-                if (image.Width < 75 || image.Height < 75)
+                if (image.Width < 128 || image.Height < 128)
                 {
-                    string message = $"Images cannot be smaller than 75x75. This file's dimensions: {image.Width}x{image.Height}";
+                    string message = $"Images cannot be smaller than 128x128. This file's dimensions: {image.Width}x{image.Height}";
                     string caption = "Image Is Too Small";
                     _ = HandyControl.Controls.MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
