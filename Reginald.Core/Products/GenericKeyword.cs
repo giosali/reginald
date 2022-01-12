@@ -87,74 +87,53 @@ namespace Reginald.Core.Products
             AltDescription = model.AltDescription;
         }
 
-        public override bool Predicate(Keyword keyword, Regex rx, (string Keyword, string Separator, string Description) input)
+        public override bool Predicate(Regex rx, (string Keyword, string Separator, string Description) input)
         {
-            Match match = rx.Match(keyword.Word);
-            if (match.Success)
+            Match match = rx.Match(Word);
+            // If user enters a space after the keyword, both keywords must match
+            if (match.Success && !(input.Separator.Length > 0 && Word != match.Value))
             {
-                // If user enters a space after the keyword, both keywords must match
-                if (input.Separator.Length > 0 && keyword.Word != match.Value)
-                {
-                    return false;
-                }
-
-                keyword.Completion = input.Description.Length > 0 ? input.Description : null;
-                keyword.Description = keyword.Completion is null
-                                    ? string.Format(keyword.Format, keyword.Placeholder)
-                                    : string.Format(keyword.Format, keyword.Completion);
+                Completion = input.Description.Length > 0 ? input.Description : null;
+                Description = Completion is null
+                            ? string.Format(CultureInfo.InvariantCulture, Format, Placeholder)
+                            : string.Format(CultureInfo.InvariantCulture, Format, Completion);
                 return true;
             }
             return false;
         }
 
-        public override Task<bool> PredicateAsync(Keyword keyword, Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token)
+        public override Task<bool> PredicateAsync(Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public override void EnterDown(Keyword keyword, bool isAltDown, Action action)
+        public override void EnterDown(bool isAltDown, Action action)
         {
-            GenericKeyword genericKeyword = keyword as GenericKeyword;
             // If Completion is null, then only the keyword has been typed
             // For example, if the input is: "ddg what time is it?",
             // then Completion won't be null; Completion will be: "what time is it?"
-            if (genericKeyword.Completion is not null || (isAltDown && !string.IsNullOrEmpty(genericKeyword.AltUrl)))
+            if (Completion is not null || (isAltDown && !string.IsNullOrEmpty(AltUrl)))
             {
-                string url;
-                string completion;
-                if (isAltDown)
-                {
-                    url = genericKeyword.AltUrl;
-                    completion = genericKeyword.Completion;
-                }
-                else
-                {
-                    url = genericKeyword.Url;
-                    completion = string.IsNullOrEmpty(genericKeyword.Separator)
-                               ? genericKeyword.Completion
-                               : genericKeyword.Completion.Quote(genericKeyword.Separator);
-                }
-                string uri = string.Format(CultureInfo.InvariantCulture, url, completion);
+                string uri = isAltDown
+                           ? string.Format(CultureInfo.InvariantCulture, AltUrl, Completion)
+                           : string.Format(CultureInfo.InvariantCulture, Url, string.IsNullOrEmpty(Separator) ? Completion : Completion.Quote(Separator));
                 Processes.GoTo(uri);
             }
         }
 
-        public override (string Description, string Caption) AltDown(Keyword keyword)
+        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
         {
-            GenericKeyword genericKeyword = keyword as GenericKeyword;
-            string description = string.IsNullOrEmpty(genericKeyword.AltDescription)
-                               ? null
-                               : genericKeyword.AltDescription;
-            string caption = null;
-            return (description, caption);
+            return Task.FromResult(true);
         }
 
-        public override (string Description, string Caption) AltUp(Keyword keyword)
+        public override (string, string) AltDown()
         {
-            GenericKeyword genericKeyword = keyword as GenericKeyword;
-            string description = string.Format(genericKeyword.Format, genericKeyword.Completion ?? genericKeyword.Placeholder);
-            string caption = null;
-            return (description, caption);
+            return (string.IsNullOrEmpty(AltDescription) ? null : AltDescription, null);
+        }
+
+        public override (string, string) AltUp()
+        {
+            return (string.Format(Format, Completion ?? Placeholder), null);
         }
     }
 }

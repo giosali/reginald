@@ -46,27 +46,32 @@ namespace Reginald.Core.Products
             }
         }
 
-        public override bool Predicate(Keyword keyword, Regex rx, (string Keyword, string Separator, string Description) input)
+        public override bool Predicate(Regex rx, (string Keyword, string Separator, string Description) input)
         {
-            return input.Keyword.Length > 0 && rx.IsMatch(keyword.Word);
+            return input.Keyword.Length > 0 && rx.IsMatch(Word);
         }
 
-        public override Task<bool> PredicateAsync(Keyword keyword, Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token)
+        public override Task<bool> PredicateAsync(Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public override void EnterDown(Keyword keyword, bool isAltDown, Action action)
+        public override void EnterDown(bool isAltDown, Action action)
         {
 
         }
 
-        public override (string Description, string Caption) AltDown(Keyword keyword)
+        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
+        {
+            return Task.FromResult(true);
+        }
+
+        public override (string, string) AltDown()
         {
             return (null, null);
         }
 
-        public override (string Description, string Caption) AltUp(Keyword keyword)
+        public override (string, string) AltUp()
         {
             return (null, null);
         }

@@ -1,10 +1,9 @@
-﻿using Caliburn.Micro;
-using System;
+﻿using System;
 using System.Windows.Media;
 
 namespace Reginald.Core.AbstractProducts
 {
-    public abstract class DisplayItem : PropertyChangedBase
+    public abstract class DisplayItem : InteractiveAbstractProductBase
     {
         private Guid _guid;
         public Guid Guid
@@ -80,5 +79,7 @@ namespace Reginald.Core.AbstractProducts
         {
             return Guid.GetHashCode();
         }
+
+        public abstract bool Predicate();
     }
 }

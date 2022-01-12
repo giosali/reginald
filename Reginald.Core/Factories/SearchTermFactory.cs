@@ -3,7 +3,6 @@ using Reginald.Core.AbstractFactories;
 using Reginald.Core.AbstractProducts;
 using Reginald.Core.DataModels;
 using Reginald.Core.Enums;
-using Reginald.Core.Extensions;
 using Reginald.Core.Products;
 using System;
 
@@ -35,7 +34,7 @@ namespace Reginald.Core.Factories
             {
                 case Command.Timer:
                     TimerKeyword timer = new(commandKeyword);
-                    if (!string.IsNullOrEmpty(input))
+                    if (input.Length > 0)
                     {
                         if (timer.TryParseTimeFromString(input))
                         {

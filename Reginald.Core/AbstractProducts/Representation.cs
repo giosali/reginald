@@ -1,10 +1,9 @@
-﻿using Caliburn.Micro;
-using System;
+﻿using System;
 using System.Windows.Media;
 
 namespace Reginald.Core.AbstractProducts
 {
-    public abstract class Representation : PropertyChangedBase
+    public abstract class Representation : InteractiveAbstractProductBase
     {
         private Guid _guid;
         public Guid Guid
@@ -82,11 +81,5 @@ namespace Reginald.Core.AbstractProducts
                 NotifyOfPropertyChange(() => Description);
             }
         }
-
-        public abstract void EnterDown(Representation representation, bool isAltDown, Action action, object sender);
-
-        public abstract (string Description, string Caption) AltDown(Representation representation);
-
-        public abstract (string Description, string Caption) AltUp(Representation representation);
     }
 }

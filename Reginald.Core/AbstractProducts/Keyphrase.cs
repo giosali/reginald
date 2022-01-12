@@ -1,12 +1,10 @@
-﻿using Caliburn.Micro;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace Reginald.Core.AbstractProducts
 {
-    public abstract class Keyphrase : PropertyChangedBase
+    public abstract class Keyphrase : InteractiveAbstractProductBase
     {
         private Guid _guid;
         public Guid Guid
@@ -86,11 +84,5 @@ namespace Reginald.Core.AbstractProducts
         }
 
         public abstract bool Predicate(Keyphrase keyphrase, Regex rx, string input);
-
-        public abstract Task<bool> EnterDown(Keyphrase keyphrase, bool isAltDown, bool isPrompted, Action action);
-
-        public abstract (string Description, string Caption) AltDown(Keyphrase keyphrase);
-
-        public abstract (string Description, string Caption) AltUp(Keyphrase keyphrase);
     }
 }

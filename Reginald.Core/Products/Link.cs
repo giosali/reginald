@@ -4,6 +4,7 @@ using Reginald.Core.Helpers;
 using Reginald.Core.Utilities;
 using Reginald.Extensions;
 using System;
+using System.Threading.Tasks;
 
 namespace Reginald.Core.Products
 {
@@ -22,16 +23,17 @@ namespace Reginald.Core.Products
             IsEnabled = model.IsEnabled;
         }
 
-        public override void EnterDown(Representation representation, bool isAltDown, Action action, object sender)
+        public override void EnterDown(bool isAltDown, Action action)
         {
-            Link link = representation as Link;
-            string uri = Uri.IsWellFormedUriString(link.Description, UriKind.Absolute)
-                       ? link.Description
-                       : link.Description.PrependScheme();
-            Processes.GoTo(uri);
+            Processes.GoTo(Uri.IsWellFormedUriString(Description, UriKind.Absolute) ? Description : Description.PrependScheme());
         }
 
-        public override (string Description, string Caption) AltDown(Representation representation)
+        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
+        {
+            return Task.FromResult(true);
+        }
+
+        public override (string, string) AltDown()
         {
             return (null, null);
         }
@@ -42,7 +44,7 @@ namespace Reginald.Core.Products
             return input.StartsWithScheme() || input.ContainsTopLevelDomain();
         }
 
-        public override (string Description, string Caption) AltUp(Representation representation)
+        public override (string, string) AltUp()
         {
             return (null, null);
         }

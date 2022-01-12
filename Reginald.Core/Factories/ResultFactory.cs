@@ -10,7 +10,23 @@ namespace Reginald.Core.Factories
     {
         public override DisplayItem CreateDisplayItem(Keyword keyword)
         {
-            return new SearchResult(keyword);
+            // Check to see if the TimerKeyword has been signaled to start by keeping
+            // track of its IsRunning property. We also use this to differentiate it
+            // from TimerKeywords that haven't been signaled.
+            if (keyword is TimerKeyword timerKeyword)
+            {
+                if (timerKeyword.IsRunning)
+                {
+                    TimerResult result = new(timerKeyword);
+                    result.StartTimer();
+                    return result;
+                }
+                return null;
+            }
+            else
+            {
+                return new SearchResult(keyword);
+            }
         }
 
         public override DisplayItem CreateDisplayItem(Representation representation)

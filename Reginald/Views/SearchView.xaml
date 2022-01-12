@@ -115,13 +115,13 @@
                  FontWeight="Light"
                  Padding="10 0"
                  VerticalContentAlignment="Center"
-                 cal:Message.Attach="[Event TextChanged] = [Action UserInput_TextChangedAsync($this, $eventargs)];
+                 cal:Message.Attach="[Event TextChanged] = [Action UserInput_TextChanged($this, $eventargs)];
                                      [Event PreviewKeyDown] = [Action UserInput_PreviewKeyDown($source, $eventargs)];
                                      [Event PreviewKeyUp] = [Action UserInput_PreviewKeyUp($this, $eventargs)]"/>
 
         <ListBox x:Name="SearchResults"
                  ItemTemplate="{StaticResource SearchResultsItemTemplate}"
-                 SelectedItem="{Binding SelectedSearchResult, Mode=TwoWay}"
+                 SelectedItem="{Binding SelectedDisplayItem, Mode=TwoWay}"
                  Background="Transparent"
                  MaxHeight="330"
                  BorderThickness="0"

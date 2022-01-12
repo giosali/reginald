@@ -23,11 +23,11 @@ namespace Reginald.Core.Helpers
             IEnumerable<Keyword> matches;
             if (include)
             {
-                (string Keyword, string Separator, string Description) split = input.Partition(" ");
-                string cleanInput = StringHelper.RegexClean(split.Keyword);
+                (string Keyword, string Separator, string Description) partition = input.Partition(" ");
+                string cleanInput = StringHelper.RegexClean(partition.Keyword);
                 string pattern = string.Format(CultureInfo.InvariantCulture, Constants.KeywordRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
-                matches = keywords.Where(k => k.Predicate(k, rx, split));
+                matches = keywords.Where(k => k.Predicate(rx, partition));
             }
             else
             {
@@ -44,15 +44,15 @@ namespace Reginald.Core.Helpers
                 Source.Cancel();
                 Source = new();
 
-                (string Keyword, string Separator, string Description) split = input.Partition(" ");
-                string cleanInput = StringHelper.RegexClean(split.Keyword);
+                (string Keyword, string Separator, string Description) partition = input.Partition(" ");
+                string cleanInput = StringHelper.RegexClean(partition.Keyword);
                 string pattern = string.Format(Constants.PreciseKeywordRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
 
                 List<Keyword> filteredKeywords = new(keywords.Count());
                 foreach (Keyword keyword in keywords)
                 {
-                    if (await keyword.PredicateAsync(keyword, rx, split, Source.Token))
+                    if (await keyword.PredicateAsync(rx, partition, Source.Token))
                     {
                         filteredKeywords.Add(keyword);
                     }
@@ -81,14 +81,14 @@ namespace Reginald.Core.Helpers
             List<Keyword> commands = new();
             if (include)
             {
-                (string keyword, string separator, string description) = input.Partition(" ");
-                string cleanInput = StringHelper.RegexClean(keyword);
+                (string Keyword, string Separator, string Description) partition = input.Partition(" ");
+                string cleanInput = StringHelper.RegexClean(partition.Keyword);
                 string pattern = string.Format(CultureInfo.InvariantCulture, Constants.KeywordRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
-                IEnumerable<Keyword> matches = keywords.Where(k => k.Predicate(k, rx, (keyword, separator, description)));
+                IEnumerable<Keyword> matches = keywords.Where(k => k.Predicate(rx, partition));
                 foreach (Keyword match in matches)
                 {
-                    KeywordClient client = new(SearchTermFactory, match, description, applications);
+                    KeywordClient client = new(SearchTermFactory, match, partition.Description, applications);
                     if (client.Keyword is not null)
                     {
                         commands.Add(client.Keyword);
@@ -102,7 +102,7 @@ namespace Reginald.Core.Helpers
             return Task.FromResult(commands as IEnumerable<Keyword>);
         }
 
-        public static DisplayItem ToSearchResult(Keyword keyword)
+        public static DisplayItem ToDisplayItem(Keyword keyword)
         {
             ResultFactory factory = new();
             DisplayItemClient client = new(factory, keyword);

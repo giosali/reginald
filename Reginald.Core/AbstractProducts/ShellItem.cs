@@ -1,10 +1,8 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace Reginald.Core.AbstractProducts
 {
-    public abstract class ShellItem : PropertyChangedBase
+    public abstract class ShellItem : InteractiveAbstractProductBase
     {
         private string _name;
         public string Name
@@ -60,11 +58,5 @@ namespace Reginald.Core.AbstractProducts
                 NotifyOfPropertyChange(() => Path);
             }
         }
-
-        public abstract void EnterDown(ShellItem item, bool isAltDown, Action action);
-
-        public abstract (string Description, string Caption) AltDown(ShellItem item);
-
-        public abstract (string Description, string Caption) AltUp(ShellItem item);
     }
 }

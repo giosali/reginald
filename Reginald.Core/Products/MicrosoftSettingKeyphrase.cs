@@ -36,26 +36,30 @@ namespace Reginald.Core.Products
             Uri = model.Uri;
         }
 
-        public override bool Predicate(Keyphrase keyphrase, Regex rx, string input)
+        public override void EnterDown(bool isAltDown, Action action)
         {
-            return input.Length > 2 && rx.IsMatch(keyphrase.Phrase);
+
         }
 
-        public override Task<bool> EnterDown(Keyphrase keyphrase, bool isAltDown, bool isPrompted, Action action)
+        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
         {
-            MicrosoftSettingKeyphrase microsoftSetting = keyphrase as MicrosoftSettingKeyphrase;
-            Processes.OpenFromPath(microsoftSetting.Uri);
+            Processes.OpenFromPath(Uri);
             return Task.FromResult(true);
         }
 
-        public override (string Description, string Caption) AltDown(Keyphrase keyphrase)
+        public override (string, string) AltDown()
         {
             return (null, null);
         }
 
-        public override (string Description, string Caption) AltUp(Keyphrase keyphrase)
+        public override (string, string) AltUp()
         {
             return (null, null);
+        }
+
+        public override bool Predicate(Keyphrase keyphrase, Regex rx, string input)
+        {
+            return input.Length > 2 && rx.IsMatch(keyphrase.Phrase);
         }
     }
 }

@@ -78,21 +78,21 @@ namespace Reginald.Core.Products
             }
         }
 
-        public override bool Predicate(Keyphrase keyphrase, Regex rx, string input)
+        public override void EnterDown(bool isAltDown, Action action)
         {
-            return rx.IsMatch(keyphrase.Phrase);
+
         }
 
-        public override async Task<bool> EnterDown(Keyphrase keyphrase, bool isAltDown, bool isPrompted, Action action)
+        public override async Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
         {
-            UtilityKeyphrase utilityKeyphrase = keyphrase as UtilityKeyphrase;
-            switch (utilityKeyphrase.Utility)
+            bool isPrompted = (bool)o;
+            switch (Utility)
             {
                 case Utility.Recycle:
                     if (isAltDown)
                     {
                         action();
-                        IKnownFolder recycleBin = Applications.GetKnownFolder(Constants.RecycleBinGuid);
+                        IKnownFolder recycleBin = Applications.GetKnownFolder(RecycleBin.RecycleBinGuid);
                         Processes.OpenFromPath(recycleBin.Path);
                     }
                     else if (isPrompted)
@@ -113,18 +113,19 @@ namespace Reginald.Core.Products
             return true;
         }
 
-        public override (string Description, string Caption) AltDown(Keyphrase keyphrase)
+        public override (string, string) AltDown()
         {
-            UtilityKeyphrase utilityKeyphrase = keyphrase as UtilityKeyphrase;
-            string description = utilityKeyphrase.AltDescription;
-            return (description, null);
+            return (AltDescription, null);
         }
 
-        public override (string Description, string Caption) AltUp(Keyphrase keyphrase)
+        public override (string, string) AltUp()
         {
-            UtilityKeyphrase utilityKeyphrase = keyphrase as UtilityKeyphrase;
-            string description = utilityKeyphrase.Description;
-            return (description, null);
+            return (Description, null);
+        }
+
+        public override bool Predicate(Keyphrase keyphrase, Regex rx, string input)
+        {
+            return rx.IsMatch(keyphrase.Phrase);
         }
     }
 }

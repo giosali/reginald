@@ -1,21 +1,11 @@
 ﻿using Reginald.Core.AbstractProducts;
 using System;
+using System.Threading.Tasks;
 
 namespace Reginald.Core.Products
 {
     public class SearchResult : DisplayItem
     {
-        private ShellItem _shellItem;
-        public ShellItem ShellItem
-        {
-            get => _shellItem;
-            set
-            {
-                _shellItem = value;
-                NotifyOfPropertyChange(() => ShellItem);
-            }
-        }
-
         private Keyword _keyword;
         public Keyword Keyword
         {
@@ -24,6 +14,17 @@ namespace Reginald.Core.Products
             {
                 _keyword = value;
                 NotifyOfPropertyChange(() => Keyword);
+            }
+        }
+
+        private ShellItem _shellItem;
+        public ShellItem ShellItem
+        {
+            get => _shellItem;
+            set
+            {
+                _shellItem = value;
+                NotifyOfPropertyChange(() => ShellItem);
             }
         }
 
@@ -114,6 +115,54 @@ namespace Reginald.Core.Products
             Caption = phrase.Caption;
             Keyphrase = phrase;
             Description = phrase.Description;
+        }
+
+        public override bool Predicate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void EnterDown(bool isAltDown, Action action)
+        {
+
+        }
+
+        public override async Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
+        {
+            if (Keyword is not null)
+            {
+                Keyword.EnterDown(isAltDown, action);
+            }
+            else if (ShellItem is not null)
+            {
+                ShellItem.EnterDown(isAltDown, action);
+            }
+            else if (Representation is not null)
+            {
+                Representation.EnterDown(isAltDown, action);
+            }
+            else if (Keyphrase is not null)
+            {
+                bool success = await Keyphrase.EnterDownAsync(isAltDown, action, IsPrompted);
+                return success;
+            }
+            return true;
+        }
+
+        public override (string, string) AltDown()
+        {
+            return Keyword?.AltDown()
+                ?? ShellItem?.AltDown()
+                ?? Representation?.AltDown()
+                ?? (Description, Caption);
+        }
+
+        public override (string, string) AltUp()
+        {
+            return Keyword?.AltUp()
+                ?? ShellItem?.AltUp()
+                ?? Representation?.AltUp()
+                ?? (Description, Caption);
         }
     }
 }

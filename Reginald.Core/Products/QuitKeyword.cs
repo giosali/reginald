@@ -1,5 +1,4 @@
-﻿using Reginald.Core.AbstractProducts;
-using System;
+﻿using System;
 using System.Diagnostics;
 
 namespace Reginald.Core.Products
@@ -36,12 +35,11 @@ namespace Reginald.Core.Products
             Description = keyword.Description;
         }
 
-        public override void EnterDown(Keyword keyword, bool isAltDown, Action action)
+        public override void EnterDown(bool isAltDown, Action action)
         {
             action();
-            QuitKeyword quit = keyword as QuitKeyword;
-            _ = quit.Process.CloseMainWindow();
-            quit.Process.Close();
+            Process.CloseMainWindow();
+            Process.Close();
         }
     }
 }

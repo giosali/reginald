@@ -91,20 +91,19 @@ namespace Reginald.Core.Products
             }
         }
 
-        public override bool Predicate(Keyword keyword, Regex rx, (string Keyword, string Separator, string Description) input)
+        public override bool Predicate(Regex rx, (string Keyword, string Separator, string Description) input)
         {
             throw new NotImplementedException();
         }
 
-        public override async Task<bool> PredicateAsync(Keyword keyword, Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token)
+        public override async Task<bool> PredicateAsync(Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token)
         {
             try
             {
-                if (rx.IsMatch(keyword.Name))
+                if (rx.IsMatch(Name))
                 {
-                    HttpKeyword httpKeyword = keyword as HttpKeyword;
                     token.ThrowIfCancellationRequested();
-                    switch (httpKeyword.Api)
+                    switch (Api)
                     {
                         case Api.Cloudflare:
                             CloudflareIpAddress ipAddress = !(input.Separator.Length > 0)
@@ -115,8 +114,8 @@ namespace Reginald.Core.Products
                                 return false;
                             }
 
-                            httpKeyword.Icon = httpKeyword.PrimaryIcon;
-                            httpKeyword.Description = ipAddress.Origin;
+                            Icon = PrimaryIcon;
+                            Description = ipAddress.Origin;
                             break;
 
                         case Api.Styvio:
@@ -136,12 +135,10 @@ namespace Reginald.Core.Products
                                                        ? "-" + priceDifference.ToString()
                                                        : "+" + priceDifference.ToString();
 
-                            httpKeyword.Icon = isPriceDifferenceNegative
-                                             ? httpKeyword.AuxiliaryIcon
-                                             : httpKeyword.PrimaryIcon;
-                            httpKeyword.Description = string.Format(httpKeyword.Format, currentPrice, priceDifferenceText);
-                            httpKeyword.AltDescription = string.Format(httpKeyword.Format, currentPrice, stock.PercentText);
-                            httpKeyword.Caption = string.Format(httpKeyword.CaptionFormat, stock.Ticker, stock.ShortName);
+                            Icon = isPriceDifferenceNegative ? AuxiliaryIcon : PrimaryIcon;
+                            Description = string.Format(Format, currentPrice, priceDifferenceText);
+                            AltDescription = string.Format(Format, currentPrice, stock.PercentText);
+                            Caption = string.Format(CaptionFormat, stock.Ticker, stock.ShortName);
                             break;
                     }
                     token.ThrowIfCancellationRequested();
@@ -155,25 +152,24 @@ namespace Reginald.Core.Products
             }
         }
 
-        public override void EnterDown(Keyword keyword, bool isAltDown, Action action)
+        public override void EnterDown(bool isAltDown, Action action)
         {
 
         }
 
-        public override (string Description, string Caption) AltDown(Keyword keyword)
+        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
         {
-            HttpKeyword httpKeyword = keyword as HttpKeyword;
-            string description = httpKeyword.AltDescription;
-            string caption = null;
-            return (description, caption);
+            return Task.FromResult(true);
         }
 
-        public override (string Description, string Caption) AltUp(Keyword keyword)
+        public override (string, string) AltDown()
         {
-            HttpKeyword httpKeyword = keyword as HttpKeyword;
-            string description = httpKeyword.Description;
-            string caption = null;
-            return (description, caption);
+            return (AltDescription, null);
+        }
+
+        public override (string, string) AltUp()
+        {
+            return (Description, null);
         }
     }
 }

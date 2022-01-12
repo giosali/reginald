@@ -5,7 +5,6 @@ using Reginald.Core.Mathematics;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Reginald.Core.Products
 {
@@ -24,36 +23,25 @@ namespace Reginald.Core.Products
             IsEnabled = model.IsEnabled;
         }
 
-        public override void EnterDown(Representation representation, bool isAltDown, Action action, object sender)
+        public override void EnterDown(bool isAltDown, Action action)
         {
-            Calculator calculator = representation as Calculator;
-            if (isAltDown)
-            {
-                TextBox textBox = sender as TextBox;
-                textBox.Text = calculator.Description;
-                textBox.SelectionStart = calculator.Description.Length;
-            }
-            else
-            {
-                action();
-                Clipboard.SetText(calculator.Description);
-            }
+            action();
+            Clipboard.SetText(Description);
         }
 
-        public override (string Description, string Caption) AltDown(Representation representation)
+        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
         {
-            Calculator calculator = representation as Calculator;
-            string description = null;
-            string caption = calculator.AltCaption;
-            return (description, caption);
+            return Task.FromResult(true);
         }
 
-        public override (string Description, string Caption) AltUp(Representation representation)
+        public override (string, string) AltDown()
         {
-            Calculator calculator = representation as Calculator;
-            string description = null;
-            string caption = calculator.Caption;
-            return (description, caption);
+            return (null, null);
+        }
+
+        public override (string, string) AltUp()
+        {
+            return (null, null);
         }
 
         public Task<bool> IsExpression(string input)

@@ -10,7 +10,7 @@ namespace Reginald.Tests
         [Fact]
         public void GetKnownFolder_WhenGivenGuid_ShouldReturnIKnownFolder()
         {
-            Guid guid = Constants.ApplicationsGuid;
+            Guid guid = Applications.ApplicationsFolderGuid;
             IKnownFolder folder = Applications.GetKnownFolder(guid);
             Assert.Equal(typeof(NonFileSystemKnownFolder), folder.GetType());
         }

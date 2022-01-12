@@ -1,5 +1,4 @@
-﻿using Caliburn.Micro;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -9,7 +8,7 @@ using System.Windows.Media;
 namespace Reginald.Core.AbstractProducts
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class Keyword : PropertyChangedBase
+    public abstract class Keyword : InteractiveAbstractProductBase
     {
         [JsonProperty("guid")]
         private Guid _guid;
@@ -149,14 +148,8 @@ namespace Reginald.Core.AbstractProducts
             return Guid.GetHashCode();
         }
 
-        public abstract bool Predicate(Keyword keyword, Regex rx, (string Keyword, string Separator, string Description) input);
+        public abstract bool Predicate(Regex rx, (string Keyword, string Separator, string Description) input);
 
-        public abstract Task<bool> PredicateAsync(Keyword keyword, Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token);
-
-        public abstract void EnterDown(Keyword keyword, bool isAltDown, Action action);
-
-        public abstract (string Description, string Caption) AltDown(Keyword keyword);
-
-        public abstract (string Description, string Caption) AltUp(Keyword keyword);
+        public abstract Task<bool> PredicateAsync(Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token);
     }
 }

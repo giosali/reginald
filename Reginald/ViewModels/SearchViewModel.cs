@@ -1,13 +1,12 @@
 ﻿using Caliburn.Micro;
 using Reginald.Core.AbstractProducts;
+using Reginald.Core.Base;
 using Reginald.Core.Extensions;
 using Reginald.Core.Helpers;
 using Reginald.Core.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -38,26 +37,26 @@ namespace Reginald.ViewModels
             }
         }
 
-        private DisplayItem _selectedSearchResult;
-        public DisplayItem SelectedSearchResult
+        private DisplayItem _selectedDisplayItem;
+        public DisplayItem SelectedDisplayItem
         {
-            get => _selectedSearchResult;
+            get => _selectedDisplayItem;
             set
             {
-                LastSelectedSearchResult = SelectedSearchResult;
-                _selectedSearchResult = value;
-                NotifyOfPropertyChange(() => SelectedSearchResult);
+                LastSelectedDisplayItem = SelectedDisplayItem;
+                _selectedDisplayItem = value;
+                NotifyOfPropertyChange(() => SelectedDisplayItem);
             }
         }
 
-        private DisplayItem _lastSelectedSearchResult;
-        public DisplayItem LastSelectedSearchResult
+        private DisplayItem _lastSelectedDisplayItem;
+        public DisplayItem LastSelectedDisplayItem
         {
-            get => _lastSelectedSearchResult;
+            get => _lastSelectedDisplayItem;
             set
             {
-                _lastSelectedSearchResult = value;
-                NotifyOfPropertyChange(() => LastSelectedSearchResult);
+                _lastSelectedDisplayItem = value;
+                NotifyOfPropertyChange(() => LastSelectedDisplayItem);
             }
         }
 
@@ -83,40 +82,19 @@ namespace Reginald.ViewModels
             }
         }
 
-        protected override Task OnInitializeAsync(CancellationToken cancellationToken)
-        {
-            return base.OnInitializeAsync(cancellationToken);
-        }
+        public List<DisplayItem> Timers { get; set; } = new();
 
         public SearchViewModel() : base(true)
         {
 
         }
 
-        public void ShowOrHide()
-        {
-            Window window = GetView() as Window;
-            if (window is not null)
-            {
-                if (window.IsVisible)
-                {
-                    window.Hide();
-                    MousePosition = new();
-                    LastSelectedSearchResult = null;
-                }
-                else
-                {
-                    window.Show();
-                }
-            }
-        }
-
-        public async Task UserInput_TextChangedAsync(object sender, TextChangedEventArgs e)
+        public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             SearchResults.Clear();
             IsMouseOverChanged = false;
             MousePosition = new();
-            if (UserInput != string.Empty)
+            if (UserInput.Length > 0)
             {
                 IEnumerable<DisplayItem> applicationResultsStrict = ShellItemHelper.ToSearchResults(await ShellItemHelper.FilterByStrictNames(Applications, Settings.IncludeInstalledApplications, UserInput));
                 IEnumerable<DisplayItem> applicationResultsUppercase = ShellItemHelper.ToSearchResults(await ShellItemHelper.FilterByUppercaseCharacters(Applications, Settings.IncludeInstalledApplications, UserInput));
@@ -127,6 +105,7 @@ namespace Reginald.ViewModels
                 IEnumerable<DisplayItem> utilityResults = KeyphraseHelper.ToSearchResults(await KeyphraseHelper.Filter(Utilities, Settings.IncludeUtilities, UserInput));
                 IEnumerable<DisplayItem> microsoftSettingsResults = KeyphraseHelper.ToSearchResults(await KeyphraseHelper.Filter(MicrosoftSettings, Settings.IncludeSettingsPages, UserInput));
                 IEnumerable<DisplayItem> defaultResults = KeywordHelper.ToSearchResults(await KeywordHelper.Set(DefaultResults, UserInput));
+                IEnumerable<DisplayItem> timers = await DisplayItemHelper.Filter(Timers, UserInput, Constants.TimersPreciseTerm);
                 bool calculationSuccess = await (Calculator as Calculator).IsExpression(UserInput);
                 bool isLink = (Link as Link).IsLink(UserInput);
                 IEnumerable<DisplayItem> results = applicationResultsStrict.Concat(applicationResultsUppercase)
@@ -137,7 +116,8 @@ namespace Reginald.ViewModels
                                                                            .Concat(commandResults)
                                                                            .Concat(httpKeywordResults)
                                                                            .Concat(utilityResults)
-                                                                           .Concat(microsoftSettingsResults);
+                                                                           .Concat(microsoftSettingsResults)
+                                                                           .Concat(timers);
 
                 if (results.Any())
                 {
@@ -164,12 +144,12 @@ namespace Reginald.ViewModels
                 }
 
                 // The result needs to be in the collection and can't be the first item
-                int index = SearchResults.IndexOf(LastSelectedSearchResult);
+                int index = SearchResults.IndexOf(LastSelectedDisplayItem);
                 if (index > 0)
                 {
                     SearchResults.PrependFrom(index);
                 }
-                SelectedSearchResult = SearchResults[0];
+                SelectedDisplayItem = SearchResults[0];
             }
         }
 
@@ -195,80 +175,66 @@ namespace Reginald.ViewModels
             {
                 if (SearchResults.Count > 0)
                 {
-                    switch (e.SystemKey)
+                    if (e.Key == Key.Up) // Up
                     {
-                        // If the key isn't a system key (likely a modifier key)...
-                        case Key.None:
-                            switch (e.Key)
+                        SelectedDisplayItem = SearchResults[SearchResults.IndexOf(SelectedDisplayItem) - 1];
+                    }
+                    else if (e.Key == Key.Down) // Down
+                    {
+                        SelectedDisplayItem = SearchResults[SearchResults.IndexOf(SelectedDisplayItem) + 1];
+                    }
+                    else if (e.Key == Key.Enter) // Enter
+                    {
+                        OnSelectedDisplayItemEnterDown(sender, false);
+                        e.Handled = true;
+                    }
+                    else if (Keyboard.Modifiers == ModifierKeys.Alt && e.SystemKey == Key.Enter) // Alt + Enter
+                    {
+                        OnSelectedDisplayItemEnterDown(sender, true);
+                        e.Handled = true;
+                    }
+                    else if (Keyboard.Modifiers == ModifierKeys.Alt && !e.IsRepeat) // Alt
+                    {
+                        (string description, string caption) = SelectedDisplayItem.AltDown();
+                        SelectedDisplayItem.Description = description ?? SelectedDisplayItem.Description;
+                        SelectedDisplayItem.Caption = caption ?? SelectedDisplayItem.Caption;
+                        e.Handled = true;
+                    }
+                    else if (e.Key == Key.Tab) // Tab
+                    {
+                        TextBox textBox = sender as TextBox;
+                        SearchResult result = SelectedDisplayItem as SearchResult;
+                        // If the currently selected search result is actually
+                        // derived from a keyword...
+                        if (result.Keyword is not null)
+                        {
+                            // then get see if the user has already typed the
+                            // corresponding keyword. If they haven't, autocomplete the
+                            // textbox with the keyword
+                            if (!UserInput.StartsWith(result.Keyword.Word, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                case Key.Enter:
-                                    HandleSelectedDisplayItemOnEnterDownAsync(sender);
-                                    e.Handled = true;
-                                    break;
-
-                                case Key.Up:
-                                    SelectedSearchResult = SearchResults[SearchResults.IndexOf(SelectedSearchResult) - 1];
-                                    break;
-
-                                case Key.Down:
-                                    SelectedSearchResult = SearchResults[SearchResults.IndexOf(SelectedSearchResult) + 1];
-                                    break;
-
-                                case Key.Tab:
-                                    TextBox textBox = sender as TextBox;
-                                    SearchResult result = SelectedSearchResult as SearchResult;
-                                    // If the currently selected search result is actually
-                                    // derived from a keyword...
-                                    if (result.Keyword is not null)
-                                    {
-                                        // then get see if the user has already typed the
-                                        // corresponding keyword. If they haven't, autocomplete the
-                                        // textbox with the keyword
-                                        if (!UserInput.StartsWith(result.Keyword.Word, StringComparison.InvariantCultureIgnoreCase))
-                                        {
-                                            UserInput = result.Keyword.Word;
-                                            textBox.SelectionStart = UserInput.Length;
-                                        }
-                                    }
-                                    // Otherwise, there is no keyword and we should simply
-                                    // autocomplete with the name of the object
-                                    else
-                                    {
-                                        if (!UserInput.StartsWith(SelectedSearchResult.Name, StringComparison.InvariantCultureIgnoreCase))
-                                        {
-                                            UserInput = SelectedSearchResult.Name;
-                                            textBox.SelectionStart = UserInput.Length;
-                                        }
-                                    }
-                                    e.Handled = true;
-                                    break;
+                                UserInput = result.Keyword.Word;
+                                textBox.SelectionStart = UserInput.Length;
                             }
-                            break;
-
-                        case Key.LeftAlt:
-                        case Key.RightAlt:
-                            HandleSelectedDisplayItemOnAltDown();
-                            e.Handled = true;
-                            break;
-
-                        // This is only active if a system key is pressed in conjunction
-                        // with a non-system key
-                        // For example: Alt + Enter will produce Key.Alt and then Key.Return
-                        // rather than Key.Enter
-                        case Key.Return:
-                            HandleSelectedDisplayItemOnEnterDownAsync(sender);
-                            e.Handled = true;
-                            break;
+                        }
+                        // Otherwise, there is no keyword and we should simply
+                        // autocomplete with the name of the object
+                        else
+                        {
+                            if (!UserInput.StartsWith(SelectedDisplayItem.Name, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                UserInput = SelectedDisplayItem.Name;
+                                textBox.SelectionStart = UserInput.Length;
+                            }
+                        }
+                        e.Handled = true;
                     }
                 }
                 else
                 {
-                    switch (e.Key)
+                    if (e.Key == Key.Tab) // Tab
                     {
-                        // Prevent textbox from losing focus
-                        case Key.Tab:
-                            e.Handled = true;
-                            break;
+                        e.Handled = true;
                     }
                 }
             }
@@ -283,7 +249,9 @@ namespace Reginald.ViewModels
                 {
                     case Key.LeftAlt:
                     case Key.RightAlt:
-                        HandleSelectedDisplayItemOnAltUp();
+                        (string description, string caption) = SelectedDisplayItem.AltUp();
+                        SelectedDisplayItem.Description = description ?? SelectedDisplayItem.Description;
+                        SelectedDisplayItem.Caption = caption ?? SelectedDisplayItem.Caption;
                         e.Handled = true;
                         break;
                 }
@@ -292,97 +260,76 @@ namespace Reginald.ViewModels
 
         public void SearchResults_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            HandleSelectedDisplayItemOnEnterDownAsync(sender);
+            OnSelectedDisplayItemEnterDown(sender, false);
         }
 
         public void SearchResults_MouseLeave(object sender, MouseEventArgs e)
         {
             try
             {
-                bool lastSelectedSearchResultRemains = false;
-                for (int i = 0; i < SearchResults.Count; i++)
-                {
-                    if (LastSelectedSearchResult == SearchResults[i])
-                    {
-                        SelectedSearchResult = LastSelectedSearchResult;
-                        lastSelectedSearchResultRemains = true;
-                        break;
-                    }
-                }
-                if (!lastSelectedSearchResultRemains)
-                {
-                    SelectedSearchResult = SearchResults[0];
-                }
+                SelectedDisplayItem = SearchResults.Contains(LastSelectedDisplayItem) ? LastSelectedDisplayItem : SearchResults[0];
             }
             catch (ArgumentOutOfRangeException) { }
         }
 
         public void SearchResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            (sender as ListBox).ScrollIntoView(SelectedSearchResult);
+            (sender as ListBox).ScrollIntoView(SelectedDisplayItem);
         }
 
         public void SearchResults_MouseMove(object sender, MouseEventArgs e)
         {
             Point position = e.GetPosition((IInputElement)sender);
-            Point defaultPosition = new();
-            if (position != MousePosition && MousePosition != defaultPosition)
+            if (position != MousePosition && MousePosition != new Point())
             {
                 IsMouseOverChanged = true;
             }
             MousePosition = position;
         }
 
-        private async void HandleSelectedDisplayItemOnEnterDownAsync(object sender)
+        public void ShowOrHide()
         {
-            SearchResult result = SelectedSearchResult as SearchResult;
-            if (result.Keyword is not null)
+            Window window = GetView() as Window;
+            if (window is not null)
             {
-                result.Keyword.EnterDown(result.Keyword, result.IsAltDown, ShowOrHide);
-            }
-            else if (result.ShellItem is not null)
-            {
-                result.ShellItem.EnterDown(result.ShellItem, result.IsAltDown, ShowOrHide);
-            }
-            else if (result.Representation is not null)
-            {
-                result.Representation.EnterDown(result.Representation, result.IsAltDown, ShowOrHide, sender);
-            }
-            else if (result.Keyphrase is not null)
-            {
-                bool success = await result.Keyphrase.EnterDown(result.Keyphrase, result.IsAltDown, result.IsPrompted, ShowOrHide);
-                if (!success)
+                if (window.IsVisible)
                 {
-                    SelectedSearchResult = SearchResults.Spotlight(KeywordHelper.ToConfirmationResult(result.Keyphrase));
+                    window.Hide();
+                    MousePosition = new();
+                    LastSelectedDisplayItem = null;
+                }
+                else
+                {
+                    window.Show();
                 }
             }
         }
 
-        private void HandleSelectedDisplayItemOnAltDown()
+        private async void OnSelectedDisplayItemEnterDown(object sender, bool isAltDown)
         {
-            SearchResult result = SelectedSearchResult as SearchResult;
-            if (!result.IsAltDown)
+            bool success = await SelectedDisplayItem.EnterDownAsync(isAltDown, ShowOrHide, sender);
+            SearchResult result = SelectedDisplayItem as SearchResult;
+            if (!success)
             {
-                result.IsAltDown = true;
-                (string Description, string Caption) = result.Keyword?.AltDown(result.Keyword)
-                                                    ?? result.ShellItem?.AltDown(result.ShellItem)
-                                                    ?? result.Representation?.AltDown(result.Representation)
-                                                    ?? (result.Description, result.Caption);
-                result.Description = Description ?? result.Description;
-                result.Caption = Caption ?? result.Caption;
+                if (SelectedDisplayItem is TimerResult) // Remove the selected timer from Timers
+                {
+                    _ = Timers.Remove(SelectedDisplayItem);
+                    UserInput_TextChanged(null, null);
+                }
+                else
+                {
+                    SelectedDisplayItem = SearchResults.Spotlight(KeywordHelper.ToConfirmationResult(result.Keyphrase));
+                }
             }
-        }
-
-        private void HandleSelectedDisplayItemOnAltUp()
-        {
-            SearchResult result = SelectedSearchResult as SearchResult;
-            result.IsAltDown = false;
-            (string Description, string Caption) = result.Keyword?.AltUp(result.Keyword)
-                                                ?? result.ShellItem?.AltUp(result.ShellItem)
-                                                ?? result.Representation?.AltUp(result.Representation)
-                                                ?? (result.Description, result.Caption);
-            result.Description = Description ?? result.Description;
-            result.Caption = Caption ?? result.Caption;
+            if (result.Keyword is TimerKeyword)
+            {
+                // Add a timer to Timers
+                DisplayItem item = KeywordHelper.ToDisplayItem(result.Keyword);
+                if (item is not null)
+                {
+                    Timers.Add(item);
+                }
+            }
         }
     }
 }
