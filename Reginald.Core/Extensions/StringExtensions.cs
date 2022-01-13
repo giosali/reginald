@@ -152,7 +152,7 @@ namespace Reginald.Extensions
                 HashSet<string> topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
                 foreach (string line in File.ReadLines(FileOperations.GetFilePath(ApplicationPaths.TopLevelDomainsTxtFilename, true)))
                 {
-                    topLevelDomains.Add(line);
+                    _ = topLevelDomains.Add(line);
                 }
 
                 (_, _, string topLevelDomain) = expression.Partition(".");
@@ -162,12 +162,18 @@ namespace Reginald.Extensions
                 // Example: 'com' instead of '.com'
                 if (periodIndex++ > -1)
                 {
-                    topLevelDomain = topLevelDomain.Substring(periodIndex, forwardSlashIndex - periodIndex);
+                    topLevelDomain = topLevelDomain[periodIndex..forwardSlashIndex];
                 }
                 else
                 {
-                    (_, _, topLevelDomain) = expression.RPartition(".");
-                    topLevelDomain = topLevelDomain.Trim('/');
+                    if (topLevelDomain.Contains('/'))
+                    {
+                        (topLevelDomain, _, _) = topLevelDomain.Partition("/");
+                    }
+                    else
+                    {
+                        (_, _, topLevelDomain) = expression.RPartition(".");
+                    }
                 }
                 return topLevelDomains.Contains(topLevelDomain);
             }
