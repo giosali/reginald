@@ -1,8 +1,8 @@
-﻿using Reginald.Core.AbstractProducts;
-using Reginald.Core.Helpers;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Helpers;
+
     public class ConfirmationResult : SearchResult
     {
         private const string ConfirmationIconPath = "pack://application:,,,/Reginald;component/Images/Results/exclamation.png";

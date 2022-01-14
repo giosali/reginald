@@ -1,13 +1,30 @@
-﻿using Reginald.Core.IO;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
-
-namespace Reginald.Extensions
+﻿namespace Reginald.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text.RegularExpressions;
+    using Reginald.Core.IO;
+
     public static class StringExtensions
     {
+        /// <summary>
+        /// Receives a string and returns a new string with all unmatched or unterminated characters escaped.
+        /// </summary>
+        /// <param name="expression">The string to clean.</param>
+        /// <returns>A new string with all unmatched or unterminated characters in <paramref name="expression"/> escaped.</returns>
+        public static string RegexClean(this string expression)
+        {
+            string[] characters = new string[] { @"\", "[", "(", ")", ".", "+" };
+            for (int i = 0; i < characters.Length; i++)
+            {
+                string character = characters[i];
+                expression = expression.Replace(character, @$"\{character}");
+            }
+
+            return expression;
+        }
+
         /// <summary>
         /// Splits a string at the first occurrence of <paramref name="separator"/> into a 3-tuple that consists solely of strings in the following order: the part preceding the separator, the separator itself, and the part proceeding the separator.
         /// </summary>
@@ -158,6 +175,7 @@ namespace Reginald.Extensions
                 (_, _, string topLevelDomain) = expression.Partition(".");
                 int forwardSlashIndex = topLevelDomain.IndexOf('/');
                 int periodIndex = forwardSlashIndex > 0 ? topLevelDomain.LastIndexOf('.', forwardSlashIndex) : -1;
+
                 // We add 1 to periodIndex to eliminate the period before the top-level domain
                 // Example: 'com' instead of '.com'
                 if (periodIndex++ > -1)
@@ -175,6 +193,7 @@ namespace Reginald.Extensions
                         (_, _, topLevelDomain) = expression.RPartition(".");
                     }
                 }
+
                 return topLevelDomains.Contains(topLevelDomain);
             }
             else

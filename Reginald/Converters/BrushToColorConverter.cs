@@ -1,10 +1,10 @@
-﻿using System;
-using System.Globalization;
-using System.Windows.Data;
-using System.Windows.Media;
-
-namespace Reginald.Converters
+﻿namespace Reginald.Converters
 {
+    using System;
+    using System.Globalization;
+    using System.Windows.Data;
+    using System.Windows.Media;
+
     [ValueConversion(typeof(Brush), typeof(Color))]
     public class BrushToColorConverter : IValueConverter
     {

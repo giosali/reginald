@@ -1,73 +1,43 @@
-﻿using Reginald.Core.AbstractProducts;
-using Reginald.Core.Apis.Cloudflare;
-using Reginald.Core.Apis.Styvio;
-using Reginald.Core.DataModels;
-using Reginald.Core.Enums;
-using Reginald.Core.Helpers;
-using System;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Media;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using System;
+    using System.Text.RegularExpressions;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows.Media;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Apis.Cloudflare;
+    using Reginald.Core.Apis.Styvio;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Helpers;
+
+    /// <summary>
+    /// Specifies the possible types of APIs.
+    /// </summary>
+    public enum Api
+    {
+        /// <summary>
+        /// The API is the Styvio API.
+        /// </summary>
+        Styvio,
+
+        /// <summary>
+        /// The API is the Cloudflare API.
+        /// </summary>
+        Cloudflare,
+    }
+
     public class HttpKeyword : Keyword
     {
         private ImageSource _primaryIcon;
-        public ImageSource PrimaryIcon
-        {
-            get => _primaryIcon;
-            set
-            {
-                _primaryIcon = value;
-                NotifyOfPropertyChange(() => PrimaryIcon);
-            }
-        }
 
         private ImageSource _auxiliaryIcon;
-        public ImageSource AuxiliaryIcon
-        {
-            get => _auxiliaryIcon;
-            set
-            {
-                _auxiliaryIcon = value;
-                NotifyOfPropertyChange(() => AuxiliaryIcon);
-            }
-        }
 
         private string _captionFormat;
-        public string CaptionFormat
-        {
-            get => _captionFormat;
-            set
-            {
-                _captionFormat = value;
-                NotifyOfPropertyChange(() => CaptionFormat);
-            }
-        }
 
         private Api _api;
-        public Api Api
-        {
-            get => _api;
-            set
-            {
-                _api = value;
-                NotifyOfPropertyChange(() => Api);
-            }
-        }
 
         private string _altDescription;
-        public string AltDescription
-        {
-            get => _altDescription;
-            set
-            {
-                _altDescription = value;
-                NotifyOfPropertyChange(() => AltDescription);
-            }
-        }
 
         public HttpKeyword(HttpKeywordDataModel model)
         {
@@ -75,6 +45,7 @@ namespace Reginald.Core.Products
             {
                 Guid = guid;
             }
+
             Name = model.Name;
             Word = model.Keyword;
             PrimaryIcon = BitmapImageHelper.FromUri(model.PrimaryIcon);
@@ -88,6 +59,56 @@ namespace Reginald.Core.Products
             if (Enum.TryParse(model.Api, true, out Api api))
             {
                 Api = api;
+            }
+        }
+
+        public ImageSource PrimaryIcon
+        {
+            get => _primaryIcon;
+            set
+            {
+                _primaryIcon = value;
+                NotifyOfPropertyChange(() => PrimaryIcon);
+            }
+        }
+
+        public ImageSource AuxiliaryIcon
+        {
+            get => _auxiliaryIcon;
+            set
+            {
+                _auxiliaryIcon = value;
+                NotifyOfPropertyChange(() => AuxiliaryIcon);
+            }
+        }
+
+        public string CaptionFormat
+        {
+            get => _captionFormat;
+            set
+            {
+                _captionFormat = value;
+                NotifyOfPropertyChange(() => CaptionFormat);
+            }
+        }
+
+        public Api Api
+        {
+            get => _api;
+            set
+            {
+                _api = value;
+                NotifyOfPropertyChange(() => Api);
+            }
+        }
+
+        public string AltDescription
+        {
+            get => _altDescription;
+            set
+            {
+                _altDescription = value;
+                NotifyOfPropertyChange(() => AltDescription);
             }
         }
 
@@ -141,9 +162,11 @@ namespace Reginald.Core.Products
                             Caption = string.Format(CaptionFormat, stock.Ticker, stock.ShortName);
                             break;
                     }
+
                     token.ThrowIfCancellationRequested();
                     return true;
                 }
+
                 return false;
             }
             catch (OperationCanceledException)
@@ -154,7 +177,6 @@ namespace Reginald.Core.Products
 
         public override void EnterDown(bool isAltDown, Action action)
         {
-
         }
 
         public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
@@ -162,12 +184,12 @@ namespace Reginald.Core.Products
             return Task.FromResult(true);
         }
 
-        public override (string, string) AltDown()
+        public override (string Description, string Caption) AltDown()
         {
             return (AltDescription, null);
         }
 
-        public override (string, string) AltUp()
+        public override (string Description, string Caption) AltUp()
         {
             return (Description, null);
         }

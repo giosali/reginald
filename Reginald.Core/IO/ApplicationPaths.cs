@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Reginald.Core.IO
+﻿namespace Reginald.Core.IO
 {
+    using System;
+
     public static class ApplicationPaths
     {
         public static string AppDataDirectoryPath { get; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

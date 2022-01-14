@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace Reginald.Core.Apis.Cloudflare
+﻿namespace Reginald.Core.Apis.Cloudflare
 {
+    using System;
+    using Newtonsoft.Json;
+
     [Serializable]
     public class CloudflareIpAddress
     {

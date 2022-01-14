@@ -1,17 +1,13 @@
-﻿using Reginald.Core.AbstractFactories;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.DataModels;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Reginald.Core.Clients
+﻿namespace Reginald.Core.Clients
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Reginald.Core.AbstractFactories;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.DataModels;
+
     public class KeyphraseClient
     {
-        public Keyphrase Keyphrase { get; set; }
-
-        public IEnumerable<Keyphrase> Keyphrases { get; set; }
-
         public KeyphraseClient(KeyFactory factory, KeyphraseDataModelBase model)
         {
             Keyphrase = factory.CreateKeyphrase(model);
@@ -24,7 +20,12 @@ namespace Reginald.Core.Clients
             {
                 keywords.Add(factory.CreateKeyphrase(model));
             }
+
             Keyphrases = keywords;
         }
+
+        public Keyphrase Keyphrase { get; set; }
+
+        public IEnumerable<Keyphrase> Keyphrases { get; set; }
     }
 }

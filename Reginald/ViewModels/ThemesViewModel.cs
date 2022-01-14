@@ -1,13 +1,13 @@
-﻿using Reginald.Core.DataModels;
-using Reginald.Core.Extensions;
-using Reginald.Core.IO;
-using Reginald.Core.Products;
-using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System.Linq;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.IO;
+    using Reginald.Core.Products;
+
     public class ThemesViewModel : UnitViewModelBase<Theme>
     {
         public ThemesViewModel()

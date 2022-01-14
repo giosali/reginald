@@ -1,13 +1,12 @@
-﻿using Microsoft.WindowsAPICodePack.Shell;
-using Reginald.Core.AbstractFactories;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.DataModels;
-using Reginald.Core.Enums;
-using Reginald.Core.Products;
-using System;
-
-namespace Reginald.Core.Factories
+﻿namespace Reginald.Core.Factories
 {
+    using System;
+    using Microsoft.WindowsAPICodePack.Shell;
+    using Reginald.Core.AbstractFactories;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Products;
+
     public class SearchTermFactory : KeyFactory
     {
         public override ShellItem CreateShellItem(ShellObject shellObject)
@@ -46,11 +45,13 @@ namespace Reginald.Core.Factories
                         timer.Description = string.Format(timer.Format, timer.Placeholder, timer.Placeholder);
                         return timer;
                     }
+
                     break;
 
                 case Command.Quit:
                     return new QuitKeyword(commandKeyword);
             }
+
             return null;
         }
 

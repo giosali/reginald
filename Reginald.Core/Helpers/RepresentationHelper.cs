@@ -1,9 +1,9 @@
-﻿using Reginald.Core.AbstractProducts;
-using Reginald.Core.Clients;
-using Reginald.Core.Factories;
-
-namespace Reginald.Core.Helpers
+﻿namespace Reginald.Core.Helpers
 {
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Clients;
+    using Reginald.Core.Factories;
+
     public static class RepresentationHelper
     {
         public static ResultFactory ResultFactory { get; set; } = new();

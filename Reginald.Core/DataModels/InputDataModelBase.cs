@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace Reginald.Core.DataModels
+﻿namespace Reginald.Core.DataModels
 {
+    using Newtonsoft.Json;
+
     public abstract class InputDataModelBase : DataModelBase
     {
         [JsonProperty("guid")]

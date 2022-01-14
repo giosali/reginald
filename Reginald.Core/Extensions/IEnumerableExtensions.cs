@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Reginald.Core.Extensions
+﻿namespace Reginald.Core.Extensions
 {
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+
     public static class IEnumerableExtensions
     {
         public static string Serialize<T>(this IEnumerable<T> collection)

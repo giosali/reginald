@@ -1,9 +1,9 @@
-﻿using System;
-using System.Globalization;
-using System.Windows.Data;
-
-namespace Reginald.Converters
+﻿namespace Reginald.Converters
 {
+    using System;
+    using System.Globalization;
+    using System.Windows.Data;
+
     [ValueConversion(typeof(bool), typeof(string))]
     public class ToggleSwitchBooleanToStringConverter : IValueConverter
     {

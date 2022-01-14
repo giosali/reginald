@@ -1,7 +1,7 @@
-﻿using Caliburn.Micro;
-
-namespace Reginald.Core.Extensions
+﻿namespace Reginald.Core.Extensions
 {
+    using Caliburn.Micro;
+
     public static class BindableCollectionExtensions
     {
         public static void PrependFrom<T>(this BindableCollection<T> collection, int index)
@@ -11,6 +11,7 @@ namespace Reginald.Core.Extensions
             {
                 collection[i] = collection[i - 1];
             }
+
             collection[0] = item;
         }
 

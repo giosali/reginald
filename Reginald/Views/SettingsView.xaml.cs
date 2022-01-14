@@ -1,9 +1,9 @@
-﻿using HandyControl.Controls;
-
-namespace Reginald.Views
+﻿namespace Reginald.Views
 {
+    using HandyControl.Controls;
+
     /// <summary>
-    /// Interaction logic for ShellView.xaml
+    /// Interaction logic for ShellView.xaml.
     /// </summary>
     public partial class SettingsView : Window
     {

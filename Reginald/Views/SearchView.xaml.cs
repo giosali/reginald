@@ -1,13 +1,21 @@
-﻿using System;
-using System.Windows;
-
-namespace Reginald.Views
+﻿namespace Reginald.Views
 {
+    using System;
+    using System.Windows;
+
     /// <summary>
-    /// Interaction logic for SearchView.xaml
+    /// Interaction logic for SearchView.xaml.
     /// </summary>
     public partial class SearchView : Window
     {
+        public SearchView()
+        {
+            double windowWidth = 600;
+            Left = (SystemParameters.WorkArea.Width - windowWidth) / 2;
+            Top = (SystemParameters.WorkArea.Height - ActualHeight) / 8;
+            InitializeComponent();
+        }
+
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -18,14 +26,6 @@ namespace Reginald.Views
         {
             base.OnDeactivated(e);
             Hide();
-        }
-
-        public SearchView()
-        {
-            double windowWidth = 600;
-            Left = (SystemParameters.WorkArea.Width - windowWidth) / 2;
-            Top = (SystemParameters.WorkArea.Height - ActualHeight) / 8;
-            InitializeComponent();
         }
     }
 }

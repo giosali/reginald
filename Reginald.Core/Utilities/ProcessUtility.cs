@@ -1,35 +1,23 @@
-﻿using Reginald.Core.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows;
-
-namespace Reginald.Core.Utilities
+﻿namespace Reginald.Core.Utilities
 {
-    public static class Processes
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Windows;
+    using Reginald.Extensions;
+
+    public static class ProcessUtility
     {
-        [DllImport("user32.dll")]
-        private static extern bool IsWindowVisible(IntPtr hWnd);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
-        [DllImport("user32.dll")]
-        private static extern bool EnumWindows(EnumDelegate lpEnumFunc, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        private static extern UInt32 GetWindowThreadProcessId(IntPtr hWnd, out Int32 lpdwProcessId);
-
         private delegate bool EnumDelegate(IntPtr hWnd, int lParam);
 
         public static string[] GetTopLevelProcessNames(string input = null)
         {
             List<string> names = new();
-            bool filter(IntPtr hWnd, int lParam)
+            bool Filter(IntPtr hWnd, int lParam)
             {
                 StringBuilder sb = new(255);
                 _ = GetWindowText(hWnd, sb, sb.Capacity);
@@ -44,18 +32,20 @@ namespace Reginald.Core.Utilities
                         names.Add(name);
                     }
                 }
+
                 return true;
             }
 
-            _ = EnumWindows(filter, IntPtr.Zero);
+            _ = EnumWindows(Filter, IntPtr.Zero);
             return names.Distinct()
                         .Where(name =>
                         {
                             if (!string.IsNullOrEmpty(input))
                             {
-                                string pattern = $@"(?<!\w+){StringHelper.RegexClean(input)}";
+                                string pattern = $@"(?<!\w+){input.RegexClean()}";
                                 return new Regex(pattern, RegexOptions.IgnoreCase).IsMatch(name);
                             }
+
                             return true;
                         })
                         .ToArray();
@@ -64,7 +54,7 @@ namespace Reginald.Core.Utilities
         public static Process[] GetTopLevelProcesses(string input = null)
         {
             List<Process> processes = new();
-            bool filter(IntPtr hWnd, int lParam)
+            bool Filter(IntPtr hWnd, int lParam)
             {
                 StringBuilder sb = new(255);
                 _ = GetWindowText(hWnd, sb, sb.Capacity);
@@ -78,18 +68,20 @@ namespace Reginald.Core.Utilities
                         processes.Add(process);
                     }
                 }
+
                 return true;
             }
 
-            _ = EnumWindows(filter, IntPtr.Zero);
+            _ = EnumWindows(Filter, IntPtr.Zero);
             return processes.Distinct()
                             .Where(process =>
                             {
                                 if (!string.IsNullOrEmpty(input))
                                 {
-                                    string pattern = $@"(?<!\w+){StringHelper.RegexClean(input)}";
+                                    string pattern = $@"(?<!\w+){input.RegexClean()}";
                                     return new Regex(pattern, RegexOptions.IgnoreCase).IsMatch(process.MainModule.FileVersionInfo.FileDescription);
                                 }
+
                                 return true;
                             })
                             .ToArray();
@@ -121,7 +113,7 @@ namespace Reginald.Core.Utilities
                 Arguments = $"/C ping 127.0.0.1 -n 2 && \"{filename}\"",
                 WindowStyle = ProcessWindowStyle.Hidden,
                 CreateNoWindow = true,
-                FileName = "cmd.exe"
+                FileName = "cmd.exe",
             };
 
             _ = Process.Start(startInfo);
@@ -135,7 +127,7 @@ namespace Reginald.Core.Utilities
                 ProcessStartInfo startInfo = new()
                 {
                     FileName = uri,
-                    UseShellExecute = true
+                    UseShellExecute = true,
                 };
                 _ = Process.Start(startInfo);
             }
@@ -156,5 +148,17 @@ namespace Reginald.Core.Utilities
         {
             _ = Process.Start("explorer.exe", path);
         }
+
+        [DllImport("user32.dll")]
+        private static extern bool IsWindowVisible(IntPtr hWnd);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll")]
+        private static extern bool EnumWindows(EnumDelegate lpEnumFunc, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
     }
 }

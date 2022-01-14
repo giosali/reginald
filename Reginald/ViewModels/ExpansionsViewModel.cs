@@ -1,17 +1,35 @@
-﻿using Caliburn.Micro;
-using Reginald.Core.DataModels;
-using Reginald.Core.Extensions;
-using Reginald.Core.IO;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using Caliburn.Micro;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.IO;
+
     public class ExpansionsViewModel : ViewViewModelBase
     {
         private BindableCollection<ExpansionDataModel> _expansions = new();
+
+        private ExpansionDataModel _selectedExpansion;
+
+        private string _trigger;
+
+        private string _replacement;
+
+        private bool _isBeingEdited;
+
+        public ExpansionsViewModel()
+        {
+            IEnumerable<ExpansionDataModel> expansions = FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false);
+            if (expansions is not null)
+            {
+                Expansions.AddRange(expansions);
+            }
+        }
+
         public BindableCollection<ExpansionDataModel> Expansions
         {
             get => _expansions;
@@ -22,7 +40,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private ExpansionDataModel _selectedExpansion;
         public ExpansionDataModel SelectedExpansion
         {
             get => _selectedExpansion;
@@ -33,7 +50,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private string _trigger;
         public string Trigger
         {
             get => _trigger;
@@ -44,7 +60,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private string _replacement;
         public string Replacement
         {
             get => _replacement;
@@ -55,7 +70,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private bool _isBeingEdited;
         public bool IsBeingEdited
         {
             get => _isBeingEdited;
@@ -63,15 +77,6 @@ namespace Reginald.ViewModels
             {
                 _isBeingEdited = value;
                 NotifyOfPropertyChange(() => IsBeingEdited);
-            }
-        }
-
-        public ExpansionsViewModel()
-        {
-            IEnumerable<ExpansionDataModel> expansions = FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false);
-            if (expansions is not null)
-            {
-                Expansions.AddRange(expansions);
             }
         }
 
@@ -119,6 +124,7 @@ namespace Reginald.ViewModels
                             }
                         }
                     }
+
                     if (exists)
                     {
                         break;
@@ -136,6 +142,7 @@ namespace Reginald.ViewModels
                 {
                     FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, Expansions.Serialize());
                 }
+
                 SelectedExpansion = null;
 
                 // Reread from file to refresh the expansions
@@ -180,7 +187,7 @@ namespace Reginald.ViewModels
                 Expansions.Add(new ExpansionDataModel()
                 {
                     Trigger = Trigger,
-                    Replacement = Replacement
+                    Replacement = Replacement,
                 });
 
                 FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, Expansions.Serialize());

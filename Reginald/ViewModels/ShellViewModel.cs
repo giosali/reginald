@@ -1,21 +1,33 @@
-﻿using Caliburn.Micro;
-using Reginald.Commanding;
-using Reginald.Core.Enums;
-using Reginald.Core.IO;
-using Reginald.Core.InputInjection;
-using System.Windows;
-using System.Windows.Input;
-using Reginald.Core.Extensions;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System.Windows;
+    using System.Windows.Input;
+    using Caliburn.Micro;
+    using Reginald.Commanding;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.InputInjection;
+    using Reginald.Core.IO;
+
     public class ShellViewModel : Conductor<object>
     {
+        private bool _isEnabled = true;
+
+        public ShellViewModel()
+        {
+            FileOperations.SetUp();
+            if (SearchView.Settings.LaunchOnStartup)
+            {
+                _ = FileOperations.TryCreateShortcut();
+            }
+
+            OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
+
+            KeyboardHook keyboardHook = new(Hook.Expansion);
+            keyboardHook.Add();
+        }
+
         public static SearchViewModel SearchView { get; set; } = new();
 
-        public ICommand OpenWindowCommand { get; set; }
-
-        private bool _isEnabled = true;
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -26,18 +38,7 @@ namespace Reginald.ViewModels
             }
         }
 
-        public ShellViewModel()
-        {
-            FileOperations.SetUp();
-            if (SearchView.Settings.LaunchOnStartup)
-            {
-                _ = FileOperations.TryCreateShortcut();
-            }
-            OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
-
-            KeyboardHook keyboardHook = new(Hook.Expansion);
-            keyboardHook.Add();
-        }
+        public ICommand OpenWindowCommand { get; set; }
 
         public void OpenSettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -51,6 +52,7 @@ namespace Reginald.ViewModels
             {
                 FileOperations.DeleteShortcut();
             }
+
             FileOperations.WriteFile(ApplicationPaths.SettingsFilename, SearchView.Settings.Serialize());
         }
 

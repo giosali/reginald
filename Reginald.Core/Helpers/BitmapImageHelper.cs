@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Media.Imaging;
-
-namespace Reginald.Core.Helpers
+﻿namespace Reginald.Core.Helpers
 {
+    using System;
+    using System.Windows.Media.Imaging;
+
     public class BitmapImageHelper
     {
         public static BitmapImage FromUri(string uri, int width = 128, int height = 128)

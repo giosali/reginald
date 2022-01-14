@@ -1,39 +1,40 @@
-﻿using Reginald.Core.Base;
-using Reginald.Core.Enums;
-using Reginald.Core.Extensions;
-using Reginald.Core.Helpers;
-using System;
-using System.Linq;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using System;
+    using System.Linq;
+    using Reginald.Core.Base;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.Helpers;
+
+    /// <summary>
+    /// Specifies a unit of time.
+    /// </summary>
+    public enum TimeUnit
+    {
+        /// <summary>
+        /// A unit of time specifying seconds.
+        /// </summary>
+        Second,
+
+        /// <summary>
+        /// A unit of time specifying minutes.
+        /// </summary>
+        Minute,
+
+        /// <summary>
+        /// A unit of time specifying hours.
+        /// </summary>
+        Hour,
+    }
+
     public class TimerKeyword : CommandKeyword
     {
         private double _time;
-        public double Time
-        {
-            get => _time;
-            set
-            {
-                _time = value;
-                NotifyOfPropertyChange(() => Time);
-            }
-        }
 
         private bool _isRunning;
-        public bool IsRunning
-        {
-            get => _isRunning;
-            set
-            {
-                _isRunning = value;
-                NotifyOfPropertyChange(() => IsRunning);
-            }
-        }
 
         public TimerKeyword()
         {
-
         }
 
         public TimerKeyword(CommandKeyword keyword)
@@ -49,6 +50,26 @@ namespace Reginald.Core.Products
             Command = keyword.Command;
         }
 
+        public double Time
+        {
+            get => _time;
+            set
+            {
+                _time = value;
+                NotifyOfPropertyChange(() => Time);
+            }
+        }
+
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set
+            {
+                _isRunning = value;
+                NotifyOfPropertyChange(() => IsRunning);
+            }
+        }
+
         public override void EnterDown(bool isAltDown, Action action)
         {
             if (!string.IsNullOrEmpty(Completion) && Time > 0)
@@ -61,12 +82,12 @@ namespace Reginald.Core.Products
         /// <summary>
         /// Takes a string and returns a boolean indicating whether or not it contains time values and/or a description.
         /// </summary>
-        /// <param name="timer">A TimerModel object</param>
-        /// <param name="input"></param>
-        /// <returns><see langword="true"/> if the input contains time values and/or a description; otherwise, <see langword="false"/></returns>
+        /// <param name="input">The input to evaluate.</param>
+        /// <returns><see langword="true"/> if the input contains time values and/or a description; otherwise, <see langword="false"/>.</returns>
         public bool TryParseTimeFromString(string input)
         {
             double time = 0;
+
             // The startingIndex is used to prevent the following from being valid:
             // `Take out the trash 30m 30s Do the laundry`
             // Otherwise, the description would only be set to "Do the laundry" and
@@ -77,35 +98,40 @@ namespace Reginald.Core.Products
             string[] timeRepresentations = new string[3];
             if (TimerKeywordHelper.TryGetTime(input, Constants.CommandTimerSecondRegexPattern, out double seconds, out int secondsStartingIndex, out int secondsEndingIndex))
             {
-                time += seconds.ToMilliseconds(Unit.Second, out timeRepresentations[2]);
+                time += seconds.ToMilliseconds(TimeUnit.Second, out timeRepresentations[2]);
                 if (secondsStartingIndex < startingIndex)
                 {
                     startingIndex = secondsStartingIndex;
                 }
+
                 if (secondsEndingIndex > largestIndex)
                 {
                     largestIndex = secondsEndingIndex;
                 }
             }
+
             if (TimerKeywordHelper.TryGetTime(input, Constants.CommandTimerMinuteRegexPattern, out double minutes, out int minutesStartingIndex, out int minutesEndingIndex))
             {
-                time += minutes.ToMilliseconds(Unit.Minute, out timeRepresentations[1]);
+                time += minutes.ToMilliseconds(TimeUnit.Minute, out timeRepresentations[1]);
                 if (minutesStartingIndex < startingIndex)
                 {
                     startingIndex = minutesStartingIndex;
                 }
+
                 if (minutesEndingIndex > largestIndex)
                 {
                     largestIndex = minutesEndingIndex;
                 }
             }
+
             if (TimerKeywordHelper.TryGetTime(input, Constants.CommandTimerHourRegexPattern, out double hours, out int hoursStartingIndex, out int hoursEndingIndex))
             {
-                time += hours.ToMilliseconds(Unit.Hour, out timeRepresentations[0]);
+                time += hours.ToMilliseconds(TimeUnit.Hour, out timeRepresentations[0]);
                 if (hoursStartingIndex < startingIndex)
                 {
                     startingIndex = hoursStartingIndex;
                 }
+
                 if (hoursEndingIndex > largestIndex)
                 {
                     largestIndex = hoursEndingIndex;

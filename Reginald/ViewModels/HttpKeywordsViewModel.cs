@@ -1,11 +1,12 @@
-﻿using Reginald.Core.DataModels;
-using Reginald.Core.IO;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using Reginald.Core.DataModels;
+    using Reginald.Core.IO;
+
     public class HttpKeywordsViewModel : KeywordViewModelBase
     {
-        public HttpKeywordsViewModel() : base(ApplicationPaths.HttpKeywordsJsonFilename)
+        public HttpKeywordsViewModel()
+            : base(ApplicationPaths.HttpKeywordsJsonFilename)
         {
             Keywords.AddRange(UpdateKeywords<HttpKeywordDataModel>(Filename, true, false));
         }

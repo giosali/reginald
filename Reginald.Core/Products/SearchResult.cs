@@ -1,80 +1,25 @@
-﻿using Reginald.Core.AbstractProducts;
-using System;
-using System.Threading.Tasks;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using System;
+    using System.Threading.Tasks;
+    using Reginald.Core.AbstractProducts;
+
     public class SearchResult : DisplayItem
     {
         private Keyword _keyword;
-        public Keyword Keyword
-        {
-            get => _keyword;
-            set
-            {
-                _keyword = value;
-                NotifyOfPropertyChange(() => Keyword);
-            }
-        }
 
         private ShellItem _shellItem;
-        public ShellItem ShellItem
-        {
-            get => _shellItem;
-            set
-            {
-                _shellItem = value;
-                NotifyOfPropertyChange(() => ShellItem);
-            }
-        }
 
         private Representation _representation;
-        public Representation Representation
-        {
-            get => _representation;
-            set
-            {
-                _representation = value;
-                NotifyOfPropertyChange(() => Representation);
-            }
-        }
 
         private Keyphrase _keyphrase;
-        public Keyphrase Keyphrase
-        {
-            get => _keyphrase;
-            set
-            {
-                _keyphrase = value;
-                NotifyOfPropertyChange(() => Keyphrase);
-            }
-        }
 
         private bool _isAltDown;
-        public bool IsAltDown
-        {
-            get => _isAltDown;
-            set
-            {
-                _isAltDown = value;
-                NotifyOfPropertyChange(() => IsAltDown);
-            }
-        }
 
         private bool _isPrompted;
-        public bool IsPrompted
-        {
-            get => _isPrompted;
-            set
-            {
-                _isPrompted = value;
-                NotifyOfPropertyChange(() => IsPrompted);
-            }
-        }
 
         public SearchResult()
         {
-
         }
 
         public SearchResult(Keyword keyword)
@@ -90,7 +35,7 @@ namespace Reginald.Core.Products
         public SearchResult(ShellItem item)
         {
             Guid = Guid.NewGuid();
-            Name = item.Name; 
+            Name = item.Name;
             Icon = item.Icon;
             Caption = item.Caption;
             Description = item.Description;
@@ -117,6 +62,66 @@ namespace Reginald.Core.Products
             Description = phrase.Description;
         }
 
+        public Keyword Keyword
+        {
+            get => _keyword;
+            set
+            {
+                _keyword = value;
+                NotifyOfPropertyChange(() => Keyword);
+            }
+        }
+
+        public ShellItem ShellItem
+        {
+            get => _shellItem;
+            set
+            {
+                _shellItem = value;
+                NotifyOfPropertyChange(() => ShellItem);
+            }
+        }
+
+        public Representation Representation
+        {
+            get => _representation;
+            set
+            {
+                _representation = value;
+                NotifyOfPropertyChange(() => Representation);
+            }
+        }
+
+        public Keyphrase Keyphrase
+        {
+            get => _keyphrase;
+            set
+            {
+                _keyphrase = value;
+                NotifyOfPropertyChange(() => Keyphrase);
+            }
+        }
+
+        public bool IsAltDown
+        {
+            get => _isAltDown;
+            set
+            {
+                _isAltDown = value;
+                NotifyOfPropertyChange(() => IsAltDown);
+            }
+        }
+
+        public bool IsPrompted
+        {
+            get => _isPrompted;
+            set
+            {
+                _isPrompted = value;
+                NotifyOfPropertyChange(() => IsPrompted);
+            }
+        }
+
         public override bool Predicate()
         {
             throw new NotImplementedException();
@@ -124,7 +129,6 @@ namespace Reginald.Core.Products
 
         public override void EnterDown(bool isAltDown, Action action)
         {
-
         }
 
         public override async Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
@@ -146,10 +150,11 @@ namespace Reginald.Core.Products
                 bool success = await Keyphrase.EnterDownAsync(isAltDown, action, IsPrompted);
                 return success;
             }
+
             return true;
         }
 
-        public override (string, string) AltDown()
+        public override (string Description, string Caption) AltDown()
         {
             return Keyword?.AltDown()
                 ?? ShellItem?.AltDown()
@@ -157,7 +162,7 @@ namespace Reginald.Core.Products
                 ?? (Description, Caption);
         }
 
-        public override (string, string) AltUp()
+        public override (string Description, string Caption) AltUp()
         {
             return Keyword?.AltUp()
                 ?? ShellItem?.AltUp()

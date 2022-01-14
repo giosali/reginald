@@ -1,15 +1,25 @@
-﻿using Caliburn.Micro;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.Extensions;
-using Reginald.Core.IO;
-using System.Linq;
-using System.Windows;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System.Linq;
+    using System.Windows;
+    using Caliburn.Micro;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.IO;
+
     public class KeywordViewModelBase : ViewViewModelBase
     {
         private string _filename;
+
+        private BindableCollection<Keyword> _keywords = new();
+
+        private Keyword _selectedKeyword;
+
+        public KeywordViewModelBase(string filename)
+        {
+            Filename = filename;
+        }
+
         public string Filename
         {
             get => _filename;
@@ -20,7 +30,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private BindableCollection<Keyword> _keywords = new();
         public BindableCollection<Keyword> Keywords
         {
             get => _keywords;
@@ -31,7 +40,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private Keyword _selectedKeyword;
         public Keyword SelectedKeyword
         {
             get => _selectedKeyword;
@@ -40,11 +48,6 @@ namespace Reginald.ViewModels
                 _selectedKeyword = value;
                 NotifyOfPropertyChange(() => SelectedKeyword);
             }
-        }
-
-        public KeywordViewModelBase(string filename)
-        {
-            Filename = filename;
         }
 
         public virtual void Include_Click(object sender, RoutedEventArgs e)

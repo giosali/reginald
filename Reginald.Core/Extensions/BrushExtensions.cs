@@ -1,7 +1,7 @@
-﻿using System.Windows.Media;
-
-namespace Reginald.Core.Extensions
+﻿namespace Reginald.Core.Extensions
 {
+    using System.Windows.Media;
+
     public static class BrushExtensions
     {
         public static string MakeTransparent(this Brush brush, string transparency)
@@ -11,6 +11,7 @@ namespace Reginald.Core.Extensions
             {
                 hex = transparency + hex[3..];
             }
+
             return hex;
         }
     }

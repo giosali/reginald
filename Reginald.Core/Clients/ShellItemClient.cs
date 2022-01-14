@@ -1,16 +1,12 @@
-﻿using Microsoft.WindowsAPICodePack.Shell;
-using Reginald.Core.AbstractFactories;
-using Reginald.Core.AbstractProducts;
-using System.Collections.Generic;
-
-namespace Reginald.Core.Clients
+﻿namespace Reginald.Core.Clients
 {
+    using System.Collections.Generic;
+    using Microsoft.WindowsAPICodePack.Shell;
+    using Reginald.Core.AbstractFactories;
+    using Reginald.Core.AbstractProducts;
+
     public class ShellItemClient
     {
-        public ShellItem ShellItem { get; set; }
-
-        public IEnumerable<ShellItem> ShellItems { get; set; }
-
         public ShellItemClient(KeyFactory factory, ShellObject shellObject)
         {
             ShellItem = factory.CreateShellItem(shellObject);
@@ -23,7 +19,12 @@ namespace Reginald.Core.Clients
             {
                 applications.Add(factory.CreateShellItem(shellObject));
             }
+
             ShellItems = applications;
         }
+
+        public ShellItem ShellItem { get; set; }
+
+        public IEnumerable<ShellItem> ShellItems { get; set; }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Reflection;
-using System.Windows.Media;
-
-namespace Reginald.Core.Helpers
+﻿namespace Reginald.Core.Helpers
 {
+    using System.Reflection;
+    using System.Windows.Media;
+
     public static class BrushHelper
     {
         public static Brush SolidColorBrushFromString(string expression)
@@ -27,8 +27,10 @@ namespace Reginald.Core.Helpers
                         break;
                     }
                 }
+
                 return true;
             }
+
             return false;
         }
 
@@ -47,6 +49,7 @@ namespace Reginald.Core.Helpers
                 g = g is > 110 and < 160 ? (byte)0 : g;
                 b = b is > 110 and < 160 ? (byte)0 : b;
             }
+
             return new SolidColorBrush(Color.FromRgb(r, g, b));
         }
     }

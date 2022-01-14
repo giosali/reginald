@@ -1,17 +1,17 @@
-﻿using Reginald.Core.AbstractProducts;
-using Reginald.Core.Base;
-using Reginald.Core.Clients;
-using Reginald.Core.Factories;
-using Reginald.Extensions;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Reginald.Core.Helpers
+﻿namespace Reginald.Core.Helpers
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Base;
+    using Reginald.Core.Clients;
+    using Reginald.Core.Factories;
+    using Reginald.Extensions;
+
     public static class KeywordHelper
     {
         private static SearchTermFactory SearchTermFactory { get; set; } = new();
@@ -24,15 +24,16 @@ namespace Reginald.Core.Helpers
             if (include)
             {
                 (string Keyword, string Separator, string Description) partition = input.Partition(" ");
-                string cleanInput = StringHelper.RegexClean(partition.Keyword);
+                string cleanInput = partition.Keyword.RegexClean();
                 string pattern = string.Format(CultureInfo.InvariantCulture, Constants.KeywordRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
                 matches = keywords.Where(k => k.Predicate(rx, partition));
             }
             else
             {
-                matches = Enumerable.Empty<Keyword>(); ;
+                matches = Enumerable.Empty<Keyword>();
             }
+
             return Task.FromResult(matches);
         }
 
@@ -45,7 +46,7 @@ namespace Reginald.Core.Helpers
                 Source = new();
 
                 (string Keyword, string Separator, string Description) partition = input.Partition(" ");
-                string cleanInput = StringHelper.RegexClean(partition.Keyword);
+                string cleanInput = partition.Keyword.RegexClean();
                 string pattern = string.Format(Constants.PreciseKeywordRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
 
@@ -57,12 +58,14 @@ namespace Reginald.Core.Helpers
                         filteredKeywords.Add(keyword);
                     }
                 }
+
                 matches = filteredKeywords;
             }
             else
             {
                 matches = Enumerable.Empty<Keyword>();
             }
+
             return matches;
         }
 
@@ -73,6 +76,7 @@ namespace Reginald.Core.Helpers
                 keyword.Description = string.Format(keyword.Format, input);
                 keyword.Completion = input;
             }
+
             return Task.FromResult(keywords);
         }
 
@@ -82,7 +86,7 @@ namespace Reginald.Core.Helpers
             if (include)
             {
                 (string Keyword, string Separator, string Description) partition = input.Partition(" ");
-                string cleanInput = StringHelper.RegexClean(partition.Keyword);
+                string cleanInput = partition.Keyword.RegexClean();
                 string pattern = string.Format(CultureInfo.InvariantCulture, Constants.KeywordRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
                 IEnumerable<Keyword> matches = keywords.Where(k => k.Predicate(rx, partition));
@@ -99,6 +103,7 @@ namespace Reginald.Core.Helpers
                     }
                 }
             }
+
             return Task.FromResult(commands as IEnumerable<Keyword>);
         }
 

@@ -1,11 +1,14 @@
-﻿using Caliburn.Micro;
-using System;
-
-namespace Reginald.Core.AbstractProducts
+﻿namespace Reginald.Core.AbstractProducts
 {
+    using System;
+    using Caliburn.Micro;
+
     public abstract class Unit : PropertyChangedBase
     {
         private Guid _guid;
+
+        private string _name;
+
         public Guid Guid
         {
             get => _guid;
@@ -16,7 +19,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _name;
         public string Name
         {
             get => _name;

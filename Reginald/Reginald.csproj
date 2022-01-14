@@ -99,6 +99,10 @@
     <PackageReference Include="FluentWPF" Version="0.9.0" />
     <PackageReference Include="HandyControls" Version="3.3.7" />
     <PackageReference Include="NHotkey.Wpf" Version="2.1.0" />
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.376">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

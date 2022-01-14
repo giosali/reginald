@@ -1,124 +1,32 @@
-﻿using Reginald.Core.AbstractProducts;
-using Reginald.Core.DataModels;
-using Reginald.Core.Helpers;
-using System;
-using System.Windows.Media;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using System;
+    using System.Windows.Media;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Helpers;
+
     public class Theme : Unit
     {
         private string _author;
-        public string Author
-        {
-            get => _author;
-            set
-            {
-                _author = value;
-                NotifyOfPropertyChange(() => Author);
-            }
-        }
 
         private bool _isEditable;
-        public bool IsEditable
-        {
-            get => _isEditable;
-            set
-            {
-                _isEditable = value;
-                NotifyOfPropertyChange(() => IsEditable);
-            }
-        }
-
-        // Main
 
         private Color _backgroundColor;
-        public Color BackgroundColor
-        {
-            get => _backgroundColor;
-            set
-            {
-                _backgroundColor = value;
-                NotifyOfPropertyChange(() => _backgroundColor);
-            }
-        }
 
         private double _tintOpacity;
-        public double TintOpacity
-        {
-            get => _tintOpacity;
-            set
-            {
-                _tintOpacity = value;
-                NotifyOfPropertyChange(() => TintOpacity);
-            }
-        }
 
         private Brush _inputColor;
-        public Brush InputBrush
-        {
-            get => _inputColor;
-            set
-            {
-                _inputColor = value;
-                NotifyOfPropertyChange(() => InputBrush);
-            }
-        }
 
         private Brush _caretBrush;
-        public Brush CaretBrush
-        {
-            get => _caretBrush;
-            set
-            {
-                _caretBrush = value;
-                NotifyOfPropertyChange(() => CaretBrush);
-            }
-        }
 
         private Brush _descriptionBrush;
-        public Brush DescriptionBrush
-        {
-            get => _descriptionBrush;
-            set
-            {
-                _descriptionBrush = value;
-                NotifyOfPropertyChange(() => DescriptionBrush);
-            }
-        }
 
         private Brush _captionBrush;
-        public Brush CaptionBrush
-        {
-            get => _captionBrush;
-            set
-            {
-                _captionBrush = value;
-                NotifyOfPropertyChange(() => CaptionBrush);
-            }
-        }
 
         private Brush _borderBrush;
-        public Brush BorderBrush
-        {
-            get => _borderBrush;
-            set
-            {
-                _borderBrush = value;
-                NotifyOfPropertyChange(() => BorderBrush);
-            }
-        }
 
         private Brush _highlightBrush;
-        public Brush HighlightBrush
-        {
-            get => _highlightBrush;
-            set
-            {
-                _highlightBrush = value;
-                NotifyOfPropertyChange(() => HighlightBrush);
-            }
-        }
 
         public Theme(ThemeDataModel model)
         {
@@ -128,6 +36,7 @@ namespace Reginald.Core.Products
             {
                 Guid = guid;
             }
+
             IsEditable = model.IsEditable;
 
             System.Windows.Application.Current.Dispatcher.Invoke(() =>
@@ -141,6 +50,106 @@ namespace Reginald.Core.Products
                 BorderBrush = BrushHelper.SolidColorBrushFromString(model.BorderBrush);
                 HighlightBrush = BrushHelper.SolidColorBrushFromString(model.HighlightBrush);
             });
+        }
+
+        public string Author
+        {
+            get => _author;
+            set
+            {
+                _author = value;
+                NotifyOfPropertyChange(() => Author);
+            }
+        }
+
+        public bool IsEditable
+        {
+            get => _isEditable;
+            set
+            {
+                _isEditable = value;
+                NotifyOfPropertyChange(() => IsEditable);
+            }
+        }
+
+        public Color BackgroundColor
+        {
+            get => _backgroundColor;
+            set
+            {
+                _backgroundColor = value;
+                NotifyOfPropertyChange(() => _backgroundColor);
+            }
+        }
+
+        public double TintOpacity
+        {
+            get => _tintOpacity;
+            set
+            {
+                _tintOpacity = value;
+                NotifyOfPropertyChange(() => TintOpacity);
+            }
+        }
+
+        public Brush InputBrush
+        {
+            get => _inputColor;
+            set
+            {
+                _inputColor = value;
+                NotifyOfPropertyChange(() => InputBrush);
+            }
+        }
+
+        public Brush CaretBrush
+        {
+            get => _caretBrush;
+            set
+            {
+                _caretBrush = value;
+                NotifyOfPropertyChange(() => CaretBrush);
+            }
+        }
+
+        public Brush DescriptionBrush
+        {
+            get => _descriptionBrush;
+            set
+            {
+                _descriptionBrush = value;
+                NotifyOfPropertyChange(() => DescriptionBrush);
+            }
+        }
+
+        public Brush CaptionBrush
+        {
+            get => _captionBrush;
+            set
+            {
+                _captionBrush = value;
+                NotifyOfPropertyChange(() => CaptionBrush);
+            }
+        }
+
+        public Brush BorderBrush
+        {
+            get => _borderBrush;
+            set
+            {
+                _borderBrush = value;
+                NotifyOfPropertyChange(() => BorderBrush);
+            }
+        }
+
+        public Brush HighlightBrush
+        {
+            get => _highlightBrush;
+            set
+            {
+                _highlightBrush = value;
+                NotifyOfPropertyChange(() => HighlightBrush);
+            }
         }
     }
 }

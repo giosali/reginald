@@ -1,9 +1,9 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Threading.Tasks;
-
-namespace Reginald.Core.AbstractProducts
+﻿namespace Reginald.Core.AbstractProducts
 {
+    using System;
+    using System.Threading.Tasks;
+    using Caliburn.Micro;
+
     public abstract class InteractiveAbstractProductBase : PropertyChangedBase
     {
         public abstract void EnterDown(bool isAltDown, Action action);
@@ -14,12 +14,12 @@ namespace Reginald.Core.AbstractProducts
         /// Invoked when the Alt key is pressed.
         /// </summary>
         /// <returns>Returns a 2-tuple containing a description and a caption, respectively.</returns>
-        public abstract (string, string) AltDown();
+        public abstract (string Description, string Caption) AltDown();
 
         /// <summary>
         /// Invoked when the Alt key is released.
         /// </summary>
-        /// <returns>Returns a 2-tuple containing a description and a caption, respectively.</returns>
-        public abstract (string, string) AltUp();
+        /// <returns>Returns a 2-tuple consisting of two strings.</returns>
+        public abstract (string Description, string Caption) AltUp();
     }
 }

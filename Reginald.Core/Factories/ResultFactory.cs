@@ -1,11 +1,11 @@
-﻿using Reginald.Core.AbstractFactories;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.Products;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Reginald.Core.Factories
+﻿namespace Reginald.Core.Factories
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Reginald.Core.AbstractFactories;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Products;
+
     public class ResultFactory : DisplayItemFactory
     {
         public override DisplayItem CreateDisplayItem(Keyword keyword)
@@ -21,6 +21,7 @@ namespace Reginald.Core.Factories
                     result.StartTimer();
                     return result;
                 }
+
                 return null;
             }
             else
@@ -46,6 +47,7 @@ namespace Reginald.Core.Factories
             {
                 displayItems.Add(new SearchResult(keyword));
             }
+
             return displayItems;
         }
 
@@ -56,6 +58,7 @@ namespace Reginald.Core.Factories
             {
                 displayItems.Add(new SearchResult(item));
             }
+
             return displayItems;
         }
 
@@ -66,6 +69,7 @@ namespace Reginald.Core.Factories
             {
                 displayItems.Add(new SearchResult(phrase));
             }
+
             return displayItems;
         }
     }

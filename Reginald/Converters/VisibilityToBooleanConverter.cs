@@ -1,10 +1,10 @@
-﻿using System;
-using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
-
-namespace Reginald.Converters
+﻿namespace Reginald.Converters
 {
+    using System;
+    using System.Globalization;
+    using System.Windows;
+    using System.Windows.Data;
+
     [ValueConversion(typeof(Visibility), typeof(bool))]
     public class VisibilityToBooleanConverter : IValueConverter
     {

@@ -1,13 +1,13 @@
-﻿using Reginald.Core.Apis.Styvio;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace Reginald.Tests
+﻿namespace Reginald.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Reginald.Core.Apis.Styvio;
+    using Xunit;
+
     public class StyvioApiTests
     {
         //[Fact]

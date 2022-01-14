@@ -1,10 +1,10 @@
-﻿using Reginald.Core.Notifications;
-using System;
-using System.Threading.Tasks;
-using System.Timers;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using System;
+    using System.Threading.Tasks;
+    using System.Timers;
+    using Reginald.Core.Notifications;
+
     public class TimerResult : SearchResult
     {
         private const string TimerDescriptionFormat = "{0}:{1:D2}:{2:D2}";
@@ -12,37 +12,10 @@ namespace Reginald.Core.Products
         private const string AltCaption = "Cancel Timer?";
 
         private double _time;
-        public double Time
-        {
-            get => _time;
-            set
-            {
-                _time = value;
-                NotifyOfPropertyChange(() => Time);
-            }
-        }
 
         private Timer _timer;
-        public Timer Timer
-        {
-            get => _timer;
-            set
-            {
-                _timer = value;
-                NotifyOfPropertyChange(() => Timer);
-            }
-        }
 
         private string _originalDescription;
-        public string OriginalDescription
-        {
-            get => _originalDescription;
-            set
-            {
-                _originalDescription = value;
-                NotifyOfPropertyChange(() => OriginalDescription);
-            }
-        }
 
         public TimerResult(TimerKeyword keyword)
         {
@@ -56,6 +29,36 @@ namespace Reginald.Core.Products
             OriginalDescription = keyword.Completion;
         }
 
+        public double Time
+        {
+            get => _time;
+            set
+            {
+                _time = value;
+                NotifyOfPropertyChange(() => Time);
+            }
+        }
+
+        public Timer Timer
+        {
+            get => _timer;
+            set
+            {
+                _timer = value;
+                NotifyOfPropertyChange(() => Timer);
+            }
+        }
+
+        public string OriginalDescription
+        {
+            get => _originalDescription;
+            set
+            {
+                _originalDescription = value;
+                NotifyOfPropertyChange(() => OriginalDescription);
+            }
+        }
+
         public override bool Predicate()
         {
             return Timer.Enabled;
@@ -67,15 +70,16 @@ namespace Reginald.Core.Products
             {
                 Timer.Stop();
             }
+
             return Task.FromResult(!isAltDown);
         }
 
-        public override (string, string) AltDown()
+        public override (string Description, string Caption) AltDown()
         {
             return (null, AltCaption);
         }
 
-        public override (string, string) AltUp()
+        public override (string Description, string Caption) AltUp()
         {
             return (null, OriginalDescription);
         }

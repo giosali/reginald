@@ -1,25 +1,16 @@
-﻿using System;
-
-namespace Reginald.Core.Base
+﻿namespace Reginald.Core.Base
 {
     public static class Constants
     {
-        // GUIDs
-
-        public static Guid WindowsScriptHostShellObjectGuid { get; } = new("72c24dd5-d70a-438b-8a42-98424b88afb8");
-
         // Applications
-
         public static string ShellAppsFolder { get; } = @"shell:AppsFolder\";
 
         // APIs
-
         public static string StyvioStockEpFormat { get; } = "https://www.styvio.com/api/{0}";
 
         public static string CloudflareEp { get; } = "https://cloudflare-quic.com/b/ip";
 
         // Regex
-
         public static string KeywordRegexFormat { get; } = @"^{0}";
 
         public static string ShellItemUppercaseRegexFormat { get; } = @"(?<!^){0}";
@@ -47,7 +38,6 @@ namespace Reginald.Core.Base
         public static string KeyphraseRegexFormat { get; } = @"\b(?<!\S){0}";
 
         // Miscellaneous
-
         public static string CommandQuitDescriptorFormat { get; } = "Quit {0}";
 
         public static string TimersPreciseTerm { get; } = "timers";

@@ -1,8 +1,8 @@
-﻿using Reginald.Core.Mathematics;
-using Xunit;
-
-namespace Reginald.Tests
+﻿namespace Reginald.Tests
 {
+    using Reginald.Core.Mathematics;
+    using Xunit;
+
     public class InterpreterTests
     {
         [Theory]

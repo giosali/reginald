@@ -1,9 +1,9 @@
-﻿using Caliburn.Micro;
-using Reginald.ViewModels;
-using System.Windows;
-
-namespace Reginald
+﻿namespace Reginald
 {
+    using System.Windows;
+    using Caliburn.Micro;
+    using Reginald.ViewModels;
+
     public class Bootstrapper : BootstrapperBase
     {
         public Bootstrapper()

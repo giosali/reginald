@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using Reginald.Core.DataModels;
-
-namespace Reginald.Core.Extensions
+﻿namespace Reginald.Core.Extensions
 {
+    using Newtonsoft.Json;
+    using Reginald.Core.DataModels;
+
     public static class DataModelBaseExtensions
     {
         public static string Serialize(this DataModelBase model)

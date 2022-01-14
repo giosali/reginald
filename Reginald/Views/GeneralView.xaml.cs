@@ -1,9 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Reginald.Views
+﻿namespace Reginald.Views
 {
+    using System.Windows.Controls;
+
     /// <summary>
-    /// Interaction logic for GeneralView.xaml
+    /// Interaction logic for GeneralView.xaml.
     /// </summary>
     public partial class GeneralView : UserControl
     {

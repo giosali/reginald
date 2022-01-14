@@ -1,13 +1,13 @@
-﻿using Reginald.Core.AbstractProducts;
-using Reginald.Core.DataModels;
-using Reginald.Core.Helpers;
-using Reginald.Core.Mathematics;
-using System;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using System;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Helpers;
+    using Reginald.Core.Mathematics;
+
     public class Calculator : Representation
     {
         public Calculator(InputDataModelBase model)
@@ -16,6 +16,7 @@ namespace Reginald.Core.Products
             {
                 Guid = guid;
             }
+
             Name = model.Name;
             Icon = BitmapImageHelper.FromUri(model.Icon);
             Caption = model.Caption;
@@ -34,12 +35,12 @@ namespace Reginald.Core.Products
             return Task.FromResult(true);
         }
 
-        public override (string, string) AltDown()
+        public override (string Description, string Caption) AltDown()
         {
             return (null, null);
         }
 
-        public override (string, string) AltUp()
+        public override (string Description, string Caption) AltUp()
         {
             return (null, null);
         }
@@ -51,6 +52,7 @@ namespace Reginald.Core.Products
             {
                 Description = Mathematics.Calculator.Calculate(input);
             }
+
             return Task.FromResult(success);
         }
     }

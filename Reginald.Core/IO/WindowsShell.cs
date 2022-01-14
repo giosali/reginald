@@ -1,11 +1,14 @@
-﻿using Microsoft.WindowsAPICodePack.Shell;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Reginald.Core.Base
+﻿namespace Reginald.Core.IO
 {
-    public static class Applications
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.WindowsAPICodePack.Shell;
+
+    /// <summary>
+    /// Represents the Windows Shell.
+    /// </summary>
+    public static class WindowsShell
     {
         public static readonly Guid ApplicationsFolderGuid = new("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
 
@@ -27,11 +30,7 @@ namespace Reginald.Core.Base
         public static IEnumerable<ShellObject> GetApplications()
         {
             IKnownFolder applicationsFolder = KnownFolderHelper.FromKnownFolderId(ApplicationsFolderGuid);
-            return applicationsFolder.Where(application =>
-            {
-                return !application.Name.EndsWith(".url", StringComparison.InvariantCulture) &&
-                       !application.ParsingName.EndsWith("url", StringComparison.InvariantCulture);
-            });
+            return applicationsFolder.Where(application => !application.Name.EndsWith(".url", StringComparison.InvariantCulture) && !application.ParsingName.EndsWith("url", StringComparison.InvariantCulture));
         }
     }
 }

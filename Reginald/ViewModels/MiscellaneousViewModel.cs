@@ -2,9 +2,9 @@
 {
     public class MiscellaneousViewModel : KeywordViewModelBase
     {
-        public MiscellaneousViewModel() : base(null)
+        public MiscellaneousViewModel()
+            : base(null)
         {
-
         }
     }
 }

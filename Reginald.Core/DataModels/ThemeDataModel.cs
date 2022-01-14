@@ -1,20 +1,16 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace Reginald.Core.DataModels
+﻿namespace Reginald.Core.DataModels
 {
+    using System;
+    using Newtonsoft.Json;
+
     [Serializable]
     public class ThemeDataModel : UnitDataModelBase
     {
-        // Info
-
         [JsonProperty("author")]
         public string Author { get; set; }
 
         [JsonProperty("isEditable")]
         public bool IsEditable { get; set; }
-
-        // Main
 
         [JsonProperty("backgroundColor")]
         public string BackgroundColor { get; set; }

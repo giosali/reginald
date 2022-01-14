@@ -1,21 +1,37 @@
-﻿using Caliburn.Micro;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.Base;
-using Reginald.Core.Extensions;
-using Reginald.Core.Helpers;
-using Reginald.Core.Products;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using Caliburn.Micro;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Base;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.Helpers;
+    using Reginald.Core.Products;
+
     public class SearchViewModel : DataViewModelBase
     {
         private string _userInput;
+
+        private BindableCollection<DisplayItem> _searchResults = new();
+
+        private DisplayItem _selectedDisplayItem;
+
+        private DisplayItem _lastSelectedDisplayItem;
+
+        private bool _isMouseOverChanged;
+
+        private Point _mousePosition;
+
+        public SearchViewModel()
+            : base(true)
+        {
+        }
+
         public string UserInput
         {
             get => _userInput;
@@ -26,7 +42,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private BindableCollection<DisplayItem> _searchResults = new();
         public BindableCollection<DisplayItem> SearchResults
         {
             get => _searchResults;
@@ -37,7 +52,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private DisplayItem _selectedDisplayItem;
         public DisplayItem SelectedDisplayItem
         {
             get => _selectedDisplayItem;
@@ -49,7 +63,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private DisplayItem _lastSelectedDisplayItem;
         public DisplayItem LastSelectedDisplayItem
         {
             get => _lastSelectedDisplayItem;
@@ -60,7 +73,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private bool _isMouseOverChanged;
         public bool IsMouseOverChanged
         {
             get => _isMouseOverChanged;
@@ -71,7 +83,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private Point _mousePosition;
         public Point MousePosition
         {
             get => _mousePosition;
@@ -84,16 +95,11 @@ namespace Reginald.ViewModels
 
         public List<DisplayItem> Timers { get; set; } = new();
 
-        public SearchViewModel() : base(true)
-        {
-
-        }
-
         public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             SearchResults.Clear();
             IsMouseOverChanged = false;
-            MousePosition = new();
+            MousePosition = default;
             if (UserInput.Length > 0)
             {
                 IEnumerable<DisplayItem> applicationResultsStrict = ShellItemHelper.ToSearchResults(await ShellItemHelper.FilterByStrictNames(Applications, Settings.IncludeInstalledApplications, UserInput));
@@ -126,18 +132,22 @@ namespace Reginald.ViewModels
                         // Clear default keyword results for late arriving HTTP keywords
                         SearchResults.Clear();
                     }
+
                     SearchResults.AddRange(results);
                 }
+
                 if (calculationSuccess)
                 {
                     DisplayItem calculation = RepresentationHelper.ToSearchResult(Calculator);
                     SearchResults.Add(calculation);
                 }
+
                 if (isLink)
                 {
                     DisplayItem link = RepresentationHelper.ToSearchResult(Link);
                     SearchResults.Add(link);
                 }
+
                 if (SearchResults.Count == 0)
                 {
                     SearchResults.AddRange(defaultResults);
@@ -149,15 +159,16 @@ namespace Reginald.ViewModels
                 {
                     SearchResults.PrependFrom(index);
                 }
+
                 SelectedDisplayItem = SearchResults[0];
             }
         }
 
         /// <summary>
-        /// Disables activation of the application menu bar through the Alt key
+        /// Disables activation of the application menu bar through the Alt key.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The key event data.</param>
         public void SearchWindow_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.SystemKey)
@@ -175,35 +186,47 @@ namespace Reginald.ViewModels
             {
                 if (SearchResults.Count > 0)
                 {
-                    if (e.Key == Key.Up) // Up
+                    // Up
+                    if (e.Key == Key.Up)
                     {
                         SelectedDisplayItem = SearchResults[SearchResults.IndexOf(SelectedDisplayItem) - 1];
                     }
-                    else if (e.Key == Key.Down) // Down
+
+                    // Down
+                    else if (e.Key == Key.Down)
                     {
                         SelectedDisplayItem = SearchResults[SearchResults.IndexOf(SelectedDisplayItem) + 1];
                     }
-                    else if (e.Key == Key.Enter) // Enter
+
+                    // Enter
+                    else if (e.Key == Key.Enter)
                     {
                         OnSelectedDisplayItemEnterDown(sender, false);
                         e.Handled = true;
                     }
-                    else if (Keyboard.Modifiers == ModifierKeys.Alt && e.SystemKey == Key.Enter) // Alt + Enter
+
+                    // Alt + Enter
+                    else if (Keyboard.Modifiers == ModifierKeys.Alt && e.SystemKey == Key.Enter)
                     {
                         OnSelectedDisplayItemEnterDown(sender, true);
                         e.Handled = true;
                     }
-                    else if (Keyboard.Modifiers == ModifierKeys.Alt && !e.IsRepeat) // Alt
+
+                    // Alt
+                    else if (Keyboard.Modifiers == ModifierKeys.Alt && !e.IsRepeat)
                     {
                         (string description, string caption) = SelectedDisplayItem.AltDown();
                         SelectedDisplayItem.Description = description ?? SelectedDisplayItem.Description;
                         SelectedDisplayItem.Caption = caption ?? SelectedDisplayItem.Caption;
                         e.Handled = true;
                     }
-                    else if (e.Key == Key.Tab) // Tab
+
+                    // Tab
+                    else if (e.Key == Key.Tab)
                     {
                         TextBox textBox = sender as TextBox;
                         SearchResult result = SelectedDisplayItem as SearchResult;
+
                         // If the currently selected search result is actually
                         // derived from a keyword...
                         if (result.Keyword is not null)
@@ -217,6 +240,7 @@ namespace Reginald.ViewModels
                                 textBox.SelectionStart = UserInput.Length;
                             }
                         }
+
                         // Otherwise, there is no keyword and we should simply
                         // autocomplete with the name of the object
                         else
@@ -227,18 +251,22 @@ namespace Reginald.ViewModels
                                 textBox.SelectionStart = UserInput.Length;
                             }
                         }
+
                         e.Handled = true;
                     }
                 }
                 else
                 {
-                    if (e.Key == Key.Tab) // Tab
+                    // Tab
+                    if (e.Key == Key.Tab)
                     {
                         e.Handled = true;
                     }
                 }
             }
-            catch (ArgumentOutOfRangeException) { }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
         }
 
         public void UserInput_PreviewKeyUp(object sender, KeyEventArgs e)
@@ -269,7 +297,9 @@ namespace Reginald.ViewModels
             {
                 SelectedDisplayItem = SearchResults.Contains(LastSelectedDisplayItem) ? LastSelectedDisplayItem : SearchResults[0];
             }
-            catch (ArgumentOutOfRangeException) { }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
         }
 
         public void SearchResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -280,10 +310,11 @@ namespace Reginald.ViewModels
         public void SearchResults_MouseMove(object sender, MouseEventArgs e)
         {
             Point position = e.GetPosition((IInputElement)sender);
-            if (position != MousePosition && MousePosition != new Point())
+            if (position != MousePosition && MousePosition != default)
             {
                 IsMouseOverChanged = true;
             }
+
             MousePosition = position;
         }
 
@@ -295,7 +326,7 @@ namespace Reginald.ViewModels
                 if (window.IsVisible)
                 {
                     window.Hide();
-                    MousePosition = new();
+                    MousePosition = default;
                     LastSelectedDisplayItem = null;
                 }
                 else
@@ -311,7 +342,8 @@ namespace Reginald.ViewModels
             SearchResult result = SelectedDisplayItem as SearchResult;
             if (!success)
             {
-                if (SelectedDisplayItem is TimerResult) // Remove the selected timer from Timers
+                // Remove the selected timer from Timers
+                if (SelectedDisplayItem is TimerResult)
                 {
                     _ = Timers.Remove(SelectedDisplayItem);
                     UserInput_TextChanged(null, null);
@@ -321,6 +353,7 @@ namespace Reginald.ViewModels
                     SelectedDisplayItem = SearchResults.Spotlight(KeywordHelper.ToConfirmationResult(result.Keyphrase));
                 }
             }
+
             if (result.Keyword is TimerKeyword)
             {
                 // Add a timer to Timers

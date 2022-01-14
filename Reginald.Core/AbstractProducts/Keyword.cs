@@ -1,17 +1,43 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Media;
-
-namespace Reginald.Core.AbstractProducts
+﻿namespace Reginald.Core.AbstractProducts
 {
+    using System;
+    using System.Text.RegularExpressions;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows.Media;
+    using Newtonsoft.Json;
+
     [JsonObject(MemberSerialization.OptIn)]
     public abstract class Keyword : InteractiveAbstractProductBase
     {
         [JsonProperty("guid")]
         private Guid _guid;
+
+        [JsonProperty("name")]
+        private string _name;
+
+        [JsonProperty("keyword")]
+        private string _word;
+
+        [JsonProperty("icon")]
+        private ImageSource _icon;
+
+        [JsonProperty("format")]
+        private string _format;
+
+        [JsonProperty("placeholder")]
+        private string _placeholder;
+
+        [JsonProperty("caption")]
+        private string _caption;
+
+        [JsonProperty("isEnabled")]
+        private bool _isEnabled;
+
+        private string _completion;
+
+        private string _description;
+
         public Guid Guid
         {
             get => _guid;
@@ -22,8 +48,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        [JsonProperty("name")]
-        private string _name;
         public string Name
         {
             get => _name;
@@ -34,8 +58,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        [JsonProperty("keyword")]
-        private string _word;
         public string Word
         {
             get => _word;
@@ -46,8 +68,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        [JsonProperty("icon")]
-        private ImageSource _icon;
         public ImageSource Icon
         {
             get => _icon;
@@ -58,8 +78,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        [JsonProperty("format")]
-        private string _format;
         public string Format
         {
             get => _format;
@@ -70,8 +88,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        [JsonProperty("placeholder")]
-        private string _placeholder;
         public string Placeholder
         {
             get => _placeholder;
@@ -82,8 +98,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        [JsonProperty("caption")]
-        private string _caption;
         public string Caption
         {
             get => _caption;
@@ -94,8 +108,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        [JsonProperty("isEnabled")]
-        private bool _isEnabled;
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -106,7 +118,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _completion;
         public string Completion
         {
             get => _completion;
@@ -117,7 +128,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _description;
         public string Description
         {
             get => _description;

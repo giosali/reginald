@@ -1,17 +1,13 @@
-﻿using Reginald.Core.AbstractFactories;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.DataModels;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Reginald.Core.Clients
+﻿namespace Reginald.Core.Clients
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Reginald.Core.AbstractFactories;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.DataModels;
+
     public class UnitClient
     {
-        public Unit Unit { get; set; }
-
-        public IEnumerable<Unit> Units { get; set; }
-
         public UnitClient(UnitFactory factory, UnitDataModelBase model)
         {
             Unit = factory.CreateUnit(model);
@@ -24,7 +20,12 @@ namespace Reginald.Core.Clients
             {
                 units.Add(factory.CreateUnit(model));
             }
+
             Units = units;
         }
+
+        public Unit Unit { get; set; }
+
+        public IEnumerable<Unit> Units { get; set; }
     }
 }

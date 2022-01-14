@@ -1,11 +1,11 @@
-﻿using Reginald.Core.Helpers;
-using System;
-using System.Globalization;
-using System.Windows.Data;
-using System.Windows.Media;
-
-namespace Reginald.Converters
+﻿namespace Reginald.Converters
 {
+    using System;
+    using System.Globalization;
+    using System.Windows.Data;
+    using System.Windows.Media;
+    using Reginald.Core.Helpers;
+
     [ValueConversion(typeof(Brush), typeof(string))]
     public class BrushToStringConverter : IValueConverter
     {

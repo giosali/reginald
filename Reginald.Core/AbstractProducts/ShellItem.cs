@@ -1,10 +1,19 @@
-﻿using System.Windows.Media;
-
-namespace Reginald.Core.AbstractProducts
+﻿namespace Reginald.Core.AbstractProducts
 {
+    using System.Windows.Media;
+
     public abstract class ShellItem : InteractiveAbstractProductBase
     {
         private string _name;
+
+        private ImageSource _icon;
+
+        private string _caption;
+
+        private string _description;
+
+        private string _path;
+
         public string Name
         {
             get => _name;
@@ -15,7 +24,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private ImageSource _icon;
         public ImageSource Icon
         {
             get => _icon;
@@ -26,7 +34,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _caption;
         public string Caption
         {
             get => _caption;
@@ -37,7 +44,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _description;
         public string Description
         {
             get => _description;
@@ -48,7 +54,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _path;
         public string Path
         {
             get => _path;

@@ -1,7 +1,7 @@
-﻿using System.IO;
-
-namespace Reginald.Core.Helpers
+﻿namespace Reginald.Core.Helpers
 {
+    using System.IO;
+
     public static class FileSystemWatcherHelper
     {
         public static FileSystemWatcher Initialize(string directoryPath, string filename, FileSystemEventHandler handler)

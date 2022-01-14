@@ -1,8 +1,8 @@
-﻿using Reginald.Core.AbstractProducts;
-using System.Collections.Generic;
-
-namespace Reginald.Core.AbstractFactories
+﻿namespace Reginald.Core.AbstractFactories
 {
+    using System.Collections.Generic;
+    using Reginald.Core.AbstractProducts;
+
     public abstract class DisplayItemFactory
     {
         public abstract DisplayItem CreateDisplayItem(Keyword keyword);

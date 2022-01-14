@@ -1,13 +1,13 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System.Windows.Controls;
+    using System.Windows.Input;
+
     public class ViewViewModelBase : DataViewModelBase
     {
-        public ViewViewModelBase() : base(false)
+        public ViewViewModelBase()
+            : base(false)
         {
-
         }
 
         public void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -17,6 +17,7 @@ namespace Reginald.ViewModels
             {
                 scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             }
+
             e.Handled = true;
         }
 

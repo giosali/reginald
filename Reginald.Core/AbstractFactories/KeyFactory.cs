@@ -1,9 +1,9 @@
-﻿using Microsoft.WindowsAPICodePack.Shell;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.DataModels;
-
-namespace Reginald.Core.AbstractFactories
+﻿namespace Reginald.Core.AbstractFactories
 {
+    using Microsoft.WindowsAPICodePack.Shell;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.DataModels;
+
     public abstract class KeyFactory
     {
         public abstract ShellItem CreateShellItem(ShellObject shellObject);

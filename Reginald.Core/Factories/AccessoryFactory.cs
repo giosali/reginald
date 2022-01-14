@@ -1,11 +1,11 @@
-﻿using Reginald.Core.AbstractFactories;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.DataModels;
-using Reginald.Core.Products;
-using System;
-
-namespace Reginald.Core.Factories
+﻿namespace Reginald.Core.Factories
 {
+    using System;
+    using Reginald.Core.AbstractFactories;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Products;
+
     public class AccessoryFactory : UnitFactory
     {
         public override Unit CreateUnit(UnitDataModelBase model)

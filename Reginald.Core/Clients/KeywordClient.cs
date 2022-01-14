@@ -1,23 +1,18 @@
-﻿using Reginald.Core.AbstractFactories;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.Base;
-using Reginald.Core.DataModels;
-using Reginald.Core.Enums;
-using Reginald.Core.Products;
-using Reginald.Core.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
-namespace Reginald.Core.Clients
+﻿namespace Reginald.Core.Clients
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using Reginald.Core.AbstractFactories;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Base;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Products;
+    using Reginald.Core.Utilities;
+
     public class KeywordClient
     {
-        public Keyword Keyword { get; set; }
-
-        public IEnumerable<Keyword> Keywords { get; set; }
-
         public KeywordClient(KeyFactory factory, KeywordDataModelBase model)
         {
             Keyword = factory.CreateKeyword(model);
@@ -30,6 +25,7 @@ namespace Reginald.Core.Clients
             {
                 keywords.Add(factory.CreateKeyword(model));
             }
+
             Keywords = keywords;
         }
 
@@ -43,7 +39,7 @@ namespace Reginald.Core.Clients
                     break;
 
                 case Command.Quit:
-                    Process[] processes = Processes.GetTopLevelProcesses(input);
+                    Process[] processes = ProcessUtility.GetTopLevelProcesses(input);
                     int processesLength = processes.Length;
                     List<Keyword> quits = new(processesLength);
                     for (int i = 0; i < processesLength; i++)
@@ -65,9 +61,14 @@ namespace Reginald.Core.Clients
                             }
                         }
                     }
+
                     Keywords = quits;
                     break;
             }
         }
+
+        public Keyword Keyword { get; set; }
+
+        public IEnumerable<Keyword> Keywords { get; set; }
     }
 }

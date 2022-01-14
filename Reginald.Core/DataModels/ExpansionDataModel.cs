@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace Reginald.Core.DataModels
+﻿namespace Reginald.Core.DataModels
 {
+    using System;
+    using Newtonsoft.Json;
+
     [Serializable]
     public class ExpansionDataModel : DataModelBase
     {

@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace Reginald.Core.Apis.Styvio
+﻿namespace Reginald.Core.Apis.Styvio
 {
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+
     [Serializable]
     public class StyvioStock
     {

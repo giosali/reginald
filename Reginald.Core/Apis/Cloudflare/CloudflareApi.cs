@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using Reginald.Core.Base;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Reginald.Core.Apis.Cloudflare
+﻿namespace Reginald.Core.Apis.Cloudflare
 {
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Newtonsoft.Json;
+    using Reginald.Core.Base;
+
     public class CloudflareApi
     {
         public static async Task<CloudflareIpAddress> GetIpAddress()

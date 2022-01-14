@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Input;
-
-namespace Reginald.Core.Helpers
+﻿namespace Reginald.Core.Helpers
 {
+    using System;
+    using System.Windows.Input;
+
     public static class KeyGestureHelper
     {
         public static KeyGesture FromStrings(string key, string firstModifierKey, string secondModifierKey)

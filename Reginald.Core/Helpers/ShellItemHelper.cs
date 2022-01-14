@@ -1,15 +1,16 @@
-﻿using Reginald.Core.AbstractProducts;
-using Reginald.Core.Base;
-using Reginald.Core.Clients;
-using Reginald.Core.Factories;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace Reginald.Core.Helpers
+﻿namespace Reginald.Core.Helpers
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Base;
+    using Reginald.Core.Clients;
+    using Reginald.Core.Factories;
+    using Reginald.Extensions;
+
     public class ShellItemHelper
     {
         public static Task<IEnumerable<ShellItem>> FilterByStrictNames(IEnumerable<ShellItem> items, bool include, string input)
@@ -17,7 +18,7 @@ namespace Reginald.Core.Helpers
             IEnumerable<ShellItem> matches;
             if (include)
             {
-                string cleanInput = StringHelper.RegexClean(input);
+                string cleanInput = input.RegexClean();
                 string pattern = string.Format(CultureInfo.InvariantCulture, Constants.KeywordRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
                 matches = items.Where(item => rx.IsMatch(item.Name));
@@ -26,6 +27,7 @@ namespace Reginald.Core.Helpers
             {
                 matches = Enumerable.Empty<ShellItem>();
             }
+
             return Task.FromResult(matches);
         }
 
@@ -34,7 +36,7 @@ namespace Reginald.Core.Helpers
             IEnumerable<ShellItem> matches;
             if (include && !input.StartsWith(' '))
             {
-                string cleanInput = StringHelper.RegexClean(input);
+                string cleanInput = input.RegexClean();
                 string pattern = string.Format(Constants.ShellItemUppercaseRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
                 matches = items.Where(item =>
@@ -47,6 +49,7 @@ namespace Reginald.Core.Helpers
             {
                 matches = Enumerable.Empty<ShellItem>();
             }
+
             return Task.FromResult(matches);
         }
 

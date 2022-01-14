@@ -1,23 +1,40 @@
-﻿using Reginald.Core.AbstractProducts;
-using Reginald.Core.DataModels;
-using Reginald.Core.Extensions;
-using Reginald.Core.Helpers;
-using Reginald.Core.IO;
-using Reginald.Core.Products;
-using Reginald.Extensions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.Helpers;
+    using Reginald.Core.IO;
+    using Reginald.Core.Products;
+    using Reginald.Extensions;
+
     public class UserKeywordsViewModel : KeywordViewModelBase
     {
         private GenericKeyword _selectedGenericKeyword;
+
+        private Visibility _visibility = Visibility.Collapsed;
+
+        private bool _isBeingEdited;
+
+        public UserKeywordsViewModel()
+            : base(ApplicationPaths.UserKeywordsJsonFilename)
+        {
+            IEnumerable<Keyword> keywords = UpdateKeywords<GenericKeywordDataModel>(Filename, false, false);
+            foreach (Keyword keyword in keywords)
+            {
+                keyword.Description = string.Format(keyword.Format, keyword.Placeholder);
+            }
+
+            Keywords.AddRange(keywords);
+        }
+
         public GenericKeyword SelectedGenericKeyword
         {
             get => _selectedGenericKeyword;
@@ -28,7 +45,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private Visibility _visibility = Visibility.Collapsed;
         public Visibility Visibility
         {
             get => _visibility;
@@ -39,7 +55,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private bool _isBeingEdited;
         public bool IsBeingEdited
         {
             get => _isBeingEdited;
@@ -48,16 +63,6 @@ namespace Reginald.ViewModels
                 _isBeingEdited = value;
                 NotifyOfPropertyChange(() => IsBeingEdited);
             }
-        }
-
-        public UserKeywordsViewModel() : base(ApplicationPaths.UserKeywordsJsonFilename)
-        {
-            IEnumerable<Keyword> keywords = UpdateKeywords<GenericKeywordDataModel>(Filename, false, false);
-            foreach (Keyword keyword in keywords)
-            {
-                keyword.Description = string.Format(keyword.Format, keyword.Placeholder);
-            }
-            Keywords.AddRange(keywords);
         }
 
         public override void KeywordIsEnabled_Click(object sender, RoutedEventArgs e)
@@ -80,6 +85,7 @@ namespace Reginald.ViewModels
                         Uri imageUri = new(SelectedKeyword.Icon.ToString());
                         File.Delete(imageUri.LocalPath);
                     }
+
                     _ = Keywords.Remove(SelectedKeyword);
                     FileOperations.WriteFile(Filename, Keywords.OfType<GenericKeyword>()
                                                                .Serialize());
@@ -106,7 +112,7 @@ namespace Reginald.ViewModels
                 Icon = selectedGenericKeyword.Icon,
                 AltDescription = selectedGenericKeyword.AltDescription,
                 AltUrl = selectedGenericKeyword.AltUrl,
-                IsEnabled = selectedGenericKeyword.IsEnabled
+                IsEnabled = selectedGenericKeyword.IsEnabled,
             };
         }
 
@@ -118,7 +124,7 @@ namespace Reginald.ViewModels
                 Guid = Guid.NewGuid(),
                 Separator = "+",
                 Placeholder = "...",
-                IsEnabled = true
+                IsEnabled = true,
             };
         }
 
@@ -205,6 +211,7 @@ namespace Reginald.ViewModels
                             path = name.Stem + "_copy" + name.Separator + name.Extension;
                         }
                     }
+
                     SelectedGenericKeyword.Icon = BitmapImageHelper.FromUri(path);
                 }
             }
@@ -227,7 +234,9 @@ namespace Reginald.ViewModels
                     Keywords.RemoveAt(index);
                     Keywords.Insert(index, SelectedGenericKeyword);
                 }
-                else // Otherwise, save our new keyword to our current keywords
+
+                // Otherwise, save our new keyword to our current keywords
+                else
                 {
                     Keywords.Add(SelectedGenericKeyword);
                 }

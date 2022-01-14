@@ -1,24 +1,14 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using System;
+    using System.Diagnostics;
+
     public class QuitKeyword : CommandKeyword
     {
         private Process _process;
-        public Process Process
-        {
-            get => _process;
-            set
-            {
-                _process = value;
-                NotifyOfPropertyChange(() => Process);
-            }
-        }
 
         public QuitKeyword()
         {
-
         }
 
         public QuitKeyword(CommandKeyword keyword)
@@ -33,6 +23,16 @@ namespace Reginald.Core.Products
             IsEnabled = keyword.IsEnabled;
             Command = keyword.Command;
             Description = keyword.Description;
+        }
+
+        public Process Process
+        {
+            get => _process;
+            set
+            {
+                _process = value;
+                NotifyOfPropertyChange(() => Process);
+            }
         }
 
         public override void EnterDown(bool isAltDown, Action action)

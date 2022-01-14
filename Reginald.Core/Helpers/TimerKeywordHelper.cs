@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Reginald.Core.Helpers
+﻿namespace Reginald.Core.Helpers
 {
+    using System.Text.RegularExpressions;
+
     public static class TimerKeywordHelper
     {
         public static bool TryGetTime(string input, string pattern, out double time, out int startingIndex, out int endingIndex)
@@ -20,6 +20,7 @@ namespace Reginald.Core.Helpers
                 startingIndex = 1;
                 endingIndex = 0;
             }
+
             return match.Success;
         }
     }

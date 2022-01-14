@@ -1,15 +1,26 @@
-﻿using Caliburn.Micro;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.Extensions;
-using Reginald.Core.IO;
-using System.Linq;
-using System.Windows;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System.Linq;
+    using System.Windows;
+    using Caliburn.Micro;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.IO;
+
     public abstract class KeyphraseViewModelBase : DataViewModelBase
     {
         private string _filename;
+
+        private BindableCollection<Keyphrase> _keyphrases = new();
+
+        private Keyphrase _selectedKeyphrase;
+
+        public KeyphraseViewModelBase(string filename)
+            : base(false)
+        {
+            Filename = filename;
+        }
+
         public string Filename
         {
             get => _filename;
@@ -20,7 +31,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private BindableCollection<Keyphrase> _keyphrases = new();
         public BindableCollection<Keyphrase> Keyphrases
         {
             get => _keyphrases;
@@ -31,7 +41,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private Keyphrase _selectedKeyphrase;
         public Keyphrase SelectedKeyphrase
         {
             get => _selectedKeyphrase;
@@ -40,11 +49,6 @@ namespace Reginald.ViewModels
                 _selectedKeyphrase = value;
                 NotifyOfPropertyChange(() => SelectedKeyphrase);
             }
-        }
-
-        public KeyphraseViewModelBase(string filename) : base(false)
-        {
-            Filename = filename;
         }
 
         public virtual void Include_Click(object sender, RoutedEventArgs e)

@@ -1,25 +1,37 @@
-﻿using Reginald.Core.Extensions;
-using Reginald.Core.IO;
-using Reginald.Core.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.IO;
+    using Reginald.Core.Utilities;
+
     public class GeneralViewModel : ViewViewModelBase
     {
+        private Key _selectedKey;
+
+        private ModifierKeys _selectedModifierKeyOne;
+
+        private ModifierKeys _selectedModifierKeyTwo;
+
+        public GeneralViewModel()
+        {
+            SelectedKey = (Key)Enum.Parse(typeof(Key), Settings.SearchBoxKey);
+            SelectedModifierKeyOne = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), Settings.SearchBoxModifierOne);
+            SelectedModifierKeyTwo = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), Settings.SearchBoxModifierTwo);
+        }
+
         public IEnumerable<Key> Keys { get; set; }
 
         public IEnumerable<ModifierKeys> ModifierKeys { get; set; }
 
-        private Key _selectedKey;
         public Key SelectedKey
         {
             get => _selectedKey;
@@ -30,7 +42,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private ModifierKeys _selectedModifierKeyOne;
         public ModifierKeys SelectedModifierKeyOne
         {
             get => _selectedModifierKeyOne;
@@ -41,7 +52,6 @@ namespace Reginald.ViewModels
             }
         }
 
-        private ModifierKeys _selectedModifierKeyTwo;
         public ModifierKeys SelectedModifierKeyTwo
         {
             get => _selectedModifierKeyTwo;
@@ -50,13 +60,6 @@ namespace Reginald.ViewModels
                 _selectedModifierKeyTwo = value;
                 NotifyOfPropertyChange(() => SelectedModifierKeyTwo);
             }
-        }
-
-        public GeneralViewModel()
-        {
-            SelectedKey = (Key)Enum.Parse(typeof(Key), Settings.SearchBoxKey);
-            SelectedModifierKeyOne = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), Settings.SearchBoxModifierOne);
-            SelectedModifierKeyTwo = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), Settings.SearchBoxModifierTwo);
         }
 
         public void SelectedKey_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -86,12 +89,13 @@ namespace Reginald.ViewModels
             {
                 FileOperations.DeleteShortcut();
             }
+
             FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
         }
 
         public void RestartButton_Click(object sender, RoutedEventArgs e)
         {
-            Processes.RestartApplication();
+            ProcessUtility.RestartApplication();
         }
 
         public void ShutdownButton_Click(object sender, RoutedEventArgs e)

@@ -1,15 +1,11 @@
-﻿using Reginald.Core.AbstractFactories;
-using Reginald.Core.AbstractProducts;
-using System.Collections.Generic;
-
-namespace Reginald.Core.Clients
+﻿namespace Reginald.Core.Clients
 {
+    using System.Collections.Generic;
+    using Reginald.Core.AbstractFactories;
+    using Reginald.Core.AbstractProducts;
+
     public class DisplayItemClient
     {
-        public DisplayItem Item { get; set; }
-
-        public IEnumerable<DisplayItem> Items { get; set; }
-
         public DisplayItemClient(DisplayItemFactory factory, Keyword keyword)
         {
             Item = factory.CreateDisplayItem(keyword);
@@ -39,5 +35,9 @@ namespace Reginald.Core.Clients
         {
             Items = factory.CreateDisplayItems(phrases);
         }
+
+        public DisplayItem Item { get; set; }
+
+        public IEnumerable<DisplayItem> Items { get; set; }
     }
 }

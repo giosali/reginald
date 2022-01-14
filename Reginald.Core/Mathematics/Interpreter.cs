@@ -1,10 +1,10 @@
-﻿using Reginald.Core.Base;
-using Reginald.Extensions;
-using System;
-using System.Text.RegularExpressions;
-
-namespace Reginald.Core.Mathematics
+﻿namespace Reginald.Core.Mathematics
 {
+    using System;
+    using System.Text.RegularExpressions;
+    using Reginald.Core.Base;
+    using Reginald.Extensions;
+
     public static class Interpreter
     {
         /// <summary>
@@ -25,7 +25,7 @@ namespace Reginald.Core.Mathematics
         /// </summary>
         /// <param name="input">The string to interpret.</param>
         /// <param name="interpretation">A return value indicating whether the interpretation was successful.</param>
-        /// <returns><see langword="true"/> if <paramref name="input"/> was interpreted successfully; otherwise, <see langword="false"/></returns>
+        /// <returns><see langword="true"/> if <paramref name="input"/> was interpreted successfully; otherwise, <see langword="false"/>.</returns>
         public static bool TryInterpretDivideByZeroException(string input, out string interpretation)
         {
             // This pattern searches for any "/ 0" and "/ (0)" instances in a string.
@@ -37,16 +37,6 @@ namespace Reginald.Core.Mathematics
             {
                 return string.Empty;
             }));
-
-            // This pattern searches for any mathematical expressions inside
-            // of parentheses. "5 / (1 - 1)" will be converted to "5 / 0".
-            // We need to do this because DivideByZeroRegexPattern cannot detect
-            // zeros inside of parentheses.
-            //Regex parenthesesRx = new(Constants.ParenthesesRegexPattern);
-            //interpretation = parenthesesRx.Replace(interpretation, new MatchEvaluator(match =>
-            //{
-            //    return Calculator.Calculate(match.Groups[0].Value);
-            //}));
 
             // We get the evaluation here
             interpretation = Calculator.Calculate(interpretation);
@@ -69,7 +59,7 @@ namespace Reginald.Core.Mathematics
         /// </summary>
         /// <param name="input">The string to interpret.</param>
         /// <param name="interpretation">A return value indicating whether the interpretation was successful.</param>
-        /// <returns><see langword="true"/> if <paramref name="input"/> was interpreted successfully; otherwise, <see langword="false"/></returns>
+        /// <returns><see langword="true"/> if <paramref name="input"/> was interpreted successfully; otherwise, <see langword="false"/>.</returns>
         public static bool TryInterpretEvaluateException(string input, out string interpretation)
         {
             Regex rx = new(Constants.ExponentiationRegexPattern);
@@ -97,7 +87,7 @@ namespace Reginald.Core.Mathematics
         /// </summary>
         /// <param name="input">The string to interpret.</param>
         /// <param name="interpretation">A return value indicating whether the interpretation was successful.</param>
-        /// <returns><see langword="true"/> if <paramref name="input"/> was interpreted successfully; otherwise, <see langword="false"/></returns>
+        /// <returns><see langword="true"/> if <paramref name="input"/> was interpreted successfully; otherwise, <see langword="false"/>.</returns>
         public static bool TryInterpretSyntaxErrorException(string input, out string interpretation)
         {
             Regex rx = new(Constants.FactorialRegexPattern);

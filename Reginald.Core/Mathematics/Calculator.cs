@@ -1,10 +1,10 @@
-﻿using Reginald.Core.Base;
-using System;
-using System.Data;
-using System.Text.RegularExpressions;
-
-namespace Reginald.Core.Mathematics
+﻿namespace Reginald.Core.Mathematics
 {
+    using System;
+    using System.Data;
+    using System.Text.RegularExpressions;
+    using Reginald.Core.Base;
+
     public static class Calculator
     {
         /// <summary>
@@ -35,6 +35,7 @@ namespace Reginald.Core.Mathematics
                     {
                         interpretation = interpretation.Replace(".0", string.Empty);
                     }
+
                     break;
                 }
                 catch (DivideByZeroException)
@@ -70,6 +71,7 @@ namespace Reginald.Core.Mathematics
                     }
                 }
             }
+
             return interpretation;
         }
 
@@ -91,6 +93,7 @@ namespace Reginald.Core.Mathematics
                 {
                     product *= i;
                 }
+
                 return product.ToString();
             }));
             return result;

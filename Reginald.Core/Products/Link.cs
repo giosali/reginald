@@ -1,13 +1,13 @@
-﻿using Reginald.Core.AbstractProducts;
-using Reginald.Core.DataModels;
-using Reginald.Core.Helpers;
-using Reginald.Core.Utilities;
-using Reginald.Extensions;
-using System;
-using System.Threading.Tasks;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using System;
+    using System.Threading.Tasks;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Helpers;
+    using Reginald.Core.Utilities;
+    using Reginald.Extensions;
+
     public class Link : Representation
     {
         public Link(InputDataModelBase model)
@@ -16,6 +16,7 @@ namespace Reginald.Core.Products
             {
                 Guid = guid;
             }
+
             Name = model.Name;
             Icon = BitmapImageHelper.FromUri(model.Icon);
             Caption = model.Caption;
@@ -25,7 +26,7 @@ namespace Reginald.Core.Products
 
         public override void EnterDown(bool isAltDown, Action action)
         {
-            Processes.GoTo(Uri.IsWellFormedUriString(Description, UriKind.Absolute) ? Description : Description.PrependScheme());
+            ProcessUtility.GoTo(Uri.IsWellFormedUriString(Description, UriKind.Absolute) ? Description : Description.PrependScheme());
         }
 
         public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
@@ -33,7 +34,12 @@ namespace Reginald.Core.Products
             return Task.FromResult(true);
         }
 
-        public override (string, string) AltDown()
+        public override (string Description, string Caption) AltDown()
+        {
+            return (null, null);
+        }
+
+        public override (string Description, string Caption) AltUp()
         {
             return (null, null);
         }
@@ -42,11 +48,6 @@ namespace Reginald.Core.Products
         {
             Description = input;
             return input.StartsWithScheme() || input.ContainsTopLevelDomain();
-        }
-
-        public override (string, string) AltUp()
-        {
-            return (null, null);
         }
     }
 }

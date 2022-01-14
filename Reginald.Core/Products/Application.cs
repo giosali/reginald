@@ -1,13 +1,13 @@
-﻿using Microsoft.WindowsAPICodePack.Shell;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.Base;
-using Reginald.Core.Utilities;
-using System;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace Reginald.Core.Products
+﻿namespace Reginald.Core.Products
 {
+    using System;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using Microsoft.WindowsAPICodePack.Shell;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Base;
+    using Reginald.Core.Utilities;
+
     public class Application : ShellItem
     {
         private const string DefaultCaption = "Application";
@@ -33,7 +33,7 @@ namespace Reginald.Core.Products
             }
             else
             {
-                Processes.OpenFromPath(Path);
+                ProcessUtility.OpenFromPath(Path);
             }
         }
 
@@ -42,12 +42,12 @@ namespace Reginald.Core.Products
             return Task.FromResult(true);
         }
 
-        public override (string, string) AltDown()
+        public override (string Description, string Caption) AltDown()
         {
             return (null, Path);
         }
 
-        public override (string, string) AltUp()
+        public override (string Description, string Caption) AltUp()
         {
             return (null, DefaultCaption);
         }

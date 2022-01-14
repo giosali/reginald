@@ -1,10 +1,10 @@
-﻿using Caliburn.Micro;
-using HandyControl.Controls;
-using HandyControl.Data;
-using System.Threading.Tasks;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System.Threading.Tasks;
+    using Caliburn.Micro;
+    using HandyControl.Controls;
+    using HandyControl.Data;
+
     public class SettingsViewModel : Conductor<object>
     {
         public SettingsViewModel()

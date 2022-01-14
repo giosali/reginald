@@ -1,11 +1,33 @@
-﻿using Reginald.Extensions;
-using System.Text.RegularExpressions;
-using Xunit;
-
-namespace Reginald.Tests
+﻿namespace Reginald.Tests
 {
+    using System.Text.RegularExpressions;
+    using Reginald.Extensions;
+    using Xunit;
+
     public class StringExtensionsTests
     {
+        [Theory]
+        [InlineData("(This is a string)", @"\(This is a string\)")]
+        [InlineData("This is a string.", @"This is a string\.")]
+        [InlineData(@"\", @"\\")]
+        [InlineData("[]", @"\[]")]
+        [InlineData(".", @"\.")]
+        [InlineData("+", @"\+")]
+        public static void RegexClean_WhenGivenUnmatchedOrUnterminatedCharacters_ShouldCleanString(string input, string expected)
+        {
+            string actual = input.RegexClean();
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("This is a string", "This is a string")]
+        [InlineData("`~!@#$%^&*-_=,<>/?;:'\"{]}|", "`~!@#$%^&*-_=,<>/?;:'\"{]}|")]
+        public static void RegexClean_WhenNotGivenUnmatchedOrUnterminatedCharacters_ShouldCleanString(string input, string expected)
+        {
+            string actual = input.RegexClean();
+            Assert.Equal(expected, actual);
+        }
+
         [Theory]
         [InlineData("hello world", "hello", " ", "world")]
         [InlineData("hello", "he", "l", "lo")]

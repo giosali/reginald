@@ -1,22 +1,23 @@
-﻿using Newtonsoft.Json;
-using Reginald.Core.Base;
-using Reginald.Core.DataModels;
-using Reginald.Core.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-
-namespace Reginald.Core.IO
+﻿namespace Reginald.Core.IO
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+    using Newtonsoft.Json;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Extensions;
+
     public static class FileOperations
     {
+        private static readonly Guid WindowsScriptHostShellObjectGuid = new("72c24dd5-d70a-438b-8a42-98424b88afb8");
+
         /// <summary>
         /// Creates a shortcut file that points to the Reginald executable. A return value indicates whether the shortcut was created.
         /// </summary>
-        /// <returns><see langword="true"/> if the shortcut was created; otherwise, <see langword="false"/></returns>
+        /// <returns><see langword="true"/> if the shortcut was created; otherwise, <see langword="false"/>.</returns>
         public static bool TryCreateShortcut()
         {
             string executablePath = Process.GetCurrentProcess().MainModule.FileName;
@@ -28,7 +29,7 @@ namespace Reginald.Core.IO
             }
             else
             {
-                Type t = Type.GetTypeFromCLSID(Constants.WindowsScriptHostShellObjectGuid);
+                Type t = Type.GetTypeFromCLSID(WindowsScriptHostShellObjectGuid);
                 dynamic wshShell = Activator.CreateInstance(t);
                 try
                 {
@@ -43,6 +44,7 @@ namespace Reginald.Core.IO
                 {
                     Marshal.FinalReleaseComObject(wshShell);
                 }
+
                 return true;
             }
         }
@@ -75,7 +77,9 @@ namespace Reginald.Core.IO
                         File.WriteAllText(filePath, json);
                         break;
                     }
-                    catch (IOException) { }
+                    catch (IOException)
+                    {
+                    }
                 }
             }
         }
@@ -103,6 +107,7 @@ namespace Reginald.Core.IO
                     }
                 }
             }
+
             return models;
         }
 
@@ -129,6 +134,7 @@ namespace Reginald.Core.IO
                     }
                 }
             }
+
             return models;
         }
 
@@ -143,6 +149,7 @@ namespace Reginald.Core.IO
                 string localFilePath = GetFilePath(filename, false);
                 models = models.Concat(DeserializeFile<IEnumerable<T>>(localFilePath) as IEnumerable<UnitDataModelBase> ?? Enumerable.Empty<UnitDataModelBase>());
             }
+
             return models;
         }
 
@@ -165,7 +172,7 @@ namespace Reginald.Core.IO
                 SearchBoxKey = protoSettings?.SearchBoxKey ?? "Space",
                 SearchBoxModifierOne = protoSettings?.SearchBoxModifierOne ?? "Alt",
                 SearchBoxModifierTwo = protoSettings?.SearchBoxModifierTwo ?? "None",
-                ThemeIdentifier = protoSettings?.ThemeIdentifier ?? "553a4cdf-11c6-49ce-b634-7ce6945f6958"
+                ThemeIdentifier = protoSettings?.ThemeIdentifier ?? "553a4cdf-11c6-49ce-b634-7ce6945f6958",
             };
             return settings;
         }
@@ -231,6 +238,7 @@ namespace Reginald.Core.IO
         private static T DeserializeFile<T>(string filePath)
         {
             T type = default;
+
             // Check if file exists
             if (File.Exists(filePath))
             {
@@ -244,10 +252,14 @@ namespace Reginald.Core.IO
                         type = JsonConvert.DeserializeObject<T>(json);
                         break;
                     }
+
                     // If the file is already in use, try again until it's no longer in use
-                    catch (IOException) { }
+                    catch (IOException)
+                    {
+                    }
                 }
             }
+
             return type;
         }
     }

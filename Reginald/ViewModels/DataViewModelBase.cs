@@ -1,151 +1,40 @@
-﻿using Caliburn.Micro;
-using Reginald.Core.AbstractProducts;
-using Reginald.Core.Clients;
-using Reginald.Core.DataModels;
-using Reginald.Core.Factories;
-using Reginald.Core.Helpers;
-using Reginald.Core.IO;
-using Reginald.Core.Products;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace Reginald.ViewModels
+﻿namespace Reginald.ViewModels
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Caliburn.Micro;
+    using Reginald.Core.AbstractProducts;
+    using Reginald.Core.Clients;
+    using Reginald.Core.DataModels;
+    using Reginald.Core.Factories;
+    using Reginald.Core.Helpers;
+    using Reginald.Core.IO;
+    using Reginald.Core.Products;
+
     public class DataViewModelBase : Screen
     {
-        public SearchTermFactory SearchTermFactory { get; set; } = new();
-
         private SettingsDataModel _settings = new();
-        public SettingsDataModel Settings
-        {
-            get => _settings;
-            set
-            {
-                _settings = value;
-                NotifyOfPropertyChange(() => Settings);
-            }
-        }
-
-        private Theme _theme;
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                _theme = value;
-                NotifyOfPropertyChange(() => Theme);
-            }
-        }
 
         private IEnumerable<ShellItem> _applications;
-        public IEnumerable<ShellItem> Applications
-        {
-            get => _applications;
-            set
-            {
-                _applications = value;
-                NotifyOfPropertyChange(() => Applications);
-            }
-        }
+
+        private Theme _theme;
 
         private IEnumerable<Keyword> _defaultKeywords;
-        public IEnumerable<Keyword> DefaultKeywords
-        {
-            get => _defaultKeywords;
-            set
-            {
-                _defaultKeywords = value;
-                NotifyOfPropertyChange(() => DefaultKeywords);
-            }
-        }
 
         private IEnumerable<Keyword> _userKeywords;
-        public IEnumerable<Keyword> UserKeywords
-        {
-            get => _userKeywords;
-            set
-            {
-                _userKeywords = value;
-                NotifyOfPropertyChange(() => UserKeywords);
-            }
-        }
 
         private IEnumerable<Keyword> _defaultResults;
-        public IEnumerable<Keyword> DefaultResults
-        {
-            get => _defaultResults;
-            set
-            {
-                _defaultResults = value;
-                NotifyOfPropertyChange(() => DefaultResults);
-            }
-        }
 
         private IEnumerable<Keyword> _commands;
-        public IEnumerable<Keyword> Commands
-        {
-            get => _commands;
-            set
-            {
-                _commands = value;
-                NotifyOfPropertyChange(() => Commands);
-            }
-        }
 
         private IEnumerable<Keyword> _httpKeywords;
-        public IEnumerable<Keyword> HttpKeywords
-        {
-            get => _httpKeywords;
-            set
-            {
-                _httpKeywords = value;
-                NotifyOfPropertyChange(() => HttpKeywords);
-            }
-        }
 
         private IEnumerable<Keyphrase> _utilities;
-        public IEnumerable<Keyphrase> Utilities
-        {
-            get => _utilities;
-            set
-            {
-                _utilities = value;
-                NotifyOfPropertyChange(() => Utilities);
-            }
-        }
-
-        public IEnumerable<Keyphrase> MicrosoftSettings { get; set; }
 
         private Representation _calculator;
-        public Representation Calculator
-        {
-            get => _calculator;
-            set
-            {
-                _calculator = value;
-                NotifyOfPropertyChange(() => Calculator);
-            }
-        }
 
         private Representation _link;
-        public Representation Link
-        {
-            get => _link;
-            set
-            {
-                _link = value;
-                NotifyOfPropertyChange(() => Link);
-            }
-        }
-
-        private FileSystemWatcher SettingsWatcher { get; set; }
-
-        private FileSystemWatcher DefaultKeywordsWatcher { get; set; }
-
-        private FileSystemWatcher UserKeywordsWatcher { get; set; }
-
-        private FileSystemWatcher CommandsWatcher { get; set; }
 
         public DataViewModelBase(bool monitorChanges)
         {
@@ -175,6 +64,128 @@ namespace Reginald.ViewModels
                 CommandsWatcher = FileSystemWatcherHelper.Initialize(appDataApplicationDirectoryPath, ApplicationPaths.CommandsJsonFilename, OnCommandsChanged);
             }
         }
+
+        public SearchTermFactory SearchTermFactory { get; set; } = new();
+
+        public IEnumerable<Keyphrase> MicrosoftSettings { get; set; }
+
+        public SettingsDataModel Settings
+        {
+            get => _settings;
+            set
+            {
+                _settings = value;
+                NotifyOfPropertyChange(() => Settings);
+            }
+        }
+
+        public Theme Theme
+        {
+            get => _theme;
+            set
+            {
+                _theme = value;
+                NotifyOfPropertyChange(() => Theme);
+            }
+        }
+
+        public IEnumerable<ShellItem> Applications
+        {
+            get => _applications;
+            set
+            {
+                _applications = value;
+                NotifyOfPropertyChange(() => Applications);
+            }
+        }
+
+        public IEnumerable<Keyword> DefaultKeywords
+        {
+            get => _defaultKeywords;
+            set
+            {
+                _defaultKeywords = value;
+                NotifyOfPropertyChange(() => DefaultKeywords);
+            }
+        }
+
+        public IEnumerable<Keyword> UserKeywords
+        {
+            get => _userKeywords;
+            set
+            {
+                _userKeywords = value;
+                NotifyOfPropertyChange(() => UserKeywords);
+            }
+        }
+
+        public IEnumerable<Keyword> DefaultResults
+        {
+            get => _defaultResults;
+            set
+            {
+                _defaultResults = value;
+                NotifyOfPropertyChange(() => DefaultResults);
+            }
+        }
+
+        public IEnumerable<Keyword> Commands
+        {
+            get => _commands;
+            set
+            {
+                _commands = value;
+                NotifyOfPropertyChange(() => Commands);
+            }
+        }
+
+        public IEnumerable<Keyword> HttpKeywords
+        {
+            get => _httpKeywords;
+            set
+            {
+                _httpKeywords = value;
+                NotifyOfPropertyChange(() => HttpKeywords);
+            }
+        }
+
+        public IEnumerable<Keyphrase> Utilities
+        {
+            get => _utilities;
+            set
+            {
+                _utilities = value;
+                NotifyOfPropertyChange(() => Utilities);
+            }
+        }
+
+        public Representation Calculator
+        {
+            get => _calculator;
+            set
+            {
+                _calculator = value;
+                NotifyOfPropertyChange(() => Calculator);
+            }
+        }
+
+        public Representation Link
+        {
+            get => _link;
+            set
+            {
+                _link = value;
+                NotifyOfPropertyChange(() => Link);
+            }
+        }
+
+        private FileSystemWatcher SettingsWatcher { get; set; }
+
+        private FileSystemWatcher DefaultKeywordsWatcher { get; set; }
+
+        private FileSystemWatcher UserKeywordsWatcher { get; set; }
+
+        private FileSystemWatcher CommandsWatcher { get; set; }
 
         public static Unit UpdateUnit<T>(string filename, bool isResource, string parameter)
         {
@@ -211,6 +222,7 @@ namespace Reginald.ViewModels
                 KeywordClient client = new(SearchTermFactory, models);
                 return client.Keywords;
             }
+
             return Enumerable.Empty<Keyword>();
         }
 
@@ -222,6 +234,7 @@ namespace Reginald.ViewModels
                 KeyphraseClient client = new(SearchTermFactory, models);
                 return client.Keyphrases;
             }
+
             return Enumerable.Empty<Keyphrase>();
         }
 
@@ -244,7 +257,7 @@ namespace Reginald.ViewModels
 
         private IEnumerable<ShellItem> UpdateShellItems()
         {
-            ShellItemClient client = new(SearchTermFactory, Core.Base.Applications.GetApplications());
+            ShellItemClient client = new(SearchTermFactory, WindowsShell.GetApplications());
             return client.ShellItems;
         }
 

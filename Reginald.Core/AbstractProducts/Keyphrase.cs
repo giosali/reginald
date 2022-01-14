@@ -1,12 +1,25 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Windows.Media;
-
-namespace Reginald.Core.AbstractProducts
+﻿namespace Reginald.Core.AbstractProducts
 {
+    using System;
+    using System.Text.RegularExpressions;
+    using System.Windows.Media;
+
     public abstract class Keyphrase : InteractiveAbstractProductBase
     {
         private Guid _guid;
+
+        private string _name;
+
+        private string _phrase;
+
+        private ImageSource _icon;
+
+        private string _caption;
+
+        private bool _isEnabled;
+
+        private string _description;
+
         public Guid Guid
         {
             get => _guid;
@@ -17,7 +30,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _name;
         public string Name
         {
             get => _name;
@@ -28,7 +40,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _phrase;
         public string Phrase
         {
             get => _phrase;
@@ -39,7 +50,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private ImageSource _icon;
         public ImageSource Icon
         {
             get => _icon;
@@ -50,7 +60,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _caption;
         public string Caption
         {
             get => _caption;
@@ -61,7 +70,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private bool _isEnabled;
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -72,7 +80,6 @@ namespace Reginald.Core.AbstractProducts
             }
         }
 
-        private string _description;
         public string Description
         {
             get => _description;
