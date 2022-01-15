@@ -27,12 +27,6 @@
 
         public static string ExponentiationRegexPattern { get; } = @"\d*\.?\d*\^-?\d+\.?\d*";
 
-        public static string CommandTimerSecondRegexPattern { get; } = @"(?<!\S)(\d+(\.\d+)?) ?s((ec(ond)?s?)?)?(?!\S)";
-
-        public static string CommandTimerMinuteRegexPattern { get; } = @"(?<!\S)(\d+(\.\d+)?) ?m((in(ute)?s?)?)?(?!\S)";
-
-        public static string CommandTimerHourRegexPattern { get; } = @"(?<!\S)(\d+(\.\d+)?) ?h((ou)?rs?)?(?!\S)";
-
         public static string PreciseKeywordRegexFormat { get; } = @"^\b{0}\b";
 
         public static string KeyphraseRegexFormat { get; } = @"\b(?<!\S){0}";

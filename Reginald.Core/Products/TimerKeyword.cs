@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-    using Reginald.Core.Base;
     using Reginald.Core.Extensions;
     using Reginald.Core.Helpers;
 
@@ -12,9 +11,9 @@
     public enum TimeUnit
     {
         /// <summary>
-        /// A unit of time specifying seconds.
+        /// A unit of time specifying hours.
         /// </summary>
-        Second,
+        Hour,
 
         /// <summary>
         /// A unit of time specifying minutes.
@@ -22,13 +21,19 @@
         Minute,
 
         /// <summary>
-        /// A unit of time specifying hours.
+        /// A unit of time specifying seconds.
         /// </summary>
-        Hour,
+        Second,
     }
 
     public class TimerKeyword : CommandKeyword
     {
+        private const string SecondRegexPattern = @"(?<!\S)(\d+(\.\d+)?) ?s((ec(ond)?s?)?)?(?!\S)";
+
+        private const string MinuteRegexPattern = @"(?<!\S)(\d+(\.\d+)?) ?m((in(ute)?s?)?)?(?!\S)";
+
+        private const string HourRegexPattern = @"(?<!\S)(\d+(\.\d+)?) ?h((ou)?rs?)?(?!\S)";
+
         private double _time;
 
         private bool _isRunning;
@@ -80,69 +85,41 @@
         }
 
         /// <summary>
-        /// Takes a string and returns a boolean indicating whether or not it contains time values and/or a description.
+        /// Takes a string and returns a boolean indicating whether or not it contains a time representation and/or a description.
         /// </summary>
         /// <param name="input">The input to evaluate.</param>
-        /// <returns><see langword="true"/> if the input contains time values and/or a description; otherwise, <see langword="false"/>.</returns>
+        /// <returns><see langword="true"/> if the input contains a time representation and/or a description; otherwise, <see langword="false"/>.</returns>
         public bool TryParseTimeFromString(string input)
         {
-            double time = 0;
+            double totalTime = 0;
 
-            // The startingIndex is used to prevent the following from being valid:
-            // `Take out the trash 30m 30s Do the laundry`
-            // Otherwise, the description would only be set to "Do the laundry" and
-            // "Take out the trash" would be completely ignored
-            // We need the time values to start at the very beginning of the input string
-            int startingIndex = 1;
-            int largestIndex = 0;
+            //// The currentIndex is used to prevent the following from being valid:
+            //// `Take out the trash 30m 30s Do the laundry`
+            //// Otherwise, the description would only be set to "Do the laundry" and
+            //// "Take out the trash" would be completely ignored
+            //// We need the time values to start at the very beginning of the input string
+            int currentIndex = 0;
+            int span = 0;
             string[] timeRepresentations = new string[3];
-            if (TimerKeywordHelper.TryGetTime(input, Constants.CommandTimerSecondRegexPattern, out double seconds, out int secondsStartingIndex, out int secondsEndingIndex))
+            string[] patterns = new string[3] { HourRegexPattern, MinuteRegexPattern, SecondRegexPattern };
+            for (int i = 0; i < patterns.Length; i++)
             {
-                time += seconds.ToMilliseconds(TimeUnit.Second, out timeRepresentations[2]);
-                if (secondsStartingIndex < startingIndex)
+                if (TimerKeywordHelper.TryGetTime(input, patterns[i], out double time, out int start, out int end))
                 {
-                    startingIndex = secondsStartingIndex;
-                }
+                    if (start == currentIndex)
+                    {
+                        currentIndex = end + 1;
 
-                if (secondsEndingIndex > largestIndex)
-                {
-                    largestIndex = secondsEndingIndex;
+                        // We add 1 to the index of the final character to account for the space proceeding it
+                        span = end + 1;
+                        totalTime += time.ToMilliseconds((TimeUnit)i, out timeRepresentations[i]);
+                    }
                 }
             }
 
-            if (TimerKeywordHelper.TryGetTime(input, Constants.CommandTimerMinuteRegexPattern, out double minutes, out int minutesStartingIndex, out int minutesEndingIndex))
+            if (totalTime > 0)
             {
-                time += minutes.ToMilliseconds(TimeUnit.Minute, out timeRepresentations[1]);
-                if (minutesStartingIndex < startingIndex)
-                {
-                    startingIndex = minutesStartingIndex;
-                }
-
-                if (minutesEndingIndex > largestIndex)
-                {
-                    largestIndex = minutesEndingIndex;
-                }
-            }
-
-            if (TimerKeywordHelper.TryGetTime(input, Constants.CommandTimerHourRegexPattern, out double hours, out int hoursStartingIndex, out int hoursEndingIndex))
-            {
-                time += hours.ToMilliseconds(TimeUnit.Hour, out timeRepresentations[0]);
-                if (hoursStartingIndex < startingIndex)
-                {
-                    startingIndex = hoursStartingIndex;
-                }
-
-                if (hoursEndingIndex > largestIndex)
-                {
-                    largestIndex = hoursEndingIndex;
-                }
-            }
-
-            if (time > 0 && startingIndex == 0)
-            {
-                // We add 1 to the index of the final character to account for the space proceeding it
-                int titleIndex = largestIndex + 1;
-                string title = titleIndex > input.Length ? Placeholder : input[titleIndex..];
+                string title = span > input.Length ? Placeholder : input[span..];
                 if (string.IsNullOrEmpty(title))
                 {
                     title = Placeholder;
@@ -151,7 +128,7 @@
                 string representation = string.Join(' ', timeRepresentations.Where(r => !string.IsNullOrEmpty(r)));
                 Completion = title;
                 Description = string.Format(Format, representation, title);
-                Time = time;
+                Time = totalTime;
                 return true;
             }
             else
