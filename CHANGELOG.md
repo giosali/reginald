@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.10.0
+
+### Added
+
+* Added ability to have Reginald launch on system startup
+  * This setting can be toggled in either:
+    * the menu of the system tray icon
+    * the `General` settings page in the settings portion of the application
+* Added toggle button for text expansions
+* Added support for uppercase letters and symbols in text expansion triggers
+  * You are no longer restrained to using a dollar symbol for your triggers
+    * If you have been using a version of Reginald prior to `v0.10.0`, please review your triggers and manually prefix a dollar symbol (or any other symbol if you wish) to them
+* Added ability to view current timers and cancel them
+  * Type `timers` to view a list of currently active timers and see how much time is left
+    * You can press `Alt + Enter` on a selected timer to cancel it
+
+### Fixed
+
+* Fixed issue where certain URLs would not be picked by the search box
+* Fixed issue where poorly constructed URLs would be picked by the search box
+* Fixed issue where timer keyword would incorrectly parse the input text
+
 ## v0.9.1
 
 ### Changed
