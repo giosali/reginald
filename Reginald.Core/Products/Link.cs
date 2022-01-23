@@ -10,6 +10,10 @@
 
     public class Link : Representation
     {
+        public Link()
+        {
+        }
+
         public Link(InputDataModelBase model)
         {
             if (Guid.TryParse(model.Guid, out Guid guid))
@@ -47,7 +51,10 @@
         public bool IsLink(string input)
         {
             Description = input;
-            return input.StartsWithScheme() || input.ContainsTopLevelDomain();
+            string tempInput = input.Replace(" ", "%20");
+            return input.ContainsTopLevelDomain()
+                 ? Uri.IsWellFormedUriString(tempInput, UriKind.RelativeOrAbsolute)
+                 : input.StartsWithScheme() && Uri.IsWellFormedUriString(tempInput, UriKind.Absolute);
         }
     }
 }
