@@ -179,6 +179,7 @@
                         model.Replacement = model.Replacement.Replace("\\n", "\n");
                     }
 
+                    Expansions.Clear();
                     Expansions.AddRange(models);
                 }
             }
