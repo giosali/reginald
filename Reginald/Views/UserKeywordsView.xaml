@@ -100,6 +100,23 @@
             <hc:UniformSpacingPanel Orientation="Horizontal"
                                     Spacing="8"
                                     HorizontalAlignment="Right">
+                <!-- ### Create Keyword Button -->
+                <Button Content="Create keyword"
+                        cal:Message.Attach="[Event Click] = [Action CreateKeywordButton_Click($this, $eventargs)]">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}"
+                               BasedOn="{StaticResource ButtonPrimary}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Visibility, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityToBooleanConverter}}"
+                                             Value="True">
+                                    <Setter Property="IsEnabled"
+                                            Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                
                 <!-- ### Delete Keyword Button -->
                 <Button Content="Delete keyword"
                         cal:Message.Attach="[Event Click] = [Action DeleteKeywordButton_Click($this, $eventargs)]">
@@ -134,23 +151,6 @@
                                     <Setter Property="IsEnabled"
                                             Value="False"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Visibility, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityToBooleanConverter}}"
-                                             Value="True">
-                                    <Setter Property="IsEnabled"
-                                            Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                
-                <!-- ### Create Keyword Button -->
-                <Button Content="Create keyword"
-                        cal:Message.Attach="[Event Click] = [Action CreateKeywordButton_Click($this, $eventargs)]">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}"
-                               BasedOn="{StaticResource ButtonPrimary}">
-                            <Style.Triggers>
                                 <DataTrigger Binding="{Binding Visibility, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityToBooleanConverter}}"
                                              Value="True">
                                     <Setter Property="IsEnabled"

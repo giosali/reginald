@@ -120,7 +120,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </hc:UniformSpacingPanel>
-            
+
             <!-- ## Add an Expansion-->
             <hc:UniformSpacingPanel Spacing="16"
                                     Orientation="Vertical">
@@ -131,7 +131,7 @@
                     <StackPanel Style="{StaticResource ExpanderStackPanelStyle}">
                         <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
                                    Text="•  Triggers are case-sensitive and can include letters, numbers, and symbols"/>
-                        
+
                         <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
                                    Text="•  Some examples of valid triggers:"/>
                         <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}"
@@ -155,42 +155,42 @@
                          hc:InfoElement.TitlePlacement="Top"
                          hc:InfoElement.Necessary="True"/>
 
-                <Button Content="Add"
-                        HorizontalAlignment="Right"
-                        cal:Message.Attach="[Event Click] = [Action AddButton_Click($this, $eventargs)]">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}"
-                               BasedOn="{StaticResource ButtonPrimary}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Trigger}"
-                                            Value="{x:Null}">
-                                    <Setter Property="IsEnabled"
-                                            Value="False"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Trigger}"
-                                             Value="">
-                                    <Setter Property="IsEnabled"
-                                            Value="False"/>
-                                </DataTrigger>
+                <StackPanel>
+                    <Button Content="Add"
+                            HorizontalAlignment="Left"
+                            Width="Auto"
+                            cal:Message.Attach="[Event Click] = [Action AddButton_Click($this, $eventargs)]">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}"
+                                   BasedOn="{StaticResource ButtonPrimary}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Trigger}"
+                                                 Value="{x:Null}">
+                                        <Setter Property="IsEnabled"
+                                                Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Trigger}"
+                                                 Value="">
+                                        <Setter Property="IsEnabled"
+                                                Value="False"/>
+                                    </DataTrigger>
 
-                                <DataTrigger Binding="{Binding Replacement}"
-                                             Value="{x:Null}">
-                                    <Setter Property="IsEnabled"
-                                            Value="False"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Replacement}"
-                                             Value="">
-                                    <Setter Property="IsEnabled"
-                                            Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-
+                                    <DataTrigger Binding="{Binding Replacement}"
+                                                 Value="{x:Null}">
+                                        <Setter Property="IsEnabled"
+                                                Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Replacement}"
+                                                 Value="">
+                                        <Setter Property="IsEnabled"
+                                                Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
             </hc:UniformSpacingPanel>
-
         </hc:UniformSpacingPanel>
-            
     </ScrollViewer>
 </UserControl>

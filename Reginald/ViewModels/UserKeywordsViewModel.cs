@@ -70,6 +70,18 @@
                                                        .Serialize());
         }
 
+        public void CreateKeywordButton_Click(object sender, RoutedEventArgs e)
+        {
+            Visibility = Visibility.Visible;
+            SelectedGenericKeyword = new GenericKeyword
+            {
+                Guid = Guid.NewGuid(),
+                Separator = "+",
+                Placeholder = "...",
+                IsEnabled = true,
+            };
+        }
+
         public void DeleteKeywordButton_Click(object sender, RoutedEventArgs e)
         {
             string message = $"Are you sure you would like to delete the '{SelectedKeyword.Name}' keyword?";
@@ -112,18 +124,6 @@
                 AltDescription = selectedGenericKeyword.AltDescription,
                 AltUrl = selectedGenericKeyword.AltUrl,
                 IsEnabled = selectedGenericKeyword.IsEnabled,
-            };
-        }
-
-        public void CreateKeywordButton_Click(object sender, RoutedEventArgs e)
-        {
-            Visibility = Visibility.Visible;
-            SelectedGenericKeyword = new GenericKeyword
-            {
-                Guid = Guid.NewGuid(),
-                Separator = "+",
-                Placeholder = "...",
-                IsEnabled = true,
             };
         }
 
