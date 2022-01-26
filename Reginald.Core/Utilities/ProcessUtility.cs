@@ -8,7 +8,7 @@
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Windows;
-    using Reginald.Extensions;
+    using Reginald.Core.Extensions;
 
     public static class ProcessUtility
     {

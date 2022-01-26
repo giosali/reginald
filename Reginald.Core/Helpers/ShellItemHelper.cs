@@ -8,8 +8,8 @@
     using Reginald.Core.AbstractProducts;
     using Reginald.Core.Base;
     using Reginald.Core.Clients;
+    using Reginald.Core.Extensions;
     using Reginald.Core.Factories;
-    using Reginald.Extensions;
 
     public class ShellItemHelper
     {

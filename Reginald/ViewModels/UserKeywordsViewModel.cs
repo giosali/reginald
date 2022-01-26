@@ -13,7 +13,6 @@
     using Reginald.Core.Helpers;
     using Reginald.Core.IO;
     using Reginald.Core.Products;
-    using Reginald.Extensions;
 
     public class UserKeywordsViewModel : KeywordViewModelBase
     {

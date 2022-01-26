@@ -4,9 +4,9 @@
     using System.Threading.Tasks;
     using Reginald.Core.AbstractProducts;
     using Reginald.Core.DataModels;
+    using Reginald.Core.Extensions;
     using Reginald.Core.Helpers;
     using Reginald.Core.Utilities;
-    using Reginald.Extensions;
 
     public class Link : Representation
     {

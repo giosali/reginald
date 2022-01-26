@@ -3,7 +3,7 @@
     using System;
     using System.Text.RegularExpressions;
     using Reginald.Core.Base;
-    using Reginald.Extensions;
+    using Reginald.Core.Extensions;
 
     public static class Interpreter
     {

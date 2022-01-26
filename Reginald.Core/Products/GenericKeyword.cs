@@ -8,9 +8,9 @@
     using Newtonsoft.Json;
     using Reginald.Core.AbstractProducts;
     using Reginald.Core.DataModels;
+    using Reginald.Core.Extensions;
     using Reginald.Core.Helpers;
     using Reginald.Core.Utilities;
-    using Reginald.Extensions;
 
     [JsonObject(MemberSerialization.OptIn)]
     public class GenericKeyword : Keyword
