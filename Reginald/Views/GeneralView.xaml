@@ -115,22 +115,22 @@
             </hc:UniformSpacingPanel>
 
             <!-- ### Restart Application Button -->
-            <hc:UniformSpacingPanel Spacing="8">
+            <hc:UniformSpacingPanel Spacing="8"
+                                    ItemVerticalAlignment="Center">
                 <TextBlock Style="{StaticResource DefaultTextBlockStyle}"
                            Text="Restart application"/>
                 
                 <Button Content="Restart"
-                        HorizontalAlignment="Left"
                         cal:Message.Attach="[Event Click] = [Action RestartButton_Click($this, $eventargs)]"/>
             </hc:UniformSpacingPanel>
             
             <!-- ### Shutdown Application Button -->
-            <hc:UniformSpacingPanel Spacing="8">
+            <hc:UniformSpacingPanel Spacing="8"
+                                    ItemVerticalAlignment="Center">
                 <TextBlock Style="{StaticResource DefaultTextBlockStyle}"
                            Text="Shutdown application"/>
 
                 <Button Content="Shutdown"
-                        HorizontalAlignment="Left"
                         cal:Message.Attach="[Event Click] = [Action ShutdownButton_Click($this, $eventargs)]"/>
             </hc:UniformSpacingPanel>
         </hc:UniformSpacingPanel>
