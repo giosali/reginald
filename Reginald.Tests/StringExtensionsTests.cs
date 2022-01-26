@@ -1,7 +1,7 @@
 ﻿namespace Reginald.Tests
 {
     using System.Text.RegularExpressions;
-    using Reginald.Extensions;
+    using Reginald.Core.Extensions;
     using Xunit;
 
     public class StringExtensionsTests
@@ -209,6 +209,40 @@
             Regex rx = new(@"https://");
             MatchCollection matches = rx.Matches(result);
             int actual = matches.Count;
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("Hello there, how are there you there?", "there", "NEW", 1, "Hello NEW, how are there you there?")]
+        [InlineData("Hello there, how are there you there?", "there", "NEW", 2, "Hello NEW, how are NEW you there?")]
+        [InlineData("Hello there, how are there you there?", "there", "NEW", 3, "Hello NEW, how are NEW you NEW?")]
+        [InlineData("Falling through wet forests", "forests", "", 1, "Falling through wet ")]
+        public static void Replace_WhenGiveCount_ShouldReplaceCountOccurrencesOfValue(string expression, string oldValue, string newValue, int count, string expected)
+        {
+            string actual = expression.Replace(oldValue, newValue, count);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("Hello there, how are there you there?", "there", "NEW", 4, "Hello NEW, how are NEW you NEW?")]
+        [InlineData("Hello", "z", "a", 1, "Hello")]
+        [InlineData("PigsOnTheW", "Wing", "wig", 1, "PigsOnTheW")]
+        public static void Replace_WhenGivenCountGreaterThanOccurrences_ShouldNotThrow(string expression, string oldValue, string newValue, int count, string expected)
+        {
+            string actual = expression.Replace(oldValue, newValue, count);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public static void Replace_ShouldIgnoreCase()
+        {
+            string expression = "hello";
+            string oldValue = "HELLO";
+            string newValue = string.Empty;
+            int count = 1;
+
+            string expected = "hello";
+            string actual = expression.Replace(oldValue, newValue, count);
             Assert.Equal(expected, actual);
         }
     }

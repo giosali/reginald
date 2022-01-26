@@ -1,8 +1,9 @@
-﻿namespace Reginald.Extensions
+﻿namespace Reginald.Core.Extensions
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
     using System.Text.RegularExpressions;
     using Reginald.Core.IO;
 
@@ -221,6 +222,56 @@
         public static string PrependScheme(this string expression)
         {
             return expression.StartsWithScheme() ? expression : "https://" + expression;
+        }
+
+        public static string Replace(this string expression, string oldValue, string newValue, int count)
+        {
+            int numReplacements = 0;
+            char firstCh = oldValue[0];
+            StringBuilder sb = new();
+            for (int i = 0; i < expression.Length; i++)
+            {
+                char ch = expression[i];
+                if (ch == firstCh && numReplacements < count)
+                {
+                    bool containsOldValue = true;
+                    try
+                    {
+                        for (int j = 1; j < oldValue.Length; j++)
+                        {
+                            if (expression[i + j] != oldValue[j])
+                            {
+                                containsOldValue = false;
+                                break;
+                            }
+                        }
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        containsOldValue = false;
+                    }
+
+                    if (containsOldValue)
+                    {
+                        numReplacements++;
+                        i += oldValue.Length - 1;
+                        for (int j = 0; j < newValue.Length; j++)
+                        {
+                            sb.Append(newValue[j]);
+                        }
+                    }
+                    else
+                    {
+                        _ = sb.Append(ch);
+                    }
+                }
+                else
+                {
+                    _ = sb.Append(ch);
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }
