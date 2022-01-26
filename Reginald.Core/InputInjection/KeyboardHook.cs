@@ -39,6 +39,11 @@
                     IEnumerable<ExpansionDataModel> models = FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false);
                     if (models is not null)
                     {
+                        foreach (ExpansionDataModel model in models)
+                        {
+                            model.Replacement = model.Replacement.Replace("\\n", "\n");
+                        }
+
                         Expansions.AddRange(models);
                     }
 
@@ -169,6 +174,11 @@
                 IEnumerable<ExpansionDataModel> models = FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false);
                 if (models is not null)
                 {
+                    foreach (ExpansionDataModel model in models)
+                    {
+                        model.Replacement = model.Replacement.Replace("\\n", "\n");
+                    }
+
                     Expansions.AddRange(models);
                 }
             }
