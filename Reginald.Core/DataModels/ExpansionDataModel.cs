@@ -1,11 +1,12 @@
 ﻿namespace Reginald.Core.DataModels
 {
-    using System;
     using Newtonsoft.Json;
 
-    [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class ExpansionDataModel : DataModelBase
     {
+        public const string CursorVariable = "{{__cursor__}}";
+
         [JsonProperty("trigger")]
         public string Trigger { get; set; }
 
