@@ -27,7 +27,7 @@
                        Text="Utilities"/>
             
             <!-- ## ToggleButton for Include -->
-            <hc:UniformSpacingPanel Orientation="Vertical"
+            <hc:UniformSpacingPanel Style="{StaticResource VerticalUniformSpacingPanelStyle}"
                                     Spacing="8">
                 <TextBlock Style="{StaticResource NormalTextBlockStyle}"
                            Text="Include utilities in your search results"/>

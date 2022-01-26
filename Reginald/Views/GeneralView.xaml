@@ -103,7 +103,7 @@
                        Text="Application"/>
 
             <!-- ### ToggleButton for Launch on Startup -->
-            <hc:UniformSpacingPanel Orientation="Vertical"
+            <hc:UniformSpacingPanel Style="{StaticResource VerticalUniformSpacingPanelStyle}"
                                     Spacing="8">
                 <TextBlock Style="{StaticResource NormalTextBlockStyle}"
                            Text="Launch Reginald on system startup"/>

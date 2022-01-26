@@ -42,7 +42,7 @@
             </Expander>
 
             <!-- ## ToggleButton for Enabled -->
-            <hc:UniformSpacingPanel Orientation="Vertical"
+            <hc:UniformSpacingPanel Style="{StaticResource VerticalUniformSpacingPanelStyle}"
                                     Spacing="8">
                 <TextBlock Style="{StaticResource NormalTextBlockStyle}"
                            Text="Enable text expansions"/>

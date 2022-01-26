@@ -25,6 +25,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/StackPanelStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/TextBlockStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/ToggleButtonStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/UniformSpacingPanelStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
