@@ -12,6 +12,6 @@
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        public abstract bool Predicate(UnitDataModelBase model, string guid);
+        public abstract bool Predicate(string guid);
     }
 }

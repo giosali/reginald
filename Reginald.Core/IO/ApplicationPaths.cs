@@ -36,6 +36,8 @@
 
         public static string ThemesJsonFilename { get; } = "Themes.json";
 
+        public static string DynamicThemesJsonFilename { get; } = "DynamicThemes.json";
+
         public static string TopLevelDomainsTxtFilename { get; } = "TopLevelDomains.txt";
     }
 }

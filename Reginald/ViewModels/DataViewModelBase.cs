@@ -36,6 +36,10 @@
 
         private Representation _link;
 
+        private bool _systemUsesLightTheme;
+
+        private bool _requiresRefresh;
+
         public DataViewModelBase(bool monitorChanges)
         {
             UpdateSettings();
@@ -43,6 +47,8 @@
 
             if (monitorChanges)
             {
+                SystemUsesLightTheme = HandyControl.Tools.WindowHelper.DetermineIfInLightThemeMode();
+
                 Applications = UpdateShellItems();
                 DefaultKeywords = UpdateKeywords<GenericKeywordDataModel>(ApplicationPaths.KeywordsJsonFilename, true, true);
                 UserKeywords = UpdateKeywords<GenericKeywordDataModel>(ApplicationPaths.UserKeywordsJsonFilename, false, true);
@@ -179,6 +185,31 @@
             }
         }
 
+        public bool SystemUsesLightTheme
+        {
+            get => _systemUsesLightTheme;
+            set
+            {
+                if (_systemUsesLightTheme != value)
+                {
+                    _systemUsesLightTheme = value;
+                    string filename = _systemUsesLightTheme ? ApplicationPaths.DynamicThemesJsonFilename : ApplicationPaths.ThemesJsonFilename;
+                    Theme = UpdateUnit<ThemeDataModel>(filename, true, Settings.ThemeIdentifier) as Theme;
+                    NotifyOfPropertyChange(() => SystemUsesLightTheme);
+                }
+            }
+        }
+
+        public bool RequiresRefresh
+        {
+            get => _requiresRefresh;
+            set
+            {
+                _requiresRefresh = value;
+                NotifyOfPropertyChange(() => RequiresRefresh);
+            }
+        }
+
         private FileSystemWatcher SettingsWatcher { get; set; }
 
         private FileSystemWatcher DefaultKeywordsWatcher { get; set; }
@@ -190,8 +221,8 @@
         public static Unit UpdateUnit<T>(string filename, bool isResource, string parameter)
         {
             IEnumerable<UnitDataModelBase> models = FileOperations.GetUnitData<T>(filename, isResource);
-            AccessoryFactory factory = new();
-            UnitClient client = new(factory, models.First(m => m.Predicate(m, parameter)));
+            UnitDataModelBase unit = models.FirstOrDefault(m => m.Predicate(parameter)) ?? models.First();
+            UnitClient client = new(new AccessoryFactory(), unit);
             return client.Unit;
         }
 
@@ -266,7 +297,13 @@
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
                 UpdateSettings();
+
+                bool previousRequiresRefresh = Theme.RequiresRefresh;
                 Theme = UpdateUnit<ThemeDataModel>(ApplicationPaths.ThemesJsonFilename, true, Settings.ThemeIdentifier) as Theme;
+                if (!previousRequiresRefresh && Theme.RequiresRefresh)
+                {
+                    RequiresRefresh = Theme.RequiresRefresh;
+                }
             }
         }
 

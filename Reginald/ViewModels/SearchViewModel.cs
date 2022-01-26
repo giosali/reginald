@@ -323,6 +323,7 @@
             Window window = GetView() as Window;
             if (window is not null)
             {
+                SystemUsesLightTheme = HandyControl.Tools.WindowHelper.DetermineIfInLightThemeMode();
                 if (window.IsVisible)
                 {
                     window.Hide();

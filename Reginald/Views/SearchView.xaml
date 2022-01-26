@@ -1,31 +1,34 @@
-﻿<Window x:Name="searchWindow"
-        x:Class="Reginald.Views.SearchView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Reginald.Converters"
-        xmlns:cal="http://www.caliburnproject.org"
-        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
-        mc:Ignorable="d"
-        Title="Search"
-        Height="65"
-        MinHeight="65"
-        Width="600"
-        FontFamily="Segoe UI"
-        ResizeMode="NoResize"
-        SizeToContent="Height"
-        BorderBrush="{Binding Theme.BorderBrush}"
-        WindowStartupLocation="Manual"
-        WindowStyle="None"
-        Topmost="True"
-        ShowInTaskbar="False"
-        fw:AcrylicWindow.Enabled="True"
-        fw:AcrylicWindow.TintColor="{Binding Theme.BackgroundColor}"
-        fw:AcrylicWindow.TintOpacity="{Binding Theme.TintOpacity}"
-        fw:AcrylicWindow.NoiseOpacity="0"
-        fw:AcrylicWindow.AcrylicWindowStyle="None"
-        cal:Message.Attach="[Event KeyDown] = [Action SearchWindow_KeyDown($this, $eventargs)]">
+﻿<hc:Window x:Name="searchWindow"
+           x:Class="Reginald.Views.SearchView"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:local="clr-namespace:Reginald.Converters"
+           xmlns:cal="http://www.caliburnproject.org"
+           xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
+           mc:Ignorable="d"
+           Title="Search"
+           Height="65"
+           MinHeight="65"
+           Width="600"
+           FontFamily="{Binding Theme.FontFamily}"
+           ResizeMode="NoResize"
+           SizeToContent="Height"
+           BorderThickness="0"
+           WindowStartupLocation="Manual"
+           WindowStyle="None"
+           Topmost="True"
+           ShowInTaskbar="False"
+           ApplyBackdropMaterial="{Binding ElementName=searchWindow, Path=DataContext.Theme.IsMicaEnabled, UpdateSourceTrigger=PropertyChanged}"
+           ShowNonClientArea="False"
+           fw:AcrylicWindow.Enabled="{Binding Theme.IsAcrylicEnabled}"
+           fw:AcrylicWindow.TintColor="{Binding Theme.BackgroundColor}"
+           fw:AcrylicWindow.TintOpacity="{Binding Theme.TintOpacity}"
+           fw:AcrylicWindow.NoiseOpacity="0"
+           fw:AcrylicWindow.AcrylicWindowStyle="None"
+           cal:Message.Attach="[Event KeyDown] = [Action SearchWindow_KeyDown($this, $eventargs)]">
     <Window.Resources>
         <ResourceDictionary>
             <!-- # Templates-->
@@ -40,6 +43,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     
+                    <!-- ### Icon -->
                     <Image Source="{Binding Icon}"
                            Grid.Column="0"
                            Width="30"
@@ -49,21 +53,54 @@
                                 Grid.ColumnSpan="2"
                                 VerticalAlignment="Center"
                                 Margin="0 0 0 5">
+                        <!-- ### Description -->
                         <TextBlock Text="{Binding Description}"
-                                   Foreground="{Binding ElementName=searchWindow, Path=DataContext.Theme.DescriptionBrush}"
                                    Background="Transparent"
                                    FontSize="24"
-                                   FontWeight="Light"
+                                   FontWeight="{Binding ElementName=searchWindow, Path=DataContext.Theme.DescriptionFontWeight}"
                                    TextTrimming="CharacterEllipsis"
                                    Margin="0"
-                                   Padding="0"/>
+                                   Padding="0">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                                     Value="True">
+                                            <Setter Property="Foreground"
+                                                    Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.SelectedDescriptionBrush}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Style.Setters>
+                                        <Setter Property="Foreground"
+                                                Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.DescriptionBrush}"/>
+                                    </Style.Setters>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        
+                        <!-- ### Caption -->
                         <TextBlock Text="{Binding Caption}"
-                                   Foreground="{Binding ElementName=searchWindow, Path=DataContext.Theme.CaptionBrush}"
                                    Background="Transparent"
                                    FontSize="12"
-                                   FontWeight="Light"
+                                   FontWeight="{Binding ElementName=searchWindow, Path=DataContext.Theme.CaptionFontWeight}"
                                    Margin="0"
-                                   Padding="0"/>
+                                   Padding="0">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                                     Value="True">
+                                            <Setter Property="Foreground"
+                                                    Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.SelectedCaptionBrush}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Style.Setters>
+                                        <Setter Property="Foreground"
+                                                Value="{Binding ElementName=searchWindow, Path=DataContext.Theme.CaptionBrush}"/>
+                                    </Style.Setters>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </StackPanel>
                 </Grid>
             </DataTemplate>
@@ -103,59 +140,67 @@
             <local:BrushToColorConverter x:Key="BrushToColorConverter"/>
         </ResourceDictionary>
     </Window.Resources>
+    
+    <Border BorderBrush="{Binding Theme.BorderBrush}"
+            BorderThickness="{Binding Theme.BorderThickness}"
+            CornerRadius="{Binding Theme.CornerRadius}"
+            FocusManager.FocusedElement="{Binding ElementName=UserInput}">
+        <StackPanel>
+            <TextBox x:Name="UserInput"
+                     Foreground="{Binding Theme.InputBrush}"
+                     FontWeight="{Binding Theme.InputFontWeight}"
+                     CaretBrush="{Binding Theme.CaretBrush}"
+                     SelectionBrush="{Binding Theme.SelectionBrush}"
+                     SelectionOpacity="{Binding Theme.SelectionOpacity}"
+                     Height="{Binding ElementName=searchWindow, Path=MinHeight}"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     OverridesDefaultStyle="True"
+                     FontSize="32"
+                     Padding="10 0"
+                     VerticalContentAlignment="Center"
+                     cal:Message.Attach="[Event TextChanged] = [Action UserInput_TextChanged($this, $eventargs)];
+                                         [Event PreviewKeyDown] = [Action UserInput_PreviewKeyDown($source, $eventargs)];
+                                         [Event PreviewKeyUp] = [Action UserInput_PreviewKeyUp($this, $eventargs)]"/>
 
-    <StackPanel FocusManager.FocusedElement="{Binding ElementName=UserInput}">
-        <TextBox x:Name="UserInput"
-                 Foreground="{Binding Theme.InputBrush}"
-                 CaretBrush="{Binding Theme.CaretBrush}"
-                 Height="{Binding ElementName=searchWindow, Path=MinHeight}"
-                 Background="Transparent"
-                 BorderThickness="0"
-                 FontSize="32"
-                 FontWeight="Light"
-                 Padding="10 0"
-                 VerticalContentAlignment="Center"
-                 cal:Message.Attach="[Event TextChanged] = [Action UserInput_TextChanged($this, $eventargs)];
-                                     [Event PreviewKeyDown] = [Action UserInput_PreviewKeyDown($source, $eventargs)];
-                                     [Event PreviewKeyUp] = [Action UserInput_PreviewKeyUp($this, $eventargs)]"/>
-
-        <ListBox x:Name="SearchResults"
-                 ItemTemplate="{StaticResource SearchResultsItemTemplate}"
-                 SelectedItem="{Binding SelectedDisplayItem, Mode=TwoWay}"
-                 Background="Transparent"
-                 MaxHeight="330"
-                 BorderThickness="0"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 ScrollViewer.CanContentScroll="False"
-                 cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action SearchResults_PreviewMouseLeftButtonDown($source, $eventargs)];
-                                     [Event MouseLeave] = [Action SearchResults_MouseLeave($this, $eventargs)];
-                                     [Event SelectionChanged] = [Action SearchResults_SelectionChanged($source, $eventargs)]">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem"
-                       BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding ElementName=searchWindow, Path=DataContext.IsMouseOverChanged}"
-                                           Value="True"/>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}"
-                                           Value="True"/>
-                            </MultiDataTrigger.Conditions>
-                            <MultiDataTrigger.Setters>
-                                <Setter Property="IsSelected"
-                                        Value="True"/>
-                            </MultiDataTrigger.Setters>
-                        </MultiDataTrigger>
-                    </Style.Triggers>
-                    <Setter Property="Padding"
-                            Value="10 0"/>
-                    <Setter Property="Height"
-                            Value="55"/>
-                    <Setter Property="Template"
-                            Value="{StaticResource SearchResultsListBoxItemControlTemplate}"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
-    </StackPanel>
-</Window>
+            <ListBox x:Name="SearchResults"
+                     ItemTemplate="{StaticResource SearchResultsItemTemplate}"
+                     SelectedItem="{Binding SelectedDisplayItem, Mode=TwoWay}"
+                     Background="Transparent"
+                     MaxHeight="330"
+                     BorderThickness="0"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.CanContentScroll="False"
+                     cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action SearchResults_PreviewMouseLeftButtonDown($source, $eventargs)];
+                                         [Event MouseLeave] = [Action SearchResults_MouseLeave($this, $eventargs)];
+                                         [Event SelectionChanged] = [Action SearchResults_SelectionChanged($source, $eventargs)]">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem"
+                           BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=searchWindow, Path=DataContext.IsMouseOverChanged}"
+                                               Value="True"/>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}"
+                                               Value="True"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="IsSelected"
+                                            Value="True"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Padding"
+                                Value="10 0"/>
+                        <Setter Property="Height"
+                                Value="55"/>
+                        <Setter Property="Template"
+                                Value="{StaticResource SearchResultsListBoxItemControlTemplate}"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </StackPanel>
+    </Border>
+</hc:Window>

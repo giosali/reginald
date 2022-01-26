@@ -26,7 +26,7 @@
             keyboardHook.Add();
         }
 
-        public static SearchViewModel SearchView { get; set; } = new();
+        public SearchViewModel SearchView { get; set; } = new();
 
         public bool IsEnabled
         {
@@ -65,6 +65,13 @@
         {
             if (IsEnabled)
             {
+                // Refreshes the SearchView when the theme is switched
+                // to a theme that requires a refresh
+                if (SearchView.RequiresRefresh)
+                {
+                    SearchView = new();
+                }
+
                 IWindowManager manager = new WindowManager();
                 if (!SearchView.IsActive)
                 {
