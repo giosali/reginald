@@ -5,6 +5,7 @@
     using System.Runtime.InteropServices;
     using System.Threading.Tasks;
     using Reginald.Core.DataModels;
+    using Reginald.Core.Extensions;
     using static Reginald.Core.NativeMethods.KeyboardNativeMethods;
 
     /// <summary>
@@ -1031,6 +1032,14 @@
             List<INPUT> inputs = new();
             if (!string.IsNullOrEmpty(expression))
             {
+                int cursorIndex = expression.IndexOf(ExpansionDataModel.CursorVariable);
+                int leftArrowCount = -1;
+                if (cursorIndex > 0)
+                {
+                    expression = expression.Replace(ExpansionDataModel.CursorVariable, string.Empty, 1);
+                    leftArrowCount = expression.Length - cursorIndex;
+                }
+
                 char? previousCharacter = null;
                 for (int i = 0; i < expression.Length; i++)
                 {
@@ -1131,6 +1140,37 @@
                     }
 
                     previousCharacter = character;
+                }
+
+                for (int i = 0; i < leftArrowCount; i++)
+                {
+                    inputs.Add(new INPUT
+                    {
+                        type = (uint)InputType.Keyboard,
+                        U = new InputUnion
+                        {
+                            ki = new KEYBDINPUT
+                            {
+                                wVk = VirtualKeyShort.LEFT,
+                                dwFlags = KEYEVENTF.KEYDOWN,
+                                wScan = 0,
+                            },
+                        },
+                    });
+
+                    inputs.Add(new INPUT
+                    {
+                        type = (uint)InputType.Keyboard,
+                        U = new InputUnion
+                        {
+                            ki = new KEYBDINPUT
+                            {
+                                wVk = VirtualKeyShort.LEFT,
+                                dwFlags = KEYEVENTF.KEYUP,
+                                wScan = 0,
+                            },
+                        },
+                    });
                 }
             }
 
