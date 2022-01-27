@@ -945,7 +945,7 @@
         {
             if (!string.IsNullOrEmpty(replacement))
             {
-                List<INPUT> inputs = BackspaceInputsFromString(trigger);
+                List<INPUT> inputs = GetBackspaceInputs(trigger.Length);
                 inputs.AddRange(InputsFromString(replacement));
                 _ = SendInput((uint)inputs.Count, inputs.ToArray(), INPUT.Size);
             }
@@ -1207,11 +1207,11 @@
             return inputs;
         }
 
-        private static List<INPUT> BackspaceInputsFromString(string expression)
+        private static List<INPUT> GetBackspaceInputs(int count)
         {
             // Delete previously typed input that initiated the trigger
             List<INPUT> inputs = new();
-            for (int i = 0; i < expression.Length + 1; i++)
+            for (int i = 0; i < count; i++)
             {
                 inputs.Add(new INPUT
                 {
