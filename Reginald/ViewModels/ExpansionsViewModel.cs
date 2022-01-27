@@ -1,6 +1,7 @@
 ﻿namespace Reginald.ViewModels
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -26,12 +27,7 @@
             IEnumerable<ExpansionDataModel> expansions = FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false);
             if (expansions is not null)
             {
-                foreach (ExpansionDataModel expansion in expansions)
-                {
-                    expansion.Replacement = expansion.Replacement.Replace("\\n", "\n");
-                }
-
-                Expansions.AddRange(expansions);
+                Expansions.AddRange(expansions.OrderBy(e => e.Trigger));
             }
         }
 

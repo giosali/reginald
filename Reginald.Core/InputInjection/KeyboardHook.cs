@@ -41,7 +41,7 @@
                     {
                         foreach (ExpansionDataModel model in models)
                         {
-                            model.Replacement = model.Replacement.Replace("\\n", "\n");
+                            model.Replacement = model.Replacement.Replace("\r", string.Empty);
                         }
 
                         Expansions.AddRange(models);
@@ -176,7 +176,7 @@
                 {
                     foreach (ExpansionDataModel model in models)
                     {
-                        model.Replacement = model.Replacement.Replace("\\n", "\n");
+                        model.Replacement = model.Replacement.Replace("\r", string.Empty);
                     }
 
                     Expansions.Clear();

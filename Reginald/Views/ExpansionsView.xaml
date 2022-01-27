@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Reginald.Converters"
              xmlns:cal="http://caliburnmicro.com"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -61,6 +62,7 @@
 
                 <DataGrid ItemsSource="{Binding Expansions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Path=SelectedExpansion, Mode=TwoWay}"
+                          RowHeight="{x:Static sys:Double.NaN}"
                           AutoGenerateColumns="False"
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
@@ -106,17 +108,18 @@
                         </DataGridTextColumn>
 
                         <!-- ### Replacement -->
-                        <DataGridTextColumn Binding="{Binding Replacement, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                            Header="Replacement"
-                                            IsReadOnly="False"
-                                            Width="2*">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="TextBlock.TextWrapping"
-                                            Value="Wrap"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Replacement"
+                                                IsReadOnly="False"
+                                                Width="2*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Replacement, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                             TextWrapping="Wrap"
+                                             AcceptsReturn="True"
+                                             AcceptsTab="True"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </hc:UniformSpacingPanel>

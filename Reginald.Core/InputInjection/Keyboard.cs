@@ -1040,13 +1040,13 @@
                     leftArrowCount = expression.Length - cursorIndex;
                 }
 
-                char? previousCharacter = null;
+                char previousCh = '\0';
                 for (int i = 0; i < expression.Length; i++)
                 {
-                    char character = expression[i];
+                    char ch = expression[i];
 
                     // If previous character is equal to the next character, add void
-                    if (character == previousCharacter)
+                    if (ch == previousCh)
                     {
                         inputs.Add(new INPUT
                         {
@@ -1064,7 +1064,7 @@
                     }
 
                     // If the character is a newline char, simulate the Enter key
-                    if (character == '\n')
+                    if (ch == '\n')
                     {
                         inputs.Add(new INPUT
                         {
@@ -1116,6 +1116,36 @@
                                 ki = new KEYBDINPUT
                                 {
                                     wVk = VirtualKeyShort.RETURN,
+                                    dwFlags = KEYEVENTF.KEYUP,
+                                    wScan = 0,
+                                },
+                            },
+                        });
+                    }
+                    else if (ch == '\t')
+                    {
+                        inputs.Add(new INPUT
+                        {
+                            type = (uint)InputType.Keyboard,
+                            U = new InputUnion
+                            {
+                                ki = new KEYBDINPUT
+                                {
+                                    wVk = VirtualKeyShort.TAB,
+                                    dwFlags = KEYEVENTF.KEYDOWN,
+                                    wScan = 0,
+                                },
+                            },
+                        });
+
+                        inputs.Add(new INPUT
+                        {
+                            type = (uint)InputType.Keyboard,
+                            U = new InputUnion
+                            {
+                                ki = new KEYBDINPUT
+                                {
+                                    wVk = VirtualKeyShort.TAB,
                                     dwFlags = KEYEVENTF.KEYUP,
                                     wScan = 0,
                                 },
@@ -1133,13 +1163,13 @@
                                 {
                                     wVk = 0,
                                     dwFlags = KEYEVENTF.UNICODE,
-                                    wScan = unchecked((short)character),
+                                    wScan = unchecked((short)ch),
                                 },
                             },
                         });
                     }
 
-                    previousCharacter = character;
+                    previousCh = ch;
                 }
 
                 for (int i = 0; i < leftArrowCount; i++)
