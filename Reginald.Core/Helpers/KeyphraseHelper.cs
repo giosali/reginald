@@ -21,7 +21,8 @@
                 string cleanInput = input.RegexClean();
                 string pattern = string.Format(CultureInfo.InvariantCulture, Constants.KeyphraseRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
-                matches = phrases.Where(p => p.Predicate(p, rx, cleanInput));
+                matches = phrases.Where(p => p.Predicate(p, rx, cleanInput))
+                                 .Take(25);
             }
 
             return Task.FromResult(matches);
