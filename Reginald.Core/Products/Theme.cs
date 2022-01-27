@@ -32,17 +32,23 @@
 
         private double _tintOpacity;
 
+        private double _inputFontSize;
+
         private FontWeight _inputFontWeight;
 
         private Brush _inputColor;
 
         private Brush _caretBrush;
 
+        private double _descriptionFontSize;
+
         private FontWeight _descriptionFontWeight;
 
         private Brush _descriptionBrush;
 
         private Brush _selectedDescriptionBrush;
+
+        private double _captionFontSize;
 
         private FontWeight _captionFontWeight;
 
@@ -78,8 +84,11 @@
             IsMicaEnabled = model.IsMicaEnabled;
             FontFamily = new(model.FontFamily);
             TintOpacity = model.TintOpacity;
+            InputFontSize = model.InputFontSize;
             InputFontWeight = (FontWeight)new FontWeightConverter().ConvertFromString(model.InputFontWeight);
+            DescriptionFontSize = model.DescriptionFontSize;
             DescriptionFontWeight = (FontWeight)new FontWeightConverter().ConvertFromString(model.DescriptionFontWeight);
+            CaptionFontSize = model.CaptionFontSize;
             CaptionFontWeight = (FontWeight)new FontWeightConverter().ConvertFromString(model.CaptionFontWeight);
             BorderThickness = model.BorderThickness;
             CornerRadius = model.CornerRadius;
@@ -199,6 +208,16 @@
             }
         }
 
+        public double InputFontSize
+        {
+            get => _inputFontSize;
+            set
+            {
+                _inputFontSize = value;
+                NotifyOfPropertyChange(() => InputFontSize);
+            }
+        }
+
         public FontWeight InputFontWeight
         {
             get => _inputFontWeight;
@@ -229,6 +248,16 @@
             }
         }
 
+        public double DescriptionFontSize
+        {
+            get => _descriptionFontSize;
+            set
+            {
+                _descriptionFontSize = value;
+                NotifyOfPropertyChange(() => DescriptionFontSize);
+            }
+        }
+
         public FontWeight DescriptionFontWeight
         {
             get => _descriptionFontWeight;
@@ -256,6 +285,16 @@
             {
                 _selectedDescriptionBrush = value;
                 NotifyOfPropertyChange(() => SelectedDescriptionBrush);
+            }
+        }
+
+        public double CaptionFontSize
+        {
+            get => _captionFontSize;
+            set
+            {
+                _captionFontSize = value;
+                NotifyOfPropertyChange(() => CaptionFontSize);
             }
         }
 

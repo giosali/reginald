@@ -55,9 +55,9 @@
                                 Margin="0 0 0 5">
                         <!-- ### Description -->
                         <TextBlock Text="{Binding Description}"
-                                   Background="Transparent"
-                                   FontSize="24"
+                                   FontSize="{Binding ElementName=searchWindow, Path=DataContext.Theme.DescriptionFontSize}"
                                    FontWeight="{Binding ElementName=searchWindow, Path=DataContext.Theme.DescriptionFontWeight}"
+                                   Background="Transparent"
                                    TextTrimming="CharacterEllipsis"
                                    Margin="0"
                                    Padding="0">
@@ -80,9 +80,9 @@
                         
                         <!-- ### Caption -->
                         <TextBlock Text="{Binding Caption}"
-                                   Background="Transparent"
-                                   FontSize="12"
+                                   FontSize="{Binding ElementName=searchWindow, Path=DataContext.Theme.CaptionFontSize}"
                                    FontWeight="{Binding ElementName=searchWindow, Path=DataContext.Theme.CaptionFontWeight}"
+                                   Background="Transparent"
                                    Margin="0"
                                    Padding="0">
                             <TextBlock.Style>
@@ -148,6 +148,7 @@
         <StackPanel>
             <TextBox x:Name="UserInput"
                      Foreground="{Binding Theme.InputBrush}"
+                     FontSize="{Binding Theme.InputFontSize}"
                      FontWeight="{Binding Theme.InputFontWeight}"
                      CaretBrush="{Binding Theme.CaretBrush}"
                      SelectionBrush="{Binding Theme.SelectionBrush}"
@@ -156,7 +157,6 @@
                      Background="Transparent"
                      BorderThickness="0"
                      OverridesDefaultStyle="True"
-                     FontSize="32"
                      Padding="10 0"
                      VerticalContentAlignment="Center"
                      cal:Message.Attach="[Event TextChanged] = [Action UserInput_TextChanged($this, $eventargs)];

@@ -36,6 +36,9 @@
         [JsonProperty("tintOpacity")]
         public double TintOpacity { get; set; }
 
+        [JsonProperty("inputFontSize")]
+        public double InputFontSize { get; set; }
+
         [JsonProperty("inputFontWeight")]
         public string InputFontWeight { get; set; }
 
@@ -45,6 +48,9 @@
         [JsonProperty("caretBrush")]
         public string CaretBrush { get; set; }
 
+        [JsonProperty("descriptionFontSize")]
+        public double DescriptionFontSize { get; set; }
+
         [JsonProperty("descriptionFontWeight")]
         public string DescriptionFontWeight { get; set; }
 
@@ -53,6 +59,9 @@
 
         [JsonProperty("selectedDescriptionBrush")]
         public string SelectedDescriptionBrush { get; set; }
+
+        [JsonProperty("captionFontSize")]
+        public double CaptionFontSize { get; set; }
 
         [JsonProperty("captionFontWeight")]
         public string CaptionFontWeight { get; set; }
