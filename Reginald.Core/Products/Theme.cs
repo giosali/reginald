@@ -36,7 +36,9 @@
 
         private FontWeight _inputFontWeight;
 
-        private Brush _inputColor;
+        private Brush _inputBrush;
+
+        private Brush _placeholderInputBrush;
 
         private Brush _caretBrush;
 
@@ -103,6 +105,7 @@
 
                 BackgroundColor = ColorHelper.FromString(model.BackgroundColor);
                 InputBrush = BrushHelper.SolidColorBrushFromString(model.InputBrush);
+                PlaceholderInputBrush = BrushHelper.SolidColorBrushFromString(model.PlaceholderInputBrush);
                 CaretBrush = BrushHelper.SolidColorBrushFromString(model.CaretBrush);
                 DescriptionBrush = BrushHelper.SolidColorBrushFromString(model.DescriptionBrush);
                 SelectedDescriptionBrush = BrushHelper.SolidColorBrushFromString(model.SelectedDescriptionBrush);
@@ -230,11 +233,21 @@
 
         public Brush InputBrush
         {
-            get => _inputColor;
+            get => _inputBrush;
             set
             {
-                _inputColor = value;
+                _inputBrush = value;
                 NotifyOfPropertyChange(() => InputBrush);
+            }
+        }
+
+        public Brush PlaceholderInputBrush
+        {
+            get => _placeholderInputBrush;
+            set
+            {
+                _placeholderInputBrush = value;
+                NotifyOfPropertyChange(() => PlaceholderInputBrush);
             }
         }
 

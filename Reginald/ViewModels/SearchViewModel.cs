@@ -9,6 +9,7 @@
     using Caliburn.Micro;
     using Reginald.Core.AbstractProducts;
     using Reginald.Core.Base;
+    using Reginald.Core.Collections;
     using Reginald.Core.Extensions;
     using Reginald.Core.Helpers;
     using Reginald.Core.Products;
@@ -21,11 +22,9 @@
 
         private DisplayItem _selectedDisplayItem;
 
-        private DisplayItem _lastSelectedDisplayItem;
-
         private bool _isMouseOverChanged;
 
-        private Point _mousePosition;
+        private bool _isBrowsingRecentSearches;
 
         public SearchViewModel()
             : base(true)
@@ -63,16 +62,6 @@
             }
         }
 
-        public DisplayItem LastSelectedDisplayItem
-        {
-            get => _lastSelectedDisplayItem;
-            set
-            {
-                _lastSelectedDisplayItem = value;
-                NotifyOfPropertyChange(() => LastSelectedDisplayItem);
-            }
-        }
-
         public bool IsMouseOverChanged
         {
             get => _isMouseOverChanged;
@@ -83,24 +72,36 @@
             }
         }
 
-        public Point MousePosition
+        public bool IsBrowsingRecentSearches
         {
-            get => _mousePosition;
+            get => _isBrowsingRecentSearches;
             set
             {
-                _mousePosition = value;
-                NotifyOfPropertyChange(() => MousePosition);
+                _isBrowsingRecentSearches = value;
+                RecentSearchesIndex = RecentSearches.Count;
+                NotifyOfPropertyChange(() => IsBrowsingRecentSearches);
             }
         }
 
-        public List<DisplayItem> Timers { get; set; } = new();
+        private DisplayItem LastSelectedDisplayItem { get; set; }
+
+        private Point MousePosition { get; set; }
+
+        private List<DisplayItem> Timers { get; set; } = new();
+
+        private Deque<string> RecentSearches { get; set; } = new(20);
+
+        private int RecentSearchesIndex { get; set; } = -1;
+
+        private int KeyUpTimestamp { get; set; }
 
         public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             SearchResults.Clear();
             IsMouseOverChanged = false;
             MousePosition = default;
-            if (UserInput.Length > 0)
+
+            if (UserInput.Length > 0 && !IsBrowsingRecentSearches)
             {
                 IEnumerable<DisplayItem> applicationResultsStrict = ShellItemHelper.ToSearchResults(await ShellItemHelper.FilterByStrictNames(Applications, Settings.IncludeInstalledApplications, UserInput));
                 IEnumerable<DisplayItem> applicationResultsUppercase = ShellItemHelper.ToSearchResults(await ShellItemHelper.FilterByUppercaseCharacters(Applications, Settings.IncludeInstalledApplications, UserInput));
@@ -182,62 +183,47 @@
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            try
+            if (SearchResults.Count > 0)
             {
-                if (SearchResults.Count > 0)
+                switch (e.Key is Key.System && !(e.Key is Key.LeftAlt || e.Key is Key.RightAlt) ? e.SystemKey : e.Key)
                 {
-                    // Up
-                    if (e.Key == Key.Up)
-                    {
-                        SelectedDisplayItem = SearchResults[SearchResults.IndexOf(SelectedDisplayItem) - 1];
-                    }
+                    case Key.Up:
+                        SelectedDisplayItem = SearchResults[Math.Max(SearchResults.IndexOf(SelectedDisplayItem) - 1, 0)];
+                        break;
 
-                    // Down
-                    else if (e.Key == Key.Down)
-                    {
-                        SelectedDisplayItem = SearchResults[SearchResults.IndexOf(SelectedDisplayItem) + 1];
-                    }
+                    case Key.Down:
+                        SelectedDisplayItem = SearchResults[Math.Min(SearchResults.IndexOf(SelectedDisplayItem) + 1, SearchResults.Count - 1)];
+                        break;
 
-                    // Enter
-                    else if (e.Key == Key.Enter)
-                    {
-                        OnSelectedDisplayItemEnterDown(sender, false);
-                        e.Handled = true;
-                    }
-
-                    // Alt + Enter
-                    else if (Keyboard.Modifiers == ModifierKeys.Alt && e.SystemKey == Key.Enter)
-                    {
+                    case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:
                         OnSelectedDisplayItemEnterDown(sender, true);
                         e.Handled = true;
-                    }
+                        break;
 
-                    // Alt
-                    else if (Keyboard.Modifiers == ModifierKeys.Alt && !e.IsRepeat)
-                    {
+                    case Key.Enter:
+                        OnSelectedDisplayItemEnterDown(sender, false);
+                        e.Handled = true;
+                        break;
+
+                    case Key.LeftAlt when !e.IsRepeat:
+                    case Key.RightAlt when !e.IsRepeat:
                         (string description, string caption) = SelectedDisplayItem.AltDown();
                         SelectedDisplayItem.Description = description ?? SelectedDisplayItem.Description;
                         SelectedDisplayItem.Caption = caption ?? SelectedDisplayItem.Caption;
                         e.Handled = true;
-                    }
+                        break;
 
-                    // Tab
-                    else if (e.Key == Key.Tab)
-                    {
-                        TextBox textBox = sender as TextBox;
-                        SearchResult result = SelectedDisplayItem as SearchResult;
-
+                    case Key.Tab:
                         // If the currently selected search result is actually
                         // derived from a keyword...
-                        if (result.Keyword is not null)
+                        if (SelectedDisplayItem is SearchResult result && result.Keyword is not null)
                         {
                             // then get see if the user has already typed the
                             // corresponding keyword. If they haven't, autocomplete the
                             // textbox with the keyword
                             if (!UserInput.StartsWith(result.Keyword.Word, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                UserInput = result.Keyword.Word;
-                                textBox.SelectionStart = UserInput.Length;
+                                (sender as TextBox).SetText(result.Keyword.Word + " ");
                             }
                         }
 
@@ -247,25 +233,67 @@
                         {
                             if (!UserInput.StartsWith(SelectedDisplayItem.Name, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                UserInput = SelectedDisplayItem.Name;
-                                textBox.SelectionStart = UserInput.Length;
+                                (sender as TextBox).SetText(SelectedDisplayItem.Name);
                             }
                         }
 
                         e.Handled = true;
-                    }
-                }
-                else
-                {
-                    // Tab
-                    if (e.Key == Key.Tab)
-                    {
-                        e.Handled = true;
-                    }
+                        break;
                 }
             }
-            catch (ArgumentOutOfRangeException)
+            else
             {
+                switch (e.Key)
+                {
+                    case Key.Up:
+                        if (IsBrowsingRecentSearches)
+                        {
+                            BrowseRecentSearches(true);
+                        }
+
+                        break;
+
+                    case Key.Down:
+                        if (IsBrowsingRecentSearches)
+                        {
+                            // Breaks user out of browsing recent searches
+                            if (RecentSearchesIndex + 1 == RecentSearches.Count)
+                            {
+                                IsBrowsingRecentSearches = false;
+                                UserInput = string.Empty;
+                            }
+                            else
+                            {
+                                BrowseRecentSearches(false);
+                            }
+                        }
+
+                        break;
+
+                    case Key.Enter:
+                        // Breaks user out of browsing recent searches
+                        if (IsBrowsingRecentSearches)
+                        {
+                            (sender as TextBox).SetText(RecentSearches[RecentSearchesIndex]);
+                            IsBrowsingRecentSearches = false;
+                        }
+
+                        break;
+
+                    case Key.Tab:
+                        e.Handled = true;
+                        break;
+
+                    default:
+                        // Breaks user out of browsing recent searches
+                        if (IsBrowsingRecentSearches)
+                        {
+                            IsBrowsingRecentSearches = false;
+                            UserInput = string.Empty;
+                        }
+
+                        break;
+                }
             }
         }
 
@@ -281,6 +309,25 @@
                         SelectedDisplayItem.Description = description ?? SelectedDisplayItem.Description;
                         SelectedDisplayItem.Caption = caption ?? SelectedDisplayItem.Caption;
                         e.Handled = true;
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.Key)
+                {
+                    case Key.Up:
+                        if (RecentSearches.Count > 0)
+                        {
+                            int value = Math.Abs(e.Timestamp - KeyUpTimestamp);
+                            if (value < 250 && !IsBrowsingRecentSearches)
+                            {
+                                IsBrowsingRecentSearches = true;
+                                BrowseRecentSearches(true);
+                            }
+                        }
+
+                        KeyUpTimestamp = e.Timestamp;
                         break;
                 }
             }
@@ -332,6 +379,7 @@
                 }
                 else
                 {
+                    IsBrowsingRecentSearches = false;
                     window.Show();
                 }
             }
@@ -364,6 +412,17 @@
                     Timers.Add(item);
                 }
             }
+
+            // Adds recent search query
+            RecentSearches.Append(UserInput);
+        }
+
+        private void BrowseRecentSearches(bool isUpKey)
+        {
+            RecentSearchesIndex = isUpKey
+                                ? Math.Max(RecentSearchesIndex - 1, 0)
+                                : Math.Min(RecentSearchesIndex + 1, RecentSearches.Count - 1);
+            UserInput = RecentSearches[RecentSearchesIndex];
         }
     }
 }

@@ -15,6 +15,7 @@
     "inputFontSize": 30,
     "inputFontWeight": "Normal",
     "inputBrush": "Black",
+    "placeholderInputBrush": "Gray",
     "caretBrush": "Black",
     "descriptionFontSize": 20,
     "descriptionFontWeight": "Normal",

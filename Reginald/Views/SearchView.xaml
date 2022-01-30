@@ -32,6 +32,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <!-- # Templates-->
+            
             <!-- ## ItemTemplate for SearchResults -->
             <DataTemplate x:Key="SearchResultsItemTemplate">
                 <Grid Width="570"
@@ -53,6 +54,7 @@
                                 Grid.ColumnSpan="2"
                                 VerticalAlignment="Center"
                                 Margin="0 0 0 5">
+                        
                         <!-- ### Description -->
                         <TextBlock Text="{Binding Description}"
                                    FontSize="{Binding ElementName=searchWindow, Path=DataContext.Theme.DescriptionFontSize}"
@@ -135,6 +137,54 @@
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
+            
+            <!-- # Styles -->
+            
+            <!-- ## UserInputTextBox -->
+            <Style x:Key="UserInputTextBoxStyle"
+                   TargetType="{x:Type TextBox}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsBrowsingRecentSearches}"
+                                 Value="True">
+                        <Setter Property="Foreground"
+                                Value="{Binding Theme.PlaceholderInputBrush}"/>
+                        <Setter Property="CaretBrush"
+                                Value="Transparent"/>
+                    </DataTrigger>
+                </Style.Triggers>
+                <Style.Setters>
+                    <Setter Property="Foreground"
+                            Value="{Binding Theme.InputBrush}"/>
+                    <Setter Property="CaretBrush"
+                            Value="{Binding Theme.CaretBrush}"/>
+                </Style.Setters>
+            </Style>
+            
+            <!-- ## SearchResultsListBox -->
+            <Style x:Key="SearchResultsListBoxItemContainerStyle"
+                   TargetType="{x:Type ListBoxItem}"
+                   BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding ElementName=searchWindow, Path=DataContext.IsMouseOverChanged}"
+                                       Value="True"/>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}"
+                                       Value="True"/>
+                        </MultiDataTrigger.Conditions>
+                        <MultiDataTrigger.Setters>
+                            <Setter Property="IsSelected"
+                                    Value="True"/>
+                        </MultiDataTrigger.Setters>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+                <Setter Property="Padding"
+                        Value="10 0"/>
+                <Setter Property="Height"
+                        Value="55"/>
+                <Setter Property="Template"
+                        Value="{StaticResource SearchResultsListBoxItemControlTemplate}"/>
+            </Style>
 
             <!-- # Converters -->
             <local:BrushToColorConverter x:Key="BrushToColorConverter"/>
@@ -147,24 +197,23 @@
             FocusManager.FocusedElement="{Binding ElementName=UserInput}">
         <StackPanel>
             <TextBox x:Name="UserInput"
-                     Foreground="{Binding Theme.InputBrush}"
+                     Style="{StaticResource UserInputTextBoxStyle}"
                      FontSize="{Binding Theme.InputFontSize}"
                      FontWeight="{Binding Theme.InputFontWeight}"
-                     CaretBrush="{Binding Theme.CaretBrush}"
                      SelectionBrush="{Binding Theme.SelectionBrush}"
                      SelectionOpacity="{Binding Theme.SelectionOpacity}"
                      Height="{Binding ElementName=searchWindow, Path=MinHeight}"
                      Background="Transparent"
                      BorderThickness="0"
-                     OverridesDefaultStyle="True"
                      Padding="10 0"
                      VerticalContentAlignment="Center"
                      cal:Message.Attach="[Event TextChanged] = [Action UserInput_TextChanged($this, $eventargs)];
                                          [Event PreviewKeyDown] = [Action UserInput_PreviewKeyDown($source, $eventargs)];
-                                         [Event PreviewKeyUp] = [Action UserInput_PreviewKeyUp($this, $eventargs)]"/>
+                                         [Event PreviewKeyUp] = [Action UserInput_PreviewKeyUp($source, $eventargs)]"/>
 
-            <ListBox x:Name="SearchResults"
-                     ItemTemplate="{StaticResource SearchResultsItemTemplate}"
+            <ListBox ItemTemplate="{StaticResource SearchResultsItemTemplate}"
+                     ItemContainerStyle="{StaticResource SearchResultsListBoxItemContainerStyle}"
+                     ItemsSource="{Binding SearchResults}"
                      SelectedItem="{Binding SelectedDisplayItem, Mode=TwoWay}"
                      Background="Transparent"
                      MaxHeight="330"
@@ -174,33 +223,7 @@
                      ScrollViewer.CanContentScroll="False"
                      cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action SearchResults_PreviewMouseLeftButtonDown($source, $eventargs)];
                                          [Event MouseLeave] = [Action SearchResults_MouseLeave($this, $eventargs)];
-                                         [Event SelectionChanged] = [Action SearchResults_SelectionChanged($source, $eventargs)]">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem"
-                           BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding ElementName=searchWindow, Path=DataContext.IsMouseOverChanged}"
-                                               Value="True"/>
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}"
-                                               Value="True"/>
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.Setters>
-                                    <Setter Property="IsSelected"
-                                            Value="True"/>
-                                </MultiDataTrigger.Setters>
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                        <Setter Property="Padding"
-                                Value="10 0"/>
-                        <Setter Property="Height"
-                                Value="55"/>
-                        <Setter Property="Template"
-                                Value="{StaticResource SearchResultsListBoxItemControlTemplate}"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+                                         [Event SelectionChanged] = [Action SearchResults_SelectionChanged($source, $eventargs)]"/>
         </StackPanel>
     </Border>
 </hc:Window>

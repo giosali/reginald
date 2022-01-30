@@ -45,6 +45,9 @@
         [JsonProperty("inputBrush")]
         public string InputBrush { get; set; }
 
+        [JsonProperty("placeholderInputBrush")]
+        public string PlaceholderInputBrush { get; set; }
+
         [JsonProperty("caretBrush")]
         public string CaretBrush { get; set; }
 
