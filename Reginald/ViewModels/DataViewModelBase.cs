@@ -16,29 +16,9 @@
     {
         private SettingsDataModel _settings = new();
 
-        private IEnumerable<ShellItem> _applications;
-
         private Theme _theme;
 
-        private IEnumerable<Keyword> _defaultKeywords;
-
-        private IEnumerable<Keyword> _userKeywords;
-
-        private IEnumerable<Keyword> _defaultResults;
-
-        private IEnumerable<Keyword> _commands;
-
-        private IEnumerable<Keyword> _httpKeywords;
-
-        private IEnumerable<Keyphrase> _utilities;
-
-        private Representation _calculator;
-
-        private Representation _link;
-
         private bool _systemUsesLightTheme;
-
-        private bool _requiresRefresh;
 
         public DataViewModelBase(bool monitorChanges)
         {
@@ -95,95 +75,23 @@
             }
         }
 
-        public IEnumerable<ShellItem> Applications
-        {
-            get => _applications;
-            set
-            {
-                _applications = value;
-                NotifyOfPropertyChange(() => Applications);
-            }
-        }
+        public IEnumerable<ShellItem> Applications { get; set; }
 
-        public IEnumerable<Keyword> DefaultKeywords
-        {
-            get => _defaultKeywords;
-            set
-            {
-                _defaultKeywords = value;
-                NotifyOfPropertyChange(() => DefaultKeywords);
-            }
-        }
+        public IEnumerable<Keyword> DefaultKeywords { get; set; }
 
-        public IEnumerable<Keyword> UserKeywords
-        {
-            get => _userKeywords;
-            set
-            {
-                _userKeywords = value;
-                NotifyOfPropertyChange(() => UserKeywords);
-            }
-        }
+        public IEnumerable<Keyword> UserKeywords { get; set; }
 
-        public IEnumerable<Keyword> DefaultResults
-        {
-            get => _defaultResults;
-            set
-            {
-                _defaultResults = value;
-                NotifyOfPropertyChange(() => DefaultResults);
-            }
-        }
+        public IEnumerable<Keyword> DefaultResults { get; set; }
 
-        public IEnumerable<Keyword> Commands
-        {
-            get => _commands;
-            set
-            {
-                _commands = value;
-                NotifyOfPropertyChange(() => Commands);
-            }
-        }
+        public IEnumerable<Keyword> Commands { get; set; }
 
-        public IEnumerable<Keyword> HttpKeywords
-        {
-            get => _httpKeywords;
-            set
-            {
-                _httpKeywords = value;
-                NotifyOfPropertyChange(() => HttpKeywords);
-            }
-        }
+        public IEnumerable<Keyword> HttpKeywords { get; set; }
 
-        public IEnumerable<Keyphrase> Utilities
-        {
-            get => _utilities;
-            set
-            {
-                _utilities = value;
-                NotifyOfPropertyChange(() => Utilities);
-            }
-        }
+        public IEnumerable<Keyphrase> Utilities { get; set; }
 
-        public Representation Calculator
-        {
-            get => _calculator;
-            set
-            {
-                _calculator = value;
-                NotifyOfPropertyChange(() => Calculator);
-            }
-        }
+        public Representation Calculator { get; set; }
 
-        public Representation Link
-        {
-            get => _link;
-            set
-            {
-                _link = value;
-                NotifyOfPropertyChange(() => Link);
-            }
-        }
+        public Representation Link { get; set; }
 
         public bool SystemUsesLightTheme
         {
@@ -195,20 +103,11 @@
                     _systemUsesLightTheme = value;
                     string filename = _systemUsesLightTheme ? ApplicationPaths.DynamicThemesJsonFilename : ApplicationPaths.ThemesJsonFilename;
                     Theme = UpdateUnit<ThemeDataModel>(filename, true, Settings.ThemeIdentifier) as Theme;
-                    NotifyOfPropertyChange(() => SystemUsesLightTheme);
                 }
             }
         }
 
-        public bool RequiresRefresh
-        {
-            get => _requiresRefresh;
-            set
-            {
-                _requiresRefresh = value;
-                NotifyOfPropertyChange(() => RequiresRefresh);
-            }
-        }
+        public bool RequiresRefresh { get; set; }
 
         private FileSystemWatcher SettingsWatcher { get; set; }
 
