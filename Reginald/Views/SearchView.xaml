@@ -52,8 +52,7 @@
                            Margin="0 0 12.5 0"/>
                     <StackPanel Grid.Column="1"
                                 Grid.ColumnSpan="2"
-                                VerticalAlignment="Center"
-                                Margin="0 0 0 5">
+                                VerticalAlignment="Center">
                         
                         <!-- ### Description -->
                         <TextBlock Text="{Binding Description}"
