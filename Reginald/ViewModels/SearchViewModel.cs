@@ -189,10 +189,18 @@
                 {
                     case Key.Up:
                         SelectedDisplayItem = SearchResults[Math.Max(SearchResults.IndexOf(SelectedDisplayItem) - 1, 0)];
+
+                        // Prevents ListBoxItem from not getting selected after switching the
+                        // selected item through arrow keys and moving mouse over it
+                        IsMouseOverChanged = false;
                         break;
 
                     case Key.Down:
                         SelectedDisplayItem = SearchResults[Math.Min(SearchResults.IndexOf(SelectedDisplayItem) + 1, SearchResults.Count - 1)];
+
+                        // Prevents ListBoxItem from not getting selected after switching the
+                        // selected item through arrow keys and moving mouse over it
+                        IsMouseOverChanged = false;
                         break;
 
                     case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:

@@ -122,12 +122,6 @@
                                       ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"/>
                 </Border>
                 <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver"
-                             Value="True">
-                        <Setter TargetName="listBoxItemBorder"
-                                Property="Background"
-                                Value="Transparent"/>
-                    </Trigger>
                     <Trigger Property="IsSelected"
                              Value="True">
                         <Setter TargetName="listBoxItemBorder"
