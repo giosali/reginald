@@ -22,7 +22,7 @@
                 string pattern = string.Format(CultureInfo.InvariantCulture, Constants.KeyphraseRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
                 matches = phrases.Where(p => p.Predicate(p, rx, cleanInput))
-                                 .Take(25);
+                                 .Take(20);
             }
 
             return Task.FromResult(matches);
