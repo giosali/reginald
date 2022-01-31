@@ -47,8 +47,8 @@
                     <!-- ### Icon -->
                     <Image Source="{Binding Icon}"
                            Grid.Column="0"
-                           Width="30"
-                           Height="30"
+                           Width="35"
+                           Height="35"
                            Margin="0 0 12.5 0"/>
                     <StackPanel Grid.Column="1"
                                 Grid.ColumnSpan="2"
