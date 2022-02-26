@@ -1,6 +1,6 @@
 ﻿namespace Reginald.Tests
 {
-    using Reginald.Core.Products;
+    using Reginald.Data.Representations;
     using Xunit;
 
     public static class LinkTests

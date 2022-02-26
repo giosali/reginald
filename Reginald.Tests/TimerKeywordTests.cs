@@ -1,7 +1,7 @@
 ﻿namespace Reginald.Tests
 {
     using System;
-    using Reginald.Core.Products;
+    using Reginald.Data.Keywords;
     using Xunit;
 
     public static class TimerKeywordTests
