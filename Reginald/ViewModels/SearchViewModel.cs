@@ -7,12 +7,14 @@
     using System.Windows.Controls;
     using System.Windows.Input;
     using Caliburn.Micro;
-    using Reginald.Core.AbstractProducts;
     using Reginald.Core.Base;
     using Reginald.Core.Collections;
     using Reginald.Core.Extensions;
-    using Reginald.Core.Helpers;
-    using Reginald.Core.Products;
+    using Reginald.Data.DisplayItems;
+    using Reginald.Data.Keyphrases;
+    using Reginald.Data.Keywords;
+    using Reginald.Data.Representations;
+    using Reginald.Data.ShellItems;
 
     public class SearchViewModel : DataViewModelBase
     {
@@ -359,7 +361,7 @@
 
         public void SearchResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            (sender as ListBox).ScrollIntoView(SelectedDisplayItem);
+            (sender as ListBox)?.ScrollIntoView(SelectedDisplayItem);
         }
 
         public void SearchResults_MouseMove(object sender, MouseEventArgs e)
@@ -375,10 +377,8 @@
 
         public void ShowOrHide()
         {
-            Window window = GetView() as Window;
-            if (window is not null)
+            if (GetView() is Window window)
             {
-                SystemUsesLightTheme = HandyControl.Tools.WindowHelper.DetermineIfInLightThemeMode();
                 if (window.IsVisible)
                 {
                     window.Hide();

@@ -1,14 +1,14 @@
 ﻿namespace Reginald.ViewModels
 {
-    using Reginald.Core.DataModels;
     using Reginald.Core.IO;
+    using Reginald.Data.Keyphrases;
 
     public class UtilitiesViewModel : KeyphraseViewModelBase
     {
         public UtilitiesViewModel()
-            : base(ApplicationPaths.UtilitiesJsonFilename)
+            : base(ApplicationPaths.UtilitiesJsonFilename, true)
         {
-            Keyphrases.AddRange(UpdateKeyphrases<UtilityDataModel>(Filename));
+            Keyphrases.AddRange(KeyphraseHelper.ToKeyphrases(UpdateData<UtilityKeyphraseDataModel>(FilePath, IsResource)));
         }
     }
 }

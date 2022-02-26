@@ -4,41 +4,42 @@
     using System.IO;
     using System.Linq;
     using Caliburn.Micro;
-    using Reginald.Core.AbstractProducts;
-    using Reginald.Core.Clients;
-    using Reginald.Core.DataModels;
-    using Reginald.Core.Factories;
     using Reginald.Core.Helpers;
     using Reginald.Core.IO;
-    using Reginald.Core.Products;
+    using Reginald.Data.Base;
+    using Reginald.Data.Keyphrases;
+    using Reginald.Data.Keywords;
+    using Reginald.Data.Representations;
+    using Reginald.Data.Settings;
+    using Reginald.Data.ShellItems;
+    using Reginald.Data.Units;
 
     public class DataViewModelBase : Screen
     {
-        private SettingsDataModel _settings = new();
+        private SettingsDataModel _settings;
 
         private Theme _theme;
-
-        private bool _systemUsesLightTheme;
 
         public DataViewModelBase(bool monitorChanges)
         {
             UpdateSettings();
-            Theme = UpdateUnit<ThemeDataModel>(ApplicationPaths.ThemesJsonFilename, true, Settings.ThemeIdentifier) as Theme;
+            UpdateTheme();
 
             if (monitorChanges)
             {
-                SystemUsesLightTheme = HandyControl.Tools.WindowHelper.DetermineIfInLightThemeMode();
-
                 Applications = UpdateShellItems();
-                DefaultKeywords = UpdateKeywords<GenericKeywordDataModel>(ApplicationPaths.KeywordsJsonFilename, true, true);
-                UserKeywords = UpdateKeywords<GenericKeywordDataModel>(ApplicationPaths.UserKeywordsJsonFilename, false, true);
-                DefaultResults = UpdateKeywords<GenericKeywordDataModel>(ApplicationPaths.DefaultResultsJsonFilename, true, true);
-                Commands = UpdateKeywords<CommandDataModel>(ApplicationPaths.CommandsJsonFilename, true, true);
-                HttpKeywords = UpdateKeywords<HttpKeywordDataModel>(ApplicationPaths.HttpKeywordsJsonFilename, true, true);
-                Utilities = UpdateKeyphrases<UtilityDataModel>(ApplicationPaths.UtilitiesJsonFilename);
-                MicrosoftSettings = UpdateKeyphrases<MicrosoftSettingDataModel>(ApplicationPaths.MicrosoftSettingsJsonFilename);
-                Calculator = UpdateRepresentation<CalculatorDataModel>(ApplicationPaths.CalculatorJsonFilename);
-                Link = UpdateRepresentation<LinkDataModel>(ApplicationPaths.LinkJsonFilename);
+
+                DefaultKeywords = KeywordHelper.ToKeywords(UpdateData<GenericKeywordDataModel>(ApplicationPaths.KeywordsJsonFilename, true).Union(UpdateData<GenericKeywordDataModel>(ApplicationPaths.KeywordsJsonFilename, false)));
+                UserKeywords = KeywordHelper.ToKeywords(UpdateData<GenericKeywordDataModel>(ApplicationPaths.UserKeywordsJsonFilename, false));
+                DefaultResults = KeywordHelper.ToKeywords(UpdateData<GenericKeywordDataModel>(ApplicationPaths.DefaultResultsJsonFilename, true));
+                Commands = KeywordHelper.ToKeywords(UpdateData<CommandKeywordDataModel>(ApplicationPaths.CommandsJsonFilename, true).Union(UpdateData<CommandKeywordDataModel>(ApplicationPaths.CommandsJsonFilename, false)));
+                HttpKeywords = KeywordHelper.ToKeywords(UpdateData<HttpKeywordDataModel>(ApplicationPaths.HttpKeywordsJsonFilename, true));
+
+                Utilities = KeyphraseHelper.ToKeyphrases(UpdateData<UtilityKeyphraseDataModel>(ApplicationPaths.UtilitiesJsonFilename, true));
+                MicrosoftSettings = KeyphraseHelper.ToKeyphrases(UpdateData<MicrosoftSettingKeyphraseDataModel>(ApplicationPaths.MicrosoftSettingsJsonFilename, true));
+
+                Calculator = RepresentationHelper.ToRepresentation(UpdateDatum<CalculatorDataModel>(ApplicationPaths.CalculatorJsonFilename, true));
+                Link = RepresentationHelper.ToRepresentation(UpdateDatum<LinkDataModel>(ApplicationPaths.LinkJsonFilename, true));
 
                 string appDataDirectoryPath = ApplicationPaths.AppDataDirectoryPath;
                 string applicationName = ApplicationPaths.ApplicationName;
@@ -93,22 +94,6 @@
 
         public Representation Link { get; set; }
 
-        public bool SystemUsesLightTheme
-        {
-            get => _systemUsesLightTheme;
-            set
-            {
-                if (_systemUsesLightTheme != value)
-                {
-                    _systemUsesLightTheme = value;
-                    string filename = _systemUsesLightTheme ? ApplicationPaths.DynamicThemesJsonFilename : ApplicationPaths.ThemesJsonFilename;
-                    Theme = UpdateUnit<ThemeDataModel>(filename, true, Settings.ThemeIdentifier) as Theme;
-                }
-            }
-        }
-
-        public bool RequiresRefresh { get; set; }
-
         private FileSystemWatcher SettingsWatcher { get; set; }
 
         private FileSystemWatcher DefaultKeywordsWatcher { get; set; }
@@ -117,72 +102,40 @@
 
         private FileSystemWatcher CommandsWatcher { get; set; }
 
-        public static Unit UpdateUnit<T>(string filename, bool isResource, string parameter)
+        public static IEnumerable<T> UpdateData<T>(string filename, bool isResource)
         {
-            IEnumerable<UnitDataModelBase> models = FileOperations.GetUnitData<T>(filename, isResource);
-            UnitDataModelBase unit = models.FirstOrDefault(m => m.Predicate(parameter)) ?? models.First();
-            UnitClient client = new(new AccessoryFactory(), unit);
-            return client.Unit;
+            string filePath = FileOperations.GetFilePath(filename, isResource);
+            return FileOperations.GetGenericData<T>(filePath);
         }
 
-        public static IEnumerable<Unit> UpdateUnits<T>(string filename, bool isResource)
+        public static T UpdateDatum<T>(string filename, bool isResource)
         {
-            IEnumerable<UnitDataModelBase> models = FileOperations.GetUnitData<T>(filename, isResource);
-            AccessoryFactory factory = new();
-            UnitClient client = new(factory, models);
-            return client.Units;
+            string filePath = FileOperations.GetFilePath(filename, isResource);
+            return FileOperations.GetGenericDatum<T>(filePath);
         }
 
-        public void UpdateTheme(string filename, bool isResource)
+        public void UpdateTheme()
         {
-            IEnumerable<ThemeDataModel> models = FileOperations.GetGenericData<ThemeDataModel>(filename, isResource);
+            string filePath = FileOperations.GetFilePath(ApplicationPaths.ThemesJsonFilename, true);
+            IEnumerable<ThemeDataModel> models = FileOperations.GetGenericData<ThemeDataModel>(filePath);
             AccessoryFactory factory = new();
             UnitClient client = new(factory, models.First(m => m.Guid == Settings.ThemeIdentifier));
             Theme = client.Unit as Theme;
         }
 
-        public IEnumerable<Keyword> UpdateKeywords<T>(string filename, bool isResource, bool filter)
+        protected void OnSettingsChanged(object sender, FileSystemEventArgs e)
         {
-            IEnumerable<KeywordDataModelBase> models = filter
-                                                     ? FileOperations.GetKeywordData<T>(filename, isResource)
-                                                                     .Where(k => k.IsEnabled)
-                                                     : FileOperations.GetKeywordData<T>(filename, isResource);
-            if (models is not null)
+            if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                KeywordClient client = new(SearchTermFactory, models);
-                return client.Keywords;
+                UpdateSettings();
+                UpdateTheme();
             }
-
-            return Enumerable.Empty<Keyword>();
-        }
-
-        public IEnumerable<Keyphrase> UpdateKeyphrases<T>(string filename)
-        {
-            IEnumerable<KeyphraseDataModelBase> models = FileOperations.GetKeyphraseData<T>(filename, true);
-            if (models is not null)
-            {
-                KeyphraseClient client = new(SearchTermFactory, models);
-                return client.Keyphrases;
-            }
-
-            return Enumerable.Empty<Keyphrase>();
-        }
-
-        private static Representation UpdateRepresentation<T>(string filename)
-        {
-            InputDataModelBase model = FileOperations.GetRepresentationDatum<T>(filename, true);
-            RepresentationFactory factory = new();
-            RepresentationClient client = new(factory, model);
-            return client.Representation;
         }
 
         private void UpdateSettings()
         {
-            SettingsDataModel settings = FileOperations.GetSettingsData(ApplicationPaths.SettingsFilename);
-            if (settings is not null)
-            {
-                Settings = settings;
-            }
+            string filePath = FileOperations.GetFilePath(ApplicationPaths.SettingsFilename, false);
+            Settings = new(filePath);
         }
 
         private IEnumerable<ShellItem> UpdateShellItems()
@@ -191,26 +144,11 @@
             return client.ShellItems;
         }
 
-        private void OnSettingsChanged(object sender, FileSystemEventArgs e)
-        {
-            if (e.ChangeType == WatcherChangeTypes.Changed)
-            {
-                UpdateSettings();
-
-                bool previousRequiresRefresh = Theme.RequiresRefresh;
-                Theme = UpdateUnit<ThemeDataModel>(ApplicationPaths.ThemesJsonFilename, true, Settings.ThemeIdentifier) as Theme;
-                if (!previousRequiresRefresh && Theme.RequiresRefresh)
-                {
-                    RequiresRefresh = Theme.RequiresRefresh;
-                }
-            }
-        }
-
         private void OnDefaultKeywordsChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                DefaultKeywords = UpdateKeywords<GenericKeywordDataModel>(ApplicationPaths.KeywordsJsonFilename, true, true);
+                DefaultKeywords = KeywordHelper.ToKeywords(UpdateData<GenericKeywordDataModel>(ApplicationPaths.KeywordsJsonFilename, true).Union(UpdateData<GenericKeywordDataModel>(ApplicationPaths.KeywordsJsonFilename, false)));
             }
         }
 
@@ -218,7 +156,7 @@
         {
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                UserKeywords = UpdateKeywords<GenericKeywordDataModel>(ApplicationPaths.UserKeywordsJsonFilename, false, true);
+                UserKeywords = KeywordHelper.ToKeywords(UpdateData<GenericKeywordDataModel>(ApplicationPaths.UserKeywordsJsonFilename, false));
             }
         }
 
@@ -226,7 +164,7 @@
         {
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                Commands = UpdateKeywords<CommandDataModel>(ApplicationPaths.CommandsJsonFilename, true, true);
+                Commands = KeywordHelper.ToKeywords(UpdateData<CommandKeywordDataModel>(ApplicationPaths.CommandsJsonFilename, true).Union(UpdateData<CommandKeywordDataModel>(ApplicationPaths.CommandsJsonFilename, false)));
             }
         }
     }

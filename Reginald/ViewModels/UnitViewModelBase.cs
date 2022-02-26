@@ -1,7 +1,7 @@
 ﻿namespace Reginald.ViewModels
 {
     using Caliburn.Micro;
-    using Reginald.Core.AbstractProducts;
+    using Reginald.Data.Units;
 
     public abstract class UnitViewModelBase<T> : ViewViewModelBase
     {

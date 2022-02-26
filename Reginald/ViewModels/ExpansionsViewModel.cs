@@ -6,15 +6,13 @@
     using System.Windows.Controls;
     using System.Windows.Input;
     using Caliburn.Micro;
-    using Reginald.Core.DataModels;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
+    using Reginald.Data.Expansions;
 
     public class ExpansionsViewModel : ViewViewModelBase
     {
-        private BindableCollection<ExpansionDataModel> _expansions = new();
-
-        private ExpansionDataModel _selectedExpansion;
+        private TextExpansion _selectedTextExpansion;
 
         private string _trigger;
 
@@ -24,30 +22,23 @@
 
         public ExpansionsViewModel()
         {
-            IEnumerable<ExpansionDataModel> expansions = FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false);
-            if (expansions is not null)
+            string filePath = FileOperations.GetFilePath(ApplicationPaths.ExpansionsJsonFilename, false);
+            IEnumerable<TextExpansion> textExpansions = FileOperations.GetGenericData<TextExpansion>(filePath);
+            if (textExpansions is not null)
             {
-                Expansions.AddRange(expansions.OrderBy(e => e.Trigger));
+                TextExpansions.AddRange(textExpansions.OrderBy(e => e.Trigger));
             }
         }
 
-        public BindableCollection<ExpansionDataModel> Expansions
-        {
-            get => _expansions;
-            set
-            {
-                _expansions = value;
-                NotifyOfPropertyChange(() => Expansions);
-            }
-        }
+        public BindableCollection<TextExpansion> TextExpansions { get; set; } = new();
 
-        public ExpansionDataModel SelectedExpansion
+        public TextExpansion SelectedTextExpansion
         {
-            get => _selectedExpansion;
+            get => _selectedTextExpansion;
             set
             {
-                _selectedExpansion = value;
-                NotifyOfPropertyChange(() => SelectedExpansion);
+                _selectedTextExpansion = value;
+                NotifyOfPropertyChange(() => SelectedTextExpansion);
             }
         }
 
@@ -85,7 +76,7 @@
         {
             if (!IsBeingEdited)
             {
-                SelectedExpansion = null;
+                SelectedTextExpansion = null;
             }
         }
 
@@ -94,30 +85,30 @@
             FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
         }
 
-        public void Expansions_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        public void TextExpansions_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             IsBeingEdited = true;
         }
 
-        public void Expansions_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        public void TextExpansions_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             IsBeingEdited = false;
         }
 
-        public void Expansions_LostFocus(object sender, RoutedEventArgs e)
+        public void TextExpansions_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!IsBeingEdited && SelectedExpansion is not null)
+            if (!IsBeingEdited && SelectedTextExpansion is not null)
             {
                 // Find out if there are any duplicate triggers
                 bool exists = false;
-                for (int i = 0; i < Expansions.Count; i++)
+                for (int i = 0; i < TextExpansions.Count; i++)
                 {
-                    ExpansionDataModel expansion = Expansions[i];
-                    for (int j = 0; j < Expansions.Count; j++)
+                    TextExpansion expansion = TextExpansions[i];
+                    for (int j = 0; j < TextExpansions.Count; j++)
                     {
                         if (i != j)
                         {
-                            ExpansionDataModel comparisonExpansion = Expansions[j];
+                            TextExpansion comparisonExpansion = TextExpansions[j];
                             if (expansion.Trigger == comparisonExpansion.Trigger)
                             {
                                 exists = true;
@@ -141,24 +132,25 @@
                 }
                 else
                 {
-                    FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, Expansions.Serialize());
+                    FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, TextExpansions.Serialize());
                 }
 
-                SelectedExpansion = null;
+                SelectedTextExpansion = null;
 
                 // Reread from file to refresh the expansions
-                Expansions.Clear();
-                Expansions.AddRange(FileOperations.GetGenericData<ExpansionDataModel>(ApplicationPaths.ExpansionsJsonFilename, false));
+                TextExpansions.Clear();
+                string filePath = FileOperations.GetFilePath(ApplicationPaths.ExpansionsJsonFilename, false);
+                TextExpansions.AddRange(FileOperations.GetGenericData<TextExpansion>(filePath));
             }
         }
 
         public void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsBeingEdited && SelectedExpansion is not null)
+            if (!IsBeingEdited && SelectedTextExpansion is not null)
             {
-                if (Expansions.Remove(SelectedExpansion))
+                if (TextExpansions.Remove(SelectedTextExpansion))
                 {
-                    FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, Expansions.Serialize());
+                    FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, TextExpansions.Serialize());
                 }
             }
         }
@@ -167,9 +159,9 @@
         {
             // Verify that the trigger name doesn't already exist
             bool exists = false;
-            for (int i = 0; i < Expansions.Count; i++)
+            for (int i = 0; i < TextExpansions.Count; i++)
             {
-                ExpansionDataModel expansion = Expansions[i];
+                TextExpansion expansion = TextExpansions[i];
                 if (expansion.Trigger == Trigger)
                 {
                     exists = true;
@@ -185,13 +177,13 @@
             }
             else
             {
-                Expansions.Add(new ExpansionDataModel()
+                TextExpansions.Add(new TextExpansion()
                 {
                     Trigger = Trigger,
                     Replacement = Replacement,
                 });
 
-                FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, Expansions.Serialize());
+                FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, TextExpansions.Serialize());
                 Trigger = Replacement = null;
             }
         }

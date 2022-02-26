@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.18362.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Reginald.ico</ApplicationIcon>
     <Version>0.10.0</Version>
@@ -31,6 +31,8 @@
     <None Remove="Images\instagram.png" />
     <None Remove="Images\pinterest.png" />
     <None Remove="Images\reddit.png" />
+    <None Remove="Images\Results\image.png" />
+    <None Remove="Images\Results\text.png" />
     <None Remove="Images\Settings\settings.png" />
     <None Remove="Images\HttpKeywords\ip_address.png" />
     <None Remove="Images\HttpKeywords\stock_decrease.png" />
@@ -46,7 +48,6 @@
     <None Remove="Resources\Calculator.json" />
     <None Remove="Resources\Commands.json" />
     <None Remove="Resources\DefaultResults.json" />
-    <None Remove="Resources\DynamicThemes.json" />
     <None Remove="Resources\HttpKeywords.json" />
     <None Remove="Resources\Keywords.json" />
     <None Remove="Resources\Link.json" />
@@ -70,9 +71,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\DefaultResults.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\DynamicThemes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\HttpKeywords.json">
@@ -102,8 +100,9 @@
     <PackageReference Include="Caliburn.Micro" Version="4.0.173" />
     <PackageReference Include="FluentWPF" Version="0.9.0" />
     <PackageReference Include="HandyControls" Version="3.3.11" />
+    <PackageReference Include="HotkeyUtility" Version="1.2.0" />
     <PackageReference Include="NHotkey.Wpf" Version="2.1.0" />
-    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.376">
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.406">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -111,6 +110,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Reginald.Core\Reginald.Core.csproj" />
+    <ProjectReference Include="..\Reginald.Data\Reginald.Data.csproj" />
+    <ProjectReference Include="..\Reginald.Services\Reginald.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -157,6 +158,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\reginald.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Results\image.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Results\text.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Settings\settings.png">

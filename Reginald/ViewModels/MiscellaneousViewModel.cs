@@ -3,7 +3,7 @@
     public class MiscellaneousViewModel : KeywordViewModelBase
     {
         public MiscellaneousViewModel()
-            : base(null)
+            : base(null, true)
         {
         }
     }

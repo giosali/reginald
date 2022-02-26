@@ -1,14 +1,15 @@
 ﻿namespace Reginald.ViewModels
 {
-    using Reginald.Core.DataModels;
+    using System.Collections.Generic;
     using Reginald.Core.IO;
+    using Reginald.Data.Keywords;
 
     public class CommandsViewModel : KeywordViewModelBase
     {
         public CommandsViewModel()
-            : base(ApplicationPaths.CommandsJsonFilename)
+            : base(ApplicationPaths.CommandsJsonFilename, true)
         {
-            Keywords.AddRange(UpdateKeywords<CommandDataModel>(Filename, true, false));
+            Keywords.AddRange(KeywordHelper.ToKeywords(UpdateData<CommandKeywordDataModel>(FilePath, IsResource)));
         }
     }
 }

@@ -60,8 +60,8 @@
                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
                            Text="Your expansions"/>
 
-                <DataGrid ItemsSource="{Binding Expansions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedExpansion, Mode=TwoWay}"
+                <DataGrid ItemsSource="{Binding TextExpansions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedTextExpansion, Mode=TwoWay}"
                           RowHeight="{x:Static sys:Double.NaN}"
                           AutoGenerateColumns="False"
                           CanUserAddRows="False"
@@ -70,16 +70,16 @@
                           CanUserResizeColumns="False"
                           SelectionMode="Single"
                           HeadersVisibility="Column"
-                          cal:Message.Attach="[Event LostFocus] = [Action Expansions_LostFocus($this, $eventargs)];
-                                              [Event BeginningEdit] = [Action Expansions_BeginningEdit($this, $eventargs)];
-                                              [Event CellEditEnding] = [Action Expansions_CellEditEnding($this, $eventargs)]">
+                          cal:Message.Attach="[Event LostFocus] = [Action TextExpansions_LostFocus($this, $eventargs)];
+                                              [Event BeginningEdit] = [Action TextExpansions_BeginningEdit($this, $eventargs)];
+                                              [Event CellEditEnding] = [Action TextExpansions_CellEditEnding($this, $eventargs)]">
                     <DataGrid.ContextMenu>
                         <ContextMenu >
                             <ContextMenu.Style>
                                 <Style TargetType="{x:Type ContextMenu}"
                                        BasedOn="{StaticResource ContextMenuBaseStyle}">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding SelectedExpansion}"
+                                        <DataTrigger Binding="{Binding SelectedTextExpansion}"
                                                      Value="{x:Null}">
                                             <Setter Property="Visibility"
                                                     Value="Collapsed"/>

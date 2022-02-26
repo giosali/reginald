@@ -1,34 +1,31 @@
-﻿<hc:Window x:Name="searchWindow"
-           x:Class="Reginald.Views.SearchView"
-           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-           xmlns:local="clr-namespace:Reginald.Converters"
-           xmlns:cal="http://www.caliburnproject.org"
-           xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
-           xmlns:hc="https://handyorg.github.io/handycontrol"
-           mc:Ignorable="d"
-           Title="Search"
-           Height="65"
-           MinHeight="65"
-           Width="600"
-           FontFamily="{Binding Theme.FontFamily}"
-           ResizeMode="NoResize"
-           SizeToContent="Height"
-           BorderThickness="0"
-           WindowStartupLocation="Manual"
-           WindowStyle="None"
-           Topmost="True"
-           ShowInTaskbar="False"
-           ApplyBackdropMaterial="{Binding ElementName=searchWindow, Path=DataContext.Theme.IsMicaEnabled, UpdateSourceTrigger=PropertyChanged}"
-           ShowNonClientArea="False"
-           fw:AcrylicWindow.Enabled="{Binding Theme.IsAcrylicEnabled}"
-           fw:AcrylicWindow.TintColor="{Binding Theme.BackgroundColor}"
-           fw:AcrylicWindow.TintOpacity="{Binding Theme.TintOpacity}"
-           fw:AcrylicWindow.NoiseOpacity="0"
-           fw:AcrylicWindow.AcrylicWindowStyle="None"
-           cal:Message.Attach="[Event KeyDown] = [Action SearchWindow_KeyDown($this, $eventargs)]">
+﻿<Window x:Name="searchWindow"
+        x:Class="Reginald.Views.SearchView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Reginald.Converters"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        mc:Ignorable="d"
+        Title="Search"
+        Height="65"
+        MinHeight="65"
+        Width="600"
+        FontFamily="{Binding Theme.FontFamily}"
+        ResizeMode="NoResize"
+        SizeToContent="Height"
+        BorderThickness="0"
+        WindowStartupLocation="Manual"
+        WindowStyle="None"
+        Topmost="True"
+        ShowInTaskbar="False"
+        fw:AcrylicWindow.Enabled="True"
+        fw:AcrylicWindow.TintColor="{Binding Theme.BackgroundColor}"
+        fw:AcrylicWindow.TintOpacity="{Binding Theme.TintOpacity}"
+        fw:AcrylicWindow.NoiseOpacity="0"
+        fw:AcrylicWindow.AcrylicWindowStyle="None"
+        cal:Message.Attach="[Event KeyDown] = [Action SearchWindow_KeyDown($this, $eventargs)]">
     <Window.Resources>
         <ResourceDictionary>
             <!-- # Templates-->
@@ -171,6 +168,7 @@
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
                 </Style.Triggers>
+                
                 <Setter Property="Padding"
                         Value="10 0"/>
                 <Setter Property="Height"
@@ -219,4 +217,4 @@
                                          [Event SelectionChanged] = [Action SearchResults_SelectionChanged($source, $eventargs)]"/>
         </StackPanel>
     </Border>
-</hc:Window>
+</Window>

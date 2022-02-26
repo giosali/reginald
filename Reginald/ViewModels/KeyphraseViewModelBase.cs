@@ -3,33 +3,28 @@
     using System.Linq;
     using System.Windows;
     using Caliburn.Micro;
-    using Reginald.Core.AbstractProducts;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
+    using Reginald.Data.Keyphrases;
 
     public abstract class KeyphraseViewModelBase : DataViewModelBase
     {
-        private string _filename;
-
         private BindableCollection<Keyphrase> _keyphrases = new();
 
         private Keyphrase _selectedKeyphrase;
 
-        public KeyphraseViewModelBase(string filename)
+        public KeyphraseViewModelBase(string filename, bool isResource)
             : base(false)
         {
             Filename = filename;
+            IsResource = isResource;
         }
 
-        public string Filename
-        {
-            get => _filename;
-            set
-            {
-                _filename = value;
-                NotifyOfPropertyChange(() => Filename);
-            }
-        }
+        public string Filename { get; set; }
+
+        public bool IsResource { get; set; }
+
+        public string FilePath => FileOperations.GetFilePath(Filename, IsResource);
 
         public BindableCollection<Keyphrase> Keyphrases
         {

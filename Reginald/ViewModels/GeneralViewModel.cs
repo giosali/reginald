@@ -9,7 +9,6 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using Reginald.Core.Extensions;
     using Reginald.Core.IO;
     using Reginald.Core.Utilities;
 
@@ -67,20 +66,20 @@
             if (SelectedKey != Key.None)
             {
                 Settings.SearchBoxKey = SelectedKey.ToString();
-                FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+                Settings.Save();
             }
         }
 
         public void SelectedModifierKeyOne_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Settings.SearchBoxModifierOne = SelectedModifierKeyOne.ToString();
-            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+            Settings.Save();
         }
 
         public void SelectedModifierKeyTwo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Settings.SearchBoxModifierTwo = SelectedModifierKeyTwo.ToString();
-            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+            Settings.Save();
         }
 
         public void LaunchOnStartupToggleButton_Click(object sender, RoutedEventArgs e)
@@ -90,7 +89,7 @@
                 FileOperations.DeleteShortcut();
             }
 
-            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+            Settings.Save();
         }
 
         public void RestartButton_Click(object sender, RoutedEventArgs e)

@@ -1,32 +1,18 @@
 ﻿namespace Reginald.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using Reginald.Core.AbstractProducts;
-    using Reginald.Core.DataModels;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
-    using Reginald.Core.Products;
+    using Reginald.Data.Units;
 
     public class ThemesViewModel : UnitViewModelBase<Theme>
     {
         public ThemesViewModel()
         {
-            int build = Environment.OSVersion.Version.Build;
-            IEnumerable<Unit> units = UpdateUnits<ThemeDataModel>(ApplicationPaths.ThemesJsonFilename, true).Where(unit =>
-            {
-                Theme theme = unit as Theme;
-                if (theme.MinimumBuild >= Theme.Windows11Build)
-                {
-                    return build >= theme.MinimumBuild;
-                }
-
-                return true;
-            });
-            Units.AddRange(units);
+            string filePath = FileOperations.GetFilePath(ApplicationPaths.ThemesJsonFilename, true);
+            Units.AddRange(UnitHelper.ToUnits(UpdateData<ThemeDataModel>(filePath, true)));
             SelectedUnit = Units.First(u => u.Guid.ToString() == Settings.ThemeIdentifier) as Theme;
         }
 

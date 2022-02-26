@@ -7,12 +7,10 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using Reginald.Core.AbstractProducts;
-    using Reginald.Core.DataModels;
     using Reginald.Core.Extensions;
     using Reginald.Core.Helpers;
     using Reginald.Core.IO;
-    using Reginald.Core.Products;
+    using Reginald.Data.Keywords;
 
     public class UserKeywordsViewModel : KeywordViewModelBase
     {
@@ -23,9 +21,9 @@
         private bool _isBeingEdited;
 
         public UserKeywordsViewModel()
-            : base(ApplicationPaths.UserKeywordsJsonFilename)
+            : base(ApplicationPaths.UserKeywordsJsonFilename, false)
         {
-            IEnumerable<Keyword> keywords = UpdateKeywords<GenericKeywordDataModel>(Filename, false, false);
+            IEnumerable<Keyword> keywords = KeywordHelper.ToKeywords(UpdateData<GenericKeywordDataModel>(FilePath, IsResource));
             foreach (Keyword keyword in keywords)
             {
                 keyword.Description = string.Format(keyword.Format, keyword.Placeholder);

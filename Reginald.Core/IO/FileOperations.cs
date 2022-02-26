@@ -7,8 +7,6 @@
     using System.Linq;
     using System.Runtime.InteropServices;
     using Newtonsoft.Json;
-    using Reginald.Core.DataModels;
-    using Reginald.Core.Extensions;
 
     public static class FileOperations
     {
@@ -84,118 +82,14 @@
             }
         }
 
-        public static IEnumerable<KeywordDataModelBase> GetKeywordData<T>(string filename, bool isResource)
+        public static IEnumerable<T> GetGenericData<T>(string filePath)
         {
-            string resourceFilePath = GetFilePath(filename, isResource);
-            IEnumerable<KeywordDataModelBase> models = DeserializeFile<IEnumerable<T>>(resourceFilePath) as IEnumerable<KeywordDataModelBase> ?? Enumerable.Empty<KeywordDataModelBase>();
-
-            // Disable models that aren't supposed to be enabled
-            if (isResource)
-            {
-                string localFilePath = GetFilePath(filename, false);
-                IEnumerable<KeywordDataModelBase> disabledModels = DeserializeFile<IEnumerable<T>>(localFilePath) as IEnumerable<KeywordDataModelBase> ?? Enumerable.Empty<KeywordDataModelBase>();
-
-                foreach (KeywordDataModelBase disabledModel in disabledModels)
-                {
-                    foreach (KeywordDataModelBase model in models)
-                    {
-                        if (model == disabledModel)
-                        {
-                            model.IsEnabled = false;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return models;
+            return DeserializeFile<IEnumerable<T>>(filePath) ?? Enumerable.Empty<T>();
         }
 
-        public static IEnumerable<KeyphraseDataModelBase> GetKeyphraseData<T>(string filename, bool isResource)
+        public static T GetGenericDatum<T>(string filePath)
         {
-            string resourceFilePath = GetFilePath(filename, isResource);
-            IEnumerable<KeyphraseDataModelBase> models = DeserializeFile<IEnumerable<T>>(resourceFilePath) as IEnumerable<KeyphraseDataModelBase> ?? Enumerable.Empty<KeyphraseDataModelBase>();
-
-            // Disable models that aren't supposed to be enabled
-            if (isResource)
-            {
-                string localFilePath = GetFilePath(filename, false);
-                IEnumerable<KeyphraseDataModelBase> disabledModels = DeserializeFile<IEnumerable<T>>(localFilePath) as IEnumerable<KeyphraseDataModelBase> ?? Enumerable.Empty<KeyphraseDataModelBase>();
-
-                foreach (KeyphraseDataModelBase disabledModel in disabledModels)
-                {
-                    foreach (KeyphraseDataModelBase model in models)
-                    {
-                        if (model == disabledModel)
-                        {
-                            model.IsEnabled = false;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return models;
-        }
-
-        public static IEnumerable<UnitDataModelBase> GetUnitData<T>(string filename, bool isResource)
-        {
-            string resourceFilePath = GetFilePath(filename, isResource);
-            IEnumerable<UnitDataModelBase> models = DeserializeFile<IEnumerable<T>>(resourceFilePath) as IEnumerable<UnitDataModelBase> ?? Enumerable.Empty<UnitDataModelBase>();
-
-            // Combine local models to resource models
-            if (isResource)
-            {
-                string localFilePath = GetFilePath(filename, false);
-                models = models.Concat(DeserializeFile<IEnumerable<T>>(localFilePath) as IEnumerable<UnitDataModelBase> ?? Enumerable.Empty<UnitDataModelBase>());
-            }
-
-            return models;
-        }
-
-        public static SettingsDataModel GetSettingsData(string filename)
-        {
-            string filePath = GetFilePath(filename, false);
-            SettingsDataModel protoSettings = DeserializeFile<SettingsDataModel>(filePath);
-
-            // Assign properties
-            SettingsDataModel settings = new()
-            {
-                IncludeInstalledApplications = protoSettings?.IncludeInstalledApplications ?? true,
-                IncludeDefaultKeywords = protoSettings?.IncludeDefaultKeywords ?? true,
-                IncludeHttpKeywords = protoSettings?.IncludeHttpKeywords ?? true,
-                IncludeCommands = protoSettings?.IncludeCommands ?? true,
-                IncludeUtilities = protoSettings?.IncludeUtilities ?? true,
-                IncludeSettingsPages = protoSettings?.IncludeSettingsPages ?? true,
-                AreExpansionsEnabled = protoSettings?.AreExpansionsEnabled ?? true,
-                LaunchOnStartup = protoSettings?.LaunchOnStartup ?? true,
-                SearchBoxKey = protoSettings?.SearchBoxKey ?? "Space",
-                SearchBoxModifierOne = protoSettings?.SearchBoxModifierOne ?? "Alt",
-                SearchBoxModifierTwo = protoSettings?.SearchBoxModifierTwo ?? "None",
-                ThemeIdentifier = protoSettings?.ThemeIdentifier ?? "553a4cdf-11c6-49ce-b634-7ce6945f6958",
-            };
-            return settings;
-        }
-
-        public static IEnumerable<T> GetGenericData<T>(string filename, bool isResource)
-        {
-            string filePath = GetFilePath(filename, isResource);
-            IEnumerable<T> models = DeserializeFile<IEnumerable<T>>(filePath);
-            return models;
-        }
-
-        public static T GetGenericDatum<T>(string filename, bool isResource)
-        {
-            string filePath = GetFilePath(filename, isResource);
-            T model = DeserializeFile<T>(filePath);
-            return model;
-        }
-
-        public static InputDataModelBase GetRepresentationDatum<T>(string filename, bool isResource)
-        {
-            string filePath = GetFilePath(filename, isResource);
-            InputDataModelBase model = DeserializeFile<T>(filePath) as InputDataModelBase;
-            return model;
+            return DeserializeFile<T>(filePath);
         }
 
         public static string GetFilePath(string filename, bool isResource)
@@ -207,35 +101,7 @@
             return Path.Combine(isResource ? resourcesDirectoryPath : applicationAppDataDirectoryPath, filename);
         }
 
-        public static void SetUp()
-        {
-            string appDataDirectoryPath = ApplicationPaths.AppDataDirectoryPath;
-            string applicationName = ApplicationPaths.ApplicationName;
-            string applicationAppDataDirectoryPath = Path.Combine(appDataDirectoryPath, applicationName);
-
-            // Creates "Reginald" in %AppData%
-            _ = Directory.CreateDirectory(applicationAppDataDirectoryPath);
-
-            // Creates "Reginald\UserIcons" in %AppData%
-            string userIconsDirectoryName = ApplicationPaths.UserIconsDirectoryName;
-            string userIconsDirectoryPath = Path.Combine(appDataDirectoryPath, applicationName, userIconsDirectoryName);
-            _ = Directory.CreateDirectory(userIconsDirectoryPath);
-
-            // Creates and updates "Reginald\Settings.json" in %AppData%
-            SettingsDataModel settings = GetSettingsData(ApplicationPaths.SettingsFilename);
-            WriteFile(ApplicationPaths.SettingsFilename, settings.Serialize());
-
-            // Creates "Reginald\Expansions.json" in %AppData%
-            WriteFile(ApplicationPaths.ExpansionsJsonFilename);
-
-            // Creates "Reginald\Keywords.json" in %AppData%
-            WriteFile(ApplicationPaths.KeywordsJsonFilename);
-
-            // Creates "Reginald\UserKeywords.json" in %AppData%
-            WriteFile(ApplicationPaths.UserKeywordsJsonFilename);
-        }
-
-        private static T DeserializeFile<T>(string filePath)
+        public static T DeserializeFile<T>(string filePath)
         {
             T type = default;
 
@@ -261,6 +127,21 @@
             }
 
             return type;
+        }
+
+        public static void SetUp()
+        {
+            string appDataDirectoryPath = ApplicationPaths.AppDataDirectoryPath;
+            string applicationName = ApplicationPaths.ApplicationName;
+            string applicationAppDataDirectoryPath = Path.Combine(appDataDirectoryPath, applicationName);
+
+            // Creates "Reginald" in %AppData%
+            _ = Directory.CreateDirectory(applicationAppDataDirectoryPath);
+
+            // Creates "Reginald\UserIcons" in %AppData%
+            string userIconsDirectoryName = ApplicationPaths.UserIconsDirectoryName;
+            string userIconsDirectoryPath = Path.Combine(appDataDirectoryPath, applicationName, userIconsDirectoryName);
+            _ = Directory.CreateDirectory(userIconsDirectoryPath);
         }
     }
 }
