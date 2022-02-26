@@ -21,6 +21,9 @@
 	<a href="https://github.com/giosali/reginald/actions/workflows/ci.yml">
 		<img src="https://github.com/giosali/reginald/actions/workflows/ci.yml/badge.svg" alt="CI Workflow">
 	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/downloads/giosali/reginald/total" alt="Total Number of Downloads">
+	</a href="https://github.com/giosali/reginald/releases">
 	<a href="https://github.com/giosali/reginald/blob/main/LICENSE">
 		<img src="https://img.shields.io/github/license/giosali/reginald" alt="MIT License">
 	</a>
