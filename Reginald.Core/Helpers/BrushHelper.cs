@@ -1,5 +1,6 @@
 ﻿namespace Reginald.Core.Helpers
 {
+    using System;
     using System.Reflection;
     using System.Windows.Media;
 
@@ -8,6 +9,29 @@
         public static Brush SolidColorBrushFromString(string expression)
         {
             return expression is null ? null : (SolidColorBrush)new BrushConverter().ConvertFromString(expression);
+        }
+
+        public static bool TryFromString(string expression, out Brush brush)
+        {
+            if (!expression.StartsWith("#"))
+            {
+                expression = expression.Insert(0, "#");
+            }
+
+            if (expression.Length == 7)
+            {
+                try
+                {
+                    brush = (Brush)new BrushConverter().ConvertFromString(expression);
+                    return true;
+                }
+                catch (FormatException)
+                {
+                }
+            }
+
+            brush = null;
+            return false;
         }
 
         public static bool TryGetName(Brush brush, out string name)

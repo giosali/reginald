@@ -1,12 +1,13 @@
 ﻿namespace Reginald.ViewModels
 {
+    using System.Collections.Generic;
     using System.Windows;
-    using System.Windows.Input;
     using Caliburn.Micro;
-    using Reginald.Commanding;
-    using Reginald.Core.Extensions;
-    using Reginald.Core.InputInjection;
+    using HotkeyUtility.Input;
     using Reginald.Core.IO;
+    using Reginald.Data.Expansions;
+    using Reginald.Services.Clipboard;
+    using Reginald.Services.Hooks;
 
     public class ShellViewModel : Conductor<object>
     {
@@ -15,18 +16,25 @@
         public ShellViewModel()
         {
             FileOperations.SetUp();
+            SearchView.Settings.Save();
             if (SearchView.Settings.LaunchOnStartup)
             {
                 _ = FileOperations.TryCreateShortcut();
             }
 
-            OpenWindowCommand = new OpenWindowCommand(ExecuteMethod, CanExecuteMethod);
-
-            KeyboardHook keyboardHook = new(Hook.Expansion);
+            // Adds low-level hook for text expansions
+            KeyboardHook keyboardHook = new();
             keyboardHook.Add();
+            TextExpansionManager = new(SearchView.Settings);
+            keyboardHook.KeyPressed += TextExpansionManager.KeyPressed;
+
+            // Adds listener for Clipboard
+            ClipboardUtility.GetClipboardUtility(GetView() as Window);
         }
 
         public SearchViewModel SearchView { get; set; } = new();
+
+        public ClipboardManagerPopupViewModel ClipboardManagerPopup { get; set; } = new();
 
         public bool IsEnabled
         {
@@ -38,7 +46,47 @@
             }
         }
 
-        public ICommand OpenWindowCommand { get; set; }
+        private TextExpansionManager TextExpansionManager { get; set; }
+
+        public async void SearchWindowHotkeyBinding_Pressed(object sender, HotkeyEventArgs e)
+        {
+            if (IsEnabled)
+            {
+                IWindowManager manager = new WindowManager();
+                if (SearchView.IsActive)
+                {
+                    // Closes search window and empties the input
+                    SearchView.UserInput = string.Empty;
+                    SearchView.ShowOrHide();
+                }
+                else
+                {
+                    // Opens search window
+                    await manager.ShowWindowAsync(SearchView);
+                }
+            }
+        }
+
+        public async void ClipboardManagerPopupHotkeyBinding_Pressed(object sender, HotkeyEventArgs e)
+        {
+            if (ClipboardManagerPopup.IsActive)
+            {
+                ClipboardManagerPopup.ShowOrHide();
+            }
+            else
+            {
+                IWindowManager manager = new WindowManager();
+                Dictionary<string, object> settings = new();
+
+                // Allows popup to use acrylic material
+                settings.Add("AllowsTransparency", false);
+                settings.Add("PopupAnimation", System.Windows.Controls.Primitives.PopupAnimation.Fade);
+
+                // Allows popup to remain draggable when sending its handle WM_NCLBUTTONDOWN
+                settings.Add("StaysOpen", true);
+                await manager.ShowPopupAsync(ClipboardManagerPopup, settings: settings);
+            }
+        }
 
         public void OpenSettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -53,36 +101,7 @@
                 FileOperations.DeleteShortcut();
             }
 
-            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, SearchView.Settings.Serialize());
-        }
-
-        private bool CanExecuteMethod(object parameter)
-        {
-            return true;
-        }
-
-        private async void ExecuteMethod(object parameter)
-        {
-            if (IsEnabled)
-            {
-                // Refreshes the SearchView when the theme is switched
-                // to a theme that requires a refresh
-                if (SearchView.RequiresRefresh)
-                {
-                    SearchView = new();
-                }
-
-                IWindowManager manager = new WindowManager();
-                if (!SearchView.IsActive)
-                {
-                    await manager.ShowWindowAsync(SearchView);
-                }
-                else
-                {
-                    SearchView.UserInput = string.Empty;
-                    SearchView.ShowOrHide();
-                }
-            }
+            SearchView.Settings.Save();
         }
     }
 }

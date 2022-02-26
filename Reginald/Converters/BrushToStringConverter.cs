@@ -11,6 +11,20 @@
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (parameter is string format && value is SolidColorBrush solidColorBrush)
+            {
+                try
+                {
+                    return string.Format(format, solidColorBrush.Color.R, solidColorBrush.Color.G, solidColorBrush.Color.B);
+                }
+                catch (Exception ex)
+                {
+                    if (ex is FormatException || ex is ArgumentException)
+                    {
+                    }
+                }
+            }
+
             Brush brush = value as Brush;
             _ = BrushHelper.TryGetName(brush, out string name);
             return name;

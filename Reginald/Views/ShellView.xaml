@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Reginald.Views"
+        xmlns:local="clr-namespace:Reginald.Converters"
         xmlns:cal="http://caliburnmicro.com"
         xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:hu="clr-namespace:HotkeyUtility.Controls;assembly=HotkeyUtility"
         mc:Ignorable="d"
         Title="Reginald Shell"
         Height="1"
@@ -14,36 +15,53 @@
         AllowsTransparency="True"
         ShowInTaskbar="False"
         Visibility="Hidden">
-    <Window.InputBindings>
-        <KeyBinding Gesture="{x:Static local:ShellView.SearchBoxKeyGesture}"
-                    Command="{Binding OpenWindowCommand}"
-                    HotkeyManager.RegisterGlobalHotkey="True"/>
-    </Window.InputBindings>
-    
-    <hc:TransitioningContentControl>
-        <hc:NotifyIcon Text="Reginald v0.10.0"
-                       Icon="pack://application:,,,/Reginald;component/Reginald.ico">
-            <hc:NotifyIcon.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Open Settings"
-                              cal:Message.Attach="[Event Click] = [Action OpenSettingsMenuItem_Click($this, $eventargs)]"/>
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:StringsToKeyBindingConverter x:Key="StringsToKeyBindingConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
 
-                    <Separator/>
+    <Grid>
+        <hu:VisualHotkey cal:Message.Attach="[Event Pressed] = [Action SearchWindowHotkeyBinding_Pressed($this, $eventargs)]">
+            <hu:VisualHotkey.Combination>
+                <MultiBinding Converter="{StaticResource StringsToKeyBindingConverter}">
+                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
+                             Path="DataContext.SearchView.Settings.SearchBoxKey"/>
+                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
+                             Path="DataContext.SearchView.Settings.SearchBoxModifierOne"/>
+                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
+                             Path="DataContext.SearchView.Settings.SearchBoxModifierTwo"/>
+                </MultiBinding>
+            </hu:VisualHotkey.Combination>
+        </hu:VisualHotkey>
+        <hu:VisualHotkey Combination="Control + Space"
+                         cal:Message.Attach="[Event Pressed] = [Action ClipboardManagerPopupHotkeyBinding_Pressed($this, $eventargs)]"/>
 
-                    <MenuItem IsChecked="{Binding IsEnabled}"
-                              IsCheckable="True"
-                              Header="Search Box Enabled"/>
-                    <MenuItem IsChecked="{Binding SearchView.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              IsCheckable="True"
-                              Header="Launch on Startup"
-                              cal:Message.Attach="[Event Click] = [Action LaunchOnStartupMenuItem_Click($this, $eventargs)]"/>
-                    
-                    <Separator/>
-                    
-                    <MenuItem Header="Exit"
-                              Command="hc:ControlCommands.ShutdownApp"/>
-                </ContextMenu>
-            </hc:NotifyIcon.ContextMenu>
-        </hc:NotifyIcon>
-    </hc:TransitioningContentControl>
+        <hc:TransitioningContentControl>
+            <hc:NotifyIcon Text="Reginald v0.10.0"
+                           Icon="pack://application:,,,/Reginald;component/Reginald.ico">
+                <hc:NotifyIcon.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Open Settings"
+                                  cal:Message.Attach="[Event Click] = [Action OpenSettingsMenuItem_Click($this, $eventargs)]"/>
+
+                        <Separator/>
+
+                        <MenuItem IsChecked="{Binding IsEnabled}"
+                                  IsCheckable="True"
+                                  Header="Search Box Enabled"/>
+                        <MenuItem IsChecked="{Binding SearchView.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  IsCheckable="True"
+                                  Header="Launch on Startup"
+                                  cal:Message.Attach="[Event Click] = [Action LaunchOnStartupMenuItem_Click($this, $eventargs)]"/>
+
+                        <Separator/>
+
+                        <MenuItem Header="Exit"
+                                  Command="hc:ControlCommands.ShutdownApp"/>
+                    </ContextMenu>
+                </hc:NotifyIcon.ContextMenu>
+            </hc:NotifyIcon>
+        </hc:TransitioningContentControl>
+    </Grid>
 </Window>
