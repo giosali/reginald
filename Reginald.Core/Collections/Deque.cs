@@ -1,10 +1,11 @@
 ﻿namespace Reginald.Core.Collections
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class Deque<T>
+    public class Deque<T> : IEnumerable<T>
     {
         public Deque(int maxLength)
         {
@@ -72,6 +73,16 @@
             T returnValue = List.First();
             List.RemoveFirst();
             return returnValue;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return List.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return List.GetEnumerator();
         }
     }
 }
