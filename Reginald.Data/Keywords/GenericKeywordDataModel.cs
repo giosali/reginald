@@ -2,8 +2,22 @@
 {
     using Newtonsoft.Json;
 
-    public class GenericKeywordDataModel : KeywordDataModelBase
+    public class GenericKeywordDataModel : DataModelBase, IKeywordDataModel
     {
+        public string Name { get; set; }
+
+        public string Keyword { get; set; }
+
+        public string Icon { get; set; }
+
+        public string Format { get; set; }
+
+        public string Placeholder { get; set; }
+
+        public string Caption { get; set; }
+
+        public bool IsEnabled { get; set; }
+
         [JsonProperty("url")]
         public string Url { get; set; }
 

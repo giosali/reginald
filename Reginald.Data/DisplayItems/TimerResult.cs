@@ -1,88 +1,70 @@
 ﻿namespace Reginald.Data.DisplayItems
 {
     using System;
-    using System.Threading.Tasks;
+    using System.Collections.Generic;
     using System.Timers;
     using Reginald.Data.Keywords;
     using Reginald.Services.Notifications;
 
-    public class TimerResult : SearchResult
+    public partial class TimerResult : SearchResult
     {
         private const string TimerDescriptionFormat = "{0}:{1:D2}:{2:D2}";
 
         private const string AltCaption = "Cancel Timer?";
 
-        private double _time;
-
-        private Timer _timer;
-
-        private string _originalDescription;
-
         public TimerResult(TimerKeyword keyword)
+            : base(keyword)
         {
             Guid = Guid.NewGuid();
-            Name = keyword.Name;
             Icon = keyword.Icon;
             Caption = keyword.Completion;
             Time = keyword.Time;
             TimeSpan span = TimeSpan.FromMilliseconds(Time);
             Description = string.Format(TimerDescriptionFormat, span.Hours, span.Minutes, span.Seconds);
+            OriginalCaption = Caption;
             OriginalDescription = keyword.Completion;
+            Timers.Add(this);
         }
 
-        public double Time
+        private static List<TimerResult> Timers { get; set; } = new();
+
+        private double Time { get; set; }
+
+        private Timer Timer { get; set; }
+
+        private string OriginalCaption { get; set; }
+
+        private string OriginalDescription { get; set; }
+
+        public static List<TimerResult> GetTimers(string input)
         {
-            get => _time;
-            set
+            return input.Equals("timers", StringComparison.OrdinalIgnoreCase) ? Timers : new List<TimerResult>();
+        }
+
+        public override void EnterKeyDown()
+        {
+            if (IsAltKeyDown)
             {
-                _time = value;
-                NotifyOfPropertyChange(() => Time);
+                Timer.Stop();
+                Timers.Remove(this);
             }
         }
 
-        public Timer Timer
+        public override void AltKeyDown()
         {
-            get => _timer;
-            set
-            {
-                _timer = value;
-                NotifyOfPropertyChange(() => Timer);
-            }
+            IsAltKeyDown = true;
+            Caption = AltCaption;
         }
 
-        public string OriginalDescription
+        public override void AltKeyUp()
         {
-            get => _originalDescription;
-            set
-            {
-                _originalDescription = value;
-                NotifyOfPropertyChange(() => OriginalDescription);
-            }
+            IsAltKeyDown = false;
+            Caption = OriginalCaption;
         }
 
         public override bool Predicate()
         {
             return Timer.Enabled;
-        }
-
-        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
-        {
-            if (isAltDown)
-            {
-                Timer.Stop();
-            }
-
-            return Task.FromResult(!isAltDown);
-        }
-
-        public override (string Description, string Caption) AltDown()
-        {
-            return (null, AltCaption);
-        }
-
-        public override (string Description, string Caption) AltUp()
-        {
-            return (null, OriginalDescription);
         }
 
         public void OnTimeChanged(object sender, ElapsedEventArgs e)
@@ -91,6 +73,7 @@
             if (Time <= 0)
             {
                 Timer.Stop();
+                Timers.Remove(this);
                 ToastNotification notification = new(Name, OriginalDescription);
                 notification.Show();
             }

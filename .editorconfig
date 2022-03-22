@@ -120,6 +120,10 @@ dotnet_diagnostic.SA1101.severity=silent
 dotnet_diagnostic.SA1600.severity=silent
 dotnet_diagnostic.SA1309.severity=silent
 dotnet_diagnostic.SA1601.severity=silent
+dotnet_diagnostic.SA1602.severity=suggestion
+dotnet_diagnostic.SA1129.severity=silent
+dotnet_diagnostic.SA1649.severity=suggestion
+dotnet_diagnostic.SA1310.severity=suggestion
 ###############################
 # VB Coding Conventions       #
 ###############################

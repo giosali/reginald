@@ -4,55 +4,49 @@
     using System.Threading.Tasks;
     using Reginald.Core.Extensions;
     using Reginald.Core.Helpers;
-    using Reginald.Core.Utilities;
+    using Reginald.Services.Utilities;
 
-    public class Link : Representation
+    public class Link : Representation, IKeyboardInputProperty
     {
+        public const string Filename = "Link.json";
+
         public Link()
         {
         }
 
-        public Link(RepresentationDataModelBase model)
+        public Link(IRepresentationDataModel model)
         {
-            if (Guid.TryParse(model.Guid, out Guid guid))
-            {
-                Guid = guid;
-            }
-
+            Guid = Guid.Parse(model.Guid);
             Name = model.Name;
             Icon = BitmapImageHelper.FromUri(model.Icon);
             Caption = model.Caption;
             AltCaption = model.AltCaption;
             IsEnabled = model.IsEnabled;
+            LosesFocus = true;
         }
 
-        public override void EnterDown(bool isAltDown, Action action)
+        public override void EnterKeyDown()
         {
             ProcessUtility.GoTo(Uri.IsWellFormedUriString(Description, UriKind.Absolute) ? Description : Description.PrependScheme());
         }
 
-        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
+        public override void AltKeyDown()
         {
-            return Task.FromResult(true);
+            IsAltKeyDown = true;
         }
 
-        public override (string Description, string Caption) AltDown()
+        public override void AltKeyUp()
         {
-            return (null, null);
+            IsAltKeyDown = false;
         }
 
-        public override (string Description, string Caption) AltUp()
-        {
-            return (null, null);
-        }
-
-        public bool IsLink(string input)
+        public Task<bool> IsLink(string input)
         {
             Description = input;
             string tempInput = input.Replace(" ", "%20");
-            return input.ContainsTopLevelDomain()
+            return Task.FromResult(input.ContainsTopLevelDomain()
                  ? Uri.IsWellFormedUriString(tempInput, UriKind.RelativeOrAbsolute)
-                 : input.StartsWithScheme() && Uri.IsWellFormedUriString(tempInput, UriKind.Absolute);
+                 : input.StartsWithScheme() && Uri.IsWellFormedUriString(tempInput, UriKind.Absolute));
         }
     }
 }

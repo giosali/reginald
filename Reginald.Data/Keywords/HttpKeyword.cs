@@ -10,7 +10,7 @@
     using Reginald.Core.Helpers;
 
     /// <summary>
-    /// Specifies the possible types of APIs.
+    /// Specifies the types of APIs.
     /// </summary>
     public enum Api
     {
@@ -25,17 +25,9 @@
         Cloudflare,
     }
 
-    public class HttpKeyword : Keyword
+    public partial class HttpKeyword : Keyword
     {
-        private ImageSource _primaryIcon;
-
-        private ImageSource _auxiliaryIcon;
-
-        private string _captionFormat;
-
-        private Api _api;
-
-        private string _altDescription;
+        public const string Filename = "HttpKeywords.json";
 
         public HttpKeyword(HttpKeywordDataModel model)
         {
@@ -58,61 +50,38 @@
             {
                 Api = api;
             }
+
+            CanReceiveKeyboardInput = false;
         }
 
-        public ImageSource PrimaryIcon
+        public ImageSource PrimaryIcon { get; set; }
+
+        public ImageSource AuxiliaryIcon { get; set; }
+
+        public string CaptionFormat { get; set; }
+
+        public Api Api { get; set; }
+
+        public string AltDescription { get; set; }
+
+        private static CancellationTokenSource Source { get; set; } = new();
+
+        public override void EnterKeyDown()
         {
-            get => _primaryIcon;
-            set
-            {
-                _primaryIcon = value;
-                NotifyOfPropertyChange(() => PrimaryIcon);
-            }
         }
 
-        public ImageSource AuxiliaryIcon
+        public override void AltKeyDown()
         {
-            get => _auxiliaryIcon;
-            set
-            {
-                _auxiliaryIcon = value;
-                NotifyOfPropertyChange(() => AuxiliaryIcon);
-            }
+            IsAltKeyDown = true;
+            TempCaption = Caption;
+            TempDescription = AltDescription;
         }
 
-        public string CaptionFormat
+        public override void AltKeyUp()
         {
-            get => _captionFormat;
-            set
-            {
-                _captionFormat = value;
-                NotifyOfPropertyChange(() => CaptionFormat);
-            }
-        }
-
-        public Api Api
-        {
-            get => _api;
-            set
-            {
-                _api = value;
-                NotifyOfPropertyChange(() => Api);
-            }
-        }
-
-        public string AltDescription
-        {
-            get => _altDescription;
-            set
-            {
-                _altDescription = value;
-                NotifyOfPropertyChange(() => AltDescription);
-            }
-        }
-
-        public override bool Predicate(Regex rx, (string Keyword, string Separator, string Description) input)
-        {
-            throw new NotImplementedException();
+            IsAltKeyDown = false;
+            TempCaption = Caption;
+            TempDescription = Description;
         }
 
         public override async Task<bool> PredicateAsync(Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token)
@@ -171,25 +140,10 @@
             {
                 return false;
             }
-        }
-
-        public override void EnterDown(bool isAltDown, Action action)
-        {
-        }
-
-        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override (string Description, string Caption) AltDown()
-        {
-            return (AltDescription, null);
-        }
-
-        public override (string Description, string Caption) AltUp()
-        {
-            return (Description, null);
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

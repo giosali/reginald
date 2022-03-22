@@ -2,13 +2,12 @@
 {
     using System;
     using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
     using Reginald.Core.Helpers;
-    using Reginald.Core.Utilities;
+    using Reginald.Services.Utilities;
 
     public class MicrosoftSettingKeyphrase : Keyphrase
     {
-        private string _uri;
+        public const string Filename = "MicrosoftSettings.json";
 
         public MicrosoftSettingKeyphrase(MicrosoftSettingKeyphraseDataModel model)
         {
@@ -24,36 +23,28 @@
             IsEnabled = model.IsEnabled;
             Description = model.Description;
             Uri = model.Uri;
+            LosesFocus = true;
         }
 
-        public string Uri
-        {
-            get => _uri;
-            set
-            {
-                _uri = value;
-                NotifyOfPropertyChange(() => Uri);
-            }
-        }
+        public string Uri { get; set; }
 
-        public override void EnterDown(bool isAltDown, Action action)
-        {
-        }
-
-        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
+        public override void EnterKeyDown()
         {
             ProcessUtility.OpenFromPath(Uri);
-            return Task.FromResult(true);
         }
 
-        public override (string Description, string Caption) AltDown()
+        public override void AltKeyDown()
         {
-            return (null, null);
+            IsAltKeyDown = true;
+            TempCaption = Caption;
+            TempDescription = Description;
         }
 
-        public override (string Description, string Caption) AltUp()
+        public override void AltKeyUp()
         {
-            return (null, null);
+            IsAltKeyDown = false;
+            TempCaption = Caption;
+            TempDescription = Description;
         }
 
         public override bool Predicate(Keyphrase keyphrase, Regex rx, string input)

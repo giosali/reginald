@@ -2,13 +2,17 @@
 {
     using Reginald.Core.IO;
     using Reginald.Data.Keywords;
+    using Reginald.Services;
 
-    public class HttpKeywordsViewModel : KeywordViewModelBase
+    public class HttpKeywordsViewModel : ItemViewModelBase<Keyword>
     {
-        public HttpKeywordsViewModel()
-            : base(ApplicationPaths.HttpKeywordsJsonFilename, true)
+        public HttpKeywordsViewModel(ConfigurationService configurationService)
+            : base(HttpKeyword.Filename)
         {
-            Keywords.AddRange(KeywordHelper.ToKeywords(UpdateData<HttpKeywordDataModel>(FilePath, true)));
+            ConfigurationService = configurationService;
+            Items.AddRange(KeywordFactory.CreateKeywords(FileOperations.GetGenericData<HttpKeywordDataModel>(Filename, true)));
         }
+
+        public ConfigurationService ConfigurationService { get; set; }
     }
 }

@@ -3,19 +3,23 @@
     using System.Collections.Generic;
     using Reginald.Core.IO;
     using Reginald.Data.Keywords;
+    using Reginald.Services;
 
-    public class DefaultKeywordViewModel : KeywordViewModelBase
+    public class DefaultKeywordViewModel : ItemViewModelBase<Keyword>
     {
-        public DefaultKeywordViewModel()
-            : base(ApplicationPaths.KeywordsJsonFilename, true)
+        public DefaultKeywordViewModel(ConfigurationService configurationService)
+            : base(GenericKeyword.KeywordsFilename)
         {
-            IEnumerable<Keyword> keywords = KeywordHelper.ToKeywords(UpdateData<GenericKeywordDataModel>(FilePath, IsResource));
+            ConfigurationService = configurationService;
+            IEnumerable<Keyword> keywords = KeywordFactory.CreateKeywords(FileOperations.GetGenericData<GenericKeywordDataModel>(Filename, true));
             foreach (Keyword keyword in keywords)
             {
                 keyword.Description = string.Format(keyword.Format, keyword.Placeholder);
             }
 
-            Keywords.AddRange(keywords);
+            Items.AddRange(keywords);
         }
+
+        public ConfigurationService ConfigurationService { get; set; }
     }
 }

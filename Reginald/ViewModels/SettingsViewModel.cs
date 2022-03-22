@@ -4,12 +4,37 @@
     using Caliburn.Micro;
     using HandyControl.Controls;
     using HandyControl.Data;
+    using Reginald.Services;
 
     public class SettingsViewModel : Conductor<object>
     {
-        public SettingsViewModel()
+        private readonly GeneralViewModel _generalViewModel;
+
+        private readonly ThemesViewModel _themesViewModel;
+
+        private readonly DefaultKeywordViewModel _defaultKeywordViewModel;
+
+        private readonly HttpKeywordsViewModel _httpKeywordsViewModel;
+
+        private readonly CommandsViewModel _commandsViewModel;
+
+        private readonly UtilitiesViewModel _utilitiesViewModel;
+
+        private readonly ExpansionsViewModel _expansionsViewModel;
+
+        private readonly MiscellaneousViewModel _miscellaneousViewModel;
+
+        public SettingsViewModel(ConfigurationService configurationService)
         {
-            _ = ActivateItemAsync(new GeneralViewModel());
+            _generalViewModel = new(configurationService);
+            _themesViewModel = new(configurationService);
+            _defaultKeywordViewModel = new(configurationService);
+            _httpKeywordsViewModel = new(configurationService);
+            _commandsViewModel = new(configurationService);
+            _utilitiesViewModel = new(configurationService);
+            _expansionsViewModel = new(configurationService);
+            _miscellaneousViewModel = new(configurationService);
+            _ = ActivateItemAsync(_generalViewModel);
         }
 
         public async Task SideMenu_SelectionChangedAsync(object sender, FunctionEventArgs<object> e)
@@ -18,11 +43,11 @@
             switch (sideMenuItem.Name)
             {
                 case "Themes":
-                    await ActivateItemAsync(new ThemesViewModel());
+                    await ActivateItemAsync(_themesViewModel);
                     break;
 
                 case "DefaultKeywords":
-                    await ActivateItemAsync(new DefaultKeywordViewModel());
+                    await ActivateItemAsync(_defaultKeywordViewModel);
                     break;
 
                 case "UserKeywords":
@@ -30,23 +55,23 @@
                     break;
 
                 case "HttpKeywords":
-                    await ActivateItemAsync(new HttpKeywordsViewModel());
+                    await ActivateItemAsync(_httpKeywordsViewModel);
                     break;
 
                 case "Commands":
-                    await ActivateItemAsync(new CommandsViewModel());
+                    await ActivateItemAsync(_commandsViewModel);
                     break;
 
                 case "Utilities":
-                    await ActivateItemAsync(new UtilitiesViewModel());
+                    await ActivateItemAsync(_utilitiesViewModel);
                     break;
 
                 case "Expansions":
-                    await ActivateItemAsync(new ExpansionsViewModel());
+                    await ActivateItemAsync(_expansionsViewModel);
                     break;
 
                 case "Miscellaneous":
-                    await ActivateItemAsync(new MiscellaneousViewModel());
+                    await ActivateItemAsync(_miscellaneousViewModel);
                     break;
 
                 case "Info":
@@ -54,7 +79,7 @@
                     break;
 
                 case "General":
-                    await ActivateItemAsync(new GeneralViewModel());
+                    await ActivateItemAsync(_generalViewModel);
                     break;
             }
         }

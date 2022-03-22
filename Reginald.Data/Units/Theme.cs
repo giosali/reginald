@@ -7,57 +7,9 @@
 
     public class Theme : Unit
     {
-        private string _author;
+        public const string Filename = "Themes.json";
 
-        private bool _isEditable;
-
-        private FontFamily _fontFamily;
-
-        private Color _backgroundColor;
-
-        private double _tintOpacity;
-
-        private double _inputFontSize;
-
-        private FontWeight _inputFontWeight;
-
-        private Brush _inputBrush;
-
-        private Brush _placeholderInputBrush;
-
-        private Brush _caretBrush;
-
-        private double _descriptionFontSize;
-
-        private FontWeight _descriptionFontWeight;
-
-        private Brush _descriptionBrush;
-
-        private Brush _selectedDescriptionBrush;
-
-        private double _captionFontSize;
-
-        private FontWeight _captionFontWeight;
-
-        private Brush _captionBrush;
-
-        private Brush _selectedCaptionBrush;
-
-        private Brush _borderBrush;
-
-        private double _borderThickness;
-
-        private double _cornerRadius;
-
-        private Brush _highlightBrush;
-
-        private Brush _selectionBrush;
-
-        private double _selectionOpacity;
-
-        private double _clipboardItemFontSize;
-
-        private double _clipboardDisplayFontSize;
+        private const int MinimumBuild = 18362;
 
         public Theme(ThemeDataModel model)
         {
@@ -69,8 +21,11 @@
             }
 
             IsEditable = model.IsEditable;
+            IsAcrylicEnabled = model.IsAcrylicEnabled && Environment.OSVersion.Version.Build > MinimumBuild;
+            AcrylicOpacity = model.AcrylicOpacity;
+            MainWidth = model.MainWidth;
+            MainHeight = model.MainHeight;
             FontFamily = new(model.FontFamily);
-            TintOpacity = model.TintOpacity;
             InputFontSize = model.InputFontSize;
             InputFontWeight = (FontWeight)new FontWeightConverter().ConvertFromString(model.InputFontWeight);
             DescriptionFontSize = model.DescriptionFontSize;
@@ -80,12 +35,14 @@
             BorderThickness = model.BorderThickness;
             CornerRadius = model.CornerRadius;
             SelectionOpacity = model.SelectionOpacity;
+            ClipboardWidth = model.ClipboardWidth;
+            ClipboardHeight = model.ClipboardHeight;
             ClipboardItemFontSize = model.ClipboardItemFontSize;
             ClipboardDisplayFontSize = model.ClipboardDisplayFontSize;
 
-            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                BackgroundColor = ColorHelper.FromString(model.BackgroundColor);
+                BackgroundBrush = BrushHelper.SolidColorBrushFromString(model.BackgroundBrush);
                 InputBrush = BrushHelper.SolidColorBrushFromString(model.InputBrush);
                 PlaceholderInputBrush = BrushHelper.SolidColorBrushFromString(model.PlaceholderInputBrush);
                 CaretBrush = BrushHelper.SolidColorBrushFromString(model.CaretBrush);
@@ -99,264 +56,66 @@
             });
         }
 
-        public string Author
-        {
-            get => _author;
-            set
-            {
-                _author = value;
-                NotifyOfPropertyChange(() => Author);
-            }
-        }
+        public string Author { get; set; }
 
-        public bool IsEditable
-        {
-            get => _isEditable;
-            set
-            {
-                _isEditable = value;
-                NotifyOfPropertyChange(() => IsEditable);
-            }
-        }
+        public bool IsEditable { get; set; }
 
-        public FontFamily FontFamily
-        {
-            get => _fontFamily;
-            set
-            {
-                _fontFamily = value;
-                NotifyOfPropertyChange(() => FontFamily);
-            }
-        }
+        public bool IsAcrylicEnabled { get; set; }
 
-        public Color BackgroundColor
-        {
-            get => _backgroundColor;
-            set
-            {
-                _backgroundColor = value;
-                NotifyOfPropertyChange(() => _backgroundColor);
-            }
-        }
+        public byte AcrylicOpacity { get; set; }
 
-        public double TintOpacity
-        {
-            get => _tintOpacity;
-            set
-            {
-                _tintOpacity = value;
-                NotifyOfPropertyChange(() => TintOpacity);
-            }
-        }
+        public double MainWidth { get; set; }
 
-        public double InputFontSize
-        {
-            get => _inputFontSize;
-            set
-            {
-                _inputFontSize = value;
-                NotifyOfPropertyChange(() => InputFontSize);
-            }
-        }
+        public double MainHeight { get; set; }
 
-        public FontWeight InputFontWeight
-        {
-            get => _inputFontWeight;
-            set
-            {
-                _inputFontWeight = value;
-                NotifyOfPropertyChange(() => InputFontWeight);
-            }
-        }
+        public FontFamily FontFamily { get; set; }
 
-        public Brush InputBrush
-        {
-            get => _inputBrush;
-            set
-            {
-                _inputBrush = value;
-                NotifyOfPropertyChange(() => InputBrush);
-            }
-        }
+        public Brush BackgroundBrush { get; set; }
 
-        public Brush PlaceholderInputBrush
-        {
-            get => _placeholderInputBrush;
-            set
-            {
-                _placeholderInputBrush = value;
-                NotifyOfPropertyChange(() => PlaceholderInputBrush);
-            }
-        }
+        public double InputFontSize { get; set; }
 
-        public Brush CaretBrush
-        {
-            get => _caretBrush;
-            set
-            {
-                _caretBrush = value;
-                NotifyOfPropertyChange(() => CaretBrush);
-            }
-        }
+        public FontWeight InputFontWeight { get; set; }
 
-        public double DescriptionFontSize
-        {
-            get => _descriptionFontSize;
-            set
-            {
-                _descriptionFontSize = value;
-                NotifyOfPropertyChange(() => DescriptionFontSize);
-            }
-        }
+        public Brush InputBrush { get; set; }
 
-        public FontWeight DescriptionFontWeight
-        {
-            get => _descriptionFontWeight;
-            set
-            {
-                _descriptionFontWeight = value;
-                NotifyOfPropertyChange(() => DescriptionFontWeight);
-            }
-        }
+        public Brush PlaceholderInputBrush { get; set; }
 
-        public Brush DescriptionBrush
-        {
-            get => _descriptionBrush;
-            set
-            {
-                _descriptionBrush = value;
-                NotifyOfPropertyChange(() => DescriptionBrush);
-            }
-        }
+        public Brush CaretBrush { get; set; }
 
-        public Brush SelectedDescriptionBrush
-        {
-            get => _selectedDescriptionBrush;
-            set
-            {
-                _selectedDescriptionBrush = value;
-                NotifyOfPropertyChange(() => SelectedDescriptionBrush);
-            }
-        }
+        public double DescriptionFontSize { get; set; }
 
-        public double CaptionFontSize
-        {
-            get => _captionFontSize;
-            set
-            {
-                _captionFontSize = value;
-                NotifyOfPropertyChange(() => CaptionFontSize);
-            }
-        }
+        public FontWeight DescriptionFontWeight { get; set; }
 
-        public FontWeight CaptionFontWeight
-        {
-            get => _captionFontWeight;
-            set
-            {
-                _captionFontWeight = value;
-                NotifyOfPropertyChange(() => CaptionFontWeight);
-            }
-        }
+        public Brush DescriptionBrush { get; set; }
 
-        public Brush CaptionBrush
-        {
-            get => _captionBrush;
-            set
-            {
-                _captionBrush = value;
-                NotifyOfPropertyChange(() => CaptionBrush);
-            }
-        }
+        public Brush SelectedDescriptionBrush { get; set; }
 
-        public Brush SelectedCaptionBrush
-        {
-            get => _selectedCaptionBrush;
-            set
-            {
-                _selectedCaptionBrush = value;
-                NotifyOfPropertyChange(() => SelectedCaptionBrush);
-            }
-        }
+        public double CaptionFontSize { get; set; }
 
-        public Brush BorderBrush
-        {
-            get => _borderBrush;
-            set
-            {
-                _borderBrush = value;
-                NotifyOfPropertyChange(() => BorderBrush);
-            }
-        }
+        public FontWeight CaptionFontWeight { get; set; }
 
-        public double BorderThickness
-        {
-            get => _borderThickness;
-            set
-            {
-                _borderThickness = value;
-                NotifyOfPropertyChange(() => BorderThickness);
-            }
-        }
+        public Brush CaptionBrush { get; set; }
 
-        public double CornerRadius
-        {
-            get => _cornerRadius;
-            set
-            {
-                _cornerRadius = value;
-                NotifyOfPropertyChange(() => CornerRadius);
-            }
-        }
+        public Brush SelectedCaptionBrush { get; set; }
 
-        public Brush HighlightBrush
-        {
-            get => _highlightBrush;
-            set
-            {
-                _highlightBrush = value;
-                NotifyOfPropertyChange(() => HighlightBrush);
-            }
-        }
+        public Brush BorderBrush { get; set; }
 
-        public Brush SelectionBrush
-        {
-            get => _selectionBrush;
-            set
-            {
-                _selectionBrush = value;
-                NotifyOfPropertyChange(() => SelectionBrush);
-            }
-        }
+        public double BorderThickness { get; set; }
 
-        public double SelectionOpacity
-        {
-            get => _selectionOpacity;
-            set
-            {
-                _selectionOpacity = value;
-                NotifyOfPropertyChange(() => SelectionOpacity);
-            }
-        }
+        public double CornerRadius { get; set; }
 
-        public double ClipboardItemFontSize
-        {
-            get => _clipboardItemFontSize;
-            set
-            {
-                _clipboardItemFontSize = value;
-                NotifyOfPropertyChange(() => ClipboardItemFontSize);
-            }
-        }
+        public Brush HighlightBrush { get; set; }
 
-        public double ClipboardDisplayFontSize
-        {
-            get => _clipboardDisplayFontSize;
-            set
-            {
-                _clipboardDisplayFontSize = value;
-                NotifyOfPropertyChange(() => ClipboardDisplayFontSize);
-            }
-        }
+        public Brush SelectionBrush { get; set; }
+
+        public double SelectionOpacity { get; set; }
+
+        public double ClipboardWidth { get; set; }
+
+        public double ClipboardHeight { get; set; }
+
+        public double ClipboardItemFontSize { get; set; }
+
+        public double ClipboardDisplayFontSize { get; set; }
     }
 }

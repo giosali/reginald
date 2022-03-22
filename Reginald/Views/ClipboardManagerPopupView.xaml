@@ -7,9 +7,9 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Width="475"
-             Height="275"
-             FontFamily="{Binding Theme.FontFamily}">
+             Width="{Binding ConfigurationService.Theme.ClipboardWidth}"
+             Height="{Binding ConfigurationService.Theme.ClipboardHeight}"
+             FontFamily="{Binding ConfigurationService.Theme.FontFamily}">
     <UserControl.Resources>
         <ResourceDictionary>
             <!-- # DataTemplates -->
@@ -22,16 +22,18 @@
                         <ColumnDefinition Width="25"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
+    
+                    <!-- ### Icon -->
                     <Image Source="{Binding Icon}"
                            Grid.Column="0"
                            Width="15"
                            Height="15"
                            VerticalAlignment="Center"
                            SnapsToDevicePixels="True"/>
+                    
+                    <!-- ### Description -->
                     <TextBlock Text="{Binding Description}"
-                               FontFamily="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Theme.FontFamily}"
-                               FontSize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Theme.ClipboardItemFontSize}"
+                               FontSize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.ClipboardItemFontSize}"
                                Grid.Column="1"
                                VerticalAlignment="Center"
                                TextWrapping="NoWrap"
@@ -42,13 +44,13 @@
                                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
                                                  Value="True">
                                         <Setter Property="Foreground"
-                                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Theme.SelectedDescriptionBrush}"/>
+                                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.SelectedDescriptionBrush}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
 
                                 <Style.Setters>
                                     <Setter Property="Foreground"
-                                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Theme.DescriptionBrush}"/>
+                                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.DescriptionBrush}"/>
                                 </Style.Setters>
                             </Style>
                         </TextBlock.Style>
@@ -78,12 +80,31 @@
                              Value="True">
                         <Setter TargetName="listBoxItemBorder"
                                 Property="Background"
-                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Theme.HighlightBrush}"/>
+                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.HighlightBrush}"/>
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
             <!-- # Styles -->
+
+            <!-- ## Style for Border -->
+            <Style x:Key="BorderStyle"
+                   TargetType="{x:Type Border}">
+                <!-- ### Setters -->
+                <Style.Setters>
+                    <Setter Property="Background"
+                            Value="{Binding ConfigurationService.Theme.BackgroundBrush}"/>
+                </Style.Setters>
+
+                <!-- ### Triggers -->
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ConfigurationService.Theme.IsAcrylicEnabled}"
+                                 Value="True">
+                        <Setter Property="Background"
+                                Value="#01000000"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
             <!-- ## Style for ListBoxItem -->
             <Style x:Key="ListBoxItemContainerStyle"
@@ -100,13 +121,15 @@
                 <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Foreground"
-                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Theme.InputBrush}"/>
+                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.InputBrush}"/>
                     <Setter Property="Height"
                             Value="25"/>
                     <Setter Property="Margin"
                             Value="0"/>
                     <Setter Property="Padding"
                             Value="0"/>
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="Stretch"/>
                     <Setter Property="Template"
                             Value="{StaticResource ListBoxItemControlTemplate}"/>
                 </Style.Setters>
@@ -136,7 +159,7 @@
                     <Trigger Property="IsMouseOver"
                              Value="True">
                         <Setter Property="Background"
-                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Theme.HighlightBrush}"/>
+                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.HighlightBrush}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -193,15 +216,14 @@
 
             <!-- # Converters -->
             <local:BrushToStringConverter x:Key="BrushToStringConverter"/>
-            <local:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <!-- # Popup -->
-    <Border Background="{Binding Theme.BackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}}"
-            BorderBrush="{Binding Theme.BorderBrush}"
-            BorderThickness="{Binding Theme.BorderThickness}"
-            CornerRadius="{Binding Theme.CornerRadius}">
+    <Border Style="{StaticResource BorderStyle}"
+            BorderBrush="{Binding ConfigurationService.Theme.BorderBrush}"
+            BorderThickness="{Binding ConfigurationService.Theme.BorderThickness}"
+            CornerRadius="{Binding ConfigurationService.Theme.CornerRadius}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
@@ -222,12 +244,12 @@
                     <!-- ### Popup Close Border -->
                     <Border x:Name="closeBorder"
                             Style="{StaticResource PopupCloseBorderStyle}"
-                            CornerRadius="{Binding Theme.CornerRadius}"
+                            CornerRadius="{Binding ConfigurationService.Theme.CornerRadius}"
                             DockPanel.Dock="Right"
                             Width="20"
                             Height="20"
                             cal:Message.Attach="[Event MouseLeftButtonDown] = [Action PopupCloseBorder_MouseLeftButtonDown($this, $eventargs)]">
-                        <Path Stroke="{Binding Theme.DescriptionBrush}"
+                        <Path Stroke="{Binding ConfigurationService.Theme.DescriptionBrush}"
                               Data="M0,0L12,12M12,0L0,12"
                               Width="12"
                               Height="12"
@@ -237,7 +259,7 @@
                     </Border>
 
                     <!-- ### Popup Bar-->
-                    <Border Background="{Binding Theme.PlaceholderInputBrush}"
+                    <Border Background="{Binding ConfigurationService.Theme.PlaceholderInputBrush}"
                             Width="50"
                             Height="3"
                             CornerRadius="1.5"
@@ -246,13 +268,13 @@
             </Border>
             
             <!-- ## Popup TextBox -->
-            <TextBox x:Name="UserInput"
-                     Foreground="{Binding Theme.InputBrush}"
-                     CaretBrush="{Binding Theme.CaretBrush}"
-                     FontSize="{Binding Theme.ClipboardItemFontSize}"
-                     FontWeight="{Binding Theme.InputFontWeight}"
-                     SelectionBrush="{Binding Theme.SelectionBrush}"
-                     SelectionOpacity="{Binding Theme.SelectionOpacity}"
+            <TextBox Text="{Binding UserInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Foreground="{Binding ConfigurationService.Theme.InputBrush}"
+                     CaretBrush="{Binding ConfigurationService.Theme.CaretBrush}"
+                     FontSize="{Binding ConfigurationService.Theme.ClipboardItemFontSize}"
+                     FontWeight="{Binding ConfigurationService.Theme.InputFontWeight}"
+                     SelectionBrush="{Binding ConfigurationService.Theme.SelectionBrush}"
+                     SelectionOpacity="{Binding ConfigurationService.Theme.SelectionOpacity}"
                      Margin="0"
                      Grid.Row="1"
                      Background="Transparent"
@@ -260,7 +282,6 @@
                      VerticalContentAlignment="Center"
                      cal:Message.Attach="[Event Loaded] = [Action UserInput_Loaded($this, $eventargs)];
                                          [Event LayoutUpdated] = [Action UserInput_LayoutUpdated($source, $eventargs)];
-                                         [Event TextChanged] = [Action UserInput_TextChanged($this, $eventargs)];
                                          [Event PreviewKeyDown] = [Action UserInput_PreviewKeyDown($this, $eventargs)]"/>
 
             <!-- ## Standard Popup Content -->
@@ -277,8 +298,8 @@
                     <!-- #### Clipboard Items -->
                     <ListBox ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
                              ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
-                             SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              ItemsSource="{Binding DisplayItems}"
+                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                              Grid.Column="0"
                              Height="Auto"
                              Background="Transparent"
@@ -302,9 +323,8 @@
                         <!-- #### Standard Display for Text Clipboard Item -->
                         <TextBox Style="{StaticResource StandardClipboardItemTextBoxStyle}"
                                  Text="{Binding SelectedItem.Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Foreground="{Binding Theme.InputBrush}"
-                                 FontFamily="{Binding Theme.FontFamily}"
-                                 FontSize="{Binding Theme.ClipboardDisplayFontSize}"
+                                 Foreground="{Binding ConfigurationService.Theme.InputBrush}"
+                                 FontSize="{Binding ConfigurationService.Theme.ClipboardDisplayFontSize}"
                                  Grid.Row="0"
                                  Background="Transparent"
                                  BorderThickness="0"
@@ -334,9 +354,8 @@
                                Grid.Row="0"/>
 
                         <!-- #### Clipboard Item Info -->
-                        <TextBlock Foreground="{Binding Theme.PlaceholderInputBrush}"
-                                   FontFamily="{Binding Theme.FontFamily}"
-                                   FontSize="{Binding Theme.ClipboardDisplayFontSize}"
+                        <TextBlock Foreground="{Binding ConfigurationService.Theme.PlaceholderInputBrush}"
+                                   FontSize="{Binding ConfigurationService.Theme.ClipboardDisplayFontSize}"
                                    Grid.Row="1"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center">

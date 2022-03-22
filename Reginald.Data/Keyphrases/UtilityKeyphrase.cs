@@ -4,8 +4,7 @@
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Reginald.Core.Helpers;
-    using Reginald.Core.IO;
-    using Reginald.Core.Utilities;
+    using Reginald.Services.Utilities;
 
     /// <summary>
     /// Specifies the type of utility.
@@ -20,13 +19,7 @@
 
     public class UtilityKeyphrase : Keyphrase
     {
-        private string _altDescription;
-
-        private bool _requiresConfirmation;
-
-        private string _confirmationMessage;
-
-        private Utility _utility;
+        public const string Filename = "Utilities.json";
 
         public UtilityKeyphrase(UtilityKeyphraseDataModel model)
         {
@@ -42,97 +35,39 @@
             IsEnabled = model.IsEnabled;
             Description = model.Description;
             AltDescription = model.AltDescription;
-            RequiresConfirmation = model.RequiresConfirmation;
-            ConfirmationMessage = model.ConfirmationMessage;
+            RequiresPrompt = model.RequiresPrompt;
             if (Enum.TryParse(model.Utility, true, out Utility utility))
             {
                 Utility = utility;
             }
         }
 
-        public string AltDescription
-        {
-            get => _altDescription;
-            set
-            {
-                _altDescription = value;
-                NotifyOfPropertyChange(() => AltDescription);
-            }
-        }
+        public string AltDescription { get; set; }
 
-        public bool RequiresConfirmation
-        {
-            get => _requiresConfirmation;
-            set
-            {
-                _requiresConfirmation = value;
-                NotifyOfPropertyChange(() => RequiresConfirmation);
-            }
-        }
+        public Utility Utility { get; set; }
 
-        public string ConfirmationMessage
+        public override async void EnterKeyDown()
         {
-            get => _confirmationMessage;
-            set
-            {
-                _confirmationMessage = value;
-                NotifyOfPropertyChange(() => ConfirmationMessage);
-            }
-        }
-
-        public Utility Utility
-        {
-            get => _utility;
-            set
-            {
-                _utility = value;
-                NotifyOfPropertyChange(() => Utility);
-            }
-        }
-
-        public override void EnterDown(bool isAltDown, Action action)
-        {
-        }
-
-        public override async Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
-        {
-            bool isPrompted = (bool)o;
             switch (Utility)
             {
                 case Utility.Recycle:
-                    if (isAltDown)
-                    {
-                        action();
-                        ProcessUtility.OpenFromPath(WindowsShell.GetKnownFolder(RecycleBin.RecycleBinFolderGuid).Path);
-                    }
-                    else if (isPrompted)
-                    {
-                        action();
-                        Task task = Task.Run(() =>
-                        {
-                            RecycleBin.Empty();
-                        });
-                        await task;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-
+                    await Task.Run(() => RecycleBin.Empty());
                     break;
             }
-
-            return true;
         }
 
-        public override (string Description, string Caption) AltDown()
+        public override void AltKeyDown()
         {
-            return (AltDescription, null);
+            IsAltKeyDown = true;
+            TempCaption = Caption;
+            TempDescription = AltDescription;
         }
 
-        public override (string Description, string Caption) AltUp()
+        public override void AltKeyUp()
         {
-            return (Description, null);
+            IsAltKeyDown = false;
+            TempCaption = Caption;
+            TempDescription = Description;
         }
 
         public override bool Predicate(Keyphrase keyphrase, Regex rx, string input)

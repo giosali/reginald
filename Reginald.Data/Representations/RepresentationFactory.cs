@@ -2,9 +2,9 @@
 {
     using System;
 
-    public class RepresentationFactory : ProcessedInputFactory
+    public static class RepresentationFactory
     {
-        public override Representation CreateRepresentation(RepresentationDataModelBase model)
+        public static Representation CreateRepresentation(IRepresentationDataModel model)
         {
             Type type = model.GetType();
             return type switch

@@ -3,23 +3,27 @@
     using System.Linq;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using Reginald.Core.Extensions;
     using Reginald.Core.IO;
     using Reginald.Data.Units;
+    using Reginald.Services;
 
-    public class ThemesViewModel : UnitViewModelBase<Theme>
+    public class ThemesViewModel : ItemViewModelBase<Theme>
     {
-        public ThemesViewModel()
+        private readonly ConfigurationService _configurationService;
+
+        public ThemesViewModel(ConfigurationService configurationService)
+            : base(Theme.Filename)
         {
-            string filePath = FileOperations.GetFilePath(ApplicationPaths.ThemesJsonFilename, true);
-            Units.AddRange(UnitHelper.ToUnits(UpdateData<ThemeDataModel>(filePath, true)));
-            SelectedUnit = Units.First(u => u.Guid.ToString() == Settings.ThemeIdentifier) as Theme;
+            _configurationService = configurationService;
+            Unit[] units = UnitFactory.CreateUnits(FileOperations.GetGenericData<ThemeDataModel>(Filename, true));
+            Items.AddRange(units.OfType<Theme>().ToArray());
+            SelectedItem = Items.FirstOrDefault(u => u.Guid.ToString() == _configurationService.Settings.ThemeIdentifier, Items.First());
         }
 
         public void ThemesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Settings.ThemeIdentifier = SelectedUnit.Guid.ToString();
-            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+            _configurationService.Settings.ThemeIdentifier = SelectedItem.Guid.ToString();
+            _configurationService.Settings.Save();
         }
 
         public void ThemesListBox_PreviewKeyDown(object sender, KeyEventArgs e)

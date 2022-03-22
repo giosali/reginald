@@ -1,7 +1,6 @@
 ﻿namespace Reginald.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Windows;
@@ -12,8 +11,10 @@
     using Reginald.Core.IO;
     using Reginald.Data.Keywords;
 
-    public class UserKeywordsViewModel : KeywordViewModelBase
+    public class UserKeywordsViewModel : ItemViewModelBase<Keyword>
     {
+        private const string UserIconsDirectoryName = "UserIcons";
+
         private GenericKeyword _selectedGenericKeyword;
 
         private Visibility _visibility = Visibility.Collapsed;
@@ -21,15 +22,15 @@
         private bool _isBeingEdited;
 
         public UserKeywordsViewModel()
-            : base(ApplicationPaths.UserKeywordsJsonFilename, false)
+            : base(GenericKeyword.UserKeywordsFilename)
         {
-            IEnumerable<Keyword> keywords = KeywordHelper.ToKeywords(UpdateData<GenericKeywordDataModel>(FilePath, IsResource));
+            Keyword[] keywords = KeywordFactory.CreateKeywords(FileOperations.GetGenericData<GenericKeywordDataModel>(Filename, false));
             foreach (Keyword keyword in keywords)
             {
                 keyword.Description = string.Format(keyword.Format, keyword.Placeholder);
             }
 
-            Keywords.AddRange(keywords);
+            Items.AddRange(keywords);
         }
 
         public GenericKeyword SelectedGenericKeyword
@@ -62,10 +63,10 @@
             }
         }
 
-        public override void KeywordIsEnabled_Click(object sender, RoutedEventArgs e)
+        public override void IsEnabled_Click(object sender, RoutedEventArgs e)
         {
-            FileOperations.WriteFile(Filename, Keywords.OfType<GenericKeyword>()
-                                                       .Serialize());
+            FileOperations.WriteFile(Filename, Items.OfType<GenericKeyword>()
+                                                    .Serialize());
         }
 
         public void CreateKeywordButton_Click(object sender, RoutedEventArgs e)
@@ -82,22 +83,22 @@
 
         public void DeleteKeywordButton_Click(object sender, RoutedEventArgs e)
         {
-            string message = $"Are you sure you would like to delete the '{SelectedKeyword.Name}' keyword?";
+            string message = $"Are you sure you would like to delete the '{SelectedItem.Name}' keyword?";
             string caption = "Confirmation Required";
             MessageBoxResult result = HandyControl.Controls.MessageBox.Show(message, caption, MessageBoxButton.OKCancel, MessageBoxImage.Warning);
 
             switch (result)
             {
                 case MessageBoxResult.OK:
-                    if (SelectedKeyword.Icon is not null)
+                    if (SelectedItem.Icon is not null)
                     {
-                        Uri imageUri = new(SelectedKeyword.Icon.ToString());
+                        Uri imageUri = new(SelectedItem.Icon.ToString());
                         File.Delete(imageUri.LocalPath);
                     }
 
-                    _ = Keywords.Remove(SelectedKeyword);
-                    FileOperations.WriteFile(Filename, Keywords.OfType<GenericKeyword>()
-                                                               .Serialize());
+                    _ = Items.Remove(SelectedItem);
+                    FileOperations.WriteFile(Filename, Items.OfType<GenericKeyword>()
+                                                            .Serialize());
                     break;
             }
         }
@@ -106,7 +107,7 @@
         {
             IsBeingEdited = true;
             Visibility = Visibility.Visible;
-            GenericKeyword selectedGenericKeyword = SelectedKeyword as GenericKeyword;
+            GenericKeyword selectedGenericKeyword = SelectedItem as GenericKeyword;
             SelectedGenericKeyword = new GenericKeyword
             {
                 Guid = selectedGenericKeyword.Guid,
@@ -193,8 +194,11 @@
                 }
                 else
                 {
+                    // Creates a directory in %AppData% for storing user icons
+                    string userIconsDirectoryPath = Path.Combine(FileOperations.ApplicationAppDataDirectoryPath, UserIconsDirectoryName);
+                    _ = Directory.CreateDirectory(userIconsDirectoryPath);
                     string[] results = openFileDialog.FileName.Split(@"\");
-                    string path = Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName, ApplicationPaths.UserIconsDirectoryName, results[^1]);
+                    string path = Path.Combine(userIconsDirectoryPath, results[^1]);
                     while (true)
                     {
                         try
@@ -227,21 +231,21 @@
                 // old version with the new version
                 if (IsBeingEdited)
                 {
-                    int index = Keywords.IndexOf(SelectedGenericKeyword);
-                    Keywords.RemoveAt(index);
-                    Keywords.Insert(index, SelectedGenericKeyword);
+                    int index = Items.IndexOf(SelectedGenericKeyword);
+                    Items.RemoveAt(index);
+                    Items.Insert(index, SelectedGenericKeyword);
                 }
 
                 // Otherwise, save our new keyword to our current keywords
                 else
                 {
-                    Keywords.Add(SelectedGenericKeyword);
+                    Items.Add(SelectedGenericKeyword);
                 }
 
                 IsBeingEdited = false;
                 Visibility = Visibility.Collapsed;
-                FileOperations.WriteFile(Filename, Keywords.OfType<GenericKeyword>()
-                                                           .Serialize());
+                FileOperations.WriteFile(Filename, Items.OfType<GenericKeyword>()
+                                                        .Serialize());
             }
             else
             {

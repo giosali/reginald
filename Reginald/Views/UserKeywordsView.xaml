@@ -41,8 +41,8 @@
                        Text="Your keywords"/>
             
             <!-- ## DataGrid -->
-            <DataGrid ItemsSource="{Binding Keywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding SelectedKeyword, Mode=TwoWay}"
+            <DataGrid ItemsSource="{Binding Items}"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
@@ -124,7 +124,7 @@
                         <Style TargetType="{x:Type Button}"
                                BasedOn="{StaticResource ButtonBaseStyle}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <DataTrigger Binding="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Value="{x:Null}">
                                     <Setter Property="IsEnabled"
                                             Value="False"/>
@@ -146,7 +146,7 @@
                         <Style TargetType="{x:Type Button}"
                                BasedOn="{StaticResource ButtonBaseStyle}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <DataTrigger Binding="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Value="{x:Null}">
                                     <Setter Property="IsEnabled"
                                             Value="False"/>

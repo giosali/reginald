@@ -5,10 +5,6 @@
 
     public static class NativeMethods
     {
-        internal const int WM_KEYDOWN = 0x0100;
-
-        internal const uint WM_PASTE = 0x0302;
-
         [DllImport("user32.dll")]
         internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs, int cbSize);
 

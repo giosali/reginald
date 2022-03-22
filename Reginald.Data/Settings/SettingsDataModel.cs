@@ -1,14 +1,14 @@
 ﻿namespace Reginald.Data.Settings
 {
-    using System.Windows.Input;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
-    using Reginald.Core.Helpers;
     using Reginald.Core.IO;
 
     [JsonObject(MemberSerialization.OptIn)]
     public class SettingsDataModel
     {
+        public const string Filename = "Settings.json";
+
         public SettingsDataModel(string filePath)
         {
             SettingsDataModel protoSettings = FileOperations.DeserializeFile<SettingsDataModel>(filePath);
@@ -66,7 +66,7 @@
 
         public void Save()
         {
-            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, this.Serialize());
+            FileOperations.WriteFile(Filename, this.Serialize());
         }
     }
 }

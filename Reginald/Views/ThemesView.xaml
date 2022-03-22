@@ -30,7 +30,7 @@
                    TargetType="{x:Type TextBox}"
                    BasedOn="{StaticResource TextBoxExtend}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding SelectedUnit.IsEditable}"
+                    <DataTrigger Binding="{Binding SelectedItem.IsEditable}"
                                  Value="False">
                         <Setter Property="HorizontalContentAlignment"
                                 Value="Center"/>
@@ -61,11 +61,8 @@
             </DataTemplate>
 
             <!-- # Converters -->
-            <local:ColorToStringConverter x:Key="ColorToStringConverter"/>
             <local:BrushToStringConverter x:Key="BrushToStringConverter"/>
-            <local:ColorToInvertedBrushConverter x:Key="ColorToInvertedBrushConverter"/>
             <local:BrushToInvertedBrushConverter x:Key="BrushToInvertedBrushConverter"/>
-            <local:ColorToSolidColorBrushConverter x:Key="colorToSolidColorBrushConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -82,9 +79,9 @@
                       Margin="-16 -6.5 0 -6"
                       cal:Message.Attach="[Event PreviewMouseWheel] = [Action ScrollViewer_PreviewMouseWheel($source, $eventargs)];
                                           [Event MouseDown] = [Action ScrollViewer_MouseDown($source, $eventargs)]">
-            <ListBox ItemsSource="{Binding Units, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <ListBox ItemsSource="{Binding Items}"
                      ItemTemplate="{StaticResource ThemesDataTemplate}"
-                     SelectedItem="{Binding SelectedUnit}"
+                     SelectedItem="{Binding SelectedItem}"
                      BorderThickness="0 0 1 0"
                      cal:Message.Attach="[Event SelectionChanged] = [Action ThemesListBox_SelectionChanged($this, $eventargs)];
                                          [Event PreviewKeyDown] = [Action ThemesListBox_PreviewKeyDown($this, $eventargs)]"/>
@@ -100,11 +97,11 @@
                                     Margin="16 0">
                 <!-- ## Name -->
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}"
-                           Text="{Binding SelectedUnit.Name}"/>
+                           Text="{Binding SelectedItem.Name}"/>
 
                 <!-- ## Author -->
                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
-                           Text="{Binding SelectedUnit.Author, StringFormat='Created by: {0}'}"
+                           Text="{Binding SelectedItem.Author, StringFormat='Created by: {0}'}"
                            Foreground="DarkGray"
                            Margin="0 -16 0 0"/>
 
@@ -124,44 +121,44 @@
                                             Spacing="8">
                         <!-- ### Background Color -->
                         <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
-                                 Background="{Binding SelectedUnit.BackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}}"
-                                 Foreground="{Binding SelectedUnit.BackgroundColor, Converter={StaticResource ColorToInvertedBrushConverter}}"
-                                 Text="Background color"/>
+                                 Background="{Binding SelectedItem.BackgroundBrush}"
+                                 Foreground="{Binding SelectedItem.BackgroundBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Text="Background brush"/>
 
                         <!-- ### Input Brush -->
                         <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
-                                 Background="{Binding SelectedUnit.InputBrush}"
-                                 Foreground="{Binding SelectedUnit.InputBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Background="{Binding SelectedItem.InputBrush}"
+                                 Foreground="{Binding SelectedItem.InputBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
                                  Text="Input brush"/>
 
                         <!-- ### Caret Brush -->
                         <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
-                                 Background="{Binding SelectedUnit.CaretBrush}"
-                                 Foreground="{Binding SelectedUnit.CaretBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Background="{Binding SelectedItem.CaretBrush}"
+                                 Foreground="{Binding SelectedItem.CaretBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
                                  Text="Caret brush"/>
 
                         <!-- ### Description Brush -->
                         <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
-                                 Background="{Binding SelectedUnit.DescriptionBrush}"
-                                 Foreground="{Binding SelectedUnit.DescriptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Background="{Binding SelectedItem.DescriptionBrush}"
+                                 Foreground="{Binding SelectedItem.DescriptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
                                  Text="Description brush"/>
 
                         <!-- ### Caption Brush -->
                         <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
-                                 Background="{Binding SelectedUnit.CaptionBrush}"
-                                 Foreground="{Binding SelectedUnit.CaptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Background="{Binding SelectedItem.CaptionBrush}"
+                                 Foreground="{Binding SelectedItem.CaptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
                                  Text="Caption brush"/>
 
                         <!-- ### Border Brush -->
                         <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
-                                 Background="{Binding SelectedUnit.BorderBrush}"
-                                 Foreground="{Binding SelectedUnit.BorderBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Background="{Binding SelectedItem.BorderBrush}"
+                                 Foreground="{Binding SelectedItem.BorderBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
                                  Text="Border brush"/>
 
                         <!-- ### Highlight Brush -->
                         <TextBox Style="{StaticResource ColorDisplayTextBoxStyle}"
-                                 Background="{Binding SelectedUnit.HighlightBrush}"
-                                 Foreground="{Binding SelectedUnit.HighlightBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                 Background="{Binding SelectedItem.HighlightBrush}"
+                                 Foreground="{Binding SelectedItem.HighlightBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
                                  Text="Border brush"/>
                     </hc:UniformSpacingPanel>
 
@@ -170,31 +167,31 @@
                                             Spacing="8">
                         <!-- ### Background Color Text -->
                         <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                 Text="{Binding SelectedUnit.BackgroundColor, Converter={StaticResource ColorToStringConverter}}"/>
+                                 Text="{Binding SelectedItem.BackgroundBrush, Converter={StaticResource BrushToStringConverter}}"/>
 
                         <!-- ### Input Brush Text -->
                         <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                 Text="{Binding SelectedUnit.InputBrush, Converter={StaticResource BrushToStringConverter}}"/>
+                                 Text="{Binding SelectedItem.InputBrush, Converter={StaticResource BrushToStringConverter}}"/>
 
                         <!-- ### Caret Brush Text -->
                         <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                 Text="{Binding SelectedUnit.CaretBrush, Converter={StaticResource BrushToStringConverter}}"/>
+                                 Text="{Binding SelectedItem.CaretBrush, Converter={StaticResource BrushToStringConverter}}"/>
 
                         <!-- ### Description Brush Text -->
                         <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                 Text="{Binding SelectedUnit.DescriptionBrush, Converter={StaticResource BrushToStringConverter}}"/>
+                                 Text="{Binding SelectedItem.DescriptionBrush, Converter={StaticResource BrushToStringConverter}}"/>
 
                         <!-- ### Caption Brush Text -->
                         <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                 Text="{Binding SelectedUnit.CaptionBrush, Converter={StaticResource BrushToStringConverter}}"/>
+                                 Text="{Binding SelectedItem.CaptionBrush, Converter={StaticResource BrushToStringConverter}}"/>
 
                         <!-- ### Border Brush Text -->
                         <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                 Text="{Binding SelectedUnit.BorderBrush, Converter={StaticResource BrushToStringConverter}}"/>
+                                 Text="{Binding SelectedItem.BorderBrush, Converter={StaticResource BrushToStringConverter}}"/>
 
                         <!-- ### Highlight Brush Text -->
                         <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                 Text="{Binding SelectedUnit.HighlightBrush, Converter={StaticResource BrushToStringConverter}}"/>
+                                 Text="{Binding SelectedItem.HighlightBrush, Converter={StaticResource BrushToStringConverter}}"/>
                     </hc:UniformSpacingPanel>
                 </Grid>
             </hc:UniformSpacingPanel>

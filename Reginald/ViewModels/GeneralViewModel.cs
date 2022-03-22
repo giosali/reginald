@@ -4,15 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Threading;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
     using Reginald.Core.IO;
-    using Reginald.Core.Utilities;
+    using Reginald.Services;
+    using Reginald.Services.Utilities;
 
-    public class GeneralViewModel : ViewViewModelBase
+    public class GeneralViewModel : ScrollViewModelBase
     {
         private Key _selectedKey;
 
@@ -20,12 +19,32 @@
 
         private ModifierKeys _selectedModifierKeyTwo;
 
-        public GeneralViewModel()
+        public GeneralViewModel(ConfigurationService configurationService)
         {
-            SelectedKey = (Key)Enum.Parse(typeof(Key), Settings.SearchBoxKey);
-            SelectedModifierKeyOne = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), Settings.SearchBoxModifierOne);
-            SelectedModifierKeyTwo = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), Settings.SearchBoxModifierTwo);
+            ConfigurationService = configurationService;
+            SelectedKey = (Key)Enum.Parse(typeof(Key), ConfigurationService.Settings.SearchBoxKey);
+            SelectedModifierKeyOne = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), ConfigurationService.Settings.SearchBoxModifierOne);
+            SelectedModifierKeyTwo = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), ConfigurationService.Settings.SearchBoxModifierTwo);
+
+            Keys = Enum.GetValues(typeof(Key))
+                       .Cast<Key>()
+                       .Where(key =>
+                       {
+                           Regex rx = new(@"mode|dbe|eof|oem|system|ime|abnt|launch|browser|shift|ctrl|alt|scroll|win|apps|noname|pa1|dead|none", RegexOptions.IgnoreCase);
+                           return !rx.IsMatch(key.ToString());
+                       })
+                       .Distinct();
+
+            ModifierKeys = Enum.GetValues(typeof(ModifierKeys))
+                               .Cast<ModifierKeys>()
+                               .Where(modifierKey =>
+                               {
+                                   Regex rx = new(@"windows", RegexOptions.IgnoreCase);
+                                   return !rx.IsMatch(modifierKey.ToString());
+                               });
         }
+
+        public ConfigurationService ConfigurationService { get; set; }
 
         public IEnumerable<Key> Keys { get; set; }
 
@@ -65,21 +84,21 @@
         {
             if (SelectedKey != Key.None)
             {
-                Settings.SearchBoxKey = SelectedKey.ToString();
-                Settings.Save();
+                ConfigurationService.Settings.SearchBoxKey = SelectedKey.ToString();
+                ConfigurationService.Settings.Save();
             }
         }
 
         public void SelectedModifierKeyOne_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Settings.SearchBoxModifierOne = SelectedModifierKeyOne.ToString();
-            Settings.Save();
+            ConfigurationService.Settings.SearchBoxModifierOne = SelectedModifierKeyOne.ToString();
+            ConfigurationService.Settings.Save();
         }
 
         public void SelectedModifierKeyTwo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Settings.SearchBoxModifierTwo = SelectedModifierKeyTwo.ToString();
-            Settings.Save();
+            ConfigurationService.Settings.SearchBoxModifierTwo = SelectedModifierKeyTwo.ToString();
+            ConfigurationService.Settings.Save();
         }
 
         public void LaunchOnStartupToggleButton_Click(object sender, RoutedEventArgs e)
@@ -89,7 +108,7 @@
                 FileOperations.DeleteShortcut();
             }
 
-            Settings.Save();
+            ConfigurationService.Settings.Save();
         }
 
         public void RestartButton_Click(object sender, RoutedEventArgs e)
@@ -100,28 +119,6 @@
         public void ShutdownButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        protected override Task OnInitializeAsync(CancellationToken cancellationToken)
-        {
-            Keys = Enum.GetValues(typeof(Key))
-                       .Cast<Key>()
-                       .Where(key =>
-                       {
-                           Regex rx = new(@"mode|dbe|eof|oem|system|ime|abnt|launch|browser|shift|ctrl|alt|scroll|win|apps|noname|pa1|dead|none", RegexOptions.IgnoreCase);
-                           return !rx.IsMatch(key.ToString());
-                       })
-                       .Distinct();
-
-            ModifierKeys = Enum.GetValues(typeof(ModifierKeys))
-                               .Cast<ModifierKeys>()
-                               .Where(modifierKey =>
-                               {
-                                   Regex rx = new(@"windows", RegexOptions.IgnoreCase);
-                                   return !rx.IsMatch(modifierKey.ToString());
-                               });
-
-            return base.OnInitializeAsync(cancellationToken);
         }
     }
 }

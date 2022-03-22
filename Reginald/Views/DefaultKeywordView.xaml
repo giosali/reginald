@@ -33,13 +33,13 @@
                            Text="Include default keyword searches in your search results"/>
                 
                 <ToggleButton Style="{StaticResource SwitchToggleButtonStyle}"
-                              Content="{Binding Settings.IncludeDefaultKeywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
-                              IsChecked="{Binding Settings.IncludeDefaultKeywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
+                              IsChecked="{Binding ConfigurationService.Settings.IncludeDefaultKeywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               cal:Message.Attach="[Event Click] = [Action Include_Click($this, $eventargs)]"/>
             </hc:UniformSpacingPanel>
 
             <!-- ## DataGrid -->
-            <DataGrid ItemsSource="{Binding Keywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <DataGrid ItemsSource="{Binding Items}"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
@@ -87,7 +87,7 @@
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           HorizontalContentAlignment="Center"
-                                          cal:Message.Attach="[Event Click] = [Action KeywordIsEnabled_Click($this, $eventargs)]"/>
+                                          cal:Message.Attach="[Event Click] = [Action IsEnabled_Click($this, $eventargs)]"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

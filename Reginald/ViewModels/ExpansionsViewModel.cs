@@ -9,8 +9,9 @@
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
     using Reginald.Data.Expansions;
+    using Reginald.Services;
 
-    public class ExpansionsViewModel : ViewViewModelBase
+    public class ExpansionsViewModel : ScrollViewModelBase
     {
         private TextExpansion _selectedTextExpansion;
 
@@ -20,15 +21,14 @@
 
         private bool _isBeingEdited;
 
-        public ExpansionsViewModel()
+        public ExpansionsViewModel(ConfigurationService configurationService)
         {
-            string filePath = FileOperations.GetFilePath(ApplicationPaths.ExpansionsJsonFilename, false);
-            IEnumerable<TextExpansion> textExpansions = FileOperations.GetGenericData<TextExpansion>(filePath);
-            if (textExpansions is not null)
-            {
-                TextExpansions.AddRange(textExpansions.OrderBy(e => e.Trigger));
-            }
+            ConfigurationService = configurationService;
+            IEnumerable<TextExpansion> textExpansions = FileOperations.GetGenericData<TextExpansion>(TextExpansion.Filename, false);
+            TextExpansions.AddRange(textExpansions.OrderBy(e => e.Trigger));
         }
+
+        public ConfigurationService ConfigurationService { get; set; }
 
         public BindableCollection<TextExpansion> TextExpansions { get; set; } = new();
 
@@ -82,7 +82,7 @@
 
         public virtual void ExpansionsToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            FileOperations.WriteFile(ApplicationPaths.SettingsFilename, Settings.Serialize());
+            ConfigurationService.Settings.Save();
         }
 
         public void TextExpansions_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
@@ -132,14 +132,14 @@
                 }
                 else
                 {
-                    FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, TextExpansions.Serialize());
+                    FileOperations.WriteFile(TextExpansion.Filename, TextExpansions.Serialize());
                 }
 
                 SelectedTextExpansion = null;
 
                 // Reread from file to refresh the expansions
                 TextExpansions.Clear();
-                string filePath = FileOperations.GetFilePath(ApplicationPaths.ExpansionsJsonFilename, false);
+                string filePath = FileOperations.GetFilePath(TextExpansion.Filename, false);
                 TextExpansions.AddRange(FileOperations.GetGenericData<TextExpansion>(filePath));
             }
         }
@@ -150,7 +150,7 @@
             {
                 if (TextExpansions.Remove(SelectedTextExpansion))
                 {
-                    FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, TextExpansions.Serialize());
+                    FileOperations.WriteFile(TextExpansion.Filename, TextExpansions.Serialize());
                 }
             }
         }
@@ -183,7 +183,7 @@
                     Replacement = Replacement,
                 });
 
-                FileOperations.WriteFile(ApplicationPaths.ExpansionsJsonFilename, TextExpansions.Serialize());
+                FileOperations.WriteFile(TextExpansion.Filename, TextExpansions.Serialize());
                 Trigger = Replacement = null;
             }
         }

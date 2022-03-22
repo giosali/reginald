@@ -1,10 +1,16 @@
 ﻿namespace Reginald.ViewModels
 {
-    public class MiscellaneousViewModel : KeywordViewModelBase
+    using Reginald.Data.Keywords;
+    using Reginald.Services;
+
+    public class MiscellaneousViewModel : ItemViewModelBase<Keyword>
     {
-        public MiscellaneousViewModel()
-            : base(null, true)
+        public MiscellaneousViewModel(ConfigurationService configurationService)
+            : base(null)
         {
+            ConfigurationService = configurationService;
         }
+
+        public ConfigurationService ConfigurationService { get; set; }
     }
 }

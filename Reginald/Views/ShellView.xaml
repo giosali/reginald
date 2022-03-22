@@ -8,13 +8,12 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:hu="clr-namespace:HotkeyUtility.Controls;assembly=HotkeyUtility"
         mc:Ignorable="d"
-        Title="Reginald Shell"
-        Height="1"
-        Width="1"
-        WindowStyle="None"
-        AllowsTransparency="True"
+        Title="ShellView" Height="0" Width="0"
+        ResizeMode="NoResize"
+        ShowActivated="False"
         ShowInTaskbar="False"
-        Visibility="Hidden">
+        Visibility="Hidden"
+        WindowStyle="None">
     <Window.Resources>
         <ResourceDictionary>
             <local:StringsToKeyBindingConverter x:Key="StringsToKeyBindingConverter"/>
@@ -26,11 +25,11 @@
             <hu:VisualHotkey.Combination>
                 <MultiBinding Converter="{StaticResource StringsToKeyBindingConverter}">
                     <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Path="DataContext.SearchView.Settings.SearchBoxKey"/>
+                             Path="DataContext.ConfigurationService.Settings.SearchBoxKey"/>
                     <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Path="DataContext.SearchView.Settings.SearchBoxModifierOne"/>
+                             Path="DataContext.ConfigurationService.Settings.SearchBoxModifierOne"/>
                     <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Path="DataContext.SearchView.Settings.SearchBoxModifierTwo"/>
+                             Path="DataContext.ConfigurationService.Settings.SearchBoxModifierTwo"/>
                 </MultiBinding>
             </hu:VisualHotkey.Combination>
         </hu:VisualHotkey>
@@ -38,7 +37,7 @@
                          cal:Message.Attach="[Event Pressed] = [Action ClipboardManagerPopupHotkeyBinding_Pressed($this, $eventargs)]"/>
 
         <hc:TransitioningContentControl>
-            <hc:NotifyIcon Text="Reginald v0.10.0"
+            <hc:NotifyIcon Text="{Binding TooltipText}"
                            Icon="pack://application:,,,/Reginald;component/Reginald.ico">
                 <hc:NotifyIcon.ContextMenu>
                     <ContextMenu>
@@ -50,7 +49,7 @@
                         <MenuItem IsChecked="{Binding IsEnabled}"
                                   IsCheckable="True"
                                   Header="Search Box Enabled"/>
-                        <MenuItem IsChecked="{Binding SearchView.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <MenuItem IsChecked="{Binding ConfigurationService.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   IsCheckable="True"
                                   Header="Launch on Startup"
                                   cal:Message.Attach="[Event Click] = [Action LaunchOnStartupMenuItem_Click($this, $eventargs)]"/>

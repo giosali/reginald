@@ -1,16 +1,21 @@
 ﻿namespace Reginald.Core.IO
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
-    using System.Linq;
+    using System.Reflection;
     using System.Runtime.InteropServices;
     using Newtonsoft.Json;
+    using Reginald.Core.Extensions;
 
     public static class FileOperations
     {
+        private const string ApplicationShortcutName = "Reginald.lnk";
+
         private static readonly Guid WindowsScriptHostShellObjectGuid = new("72c24dd5-d70a-438b-8a42-98424b88afb8");
+
+        public static string ApplicationName => Assembly.GetExecutingAssembly().GetName().Name.Partition(".").Left;
+
+        public static string ApplicationAppDataDirectoryPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationName);
 
         /// <summary>
         /// Creates a shortcut file that points to the Reginald executable. A return value indicates whether the shortcut was created.
@@ -18,8 +23,8 @@
         /// <returns><see langword="true"/> if the shortcut was created; otherwise, <see langword="false"/>.</returns>
         public static bool TryCreateShortcut()
         {
-            string executablePath = Process.GetCurrentProcess().MainModule.FileName;
-            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationPaths.ApplicationShortcutName);
+            string executablePath = Environment.ProcessPath;
+            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationShortcutName);
 
             if (File.Exists(shortcutPath))
             {
@@ -52,14 +57,15 @@
         /// </summary>
         public static void DeleteShortcut()
         {
-            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationPaths.ApplicationShortcutName);
+            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationShortcutName);
             File.Delete(shortcutPath);
         }
 
         public static void WriteFile(string filename, string json = null)
         {
-            // If the file doesn't exist, create it
             string filePath = GetFilePath(filename, false);
+
+            // If the file doesn't exist, create it
             if (!File.Exists(filePath))
             {
                 using FileStream stream = File.Create(filePath);
@@ -82,23 +88,27 @@
             }
         }
 
-        public static IEnumerable<T> GetGenericData<T>(string filePath)
+        public static T[] GetGenericData<T>(string filePath)
         {
-            return DeserializeFile<IEnumerable<T>>(filePath) ?? Enumerable.Empty<T>();
+            return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
         }
 
-        public static T GetGenericDatum<T>(string filePath)
+        public static T[] GetGenericData<T>(string filename, bool isResource)
         {
+            string filePath = GetFilePath(filename, isResource);
+            return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
+        }
+
+        public static T GetGenericDatum<T>(string filename, bool isResource)
+        {
+            string filePath = GetFilePath(filename, isResource);
             return DeserializeFile<T>(filePath);
         }
 
         public static string GetFilePath(string filename, bool isResource)
         {
-            string appDataDirectoryPath = ApplicationPaths.AppDataDirectoryPath;
-            string applicationName = ApplicationPaths.ApplicationName;
-            string applicationAppDataDirectoryPath = Path.Combine(appDataDirectoryPath, applicationName);
             string resourcesDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources");
-            return Path.Combine(isResource ? resourcesDirectoryPath : applicationAppDataDirectoryPath, filename);
+            return Path.Combine(isResource ? resourcesDirectoryPath : ApplicationAppDataDirectoryPath, filename);
         }
 
         public static T DeserializeFile<T>(string filePath)
@@ -127,21 +137,6 @@
             }
 
             return type;
-        }
-
-        public static void SetUp()
-        {
-            string appDataDirectoryPath = ApplicationPaths.AppDataDirectoryPath;
-            string applicationName = ApplicationPaths.ApplicationName;
-            string applicationAppDataDirectoryPath = Path.Combine(appDataDirectoryPath, applicationName);
-
-            // Creates "Reginald" in %AppData%
-            _ = Directory.CreateDirectory(applicationAppDataDirectoryPath);
-
-            // Creates "Reginald\UserIcons" in %AppData%
-            string userIconsDirectoryName = ApplicationPaths.UserIconsDirectoryName;
-            string userIconsDirectoryPath = Path.Combine(appDataDirectoryPath, applicationName, userIconsDirectoryName);
-            _ = Directory.CreateDirectory(userIconsDirectoryPath);
         }
     }
 }

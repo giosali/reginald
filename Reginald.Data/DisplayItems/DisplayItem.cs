@@ -1,95 +1,62 @@
 ﻿namespace Reginald.Data.DisplayItems
 {
-    using System;
-    using System.Windows.Media;
-    using Newtonsoft.Json;
-    using Reginald.Data.Base;
-
-    public abstract class DisplayItem : InteractiveObjectBase
+    public abstract class DisplayItem : Item
     {
-        private Guid _guid;
+        private readonly Item _item;
 
-        private string _name;
-
-        private ImageSource _icon;
-
-        private string _caption;
-
-        private string _description;
-
-        [JsonProperty("guid")]
-        public Guid Guid
+        public DisplayItem()
         {
-            get => _guid;
-            set
+        }
+
+        public DisplayItem(Item item)
+        {
+            _item = item;
+            Guid = item.Guid;
+            Name = item.Name;
+            Icon = item.Icon;
+            Caption = item.Caption;
+            Description = item.Description;
+            Id = item.Id;
+            RequiresPrompt = item.RequiresPrompt;
+            CanReceiveKeyboardInput = item.CanReceiveKeyboardInput;
+            LosesFocus = item.LosesFocus;
+        }
+
+        public override bool IsAltKeyDown { get; set; }
+
+        public override void EnterKeyDown()
+        {
+            if (CanReceiveKeyboardInput)
             {
-                _guid = value;
-                NotifyOfPropertyChange(() => Guid);
+                _item.EnterKeyDown();
             }
         }
 
-        public string Name
+        public override void AltKeyDown()
         {
-            get => _name;
-            set
+            if (CanReceiveKeyboardInput)
             {
-                _name = value;
-                NotifyOfPropertyChange(() => Name);
+                IsAltKeyDown = true;
+                _item.AltKeyDown();
+                Caption = _item.TempCaption;
+                Description = _item.TempDescription;
             }
         }
 
-        [JsonProperty("icon")]
-        public ImageSource Icon
+        public override void AltKeyUp()
         {
-            get => _icon;
-            set
+            if (CanReceiveKeyboardInput)
             {
-                _icon = value;
-                NotifyOfPropertyChange(() => Icon);
+                IsAltKeyDown = false;
+                _item.AltKeyUp();
+                Caption = _item.TempCaption;
+                Description = _item.TempDescription;
             }
         }
 
-        public string Caption
+        public virtual bool Predicate()
         {
-            get => _caption;
-            set
-            {
-                _caption = value;
-                NotifyOfPropertyChange(() => Caption);
-            }
+            throw new System.NotImplementedException();
         }
-
-        [JsonProperty("description")]
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                _description = value;
-                NotifyOfPropertyChange(() => Description);
-            }
-        }
-
-        public static bool operator ==(DisplayItem a, DisplayItem b)
-        {
-            return a is not null && b is not null && a.Guid == b.Guid;
-        }
-
-        public static bool operator !=(DisplayItem a, DisplayItem b)
-        {
-            return a is not null && b is not null && a.Guid != b.Guid;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is not null && obj is DisplayItem item && Guid == item.Guid;
-        }
-
-        public override int GetHashCode()
-        {
-            return Guid.GetHashCode();
-        }
-
-        public abstract bool Predicate();
     }
 }

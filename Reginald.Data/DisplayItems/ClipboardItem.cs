@@ -1,7 +1,6 @@
 ﻿namespace Reginald.Data.DisplayItems
 {
     using System;
-    using System.Threading.Tasks;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Newtonsoft.Json;
@@ -23,7 +22,7 @@
 
     public class ClipboardItem : DisplayItem
     {
-        private const string IconPath = "pack://application:,,,/Reginald;component/Images/Results/{0}";
+        private const string IconPathFormat = "pack://application:,,,/Reginald;component/Images/Results/{0}";
 
         public ClipboardItem(ClipboardItemDataModel model)
         {
@@ -41,7 +40,7 @@
         public ClipboardItem(string text)
         {
             Guid = Guid.NewGuid();
-            string iconPath = string.Format(IconPath, "text.png");
+            string iconPath = string.Format(IconPathFormat, "text.png");
             Icon = BitmapImageHelper.FromUri(iconPath);
             Description = text;
             DateTime = DateTime.Now;
@@ -52,7 +51,7 @@
         public ClipboardItem(BitmapSource bitmapSource)
         {
             Guid = Guid.NewGuid();
-            string iconPath = string.Format(IconPath, "image.png");
+            string iconPath = string.Format(IconPathFormat, "image.png");
             Icon = BitmapImageHelper.FromUri(iconPath);
             Description = $"{bitmapSource.Width}x{bitmapSource.Height}";
             DateTime = DateTime.Now;
@@ -70,9 +69,8 @@
 
         public Brush HexBrush { get; set; }
 
-        public override void EnterDown(bool isAltDown, Action action)
+        public override void EnterKeyDown()
         {
-            action();
             switch (ClipboardItemType)
             {
                 case ClipboardItemType.Text:
@@ -88,24 +86,14 @@
             }
         }
 
-        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
+        public override void AltKeyDown()
         {
-            throw new NotImplementedException();
+            IsAltKeyDown = true;
         }
 
-        public override (string Description, string Caption) AltDown()
+        public override void AltKeyUp()
         {
-            throw new NotImplementedException();
-        }
-
-        public override (string Description, string Caption) AltUp()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Predicate()
-        {
-            throw new NotImplementedException();
+            IsAltKeyDown = false;
         }
 
         private void ParseText(string text)

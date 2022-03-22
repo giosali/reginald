@@ -33,13 +33,13 @@
                            Text="Include commands in your search results"/>
 
                 <ToggleButton Style="{StaticResource SwitchToggleButtonStyle}"
-                              Content="{Binding Settings.IncludeCommands, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
-                              IsChecked="{Binding Settings.IncludeCommands, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
+                              IsChecked="{Binding ConfigurationService.Settings.IncludeCommands, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               cal:Message.Attach="[Event Click] = [Action Include_Click($this, $eventargs)]"/>
             </hc:UniformSpacingPanel>
 
             <!-- ## DataGrid -->
-            <DataGrid ItemsSource="{Binding Keywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <DataGrid ItemsSource="{Binding Items}"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
@@ -76,7 +76,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          cal:Message.Attach="[Event Click] = [Action KeywordIsEnabled_Click($this, $eventargs)]"/>
+                                          cal:Message.Attach="[Event Click] = [Action IsEnabled_Click($this, $eventargs)]"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

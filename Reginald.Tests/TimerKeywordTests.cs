@@ -1,46 +1,19 @@
 ﻿namespace Reginald.Tests
 {
-    using System;
+    using Reginald.Data.DisplayItems;
     using Reginald.Data.Keywords;
     using Xunit;
 
     public static class TimerKeywordTests
     {
         [Fact]
-        public static void EnterDown_WhenCompletionIsNotNullAndTimeIsGreaterThanZero_IsRunningShouldBeTrue()
+        public static void EnterDown_WhenCompletionIsNotNullAndTimeIsGreaterThanZero_TimerShouldBeAdded()
         {
             TimerKeyword timerKeyword = new();
             timerKeyword.Completion = " ";
             timerKeyword.Time = 1;
-            timerKeyword.EnterDown(true, Console.WriteLine);
-            Assert.True(timerKeyword.IsRunning);
-        }
-
-        [Fact]
-        public static void EnterDown_WhenCompletionIsNull_IsRunningShouldBeFalse()
-        {
-            TimerKeyword timerKeyword = new();
-            timerKeyword.Completion = null;
-            timerKeyword.EnterDown(true, Console.WriteLine);
-            Assert.False(timerKeyword.IsRunning);
-        }
-
-        [Fact]
-        public static void EnterDown_WhenCompletionIsEmpty_IsRunningShouldBeFalse()
-        {
-            TimerKeyword timerKeyword = new();
-            timerKeyword.Completion = string.Empty;
-            timerKeyword.EnterDown(true, Console.WriteLine);
-            Assert.False(timerKeyword.IsRunning);
-        }
-
-        [Fact]
-        public static void EnterDown_WhenTimeIsNotGreaterThanZero_IsRunningShouldBeFalse()
-        {
-            TimerKeyword timerKeyword = new();
-            timerKeyword.Time = 0;
-            timerKeyword.EnterDown(true, Console.WriteLine);
-            Assert.False(timerKeyword.IsRunning);
+            timerKeyword.EnterKeyDown();
+            Assert.True(TimerResult.GetTimers("timers").Count > 0);
         }
 
         [Theory]

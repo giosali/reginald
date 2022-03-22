@@ -5,7 +5,7 @@
 
     public class KeyPressedEventArgs : EventArgs
     {
-        public KeyPressedEventArgs(int vkCode)
+        public KeyPressedEventArgs(int vkCode, bool isDown)
         {
             VirtualKeyCode = vkCode;
             Key key = Key = KeyInterop.KeyFromVirtualKey(vkCode);
@@ -29,6 +29,7 @@
                     break;
             }
 
+            IsDown = isDown;
             IsCapsLockPressed = key == Key.CapsLock;
         }
 
@@ -36,12 +37,16 @@
 
         public Key Key { get; set; }
 
-        public bool IsModifierPressed { get; set; }
+        public bool IsDown { get; set; }
 
-        public bool IsVolumeKeyPressed { get; set; }
-
-        public bool IsCapsLockPressed { get; set; }
+        public bool IsImportantKeyPressed => IsHotkeyPressed || IsModifierPressed || IsCapsLockPressed || IsVolumeKeyPressed;
 
         public bool IsHotkeyPressed { get; set; }
+
+        private bool IsModifierPressed { get; set; }
+
+        private bool IsVolumeKeyPressed { get; set; }
+
+        private bool IsCapsLockPressed { get; set; }
     }
 }

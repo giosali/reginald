@@ -2,8 +2,22 @@
 {
     using Newtonsoft.Json;
 
-    public class HttpKeywordDataModel : KeywordDataModelBase
+    public class HttpKeywordDataModel : DataModelBase, IKeywordDataModel
     {
+        public string Name { get; set; }
+
+        public string Keyword { get; set; }
+
+        public string Icon { get; set; }
+
+        public string Format { get; set; }
+
+        public string Placeholder { get; set; }
+
+        public string Caption { get; set; }
+
+        public bool IsEnabled { get; set; }
+
         [JsonProperty("primaryIcon")]
         public string PrimaryIcon { get; set; }
 

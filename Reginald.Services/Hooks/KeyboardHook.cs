@@ -40,14 +40,7 @@
     {
         private readonly LowLevelKeyboardProc _proc;
 
-        public KeyboardHook()
-        {
-            _proc = HookCallback;
-            ProcHandle = GCHandle.Alloc(_proc);
-            HookId = IntPtr.Zero;
-        }
-
-        public KeyboardHook(bool isBlocking)
+        public KeyboardHook(bool isBlocking = false)
         {
             IsBlocking = isBlocking;
             _proc = HookCallback;
@@ -72,14 +65,21 @@
 
         protected override IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN))
+            if (nCode >= 0)
             {
-                KeyPressedEventArgs args = new(Marshal.ReadInt32(lParam));
-                EventHandler<KeyPressedEventArgs> handler = KeyPressed;
-                handler?.Invoke(this, args);
-                if (IsBlocking && !args.IsModifierPressed && !args.IsCapsLockPressed && !args.IsHotkeyPressed)
+                bool isDown;
+                if ((isDown = wParam == (IntPtr)WindowMessage.WM_KEYDOWN || wParam == (IntPtr)WindowMessage.WM_SYSKEYDOWN) || wParam == (IntPtr)WindowMessage.WM_KEYUP || wParam == (IntPtr)WindowMessage.WM_SYSKEYUP)
                 {
-                    return new IntPtr(1);
+                    KeyPressedEventArgs args = new(Marshal.ReadInt32(lParam), isDown);
+                    EventHandler<KeyPressedEventArgs> handler = KeyPressed;
+                    handler?.Invoke(this, args);
+
+                    // Blocks input to the foreground window if told to block
+                    // and if an important key isn't pressed
+                    if (IsBlocking && !args.IsImportantKeyPressed)
+                    {
+                        return new IntPtr(1);
+                    }
                 }
             }
 
@@ -91,12 +91,6 @@
             using Process curProcess = Process.GetCurrentProcess();
             using ProcessModule curModule = curProcess.MainModule;
             return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
-        }
-
-        private void OnKeyPressed(KeyPressedEventArgs e)
-        {
-            EventHandler<KeyPressedEventArgs> handler = KeyPressed;
-            handler?.Invoke(this, e);
         }
     }
 }

@@ -8,11 +8,15 @@
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
     using Reginald.Core.Helpers;
-    using Reginald.Core.Utilities;
+    using Reginald.Services.Utilities;
 
     [JsonObject(MemberSerialization.OptIn)]
     public class GenericKeyword : Keyword
     {
+        public const string KeywordsFilename = "Keywords.json";
+
+        public const string UserKeywordsFilename = "UserKeywords.json";
+
         public GenericKeyword()
         {
         }
@@ -35,6 +39,7 @@
             AltUrl = model.AltUrl;
             Separator = model.Separator;
             AltDescription = model.AltDescription;
+            LosesFocus = true;
         }
 
         [JsonProperty("url")]
@@ -56,7 +61,7 @@
             // If user enters a space after the keyword, both keywords must match
             if (match.Success && !(input.Separator.Length > 0 && Word != match.Value))
             {
-                Completion = input.Description.Length > 0 ? input.Description : null;
+                Completion = (CanReceiveKeyboardInput = input.Description.Length > 0) ? input.Description : null;
                 Description = Completion is null
                             ? string.Format(CultureInfo.InvariantCulture, Format, Placeholder)
                             : string.Format(CultureInfo.InvariantCulture, Format, Completion);
@@ -66,38 +71,37 @@
             return false;
         }
 
-        public override Task<bool> PredicateAsync(Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void EnterDown(bool isAltDown, Action action)
+        public override void EnterKeyDown()
         {
             // If Completion is null, then only the keyword has been typed
             // For example, if the input is: "ddg what time is it?",
             // then Completion won't be null; Completion will be: "what time is it?"
-            if (Completion is not null || (isAltDown && !string.IsNullOrEmpty(AltUrl)))
+            if (Completion is not null || (IsAltKeyDown && !string.IsNullOrEmpty(AltUrl)))
             {
-                string uri = isAltDown
+                string uri = IsAltKeyDown
                            ? string.Format(CultureInfo.InvariantCulture, AltUrl, Completion)
                            : string.Format(CultureInfo.InvariantCulture, Url, string.IsNullOrEmpty(Separator) ? Completion : Completion.Quote(Separator));
                 ProcessUtility.GoTo(uri);
             }
         }
 
-        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
+        public override void AltKeyDown()
+        {
+            IsAltKeyDown = true;
+            TempCaption = Caption;
+            TempDescription = string.IsNullOrEmpty(AltDescription) ? null : AltDescription;
+        }
+
+        public override void AltKeyUp()
+        {
+            IsAltKeyDown = false;
+            TempCaption = Caption;
+            TempDescription = string.Format(Format, Completion ?? Placeholder);
+        }
+
+        public override Task<bool> PredicateAsync(Regex rx, (string Keyword, string Separator, string Description) input, CancellationToken token)
         {
             throw new NotImplementedException();
-        }
-
-        public override (string Description, string Caption) AltDown()
-        {
-            return (string.IsNullOrEmpty(AltDescription) ? null : AltDescription, null);
-        }
-
-        public override (string Description, string Caption) AltUp()
-        {
-            return (string.Format(Format, Completion ?? Placeholder), null);
         }
     }
 }

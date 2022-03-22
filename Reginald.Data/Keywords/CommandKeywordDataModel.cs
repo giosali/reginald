@@ -2,9 +2,23 @@
 {
     using Newtonsoft.Json;
 
-    public class CommandKeywordDataModel : KeywordDataModelBase
+    public class CommandKeywordDataModel : DataModelBase, IKeywordDataModel
     {
-        [JsonProperty("command")]
-        public string Command { get; set; }
+        public string Name { get; set; }
+
+        public string Keyword { get; set; }
+
+        public string Icon { get; set; }
+
+        public string Format { get; set; }
+
+        public string Placeholder { get; set; }
+
+        public string Caption { get; set; }
+
+        public bool IsEnabled { get; set; }
+
+        [JsonProperty("CommandType")]
+        public string CommandType { get; set; }
     }
 }

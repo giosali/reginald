@@ -49,8 +49,8 @@
                            Text="Enable text expansions"/>
 
                 <ToggleButton Style="{StaticResource SwitchToggleButtonStyle}"
-                              Content="{Binding Settings.AreExpansionsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
-                              IsChecked="{Binding Settings.AreExpansionsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
+                              IsChecked="{Binding ConfigurationService.Settings.AreExpansionsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               cal:Message.Attach="[Event Click] = [Action ExpansionsToggleButton_Click($this, $eventargs)]"/>
             </hc:UniformSpacingPanel>
 

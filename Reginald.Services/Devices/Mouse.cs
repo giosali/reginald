@@ -28,7 +28,7 @@
             {
                 IntPtr hWnd = WindowFromPoint(p);
                 _ = ReleaseCapture();
-                _ = SendMessage(hWnd, WM_NCLBUTTONDOWN, new IntPtr(HT_CAPTION), IntPtr.Zero);
+                _ = SendMessage(hWnd, (int)WindowMessage.WM_NCLBUTTONDOWN, new IntPtr(HT_CAPTION), IntPtr.Zero);
             }
         }
     }

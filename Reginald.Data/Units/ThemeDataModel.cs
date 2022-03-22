@@ -2,22 +2,33 @@
 {
     using Newtonsoft.Json;
 
-    public class ThemeDataModel : UnitDataModelBase
+    public class ThemeDataModel : DataModelBase, IUnitDataModel
     {
+        public string Name { get; set; }
+
         [JsonProperty("author")]
         public string Author { get; set; }
 
         [JsonProperty("isEditable")]
         public bool IsEditable { get; set; }
 
+        [JsonProperty("isAcrylicEnabled")]
+        public bool IsAcrylicEnabled { get; set; }
+
+        [JsonProperty("acrylicOpacity")]
+        public byte AcrylicOpacity { get; set; }
+
+        [JsonProperty("mainWidth")]
+        public double MainWidth { get; set; }
+
+        [JsonProperty("mainHeight")]
+        public double MainHeight { get; set; }
+
         [JsonProperty("fontFamily")]
         public string FontFamily { get; set; }
 
-        [JsonProperty("backgroundColor")]
-        public string BackgroundColor { get; set; }
-
-        [JsonProperty("tintOpacity")]
-        public double TintOpacity { get; set; }
+        [JsonProperty("backgroundBrush")]
+        public string BackgroundBrush { get; set; }
 
         [JsonProperty("inputFontSize")]
         public double InputFontSize { get; set; }
@@ -76,13 +87,19 @@
         [JsonProperty("selectionOpacity")]
         public double SelectionOpacity { get; set; }
 
+        [JsonProperty("clipboardWidth")]
+        public double ClipboardWidth { get; set; }
+
+        [JsonProperty("clipboardHeight")]
+        public double ClipboardHeight { get; set; }
+
         [JsonProperty("clipboardItemFontSize")]
         public double ClipboardItemFontSize { get; set; }
 
         [JsonProperty("clipboardDisplayFontSize")]
         public double ClipboardDisplayFontSize { get; set; }
 
-        public override bool Predicate(string guid)
+        public bool Predicate(string guid)
         {
             return Guid == guid;
         }

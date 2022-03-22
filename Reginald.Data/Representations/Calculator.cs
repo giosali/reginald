@@ -8,13 +8,15 @@
 
     public class Calculator : Representation
     {
-        public Calculator(RepresentationDataModelBase model)
-        {
-            if (Guid.TryParse(model.Guid, out Guid guid))
-            {
-                Guid = guid;
-            }
+        public const string Filename = "Calculator.json";
 
+        public Calculator()
+        {
+        }
+
+        public Calculator(IRepresentationDataModel model)
+        {
+            Guid = Guid.Parse(model.Guid);
             Name = model.Name;
             Icon = BitmapImageHelper.FromUri(model.Icon);
             Caption = model.Caption;
@@ -22,25 +24,19 @@
             IsEnabled = model.IsEnabled;
         }
 
-        public override void EnterDown(bool isAltDown, Action action)
+        public override void EnterKeyDown()
         {
-            action();
             Clipboard.SetText(Description);
         }
 
-        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
+        public override void AltKeyDown()
         {
-            return Task.FromResult(true);
+            IsAltKeyDown = true;
         }
 
-        public override (string Description, string Caption) AltDown()
+        public override void AltKeyUp()
         {
-            return (null, null);
-        }
-
-        public override (string Description, string Caption) AltUp()
-        {
-            return (null, null);
+            IsAltKeyDown = false;
         }
 
         public Task<bool> IsExpression(string input)

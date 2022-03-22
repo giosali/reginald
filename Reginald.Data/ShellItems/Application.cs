@@ -1,17 +1,14 @@
 ﻿namespace Reginald.Data.ShellItems
 {
-    using System;
-    using System.Threading.Tasks;
     using System.Windows;
     using Microsoft.WindowsAPICodePack.Shell;
-    using Reginald.Core.Base;
-    using Reginald.Core.Utilities;
+    using Reginald.Services.Utilities;
 
-    public class Application : ShellItem
+    public partial class Application : ShellItem
     {
-        private const string DefaultCaption = "Application";
-
         private const string ShellAppsFolder = @"shell:AppsFolder\";
+
+        private const string DefaultCaption = "Application";
 
         public Application(ShellObject shellObject)
         {
@@ -20,15 +17,16 @@
             Icon.Freeze();
             Caption = DefaultCaption;
             Description = Name;
+            Id = shellObject.Properties.System.AppUserModel.GetHashCode();
             Path = shellObject.Properties.System.Link.TargetParsingPath.Value is string path
                  ? path
                  : ShellAppsFolder + shellObject.ParsingName;
+            LosesFocus = true;
         }
 
-        public override void EnterDown(bool isAltDown, Action action)
+        public override void EnterKeyDown()
         {
-            action();
-            if (isAltDown)
+            if (IsAltKeyDown)
             {
                 Clipboard.SetText(Path);
             }
@@ -38,19 +36,18 @@
             }
         }
 
-        public override Task<bool> EnterDownAsync(bool isAltDown, Action action, object o)
+        public override void AltKeyDown()
         {
-            throw new NotImplementedException();
+            IsAltKeyDown = true;
+            TempCaption = Path;
+            TempDescription = Description;
         }
 
-        public override (string Description, string Caption) AltDown()
+        public override void AltKeyUp()
         {
-            return (null, Path);
-        }
-
-        public override (string Description, string Caption) AltUp()
-        {
-            return (null, DefaultCaption);
+            IsAltKeyDown = false;
+            TempCaption = DefaultCaption;
+            TempDescription = Description;
         }
     }
 }

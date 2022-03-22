@@ -1,40 +1,55 @@
 ﻿namespace Reginald.ViewModels
 {
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Windows;
+    using System.Windows.Controls.Primitives;
     using Caliburn.Micro;
     using HotkeyUtility.Input;
     using Reginald.Core.IO;
     using Reginald.Data.Expansions;
-    using Reginald.Services.Clipboard;
+    using Reginald.Services;
     using Reginald.Services.Hooks;
+    using Reginald.Services.Utilities;
 
     public class ShellViewModel : Conductor<object>
     {
+        private readonly MainViewModel _mainViewModel;
+
+        private readonly ClipboardManagerPopupViewModel _clipboardManagerPopupViewModel;
+
+        private readonly TextExpansionManager _textExpansionManager;
+
+        private readonly SettingsViewModel _settingsViewModel;
+
         private bool _isEnabled = true;
 
-        public ShellViewModel()
+        public ShellViewModel(ConfigurationService configurationService)
         {
-            FileOperations.SetUp();
-            SearchView.Settings.Save();
-            if (SearchView.Settings.LaunchOnStartup)
+            ConfigurationService = configurationService;
+            _mainViewModel = new(configurationService);
+            _clipboardManagerPopupViewModel = new(configurationService);
+            _settingsViewModel = new(configurationService);
+            if (configurationService.Settings.LaunchOnStartup)
             {
                 _ = FileOperations.TryCreateShortcut();
             }
 
-            // Adds low-level hook for text expansions
+            TooltipText = $"{FileOperations.ApplicationName} v{Assembly.GetExecutingAssembly().GetName().Version}";
+
+            // Adds a low-level hook for text expansions.
             KeyboardHook keyboardHook = new();
             keyboardHook.Add();
-            TextExpansionManager = new(SearchView.Settings);
-            keyboardHook.KeyPressed += TextExpansionManager.KeyPressed;
+            _textExpansionManager = new(configurationService.Settings);
+            keyboardHook.KeyPressed += _textExpansionManager.KeyPressed;
 
-            // Adds listener for Clipboard
+            // Adds a listener for the clipboard.
             ClipboardUtility.GetClipboardUtility(GetView() as Window);
         }
 
-        public SearchViewModel SearchView { get; set; } = new();
+        public ConfigurationService ConfigurationService { get; set; }
 
-        public ClipboardManagerPopupViewModel ClipboardManagerPopup { get; set; } = new();
+        public string TooltipText { get; set; }
 
         public bool IsEnabled
         {
@@ -46,62 +61,59 @@
             }
         }
 
-        private TextExpansionManager TextExpansionManager { get; set; }
-
         public async void SearchWindowHotkeyBinding_Pressed(object sender, HotkeyEventArgs e)
         {
             if (IsEnabled)
             {
-                IWindowManager manager = new WindowManager();
-                if (SearchView.IsActive)
+                if (_mainViewModel.IsActive)
                 {
-                    // Closes search window and empties the input
-                    SearchView.UserInput = string.Empty;
-                    SearchView.ShowOrHide();
+                    _mainViewModel.Hide();
                 }
                 else
                 {
-                    // Opens search window
-                    await manager.ShowWindowAsync(SearchView);
+                    Dictionary<string, object> settings = new();
+                    settings.Add("Placement", PlacementMode.Absolute);
+                    settings.Add("HorizontalOffset", (SystemParameters.FullPrimaryScreenWidth / 2) - (ConfigurationService.Theme.MainWidth / 2));
+                    settings.Add("VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.375) - (ConfigurationService.Theme.MainHeight / 4));
+                    await new WindowManager().ShowPopupAsync(_mainViewModel, settings: settings);
                 }
             }
         }
 
         public async void ClipboardManagerPopupHotkeyBinding_Pressed(object sender, HotkeyEventArgs e)
         {
-            if (ClipboardManagerPopup.IsActive)
+            if (_clipboardManagerPopupViewModel.IsActive)
             {
-                ClipboardManagerPopup.ShowOrHide();
+                _clipboardManagerPopupViewModel.Hide();
             }
             else
             {
-                IWindowManager manager = new WindowManager();
                 Dictionary<string, object> settings = new();
+                settings.Add("PopupAnimation", PopupAnimation.Fade);
 
-                // Allows popup to use acrylic material
-                settings.Add("AllowsTransparency", false);
-                settings.Add("PopupAnimation", System.Windows.Controls.Primitives.PopupAnimation.Fade);
-
-                // Allows popup to remain draggable when sending its handle WM_NCLBUTTONDOWN
+                // StaysOpen must be true for the popup to remain draggable
+                // when sending its handle a WM_NCLBUTTONDOWN message.
                 settings.Add("StaysOpen", true);
-                await manager.ShowPopupAsync(ClipboardManagerPopup, settings: settings);
+                await new WindowManager().ShowPopupAsync(_clipboardManagerPopupViewModel, settings: settings);
             }
         }
 
         public void OpenSettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            IWindowManager manager = new WindowManager();
-            _ = manager.ShowWindowAsync(new SettingsViewModel());
+            _ = new WindowManager().ShowWindowAsync(_settingsViewModel);
         }
 
         public void LaunchOnStartupMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            // Checks if the shortcut already exists by checking if
+            // TryCreateShortcut returns false.
+            // If it returns false, the shortcut gets deleted.
             if (!FileOperations.TryCreateShortcut())
             {
                 FileOperations.DeleteShortcut();
             }
 
-            SearchView.Settings.Save();
+            ConfigurationService.Settings.Save();
         }
     }
 }

@@ -5,28 +5,8 @@
 
     public abstract class Unit : PropertyChangedBase
     {
-        private Guid _guid;
+        public Guid Guid { get; set; }
 
-        private string _name;
-
-        public Guid Guid
-        {
-            get => _guid;
-            set
-            {
-                _guid = value;
-                NotifyOfPropertyChange(() => Guid);
-            }
-        }
-
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value;
-                NotifyOfPropertyChange(() => Name);
-            }
-        }
+        public string Name { get; set; }
     }
 }

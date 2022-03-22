@@ -2,34 +2,32 @@
 {
     using System;
     using System.Diagnostics;
+    using Reginald.Services.Helpers;
+    using Reginald.Services.Utilities;
 
     public class QuitKeyword : CommandKeyword
     {
+        private const string QuitDescriptionFormat = "Quit {0}";
+
         public QuitKeyword()
         {
         }
 
-        public QuitKeyword(CommandKeyword keyword)
+        public QuitKeyword(CommandKeywordDataModel model, Process process)
+            : base(model)
         {
             Guid = Guid.NewGuid();
-            Name = keyword.Name;
-            Word = keyword.Word;
-            Icon = keyword.Icon;
-            Format = keyword.Format;
-            Placeholder = keyword.Placeholder;
-            Caption = keyword.Caption;
-            IsEnabled = keyword.IsEnabled;
-            Command = keyword.Command;
-            Description = keyword.Description;
+            Icon = BitmapSourceHelper.ExtractAssociatedBitmapSource(process.MainModule.FileName);
+            string fileDescription = FileVersionInfo.GetVersionInfo(process.MainModule.FileName).FileDescription;
+            Description = string.Format(QuitDescriptionFormat, fileDescription);
+            ProcessId = process.Id;
         }
 
-        public Process Process { get; set; }
+        public int ProcessId { get; set; }
 
-        public override void EnterDown(bool isAltDown, Action action)
+        public override void EnterKeyDown()
         {
-            action();
-            Process.CloseMainWindow();
-            Process.Close();
+            ProcessUtility.QuitProcessById(ProcessId);
         }
     }
 }

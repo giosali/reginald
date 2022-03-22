@@ -109,8 +109,8 @@
                            Text="Launch Reginald on system startup"/>
 
                 <ToggleButton Style="{StaticResource SwitchToggleButtonStyle}"
-                              Content="{Binding Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
-                              IsChecked="{Binding Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
+                              IsChecked="{Binding ConfigurationService.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               cal:Message.Attach="[Event Click] = [Action LaunchOnStartupToggleButton_Click($this, $eventargs)]"/>
             </hc:UniformSpacingPanel>
 

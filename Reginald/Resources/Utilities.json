@@ -8,8 +8,7 @@
     "altDescription": "Show Recycle Bin",
     "caption": "Utility",
     "isEnabled": true,
-    "requiresConfirmation": true,
-    "confirmationMessage": "Are you sure? (This action cannot be undone)",
+    "requiresPrompt": true,
     "utility": "Recycle"
   }
 ]

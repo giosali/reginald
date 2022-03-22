@@ -911,9 +911,14 @@
             _ = SendInput((uint)inputs.Count, inputs.ToArray(), INPUT.Size);
         }
 
-        public static bool SendKey(IntPtr hWnd, int vkCode)
+        public static bool SendKeyDown(IntPtr hWnd, int vkCode)
         {
-            return PostMessage(hWnd, WM_KEYDOWN, vkCode, 0);
+            return PostMessage(hWnd, (uint)WindowMessage.WM_KEYDOWN, vkCode, 0);
+        }
+
+        public static bool SendKeyUp(IntPtr hWnd, int vkCode)
+        {
+            return PostMessage(hWnd, (uint)WindowMessage.WM_KEYUP, vkCode, 0);
         }
 
         public static void Paste()
@@ -926,7 +931,7 @@
         public static void PasteTo()
         {
             IntPtr hWnd = GetForegroundWindow();
-            SendMessage(hWnd, WM_PASTE, 0, null);
+            SendMessage(hWnd, (uint)WindowMessage.WM_PASTE, 0, null);
         }
     }
 }

@@ -3,7 +3,7 @@
     using Caliburn.Micro;
     using Reginald.Data.Units;
 
-    public abstract class UnitViewModelBase<T> : ViewViewModelBase
+    public abstract class UnitViewModelBase<T> : ScrollViewModelBase
     {
         private BindableCollection<Unit> _units = new();
 

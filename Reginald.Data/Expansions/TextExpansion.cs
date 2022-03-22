@@ -2,8 +2,11 @@
 {
     using Newtonsoft.Json;
 
+    [JsonObject(MemberSerialization.OptIn)]
     public class TextExpansion
     {
+        public const string Filename = "Expansions.json";
+
         [JsonProperty("trigger")]
         public string Trigger { get; set; }
 

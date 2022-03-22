@@ -2,11 +2,8 @@
 {
     using Newtonsoft.Json;
 
-    public abstract class KeyphraseDataModelBase
+    public abstract class KeyphraseDataModelBase : DataModelBase, IKeyphraseDataModel
     {
-        [JsonProperty("guid")]
-        public string Guid { get; set; }
-
         [JsonProperty("name")]
         public string Name { get; set; }
 

@@ -16,7 +16,7 @@
         {
             Settings = settings;
             UpdateTextExpansions();
-            ExpansionsWatcher = FileSystemWatcherHelper.Initialize(Path.Combine(ApplicationPaths.AppDataDirectoryPath, ApplicationPaths.ApplicationName), ApplicationPaths.ExpansionsJsonFilename, OnTextExpansionsChanged);
+            ExpansionsWatcher = FileSystemWatcherHelper.Initialize(FileOperations.ApplicationAppDataDirectoryPath, TextExpansion.Filename, OnTextExpansionsChanged);
         }
 
         public SettingsDataModel Settings { get; set; }
@@ -29,7 +29,7 @@
 
         public async void KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            if (Settings.AreExpansionsEnabled)
+            if (Settings.AreExpansionsEnabled && e.IsDown)
             {
                 TextExpansion textExpansion = GetTextExpansionFromVirtualKeyCode(e.VirtualKeyCode);
                 if (textExpansion is not null)
@@ -103,7 +103,7 @@
 
         private void UpdateTextExpansions()
         {
-            string expansionsFilePath = FileOperations.GetFilePath(ApplicationPaths.ExpansionsJsonFilename, false);
+            string expansionsFilePath = FileOperations.GetFilePath(TextExpansion.Filename, false);
             IEnumerable<TextExpansion> textExpansions = FileOperations.GetGenericData<TextExpansion>(expansionsFilePath);
             foreach (TextExpansion textExpansion in textExpansions)
             {

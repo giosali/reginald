@@ -9,6 +9,8 @@
 
     public static class StringExtensions
     {
+        private const string TopLevelDomainsFilename = "TopLevelDomains.txt";
+
         /// <summary>
         /// Receives a string and returns a new string with all unmatched or unterminated characters escaped.
         /// </summary>
@@ -168,7 +170,7 @@
             if (expression.Contains('.'))
             {
                 HashSet<string> topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
-                foreach (string line in File.ReadLines(FileOperations.GetFilePath(ApplicationPaths.TopLevelDomainsTxtFilename, true)))
+                foreach (string line in File.ReadLines(FileOperations.GetFilePath(TopLevelDomainsFilename, true)))
                 {
                     _ = topLevelDomains.Add(line);
                 }

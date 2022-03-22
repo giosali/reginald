@@ -8,7 +8,7 @@
     "placeholder": "...",
     "caption": "Timer",
     "isEnabled": true,
-    "command":  "Timer"
+    "commandType": "Timer"
   },
   {
     "guid": "9151d022-fa7d-4316-992f-b97804171414",
@@ -19,6 +19,6 @@
     "placeholder": "",
     "caption": "Quit Application",
     "isEnabled": true,
-    "command":  "Quit"
+    "commandType": "Quit"
   }
 ]

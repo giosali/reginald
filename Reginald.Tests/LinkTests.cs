@@ -38,10 +38,10 @@
         [InlineData("http://host.company.com/showCompanyInfo?name=C%26H%20Sugar")]
         [InlineData("http://www.example.com/index.html")]
         [InlineData("http://www.company.com:81/a/b/c.html?user=Alice&year=2008#p2")]
-        public static void IsLink_WhenGivenValidLinks_ShouldReturnTrue(string expression)
+        public static async void IsLink_WhenGivenValidLinks_ShouldReturnTrue(string expression)
         {
             Link link = new();
-            Assert.True(link.IsLink(expression));
+            Assert.True(await link.IsLink(expression));
         }
 
         [Theory]
@@ -58,10 +58,10 @@
         [InlineData(" https://google.com")]
         [InlineData("company.com:81/a/b/c.html?user=Alice&year=2008#p2")]
         [InlineData("https://go ogle.com/")]
-        public static void IsLink_WhenGivenInvalidLinks_ShouldReturnFalse(string expression)
+        public static async void IsLink_WhenGivenInvalidLinks_ShouldReturnFalse(string expression)
         {
             Link link = new();
-            Assert.False(link.IsLink(expression));
+            Assert.False(await link.IsLink(expression));
         }
     }
 }
