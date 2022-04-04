@@ -1,6 +1,5 @@
 ﻿namespace Reginald.Data.Keywords
 {
-    using System;
     using Newtonsoft.Json;
 
     public abstract class KeywordDataModelBase
