@@ -10,7 +10,8 @@
     {
         public static Keyword[] CreateKeywords(IEnumerable<IKeywordDataModel> models)
         {
-            Type type = models.GetType().GetElementType();
+            Type baseType = models.GetType();
+            Type type = baseType.GetElementType() ?? baseType.GenericTypeArguments.ElementAtOrDefault(0);
             return type switch
             {
                 Type when type == typeof(GenericKeywordDataModel) => models.Select(m => new GenericKeyword(m as GenericKeywordDataModel)).ToArray(),
