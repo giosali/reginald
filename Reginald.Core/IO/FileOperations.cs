@@ -13,9 +13,9 @@
 
         private static readonly Guid WindowsScriptHostShellObjectGuid = new("72c24dd5-d70a-438b-8a42-98424b88afb8");
 
-        public static string ApplicationName => Assembly.GetExecutingAssembly().GetName().Name.Partition(".").Left;
+        public static string ApplicationName { get; private set; } = Assembly.GetExecutingAssembly().GetName().Name.Partition(".").Left;
 
-        public static string ApplicationAppDataDirectoryPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationName);
+        public static string ApplicationAppDataDirectoryPath { get; private set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationName);
 
         /// <summary>
         /// Creates a shortcut file that points to the Reginald executable. A return value indicates whether the shortcut was created.
