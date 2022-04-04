@@ -61,7 +61,7 @@
             // If user enters a space after the keyword, both keywords must match
             if (match.Success && !(input.Separator.Length > 0 && Word != match.Value))
             {
-                Completion = (CanReceiveKeyboardInput = input.Description.Length > 0) ? input.Description : null;
+                Completion = input.Description.Length > 0 ? input.Description : null;
                 Description = Completion is null
                             ? string.Format(CultureInfo.InvariantCulture, Format, Placeholder)
                             : string.Format(CultureInfo.InvariantCulture, Format, Completion);
