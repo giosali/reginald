@@ -8,7 +8,8 @@
     "placeholder": "...",
     "caption": "Timer",
     "isEnabled": true,
-    "commandType": "Timer"
+    "commandType": "Timer",
+    "displayDescription": "Sets a timer and displays a notification with a message"
   },
   {
     "guid": "9151d022-fa7d-4316-992f-b97804171414",
@@ -19,6 +20,7 @@
     "placeholder": "",
     "caption": "Quit Application",
     "isEnabled": true,
-    "commandType": "Quit"
+    "commandType": "Quit",
+    "displayDescription": "Closes an application"
   }
 ]

@@ -9,6 +9,7 @@
     "caption": "Utility",
     "isEnabled": true,
     "requiresPrompt": true,
-    "utility": "Recycle"
+    "utility": "Recycle",
+    "displayDescription": "Empties the Recycle Bin"
   }
 ]
