@@ -8,7 +8,8 @@
     {
         public static Keyphrase[] CreateKeyphrases(IEnumerable<IKeyphraseDataModel> models)
         {
-            Type type = models.GetType().GetElementType();
+            Type baseType = models.GetType();
+            Type type = baseType.GetElementType() ?? baseType.GenericTypeArguments.ElementAtOrDefault(0);
             return type switch
             {
                 Type when type == typeof(MicrosoftSettingKeyphraseDataModel) => models.Select(m => new MicrosoftSettingKeyphrase(m as MicrosoftSettingKeyphraseDataModel)).ToArray(),
