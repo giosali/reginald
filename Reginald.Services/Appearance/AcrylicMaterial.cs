@@ -1,9 +1,9 @@
-﻿namespace Reginald.Utilities
+﻿namespace Reginald.Services.Appearance
 {
     using System;
     using System.Runtime.InteropServices;
     using System.Windows.Media;
-    using static Reginald.Utilities.NativeMethods;
+    using static Reginald.Services.Appearance.NativeMethods;
 
     public class AcrylicMaterial
     {

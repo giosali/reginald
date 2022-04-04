@@ -1,4 +1,4 @@
-﻿namespace Reginald.Utilities
+﻿namespace Reginald.Services.Appearance
 {
     using System;
     using System.Runtime.InteropServices;
@@ -30,7 +30,11 @@
             WCA_FREEZE_REPRESENTATION = 20,
             WCA_EVER_UNCLOAKED = 21,
             WCA_VISUAL_OWNER = 22,
-            WCA_LAST = 23,
+            WCA_HOLOGRAPHIC = 23,
+            WCA_EXCLUDED_FROM_DDA = 24,
+            WCA_PASSIVEUPDATEMODE = 25,
+            WCA_USEDARKMODECOLORS = 26,
+            WCA_LAST = 26,
         }
 
         internal enum AccentState
@@ -45,6 +49,9 @@
 
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
+        [DllImport("dwmapi.dll")]
+        internal static extern int DwmGetWindowAttribute(IntPtr hwnd, uint dwAttribute, out bool pvAttribute, int cbAttribute);
 
         [StructLayout(LayoutKind.Sequential)]
         internal struct AccentPolicy
