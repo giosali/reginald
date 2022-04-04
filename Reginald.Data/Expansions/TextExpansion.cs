@@ -7,6 +7,12 @@
     {
         public const string Filename = "Expansions.json";
 
+        public TextExpansion(string trigger, string replacement)
+        {
+            Trigger = trigger;
+            Replacement = replacement;
+        }
+
         [JsonProperty("trigger")]
         public string Trigger { get; set; }
 
