@@ -1,6 +1,6 @@
 ﻿namespace Reginald.Views
 {
-    using HandyControl.Controls;
+    using System.Windows;
 
     /// <summary>
     /// Interaction logic for ShellView.xaml.

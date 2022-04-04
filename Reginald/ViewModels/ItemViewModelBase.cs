@@ -1,35 +1,26 @@
 ﻿namespace Reginald.ViewModels
 {
-    using System.Linq;
-    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows;
     using Caliburn.Micro;
-    using Reginald.Core.Extensions;
-    using Reginald.Core.IO;
+    using Reginald.Messages;
     using Reginald.Services;
 
-    public class ItemViewModelBase<T> : ScrollViewModelBase
+    public class ItemViewModelBase : Screen
     {
-        private T _selectedItem;
+        private readonly string _pageName;
 
-        public ItemViewModelBase(string filename)
+        public ItemViewModelBase(string filename, bool isResource, string pageName)
         {
             Filename = filename;
-        }
-
-        public BindableCollection<T> Items { get; set; } = new();
-
-        public T SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                _selectedItem = value;
-                NotifyOfPropertyChange(() => SelectedItem);
-            }
+            IsResource = isResource;
+            _pageName = pageName;
         }
 
         protected string Filename { get; set; }
+
+        protected bool IsResource { get; set; }
 
         public virtual void Include_Click(object sender, RoutedEventArgs e)
         {
@@ -37,10 +28,12 @@
             configurationService.Settings.Save();
         }
 
-        public virtual void IsEnabled_Click(object sender, RoutedEventArgs e)
+        protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            PropertyInfo pi = typeof(T).GetProperty("IsEnabled");
-            FileOperations.WriteFile(Filename, Items.Where(k => (bool)pi.GetValue(k)).Serialize());
+            IEventAggregator eventAggregator = IoC.Get<IEventAggregator>();
+            _ = eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage(_pageName), cancellationToken);
+            _ = eventAggregator.PublishOnUIThreadAsync(new UpdateItemsMessage(Filename, IsResource), cancellationToken);
+            return base.OnActivateAsync(cancellationToken);
         }
     }
 }

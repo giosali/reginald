@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Reflection;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using Caliburn.Micro;
     using HotkeyUtility.Input;
@@ -14,42 +15,43 @@
 
     public class ShellViewModel : Conductor<object>
     {
+        private readonly IWindowManager _windowManager;
+
         private readonly MainViewModel _mainViewModel;
 
         private readonly ClipboardManagerPopupViewModel _clipboardManagerPopupViewModel;
 
         private readonly TextExpansionManager _textExpansionManager;
 
-        private readonly SettingsViewModel _settingsViewModel;
-
         private bool _isEnabled = true;
 
-        public ShellViewModel(ConfigurationService configurationService)
+        public ShellViewModel(IWindowManager windowManager, ConfigurationService configurationService)
         {
+            _windowManager = windowManager;
             ConfigurationService = configurationService;
+
             _mainViewModel = new(configurationService);
             _clipboardManagerPopupViewModel = new(configurationService);
-            _settingsViewModel = new(configurationService);
             if (configurationService.Settings.LaunchOnStartup)
             {
                 _ = FileOperations.TryCreateShortcut();
             }
 
-            TooltipText = $"{FileOperations.ApplicationName} v{Assembly.GetExecutingAssembly().GetName().Version}";
+            ToolTipText = $"{FileOperations.ApplicationName} v{Assembly.GetExecutingAssembly().GetName().Version}";
 
             // Adds a low-level hook for text expansions.
             KeyboardHook keyboardHook = new();
             keyboardHook.Add();
-            _textExpansionManager = new(configurationService.Settings);
+            _textExpansionManager = new(configurationService.Settings.AreExpansionsEnabled);
             keyboardHook.KeyPressed += _textExpansionManager.KeyPressed;
 
-            // Adds a listener for the clipboard.
-            ClipboardUtility.GetClipboardUtility(GetView() as Window);
+            // Adds a listener for the clipboard manager.
+            _ = ClipboardUtility.GetClipboardUtility(GetView() as Window);
         }
 
         public ConfigurationService ConfigurationService { get; set; }
 
-        public string TooltipText { get; set; }
+        public string ToolTipText { get; set; }
 
         public bool IsEnabled
         {
@@ -94,26 +96,35 @@
                 // StaysOpen must be true for the popup to remain draggable
                 // when sending its handle a WM_NCLBUTTONDOWN message.
                 settings.Add("StaysOpen", true);
-                await new WindowManager().ShowPopupAsync(_clipboardManagerPopupViewModel, settings: settings);
+                await _windowManager.ShowPopupAsync(_clipboardManagerPopupViewModel, settings: settings);
             }
         }
 
-        public void OpenSettingsMenuItem_Click(object sender, RoutedEventArgs e)
+        public async void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            _ = new WindowManager().ShowWindowAsync(_settingsViewModel);
-        }
-
-        public void LaunchOnStartupMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            // Checks if the shortcut already exists by checking if
-            // TryCreateShortcut returns false.
-            // If it returns false, the shortcut gets deleted.
-            if (!FileOperations.TryCreateShortcut())
+            switch ((e.Source as MenuItem).Tag)
             {
-                FileOperations.DeleteShortcut();
-            }
+                case "Settings":
+                    object instance = IoC.GetInstance(typeof(SettingsViewModel), null);
+                    await _windowManager.ShowWindowAsync(instance);
+                    break;
 
-            ConfigurationService.Settings.Save();
+                case "LaunchOnStartup":
+                    // Checks if the shortcut already exists by checking if
+                    // TryCreateShortcut returns false.
+                    // If it returns false, the shortcut gets deleted.
+                    if (!FileOperations.TryCreateShortcut())
+                    {
+                        FileOperations.DeleteShortcut();
+                    }
+
+                    ConfigurationService.Settings.Save();
+                    break;
+
+                case "Exit":
+                    Application.Current.Shutdown();
+                    break;
+            }
         }
     }
 }

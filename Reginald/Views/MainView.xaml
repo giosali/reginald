@@ -16,9 +16,10 @@
             
             <!-- ## DataTemplate for ListBoxItem -->
             <DataTemplate x:Key="ListBoxItemDataTemplate">
-                <Grid VerticalAlignment="Center"
-                      Margin="5 0"
-                      cal:Message.Attach="[Event MouseMove] = [Action Item_MouseMove($source, $eventargs)]">
+                <Grid Margin="5 0"
+                      VerticalAlignment="Center"
+                      cal:Message.Attach="[Event MouseMove] = [Action Item_MouseMove($source, $eventargs)];
+                                          [Event PreviewMouseLeftButtonDown] = [Action Item_PreviewMouseLeftButtonDown($source, $eventargs)]">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="7.5"/>
@@ -39,22 +40,24 @@
                                 VerticalAlignment="Center">
                         <!-- #### Description -->
                         <TextBlock Text="{Binding Description}"
-                                   FontSize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.DescriptionFontSize}"
-                                   FontWeight="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.DescriptionFontWeight}"
+                                   FontSize="{Binding DataContext.ConfigurationService.Theme.DescriptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   FontWeight="{Binding DataContext.ConfigurationService.Theme.DescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   Margin="0"
+                                   Padding="0"
                                    TextWrapping="NoWrap"
                                    TextTrimming="CharacterEllipsis">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                      Value="True">
                                             <Setter Property="Foreground"
-                                                    Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.SelectedDescriptionBrush}"/>
+                                                    Value="{Binding DataContext.ConfigurationService.Theme.SelectedDescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                     <Style.Setters>
                                         <Setter Property="Foreground"
-                                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.DescriptionBrush}"/>
+                                                Value="{Binding DataContext.ConfigurationService.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                     </Style.Setters>
                                 </Style>
                             </TextBlock.Style>
@@ -62,20 +65,22 @@
 
                         <!-- #### Caption -->
                         <TextBlock Text="{Binding Caption}"
-                                   FontSize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.CaptionFontSize}"
-                                   FontWeight="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.DescriptionFontWeight}">
+                                   FontSize="{Binding DataContext.ConfigurationService.Theme.CaptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   FontWeight="{Binding DataContext.ConfigurationService.Theme.DescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   Margin="0"
+                                   Padding="0">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                      Value="True">
                                             <Setter Property="Foreground"
-                                                    Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.SelectedCaptionBrush}"/>
+                                                    Value="{Binding DataContext.ConfigurationService.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                     <Style.Setters>
                                         <Setter Property="Foreground"
-                                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ConfigurationService.Theme.CaptionBrush}"/>
+                                                Value="{Binding DataContext.ConfigurationService.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                     </Style.Setters>
                                 </Style>
                             </TextBlock.Style>
@@ -90,17 +95,17 @@
                                 <!-- #### Setters -->
                                 <Style.Setters>
                                     <Setter Property="Foreground"
-                                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ConfigurationService.Theme.CaptionBrush}"/>
+                                            Value="{Binding DataContext.ConfigurationService.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                 </Style.Setters>
                                 
                                 <!-- #### Triggers -->
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                  Value="True">
                                         <Setter Property="Text"
                                                 Value="↩"/>
                                         <Setter Property="Foreground"
-                                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.SelectedCaptionBrush}"/>
+                                                Value="{Binding DataContext.ConfigurationService.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -131,7 +136,7 @@
                              Value="True">
                         <Setter TargetName="listBoxItemBorder"
                                 Property="Background"
-                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.HighlightBrush}"/>
+                                Value="{Binding DataContext.ConfigurationService.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -152,7 +157,7 @@
                     <DataTrigger Binding="{Binding ConfigurationService.Theme.IsAcrylicEnabled}"
                                  Value="True">
                         <Setter Property="Background"
-                                Value="Transparent"/>
+                                Value="#01000000"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -179,6 +184,30 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+            
+            <!-- ## Style for ListBox -->
+            <Style x:Key="ListBoxStyle"
+                   TargetType="{x:Type ListBox}"
+                   BasedOn="{StaticResource {x:Type ListBox}}">
+                <Style.Resources>
+                    <Style TargetType="{x:Type ScrollViewer}">
+                        <Setter Property="Template"
+                                Value="{StaticResource FloatingScrollViewerControlTemplate}"/>
+                    </Style>
+
+                    <Style TargetType="{x:Type ScrollBar}"
+                           BasedOn="{StaticResource AppleNoHitTestScrollBarStyle}"/>
+                </Style.Resources>
+                
+                <!-- ### Triggers -->
+                <Style.Triggers>
+                    <Trigger Property="HasItems"
+                             Value="False">
+                        <Setter Property="Visibility"
+                                Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
 
             <!-- ## Style for ListBoxItem -->
             <Style x:Key="ListBoxItemContainerStyle"
@@ -187,7 +216,7 @@
                 <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Foreground"
-                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ConfigurationService.Theme.InputBrush}"/>
+                            Value="{Binding DataContext.ConfigurationService.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                     <Setter Property="Height"
                             Value="55"/>
                     <Setter Property="HorizontalContentAlignment"
@@ -200,9 +229,9 @@
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IsMouseOverChanged}"
+                            <Condition Binding="{Binding DataContext.IsMouseOverChanged, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                        Value="True"/>
-                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}"
+                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}"
                                        Value="True"/>
                         </MultiDataTrigger.Conditions>
                         <MultiDataTrigger.Setters>
@@ -234,11 +263,11 @@
                      FontWeight="{Binding ConfigurationService.Theme.InputFontWeight}"
                      SelectionBrush="{Binding ConfigurationService.Theme.SelectionBrush}"
                      SelectionOpacity="{Binding ConfigurationService.Theme.SelectionOpacity}"
-                     Height="65"
                      Grid.Row="0"
-                     Margin="5 0"
                      Background="Transparent"
                      BorderThickness="0"
+                     Height="65"
+                     Padding="10 0 0 0"
                      VerticalContentAlignment="Center"
                      cal:Message.Attach="[Event Loaded] = [Action UserInput_Loaded($this, $eventargs)];
                                          [Event Unloaded] = [Action UserInput_Unloaded($source, $eventargs)];
@@ -247,7 +276,8 @@
                                          [Event PreviewKeyDown] = [Action UserInput_PreviewKeyDown($this, $eventargs)];
                                          [Event PreviewKeyUp] = [Action UserInput_PreviewKeyUp($this, $eventargs)]"/>
 
-            <ListBox ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
+            <ListBox Style="{StaticResource ListBoxStyle}"
+                     ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
                      ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
                      ItemsSource="{Binding Items}"
                      SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
@@ -257,9 +287,10 @@
                      BorderThickness="0"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     ScrollViewer.CanContentScroll="False"
+                     VirtualizingStackPanel.IsVirtualizing="True"
+                     VirtualizingStackPanel.ScrollUnit="Pixel"
+                     VirtualizingStackPanel.VirtualizationMode="Recycling"
                      cal:Message.Attach="[Event Unloaded] = [Action Items_Unloaded($source, $eventargs)];
-                                         [Event PreviewMouseLeftButtonDown] = [Action Items_PreviewMouseLeftButtonDown($source, $eventargs)];
                                          [Event MouseLeave] = [Action Items_MouseLeave($this, $eventargs)];
                                          [Event SelectionChanged] = [Action Items_SelectionChanged($source, $eventargs)]"/>
         </Grid>

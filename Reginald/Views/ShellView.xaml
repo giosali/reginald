@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Reginald.Converters"
         xmlns:cal="http://caliburnmicro.com"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:hu="clr-namespace:HotkeyUtility.Controls;assembly=HotkeyUtility"
+        xmlns:local="clr-namespace:Reginald.Converters"
         mc:Ignorable="d"
         Title="ShellView" Height="0" Width="0"
         ResizeMode="NoResize"
@@ -16,51 +16,74 @@
         WindowStyle="None">
     <Window.Resources>
         <ResourceDictionary>
-            <local:StringsToKeyBindingConverter x:Key="StringsToKeyBindingConverter"/>
+            <local:StringToKeyBindingMultiConverter x:Key="StringToKeyBindingMultiConverter"/>
         </ResourceDictionary>
     </Window.Resources>
 
     <Grid>
+        <!-- # Hotkey for MainView -->
         <hu:VisualHotkey cal:Message.Attach="[Event Pressed] = [Action SearchWindowHotkeyBinding_Pressed($this, $eventargs)]">
             <hu:VisualHotkey.Combination>
-                <MultiBinding Converter="{StaticResource StringsToKeyBindingConverter}">
-                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Path="DataContext.ConfigurationService.Settings.SearchBoxKey"/>
-                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Path="DataContext.ConfigurationService.Settings.SearchBoxModifierOne"/>
-                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Path="DataContext.ConfigurationService.Settings.SearchBoxModifierTwo"/>
+                <MultiBinding Converter="{StaticResource StringToKeyBindingMultiConverter}"
+                              Mode="OneWay">
+                    <Binding Path="DataContext.ConfigurationService.Settings.ReginaldKey"
+                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
+                             Mode="OneWay"/>
+                    <Binding Path="DataContext.ConfigurationService.Settings.ReginaldModifiers"
+                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
+                             Mode="OneWay"/>
                 </MultiBinding>
             </hu:VisualHotkey.Combination>
         </hu:VisualHotkey>
-        <hu:VisualHotkey Combination="Control + Space"
-                         cal:Message.Attach="[Event Pressed] = [Action ClipboardManagerPopupHotkeyBinding_Pressed($this, $eventargs)]"/>
+        
+        <!-- # Hotkey for Clipboard Manager -->
+        <hu:VisualHotkey cal:Message.Attach="[Event Pressed] = [Action ClipboardManagerPopupHotkeyBinding_Pressed($this, $eventargs)]">
+            <hu:VisualHotkey.Combination>
+                <MultiBinding Converter="{StaticResource StringToKeyBindingMultiConverter}"
+                              Mode="OneWay">
+                    <Binding Path="DataContext.ConfigurationService.Settings.ClipboardManagerKey"
+                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
+                             Mode="OneWay"/>
+                    <Binding Path="DataContext.ConfigurationService.Settings.ClipboardManagerModifiers"
+                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
+                             Mode="OneWay"/>
+                </MultiBinding>
+            </hu:VisualHotkey.Combination>
+        </hu:VisualHotkey>
 
-        <hc:TransitioningContentControl>
-            <hc:NotifyIcon Text="{Binding TooltipText}"
-                           Icon="pack://application:,,,/Reginald;component/Reginald.ico">
-                <hc:NotifyIcon.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Open Settings"
-                                  cal:Message.Attach="[Event Click] = [Action OpenSettingsMenuItem_Click($this, $eventargs)]"/>
+        <!-- # NotifyIcon -->
+        <tb:TaskbarIcon ToolTipText="{Binding ToolTipText}"
+                        IconSource="pack://application:,,,/Reginald;component/Reginald.ico"
+                        MenuActivation="LeftOrRightClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <!-- ## Settings-->
+                    <MenuItem Header="Settings"
+                              Tag="Settings"
+                              cal:Message.Attach="[Event Click] = [Action MenuItem_Click($this, $eventargs)]"/>
 
-                        <Separator/>
+                    <Separator/>
 
-                        <MenuItem IsChecked="{Binding IsEnabled}"
-                                  IsCheckable="True"
-                                  Header="Search Box Enabled"/>
-                        <MenuItem IsChecked="{Binding ConfigurationService.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  IsCheckable="True"
-                                  Header="Launch on Startup"
-                                  cal:Message.Attach="[Event Click] = [Action LaunchOnStartupMenuItem_Click($this, $eventargs)]"/>
+                    <!-- ## Enabled -->
+                    <MenuItem Header="Enabled"
+                              IsCheckable="True"
+                              IsChecked="{Binding IsEnabled}"/>
 
-                        <Separator/>
+                    <!-- ## Launch on Startup -->
+                    <MenuItem Header="Launch on startup"
+                              Tag="LaunchOnStartup"
+                              IsCheckable="True"
+                              IsChecked="{Binding ConfigurationService.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              cal:Message.Attach="[Event Click] = [Action MenuItem_Click($this, $eventargs)]"/>
 
-                        <MenuItem Header="Exit"
-                                  Command="hc:ControlCommands.ShutdownApp"/>
-                    </ContextMenu>
-                </hc:NotifyIcon.ContextMenu>
-            </hc:NotifyIcon>
-        </hc:TransitioningContentControl>
+                    <Separator/>
+
+                    <!-- ## Exit -->
+                    <MenuItem Header="Exit"
+                              Tag="Exit"
+                              cal:Message.Attach="[Event Click] = [Action MenuItem_Click($this, $eventargs)]"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
     </Grid>
 </Window>

@@ -79,6 +79,15 @@
             }
         }
 
+        public void UserInput_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            // Prevents premature input from appearing. For example, if the user
+            // binds the clipboard manager to Control + Space and we didn't set e.Handled
+            // to true, there will be a starting space character in the text each time
+            // the user activates the clipboard manager by pressing those keys.
+            e.Handled = true;
+        }
+
         /// <summary>
         /// Drags the view.
         /// </summary>
@@ -94,10 +103,13 @@
             Hide();
         }
 
-        public void Items_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public void Item_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            SelectedItem.EnterKeyDown();
-            Hide();
+            if (SelectedItem is not null)
+            {
+                SelectedItem.EnterKeyDown();
+                Hide();
+            }
         }
 
         public void Items_MouseLeave(object sender, MouseEventArgs e)

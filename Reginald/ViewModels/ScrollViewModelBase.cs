@@ -4,7 +4,7 @@
     using System.Windows.Input;
     using Caliburn.Micro;
 
-    public class ScrollViewModelBase : PropertyChangedBase
+    public abstract class ScrollViewModelBase : Conductor<object>
     {
         public void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {

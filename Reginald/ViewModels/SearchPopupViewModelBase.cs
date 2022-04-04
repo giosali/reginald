@@ -8,7 +8,7 @@
     using System.Windows.Input;
     using System.Windows.Interop;
     using Reginald.Services;
-    using Reginald.Utilities;
+    using Reginald.Services.Appearance;
 
     public class SearchPopupViewModelBase<T> : PopupViewModelBase<T>
     {

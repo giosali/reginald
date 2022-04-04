@@ -18,16 +18,29 @@
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            DisplayRootViewFor<ShellViewModel>();
+            _ = DisplayRootViewFor<ShellViewModel>();
         }
 
         protected override void Configure()
         {
-            _container.Singleton<IWindowManager, WindowManager>();
-            _container.Singleton<ShellViewModel>();
-            _container.Singleton<ConfigurationService>();
-            _container.Singleton<DataFileService>();
-            _container.Singleton<UserResourceService>();
+            _ = _container.Singleton<IWindowManager, WindowManager>()
+                          .Singleton<IEventAggregator, EventAggregator>()
+                          .Singleton<ConfigurationService>()
+                          .Singleton<DataFileService>()
+                          .Singleton<UserResourceService>()
+                          .Singleton<ShellViewModel>()
+                          .Singleton<SettingsViewModel>()
+                          .Singleton<GeneralViewModel>()
+                          .Singleton<ThemesViewModel>()
+                          .Singleton<KeywordsViewModel>()
+                          .Singleton<KeyphrasesViewModel>()
+                          .Singleton<DefaultKeywordViewModel>()
+                          .Singleton<UserKeywordViewModel>()
+                          .Singleton<HttpKeywordViewModel>()
+                          .Singleton<CommandKeywordViewModel>()
+                          .Singleton<UtilityKeyphraseViewModel>()
+                          .Singleton<ExpansionsViewModel>()
+                          .Singleton<AboutViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)

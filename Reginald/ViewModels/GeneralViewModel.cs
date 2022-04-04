@@ -1,104 +1,83 @@
 ﻿namespace Reginald.ViewModels
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text.RegularExpressions;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Input;
+    using Caliburn.Micro;
+    using HotkeyUtility;
+    using HotkeyUtility.Extensions;
     using Reginald.Core.IO;
+    using Reginald.Messages;
     using Reginald.Services;
     using Reginald.Services.Utilities;
 
-    public class GeneralViewModel : ScrollViewModelBase
+    public class GeneralViewModel : Screen
     {
-        private Key _selectedKey;
-
-        private ModifierKeys _selectedModifierKeyOne;
-
-        private ModifierKeys _selectedModifierKeyTwo;
+        private string _hotkeyInput;
 
         public GeneralViewModel(ConfigurationService configurationService)
         {
             ConfigurationService = configurationService;
-            SelectedKey = (Key)Enum.Parse(typeof(Key), ConfigurationService.Settings.SearchBoxKey);
-            SelectedModifierKeyOne = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), ConfigurationService.Settings.SearchBoxModifierOne);
-            SelectedModifierKeyTwo = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), ConfigurationService.Settings.SearchBoxModifierTwo);
-
-            Keys = Enum.GetValues(typeof(Key))
-                       .Cast<Key>()
-                       .Where(key =>
-                       {
-                           Regex rx = new(@"mode|dbe|eof|oem|system|ime|abnt|launch|browser|shift|ctrl|alt|scroll|win|apps|noname|pa1|dead|none", RegexOptions.IgnoreCase);
-                           return !rx.IsMatch(key.ToString());
-                       })
-                       .Distinct();
-
-            ModifierKeys = Enum.GetValues(typeof(ModifierKeys))
-                               .Cast<ModifierKeys>()
-                               .Where(modifierKey =>
-                               {
-                                   Regex rx = new(@"windows", RegexOptions.IgnoreCase);
-                                   return !rx.IsMatch(modifierKey.ToString());
-                               });
         }
 
         public ConfigurationService ConfigurationService { get; set; }
 
-        public IEnumerable<Key> Keys { get; set; }
-
-        public IEnumerable<ModifierKeys> ModifierKeys { get; set; }
-
-        public Key SelectedKey
+        public string HotkeyInput
         {
-            get => _selectedKey;
+            get => _hotkeyInput;
             set
             {
-                _selectedKey = value;
-                NotifyOfPropertyChange(() => SelectedKey);
+                _hotkeyInput = value;
+                NotifyOfPropertyChange(() => HotkeyInput);
             }
         }
 
-        public ModifierKeys SelectedModifierKeyOne
+        public void HotkeyTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            get => _selectedModifierKeyOne;
-            set
+            ModifierKeys modifiers = Keyboard.Modifiers;
+            switch (modifiers)
             {
-                _selectedModifierKeyOne = value;
-                NotifyOfPropertyChange(() => SelectedModifierKeyOne);
+                // Selected when a modifier key was pressed (other than the Windows logo key).
+                case not ModifierKeys.None when modifiers != ModifierKeys.Windows:
+                    Key key;
+                    switch (key = e.Key == Key.System ? e.SystemKey : e.Key)
+                    {
+                        // Selected when a key other than Shift, Control, or Alt is pressed.
+                        case < Key.LeftShift:
+                        case > Key.RightAlt:
+                            // The F12 key is reserved for use by the debugger at all times, so it should not be registered as a hotkey. Even when you are not debugging an application, F12 is reserved in case a kernel-mode debugger or a just-in-time debugger is resident.
+                            if (key == Key.F12)
+                            {
+                                break;
+                            }
+
+                            Key reginaldKey = (Key)Enum.Parse(typeof(Key), ConfigurationService.Settings.ReginaldKey);
+                            ModifierKeys reginaldModifiers = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), ConfigurationService.Settings.ReginaldModifiers);
+
+                            // Ensures that if the user tries registering a key binding that's
+                            // clearly already registered, the request will simply be ignored.
+                            if (key == reginaldKey && modifiers == reginaldModifiers)
+                            {
+                                break;
+                            }
+
+                            HotkeyManager hotkeyManager = HotkeyManager.GetHotkeyManager();
+                            Hotkey hotkey = hotkeyManager.GetHotkeys().Find(reginaldKey, reginaldModifiers);
+                            if (hotkey is not null)
+                            {
+                                ConfigurationService.Settings.ReginaldKey = key.ToString();
+                                ConfigurationService.Settings.ReginaldModifiers = modifiers.ToString();
+                                ConfigurationService.Settings.Save();
+                                HotkeyInput = ConvertKeysToString(key, modifiers);
+                            }
+
+                            break;
+                    }
+
+                    break;
             }
-        }
-
-        public ModifierKeys SelectedModifierKeyTwo
-        {
-            get => _selectedModifierKeyTwo;
-            set
-            {
-                _selectedModifierKeyTwo = value;
-                NotifyOfPropertyChange(() => SelectedModifierKeyTwo);
-            }
-        }
-
-        public void SelectedKey_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SelectedKey != Key.None)
-            {
-                ConfigurationService.Settings.SearchBoxKey = SelectedKey.ToString();
-                ConfigurationService.Settings.Save();
-            }
-        }
-
-        public void SelectedModifierKeyOne_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ConfigurationService.Settings.SearchBoxModifierOne = SelectedModifierKeyOne.ToString();
-            ConfigurationService.Settings.Save();
-        }
-
-        public void SelectedModifierKeyTwo_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ConfigurationService.Settings.SearchBoxModifierTwo = SelectedModifierKeyTwo.ToString();
-            ConfigurationService.Settings.Save();
         }
 
         public void LaunchOnStartupToggleButton_Click(object sender, RoutedEventArgs e)
@@ -119,6 +98,25 @@
         public void ShutdownButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        protected override Task OnActivateAsync(CancellationToken cancellationToken)
+        {
+            HotkeyInput = ConvertStringToStringKeyRepresentation(ConfigurationService.Settings.ReginaldKey, ConfigurationService.Settings.ReginaldModifiers);
+
+            IEventAggregator eventAggregator = IoC.Get<IEventAggregator>();
+            _ = eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage("General"), cancellationToken);
+            return base.OnActivateAsync(cancellationToken);
+        }
+
+        private static string ConvertStringToStringKeyRepresentation(string key, string modifiers)
+        {
+            return modifiers.Replace(",", " +") + " + " + key;
+        }
+
+        private static string ConvertKeysToString(Key key, ModifierKeys modifiers)
+        {
+            return modifiers.ToString().Replace(",", " +") + " + " + key.ToString();
         }
     }
 }

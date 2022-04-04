@@ -3,136 +3,87 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Reginald.Converters"
              xmlns:cal="http://caliburnmicro.com"
-             xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <!-- # Converters -->
-            <local:ToggleSwitchBooleanToStringConverter x:Key="ToggleSwitchBooleanToStringConverter"/>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    
-    <ScrollViewer Focusable="True"
-                  FocusVisualStyle="{x:Null}"
-                  cal:Message.Attach="[Event MouseDown] = [Action ScrollViewer_MouseDown($source, $eventargs)]">
-        <hc:UniformSpacingPanel Orientation="Vertical"
-                                Spacing="24"
-                                Margin="0 0 16 0">
-            <!-- # Title -->
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
-                       Text="General"/>
-            
-            <!-- ## Gestures -->
-            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
-                       Text="Gestures"/>
-            
-            <!-- ### Key Bindings -->
-            <hc:UniformSpacingPanel Orientation="Vertical"
-                                    Spacing="16">
-                <Expander Style="{StaticResource InfoExpanderStyle}">
-                    <StackPanel Style="{StaticResource ExpanderStackPanelStyle}">
-                        <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
-                                   Text="•  Here are some possible combinations:"/>
-                        <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}">
-                            <Run Text="    - "/>
-                            <Run Text="1 Key:"
-                                 FontWeight="Bold"/>
-                            <Run Text="S"/>
-                        </TextBlock>
-                        <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}">
-                            <Run Text="    - "/>
-                            <Run Text="1 Modifier Key + 1 Key:"
-                                 FontWeight="Bold"/>
-                            <Run Text="Alt + S"/>
-                        </TextBlock>
-                        <TextBlock Style="{StaticResource ExpanderIndentedNormalTextBlockStyle}">
-                            <Run Text="    - "/>
-                            <Run Text="2 Modifier Keys + 1 Key:"
-                                 FontWeight="Bold"/>
-                            <Run Text="Shift + Alt + S"/>
-                        </TextBlock>
-                        
-                        <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
-                                   Text="•  If you only use one Modifier Key, leave the other blank"/>
+    <ScrollViewer Style="{StaticResource DefaultScrollViewerStyle}">
+        <StackPanel Style="{StaticResource UserControlStackPanelStyle}">
+            <!-- # Reginald Hotkey -->
+            <Border Style="{StaticResource CardBorderStyle}">
+                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
+                        <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE765;"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="Reginald hotkey"/>
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Define the Reginald hotkey by pressing key combinations in the box"/>
+                        </StackPanel>
                     </StackPanel>
-                </Expander>
 
-                <TextBlock Style="{StaticResource NormalTextBlockStyle}"
-                           Text="Key bindings for opening the search box window"/>
-
-                <hc:UniformSpacingPanel Spacing="8">
-                    <Label Style="{DynamicResource LabelPrimary}"
-                           Content="Modifier Key:"
-                           VerticalAlignment="Center"/>
-                    <ComboBox ItemsSource="{Binding ModifierKeys, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedItem="{Binding SelectedModifierKeyTwo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              cal:Message.Attach="[Event SelectionChanged] = [Action SelectedKey_SelectionChanged($this, $eventargs)]"/>
-                    
-                    <TextBlock Text="+"
-                               VerticalAlignment="Center"/>
-                    <Label Style="{DynamicResource LabelPrimary}"
-                           Content="Modifier Key:"
-                           VerticalAlignment="Center"/>
-                    <ComboBox ItemsSource="{Binding ModifierKeys, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedItem="{Binding SelectedModifierKeyOne, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              cal:Message.Attach="[Event SelectionChanged] = [Action SelectedModifierKeyOne_SelectionChanged($this, $eventargs)]"/>
-                    
-                    <TextBlock Text="+"
-                               VerticalAlignment="Center"/>
-                    <Label Style="{DynamicResource LabelPrimary}"
-                           Content="Key:"
-                           VerticalAlignment="Center"/>
-                    <ComboBox ItemsSource="{Binding Keys, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedItem="{Binding SelectedKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              cal:Message.Attach="[Event SelectionChanged] = [Action SelectedModifierKeyTwo_SelectionChanged($this, $eventargs)]"/>
-                </hc:UniformSpacingPanel>
-            </hc:UniformSpacingPanel>
-
-            <Expander Style="{StaticResource InfoExpanderStyle}">
-                <StackPanel Style="{StaticResource ExpanderStackPanelStyle}">
-                    <TextBlock Style="{StaticResource IndentedNormalTextBlockStyle}"
-                               Text="•  You must restart the application for key binding changes to take effect"/>
+                    <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
+                        <TextBox Style="{StaticResource HotkeyTextBoxStyle}"
+                                 Text="{Binding HotkeyInput}"
+                                 cal:Message.Attach="[Event PreviewKeyDown] = [Action HotkeyTextBox_PreviewKeyDown($this, $eventargs)]"/>
+                    </StackPanel>
                 </StackPanel>
-            </Expander>
+            </Border>
 
-            <!-- ## Application-->
-            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
-                       Text="Application"/>
+            <!-- ToggleButton for Launch on Startup -->
+            <Border Style="{StaticResource CardBorderStyle}">
+                <Grid Style="{StaticResource CardControlGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-            <!-- ### ToggleButton for Launch on Startup -->
-            <hc:UniformSpacingPanel Style="{StaticResource VerticalUniformSpacingPanelStyle}"
-                                    Spacing="8">
-                <TextBlock Style="{StaticResource NormalTextBlockStyle}"
-                           Text="Launch Reginald on system startup"/>
+                    <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                               Grid.Column="0"
+                               Text="&#xE7E8;"/>
+                    <StackPanel Grid.Column="1"
+                                VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                   Text="Launch on startup"/>
+                        <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                   Text="Start Reginald when you start up your computer"/>
+                    </StackPanel>
 
-                <ToggleButton Style="{StaticResource SwitchToggleButtonStyle}"
-                              Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
-                              IsChecked="{Binding ConfigurationService.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              cal:Message.Attach="[Event Click] = [Action LaunchOnStartupToggleButton_Click($this, $eventargs)]"/>
-            </hc:UniformSpacingPanel>
+                    <ToggleButton Style="{StaticResource WindowsToggleButtonStyle}"
+                                  IsChecked="{Binding ConfigurationService.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Grid.Column="3"
+                                  cal:Message.Attach="[Event Click] = [Action LaunchOnStartupToggleButton_Click($this, $eventargs)]"/>
+                </Grid>
+            </Border>
 
-            <!-- ### Restart Application Button -->
-            <hc:UniformSpacingPanel Spacing="8"
-                                    ItemVerticalAlignment="Center">
-                <TextBlock Style="{StaticResource DefaultTextBlockStyle}"
-                           Text="Restart application"/>
-                
-                <Button Content="Restart"
-                        cal:Message.Attach="[Event Click] = [Action RestartButton_Click($this, $eventargs)]"/>
-            </hc:UniformSpacingPanel>
-            
-            <!-- ### Shutdown Application Button -->
-            <hc:UniformSpacingPanel Spacing="8"
-                                    ItemVerticalAlignment="Center">
-                <TextBlock Style="{StaticResource DefaultTextBlockStyle}"
-                           Text="Shutdown application"/>
+            <!-- # Shutdown or Restart Application -->
+            <Border Style="{StaticResource CardBorderStyle}">
+                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
+                        <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE7F8;"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="Application"/>
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Shutdown or restart the application"/>
+                        </StackPanel>
+                    </StackPanel>
 
-                <Button Content="Shutdown"
-                        cal:Message.Attach="[Event Click] = [Action ShutdownButton_Click($this, $eventargs)]"/>
-            </hc:UniformSpacingPanel>
-        </hc:UniformSpacingPanel>
+                    <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}"
+                                Orientation="Horizontal">
+                        <Button Style="{StaticResource SecondaryButtonStyle}"
+                                Content="Shutdown"
+                                Margin="0 0 6 0"
+                                cal:Message.Attach="[Event Click] = [Action ShutdownButton_Click($this, $eventargs)]"/>
+                        <Button Style="{StaticResource SecondaryButtonStyle}"
+                                Content="Restart"
+                                cal:Message.Attach="[Event Click] = [Action RestartButton_Click($this, $eventargs)]"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
     </ScrollViewer>
 </UserControl>

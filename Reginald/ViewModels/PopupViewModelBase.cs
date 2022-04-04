@@ -10,6 +10,7 @@
     using System.Windows.Input;
     using Caliburn.Micro;
     using HotkeyUtility;
+    using HotkeyUtility.Extensions;
     using Reginald.Services.Hooks;
     using Reginald.Services.Input;
 
@@ -113,6 +114,18 @@
 
         private void OnKeyPressed(object sender, KeyPressedEventArgs e)
         {
+            ModifierKeys modifiers = Keyboard.Modifiers;
+            if (modifiers != ModifierKeys.None)
+            {
+                HotkeyManager hotkeyManager = HotkeyManager.GetHotkeyManager();
+                Hotkey hotkey = hotkeyManager.GetHotkeys().Find(e.Key, modifiers);
+                if (hotkey is not null)
+                {
+                    e.IsHotkeyPressed = true;
+                    return;
+                }
+            }
+
             if (e.IsDown)
             {
                 _ = KeyboardInputInjector.SendKeyDown(ActiveHandle, e.VirtualKeyCode);
@@ -120,20 +133,6 @@
             else
             {
                 _ = KeyboardInputInjector.SendKeyUp(ActiveHandle, e.VirtualKeyCode);
-            }
-
-            ModifierKeys modifiers = Keyboard.Modifiers;
-            if (modifiers != ModifierKeys.None)
-            {
-                HotkeyUtility utility = HotkeyUtility.GetHotkeyUtility();
-                foreach (Hotkey hotkey in utility.GetHotkeys())
-                {
-                    if (e.Key == hotkey.Key && modifiers == hotkey.Modifiers)
-                    {
-                        e.IsHotkeyPressed = true;
-                        break;
-                    }
-                }
             }
         }
     }

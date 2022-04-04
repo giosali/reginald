@@ -3,96 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Reginald.Converters"
              xmlns:cal="http://caliburnmicro.com"
-             xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <!-- # Converters -->
-            <local:ToggleSwitchBooleanToStringConverter x:Key="ToggleSwitchBooleanToStringConverter"/>
-        </ResourceDictionary>
-    </UserControl.Resources>
+    <StackPanel Style="{StaticResource InnerUserControlStackPanelStyle}">
+        <!-- # ToggleButton for Include (Default Keywords) -->
+        <Border Style="{StaticResource CardBorderStyle}">
+            <Grid Style="{StaticResource CardControlGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-    <ScrollViewer Focusable="True"
-                  FocusVisualStyle="{x:Null}"
-                  cal:Message.Attach="[Event PreviewMouseWheel] = [Action ScrollViewer_PreviewMouseWheel($source, $eventargs)];
-                                      [Event MouseDown] = [Action ScrollViewer_MouseDown($source, $eventargs)]">
-        <hc:UniformSpacingPanel Orientation="Vertical"
-                                Spacing="24"
-                                Margin="0 0 16 0">
-            <!-- # Title -->
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
-                       Text="Default keywords"/>
-            
-            <!-- ## ToggleButton for Include -->
-            <hc:UniformSpacingPanel Style="{StaticResource VerticalUniformSpacingPanelStyle}"
-                                    Spacing="8">
-                <TextBlock Style="{StaticResource NormalTextBlockStyle}"
-                           Text="Include default keyword searches in your search results"/>
-                
-                <ToggleButton Style="{StaticResource SwitchToggleButtonStyle}"
-                              Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, Converter={StaticResource ToggleSwitchBooleanToStringConverter}}"
+                <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                           Grid.Column="0"
+                           Text="&#xE77B;"/>
+                <StackPanel Grid.Column="1"
+                            VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                               Text="Default keywords"/>
+                    <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                               Text="Include default keywords in your search results"/>
+                </StackPanel>
+
+                <ToggleButton Style="{StaticResource WindowsToggleButtonStyle}"
                               IsChecked="{Binding ConfigurationService.Settings.IncludeDefaultKeywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Grid.Column="3"
                               cal:Message.Attach="[Event Click] = [Action Include_Click($this, $eventargs)]"/>
-            </hc:UniformSpacingPanel>
-
-            <!-- ## DataGrid -->
-            <DataGrid ItemsSource="{Binding Items}"
-                      AutoGenerateColumns="False"
-                      CanUserAddRows="False"
-                      CanUserDeleteRows="False"
-                      CanUserReorderColumns="False"
-                      CanUserResizeColumns="False"
-                      SelectionMode="Single"
-                      HeadersVisibility="Column">
-                <DataGrid.Columns>
-                    <!-- ### Icon -->
-                    <DataGridTemplateColumn Header="Icon"
-                                            IsReadOnly="True"
-                                            Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding Icon}"
-                                       Width="20"
-                                       Height="20"
-                                       SnapsToDevicePixels="True"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                    <!-- ### Keyword-->
-                    <DataGridTextColumn Header="Keyword"
-                                        Binding="{Binding Word}"
-                                        IsReadOnly="True"
-                                        Width="*"
-                                        FontSize="16"
-                                        FontWeight="Light"/>
-                    
-                    <!-- Description -->
-                    <DataGridTextColumn Header="Description"
-                                        Binding="{Binding Description}"
-                                        IsReadOnly="True"
-                                        Width="2*"
-                                        FontSize="16"
-                                        FontWeight="Light"/>
-
-                    <!-- ### Enabled -->
-                    <DataGridTemplateColumn Header="Enabled" 
-                                            IsReadOnly="False">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          HorizontalContentAlignment="Center"
-                                          cal:Message.Attach="[Event Click] = [Action IsEnabled_Click($this, $eventargs)]"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </hc:UniformSpacingPanel>
-    </ScrollViewer>
+            </Grid>
+        </Border>
+    </StackPanel>
 </UserControl>

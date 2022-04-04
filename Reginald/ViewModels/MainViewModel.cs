@@ -277,7 +277,7 @@
             }
         }
 
-        public void Items_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public void Item_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             OnSelectedItemEnterDown();
         }
@@ -303,24 +303,26 @@
         private void OnSelectedItemEnterDown()
         {
             DisplayItem selectedDisplayItem = SelectedItem;
-
-            // Prevents the popup from closing by checking the selected item's
-            // 'CanReceiveKeyboardInput' property. If the property is false,
-            // then that means pressing Enter does nothing and the popup should stay visible.
-            if (!selectedDisplayItem.RequiresPrompt && selectedDisplayItem.CanReceiveKeyboardInput)
+            if (selectedDisplayItem is not null)
             {
-                RecentSearches.Append(UserInput);
-                Hide();
-
-                // Ensures that only items that launch other programs/applications
-                // will cause the application to lose focus.
-                if (selectedDisplayItem.LosesFocus)
+                // Prevents the popup from closing by checking the selected item's
+                // 'CanReceiveKeyboardInput' property. If the property is false,
+                // then that means pressing Enter does nothing and the popup should stay visible.
+                if (!selectedDisplayItem.RequiresPrompt && selectedDisplayItem.CanReceiveKeyboardInput)
                 {
-                    _ = Services.Devices.Keyboard.LoseFocus();
-                }
-            }
+                    RecentSearches.Append(UserInput);
+                    Hide();
 
-            selectedDisplayItem.EnterKeyDown();
+                    // Ensures that only items that launch other programs/applications
+                    // will cause the application to lose focus.
+                    if (selectedDisplayItem.LosesFocus)
+                    {
+                        _ = Services.Devices.Keyboard.LoseFocus();
+                    }
+                }
+
+                selectedDisplayItem.EnterKeyDown();
+            }
         }
 
         private void BrowseRecentSearches(bool isUpKey)

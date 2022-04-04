@@ -1,86 +1,76 @@
 ﻿namespace Reginald.ViewModels
 {
+    using System;
+    using System.Threading;
     using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Interop;
     using Caliburn.Micro;
-    using HandyControl.Controls;
-    using HandyControl.Data;
-    using Reginald.Services;
+    using Reginald.Messages;
+    using Reginald.Services.Appearance;
 
-    public class SettingsViewModel : Conductor<object>
+    public class SettingsViewModel : Conductor<object>, IHandle<UpdatePageMessage>
     {
-        private readonly GeneralViewModel _generalViewModel;
+        private readonly IEventAggregator _eventAggregator;
 
-        private readonly ThemesViewModel _themesViewModel;
+        private string _title;
 
-        private readonly DefaultKeywordViewModel _defaultKeywordViewModel;
-
-        private readonly HttpKeywordsViewModel _httpKeywordsViewModel;
-
-        private readonly CommandsViewModel _commandsViewModel;
-
-        private readonly UtilitiesViewModel _utilitiesViewModel;
-
-        private readonly ExpansionsViewModel _expansionsViewModel;
-
-        private readonly MiscellaneousViewModel _miscellaneousViewModel;
-
-        public SettingsViewModel(ConfigurationService configurationService)
+        public SettingsViewModel(IEventAggregator eventAggregator)
         {
-            _generalViewModel = new(configurationService);
-            _themesViewModel = new(configurationService);
-            _defaultKeywordViewModel = new(configurationService);
-            _httpKeywordsViewModel = new(configurationService);
-            _commandsViewModel = new(configurationService);
-            _utilitiesViewModel = new(configurationService);
-            _expansionsViewModel = new(configurationService);
-            _miscellaneousViewModel = new(configurationService);
-            _ = ActivateItemAsync(_generalViewModel);
+            _eventAggregator = eventAggregator;
+            _eventAggregator.SubscribeOnPublishedThread(this);
         }
 
-        public async Task SideMenu_SelectionChangedAsync(object sender, FunctionEventArgs<object> e)
+        public string Title
         {
-            SideMenuItem sideMenuItem = sender as SideMenuItem;
-            switch (sideMenuItem.Name)
+            get => _title;
+            set
             {
-                case "Themes":
-                    await ActivateItemAsync(_themesViewModel);
-                    break;
+                _title = value;
+                NotifyOfPropertyChange(() => Title);
+            }
+        }
 
-                case "DefaultKeywords":
-                    await ActivateItemAsync(_defaultKeywordViewModel);
-                    break;
+        public Task HandleAsync(UpdatePageMessage message, CancellationToken cancellationToken)
+        {
+            Title = message.Title;
+            return Task.CompletedTask;
+        }
 
-                case "UserKeywords":
-                    await ActivateItemAsync(new UserKeywordsViewModel());
-                    break;
+        public void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (GetView() is Window window && PresentationSource.FromVisual(window) is HwndSource source)
+            {
+                DarkTitleBar.Enable(source.Handle);
+            }
+        }
 
-                case "HttpKeywords":
-                    await ActivateItemAsync(_httpKeywordsViewModel);
-                    break;
+        public async void ListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            object instance = IoC.GetInstance(typeof(GeneralViewModel), null);
+            await ActivateItemAsync(instance);
+        }
 
-                case "Commands":
-                    await ActivateItemAsync(_commandsViewModel);
-                    break;
+        public void ListBox_PreviewKeyDown(object sender, KeyEventArgs e) => e.Handled = true;
 
-                case "Utilities":
-                    await ActivateItemAsync(_utilitiesViewModel);
-                    break;
-
-                case "Expansions":
-                    await ActivateItemAsync(_expansionsViewModel);
-                    break;
-
-                case "Miscellaneous":
-                    await ActivateItemAsync(_miscellaneousViewModel);
-                    break;
-
-                case "Info":
-                    await ActivateItemAsync(new InfoViewModel());
-                    break;
-
-                case "General":
-                    await ActivateItemAsync(_generalViewModel);
-                    break;
+        public async void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Type type = (e.Source as ListBoxItem).Tag switch
+            {
+                "General" => typeof(GeneralViewModel),
+                "Themes" => typeof(ThemesViewModel),
+                "Keywords" => typeof(KeywordsViewModel),
+                "Keyphrases" => typeof(KeyphrasesViewModel),
+                "Expansions" => typeof(ExpansionsViewModel),
+                "About" => typeof(AboutViewModel),
+                _ => null,
+            };
+            object instance = IoC.GetInstance(type, null);
+            if (instance is IScreen screen && !screen.IsActive)
+            {
+                await ActivateItemAsync(instance);
             }
         }
     }

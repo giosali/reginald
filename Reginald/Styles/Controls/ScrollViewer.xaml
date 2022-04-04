@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- # DefaultScrollViewerStyle -->
+    <Style x:Key="DefaultScrollViewerStyle"
+           TargetType="{x:Type ScrollViewer}">
+        <Setter Property="Focusable"
+                Value="True"/>
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}"/>
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing"
+                Value="True"/>
+        <Setter Property="VirtualizingStackPanel.ScrollUnit"
+                Value="Pixel"/>
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode"
+                Value="Recycling"/>
+    </Style>
+</ResourceDictionary>
