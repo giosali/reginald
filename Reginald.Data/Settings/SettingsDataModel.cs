@@ -13,7 +13,6 @@
         {
             SettingsDataModel protoSettings = FileOperations.DeserializeFile<SettingsDataModel>(filePath);
 
-            // Assign properties
             IncludeInstalledApplications = protoSettings?.IncludeInstalledApplications ?? true;
             IncludeDefaultKeywords = protoSettings?.IncludeDefaultKeywords ?? true;
             IncludeHttpKeywords = protoSettings?.IncludeHttpKeywords ?? true;
@@ -22,9 +21,10 @@
             IncludeSettingsPages = protoSettings?.IncludeSettingsPages ?? true;
             AreExpansionsEnabled = protoSettings?.AreExpansionsEnabled ?? true;
             LaunchOnStartup = protoSettings?.LaunchOnStartup ?? true;
-            SearchBoxKey = protoSettings?.SearchBoxKey ?? "Space";
-            SearchBoxModifierOne = protoSettings?.SearchBoxModifierOne ?? "Alt";
-            SearchBoxModifierTwo = protoSettings?.SearchBoxModifierTwo ?? "None";
+            ReginaldKey = protoSettings?.ReginaldKey ?? "Space";
+            ReginaldModifiers = protoSettings?.ReginaldModifiers ?? "Alt";
+            ClipboardManagerKey = protoSettings?.ClipboardManagerKey ?? "Space";
+            ClipboardManagerModifiers = protoSettings?.ClipboardManagerModifiers ?? "Control";
             ThemeIdentifier = protoSettings?.ThemeIdentifier ?? "553a4cdf-11c6-49ce-b634-7ce6945f6958";
         }
 
@@ -52,14 +52,17 @@
         [JsonProperty("launchOnStartup")]
         public bool LaunchOnStartup { get; set; }
 
-        [JsonProperty("searchBoxKey")]
-        public string SearchBoxKey { get; set; }
+        [JsonProperty("reginaldKey")]
+        public string ReginaldKey { get; set; }
 
-        [JsonProperty("searchBoxModifierOne")]
-        public string SearchBoxModifierOne { get; set; }
+        [JsonProperty("reginaldModifiers")]
+        public string ReginaldModifiers { get; set; }
 
-        [JsonProperty("searchBoxModifierTwo")]
-        public string SearchBoxModifierTwo { get; set; }
+        [JsonProperty("clipboardManagerKey")]
+        public string ClipboardManagerKey { get; set; }
+
+        [JsonProperty("clipboardManagerModifiers")]
+        public string ClipboardManagerModifiers { get; set; }
 
         [JsonProperty("themeIdentifier")]
         public string ThemeIdentifier { get; set; }
