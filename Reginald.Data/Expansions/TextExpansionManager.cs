@@ -12,34 +12,37 @@
 
     public class TextExpansionManager
     {
-        public TextExpansionManager(SettingsDataModel settings)
+        private readonly FileSystemWatcher[] _watchers;
+
+        public TextExpansionManager(bool areExpansionsEnabled)
         {
-            Settings = settings;
+            AreExpansionsEnabled = areExpansionsEnabled;
             UpdateTextExpansions();
-            ExpansionsWatcher = FileSystemWatcherHelper.Initialize(FileOperations.ApplicationAppDataDirectoryPath, TextExpansion.Filename, OnTextExpansionsChanged);
+            _watchers = new FileSystemWatcher[]
+            {
+                FileSystemWatcherHelper.Initialize(FileOperations.ApplicationAppDataDirectoryPath, SettingsDataModel.Filename, OnSettingsChanged),
+                FileSystemWatcherHelper.Initialize(FileOperations.ApplicationAppDataDirectoryPath, TextExpansion.Filename, OnTextExpansionsChanged),
+            };
         }
 
-        public SettingsDataModel Settings { get; set; }
+        protected bool AreExpansionsEnabled { get; set; }
 
         private List<TextExpansion> TextExpansions { get; set; } = new();
-
-        private FileSystemWatcher ExpansionsWatcher { get; set; }
 
         private StringBuilder Input { get; set; } = new();
 
         public async void KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            if (Settings.AreExpansionsEnabled && e.IsDown)
+            if (AreExpansionsEnabled && e.IsDown)
             {
                 TextExpansion textExpansion = GetTextExpansionFromVirtualKeyCode(e.VirtualKeyCode);
                 if (textExpansion is not null)
                 {
-                    Task task = Task.Run(async () =>
+                    await Task.Run(async () =>
                     {
                         await Task.Delay(50);
                         KeyboardInputInjector.InjectInput(InjectedKeyboardInput.FromTextExpansion(textExpansion.Trigger, textExpansion.Replacement));
                     });
-                    await task;
                 }
             }
         }
@@ -98,6 +101,16 @@
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
                 UpdateTextExpansions();
+            }
+        }
+
+        private void OnSettingsChanged(object sender, FileSystemEventArgs e)
+        {
+            if (e.ChangeType == WatcherChangeTypes.Changed)
+            {
+                string filePath = FileOperations.GetFilePath(SettingsDataModel.Filename, false);
+                SettingsDataModel settings = FileOperations.DeserializeFile<SettingsDataModel>(filePath);
+                AreExpansionsEnabled = settings.AreExpansionsEnabled;
             }
         }
 
