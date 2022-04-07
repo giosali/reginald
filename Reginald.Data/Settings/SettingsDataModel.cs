@@ -23,8 +23,9 @@
             LaunchOnStartup = protoSettings?.LaunchOnStartup ?? true;
             ReginaldKey = protoSettings?.ReginaldKey ?? "Space";
             ReginaldModifiers = protoSettings?.ReginaldModifiers ?? "Alt";
-            ClipboardManagerKey = protoSettings?.ClipboardManagerKey ?? "Space";
-            ClipboardManagerModifiers = protoSettings?.ClipboardManagerModifiers ?? "Control";
+            IsClipboardManagerEnabled = protoSettings?.IsClipboardManagerEnabled ?? true;
+            ClipboardManagerKey = protoSettings?.ClipboardManagerKey ?? "V";
+            ClipboardManagerModifiers = protoSettings?.ClipboardManagerModifiers ?? "Alt, Shift";
             ThemeIdentifier = protoSettings?.ThemeIdentifier ?? "553a4cdf-11c6-49ce-b634-7ce6945f6958";
         }
 
@@ -57,6 +58,9 @@
 
         [JsonProperty("reginaldModifiers")]
         public string ReginaldModifiers { get; set; }
+
+        [JsonProperty("isClipboardManagerEnabled")]
+        public bool IsClipboardManagerEnabled { get; set; }
 
         [JsonProperty("clipboardManagerKey")]
         public string ClipboardManagerKey { get; set; }
