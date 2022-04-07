@@ -16,7 +16,7 @@
     using Reginald.Data.ShellItems;
     using Reginald.Services;
 
-    public class MainViewModel : SearchPopupViewModelBase<DisplayItem>
+    public class MainViewModel : SearchPopupViewModelScreen<DisplayItem>
     {
         private readonly DataFileService _dataFileService;
 

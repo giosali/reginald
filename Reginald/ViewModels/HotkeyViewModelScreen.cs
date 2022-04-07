@@ -9,13 +9,13 @@
     using Reginald.Messages;
     using Reginald.Services;
 
-    public abstract class HotkeyViewModelBase : Screen
+    public abstract class HotkeyViewModelScreen : Screen
     {
         private readonly string _pageName;
 
         private string _hotkeyInput;
 
-        public HotkeyViewModelBase(ConfigurationService configurationService, string pageName)
+        public HotkeyViewModelScreen(ConfigurationService configurationService, string pageName)
         {
             ConfigurationService = configurationService;
             _pageName = pageName;

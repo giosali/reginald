@@ -7,11 +7,11 @@
     using Reginald.Messages;
     using Reginald.Services;
 
-    public class ItemViewModelBase : Screen
+    public class ItemViewModelScreen : Screen
     {
         private readonly string _pageName;
 
-        public ItemViewModelBase(string filename, bool isResource, string pageName)
+        public ItemViewModelScreen(string filename, bool isResource, string pageName)
         {
             Filename = filename;
             IsResource = isResource;

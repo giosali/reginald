@@ -17,7 +17,7 @@
     using Reginald.Services;
     using Reginald.Services.Utilities;
 
-    public class ClipboardManagerPopupViewModel : SearchPopupViewModelBase<ClipboardItem>
+    public class ClipboardManagerPopupViewModel : SearchPopupViewModelScreen<ClipboardItem>
     {
         private const string ClipboardFilename = "Clipboard.json";
 

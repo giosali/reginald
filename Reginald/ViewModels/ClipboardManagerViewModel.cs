@@ -6,7 +6,7 @@
     using Reginald.Services;
     using Reginald.Services.Utilities;
 
-    public class ClipboardManagerViewModel : HotkeyViewModelBase
+    public class ClipboardManagerViewModel : HotkeyViewModelScreen
     {
         public ClipboardManagerViewModel(ConfigurationService configurationService)
             : base(configurationService, "Clipboard Manager")

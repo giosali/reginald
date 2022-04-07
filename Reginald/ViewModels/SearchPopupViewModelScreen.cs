@@ -10,11 +10,11 @@
     using Reginald.Services;
     using Reginald.Services.Appearance;
 
-    public class SearchPopupViewModelBase<T> : PopupViewModelBase<T>
+    public class SearchPopupViewModelScreen<T> : PopupViewModelScreen<T>
     {
         private string _userInput;
 
-        public SearchPopupViewModelBase(ConfigurationService configurationService)
+        public SearchPopupViewModelScreen(ConfigurationService configurationService)
         {
             ConfigurationService = configurationService;
         }

@@ -7,7 +7,7 @@
     using Reginald.Services;
     using Reginald.Services.Utilities;
 
-    public class GeneralViewModel : HotkeyViewModelBase
+    public class GeneralViewModel : HotkeyViewModelScreen
     {
         public GeneralViewModel(ConfigurationService configurationService)
             : base(configurationService, "General")

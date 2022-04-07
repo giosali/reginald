@@ -16,7 +16,7 @@
     using Reginald.Data.Keywords;
     using Reginald.Messages;
 
-    public class UserKeywordViewModel : ItemViewModelBase, IHandle<ModifyItemMessage>
+    public class UserKeywordViewModel : ItemViewModelScreen, IHandle<ModifyItemMessage>
     {
         private const string UserIconsDirectoryName = "UserIcons";
 

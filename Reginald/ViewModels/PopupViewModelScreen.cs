@@ -14,7 +14,7 @@
     using Reginald.Services.Hooks;
     using Reginald.Services.Input;
 
-    public class PopupViewModelBase<T> : Screen
+    public class PopupViewModelScreen<T> : Screen
     {
         private T _selectedItem;
 
