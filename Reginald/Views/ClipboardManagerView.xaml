@@ -26,7 +26,7 @@
                         <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
                                    Text="Clipboard manager"/>
                         <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="The clipboard manager is enabled"/>
+                                   Text="Enable the clipboard manager"/>
                     </StackPanel>
 
                     <ToggleButton Style="{StaticResource WindowsToggleButtonStyle}"
