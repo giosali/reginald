@@ -33,13 +33,14 @@
                           .Singleton<GeneralViewModel>()
                           .Singleton<ThemesViewModel>()
                           .Singleton<KeywordsViewModel>()
-                          .Singleton<KeyphrasesViewModel>()
                           .Singleton<DefaultKeywordViewModel>()
                           .Singleton<UserKeywordViewModel>()
-                          .Singleton<HttpKeywordViewModel>()
                           .Singleton<CommandKeywordViewModel>()
+                          .Singleton<HttpKeywordViewModel>()
+                          .Singleton<KeyphrasesViewModel>()
                           .Singleton<UtilityKeyphraseViewModel>()
                           .Singleton<ExpansionsViewModel>()
+                          .Singleton<ClipboardManagerViewModel>()
                           .Singleton<AboutViewModel>();
         }
 

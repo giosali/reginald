@@ -46,7 +46,7 @@
             keyboardHook.KeyPressed += _textExpansionManager.KeyPressed;
 
             // Adds a listener for the clipboard manager.
-            _ = ClipboardUtility.GetClipboardUtility(GetView() as Window);
+            _ = ClipboardUtility.GetClipboardUtility(ConfigurationService.Settings.IsClipboardManagerEnabled, GetView() as Window);
         }
 
         public ConfigurationService ConfigurationService { get; set; }
@@ -84,19 +84,22 @@
 
         public async void ClipboardManagerPopupHotkeyBinding_Pressed(object sender, HotkeyEventArgs e)
         {
-            if (_clipboardManagerPopupViewModel.IsActive)
+            if (ConfigurationService.Settings.IsClipboardManagerEnabled)
             {
-                _clipboardManagerPopupViewModel.Hide();
-            }
-            else
-            {
-                Dictionary<string, object> settings = new();
-                settings.Add("PopupAnimation", PopupAnimation.Fade);
+                if (_clipboardManagerPopupViewModel.IsActive)
+                {
+                    _clipboardManagerPopupViewModel.Hide();
+                }
+                else
+                {
+                    Dictionary<string, object> settings = new();
+                    settings.Add("PopupAnimation", PopupAnimation.Fade);
 
-                // StaysOpen must be true for the popup to remain draggable
-                // when sending its handle a WM_NCLBUTTONDOWN message.
-                settings.Add("StaysOpen", true);
-                await _windowManager.ShowPopupAsync(_clipboardManagerPopupViewModel, settings: settings);
+                    // StaysOpen must be true for the popup to remain draggable
+                    // when sending its handle a WM_NCLBUTTONDOWN message.
+                    settings.Add("StaysOpen", true);
+                    await _windowManager.ShowPopupAsync(_clipboardManagerPopupViewModel, settings: settings);
+                }
             }
         }
 

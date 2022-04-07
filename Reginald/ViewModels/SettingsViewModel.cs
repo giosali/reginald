@@ -64,6 +64,7 @@
                 "Keywords" => typeof(KeywordsViewModel),
                 "Keyphrases" => typeof(KeyphrasesViewModel),
                 "Expansions" => typeof(ExpansionsViewModel),
+                "ClipboardManager" => typeof(ClipboardManagerViewModel),
                 "About" => typeof(AboutViewModel),
                 _ => null,
             };

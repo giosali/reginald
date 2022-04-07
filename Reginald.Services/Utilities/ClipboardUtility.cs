@@ -36,6 +36,8 @@
 
         public event EventHandler<EventArgs> ClipboardChanged;
 
+        public static bool IsEnabled { get; set; }
+
         private static ClipboardUtility Instance { get; set; }
 
         private static IntPtr Handle { get; set; }
@@ -45,15 +47,19 @@
             return Instance ??= new ClipboardUtility();
         }
 
-        public static ClipboardUtility GetClipboardUtility(Window window)
+        public static ClipboardUtility GetClipboardUtility(bool isEnabled, Window window)
         {
+            IsEnabled = isEnabled;
             return Instance ??= new ClipboardUtility(window);
         }
 
         private void OnClipboardChanged()
         {
-            EventHandler<EventArgs> handler = ClipboardChanged;
-            handler?.Invoke(this, EventArgs.Empty);
+            if (IsEnabled)
+            {
+                EventHandler<EventArgs> handler = ClipboardChanged;
+                handler?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
