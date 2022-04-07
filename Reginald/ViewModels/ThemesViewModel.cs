@@ -11,7 +11,7 @@
     using Reginald.Messages;
     using Reginald.Services;
 
-    public class ThemesViewModel : ItemsViewModelBase<Theme>
+    public class ThemesViewModel : ItemsViewModelConductor<Theme>
     {
         private readonly IEventAggregator _eventAggregator;
 

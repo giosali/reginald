@@ -9,7 +9,7 @@
     using Reginald.Core.IO;
     using Reginald.Messages;
 
-    public abstract class ItemsViewModelBase<T> : ScrollViewModelBase
+    public abstract class ItemsViewModelConductor<T> : ScrollViewModelConductor
     {
         private T _selectedItem;
 

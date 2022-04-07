@@ -11,7 +11,7 @@
     using Reginald.Data.Keywords;
     using Reginald.Messages;
 
-    public class KeywordsViewModel : ItemsViewModelBase<KeywordDataModel>, IHandle<UpdateItemsMessage>
+    public class KeywordsViewModel : ItemsViewModelConductor<KeywordDataModel>, IHandle<UpdateItemsMessage>
     {
         private readonly IEventAggregator _eventAggregator;
 

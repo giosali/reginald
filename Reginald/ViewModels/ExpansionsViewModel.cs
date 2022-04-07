@@ -13,7 +13,7 @@
     using Reginald.Messages;
     using Reginald.Services;
 
-    public class ExpansionsViewModel : ItemsViewModelBase<TextExpansion>
+    public class ExpansionsViewModel : ItemsViewModelConductor<TextExpansion>
     {
         private string _trigger;
 

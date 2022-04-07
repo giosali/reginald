@@ -12,7 +12,7 @@
     using Reginald.Messages;
     using Reginald.Services;
 
-    public class KeyphrasesViewModel : ItemsViewModelBase<KeyphraseDataModel>, IHandle<UpdateItemsMessage>
+    public class KeyphrasesViewModel : ItemsViewModelConductor<KeyphraseDataModel>, IHandle<UpdateItemsMessage>
     {
         private readonly IEventAggregator _eventAggregator;
 
