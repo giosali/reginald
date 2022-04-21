@@ -76,7 +76,7 @@
                     Dictionary<string, object> settings = new();
                     settings.Add("Placement", PlacementMode.Absolute);
                     settings.Add("HorizontalOffset", (SystemParameters.FullPrimaryScreenWidth / 2) - (ConfigurationService.Theme.MainWidth / 2));
-                    settings.Add("VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.375) - (ConfigurationService.Theme.MainHeight / 4));
+                    settings.Add("VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.325) - (ConfigurationService.Theme.MainHeight / 4));
                     await new WindowManager().ShowPopupAsync(_mainViewModel, settings: settings);
                 }
             }
