@@ -273,7 +273,7 @@
                                          [Event Unloaded] = [Action UserInput_Unloaded($source, $eventargs)];
                                          [Event LayoutUpdated] = [Action UserInput_LayoutUpdated($source, $eventargs)];
                                          [Event TextChanged] = [Action UserInput_TextChanged($source, $eventargs)];
-                                         [Event PreviewKeyDown] = [Action UserInput_PreviewKeyDown($this, $eventargs)];
+                                         [Event PreviewKeyDown] = [Action UserInput_PreviewKeyDown($source, $eventargs)];
                                          [Event PreviewKeyUp] = [Action UserInput_PreviewKeyUp($this, $eventargs)]"/>
 
             <ListBox Style="{StaticResource ListBoxStyle}"
