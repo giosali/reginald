@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-    using System.Text.RegularExpressions;
+    using System.Web;
     using Reginald.Core.IO;
 
     public static class StringExtensions
@@ -149,15 +149,11 @@
         /// </summary>
         /// <param name="expression">The string with whitespace characters.</param>
         /// <param name="replacement">The string to replace all whitespace characters.</param>
-        /// <returns>A new string of an instance where all whitespace characters in <paramref name="expression"/> are replaced by <paramref name="replacement"/>.</returns>
-        public static string Quote(this string expression, string replacement)
+        /// /// <param name="useUtf8">Indicates whether or not to encode the expression with UTF-8 encoding.</param>
+        /// <returns>A new string consisting of <paramref name="expression"/> encoded using UTF-8 encoding if <paramref name="useUtf8"/> is true; otherwise, a new string where all whitespace characters in <paramref name="expression"/> are replaced by <paramref name="replacement"/>.</returns>
+        public static string Quote(this string expression, string replacement, bool useUtf8)
         {
-            Regex rx = new(@"\s");
-            string result = rx.Replace(expression, new MatchEvaluator(m =>
-            {
-                return replacement;
-            }));
-            return result;
+            return useUtf8 ? HttpUtility.UrlEncode(expression) : expression.Replace(" ", replacement);
         }
 
         /// <summary>

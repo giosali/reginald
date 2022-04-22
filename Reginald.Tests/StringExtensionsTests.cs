@@ -109,12 +109,13 @@
         }
 
         [Theory]
-        [InlineData("This is a string", "+", "This+is+a+string")]
-        [InlineData("Thisisastring", "+", "Thisisastring")]
-        [InlineData("This is a string", " ", "This is a string")]
-        public static void Quote_WhitespaceCharactersShouldBeReplaced(string expression, string replacement, string expected)
+        [InlineData("This is a string", "+", true, "This+is+a+string")]
+        [InlineData("This is a string", null, true, "This+is+a+string")]
+        [InlineData("Thisisastring", "+", true, "Thisisastring")]
+        [InlineData("This is a string", " ", false, "This is a string")]
+        public static void Quote_WhitespaceCharactersShouldBeReplaced(string expression, string replacement, bool useUtf8, string expected)
         {
-            string actual = expression.Quote(replacement);
+            string actual = expression.Quote(replacement, useUtf8);
             Assert.Equal(expected, actual);
         }
 

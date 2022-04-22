@@ -102,7 +102,7 @@
     <!-- ## TertiaryParagraphTextBlock -->
     <Style x:Key="TertiaryParagraphTextBlock"
            TargetType="{x:Type TextBlock}"
-           BasedOn="{StaticResource SecondaryTextBlockStyleBase}">
+           BasedOn="{StaticResource TertiaryTextBlockStyleBase}">
         <Setter Property="FontSize"
                 Value="10"/>
         <Setter Property="FontWeight"

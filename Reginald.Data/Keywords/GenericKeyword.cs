@@ -35,21 +35,25 @@
             Placeholder = model.Placeholder;
             Caption = model.Caption;
             IsEnabled = model.IsEnabled;
+            UseUtf8 = model.UseUtf8;
+            Separator = model.Separator;
             Url = model.Url;
             AltUrl = model.AltUrl;
-            Separator = model.Separator;
             AltDescription = model.AltDescription;
             LosesFocus = true;
         }
+
+        [JsonProperty("useUtf8")]
+        public bool UseUtf8 { get; set; }
+
+        [JsonProperty("separator")]
+        public string Separator { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }
 
         [JsonProperty("altUrl")]
         public string AltUrl { get; set; }
-
-        [JsonProperty("separator")]
-        public string Separator { get; set; }
 
         [JsonProperty("altDescription")]
         public string AltDescription { get; set; }
@@ -80,7 +84,7 @@
             {
                 string uri = IsAltKeyDown
                            ? string.Format(CultureInfo.InvariantCulture, AltUrl, Completion)
-                           : string.Format(CultureInfo.InvariantCulture, Url, string.IsNullOrEmpty(Separator) ? Completion : Completion.Quote(Separator));
+                           : string.Format(CultureInfo.InvariantCulture, Url, string.IsNullOrEmpty(Separator) ? Completion : Completion.Quote(Separator, UseUtf8));
                 ProcessUtility.GoTo(uri);
             }
         }

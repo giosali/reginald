@@ -105,7 +105,13 @@
                         if (selectedKeyword.Icon is not null)
                         {
                             Uri imageUri = new(selectedKeyword.Icon.ToString());
-                            File.Delete(imageUri.LocalPath);
+                            try
+                            {
+                                File.Delete(imageUri.LocalPath);
+                            }
+                            catch (IOException)
+                            {
+                            }
                         }
 
                         // Removes the keyword from the file.
@@ -124,6 +130,7 @@
             SelectedGenericKeyword = new GenericKeyword
             {
                 Guid = Guid.NewGuid(),
+                UseUtf8 = true,
                 Separator = "+",
                 Placeholder = "...",
                 IsEnabled = true,

@@ -108,13 +108,20 @@
                                    Text="Separator"
                                    FontSize="12"
                                    Margin="5 0 0 0"/>
+                        <CheckBox Foreground="{StaticResource SecondaryBrush}"
+                                  IsChecked="{Binding SelectedGenericKeyword.UseUtf8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="0 6">
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Use UTF-8 encoding for input"
+                                       FontSize="10"/>
+                        </CheckBox>
+
                         <ComboBox Style="{StaticResource ComboBoxStyle}"
                                   Text="{Binding SelectedGenericKeyword.Separator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   HorizontalAlignment="Left"
                                   IsEditable="True"
                                   IsReadOnly="False">
-                            <ComboBoxItem Content="+"
-                                          Foreground="White"/>
+                            <ComboBoxItem Content="+"/>
                             <ComboBoxItem Content="%20"/>
                             <ComboBoxItem Content=""/>
                         </ComboBox>
