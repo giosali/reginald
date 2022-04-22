@@ -72,7 +72,6 @@
 
                 IEnumerable<DisplayItem> results = applicationResults.Concat(applicationResultsUppercase)
                                                                      .Distinct()
-                                                                     .OrderBy(item => item.Name)
                                                                      .Concat(defaultKeywordResults)
                                                                      .Concat(userKeywordResults)
                                                                      .Concat(commandResults)

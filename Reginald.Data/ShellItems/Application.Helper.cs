@@ -17,7 +17,8 @@
                 string cleanInput = input.RegexClean();
                 string pattern = string.Format(CultureInfo.InvariantCulture, NameRegexFormat, cleanInput);
                 Regex rx = new(pattern, RegexOptions.IgnoreCase);
-                matches = items.Where(item => rx.IsMatch(item.Name));
+                matches = items.Where(item => rx.IsMatch(item.Name))
+                               .OrderBy(item => item.Name);
             }
             else
             {
@@ -39,7 +40,7 @@
                 {
                     Match match = rx.Match(item.Name);
                     return match.Success && char.IsUpper(item.Name[match.Index]);
-                });
+                }).OrderBy(item => item.Name);
             }
             else
             {
