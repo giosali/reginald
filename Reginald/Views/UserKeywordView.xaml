@@ -102,32 +102,19 @@
                                    Text="{}{0} is what will be replaced by your input"/>
                     </StackPanel>
 
-                    <!-- ### Separator-->
+                    <!-- ### Encode Input -->
                     <StackPanel Margin="0 12">
                         <TextBlock Style="{StaticResource PrimaryParagraphTextBlockStyle}"
-                                   Text="Separator"
+                                   Text="Encoding"
                                    FontSize="12"
                                    Margin="5 0 0 0"/>
                         <CheckBox Foreground="{StaticResource SecondaryBrush}"
-                                  IsChecked="{Binding SelectedGenericKeyword.UseUtf8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Margin="0 6">
+                                  IsChecked="{Binding SelectedGenericKeyword.EncodeInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="6">
                             <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
                                        Text="Use UTF-8 encoding for input"
                                        FontSize="10"/>
                         </CheckBox>
-
-                        <ComboBox Style="{StaticResource ComboBoxStyle}"
-                                  Text="{Binding SelectedGenericKeyword.Separator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  HorizontalAlignment="Left"
-                                  IsEditable="True"
-                                  IsReadOnly="False">
-                            <ComboBoxItem Content="+"/>
-                            <ComboBoxItem Content="%20"/>
-                            <ComboBoxItem Content=""/>
-                        </ComboBox>
-                        <TextBlock Style="{StaticResource TertiaryParagraphTextBlock}"
-                                   Margin="5 0 0 0"
-                                   Text="Replaces all spaces in your input with this character"/>
                     </StackPanel>
 
                     <!-- ### Format -->

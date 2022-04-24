@@ -109,13 +109,14 @@
         }
 
         [Theory]
-        [InlineData("This is a string", "+", true, "This+is+a+string")]
-        [InlineData("This is a string", null, true, "This+is+a+string")]
-        [InlineData("Thisisastring", "+", true, "Thisisastring")]
-        [InlineData("This is a string", " ", false, "This is a string")]
-        public static void Quote_WhitespaceCharactersShouldBeReplaced(string expression, string replacement, bool useUtf8, string expected)
+        [InlineData("This is a string", true, "This+is+a+string")]
+        [InlineData("Thisisastring", true, "Thisisastring")]
+        [InlineData("This is a string", false, "This%20is%20a%20string")]
+        [InlineData(@"`~!@#$%^&*()-_=+[{]}\|;:',<.>/?", true, "%60%7e!%40%23%24%25%5e%26*()-_%3d%2b%5b%7b%5d%7d%5c%7c%3b%3a%27%2c%3c.%3e%2f%3f")]
+        [InlineData(@"`~!@#$%^&*()-_=+[{]}\|;:',<.>/?", false, "%60~%21%40%23%24%25%5E%26%2A%28%29-_%3D%2B%5B%7B%5D%7D%5C%7C%3B%3A%27%2C%3C.%3E%2F%3F")]
+        public static void Quote_WhitespaceCharactersShouldBeReplaced(string expression, bool useUtf8, string expected)
         {
-            string actual = expression.Quote(replacement, useUtf8);
+            string actual = expression.Quote(useUtf8);
             Assert.Equal(expected, actual);
         }
 

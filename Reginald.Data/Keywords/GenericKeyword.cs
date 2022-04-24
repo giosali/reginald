@@ -31,26 +31,22 @@
             Name = model.Name;
             Word = model.Keyword;
             Icon = BitmapImageHelper.FromUri(model.Icon);
+            Url = model.Url;
             Format = model.Format;
             Placeholder = model.Placeholder;
             Caption = model.Caption;
             IsEnabled = model.IsEnabled;
-            UseUtf8 = model.UseUtf8;
-            Separator = model.Separator;
-            Url = model.Url;
+            EncodeInput = model.EncodeInput;
             AltUrl = model.AltUrl;
             AltDescription = model.AltDescription;
             LosesFocus = true;
         }
 
-        [JsonProperty("useUtf8")]
-        public bool UseUtf8 { get; set; }
-
-        [JsonProperty("separator")]
-        public string Separator { get; set; }
-
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        [JsonProperty("encodeInput")]
+        public bool EncodeInput { get; set; }
 
         [JsonProperty("altUrl")]
         public string AltUrl { get; set; }
@@ -84,7 +80,7 @@
             {
                 string uri = IsAltKeyDown
                            ? string.Format(CultureInfo.InvariantCulture, AltUrl, Completion)
-                           : string.Format(CultureInfo.InvariantCulture, Url, string.IsNullOrEmpty(Separator) ? Completion : Completion.Quote(Separator, UseUtf8));
+                           : string.Format(CultureInfo.InvariantCulture, Url, Completion.Quote(EncodeInput));
                 ProcessUtility.GoTo(uri);
             }
         }

@@ -18,14 +18,11 @@
 
         public bool IsEnabled { get; set; }
 
-        [JsonProperty("useUtf8")]
-        public bool UseUtf8 { get; set; }
-
-        [JsonProperty("separator")]
-        public string Separator { get; set; }
-
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        [JsonProperty("encodeInput")]
+        public bool EncodeInput { get; set; }
 
         [JsonProperty("altUrl")]
         public string AltUrl { get; set; }

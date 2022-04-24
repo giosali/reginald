@@ -130,8 +130,7 @@
             SelectedGenericKeyword = new GenericKeyword
             {
                 Guid = Guid.NewGuid(),
-                UseUtf8 = true,
-                Separator = "+",
+                EncodeInput = true,
                 Placeholder = "...",
                 IsEnabled = true,
             };

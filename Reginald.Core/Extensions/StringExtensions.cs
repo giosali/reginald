@@ -148,12 +148,11 @@
         /// Returns a new string in which all whitespace characters are replaced by a specified string.
         /// </summary>
         /// <param name="expression">The string with whitespace characters.</param>
-        /// <param name="replacement">The string to replace all whitespace characters.</param>
         /// /// <param name="useUtf8">Indicates whether or not to encode the expression with UTF-8 encoding.</param>
-        /// <returns>A new string consisting of <paramref name="expression"/> encoded using UTF-8 encoding if <paramref name="useUtf8"/> is true; otherwise, a new string where all whitespace characters in <paramref name="expression"/> are replaced by <paramref name="replacement"/>.</returns>
-        public static string Quote(this string expression, string replacement, bool useUtf8)
+        /// <returns>A new string encoded using UTF-8 encoding if <paramref name="useUtf8"/> is true; otherwise, an escaped representation of <paramref name="expression"/>.</returns>
+        public static string Quote(this string expression, bool useUtf8)
         {
-            return useUtf8 ? HttpUtility.UrlEncode(expression) : expression.Replace(" ", replacement);
+            return useUtf8 ? HttpUtility.UrlEncode(expression) : Uri.EscapeDataString(expression);
         }
 
         /// <summary>

@@ -52,6 +52,10 @@
             }
         }
 
+        public bool CanReceiveKeyboardInput { get; set; } = true;
+
+        public abstract bool IsAltKeyDown { get; set; }
+
         public int Id { get; set; }
 
         public string TempCaption { get; set; }
@@ -60,11 +64,7 @@
 
         public bool RequiresPrompt { get; set; }
 
-        public bool CanReceiveKeyboardInput { get; set; } = true;
-
         public bool LosesFocus { get; set; }
-
-        public abstract bool IsAltKeyDown { get; set; }
 
         public static bool operator ==(Item a, Item b)
         {
