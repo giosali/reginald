@@ -162,42 +162,23 @@
         /// <returns><see langword="true"/> if <paramref name="expression"/> contains a top-level domain; otherwise, <see langword="false"/>.</returns>
         public static bool ContainsTopLevelDomain(this string expression)
         {
-            if (expression.Contains('.'))
-            {
-                HashSet<string> topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
-                foreach (string line in File.ReadLines(FileOperations.GetFilePath(TopLevelDomainsFilename, true)))
-                {
-                    _ = topLevelDomains.Add(line);
-                }
-
-                (_, _, string topLevelDomain) = expression.Partition(".");
-                int forwardSlashIndex = topLevelDomain.IndexOf('/');
-                int periodIndex = forwardSlashIndex > 0 ? topLevelDomain.LastIndexOf('.', forwardSlashIndex) : -1;
-
-                // We add 1 to periodIndex to eliminate the period before the top-level domain
-                // Example: 'com' instead of '.com'
-                if (periodIndex++ > -1)
-                {
-                    topLevelDomain = topLevelDomain[periodIndex..forwardSlashIndex];
-                }
-                else
-                {
-                    if (topLevelDomain.Contains('/'))
-                    {
-                        (topLevelDomain, _, _) = topLevelDomain.Partition("/");
-                    }
-                    else
-                    {
-                        (_, _, topLevelDomain) = expression.RPartition(".");
-                    }
-                }
-
-                return topLevelDomains.Contains(topLevelDomain);
-            }
-            else
+            if (!expression.Contains('.'))
             {
                 return false;
             }
+
+            if (!Uri.TryCreate(expression, UriKind.Absolute, out Uri uri))
+            {
+                return false;
+            }
+
+            HashSet<string> topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
+            foreach (string line in File.ReadLines(FileOperations.GetFilePath(TopLevelDomainsFilename, true)))
+            {
+                _ = topLevelDomains.Add(line);
+            }
+
+            return topLevelDomains.Contains(uri.Host.RPartition(".").Right);
         }
 
         /// <summary>

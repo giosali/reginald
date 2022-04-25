@@ -43,10 +43,21 @@
         public Task<bool> IsLink(string input)
         {
             Description = input;
-            string tempInput = input.Replace(" ", "%20");
-            return Task.FromResult(input.ContainsTopLevelDomain()
-                 ? Uri.IsWellFormedUriString(tempInput, UriKind.RelativeOrAbsolute)
-                 : input.StartsWithScheme() && Uri.IsWellFormedUriString(tempInput, UriKind.Absolute));
+            string temp = input.Trim().Replace(" ", "%20");
+            if (!Uri.IsWellFormedUriString(temp, UriKind.Absolute))
+            {
+                UriBuilder builder = new("https", temp);
+                try
+                {
+                    temp = builder.Uri.ToString();
+                }
+                catch (UriFormatException)
+                {
+                    return Task.FromResult(false);
+                }
+            }
+
+            return Task.FromResult(temp.ContainsTopLevelDomain());
         }
     }
 }

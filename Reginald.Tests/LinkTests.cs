@@ -38,6 +38,7 @@
         [InlineData("http://host.company.com/showCompanyInfo?name=C%26H%20Sugar")]
         [InlineData("http://www.example.com/index.html")]
         [InlineData("http://www.company.com:81/a/b/c.html?user=Alice&year=2008#p2")]
+        [InlineData(" https://google.com")]
         public static async void IsLink_WhenGivenValidLinks_ShouldReturnTrue(string expression)
         {
             Link link = new();
@@ -55,9 +56,10 @@
         [InlineData("$https://google.com")]
         [InlineData("%https://google.com")]
         [InlineData("^https://google.com")]
-        [InlineData(" https://google.com")]
         [InlineData("company.com:81/a/b/c.html?user=Alice&year=2008#p2")]
         [InlineData("https://go ogle.com/")]
+        [InlineData("this .ne")]
+        [InlineData("hello world.com/")]
         public static async void IsLink_WhenGivenInvalidLinks_ShouldReturnFalse(string expression)
         {
             Link link = new();
