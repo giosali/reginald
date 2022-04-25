@@ -103,7 +103,7 @@
             Hide();
         }
 
-        public void Item_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public void Item_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             // Keeps a copy of the SelectedItem because SelectedItem will be null
             // after calling Hide.

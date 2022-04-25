@@ -19,7 +19,7 @@
                 <Grid Margin="5 0"
                       VerticalAlignment="Center"
                       cal:Message.Attach="[Event MouseMove] = [Action Item_MouseMove($source, $eventargs)];
-                                          [Event PreviewMouseLeftButtonDown] = [Action Item_PreviewMouseLeftButtonDown($source, $eventargs)]">
+                                          [Event PreviewMouseLeftButtonUp] = [Action Item_PreviewMouseLeftButtonUp($source, $eventargs)]">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="7.5"/>

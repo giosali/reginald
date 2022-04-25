@@ -276,7 +276,7 @@
             }
         }
 
-        public void Item_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public void Item_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             OnSelectedItemEnterDown();
         }

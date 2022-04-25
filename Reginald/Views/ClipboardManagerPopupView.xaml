@@ -18,7 +18,7 @@
             <DataTemplate x:Key="ListBoxItemDataTemplate">
                 <Grid VerticalAlignment="Center"
                       cal:Message.Attach="[Event MouseMove] = [Action Item_MouseMove($source, $eventargs)];
-                                          [Event PreviewMouseLeftButtonDown] = [Action Item_PreviewMouseLeftButtonDown($this, $eventargs)]">
+                                          [Event PreviewMouseLeftButtonUp] = [Action Item_PreviewMouseLeftButtonUp($this, $eventargs)]">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="25"/>
                         <ColumnDefinition Width="*"/>
