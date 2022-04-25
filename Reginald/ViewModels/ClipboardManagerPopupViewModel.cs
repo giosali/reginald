@@ -105,10 +105,13 @@
 
         public void Item_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (SelectedItem is not null)
+            // Keeps a copy of the SelectedItem because SelectedItem will be null
+            // after calling Hide.
+            ClipboardItem selectedItem = SelectedItem;
+            if (selectedItem is not null)
             {
-                SelectedItem.EnterKeyDown();
                 Hide();
+                selectedItem.EnterKeyDown();
             }
         }
 

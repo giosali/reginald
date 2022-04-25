@@ -1,7 +1,6 @@
 ﻿namespace Reginald.Services.Devices
 {
     using System;
-    using System.Threading.Tasks;
     using static Reginald.Services.Devices.NativeMethods;
 
     public static class Keyboard

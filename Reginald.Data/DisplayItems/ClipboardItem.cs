@@ -6,6 +6,7 @@
     using Newtonsoft.Json;
     using Reginald.Core.Helpers;
     using Reginald.Services.Input;
+    using Reginald.Services.Utilities;
 
     public enum ClipboardItemType
     {
@@ -69,14 +70,17 @@
 
         public Brush HexBrush { get; set; }
 
-        public override void EnterKeyDown()
+        public override async void EnterKeyDown()
         {
             switch (ClipboardItemType)
             {
                 case ClipboardItemType.Text:
                     if (ClipboardHelper.TrySetText(Description))
                     {
-                        KeyboardInputInjector.PasteTo();
+                        // Waits for clipboard window to deactivate.
+                        await WindowUtility.WaitForDeactivationAsync();
+
+                        KeyboardInputInjector.Paste();
                     }
 
                     break;

@@ -927,11 +927,5 @@
             INPUT[] inputs = InjectedKeyboardInput.FromVirtualKeys(vks);
             _ = SendInput((uint)inputs.Length, inputs, INPUT.Size);
         }
-
-        public static void PasteTo()
-        {
-            IntPtr hWnd = GetForegroundWindow();
-            SendMessage(hWnd, (uint)WindowMessage.WM_PASTE, 0, null);
-        }
     }
 }

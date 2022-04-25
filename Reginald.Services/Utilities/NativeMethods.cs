@@ -24,6 +24,9 @@
         [DllImport("user32.dll")]
         internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
 
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetActiveWindow();
+
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         internal static extern uint SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
 
