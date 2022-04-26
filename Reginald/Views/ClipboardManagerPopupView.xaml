@@ -167,7 +167,8 @@
 
             <!-- ## Style for ListBox -->
             <Style x:Key="ListBoxStyle"
-                   TargetType="{x:Type ListBox}">
+                   TargetType="{x:Type ListBox}"
+                   BasedOn="{StaticResource {x:Type ListBox}}">
                 <Style.Resources>
                     <Style TargetType="{x:Type ScrollViewer}">
                         <Setter Property="Template"
@@ -177,6 +178,15 @@
                     <Style TargetType="{x:Type ScrollBar}"
                            BasedOn="{StaticResource AppleNoHitTestScrollBarStyle}"/>
                 </Style.Resources>
+
+                <!-- ### Triggers -->
+                <Style.Triggers>
+                    <Trigger Property="HasItems"
+                             Value="False">
+                        <Setter Property="Visibility"
+                                Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
             
             <!-- ## Style for StandardClipboardItemTextBox -->
@@ -311,25 +321,24 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- ### Left Side -->
-                <StackPanel Grid.Column="0">
-                    <!-- #### Clipboard Items -->
-                    <ListBox Style="{StaticResource ListBoxStyle}"
-                             ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
-                             ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
-                             ItemsSource="{Binding DisplayItems}"
-                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                             Grid.Column="0"
-                             Height="Auto"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                             VirtualizingStackPanel.IsVirtualizing="True"
-                             VirtualizingStackPanel.ScrollUnit="Pixel"
-                             VirtualizingStackPanel.VirtualizationMode="Recycling"
-                             cal:Message.Attach="[Event MouseLeave] = [Action Items_MouseLeave($this, $eventargs)];
-                                                 [Event SelectionChanged] = [Action Items_SelectionChanged($source, $eventargs)]"/>
-                </StackPanel>
+                <!-- #### Clipboard Items -->
+                <ListBox Style="{StaticResource ListBoxStyle}"
+                         ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
+                         ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
+                         ItemsSource="{Binding DisplayItems}"
+                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                         Grid.Column="0"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Height="Auto"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         VirtualizingStackPanel.IsVirtualizing="True"
+                         VirtualizingStackPanel.ScrollUnit="Pixel"
+                         VirtualizingStackPanel.VirtualizationMode="Recycling"
+                         cal:Message.Attach="[Event Unloaded] = [Action Items_Unloaded($source, $eventargs)];
+                                             [Event MouseLeave] = [Action Items_MouseLeave($this, $eventargs)];
+                                             [Event SelectionChanged] = [Action Items_SelectionChanged($source, $eventargs)]"/>
 
                 <!-- ### Clipboard Item Viewer -->
                 <Border Grid.Column="2">
