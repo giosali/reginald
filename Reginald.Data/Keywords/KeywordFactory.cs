@@ -35,10 +35,7 @@
                     break;
 
                 case CommandType.Quit:
-                    Stopwatch stopwatch = Stopwatch.StartNew();
                     IEnumerable<Process> processes = ProcessUtility.GetTopLevelProcesses(input);
-                    stopwatch.Stop();
-                    Debug.WriteLine(stopwatch.ElapsedMilliseconds);
                     return processes.Select(process => new QuitKeyword(model, process));
             }
 
