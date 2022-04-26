@@ -230,6 +230,10 @@
                     // will cause the application to lose focus.
                     if (selectedDisplayItem.LosesFocus)
                     {
+                        // Ensures browser doesn't lose focus after pasting into the main search window.
+                        _ = Services.Devices.Keyboard.SetFocus(ActiveHandle);
+
+                        // Ensures browser regains focus after hitting enter while in the browser.
                         _ = Services.Devices.Keyboard.LoseFocus();
                     }
                 }
