@@ -8,7 +8,6 @@
     using System.Windows.Controls;
     using System.Windows.Input;
     using Caliburn.Micro;
-    using Reginald.Core.Collections;
     using Reginald.Core.Extensions;
     using Reginald.Data.DisplayItems;
     using Reginald.Data.Keyphrases;
@@ -22,8 +21,6 @@
 
         private readonly UserResourceService _userResourceService;
 
-        private bool _isBrowsingRecentSearches;
-
         public MainViewModel(ConfigurationService configurationService)
             : base(configurationService)
         {
@@ -31,29 +28,12 @@
             _userResourceService = IoC.Get<UserResourceService>();
         }
 
-        public bool IsBrowsingRecentSearches
-        {
-            get => _isBrowsingRecentSearches;
-            set
-            {
-                _isBrowsingRecentSearches = value;
-                RecentSearchesIndex = RecentSearches.Count;
-                NotifyOfPropertyChange(() => IsBrowsingRecentSearches);
-            }
-        }
-
-        private Deque<string> RecentSearches { get; set; } = new(20);
-
-        private int RecentSearchesIndex { get; set; } = -1;
-
-        private int KeyUpTimestamp { get; set; }
-
         public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             Items.Clear();
             IsMouseOverChanged = false;
             MousePosition = default;
-            if (UserInput.Length > 0 && !IsBrowsingRecentSearches)
+            if (UserInput.Length > 0)
             {
                 IEnumerable<DisplayItem> applicationResults = SearchResult.FromItems(await Application.FilterByNames(_userResourceService.Applications, ConfigurationService.Settings.IncludeInstalledApplications, UserInput));
                 IEnumerable<DisplayItem> applicationResultsUppercase = SearchResult.FromItems(await Application.FilterByUppercaseCharacters(_userResourceService.Applications, ConfigurationService.Settings.IncludeInstalledApplications, UserInput));
@@ -188,53 +168,8 @@
             {
                 switch (e.Key)
                 {
-                    case Key.Up:
-                        if (IsBrowsingRecentSearches)
-                        {
-                            BrowseRecentSearches(true);
-                        }
-
-                        break;
-
-                    case Key.Down:
-                        if (IsBrowsingRecentSearches)
-                        {
-                            // Breaks user out of browsing recent searches.
-                            if (RecentSearchesIndex + 1 == RecentSearches.Count)
-                            {
-                                IsBrowsingRecentSearches = false;
-                                UserInput = string.Empty;
-                            }
-                            else
-                            {
-                                BrowseRecentSearches(false);
-                            }
-                        }
-
-                        break;
-
-                    case Key.Enter:
-                        // Breaks user out of browsing recent searches.
-                        if (IsBrowsingRecentSearches)
-                        {
-                            (sender as TextBox).SetText(RecentSearches[RecentSearchesIndex]);
-                            IsBrowsingRecentSearches = false;
-                        }
-
-                        break;
-
                     case Key.Tab:
                         e.Handled = true;
-                        break;
-
-                    default:
-                        // Breaks user out of browsing recent searches.
-                        if (IsBrowsingRecentSearches)
-                        {
-                            IsBrowsingRecentSearches = false;
-                            UserInput = string.Empty;
-                        }
-
                         break;
                 }
             }
@@ -252,25 +187,6 @@
                     case Key.LeftAlt:
                     case Key.RightAlt:
                         SelectedItem?.AltKeyUp();
-                        break;
-                }
-            }
-            else
-            {
-                switch (e.Key)
-                {
-                    case Key.Up:
-                        if (RecentSearches.Count > 0)
-                        {
-                            int value = Math.Abs(e.Timestamp - KeyUpTimestamp);
-                            if (value < 250 && !IsBrowsingRecentSearches)
-                            {
-                                IsBrowsingRecentSearches = true;
-                                BrowseRecentSearches(true);
-                            }
-                        }
-
-                        KeyUpTimestamp = e.Timestamp;
                         break;
                 }
             }
@@ -295,7 +211,6 @@
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             UserInput = string.Empty;
-            IsBrowsingRecentSearches = false;
             return base.OnDeactivateAsync(close, cancellationToken);
         }
 
@@ -309,7 +224,6 @@
                 // then that means pressing Enter does nothing and the popup should stay visible.
                 if (!selectedDisplayItem.RequiresPrompt && selectedDisplayItem.CanReceiveKeyboardInput)
                 {
-                    RecentSearches.Append(UserInput);
                     Hide();
 
                     // Ensures that only items that launch other programs/applications
@@ -322,14 +236,6 @@
 
                 selectedDisplayItem.EnterKeyDown();
             }
-        }
-
-        private void BrowseRecentSearches(bool isUpKey)
-        {
-            RecentSearchesIndex = isUpKey
-                                ? Math.Max(RecentSearchesIndex - 1, 0)
-                                : Math.Min(RecentSearchesIndex + 1, RecentSearches.Count - 1);
-            UserInput = RecentSearches[RecentSearchesIndex];
         }
     }
 }

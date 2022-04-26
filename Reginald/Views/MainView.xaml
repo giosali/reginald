@@ -172,17 +172,6 @@
                     <Setter Property="CaretBrush"
                             Value="{Binding ConfigurationService.Theme.CaretBrush}"/>
                 </Style.Setters>
-                
-                <!-- ### Triggers -->
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsBrowsingRecentSearches}"
-                                 Value="True">
-                        <Setter Property="Foreground"
-                                Value="{Binding ConfigurationService.Theme.PlaceholderInputBrush}"/>
-                        <Setter Property="CaretBrush"
-                                Value="Transparent"/>
-                    </DataTrigger>
-                </Style.Triggers>
             </Style>
             
             <!-- ## Style for ListBox -->
