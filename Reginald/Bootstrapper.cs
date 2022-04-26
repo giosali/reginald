@@ -5,11 +5,14 @@
     using System.Windows;
     using Caliburn.Micro;
     using Reginald.Services;
+    using Reginald.Services.Utilities;
     using Reginald.ViewModels;
 
     public class Bootstrapper : BootstrapperBase
     {
         private readonly SimpleContainer _container = new();
+
+        private IntPtr _hMutext = IntPtr.Zero;
 
         public Bootstrapper()
         {
@@ -18,7 +21,24 @@
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            IntPtr hMutex = WindowUtility.RegisterInstance("Reginald Single Instance Mutex");
+            if (hMutex == IntPtr.Zero)
+            {
+                Application.Current.Shutdown();
+            }
+
+            _hMutext = hMutex;
             _ = DisplayRootViewFor<ShellViewModel>();
+        }
+
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            if (_hMutext != IntPtr.Zero)
+            {
+                WindowUtility.UnregisterInstance(_hMutext);
+            }
+
+            base.OnExit(sender, e);
         }
 
         protected override void Configure()

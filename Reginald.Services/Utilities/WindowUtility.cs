@@ -1,5 +1,6 @@
 ﻿namespace Reginald.Services.Utilities
 {
+    using System;
     using System.Threading.Tasks;
     using static Reginald.Services.Utilities.NativeMethods;
 
@@ -16,6 +17,16 @@
 
                 await Task.Delay(10);
             }
+        }
+
+        public static IntPtr RegisterInstance(string name)
+        {
+            return CreateMutex(IntPtr.Zero, true, name);
+        }
+
+        public static void UnregisterInstance(IntPtr hMutex)
+        {
+            _ = ReleaseMutex(hMutex);
         }
     }
 }
