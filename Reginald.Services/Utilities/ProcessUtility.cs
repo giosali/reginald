@@ -3,47 +3,53 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using System.Text;
-    using System.Text.RegularExpressions;
     using System.Windows;
-    using Reginald.Core.Extensions;
     using static Reginald.Services.Utilities.NativeMethods;
 
     public static class ProcessUtility
     {
-        public static IEnumerable<Process> GetTopLevelProcesses(string input = null)
+        private static readonly HashSet<string> _systemWindows = new() { "Progman", "Shell_TrayWnd" };
+
+        public static IEnumerable<Process> GetTopLevelProcesses(string input)
         {
             List<Process> processes = new();
-            bool Filter(IntPtr hWnd, int lParam)
+            _ = EnumWindows(
+                (hWnd, lParam) =>
             {
-                StringBuilder sb = new(255);
-                _ = GetWindowText(hWnd, sb, sb.Capacity);
-                if (IsWindowVisible(hWnd) && !string.IsNullOrEmpty(sb.ToString()))
+                if (!IsWindowVisible(hWnd))
                 {
-                    _ = GetWindowThreadProcessId(hWnd, out int pid);
-                    Process process = Process.GetProcessById(pid);
-                    if (!string.IsNullOrEmpty(process.MainModule.FileVersionInfo.FileDescription))
-                    {
-                        processes.Add(process);
-                    }
+                    return true;
                 }
 
+                // Eliminates cloaked UWP applications.
+                if (DwmGetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, out bool isCloaked, sizeof(int)) == 0 && isCloaked)
+                {
+                    return true;
+                }
+
+                if (GetWindowTextLength(hWnd) == 0)
+                {
+                    return true;
+                }
+
+                StringBuilder className = new(256);
+                if (GetClassName(hWnd, className, className.Capacity) == 0)
+                {
+                    return true;
+                }
+
+                if (_systemWindows.Contains(className.ToString()) || className.ToString() == "ApplicationFrameWindow")
+                {
+                    return true;
+                }
+
+                _ = GetWindowThreadProcessId(hWnd, out int pid);
+                processes.Add(Process.GetProcessById(pid));
                 return true;
-            }
-
-            _ = EnumWindows(Filter, IntPtr.Zero);
-            return processes.Distinct()
-                            .Where(process =>
-                            {
-                                if (!string.IsNullOrEmpty(input))
-                                {
-                                    string pattern = $@"^{input.RegexClean()}";
-                                    return new Regex(pattern, RegexOptions.IgnoreCase).IsMatch(process.MainModule.FileVersionInfo.FileDescription);
-                                }
-
-                                return true;
-                            });
+            },
+                IntPtr.Zero);
+            return processes;
         }
 
         public static void QuitProcessById(int processId)
