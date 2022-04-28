@@ -30,26 +30,24 @@
             {
                 return false;
             }
-            else
-            {
-                Type t = Type.GetTypeFromCLSID(WindowsScriptHostShellObjectGuid);
-                dynamic wshShell = Activator.CreateInstance(t);
-                try
-                {
-                    dynamic iWshShortcut = wshShell.CreateShortcut(shortcutPath);
-                    iWshShortcut.Arguments = string.Empty;
-                    iWshShortcut.TargetPath = executablePath;
-                    iWshShortcut.WindowStyle = 1;
-                    iWshShortcut.WorkingDirectory = Directory.GetParent(executablePath).FullName;
-                    iWshShortcut.Save();
-                }
-                finally
-                {
-                    Marshal.FinalReleaseComObject(wshShell);
-                }
 
-                return true;
+            Type t = Type.GetTypeFromCLSID(WindowsScriptHostShellObjectGuid);
+            dynamic wshShell = Activator.CreateInstance(t);
+            try
+            {
+                dynamic iWshShortcut = wshShell.CreateShortcut(shortcutPath);
+                iWshShortcut.Arguments = string.Empty;
+                iWshShortcut.TargetPath = executablePath;
+                iWshShortcut.WindowStyle = 1;
+                iWshShortcut.WorkingDirectory = Directory.GetParent(executablePath).FullName;
+                iWshShortcut.Save();
             }
+            finally
+            {
+                Marshal.FinalReleaseComObject(wshShell);
+            }
+
+            return true;
         }
 
         /// <summary>

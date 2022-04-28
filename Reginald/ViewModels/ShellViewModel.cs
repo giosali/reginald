@@ -34,6 +34,7 @@
             _clipboardManagerPopupViewModel = new(configurationService);
             if (configurationService.Settings.LaunchOnStartup)
             {
+                FileOperations.DeleteShortcut();
                 _ = FileOperations.TryCreateShortcut();
             }
 
