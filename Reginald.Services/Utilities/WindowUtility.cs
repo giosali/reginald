@@ -28,5 +28,10 @@
         {
             _ = ReleaseMutex(hMutex);
         }
+
+        public static void SetTopWindow()
+        {
+            _ = SetForegroundWindow(GetTopWindow(IntPtr.Zero));
+        }
     }
 }

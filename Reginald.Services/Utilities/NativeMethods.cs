@@ -6,6 +6,8 @@
 
     public static class NativeMethods
     {
+        internal const int SW_SHOW = 5;
+
         internal delegate bool EnumDelegate(IntPtr hWnd, int lParam);
 
         /// <summary>
@@ -135,17 +137,14 @@
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool AddClipboardFormatListener(IntPtr hwnd);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         internal static extern IntPtr CreateMutex(IntPtr lpMutexAttributes, bool bInitialOwner, string lpName);
 
         [DllImport("dwmapi.dll")]
         internal static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE dwAttribute, out bool pvAttribute, int cbAttribute);
 
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        internal static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern int GetWindowTextLength(IntPtr hWnd);
@@ -162,14 +161,24 @@
         [DllImport("user32.dll")]
         internal static extern IntPtr GetActiveWindow();
 
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetTopWindow(IntPtr hWnd);
+
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         internal static extern uint SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
 
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode)]
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         internal static extern uint SHEmptyRecycleBin(IntPtr hwnd, string pszRootPath, uint dwFlags);
 
         [DllImport("kernel32.dll")]
         internal static extern bool ReleaseMutex(IntPtr hMutex);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        internal static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
 
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
         internal struct SHQUERYRBINFO
