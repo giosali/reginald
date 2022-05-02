@@ -228,6 +228,9 @@
                     Hide();
                 }
 
+                // Prevents the activating window from losing focus after pasting.
+                _ = Services.Devices.Keyboard.SetFocus(ActiveHandle);
+
                 selectedDisplayItem.EnterKeyDown();
 
                 // Ensures browser doesn't lose focus
