@@ -5,8 +5,17 @@
 
     public class KeyPressedEventArgs : EventArgs
     {
+        private readonly bool _isModifierPressed;
+
+        private readonly bool _isVolumeKeyPressed;
+
+        private readonly bool _isCapsLockPressed;
+
+        private readonly bool _isPrintScreenPressed;
+
         public KeyPressedEventArgs(int vkCode, bool isDown)
         {
+            IsDown = isDown;
             VirtualKeyCode = vkCode;
             Key key = Key = KeyInterop.KeyFromVirtualKey(vkCode);
             switch (key)
@@ -19,18 +28,23 @@
                 case Key.RightShift:
                 case Key.LWin:
                 case Key.RWin:
-                    IsModifierPressed = true;
+                    _isModifierPressed = true;
                     break;
 
                 case Key.VolumeDown:
                 case Key.VolumeMute:
                 case Key.VolumeUp:
-                    IsVolumeKeyPressed = true;
+                    _isVolumeKeyPressed = true;
+                    break;
+
+                case Key.CapsLock:
+                    _isCapsLockPressed = true;
+                    break;
+
+                case Key.PrintScreen:
+                    _isPrintScreenPressed = true;
                     break;
             }
-
-            IsDown = isDown;
-            IsCapsLockPressed = key == Key.CapsLock;
         }
 
         public int VirtualKeyCode { get; set; }
@@ -39,14 +53,8 @@
 
         public bool IsDown { get; set; }
 
-        public bool IsImportantKeyPressed => IsHotkeyPressed || IsModifierPressed || IsCapsLockPressed || IsVolumeKeyPressed;
-
         public bool IsHotkeyPressed { get; set; }
 
-        private bool IsModifierPressed { get; set; }
-
-        private bool IsVolumeKeyPressed { get; set; }
-
-        private bool IsCapsLockPressed { get; set; }
+        public bool IsImportantKeyPressed => IsHotkeyPressed || _isModifierPressed || _isVolumeKeyPressed || _isCapsLockPressed || _isPrintScreenPressed;
     }
 }
