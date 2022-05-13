@@ -44,29 +44,27 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   });
 
-  // TODO: remove this
-  const downloadUrl = '';
-  // const [downloadUrl, setDownloadUrl] = useState('');
-  // useEffect(() => {
-  //   async function getLatestReleaseDownload() {
-  //     const ep = 'https://api.github.com/repos/giosali/reginald/releases/latest';
-  //     const response = await fetch(ep, {
-  //       headers: {
-  //         Accept: 'application/vnd.github.v3+json',
-  //       },
-  //     });
-  //     if (response.status === 200) {
-  //       const data = await response.json();
-  //       setDownloadUrl(data.assets[0].browser_download_url);
-  //       return;
-  //     }
+  const [downloadUrl, setDownloadUrl] = useState('');
+  useEffect(() => {
+    async function getLatestReleaseDownload() {
+      const ep = 'https://api.github.com/repos/giosali/reginald/releases/latest';
+      const response = await fetch(ep, {
+        headers: {
+          Accept: 'application/vnd.github.v3+json',
+        },
+      });
+      if (response.status === 200) {
+        const data = await response.json();
+        setDownloadUrl(data.assets[0].browser_download_url);
+        return;
+      }
 
-  //     const releases = 'https://github.com/giosali/reginald/releases';
-  //     setDownloadUrl(releases);
-  //   }
+      const releases = 'https://github.com/giosali/reginald/releases';
+      setDownloadUrl(releases);
+    }
 
-  //   getLatestReleaseDownload();
-  // }, []);
+    getLatestReleaseDownload();
+  }, []);
 
   return (
     <>
