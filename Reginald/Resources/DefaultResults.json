@@ -1,6 +1,6 @@
 [
   {
-    "guid": "2088a843-cf3f-4bc3-8995-6762d46e4462",
+    "guid": "cae4e398-67eb-416f-ab78-f56cf5c2191e",
     "name": "Google",
     "keyword": "g",
     "icon": "pack://application:,,,/Reginald;component/Images/DefaultKeywords/google.png",
@@ -14,7 +14,7 @@
     "altDescription": "Go to Google's Homepage"
   },
   {
-    "guid": "125a4696-b458-400c-80db-b167f8ec5632",
+    "guid": "b8eb200f-65a4-40fe-9ad5-222c62e3fc5c",
     "name": "DuckDuckGo",
     "keyword": "ddg",
     "icon": "pack://application:,,,/Reginald;component/Images/DefaultKeywords/duckduckgo.png",
@@ -28,7 +28,7 @@
     "altDescription": "Go to DuckDuckGo's Homepage"
   },
   {
-    "guid": "35af0718-e3c2-4a40-bf32-a96ebc780171",
+    "guid": "af79d2f9-2516-41c0-8ed7-82b8c8a1a686",
     "name": "Amazon",
     "keyword": "amazon",
     "icon": "pack://application:,,,/Reginald;component/Images/DefaultKeywords/amazon.png",
