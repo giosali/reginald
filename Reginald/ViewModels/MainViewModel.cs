@@ -217,27 +217,17 @@
 
         private void OnSelectedItemEnterDown()
         {
-            DisplayItem selectedDisplayItem = SelectedItem;
-            if (selectedDisplayItem is not null)
+            if (SelectedItem is DisplayItem selectedItem)
             {
                 // Prevents the popup from closing by checking the selected item's
                 // 'CanReceiveKeyboardInput' property. If the property is false,
                 // then that means pressing Enter does nothing and the popup should stay visible.
-                if (!selectedDisplayItem.RequiresPrompt && selectedDisplayItem.CanReceiveKeyboardInput)
+                if (!selectedItem.RequiresPrompt && selectedItem.CanReceiveKeyboardInput)
                 {
                     Hide();
                 }
 
-                // Prevents the activating window from losing focus after pasting.
-                _ = Services.Devices.Keyboard.SetFocus(ActiveHandle);
-
-                selectedDisplayItem.EnterKeyDown();
-
-                // Ensures browser doesn't lose focus
-                if (selectedDisplayItem.LosesFocus)
-                {
-                    WindowUtility.SetTopWindow();
-                }
+                selectedItem.EnterKeyDown();
             }
         }
     }

@@ -13,7 +13,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <!-- # DataTemplates -->
-            
+
             <!-- ## DataTemplate for ListBoxItem -->
             <DataTemplate x:Key="ListBoxItemDataTemplate">
                 <Grid Margin="5 0"
@@ -97,7 +97,7 @@
                                     <Setter Property="Foreground"
                                             Value="{Binding DataContext.ConfigurationService.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                 </Style.Setters>
-                                
+
                                 <!-- #### Triggers -->
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
@@ -113,9 +113,9 @@
                     </TextBlock>
                 </Grid>
             </DataTemplate>
-            
+
             <!-- # ControlTemplates -->
-            
+
             <!-- ## ControlTemplate for ListBoxItem -->
             <ControlTemplate x:Key="ListBoxItemControlTemplate"
                              TargetType="{x:Type ListBoxItem}">
@@ -140,9 +140,9 @@
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
-            
+
             <!-- # Styles -->
-            
+
             <!-- ## Style for Border -->
             <Style x:Key="BorderStyle"
                    TargetType="{x:Type Border}">
@@ -173,7 +173,7 @@
                             Value="{Binding ConfigurationService.Theme.CaretBrush}"/>
                 </Style.Setters>
             </Style>
-            
+
             <!-- ## Style for ListBox -->
             <Style x:Key="ListBoxStyle"
                    TargetType="{x:Type ListBox}"
@@ -187,7 +187,7 @@
                     <Style TargetType="{x:Type ScrollBar}"
                            BasedOn="{StaticResource AppleNoHitTestScrollBarStyle}"/>
                 </Style.Resources>
-                
+
                 <!-- ### Triggers -->
                 <Style.Triggers>
                     <Trigger Property="HasItems"
@@ -232,7 +232,7 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <!-- Popup -->
     <Border Style="{StaticResource BorderStyle}"
             BorderBrush="{Binding ConfigurationService.Theme.BorderBrush}"
