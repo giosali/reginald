@@ -38,8 +38,8 @@
             {
                 IsAltKeyDown = true;
                 _item.AltKeyDown();
-                Caption = _item.TempCaption;
-                Description = _item.TempDescription;
+                Caption = _item.TempCaption ?? _item.Caption;
+                Description = _item.TempDescription ?? _item.Description;
             }
         }
 
@@ -49,8 +49,8 @@
             {
                 IsAltKeyDown = false;
                 _item.AltKeyUp();
-                Caption = _item.TempCaption;
-                Description = _item.TempDescription;
+                Caption = _item.TempCaption ?? _item.Caption;
+                Description = _item.TempDescription ?? _item.Description;
             }
         }
 

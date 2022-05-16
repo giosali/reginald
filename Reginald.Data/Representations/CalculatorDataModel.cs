@@ -8,8 +8,6 @@
 
         public string Caption { get; set; }
 
-        public string AltCaption { get; set; }
-
         public bool IsEnabled { get; set; }
     }
 }

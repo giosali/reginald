@@ -20,7 +20,6 @@
             Name = model.Name;
             Icon = BitmapImageHelper.FromUri(model.Icon);
             Caption = model.Caption;
-            AltCaption = model.AltCaption;
             IsEnabled = model.IsEnabled;
         }
 
