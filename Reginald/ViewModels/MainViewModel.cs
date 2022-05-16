@@ -14,7 +14,6 @@
     using Reginald.Data.Keywords;
     using Reginald.Data.ShellItems;
     using Reginald.Services;
-    using Reginald.Services.Utilities;
 
     public class MainViewModel : SearchPopupViewModelScreen<DisplayItem>
     {
@@ -138,27 +137,19 @@
                         break;
 
                     case Key.Tab:
-                        // If the currently selected search result is actually
-                        // derived from a keyword...
-                        if (SelectedItem is SearchResult result && result.Keyword is not null)
+                        // Autocompletes the textbox if the currently selected search
+                        // result is actually derived from a keyword and if the user
+                        // hasn't already typed the corresponding keyword
+                        if (SelectedItem is SearchResult result && result.Keyword is not null && !UserInput.StartsWith(result.Keyword + " ", StringComparison.OrdinalIgnoreCase))
                         {
-                            // then get see if the user has already typed the
-                            // corresponding keyword. If they haven't, autocomplete the
-                            // textbox with the keyword.
-                            if (!UserInput.StartsWith(result.Keyword, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                (sender as TextBox).SetText(result.Keyword + " ");
-                            }
+                            (sender as TextBox).SetText(result.Keyword + " ");
                         }
 
                         // Otherwise, there is no keyword and we should simply
                         // autocomplete with the name of the object.
-                        else
+                        else if (!UserInput.StartsWith(SelectedItem.Name, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (!UserInput.StartsWith(SelectedItem.Name, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                (sender as TextBox).SetText(SelectedItem.Name);
-                            }
+                            (sender as TextBox).SetText(SelectedItem.Name);
                         }
 
                         e.Handled = true;
