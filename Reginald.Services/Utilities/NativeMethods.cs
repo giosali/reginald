@@ -161,9 +161,6 @@
         [DllImport("user32.dll")]
         internal static extern IntPtr GetActiveWindow();
 
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetTopWindow(IntPtr hWnd);
-
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         internal static extern uint SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
 
@@ -172,10 +169,6 @@
 
         [DllImport("kernel32.dll")]
         internal static extern bool ReleaseMutex(IntPtr hMutex);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
