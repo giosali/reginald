@@ -45,15 +45,12 @@
             string temp = input.Trim().Replace(" ", "%20");
             if (!Uri.IsWellFormedUriString(temp, UriKind.Absolute))
             {
-                UriBuilder builder = new("https", temp);
-                try
-                {
-                    temp = builder.Uri.ToString();
-                }
-                catch (UriFormatException)
+                if (!Uri.TryCreate("//" + temp, UriKind.Absolute, out Uri uri))
                 {
                     return Task.FromResult(false);
                 }
+
+                temp = uri.ToString();
             }
 
             return Task.FromResult(temp.ContainsTopLevelDomain());
