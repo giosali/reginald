@@ -218,6 +218,9 @@
                     Hide();
                 }
 
+                // Ensures foreground window doesn't lose focus after pasting into search window.
+                _ = Services.Devices.Keyboard.SetFocus(ActiveHandle);
+
                 selectedItem.EnterKeyDown();
             }
         }
