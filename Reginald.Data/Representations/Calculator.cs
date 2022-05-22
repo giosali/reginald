@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using System.Windows;
     using Reginald.Core.Helpers;
-    using Reginald.Core.Mathematics;
+    using Reginald.Core.Math;
 
     public class Calculator : Representation
     {
@@ -40,13 +40,13 @@
 
         public Task<bool> IsExpression(string input)
         {
-            bool success;
-            if (success = Interpreter.IsMathExpression(input) && !input.StartsWith(' '))
+            if (!ShuntingYardAlgorithm.TryParse(input, out string result) && result is null)
             {
-                Description = Core.Mathematics.Calculator.Calculate(input);
+                return Task.FromResult(false);
             }
 
-            return Task.FromResult(success);
+            Description = result;
+            return Task.FromResult(true);
         }
     }
 }
