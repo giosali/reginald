@@ -29,6 +29,10 @@
             if (CanReceiveKeyboardInput)
             {
                 _item.EnterKeyDown();
+
+                // Ensures the Alt key is always released after pressing the
+                // Enter key.
+                AltKeyUp();
             }
         }
 
