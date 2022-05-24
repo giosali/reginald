@@ -63,6 +63,14 @@
                 {
                     case >= '0' and <= '9':
                     case '.':
+                        // Exits if the previous token is an exponentiation operator
+                        // and if the current token is a decimal point.
+                        if (previousToken == '^' && token == '.')
+                        {
+                            postFixExpression = Ellipsis;
+                            return false;
+                        }
+
                         buffer.Append(token);
                         break;
                     case '(':
@@ -103,7 +111,10 @@
                     case '-':
                     case '−':
                         // [Guard]
-                        if (Operator.IsOperator(previousToken) && token != '-' && token != '−')
+                        // Exits if the previous token is an operator
+                        // or an exponentiation operator
+                        // and if the current token isn't a subtraction operator.
+                        if ((Operator.IsOperator(previousToken) || previousToken == '^') && token != '-' && token != '−')
                         {
                             postFixExpression = Ellipsis;
                             return false;
@@ -148,8 +159,9 @@
                         }
 
                         // [Guard]
-                        // Exits if there is a factorial containing a decimal.
-                        if (n.Contains('.'))
+                        // Exits if there is a factorial containing a decimal
+                        // or if the previous token is an exponentiation operator.
+                        if (n.Contains('.') || previousToken == '^')
                         {
                             postFixExpression = Ellipsis;
                             return false;
@@ -164,7 +176,9 @@
                 previousToken = token;
             }
 
-            if (parenthesisCount != 0)
+            // Exits if there are unmatched parentheses
+            // or if there's an incomplete exponent.
+            if (parenthesisCount != 0 || previousToken == '^')
             {
                 postFixExpression = Ellipsis;
                 return false;
