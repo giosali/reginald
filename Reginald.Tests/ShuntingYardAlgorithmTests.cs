@@ -104,6 +104,7 @@
         [InlineData("(2 + 2^2)^3 / 5", "43.2")]
         [InlineData("3 + 4 * 2 / ( 1 - 5 )^2^3", "3.00012207")]
         [InlineData("3 + 4 * 2 ÷ ( 1 − 5 ) ^ 2 ^ 3", "3.00012207")]
+        [InlineData("2^0", "1")]
 
         // Factorials
         [InlineData("0!", "1")]
@@ -167,6 +168,10 @@
         [InlineData("2 ** 2")]
         [InlineData("2^^2")]
         [InlineData("2.2!")]
+        [InlineData("2^")]
+        [InlineData("2^!")]
+        [InlineData("2^ ")]
+        [InlineData("2^.")]
         public void TryParse_WhenGivenImproperMathExpression_ShouldReturnEllipsis(string expression)
         {
             bool success = ShuntingYardAlgorithm.TryParse(expression, out string actual);
