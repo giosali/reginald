@@ -152,6 +152,7 @@
         [InlineData(" 2 + 2")]
         [InlineData("")]
         [InlineData(null)]
+        [InlineData("!")]
         public void TryParse_WhenGivenInvalidMathExpression_ShouldReturnNull(string expression)
         {
             bool success = ShuntingYardAlgorithm.TryParse(expression, out string actual);
@@ -172,6 +173,9 @@
         [InlineData("2^!")]
         [InlineData("2^ ")]
         [InlineData("2^.")]
+        [InlineData("2 + ...")]
+        [InlineData("2 + .")]
+        [InlineData(".")]
         public void TryParse_WhenGivenImproperMathExpression_ShouldReturnEllipsis(string expression)
         {
             bool success = ShuntingYardAlgorithm.TryParse(expression, out string actual);

@@ -65,7 +65,7 @@
                     case '.':
                         // Exits if the previous token is an exponentiation operator
                         // and if the current token is a decimal point.
-                        if (previousToken == '^' && token == '.')
+                        if ((previousToken == '^' && token == '.') || (previousToken == '.' && token == '.'))
                         {
                             postFixExpression = Ellipsis;
                             return false;
@@ -171,6 +171,15 @@
                         break;
                     default:
                         return false;
+                }
+
+                // [Guard]
+                // Exits if the current token is a decimal point
+                // and the previous token isn't a number.
+                if (token == '.' && !char.IsDigit(previousToken))
+                {
+                    postFixExpression = Ellipsis;
+                    return false;
                 }
 
                 previousToken = token;
