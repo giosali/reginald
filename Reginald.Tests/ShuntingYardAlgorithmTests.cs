@@ -176,6 +176,13 @@
         [InlineData("2 + ...")]
         [InlineData("2 + .")]
         [InlineData(".")]
+        [InlineData("2 −")]
+        [InlineData("2 -")]
+        [InlineData("2 +")]
+        [InlineData("2 ÷")]
+        [InlineData("2 /")]
+        [InlineData("2 *")]
+        [InlineData("2 ^")]
         public void TryParse_WhenGivenImproperMathExpression_ShouldReturnEllipsis(string expression)
         {
             bool success = ShuntingYardAlgorithm.TryParse(expression, out string actual);

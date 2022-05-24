@@ -31,8 +31,7 @@
                 return false;
             }
 
-            result = ParsePostfixExpression(postFixExpression).ToString();
-            return true;
+            return TryParsePostfixExpression(postFixExpression, out result);
         }
 
         private static bool TryParseInfixExpression(string expression, out string postFixExpression)
@@ -64,7 +63,9 @@
                     case >= '0' and <= '9':
                     case '.':
                         // Exits if the previous token is an exponentiation operator
-                        // and if the current token is a decimal point.
+                        // and if the current token is a decimal point
+                        // or if the previous token
+                        // and the current token are both the decimal point.
                         if ((previousToken == '^' && token == '.') || (previousToken == '.' && token == '.'))
                         {
                             postFixExpression = Ellipsis;
@@ -115,6 +116,16 @@
                         // or an exponentiation operator
                         // and if the current token isn't a subtraction operator.
                         if ((Operator.IsOperator(previousToken) || previousToken == '^') && token != '-' && token != '−')
+                        {
+                            postFixExpression = Ellipsis;
+                            return false;
+                        }
+
+                        // [Guard]
+                        // Exits if the current token is a decimal point
+                        // and the previous token isn't a number
+                        // and we're at the end of the expression.
+                        if (token == '.' && !char.IsDigit(previousToken) && i == expression.Length - 1)
                         {
                             postFixExpression = Ellipsis;
                             return false;
@@ -173,21 +184,12 @@
                         return false;
                 }
 
-                // [Guard]
-                // Exits if the current token is a decimal point
-                // and the previous token isn't a number.
-                if (token == '.' && !char.IsDigit(previousToken))
-                {
-                    postFixExpression = Ellipsis;
-                    return false;
-                }
-
                 previousToken = token;
             }
 
             // Exits if there are unmatched parentheses
             // or if there's an incomplete exponent.
-            if (parenthesisCount != 0 || previousToken == '^')
+            if (parenthesisCount != 0 || Operator.IsOperator(previousToken))
             {
                 postFixExpression = Ellipsis;
                 return false;
@@ -212,8 +214,9 @@
             }
         }
 
-        private static double ParsePostfixExpression(string expression)
+        private static bool TryParsePostfixExpression(string expression, out string result)
         {
+            result = "...";
             Stack<double> nums = new();
             string[] subs = expression.Split(' ');
             for (int i = 0; i < subs.Length; i++)
@@ -225,7 +228,11 @@
                     continue;
                 }
 
-                double right = nums.Pop();
+                if (!nums.TryPop(out double right))
+                {
+                    return false;
+                }
+
                 bool leftSuccess = nums.TryPop(out double left);
                 if (!leftSuccess)
                 {
@@ -274,7 +281,8 @@
                 }
             }
 
-            return Math.Round(nums.Pop(), 9);
+            result = Math.Round(nums.Pop(), 9).ToString();
+            return true;
         }
 
         private static double Factorial(double n)
