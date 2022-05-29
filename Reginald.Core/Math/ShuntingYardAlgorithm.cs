@@ -276,6 +276,12 @@
                             nums.Push(left);
                         }
 
+                        // Exits if the factorial isn't being applied to an integer.
+                        if (right % 1 != 0)
+                        {
+                            return false;
+                        }
+
                         nums.Push(Factorial(right));
                         break;
                 }
