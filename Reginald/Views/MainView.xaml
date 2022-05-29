@@ -256,7 +256,7 @@
                      Background="Transparent"
                      BorderThickness="0"
                      Height="65"
-                     Padding="10 0 0 0"
+                     Padding="10 0"
                      VerticalContentAlignment="Center"
                      cal:Message.Attach="[Event Loaded] = [Action UserInput_Loaded($this, $eventargs)];
                                          [Event Unloaded] = [Action UserInput_Unloaded($source, $eventargs)];
