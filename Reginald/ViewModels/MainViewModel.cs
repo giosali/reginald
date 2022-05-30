@@ -204,6 +204,7 @@
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             UserInput = string.Empty;
+            _userResourceService.UpdateApplications();
             return base.OnDeactivateAsync(close, cancellationToken);
         }
 

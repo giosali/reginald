@@ -6,9 +6,14 @@
     {
         public UserResourceService()
         {
-            Applications = ShellItemFactory.CreateShellItems(Shell.GetApplications());
+            UpdateApplications();
         }
 
         public ShellItem[] Applications { get; set; }
+
+        public void UpdateApplications()
+        {
+            Applications = ShellItemFactory.CreateShellItems(Shell.GetApplications());
+        }
     }
 }
