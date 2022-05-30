@@ -9,6 +9,7 @@
     using System.Windows.Interop;
     using Reginald.Services;
     using Reginald.Services.Appearance;
+    using Reginald.Services.Utilities;
 
     public class SearchPopupViewModelScreen<T> : PopupViewModelScreen<T>
     {
@@ -36,7 +37,7 @@
             if (GetView() is Popup popup && PresentationSource.FromVisual(popup.Child) is HwndSource source)
             {
                 // Brings popup to front without stealing focus from the foreground window
-                _ = Services.Devices.Keyboard.SetFocus(ActiveHandle = source.Handle);
+                _ = WindowUtility.SetFocus(ActiveHandle = source.Handle);
 
                 if (ConfigurationService.Theme.IsAcrylicEnabled)
                 {

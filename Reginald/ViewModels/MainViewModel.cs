@@ -14,6 +14,7 @@
     using Reginald.Data.Keywords;
     using Reginald.Data.ShellItems;
     using Reginald.Services;
+    using Reginald.Services.Utilities;
 
     public class MainViewModel : SearchPopupViewModelScreen<DisplayItem>
     {
@@ -219,7 +220,7 @@
                 }
 
                 // Ensures foreground window doesn't lose focus after pasting into search window.
-                _ = Services.Devices.Keyboard.SetFocus(ActiveHandle);
+                _ = WindowUtility.SetFocus(ActiveHandle);
 
                 selectedItem.EnterKeyDown();
             }

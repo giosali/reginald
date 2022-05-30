@@ -95,7 +95,7 @@
         /// <param name="e">The event data.</param>
         public void Menu_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Services.Devices.Mouse.Drag();
+            WindowUtility.Drag();
         }
 
         public void PopupCloseBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

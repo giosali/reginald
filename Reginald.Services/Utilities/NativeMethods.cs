@@ -8,6 +8,8 @@
     {
         internal const int SW_SHOW = 5;
 
+        internal const int HT_CAPTION = 0x2;
+
         internal delegate bool EnumDelegate(IntPtr hWnd, int lParam);
 
         /// <summary>
@@ -173,12 +175,34 @@
         [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
 
+        [DllImport("user32.dll")]
+        internal static extern bool GetCursorPos(out POINT lpPoint);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr WindowFromPoint(POINT p);
+
+        [DllImport("user32.dll")]
+        internal static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
         internal struct SHQUERYRBINFO
         {
             public int cbSize;
             public long i64Size;
             public long i64NumItems;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct POINT
+        {
+            public int x;
+            public int y;
         }
     }
 }
