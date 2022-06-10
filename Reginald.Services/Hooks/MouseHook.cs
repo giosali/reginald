@@ -3,7 +3,6 @@
     using System;
     using System.Diagnostics;
     using System.Runtime.InteropServices;
-    using Reginald.Services.Devices;
     using static Reginald.Services.Hooks.NativeMethods;
 
     public class MouseHook : Hook
@@ -34,7 +33,7 @@
         {
             if (nCode >= 0 && (WindowMessage)wParam == WindowMessage.WM_LBUTTONDOWN)
             {
-                MouseClickEventArgs args = Mouse.TryGetWindowThreadProcessIdFromCursorPos(out uint threadProcessId) ? new(threadProcessId) : new();
+                MouseClickEventArgs args = GetCursorPos(out POINT p) ? new(WindowFromPoint(p)) : new();
                 OnMouseClick(args);
             }
 

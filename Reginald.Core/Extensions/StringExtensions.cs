@@ -18,7 +18,7 @@
         /// <returns>A new string with all unmatched or unterminated characters in <paramref name="expression"/> escaped.</returns>
         public static string RegexClean(this string expression)
         {
-            string[] characters = new string[] { @"\", "[", "(", ")", ".", "+" };
+            string[] characters = new string[] { @"\", "[", "(", ")", ".", "+", "*", "?", "|", "$" };
             for (int i = 0; i < characters.Length; i++)
             {
                 string character = characters[i];

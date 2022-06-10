@@ -9,7 +9,7 @@
     using System.Windows;
     using System.Windows.Input;
     using Caliburn.Micro;
-    using Reginald.Core.Extensions;
+    using Microsoft.Data.Sqlite;
     using Reginald.Core.Helpers;
     using Reginald.Core.IO;
     using Reginald.Data.Comparers;
@@ -19,7 +19,7 @@
 
     public class ClipboardManagerPopupViewModel : SearchPopupViewModelScreen<ClipboardItem>
     {
-        private const string ClipboardFilename = "Clipboard.json";
+        private const string ClipboardFilename = "Clipboard.db";
 
         private const int ClipboardLimit = 25;
 
@@ -28,11 +28,13 @@
         public ClipboardManagerPopupViewModel(ConfigurationService configurationService)
             : base(configurationService)
         {
+            // Creates clipboard database file.
+            CreateClipboardDatabase();
+
             ClipboardUtility utility = ClipboardUtility.GetClipboardUtility();
             utility.ClipboardChanged += OnClipboardChanged;
 
-            IEnumerable<ClipboardItemDataModel> models = FileOperations.GetGenericData<ClipboardItemDataModel>(ClipboardFilename, false);
-            Items = new(models.Select(model => new ClipboardItem(model)));
+            Items = new(ReadClipboardDatabase().Select(r => new ClipboardItem(r)));
             Items.CollectionChanged += OnCollectionChanged;
         }
 
@@ -95,7 +97,7 @@
         /// <param name="e">The event data.</param>
         public void Menu_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Services.Devices.Mouse.Drag();
+            WindowUtility.Drag();
         }
 
         public void PopupCloseBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -143,6 +145,55 @@
             return base.OnDeactivateAsync(close, cancellationToken);
         }
 
+        private static void CreateClipboardDatabase()
+        {
+            string filePath = FileOperations.GetFilePath(ClipboardFilename, false);
+            using SqliteConnection connection = new($"Data Source={filePath}");
+            connection.Open();
+            SqliteCommand command = connection.CreateCommand();
+            command.CommandText =
+            @"
+                CREATE TABLE IF NOT EXISTS 'clipboard'(
+                    id INTEGER PRIMARY KEY,
+                    type INTEGER NOT NULL,
+                    text TEXT,
+                    icon BLOB,
+                    datetime TEXT
+                );
+            ";
+            command.ExecuteNonQuery();
+        }
+
+        private static IEnumerable<SqliteDataReader> ReadClipboardDatabase()
+        {
+            string filePath = FileOperations.GetFilePath(ClipboardFilename, false);
+            using SqliteConnection connection = new($"Data Source={filePath}");
+            connection.Open();
+            SqliteCommand command = connection.CreateCommand();
+            command.CommandText =
+            @"
+                SELECT * FROM 'clipboard'
+            ";
+            SqliteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                yield return reader;
+            }
+        }
+
+        private static void EmptyClipboardDatabase()
+        {
+            string filePath = FileOperations.GetFilePath(ClipboardFilename, false);
+            using SqliteConnection connection = new($"Data Source={filePath}");
+            connection.Open();
+            SqliteCommand command = connection.CreateCommand();
+            command.CommandText =
+            @"
+                DROP TABLE IF EXISTS 'clipboard'
+            ";
+            command.ExecuteNonQuery();
+        }
+
         private void OnClipboardChanged(object sender, EventArgs e)
         {
             if (ClipboardHelper.TryGetText(out string text))
@@ -154,7 +205,9 @@
                 }
 
                 Items = new(Items.Distinct(new ClipboardItemComparer()));
-                FileOperations.WriteFile(ClipboardFilename, Items.Where(item => item.ClipboardItemType != ClipboardItemType.Image).Serialize());
+                EmptyClipboardDatabase();
+                CreateClipboardDatabase();
+                WriteToClipboardDatabase();
             }
             else if (Clipboard.ContainsImage())
             {
@@ -168,6 +221,56 @@
             {
                 SelectedItem = DisplayItems[0];
             }
+        }
+
+        private void WriteToClipboardDatabase()
+        {
+            string filePath = FileOperations.GetFilePath(ClipboardFilename, false);
+            using SqliteConnection connection = new($"Data Source={filePath}");
+            connection.Open();
+            using SqliteTransaction transaction = connection.BeginTransaction();
+            SqliteCommand command = connection.CreateCommand();
+            command.CommandText =
+            @"
+                INSERT INTO 'clipboard'(id, type, icon, text, datetime)
+                VALUES($id, $type, $icon, $text, $datetime)
+            ";
+
+            SqliteParameter idParameter = command.CreateParameter();
+            idParameter.ParameterName = "$id";
+            command.Parameters.Add(idParameter);
+
+            SqliteParameter typeParameter = command.CreateParameter();
+            typeParameter.ParameterName = "$type";
+            command.Parameters.Add(typeParameter);
+
+            SqliteParameter iconParameter = command.CreateParameter();
+            iconParameter.ParameterName = "$icon";
+            command.Parameters.Add(iconParameter);
+
+            SqliteParameter textParameter = command.CreateParameter();
+            textParameter.ParameterName = "$text";
+            command.Parameters.Add(textParameter);
+
+            SqliteParameter datetimeParameter = command.CreateParameter();
+            datetimeParameter.ParameterName = "$datetime";
+            command.Parameters.Add(datetimeParameter);
+
+            for (int i = 0; i < Items.Count; i++)
+            {
+                ClipboardItem item = Items[i];
+                if (item.ClipboardItemType == ClipboardItemType.Text)
+                {
+                    idParameter.Value = i + 1;
+                    typeParameter.Value = ClipboardItemType.Text;
+                    iconParameter.Value = item.Icon.ToString();
+                    textParameter.Value = item.Description;
+                    datetimeParameter.Value = item.DateTime.ToString();
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            transaction.Commit();
         }
     }
 }

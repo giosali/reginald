@@ -29,6 +29,10 @@
             if (CanReceiveKeyboardInput)
             {
                 _item.EnterKeyDown();
+
+                // Ensures the Alt key is always released after pressing the
+                // Enter key.
+                AltKeyUp();
             }
         }
 
@@ -38,8 +42,8 @@
             {
                 IsAltKeyDown = true;
                 _item.AltKeyDown();
-                Caption = _item.TempCaption;
-                Description = _item.TempDescription;
+                Caption = _item.TempCaption ?? _item.Caption;
+                Description = _item.TempDescription ?? _item.Description;
             }
         }
 
@@ -49,8 +53,8 @@
             {
                 IsAltKeyDown = false;
                 _item.AltKeyUp();
-                Caption = _item.TempCaption;
-                Description = _item.TempDescription;
+                Caption = _item.TempCaption ?? _item.Caption;
+                Description = _item.TempDescription ?? _item.Description;
             }
         }
 

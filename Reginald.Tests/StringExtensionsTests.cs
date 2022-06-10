@@ -13,6 +13,10 @@
         [InlineData("[]", @"\[]")]
         [InlineData(".", @"\.")]
         [InlineData("+", @"\+")]
+        [InlineData("*", @"\*")]
+        [InlineData("?", @"\?")]
+        [InlineData("|", @"\|")]
+        [InlineData("$", @"\$")]
         public static void RegexClean_WhenGivenUnmatchedOrUnterminatedCharacters_ShouldCleanString(string input, string expected)
         {
             string actual = input.RegexClean();
@@ -21,7 +25,7 @@
 
         [Theory]
         [InlineData("This is a string", "This is a string")]
-        [InlineData("`~!@#$%^&*-_=,<>/?;:'\"{]}|", "`~!@#$%^&*-_=,<>/?;:'\"{]}|")]
+        [InlineData("`~!@#%^&-_=,<>/;:'\"{]}", "`~!@#%^&-_=,<>/;:'\"{]}")]
         public static void RegexClean_WhenNotGivenUnmatchedOrUnterminatedCharacters_ShouldCleanString(string input, string expected)
         {
             string actual = input.RegexClean();

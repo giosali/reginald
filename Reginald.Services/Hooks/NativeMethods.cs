@@ -42,6 +42,12 @@
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
 
+        [DllImport("user32.dll")]
+        internal static extern bool GetCursorPos(out POINT lpPoint);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr WindowFromPoint(POINT p);
+
         [StructLayout(LayoutKind.Sequential)]
         internal struct MSLLHOOKSTRUCT
         {

@@ -106,7 +106,7 @@
 
         private void OnLeftMouseClick(object sender, MouseClickEventArgs e)
         {
-            if (e.ThreadProcessId != Environment.ProcessId)
+            if (e.Handle != ActiveHandle)
             {
                 Hide();
             }

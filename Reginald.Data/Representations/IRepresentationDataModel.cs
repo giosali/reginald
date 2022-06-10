@@ -16,9 +16,6 @@
         [JsonProperty("caption")]
         public string Caption { get; set; }
 
-        [JsonProperty("altCaption")]
-        public string AltCaption { get; set; }
-
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }
     }

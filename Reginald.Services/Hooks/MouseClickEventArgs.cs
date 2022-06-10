@@ -8,11 +8,11 @@
         {
         }
 
-        public MouseClickEventArgs(uint threadProcessId)
+        public MouseClickEventArgs(IntPtr hWnd)
         {
-            ThreadProcessId = threadProcessId;
+            Handle = hWnd;
         }
 
-        public uint ThreadProcessId { get; set; }
+        public IntPtr Handle { get; set; }
     }
 }
