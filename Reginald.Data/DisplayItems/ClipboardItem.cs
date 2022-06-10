@@ -3,6 +3,7 @@
     using System;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
+    using Microsoft.Data.Sqlite;
     using Newtonsoft.Json;
     using Reginald.Core.Helpers;
     using Reginald.Services.Input;
@@ -25,19 +26,6 @@
     {
         private const string IconPathFormat = "pack://application:,,,/Reginald;component/Images/Results/{0}";
 
-        public ClipboardItem(ClipboardItemDataModel model)
-        {
-            if (Guid.TryParse(model.Guid, out Guid guid))
-            {
-                Guid = guid;
-            }
-
-            Icon = BitmapImageHelper.FromUri(model.Icon);
-            Description = model.Description;
-            DateTime = DateTime.Parse(model.DateTime);
-            ClipboardItemType = (ClipboardItemType)model.ClipboardItemType;
-        }
-
         public ClipboardItem(string text)
         {
             Guid = Guid.NewGuid();
@@ -58,6 +46,15 @@
             DateTime = DateTime.Now;
             ClipboardItemType = ClipboardItemType.Image;
             Image = bitmapSource;
+        }
+
+        public ClipboardItem(SqliteDataReader reader)
+        {
+            Guid = Guid.NewGuid();
+            Icon = BitmapImageHelper.FromUri((string)reader["icon"]);
+            Description = (string)reader["text"];
+            DateTime = DateTime.Parse((string)reader["datetime"]);
+            ClipboardItemType = (ClipboardItemType)(long)reader["type"];
         }
 
         [JsonProperty("dateTime")]
