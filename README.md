@@ -61,18 +61,28 @@
 Reginald can help you find your applications quickly and effortlessly. Press <kbd>Alt</kbd> + <kbd>Space</kbd> to open the Reginald search window and type away.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_search_dark.png" width="750">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/application-launcher.png" width="750">
 </p>
+
+Don't like using that key binding? No problem. Feel free to change it to something more suitable for you through the settings panel.
 
 ### Calculations
 
-Need to work out some quick math? Let Reginald take care of that for you.
+Need to work out some quick math? Let Reginald take care of that for you by freely typing expressions into the search box. Hitting <kbd>Enter</kbd> will copy the result to your clipboard.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_math_dark.png" width="750">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/calculator.png" width="750">
 </p>
 
-You can also press <kbd>Enter</kbd> to copy the result to your clipboard.
+Reginald can solve expressions with the following operators:
+
+* +
+* -
+* /, ÷
+* *
+* !
+* (, )
+* ^
 
 ### Web Searches
 
@@ -81,7 +91,7 @@ You can also press <kbd>Enter</kbd> to copy the result to your clipboard.
 Quickly launch websites and make web searches without the hassle of opening a new tab by using keywords.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_keyword_dark.png" width="750">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/keywords.png" width="750">
 </p>
 
 Reginald comes ready with some keywords that you can use straight out of the box:
@@ -111,15 +121,15 @@ Reginald comes ready with some keywords that you can use straight out of the box
 Not satisfied with these? Create your own keywords in the `User Keywords` section under the `Utilities` header in Reginald's settings window. Additionally, you can prevent certain keywords from appearing in your search results or disable all of them at once.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/defaultkeywords.png" width="500">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/keywords-settings.png" width="500">
 </p>
 
 #### HTTP
 
-Got a URL on hand? Paste it into Reginald's search window and hit <kbd>Enter</kbd> to go there.
+Got a URL on hand? Paste it into Reginald's search window and hit <kbd>Enter</kbd> to open it in your default web browser.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_website_dark.png" width="750">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/url.png" width="750">
 </p>
 
 ### Special Keywords
@@ -153,32 +163,24 @@ Reginald comes with keywords that sometimes require additional input for them to
 
 Text expansions allow you to save time by helping you prevent repeatedly typing the same text. When the text you type matches a *trigger*, that text will be replaced by replacement text designated by you.
 
-<p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/expansion_preview.gif" width="400">
-</p>
-
-Expansions can only be called by typing a dollar sign ($) and then the trigger.
+```mermaid
+graph LR
+    a("$hello") --> b("Hello, my name is Reginald")
+    c("$multi-line") --> d("This is an example showing<br/>that Reginald's expansions support<br/>multiple lines.")
+```
 
 To get started, go to the `Expansions` panel in the settings portion of the application. You'll be able to create an expansion by entering a trigger and the replacement text that will replace the trigger.
 
 ```
-ℹ️ NOTE: Triggers should only consist of lowercase letters and/or numbers
+ℹ️ NOTE: Triggers are case-sensitive and can contain symbols and numbers
 ```
 
-### Key Bindings
+### Clipboard Manager
 
-Don't like using <kbd>Alt</kbd> + <kbd>Space</kbd>? No problem. Feel free to change it to something more comfortable and suitable for you through the settings panel.
-
-<p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/general.png" width="500">
-</p>
-
-### Dark Mode & Light Mode
-
-Reginald uses a dark mode by default for the search window but if you prefer a lighter look, you can disable dark mode.
+Reginald features a built-in clipboard manager, allowing you to quickly preview and access text and images that you've previously copied. The clipboard manager can be called by pressing <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>V</kbd>. Like the search box, this can be rebound to another key gesture in the settings.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_dark_light_mode.gif" width="600">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/clipboard-manager.png" width="500">
 </p>
 
 ## Installation
