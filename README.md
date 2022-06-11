@@ -130,7 +130,7 @@ Reginald comes ready with some keywords that you can use straight out of the box
 Not satisfied with these? Create your own keywords in the `User Keywords` section under the `Utilities` header in Reginald's settings window. Additionally, you can prevent certain keywords from appearing in your search results or disable all of them at once.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/keywords-settings.png" width="500">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/keywords-settings.png" width="550">
 </p>
 
 #### HTTP
