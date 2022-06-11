@@ -46,8 +46,7 @@
   * [Special Keywords](#special-keywords)
   * [Commands](#commands)
   * [Text Expansions](#text-expansions)
-  * [Key Bindings](#key-bindings)
-  * [Dark Mode & Light Mode](#dark-mode---light-mode)
+  * [Clipboard Manager](#clipboard-manager)
 - [Installation](#installation)
   * [Microsoft Defender Smartscreen Message](#microsoft-defender-smartscreen-message)
     + [How to Bypass It](#how-to-bypass-it)
@@ -96,6 +95,8 @@ Quickly launch websites and make web searches without the hassle of opening a ne
 
 Reginald comes ready with some keywords that you can use straight out of the box:
 
+<div align="center">
+
 | Name       | Keyword    | Description                 |
 | ---------- | ---------- | --------------------------- |
 | Amazon     | amazon     | Search Amazon for '...'     |
@@ -117,6 +118,8 @@ Reginald comes ready with some keywords that you can use straight out of the box
 | Twitter    | twitter    | Go to _'s profile           |
 | Wikipedia  | wiki       | Search Wikipedia for '...'  |
 | YouTube    | yt         | Search YouTube for '...'    |
+
+</div>
 
 Not satisfied with these? Create your own keywords in the `User Keywords` section under the `Utilities` header in Reginald's settings window. Additionally, you can prevent certain keywords from appearing in your search results or disable all of them at once.
 
@@ -142,10 +145,14 @@ There are certain keywords available that require an Internet connection to make
 
 These are the currently available special keywords:
 
+<div align="center">
+
 | Name           | Keyword    | Description                     |
 | -------------- | ---------- | ------------------------------- |
 | Styvio         | stock      | Look up stock information       |
 | Cloudflare     | ip         | Fetch your current IPv4 address |
+
+</div>
 
 ### Commands
 
@@ -155,9 +162,13 @@ Reginald comes with keywords that sometimes require additional input for them to
 	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/timer.png" width="500">
 </p>
 
+<div align="center">
+
 | Keyword    | Description       |
 | ---------- | ----------------- |
 | timer      | Set up a reminder |
+
+</div>
 
 ### Text Expansions
 
