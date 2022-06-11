@@ -75,13 +75,19 @@ Need to work out some quick math? Let Reginald take care of that for you by free
 
 Reginald can solve expressions with the following operators:
 
-* +
-* -
-* /, ÷
-* *
-* !
-* (, )
-* ^
+<div align="center">
+
+| Name           | Operator  | Example  |
+| -------------- | --------- | -------- |
+| Parentheses    | (, )      | 2(5 + 7) |
+| Exponentiation | ^         | 2^3      |
+| Multiplication | *         | 9 * 9    |
+| Division       | /, ÷      | 4 / 2    |
+| Addition       | +         | 1 + 1    |
+| Subtraction    | -         | 0 - 1    |
+| Factorial      | !         | 5!       |
+
+</div>
 
 ### Web Searches
 
