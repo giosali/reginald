@@ -138,7 +138,7 @@ Not satisfied with these? Create your own keywords in the `User Keywords` sectio
 Got a URL on hand? Paste it into Reginald's search window and hit <kbd>Enter</kbd> to open it in your default web browser.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/url.png" width="750">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/url.png" width="650">
 </p>
 
 ### Special Keywords
