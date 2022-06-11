@@ -1,7 +1,7 @@
 <h1 align="center">Reginald</h1>
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/reginald.png" width="150">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald.png" width="150">
 </p>
 
 <p align="center">
@@ -61,7 +61,7 @@
 Reginald can help you find your applications quickly and effortlessly. Press <kbd>Alt</kbd> + <kbd>Space</kbd> to open the Reginald search window and type away.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/reginald_search_dark.png" width="750">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_search_dark.png" width="750">
 </p>
 
 ### Calculations
@@ -69,7 +69,7 @@ Reginald can help you find your applications quickly and effortlessly. Press <kb
 Need to work out some quick math? Let Reginald take care of that for you.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/reginald_math_dark.png" width="750">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_math_dark.png" width="750">
 </p>
 
 You can also press <kbd>Enter</kbd> to copy the result to your clipboard.
@@ -81,7 +81,7 @@ You can also press <kbd>Enter</kbd> to copy the result to your clipboard.
 Quickly launch websites and make web searches without the hassle of opening a new tab by using keywords.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/reginald_keyword_dark.png" width="750">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_keyword_dark.png" width="750">
 </p>
 
 Reginald comes ready with some keywords that you can use straight out of the box:
@@ -111,7 +111,7 @@ Reginald comes ready with some keywords that you can use straight out of the box
 Not satisfied with these? Create your own keywords in the `User Keywords` section under the `Utilities` header in Reginald's settings window. Additionally, you can prevent certain keywords from appearing in your search results or disable all of them at once.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/defaultkeywords.png" width="500">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/defaultkeywords.png" width="500">
 </p>
 
 #### HTTP
@@ -119,7 +119,7 @@ Not satisfied with these? Create your own keywords in the `User Keywords` sectio
 Got a URL on hand? Paste it into Reginald's search window and hit <kbd>Enter</kbd> to go there.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/reginald_website_dark.png" width="750">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_website_dark.png" width="750">
 </p>
 
 ### Special Keywords
@@ -127,7 +127,7 @@ Got a URL on hand? Paste it into Reginald's search window and hit <kbd>Enter</kb
 There are certain keywords available that require an Internet connection to make requests to various APIs.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/stock.png" width="500">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/stock.png" width="500">
 </p>
 
 These are the currently available special keywords:
@@ -142,7 +142,7 @@ These are the currently available special keywords:
 Reginald comes with keywords that sometimes require additional input for them to work. Those keywords are called `commands`.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/timer.png" width="500">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/timer.png" width="500">
 </p>
 
 | Keyword    | Description       |
@@ -154,7 +154,7 @@ Reginald comes with keywords that sometimes require additional input for them to
 Text expansions allow you to save time by helping you prevent repeatedly typing the same text. When the text you type matches a *trigger*, that text will be replaced by replacement text designated by you.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/expansion_preview.gif" width="400">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/expansion_preview.gif" width="400">
 </p>
 
 Expansions can only be called by typing a dollar sign ($) and then the trigger.
@@ -170,7 +170,7 @@ To get started, go to the `Expansions` panel in the settings portion of the appl
 Don't like using <kbd>Alt</kbd> + <kbd>Space</kbd>? No problem. Feel free to change it to something more comfortable and suitable for you through the settings panel.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/general.png" width="500">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/general.png" width="500">
 </p>
 
 ### Dark Mode & Light Mode
@@ -178,7 +178,7 @@ Don't like using <kbd>Alt</kbd> + <kbd>Space</kbd>? No problem. Feel free to cha
 Reginald uses a dark mode by default for the search window but if you prefer a lighter look, you can disable dark mode.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/reginald_dark_light_mode.gif" width="600">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald_dark_light_mode.gif" width="600">
 </p>
 
 ## Installation
@@ -196,7 +196,7 @@ Once you've downloaded the installer, open it and follow the installer's instruc
 There's a chance you may receive the following message while attempting to install Reginald:
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/media/smartscreen.png" width="450">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/smartscreen.png" width="450">
 </p>
 
 #### How to Bypass It
