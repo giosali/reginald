@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.11.0
+
+### Added
+
+* Added a built-in **clipboard manager**
+  * The clipboard manager can be accessed by pressing <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>V</kbd>
+* The installer now contains an option to run the application after installation
+* Added original acrylic material
+
+### Changed
+
+* The main search box window is now a popup window
+* **Changed appearance of the settings section** of the application
+  * Removed third-party UI libraries
+* Improved handling of URLs
+* Multiple instances of the application are now prevented from concurrently running
+* Change appearance of the scroll bar
+
+### Fixed
+
+* Fixed bug where certain math expressions would crash the application
+* Fixed bug where the <kbd>Alt</kbd> key would be programmatically stuck
+* Fixed regex parsing bug where certain symbols would crash the application
+* Fixed bug where the application wouldn't run on startup after updating
+* Fixed bug where pressing <kbd>Tab</kbd> on a keyword would crash the application
+
 ## v0.10.0
 
 ### Added
