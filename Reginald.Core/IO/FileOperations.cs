@@ -18,6 +18,66 @@
         public static string ApplicationAppDataDirectoryPath { get; private set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationName);
 
         /// <summary>
+        /// Deletes the shortcut file that points to the Reginald executable.
+        /// </summary>
+        public static void DeleteShortcut()
+        {
+            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationShortcutName);
+            File.Delete(shortcutPath);
+        }
+
+        public static T DeserializeFile<T>(string filePath)
+        {
+            T type = default;
+
+            // Check if file exists
+            if (File.Exists(filePath))
+            {
+                // If it does, extract its contents
+                while (true)
+                {
+                    try
+                    {
+                        using StreamReader reader = new(filePath);
+                        string json = reader.ReadToEnd();
+                        type = JsonConvert.DeserializeObject<T>(json);
+                        break;
+                    }
+
+                    // If the file is already in use, try again until it's no longer in use
+                    catch (IOException)
+                    {
+                    }
+                }
+            }
+
+            return type;
+        }
+
+        public static string GetFilePath(string filename, bool isResource)
+        {
+            string resourcesDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources");
+            return Path.Combine(isResource ? resourcesDirectoryPath : ApplicationAppDataDirectoryPath, filename);
+        }
+
+        public static T[] GetGenericData<T>(string filePath)
+        {
+            return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
+        }
+
+        public static T[] GetGenericData<T>(string filename, bool isResource)
+        {
+            string filePath = GetFilePath(filename, isResource);
+            return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
+        }
+
+        public static T GetGenericDatum<T>(string filename, bool isResource)
+        {
+            string filePath = GetFilePath(filename, isResource);
+            return DeserializeFile<T>(filePath);
+        }
+
+        /// <summary>
         /// Creates a shortcut file that points to the Reginald executable. A return value indicates whether the shortcut was created.
         /// </summary>
         /// <returns><see langword="true"/> if the shortcut was created; otherwise, <see langword="false"/>.</returns>
@@ -50,91 +110,33 @@
             return true;
         }
 
-        /// <summary>
-        /// Deletes the shortcut file that points to the Reginald executable.
-        /// </summary>
-        public static void DeleteShortcut()
-        {
-            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), ApplicationShortcutName);
-            File.Delete(shortcutPath);
-        }
-
-        public static void WriteFile(string filename, string json = null)
+        public static void WriteFile(string filename, string text = null)
         {
             string filePath = GetFilePath(filename, false);
 
-            // If the file doesn't exist, create it
+            // Creates file if it doesn't exist.
             if (!File.Exists(filePath))
             {
                 using FileStream stream = File.Create(filePath);
             }
 
-            // Write contents to the file
-            if (json is not null)
+            if (text is null)
             {
-                while (true)
-                {
-                    try
-                    {
-                        File.WriteAllText(filePath, json);
-                        break;
-                    }
-                    catch (IOException)
-                    {
-                    }
-                }
-            }
-        }
-
-        public static T[] GetGenericData<T>(string filePath)
-        {
-            return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
-        }
-
-        public static T[] GetGenericData<T>(string filename, bool isResource)
-        {
-            string filePath = GetFilePath(filename, isResource);
-            return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
-        }
-
-        public static T GetGenericDatum<T>(string filename, bool isResource)
-        {
-            string filePath = GetFilePath(filename, isResource);
-            return DeserializeFile<T>(filePath);
-        }
-
-        public static string GetFilePath(string filename, bool isResource)
-        {
-            string resourcesDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources");
-            return Path.Combine(isResource ? resourcesDirectoryPath : ApplicationAppDataDirectoryPath, filename);
-        }
-
-        public static T DeserializeFile<T>(string filePath)
-        {
-            T type = default;
-
-            // Check if file exists
-            if (File.Exists(filePath))
-            {
-                // If it does, extract its contents
-                while (true)
-                {
-                    try
-                    {
-                        using StreamReader reader = new(filePath);
-                        string json = reader.ReadToEnd();
-                        type = JsonConvert.DeserializeObject<T>(json);
-                        break;
-                    }
-
-                    // If the file is already in use, try again until it's no longer in use
-                    catch (IOException)
-                    {
-                    }
-                }
+                return;
             }
 
-            return type;
+            // Writes text to the file.
+            while (true)
+            {
+                try
+                {
+                    File.WriteAllText(filePath, text);
+                    break;
+                }
+                catch (IOException)
+                {
+                }
+            }
         }
     }
 }
