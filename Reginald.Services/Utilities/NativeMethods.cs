@@ -76,19 +76,19 @@
         [DllImport("user32.dll")]
         internal static extern IntPtr WindowFromPoint(POINT p);
 
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct POINT
+        {
+            public int x;
+            public int y;
+        }
+
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
         internal struct SHQUERYRBINFO
         {
             public int cbSize;
             public long i64Size;
             public long i64NumItems;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct POINT
-        {
-            public int x;
-            public int y;
         }
     }
 }
