@@ -31,6 +31,32 @@
             Hardware = 2,
         }
 
+        public static List<INPUT> FromTextExpansion(string trigger, string replacement)
+        {
+            List<INPUT> inputs = new();
+            if (!string.IsNullOrEmpty(replacement))
+            {
+                // Simulates backspace to delete the trigger
+                inputs.AddRange(RepeatInput(VirtualKeyShort.BACK, trigger.Length));
+
+                string expression = replacement;
+                int cursorIndex = expression.IndexOf(CursorVariable);
+                int leftArrowCount = 0;
+                if (cursorIndex > 0)
+                {
+                    expression = expression.Replace(CursorVariable, string.Empty, 1);
+                    leftArrowCount = expression.Length - cursorIndex;
+                }
+
+                inputs.AddRange(FromUnicodeString(expression));
+
+                // Simulates left arrow key to set cursor position
+                inputs.AddRange(RepeatInput(VirtualKeyShort.LEFT, leftArrowCount));
+            }
+
+            return inputs;
+        }
+
         /// <summary>
         /// Converts an array of <see cref="VirtualKeyShort"/> to an array of <see cref="INPUT"/>.
         /// </summary>
@@ -68,32 +94,6 @@
                         },
                     },
                 };
-            }
-
-            return inputs;
-        }
-
-        public static List<INPUT> FromTextExpansion(string trigger, string replacement)
-        {
-            List<INPUT> inputs = new();
-            if (!string.IsNullOrEmpty(replacement))
-            {
-                // Simulates backspace to delete the trigger
-                inputs.AddRange(RepeatInput(VirtualKeyShort.BACK, trigger.Length));
-
-                string expression = replacement;
-                int cursorIndex = expression.IndexOf(CursorVariable);
-                int leftArrowCount = -1;
-                if (cursorIndex > 0)
-                {
-                    expression = expression.Replace(CursorVariable, string.Empty, 1);
-                    leftArrowCount = expression.Length - cursorIndex;
-                }
-
-                inputs.AddRange(FromUnicodeString(expression));
-
-                // Simulates left arrow key to set cursor position
-                inputs.AddRange(RepeatInput(VirtualKeyShort.LEFT, leftArrowCount));
             }
 
             return inputs;
