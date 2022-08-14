@@ -4,16 +4,17 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
-    using Reginald.Core.Base;
 
     public class StyvioApi
     {
+        private const string StyvioStockEpFormat = "https://www.styvio.com/api/{0}";
+
         public static async Task<StyvioStock> GetStock(string stock, CancellationToken token)
         {
             try
             {
                 using HttpClient client = new();
-                HttpResponseMessage response = await client.GetAsync(string.Format(Constants.StyvioStockEpFormat, stock), token);
+                HttpResponseMessage response = await client.GetAsync(string.Format(StyvioStockEpFormat, stock), token);
                 response.EnsureSuccessStatusCode();
                 StyvioStock styvioStock = JsonConvert.DeserializeObject<StyvioStock>(await response.Content.ReadAsStringAsync(token));
                 return styvioStock;

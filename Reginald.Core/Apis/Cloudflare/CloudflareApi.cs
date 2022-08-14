@@ -8,12 +8,14 @@
 
     public class CloudflareApi
     {
+        private const string CloudflareEp = "https://cloudflare-quic.com/b/ip";
+        
         public static async Task<CloudflareIpAddress> GetIpAddress(CancellationToken token)
         {
             try
             {
                 using HttpClient client = new();
-                HttpResponseMessage response = await client.GetAsync(Constants.CloudflareEp, token);
+                HttpResponseMessage response = await client.GetAsync(CloudflareEp, token);
                 _ = response.EnsureSuccessStatusCode();
                 CloudflareIpAddress ipAddress = JsonConvert.DeserializeObject<CloudflareIpAddress>(await response.Content.ReadAsStringAsync(token));
                 return ipAddress;

@@ -2,11 +2,6 @@
 {
     public static class Constants
     {
-        // APIs
-        public static string StyvioStockEpFormat { get; } = "https://www.styvio.com/api/{0}";
-
-        public static string CloudflareEp { get; } = "https://cloudflare-quic.com/b/ip";
-
         // Regex
         public static string IsMathRegexPattern { get; } = @"^[0-9\s+-/^*()><!]+$";
 
