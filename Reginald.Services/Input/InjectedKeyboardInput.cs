@@ -34,25 +34,27 @@
         public static List<INPUT> FromTextExpansion(string trigger, string replacement)
         {
             List<INPUT> inputs = new();
-            if (!string.IsNullOrEmpty(replacement))
+            if (string.IsNullOrEmpty(replacement))
             {
-                // Simulates backspace to delete the trigger
-                inputs.AddRange(RepeatInput(VirtualKeyShort.BACK, trigger.Length));
-
-                string expression = replacement;
-                int cursorIndex = expression.IndexOf(CursorVariable);
-                int leftArrowCount = 0;
-                if (cursorIndex > 0)
-                {
-                    expression = expression.Replace(CursorVariable, string.Empty, 1);
-                    leftArrowCount = expression.Length - cursorIndex;
-                }
-
-                inputs.AddRange(FromUnicodeString(expression));
-
-                // Simulates left arrow key to set cursor position
-                inputs.AddRange(RepeatInput(VirtualKeyShort.LEFT, leftArrowCount));
+                return inputs;
             }
+
+            // Simulates backspace to delete the trigger
+            inputs.AddRange(RepeatInput(VirtualKeyShort.BACK, trigger.Length));
+
+            string expression = replacement;
+            int cursorIndex = expression.IndexOf(CursorVariable);
+            int leftArrowCount = 0;
+            if (cursorIndex > 0)
+            {
+                expression = expression.Replace(CursorVariable, string.Empty, 1);
+                leftArrowCount = expression.Length - cursorIndex;
+            }
+
+            inputs.AddRange(FromUnicodeString(expression));
+
+            // Simulates left arrow key to set cursor position
+            inputs.AddRange(RepeatInput(VirtualKeyShort.LEFT, leftArrowCount));
 
             return inputs;
         }
@@ -102,138 +104,42 @@
         private static List<INPUT> FromUnicodeString(string expression)
         {
             List<INPUT> inputs = new();
-            if (!string.IsNullOrEmpty(expression))
+            if (string.IsNullOrEmpty(expression))
             {
-                char previousCh = '\0';
-                for (int i = 0; i < expression.Length; i++)
+                return inputs;
+            }
+
+            for (int i = 0; i < expression.Length; i++)
+            {
+                char ch = expression[i];
+                switch (ch)
                 {
-                    char ch = expression[i];
+                    case '\0':
+                        break;
+                    case '\t':
+                        inputs.AddRange(FromVirtualKeys(new VirtualKeyShort[] { VirtualKeyShort.TAB }));
+                        break;
+                    case '\n':
+                        inputs.AddRange(FromVirtualKeys(new VirtualKeyShort[] { VirtualKeyShort.SHIFT, VirtualKeyShort.RETURN }));
+                        break;
+                    default:
+                        INPUT input = new();
+                        input.type = (uint)InputType.Keyboard;
+                        input.U = new InputUnion
+                        {
+                            ki = new KEYBDINPUT
+                            {
+                                wVk = 0,
+                                wScan = unchecked((short)ch),
+                                dwFlags = KEYEVENTF.UNICODE,
+                            },
+                        };
+                        inputs.Add(input);
 
-                    // Adds nothing if the current character is equal to the previous character
-                    if (ch == previousCh)
-                    {
-                        inputs.Add(new INPUT
-                        {
-                            type = (uint)InputType.Keyboard,
-                            U = new InputUnion
-                            {
-                                ki = new KEYBDINPUT
-                                {
-                                    wVk = 0,
-                                    dwFlags = KEYEVENTF.UNICODE,
-                                    wScan = unchecked(0),
-                                },
-                            },
-                        });
-                    }
-
-                    // Simulates the Shift + Enter keys if the character is a newline char
-                    if (ch == '\n')
-                    {
-                        inputs.Add(new INPUT
-                        {
-                            type = (uint)InputType.Keyboard,
-                            U = new InputUnion
-                            {
-                                ki = new KEYBDINPUT
-                                {
-                                    wVk = VirtualKeyShort.SHIFT,
-                                    dwFlags = KEYEVENTF.KEYDOWN,
-                                    wScan = 0,
-                                },
-                            },
-                        });
-
-                        inputs.Add(new INPUT
-                        {
-                            type = (uint)InputType.Keyboard,
-                            U = new InputUnion
-                            {
-                                ki = new KEYBDINPUT
-                                {
-                                    wVk = VirtualKeyShort.RETURN,
-                                    dwFlags = KEYEVENTF.KEYDOWN,
-                                    wScan = 0,
-                                },
-                            },
-                        });
-
-                        inputs.Add(new INPUT
-                        {
-                            type = (uint)InputType.Keyboard,
-                            U = new InputUnion
-                            {
-                                ki = new KEYBDINPUT
-                                {
-                                    wVk = VirtualKeyShort.SHIFT,
-                                    dwFlags = KEYEVENTF.KEYUP,
-                                    wScan = 0,
-                                },
-                            },
-                        });
-
-                        inputs.Add(new INPUT
-                        {
-                            type = (uint)InputType.Keyboard,
-                            U = new InputUnion
-                            {
-                                ki = new KEYBDINPUT
-                                {
-                                    wVk = VirtualKeyShort.RETURN,
-                                    dwFlags = KEYEVENTF.KEYUP,
-                                    wScan = 0,
-                                },
-                            },
-                        });
-                    }
-                    else if (ch == '\t')
-                    {
-                        inputs.Add(new INPUT
-                        {
-                            type = (uint)InputType.Keyboard,
-                            U = new InputUnion
-                            {
-                                ki = new KEYBDINPUT
-                                {
-                                    wVk = VirtualKeyShort.TAB,
-                                    dwFlags = KEYEVENTF.KEYDOWN,
-                                    wScan = 0,
-                                },
-                            },
-                        });
-
-                        inputs.Add(new INPUT
-                        {
-                            type = (uint)InputType.Keyboard,
-                            U = new InputUnion
-                            {
-                                ki = new KEYBDINPUT
-                                {
-                                    wVk = VirtualKeyShort.TAB,
-                                    dwFlags = KEYEVENTF.KEYUP,
-                                    wScan = 0,
-                                },
-                            },
-                        });
-                    }
-                    else
-                    {
-                        inputs.Add(new INPUT
-                        {
-                            type = (uint)InputType.Keyboard,
-                            U = new InputUnion
-                            {
-                                ki = new KEYBDINPUT
-                                {
-                                    wVk = 0,
-                                    dwFlags = KEYEVENTF.UNICODE,
-                                    wScan = unchecked((short)ch),
-                                },
-                            },
-                        });
-                    }
-
-                    previousCh = ch;
+                        // Handles repeat characters when using SendInput.
+                        input.U.ki.dwFlags |= KEYEVENTF.KEYUP;
+                        inputs.Add(input);
+                        break;
                 }
             }
 
