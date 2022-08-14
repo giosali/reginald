@@ -4,7 +4,7 @@
     using System.Runtime.InteropServices;
     using System.Text;
 
-    public static class NativeMethods
+    internal static class NativeMethods
     {
         internal const int HT_CAPTION = 0x2;
 

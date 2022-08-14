@@ -3,7 +3,7 @@
     using System;
     using System.Runtime.InteropServices;
 
-    public static class NativeMethods
+    internal static class NativeMethods
     {
         /// <summary>
         /// Specifies various aspects of mouse motion and button clicking.
