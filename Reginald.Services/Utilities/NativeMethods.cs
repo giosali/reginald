@@ -23,51 +23,48 @@
             DWMWA_CLOAKED,
         }
 
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static extern IntPtr CreateMutex(IntPtr lpMutexAttributes, bool bInitialOwner, string lpName);
+
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReleaseMutex(IntPtr hMutex);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        internal static extern uint SHEmptyRecycleBin(IntPtr hwnd, string pszRootPath, uint dwFlags);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        internal static extern uint SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        internal static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
+
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool AddClipboardFormatListener(IntPtr hwnd);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        internal static extern IntPtr CreateMutex(IntPtr lpMutexAttributes, bool bInitialOwner, string lpName);
-
         [DllImport("dwmapi.dll")]
         internal static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE dwAttribute, out bool pvAttribute, int cbAttribute);
-
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
-
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        internal static extern int GetWindowTextLength(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        internal static extern bool IsWindowVisible(IntPtr hWnd);
 
         [DllImport("user32.dll")]
         internal static extern bool EnumWindows(EnumDelegate lpEnumFunc, IntPtr lParam);
 
         [DllImport("user32.dll")]
-        internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
-
-        [DllImport("user32.dll")]
         internal static extern IntPtr GetActiveWindow();
 
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
-        internal static extern uint SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
-
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
-        internal static extern uint SHEmptyRecycleBin(IntPtr hwnd, string pszRootPath, uint dwFlags);
-
-        [DllImport("kernel32.dll")]
-        internal static extern bool ReleaseMutex(IntPtr hMutex);
-
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        internal static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
         [DllImport("user32.dll")]
         internal static extern bool GetCursorPos(out POINT lpPoint);
 
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        internal static extern int GetWindowTextLength(IntPtr hWnd);
+
         [DllImport("user32.dll")]
-        internal static extern IntPtr WindowFromPoint(POINT p);
+        internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+
+        [DllImport("user32.dll")]
+        internal static extern bool IsWindowVisible(IntPtr hWnd);
 
         [DllImport("user32.dll")]
         internal static extern bool ReleaseCapture();
@@ -77,6 +74,9 @@
 
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr WindowFromPoint(POINT p);
 
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
         internal struct SHQUERYRBINFO
