@@ -4,12 +4,11 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
-    using Reginald.Core.Base;
 
     public class CloudflareApi
     {
         private const string CloudflareEp = "https://cloudflare-quic.com/b/ip";
-        
+
         public static async Task<CloudflareIpAddress> GetIpAddress(CancellationToken token)
         {
             try
