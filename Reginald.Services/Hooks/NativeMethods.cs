@@ -6,10 +6,6 @@
 
     public static class NativeMethods
     {
-        internal const int WH_KEYBOARD_LL = 13;
-
-        internal const int WH_MOUSE_LL = 14;
-
         internal delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         internal delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
