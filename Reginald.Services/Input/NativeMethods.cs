@@ -13,17 +13,11 @@
         {
         }
 
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetForegroundWindow();
-
         [DllImport("user32.dll", EntryPoint = "PostMessageA")]
         internal static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
 
         [DllImport("user32.dll")]
         internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs, int cbSize);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, nuint wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INPUT
