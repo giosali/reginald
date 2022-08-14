@@ -3,7 +3,7 @@
     using System;
     using System.Runtime.InteropServices;
 
-    internal static class NativeMethods
+    public static class NativeMethods
     {
         /// <summary>
         /// Specifies various aspects of mouse motion and button clicking.
@@ -20,20 +20,20 @@
         internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs, int cbSize);
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct HARDWAREINPUT
-        {
-            internal int uMsg;
-            internal short wParamL;
-            internal short wParamH;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct INPUT
+        public struct INPUT
         {
             internal uint type;
             internal InputUnion U;
 
             internal static int Size => Marshal.SizeOf(typeof(INPUT));
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct HARDWAREINPUT
+        {
+            internal int uMsg;
+            internal short wParamL;
+            internal short wParamH;
         }
 
         [StructLayout(LayoutKind.Sequential)]
