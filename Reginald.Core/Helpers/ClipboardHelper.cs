@@ -11,25 +11,27 @@
         public static bool TryGetText(out string text)
         {
             text = null;
-            if (Clipboard.ContainsText())
+            if (!Clipboard.ContainsText())
             {
-                for (int i = 0; i < 10; i++)
-                {
-                    try
-                    {
-                        text = Clipboard.GetText();
-                        return true;
-                    }
-                    catch (COMException ex)
-                    {
-                        if ((uint)ex.ErrorCode != ClipboardExceptionCantOpen)
-                        {
-                            throw;
-                        }
-                    }
+                return false;
+            }
 
-                    Thread.Sleep(10);
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    text = Clipboard.GetText();
+                    return true;
                 }
+                catch (COMException ex)
+                {
+                    if ((uint)ex.ErrorCode != ClipboardExceptionCantOpen)
+                    {
+                        throw;
+                    }
+                }
+
+                Thread.Sleep(10);
             }
 
             return false;

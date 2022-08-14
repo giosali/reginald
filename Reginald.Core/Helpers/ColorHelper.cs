@@ -10,24 +10,6 @@
             return (Color)ColorConverter.ConvertFromString(expression);
         }
 
-        public static bool TryGetName(Color color, out string name)
-        {
-            name = color.ToString();
-            PropertyInfo[] properties = typeof(Colors).GetProperties();
-            for (int i = 0; i < properties.Length; i++)
-            {
-                PropertyInfo property = properties[i];
-                string hex = property.GetValue(color).ToString();
-                if (name == hex)
-                {
-                    name = property.Name;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public static Color InvertColor(Color color, bool makeReadable)
         {
             byte r = (byte)~color.R;
@@ -44,6 +26,24 @@
             }
 
             return Color.FromRgb(r, g, b);
+        }
+
+        public static bool TryGetName(Color color, out string name)
+        {
+            name = color.ToString();
+            PropertyInfo[] properties = typeof(Colors).GetProperties();
+            for (int i = 0; i < properties.Length; i++)
+            {
+                PropertyInfo property = properties[i];
+                string hex = property.GetValue(color).ToString();
+                if (name == hex)
+                {
+                    name = property.Name;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
