@@ -6,6 +6,17 @@
 
     public static class NativeMethods
     {
+        /// <summary>
+        /// For more information, see the <see href="https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mapvirtualkeya">Microsoft Documentation on virtual keys</see>.
+        /// </summary>
+        public enum MapVirtualKeyMapType : uint
+        {
+            /// <summary>
+            /// The uCode parameter is a virtual-key code and is translated into a scan code. If it is a virtual-key code that does not distinguish between left- and right-hand keys, the left-hand scan code is returned. If there is no translation, the function returns 0.
+            /// </summary>
+            MAPVK_VK_TO_VSC = 0x0,
+        }
+
         internal delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         internal delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
