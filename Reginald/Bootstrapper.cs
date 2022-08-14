@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using System.Windows;
     using Caliburn.Micro;
     using Reginald.Services;
@@ -21,13 +22,12 @@
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            IntPtr hMutex = WindowUtility.RegisterInstance("Reginald Single Instance Mutex");
-            if (hMutex == IntPtr.Zero)
+            _hMutext = WindowUtility.RegisterInstance("Global\\Reginald");
+            if (_hMutext == IntPtr.Zero || Marshal.GetLastWin32Error() == (int)SystemErrorCode.ERROR_ALREADY_EXISTS)
             {
                 Application.Current.Shutdown();
             }
 
-            _hMutext = hMutex;
             _ = DisplayRootViewFor<ShellViewModel>();
         }
 
