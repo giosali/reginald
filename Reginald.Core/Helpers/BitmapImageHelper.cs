@@ -5,9 +5,9 @@
 
     public class BitmapImageHelper
     {
-        public static BitmapImage FromUri(string uri, int width = 128, int height = 128)
+        public static BitmapImage FromUri(string uriString, int width = 128, int height = 128)
         {
-            if (uri is null)
+            if (!Uri.TryCreate(uriString, UriKind.Absolute, out Uri result))
             {
                 return null;
             }
@@ -22,14 +22,7 @@
             icon.CacheOption = BitmapCacheOption.OnLoad;
             icon.DecodePixelWidth = width;
             icon.DecodePixelHeight = height;
-            try
-            {
-                icon.UriSource = new Uri(uri);
-            }
-            catch (UriFormatException)
-            {
-                return null;
-            }
+            icon.UriSource = result;
 
             // End initialization
             icon.EndInit();
