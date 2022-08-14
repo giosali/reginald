@@ -1,6 +1,6 @@
 ﻿namespace Reginald.Core.Helpers
 {
-    using System;
+    using System.Globalization;
     using System.Reflection;
     using System.Windows.Media;
 
@@ -32,49 +32,43 @@
 
         public static bool TryFromString(string expression, out Brush brush)
         {
-            if (!expression.StartsWith("#"))
-            {
-                expression = expression.Insert(0, "#");
-            }
-
-            if (expression.Length == 7)
-            {
-                try
-                {
-                    brush = (Brush)new BrushConverter().ConvertFromString(expression);
-                    return true;
-                }
-                catch (FormatException)
-                {
-                }
-            }
-
             brush = null;
-            return false;
+            if (expression.StartsWith('#'))
+            {
+                expression = expression.Substring(1);
+            }
+
+            if (!int.TryParse(expression, NumberStyles.HexNumber, null, out _))
+            {
+                return false;
+            }
+
+            brush = (Brush)new BrushConverter().ConvertFromString(expression);
+            return true;
         }
 
         public static bool TryGetName(Brush brush, out string name)
         {
             name = null;
-            if (brush is not null)
+            if (brush is null)
             {
-                name = brush.ToString();
-                PropertyInfo[] properties = typeof(Brushes).GetProperties();
-                for (int i = 0; i < properties.Length; i++)
-                {
-                    PropertyInfo property = properties[i];
-                    string hex = property.GetValue(brush).ToString();
-                    if (name == hex)
-                    {
-                        name = property.Name;
-                        break;
-                    }
-                }
-
-                return true;
+                return false;
             }
 
-            return false;
+            name = brush.ToString();
+            PropertyInfo[] properties = typeof(Brushes).GetProperties();
+            for (int i = 0; i < properties.Length; i++)
+            {
+                PropertyInfo property = properties[i];
+                string hex = property.GetValue(brush).ToString();
+                if (name == hex)
+                {
+                    name = property.Name;
+                    break;
+                }
+            }
+
+            return true;
         }
     }
 }
