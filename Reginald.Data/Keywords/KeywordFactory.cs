@@ -35,7 +35,7 @@
                     break;
 
                 case CommandType.Quit:
-                    IEnumerable<Process> processes = ProcessUtility.GetTopLevelProcesses(input);
+                    IEnumerable<Process> processes = ProcessUtility.GetTopLevelProcesses();
                     return processes.Select(process => new QuitKeyword(model, process));
             }
 

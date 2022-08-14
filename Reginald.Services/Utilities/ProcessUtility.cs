@@ -11,7 +11,7 @@
     {
         private static readonly HashSet<string> _systemWindows = new() { "Progman", "Shell_TrayWnd" };
 
-        public static IEnumerable<Process> GetTopLevelProcesses(string input)
+        public static IEnumerable<Process> GetTopLevelProcesses()
         {
             List<Process> processes = new();
             _ = EnumWindows(
