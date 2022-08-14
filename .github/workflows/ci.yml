@@ -6,12 +6,14 @@ on:
       - main
     paths-ignore:
       - 'ext/**'
+      - 'scripts/**'
       - '*.md'
   pull_request:
     branches:
       - main
     paths-ignore:
       - 'ext/**'
+      - 'scripts/**'
       - '*.md'
 
 jobs:
