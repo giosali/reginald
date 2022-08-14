@@ -6,8 +6,6 @@
 
     public static class RecycleBin
     {
-        private const string CRootDrive = @"C:\";
-
         /// <summary>
         /// Specifies various values of confirmation for emptying the Recycle Bin.
         /// </summary>
@@ -35,18 +33,14 @@
         /// </summary>
         public static void Empty()
         {
-            if (GetItemCount() > 0)
-            {
-                _ = SHEmptyRecycleBin(IntPtr.Zero, CRootDrive, (uint)(RecycleFlag.SHERB_NOCONFIRMATION | RecycleFlag.SHERB_NOPROGRESSUI | RecycleFlag.SHERB_NOSOUND));
-            }
-        }
-
-        public static long GetItemCount()
-        {
             SHQUERYRBINFO sqrbi = new();
             sqrbi.cbSize = Marshal.SizeOf(typeof(SHQUERYRBINFO));
-            HRESULT hResult = (HRESULT)SHQueryRecycleBin(CRootDrive, ref sqrbi);
-            return hResult == HRESULT.S_OK ? sqrbi.i64NumItems : 0;
+            if ((HRESULT)SHQueryRecycleBin(@"C:\", ref sqrbi) != HRESULT.S_OK || sqrbi.i64NumItems <= 0)
+            {
+                return;
+            }
+
+            _ = SHEmptyRecycleBin(IntPtr.Zero, @"C:\", (uint)(RecycleFlag.SHERB_NOCONFIRMATION | RecycleFlag.SHERB_NOPROGRESSUI | RecycleFlag.SHERB_NOSOUND));
         }
     }
 }
