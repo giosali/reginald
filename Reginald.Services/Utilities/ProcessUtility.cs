@@ -52,6 +52,16 @@
             return processes;
         }
 
+        public static void GoTo(string uri)
+        {
+            _ = ShellExecute(IntPtr.Zero, null, uri, null, null, (int)ShowWindowCommand.SW_SHOWNORMAL);
+        }
+
+        public static void OpenFromPath(string path)
+        {
+            _ = Process.Start("explorer.exe", path);
+        }
+
         public static void QuitProcessById(int processId)
         {
             try
@@ -78,16 +88,6 @@
 
             _ = Process.Start(startInfo);
             Application.Current.Shutdown();
-        }
-
-        public static void GoTo(string uri)
-        {
-            _ = ShellExecute(IntPtr.Zero, null, uri, null, null, (int)ShowWindowCommand.SW_SHOWNORMAL);
-        }
-
-        public static void OpenFromPath(string path)
-        {
-            _ = Process.Start("explorer.exe", path);
         }
     }
 }

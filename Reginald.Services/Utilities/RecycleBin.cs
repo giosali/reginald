@@ -30,14 +30,6 @@
             SHERB_NOSOUND = 0x00000004,
         }
 
-        public static long GetItemCount()
-        {
-            SHQUERYRBINFO sqrbi = new();
-            sqrbi.cbSize = Marshal.SizeOf(typeof(SHQUERYRBINFO));
-            HRESULT hResult = (HRESULT)SHQueryRecycleBin(CRootDrive, ref sqrbi);
-            return hResult == HRESULT.S_OK ? sqrbi.i64NumItems : 0;
-        }
-
         /// <summary>
         /// Permanently deletes all items in the Recycle Bin of the C: drive if it contains any.
         /// </summary>
@@ -47,6 +39,14 @@
             {
                 _ = SHEmptyRecycleBin(IntPtr.Zero, CRootDrive, (uint)(RecycleFlag.SHERB_NOCONFIRMATION | RecycleFlag.SHERB_NOPROGRESSUI | RecycleFlag.SHERB_NOSOUND));
             }
+        }
+
+        public static long GetItemCount()
+        {
+            SHQUERYRBINFO sqrbi = new();
+            sqrbi.cbSize = Marshal.SizeOf(typeof(SHQUERYRBINFO));
+            HRESULT hResult = (HRESULT)SHQueryRecycleBin(CRootDrive, ref sqrbi);
+            return hResult == HRESULT.S_OK ? sqrbi.i64NumItems : 0;
         }
     }
 }

@@ -6,11 +6,6 @@
 
     public static class WindowUtility
     {
-        public static IntPtr SetFocus(IntPtr hWnd)
-        {
-            return SetActiveWindow(hWnd);
-        }
-
         public static void Drag()
         {
             if (GetCursorPos(out POINT p))
@@ -19,6 +14,21 @@
                 _ = ReleaseCapture();
                 _ = SendMessage(hWnd, (int)WindowMessage.WM_NCLBUTTONDOWN, new IntPtr(HT_CAPTION), IntPtr.Zero);
             }
+        }
+
+        public static IntPtr RegisterInstance(string name)
+        {
+            return CreateMutex(IntPtr.Zero, true, name);
+        }
+
+        public static IntPtr SetFocus(IntPtr hWnd)
+        {
+            return SetActiveWindow(hWnd);
+        }
+
+        public static void UnregisterInstance(IntPtr hMutex)
+        {
+            _ = ReleaseMutex(hMutex);
         }
 
         public static async Task WaitForDeactivationAsync()
@@ -32,16 +42,6 @@
 
                 await Task.Delay(10);
             }
-        }
-
-        public static IntPtr RegisterInstance(string name)
-        {
-            return CreateMutex(IntPtr.Zero, true, name);
-        }
-
-        public static void UnregisterInstance(IntPtr hMutex)
-        {
-            _ = ReleaseMutex(hMutex);
         }
     }
 }
