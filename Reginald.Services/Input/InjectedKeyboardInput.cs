@@ -78,8 +78,8 @@
                         ki = new KEYBDINPUT
                         {
                             wVk = vks[i],
-                            dwFlags = KEYEVENTF.KEYDOWN,
                             wScan = 0,
+                            dwFlags = KEYEVENTF.KEYDOWN,
                         },
                     },
                 };
@@ -91,8 +91,8 @@
                         ki = new KEYBDINPUT
                         {
                             wVk = vks[i],
-                            dwFlags = KEYEVENTF.KEYUP,
                             wScan = 0,
+                            dwFlags = KEYEVENTF.KEYUP,
                         },
                     },
                 };
@@ -159,8 +159,8 @@
                         ki = new KEYBDINPUT
                         {
                             wVk = vks,
-                            dwFlags = KEYEVENTF.KEYDOWN,
                             wScan = 0,
+                            dwFlags = KEYEVENTF.KEYDOWN,
                         },
                     },
                 });
@@ -173,8 +173,8 @@
                         ki = new KEYBDINPUT
                         {
                             wVk = vks,
-                            dwFlags = KEYEVENTF.KEYUP,
                             wScan = 0,
+                            dwFlags = KEYEVENTF.KEYUP,
                         },
                     },
                 });
