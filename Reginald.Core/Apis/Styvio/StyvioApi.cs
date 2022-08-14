@@ -8,22 +8,6 @@
 
     public class StyvioApi
     {
-        public static async Task<StyvioStock> GetStock(string stock)
-        {
-            try
-            {
-                using HttpClient client = new();
-                HttpResponseMessage response = await client.GetAsync(string.Format(Constants.StyvioStockEpFormat, stock));
-                response.EnsureSuccessStatusCode();
-                StyvioStock styvioStock = JsonConvert.DeserializeObject<StyvioStock>(await response.Content.ReadAsStringAsync());
-                return styvioStock;
-            }
-            catch (HttpRequestException)
-            {
-                return null;
-            }
-        }
-
         public static async Task<StyvioStock> GetStock(string stock, CancellationToken token)
         {
             try
