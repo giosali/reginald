@@ -1,12 +1,18 @@
-name: reginald
+name: Tests
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'ext/**'
+      - '*.md'
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - 'ext/**'
+      - '*.md'
 
 jobs:
   build:
