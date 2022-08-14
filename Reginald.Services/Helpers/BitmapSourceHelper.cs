@@ -10,6 +10,8 @@
 
     public static class BitmapSourceHelper
     {
+        private const int MaxPath = 260;
+
         public static BitmapSource ExtractAssociatedBitmapSource(string filePath)
         {
             if (filePath == null)
@@ -36,27 +38,29 @@
                 throw new ArgumentException($"{nameof(filePath)} is a UNC path");
             }
 
-            if (uri.IsFile)
+            if (!uri.IsFile)
             {
-                // SECREVIEW : The File.Exists() below will do the demand for the FileIOPermission
-                //             for us. So, we do not need an additional demand anymore.
-                if (!File.Exists(filePath))
-                {
-                    throw new FileNotFoundException(filePath);
-                }
-
-                StringBuilder sb = new(MAX_PATH);
-                sb.Append(filePath);
-                IntPtr hIcon = ExtractAssociatedIcon(NullHandleRef.Handle, sb, out _);
-                if (hIcon != IntPtr.Zero)
-                {
-                    BitmapSource bitmapSource = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                    DestroyIcon(hIcon);
-                    return bitmapSource;
-                }
+                return null;
             }
 
-            return null;
+            // SECREVIEW : The File.Exists() below will do the demand for the FileIOPermission
+            //             for us. So, we do not need an additional demand anymore.
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException(filePath);
+            }
+
+            StringBuilder sb = new(MaxPath);
+            sb.Append(filePath);
+            IntPtr hIcon = ExtractAssociatedIcon(NullHandleRef.Handle, sb, out _);
+            if (hIcon == IntPtr.Zero)
+            {
+                return null;
+            }
+
+            BitmapSource bitmapSource = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            DestroyIcon(hIcon);
+            return bitmapSource;
         }
     }
 }
