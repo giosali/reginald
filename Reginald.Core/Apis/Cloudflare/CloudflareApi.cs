@@ -8,22 +8,6 @@
 
     public class CloudflareApi
     {
-        public static async Task<CloudflareIpAddress> GetIpAddress()
-        {
-            try
-            {
-                using HttpClient client = new();
-                HttpResponseMessage response = await client.GetAsync(Constants.CloudflareEp);
-                _ = response.EnsureSuccessStatusCode();
-                CloudflareIpAddress ipAddress = JsonConvert.DeserializeObject<CloudflareIpAddress>(await response.Content.ReadAsStringAsync());
-                return ipAddress;
-            }
-            catch (HttpRequestException)
-            {
-                return null;
-            }
-        }
-
         public static async Task<CloudflareIpAddress> GetIpAddress(CancellationToken token)
         {
             try
