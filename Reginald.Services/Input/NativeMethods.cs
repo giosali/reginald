@@ -6,16 +6,16 @@
     public static class NativeMethods
     {
         [DllImport("user32.dll")]
-        internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs, int cbSize);
+        internal static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll", EntryPoint = "PostMessageA")]
+        internal static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr GetForegroundWindow();
+        internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs, int cbSize);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, nuint wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
-
-        [DllImport("User32.Dll", EntryPoint = "PostMessageA")]
-        internal static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INPUT
@@ -26,26 +26,12 @@
             internal static int Size => Marshal.SizeOf(typeof(INPUT));
         }
 
-        [StructLayout(LayoutKind.Explicit)]
-        internal struct InputUnion
-        {
-            [FieldOffset(0)]
-            internal MOUSEINPUT mi;
-            [FieldOffset(0)]
-            internal KEYBDINPUT ki;
-            [FieldOffset(0)]
-            internal HARDWAREINPUT hi;
-        }
-
         [StructLayout(LayoutKind.Sequential)]
-        internal struct MOUSEINPUT
+        internal struct HARDWAREINPUT
         {
-            internal int dx;
-            internal int dy;
-            internal int mouseData;
-            internal MOUSEEVENTF dwFlags;
-            internal uint time;
-            internal UIntPtr dwExtraInfo;
+            internal int uMsg;
+            internal short wParamL;
+            internal short wParamH;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -59,11 +45,25 @@
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct HARDWAREINPUT
+        internal struct MOUSEINPUT
         {
-            internal int uMsg;
-            internal short wParamL;
-            internal short wParamH;
+            internal int dx;
+            internal int dy;
+            internal int mouseData;
+            internal MOUSEEVENTF dwFlags;
+            internal uint time;
+            internal UIntPtr dwExtraInfo;
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        internal struct InputUnion
+        {
+            [FieldOffset(0)]
+            internal MOUSEINPUT mi;
+            [FieldOffset(0)]
+            internal KEYBDINPUT ki;
+            [FieldOffset(0)]
+            internal HARDWAREINPUT hi;
         }
     }
 }
