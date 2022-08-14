@@ -14,12 +14,5 @@
 
             collection[0] = item;
         }
-
-        public static T Spotlight<T>(this BindableCollection<T> collection, T item)
-        {
-            collection.Clear();
-            collection.Add(item);
-            return item;
-        }
     }
 }
