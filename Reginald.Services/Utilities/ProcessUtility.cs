@@ -82,7 +82,7 @@
 
         public static void GoTo(string uri)
         {
-            _ = ShellExecute(IntPtr.Zero, null, uri, null, null, SW_SHOW);
+            _ = ShellExecute(IntPtr.Zero, null, uri, null, null, (int)ShowWindowCommand.SW_SHOWNORMAL);
         }
 
         public static void OpenFromPath(string path)

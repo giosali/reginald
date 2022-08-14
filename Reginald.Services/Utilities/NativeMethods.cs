@@ -6,8 +6,6 @@
 
     public static class NativeMethods
     {
-        internal const int SW_SHOW = 5;
-
         internal const int HT_CAPTION = 0x2;
 
         internal delegate bool EnumDelegate(IntPtr hWnd, int lParam);
