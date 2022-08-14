@@ -74,6 +74,13 @@
             _ = SendInput((uint)inputs.Count, inputs.ToArray(), INPUT.Size);
         }
 
+        public static void Paste()
+        {
+            VirtualKeyShort[] vks = new VirtualKeyShort[2] { VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_V };
+            INPUT[] inputs = InjectedKeyboardInput.FromVirtualKeys(vks);
+            _ = SendInput((uint)inputs.Length, inputs, INPUT.Size);
+        }
+
         public static bool SendKeyDown(IntPtr hWnd, int vkCode)
         {
             return PostMessage(hWnd, (uint)WindowMessage.WM_KEYDOWN, vkCode, 0);
@@ -82,13 +89,6 @@
         public static bool SendKeyUp(IntPtr hWnd, int vkCode)
         {
             return PostMessage(hWnd, (uint)WindowMessage.WM_KEYUP, vkCode, 0);
-        }
-
-        public static void Paste()
-        {
-            VirtualKeyShort[] vks = new VirtualKeyShort[2] { VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_V };
-            INPUT[] inputs = InjectedKeyboardInput.FromVirtualKeys(vks);
-            _ = SendInput((uint)inputs.Length, inputs, INPUT.Size);
         }
     }
 }
