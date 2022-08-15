@@ -114,7 +114,7 @@
             {
                 throw new ArgumentNullException(expression);
             }
-            
+
             int separatorIndex = expression.LastIndexOf(separator);
             return separatorIndex > -1 ? (expression.Substring(0, separatorIndex), separator.ToString(), expression[(separatorIndex + 1)..]) : (string.Empty, string.Empty, expression);
         }
