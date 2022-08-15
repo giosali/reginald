@@ -11,7 +11,7 @@
     {
         private static readonly string[] _regexCharacters = { @"\", "[", "(", ")", ".", "+", "*", "?", "|", "$" };
 
-        private static HashSet<string> _topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly HashSet<string> _topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Indicates whether the string contains a top-level domain.
