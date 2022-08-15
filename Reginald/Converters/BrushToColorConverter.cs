@@ -10,8 +10,8 @@
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SolidColorBrush brush = value as SolidColorBrush;
-            return Color.FromArgb(brush.Color.A, brush.Color.R, brush.Color.G, brush.Color.B);
+            Color color = (value as SolidColorBrush).Color;
+            return Color.FromArgb(color.A, color.R, color.G, color.B);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
