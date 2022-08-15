@@ -154,6 +154,11 @@
             for (int i = 0; i < count; i++)
             {
                 int oldValueIndex = expression.IndexOf(oldValue, index);
+                if (oldValueIndex == -1)
+                {
+                    break;
+                }
+
                 sb.Append(expression.Substring(index, oldValueIndex - index))
                   .Append(newValue);
                 index = oldValueIndex + oldValue.Length;
