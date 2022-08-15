@@ -67,7 +67,7 @@
         [InlineData('^')]
         [InlineData('(')]
         [InlineData(')')]
-        public void IsLeftAssociative_WhenGivenRigthAssociativeOperator_ShouldReturnFalse(char op)
+        public void IsLeftAssociative_WhenGivenRightAssociativeOperator_ShouldReturnFalse(char op)
         {
             Assert.False(Operator.IsLeftAssociative(op));
         }
