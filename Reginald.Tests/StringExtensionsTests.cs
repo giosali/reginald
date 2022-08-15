@@ -247,18 +247,5 @@
             string actual = expression.Replace(oldValue, newValue, count);
             Assert.Equal(expected, actual);
         }
-
-        [Fact]
-        public static void Replace_ShouldIgnoreCase()
-        {
-            string expression = "hello";
-            string oldValue = "HELLO";
-            string newValue = string.Empty;
-            int count = 1;
-
-            string expected = "hello";
-            string actual = expression.Replace(oldValue, newValue, count);
-            Assert.Equal(expected, actual);
-        }
     }
 }
