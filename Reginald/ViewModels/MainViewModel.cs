@@ -34,137 +34,134 @@
             Items.Clear();
             IsMouseOverChanged = false;
             MousePosition = default;
-            if (UserInput.Length > 0)
+
+            if (UserInput.Length == 0)
             {
-                IEnumerable<DisplayItem> applicationResults = SearchResult.FromItems(await Application.FilterByNames(_userResourceService.Applications, ConfigurationService.Settings.IncludeInstalledApplications, UserInput));
-                IEnumerable<DisplayItem> applicationResultsUppercase = SearchResult.FromItems(await Application.FilterByUppercaseCharacters(_userResourceService.Applications, ConfigurationService.Settings.IncludeInstalledApplications, UserInput));
-
-                IEnumerable<DisplayItem> defaultKeywordResults = SearchResult.FromItems(await Keyword.Filter(_dataFileService.DefaultKeywords, ConfigurationService.Settings.IncludeDefaultKeywords, UserInput));
-                IEnumerable<DisplayItem> userKeywordResults = SearchResult.FromItems(await Keyword.Filter(_dataFileService.UserKeywords, true, UserInput));
-                IEnumerable<DisplayItem> commandResults = SearchResult.FromItems(await CommandKeyword.Process(_dataFileService.Commands, ConfigurationService.Settings.IncludeCommands, UserInput));
-                IEnumerable<DisplayItem> httpKeywordResults = SearchResult.FromItems(await HttpKeyword.FilterAsync(_dataFileService.HttpKeywords, ConfigurationService.Settings.IncludeHttpKeywords, UserInput));
-                IEnumerable<DisplayItem> defaultResults = SearchResult.FromItems(await Keyword.Set(_dataFileService.DefaultResults, UserInput));
-
-                IEnumerable<DisplayItem> utilityResults = SearchResult.FromItems(await Keyphrase.Filter(_dataFileService.Utilities, ConfigurationService.Settings.IncludeUtilities, UserInput));
-                IEnumerable<DisplayItem> microsoftSettingsResults = SearchResult.FromItems(await Keyphrase.Filter(_dataFileService.MicrosoftSettings, ConfigurationService.Settings.IncludeSettingsPages, UserInput));
-
-                bool calculationSuccess = await _dataFileService.Calculator.IsExpression(UserInput);
-                bool isLink = await _dataFileService.Link.IsLink(UserInput);
-
-                IEnumerable<DisplayItem> results = applicationResults.Concat(applicationResultsUppercase)
-                                                                     .Distinct()
-                                                                     .Concat(defaultKeywordResults)
-                                                                     .Concat(userKeywordResults)
-                                                                     .Concat(commandResults)
-                                                                     .Concat(httpKeywordResults)
-                                                                     .Concat(utilityResults)
-                                                                     .Concat(microsoftSettingsResults)
-                                                                     .Concat(TimerResult.GetTimers(UserInput));
-
-                if (results.Any())
-                {
-                    if (httpKeywordResults.Any())
-                    {
-                        // Clear default keyword results for late arriving HTTP keywords.
-                        Items.Clear();
-                    }
-
-                    Items.AddRange(results);
-                }
-
-                if (calculationSuccess)
-                {
-                    Items.Add(new SearchResult(_dataFileService.Calculator));
-                }
-
-                if (isLink)
-                {
-                    Items.Add(new SearchResult(_dataFileService.Link));
-                }
-
-                if (Items.Count == 0)
-                {
-                    Items.AddRange(defaultResults);
-                }
-
-                // Selects the previously selected item and places it at the top of the
-                // results if it's still in the new list of results.
-                int index = Items.IndexOf(LastSelectedItem);
-                if (index > 0)
-                {
-                    Items.PrependFrom(index);
-                }
-
-                SelectedItem = Items[0];
+                return;
             }
+
+            IEnumerable<DisplayItem> applicationResults = SearchResult.FromItems(await Application.FilterByNames(_userResourceService.Applications, ConfigurationService.Settings.IncludeInstalledApplications, UserInput));
+            IEnumerable<DisplayItem> applicationResultsUppercase = SearchResult.FromItems(await Application.FilterByUppercaseCharacters(_userResourceService.Applications, ConfigurationService.Settings.IncludeInstalledApplications, UserInput));
+
+            IEnumerable<DisplayItem> defaultKeywordResults = SearchResult.FromItems(await Keyword.Filter(_dataFileService.DefaultKeywords, ConfigurationService.Settings.IncludeDefaultKeywords, UserInput));
+            IEnumerable<DisplayItem> userKeywordResults = SearchResult.FromItems(await Keyword.Filter(_dataFileService.UserKeywords, true, UserInput));
+            IEnumerable<DisplayItem> commandResults = SearchResult.FromItems(await CommandKeyword.Process(_dataFileService.Commands, ConfigurationService.Settings.IncludeCommands, UserInput));
+            IEnumerable<DisplayItem> httpKeywordResults = SearchResult.FromItems(await HttpKeyword.FilterAsync(_dataFileService.HttpKeywords, ConfigurationService.Settings.IncludeHttpKeywords, UserInput));
+            IEnumerable<DisplayItem> defaultResults = SearchResult.FromItems(await Keyword.Set(_dataFileService.DefaultResults, UserInput));
+
+            IEnumerable<DisplayItem> utilityResults = SearchResult.FromItems(await Keyphrase.Filter(_dataFileService.Utilities, ConfigurationService.Settings.IncludeUtilities, UserInput));
+            IEnumerable<DisplayItem> microsoftSettingsResults = SearchResult.FromItems(await Keyphrase.Filter(_dataFileService.MicrosoftSettings, ConfigurationService.Settings.IncludeSettingsPages, UserInput));
+
+            bool calculationSuccess = await _dataFileService.Calculator.IsExpression(UserInput);
+            bool isLink = await _dataFileService.Link.IsLink(UserInput);
+
+            IEnumerable<DisplayItem> results = applicationResults.Concat(applicationResultsUppercase)
+                                                                 .Distinct()
+                                                                 .Concat(defaultKeywordResults)
+                                                                 .Concat(userKeywordResults)
+                                                                 .Concat(commandResults)
+                                                                 .Concat(httpKeywordResults)
+                                                                 .Concat(utilityResults)
+                                                                 .Concat(microsoftSettingsResults)
+                                                                 .Concat(TimerResult.GetTimers(UserInput));
+
+            if (results.Any())
+            {
+                if (httpKeywordResults.Any())
+                {
+                    // Clear default keyword results for late arriving HTTP keywords.
+                    Items.Clear();
+                }
+
+                Items.AddRange(results);
+            }
+
+            if (calculationSuccess)
+            {
+                Items.Add(new SearchResult(_dataFileService.Calculator));
+            }
+
+            if (isLink)
+            {
+                Items.Add(new SearchResult(_dataFileService.Link));
+            }
+
+            if (Items.Count == 0)
+            {
+                Items.AddRange(defaultResults);
+            }
+
+            // Selects the previously selected item and places it at the top of the
+            // results if it's still in the new list of results.
+            int index = Items.IndexOf(LastSelectedItem);
+            if (index > 0)
+            {
+                Items.PrependFrom(index);
+            }
+
+            SelectedItem = Items[0];
         }
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (Items.Count > 0)
+            switch (e.Key is Key.System && !(e.Key is Key.LeftAlt || e.Key is Key.RightAlt) ? e.SystemKey : e.Key)
             {
-                switch (e.Key is Key.System && !(e.Key is Key.LeftAlt || e.Key is Key.RightAlt) ? e.SystemKey : e.Key)
-                {
-                    case Key.Up:
-                        SelectedItem = Items[Math.Max(Items.IndexOf(SelectedItem) - 1, 0)];
+                case Key.Up:
+                    SelectedItem = Items[Math.Max(Items.IndexOf(SelectedItem) - 1, 0)];
 
-                        // Prevents ListBoxItem from not getting selected after switching the
-                        // selected item through arrow keys and moving mouse over it.
-                        IsMouseOverChanged = false;
-                        break;
+                    // Prevents ListBoxItem from not getting selected after switching the
+                    // selected item through arrow keys and moving mouse over it.
+                    IsMouseOverChanged = false;
+                    break;
 
-                    case Key.Down:
-                        SelectedItem = Items[Math.Min(Items.IndexOf(SelectedItem) + 1, Items.Count - 1)];
+                case Key.Down:
+                    SelectedItem = Items[Math.Min(Items.IndexOf(SelectedItem) + 1, Items.Count - 1)];
 
-                        // Prevents ListBoxItem from not getting selected after switching the
-                        // selected item through arrow keys and moving mouse over it.
-                        IsMouseOverChanged = false;
-                        break;
+                    // Prevents ListBoxItem from not getting selected after switching the
+                    // selected item through arrow keys and moving mouse over it.
+                    IsMouseOverChanged = false;
+                    break;
 
-                    case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:
-                        OnSelectedItemEnterDown();
+                case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:
+                    OnSelectedItemEnterDown();
+                    e.Handled = true;
+                    break;
+
+                case Key.Enter:
+                    OnSelectedItemEnterDown();
+                    e.Handled = true;
+                    break;
+
+                case Key.LeftAlt when !e.IsRepeat:
+                case Key.RightAlt when !e.IsRepeat:
+                    SelectedItem?.AltKeyDown();
+                    e.Handled = true;
+                    break;
+
+                case Key.Tab:
+                    if (Items.Count == 0)
+                    {
                         e.Handled = true;
                         break;
+                    }
 
-                    case Key.Enter:
-                        OnSelectedItemEnterDown();
-                        e.Handled = true;
-                        break;
+                    // Autocompletes the textbox if the currently selected search
+                    // result is actually derived from a keyword and if the user
+                    // hasn't already typed the corresponding keyword
+                    if (SelectedItem is SearchResult result && result.Keyword is not null && !UserInput.StartsWith(result.Keyword + " ", StringComparison.OrdinalIgnoreCase))
+                    {
+                        (sender as TextBox).SetText(result.Keyword + " ");
+                    }
 
-                    case Key.LeftAlt when !e.IsRepeat:
-                    case Key.RightAlt when !e.IsRepeat:
-                        SelectedItem?.AltKeyDown();
-                        e.Handled = true;
-                        break;
+                    // Otherwise, there is no keyword and we should simply
+                    // autocomplete with the name of the object.
+                    else if (!UserInput.StartsWith(SelectedItem.Name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        (sender as TextBox).SetText(SelectedItem.Name);
+                    }
 
-                    case Key.Tab:
-                        // Autocompletes the textbox if the currently selected search
-                        // result is actually derived from a keyword and if the user
-                        // hasn't already typed the corresponding keyword
-                        if (SelectedItem is SearchResult result && result.Keyword is not null && !UserInput.StartsWith(result.Keyword + " ", StringComparison.OrdinalIgnoreCase))
-                        {
-                            (sender as TextBox).SetText(result.Keyword + " ");
-                        }
-
-                        // Otherwise, there is no keyword and we should simply
-                        // autocomplete with the name of the object.
-                        else if (!UserInput.StartsWith(SelectedItem.Name, StringComparison.OrdinalIgnoreCase))
-                        {
-                            (sender as TextBox).SetText(SelectedItem.Name);
-                        }
-
-                        e.Handled = true;
-                        break;
-                }
-            }
-            else
-            {
-                switch (e.Key)
-                {
-                    case Key.Tab:
-                        e.Handled = true;
-                        break;
-                }
+                    e.Handled = true;
+                    break;
             }
         }
 
@@ -173,15 +170,17 @@
             // Prevents the keyboard input from doubling per keystroke.
             e.Handled = true;
 
-            if (Items.Count > 0)
+            if (Items.Count == 0)
             {
-                switch (e.Key)
-                {
-                    case Key.LeftAlt:
-                    case Key.RightAlt:
-                        SelectedItem?.AltKeyUp();
-                        break;
-                }
+                return;
+            }
+
+            switch (e.Key)
+            {
+                case Key.LeftAlt:
+                case Key.RightAlt:
+                    SelectedItem?.AltKeyUp();
+                    break;
             }
         }
 
