@@ -9,6 +9,9 @@
         internal static readonly HandleRef NullHandleRef = new(null, IntPtr.Zero);
 
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        internal static extern uint ExtractIconEx(string szFileName, int nIconIndex, IntPtr[] phiconLarge, IntPtr[] phiconSmall, uint nIcons);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         internal static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, StringBuilder lpIconPath, out ushort lpiIcon);
 
         [DllImport("user32.dll", SetLastError = true)]

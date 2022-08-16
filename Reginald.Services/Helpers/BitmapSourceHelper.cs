@@ -62,5 +62,32 @@
             DestroyIcon(hIcon);
             return bitmapSource;
         }
+
+        public static BitmapSource ExtractFromFile(string fileName, int iconIndex)
+        {
+            uint numIcons = 1;
+            IntPtr[] largeHIcons = new IntPtr[numIcons];
+            IntPtr[] smallHIcons = new IntPtr[numIcons];
+            _ = ExtractIconEx(fileName, iconIndex, largeHIcons, smallHIcons, numIcons);
+            BitmapSource bitmapSource = Imaging.CreateBitmapSourceFromHIcon(largeHIcons[0] == IntPtr.Zero ? smallHIcons[0] : largeHIcons[0], Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+            // Disposes of icons.
+            for (int i = 0; i < numIcons; i++)
+            {
+                IntPtr largeHIcon = largeHIcons[i];
+                if (largeHIcon != IntPtr.Zero)
+                {
+                    DestroyIcon(largeHIcon);
+                }
+
+                IntPtr smallHIcon = smallHIcons[i];
+                if (smallHIcon != IntPtr.Zero)
+                {
+                    DestroyIcon(smallHIcon);
+                }
+            }
+
+            return bitmapSource;
+        }
     }
 }
