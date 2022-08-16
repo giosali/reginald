@@ -191,13 +191,12 @@
 
         public void Items_MouseLeave(object sender, MouseEventArgs e)
         {
-            try
+            if (Items.Count == 0)
             {
-                SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
+                return;
             }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
+
+            SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
         }
 
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
