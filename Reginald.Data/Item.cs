@@ -5,7 +5,7 @@
     using Caliburn.Micro;
     using Newtonsoft.Json;
 
-    public abstract class Item : PropertyChangedBase, IItem, IKeyboardInputProperty
+    public abstract class Item : PropertyChangedBase, IKeyboardInputProperty
     {
         private ImageSource _icon;
 
