@@ -5,7 +5,7 @@ namespace Reginald.Data
     using Caliburn.Micro;
     using Newtonsoft.Json;
 
-    public abstract class Model : PropertyChangedBase
+    public abstract class ObjectModel : PropertyChangedBase
     {
         private string _caption;
 
