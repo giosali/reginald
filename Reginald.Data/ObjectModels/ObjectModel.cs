@@ -1,4 +1,4 @@
-namespace Reginald.Data
+namespace Reginald.Data.ObjectModels
 {
     using System;
     using System.Windows.Media;
