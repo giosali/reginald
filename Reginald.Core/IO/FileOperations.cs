@@ -5,7 +5,6 @@
     using System.Reflection;
     using System.Runtime.InteropServices;
     using System.Windows;
-    using System.Windows.Resources;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
 
