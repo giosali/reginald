@@ -4,6 +4,8 @@
     using System.IO;
     using System.Reflection;
     using System.Runtime.InteropServices;
+    using System.Windows;
+    using System.Windows.Resources;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
 
@@ -48,6 +50,28 @@
                     catch (IOException)
                     {
                     }
+                }
+            }
+
+            return type;
+        }
+
+        public static T DeserializeFile<T>(Uri packUri)
+        {
+            T type = default;
+            while (true)
+            {
+                try
+                {
+                    using StreamReader reader = new(Application.GetResourceStream(packUri).Stream);
+                    string json = reader.ReadToEnd();
+                    type = JsonConvert.DeserializeObject<T>(json);
+                    break;
+                }
+
+                // If the file is already in use, try again until it's no longer in use
+                catch (IOException)
+                {
                 }
             }
 
