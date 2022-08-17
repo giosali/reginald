@@ -77,10 +77,10 @@
             return type;
         }
 
-        public static string GetFilePath(string filename, bool isResource)
+        public static string GetFilePath(string fileName, bool isResource)
         {
             string resourcesDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources");
-            return Path.Combine(isResource ? resourcesDirectoryPath : ApplicationAppDataDirectoryPath, filename);
+            return Path.Combine(isResource ? resourcesDirectoryPath : ApplicationAppDataDirectoryPath, fileName);
         }
 
         public static T[] GetGenericData<T>(string filePath)
@@ -88,15 +88,15 @@
             return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
         }
 
-        public static T[] GetGenericData<T>(string filename, bool isResource)
+        public static T[] GetGenericData<T>(string fileName, bool isResource)
         {
-            string filePath = GetFilePath(filename, isResource);
+            string filePath = GetFilePath(fileName, isResource);
             return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
         }
 
-        public static T GetGenericDatum<T>(string filename, bool isResource)
+        public static T GetGenericDatum<T>(string fileName, bool isResource)
         {
-            string filePath = GetFilePath(filename, isResource);
+            string filePath = GetFilePath(fileName, isResource);
             return DeserializeFile<T>(filePath);
         }
 
@@ -133,9 +133,9 @@
             return true;
         }
 
-        public static void WriteFile(string filename, string text = null)
+        public static void WriteFile(string fileName, string text = null)
         {
-            string filePath = GetFilePath(filename, false);
+            string filePath = GetFilePath(fileName, false);
 
             // Creates file if it doesn't exist.
             if (!File.Exists(filePath))
