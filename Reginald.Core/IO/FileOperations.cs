@@ -135,24 +135,11 @@
         public static void WriteFile(string fileName, string text = null)
         {
             string filePath = GetFilePath(fileName);
-
-            // Creates file if it doesn't exist.
-            if (!File.Exists(filePath))
-            {
-                using FileStream stream = File.Create(filePath);
-            }
-
-            if (text is null)
-            {
-                return;
-            }
-
-            // Writes text to the file.
             while (true)
             {
                 try
                 {
-                    File.WriteAllText(filePath, text);
+                    File.WriteAllText(filePath, text ?? string.Empty);
                     break;
                 }
                 catch (IOException)
