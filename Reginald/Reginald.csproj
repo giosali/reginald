@@ -34,6 +34,7 @@
     <None Remove="Resources\Themes.json" />
     <None Remove="Resources\TopLevelDomains.txt" />
     <None Remove="Resources\Utilities.json" />
+    <None Remove="Resources\WebQueries.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -124,36 +125,39 @@
     <Resource Include="Reginald.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <EmbeddedResource Include="Resources\Calculator.json">
+    <Resource Include="Resources\Calculator.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Commands.json">
+    </Resource>
+    <Resource Include="Resources\Commands.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\DefaultResults.json">
+    </Resource>
+    <Resource Include="Resources\DefaultResults.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\HttpKeywords.json">
+    </Resource>
+    <Resource Include="Resources\HttpKeywords.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Keywords.json">
+    </Resource>
+    <Resource Include="Resources\Keywords.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Link.json">
+    </Resource>
+    <Resource Include="Resources\Link.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\MicrosoftSettings.json">
+    </Resource>
+    <Resource Include="Resources\MicrosoftSettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Themes.json">
+    </Resource>
+    <Resource Include="Resources\Themes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\TopLevelDomains.txt">
+    </Resource>
+    <Resource Include="Resources\TopLevelDomains.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Utilities.json">
+    </Resource>
+    <Resource Include="Resources\Utilities.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Resource>
+    <Resource Include="Resources\WebQueries.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
