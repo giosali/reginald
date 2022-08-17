@@ -5,6 +5,7 @@
     using System.IO;
     using System.Text;
     using System.Web;
+    using System.Windows;
     using Reginald.Core.IO;
 
     public static class StringExtensions
@@ -32,9 +33,11 @@
 
             if (_topLevelDomains.Count == 0)
             {
-                foreach (string line in File.ReadLines(FileOperations.GetFilePath("TopLevelDomains.txt", true)))
+                Uri packUri = FileOperations.GetResourcePath("TopLevelDomains.txt");
+                using StreamReader reader = new(Application.GetResourceStream(packUri).Stream);
+                while (!reader.EndOfStream)
                 {
-                    _ = _topLevelDomains.Add(line);
+                    _ = _topLevelDomains.Add(reader.ReadLine());
                 }
             }
 

@@ -147,7 +147,7 @@
 
         private static void CreateClipboardDatabase()
         {
-            string filePath = FileOperations.GetFilePath(ClipboardFilename, false);
+            string filePath = FileOperations.GetFilePath(ClipboardFilename);
             using SqliteConnection connection = new($"Data Source={filePath}");
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
@@ -166,7 +166,7 @@
 
         private static IEnumerable<SqliteDataReader> ReadClipboardDatabase()
         {
-            string filePath = FileOperations.GetFilePath(ClipboardFilename, false);
+            string filePath = FileOperations.GetFilePath(ClipboardFilename);
             using SqliteConnection connection = new($"Data Source={filePath}");
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
@@ -183,7 +183,7 @@
 
         private static void EmptyClipboardDatabase()
         {
-            string filePath = FileOperations.GetFilePath(ClipboardFilename, false);
+            string filePath = FileOperations.GetFilePath(ClipboardFilename);
             using SqliteConnection connection = new($"Data Source={filePath}");
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
@@ -225,7 +225,7 @@
 
         private void WriteToClipboardDatabase()
         {
-            string filePath = FileOperations.GetFilePath(ClipboardFilename, false);
+            string filePath = FileOperations.GetFilePath(ClipboardFilename);
             using SqliteConnection connection = new($"Data Source={filePath}");
             connection.Open();
             using SqliteTransaction transaction = connection.BeginTransaction();

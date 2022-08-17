@@ -12,6 +12,8 @@
     {
         private const string ApplicationShortcutName = "Reginald.lnk";
 
+        private const string ApplicationResourcesPackUriFormat = "pack://application:,,,/Reginald;component/Resources/{0}";
+
         private static readonly Guid WindowsScriptHostShellObjectGuid = new("72c24dd5-d70a-438b-8a42-98424b88afb8");
 
         public static string ApplicationName { get; private set; } = Assembly.GetExecutingAssembly().GetName().Name.Partition(".").Left;
@@ -77,27 +79,24 @@
             return type;
         }
 
-        public static string GetFilePath(string fileName, bool isResource)
+        public static string GetFilePath(string fileName)
         {
-            string resourcesDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources");
-            return Path.Combine(isResource ? resourcesDirectoryPath : ApplicationAppDataDirectoryPath, fileName);
-        }
-
-        public static T[] GetGenericData<T>(string filePath)
-        {
-            return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
+            return Path.Combine(ApplicationAppDataDirectoryPath, fileName);
         }
 
         public static T[] GetGenericData<T>(string fileName, bool isResource)
         {
-            string filePath = GetFilePath(fileName, isResource);
-            return DeserializeFile<T[]>(filePath) ?? Array.Empty<T>();
+            return (isResource ? DeserializeFile<T[]>(GetResourcePath(fileName)) : DeserializeFile<T[]>(GetFilePath(fileName))) ?? Array.Empty<T>();
         }
 
         public static T GetGenericDatum<T>(string fileName, bool isResource)
         {
-            string filePath = GetFilePath(fileName, isResource);
-            return DeserializeFile<T>(filePath);
+            return isResource ? DeserializeFile<T>(GetResourcePath(fileName)) : DeserializeFile<T>(GetFilePath(fileName));
+        }
+
+        public static Uri GetResourcePath(string fileName)
+        {
+            return new Uri(string.Format(ApplicationResourcesPackUriFormat, fileName));
         }
 
         /// <summary>
@@ -135,7 +134,7 @@
 
         public static void WriteFile(string fileName, string text = null)
         {
-            string filePath = GetFilePath(fileName, false);
+            string filePath = GetFilePath(fileName);
 
             // Creates file if it doesn't exist.
             if (!File.Exists(filePath))

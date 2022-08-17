@@ -108,7 +108,7 @@
         {
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                string filePath = FileOperations.GetFilePath(SettingsDataModel.Filename, false);
+                string filePath = FileOperations.GetFilePath(SettingsDataModel.Filename);
                 SettingsDataModel settings = FileOperations.DeserializeFile<SettingsDataModel>(filePath);
                 AreExpansionsEnabled = settings.AreExpansionsEnabled;
             }
@@ -116,8 +116,7 @@
 
         private void UpdateTextExpansions()
         {
-            string expansionsFilePath = FileOperations.GetFilePath(TextExpansion.Filename, false);
-            IEnumerable<TextExpansion> textExpansions = FileOperations.GetGenericData<TextExpansion>(expansionsFilePath);
+            IEnumerable<TextExpansion> textExpansions = FileOperations.GetGenericData<TextExpansion>(TextExpansion.Filename, false);
             foreach (TextExpansion textExpansion in textExpansions)
             {
                 textExpansion.Replacement = textExpansion.Replacement.Replace("\r", string.Empty);

@@ -67,7 +67,7 @@
 
         private void UpdateSettings()
         {
-            string filePath = FileOperations.GetFilePath(SettingsDataModel.Filename, false);
+            string filePath = FileOperations.GetFilePath(SettingsDataModel.Filename);
             Settings = new(filePath);
         }
 
