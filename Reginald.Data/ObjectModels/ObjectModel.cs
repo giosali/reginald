@@ -1,7 +1,6 @@
 namespace Reginald.Data.ObjectModels
 {
     using System;
-    using System.Windows.Media;
     using Caliburn.Micro;
     using Newtonsoft.Json;
 
@@ -11,7 +10,7 @@ namespace Reginald.Data.ObjectModels
 
         private string _description;
 
-        private ImageSource _icon;
+        private string _icon;
 
         [JsonProperty("caption")]
         public string Caption
@@ -39,7 +38,7 @@ namespace Reginald.Data.ObjectModels
         public Guid Guid { get; set; }
 
         [JsonProperty("icon")]
-        public ImageSource Icon
+        public string Icon
         {
             get => _icon;
             set
