@@ -1,7 +1,8 @@
-namespace Reginald.Data.ObjectModels
+﻿namespace Reginald.Data.ObjectModels
 {
     using System;
     using Newtonsoft.Json;
+    using Reginald.Core.Extensions;
     using Reginald.Data.Producers;
     using Reginald.Data.Products;
     using Reginald.Services.Utilities;
@@ -62,16 +63,22 @@ namespace Reginald.Data.ObjectModels
         {
             if (!string.IsNullOrEmpty(Description))
             {
-                return new SearchResult(Caption, Description, Icon);
+                SearchResult r = new(Caption, Description, Icon);
+                r.EnterKeyPressed += EnterKeyPressed;
+                return r;
             }
 
             if (_keyInput.Length <= Key.Length)
             {
-                return new SearchResult(Caption, string.Format(DescriptionFormat, Placeholder), Icon);
+                SearchResult r = new(Caption, string.Format(DescriptionFormat, Placeholder), Icon);
+                r.EnterKeyPressed += EnterKeyPressed;
+                return r;
             }
 
             string input = _keyInput.Split(' ', 2)[^1];
-            return new SearchResult(Caption, string.Format(DescriptionFormat, input == string.Empty ? Placeholder : input), Icon);
+            SearchResult result = new SearchResult(Caption, string.Format(DescriptionFormat, input == string.Empty ? Placeholder : input), Icon);
+            result.EnterKeyPressed += EnterKeyPressed;
+            return result;
         }
 
         private void EnterKeyPressed(object sender, EventArgs e)
@@ -83,7 +90,7 @@ namespace Reginald.Data.ObjectModels
                 return;
             }
 
-            ProcessUtility.GoTo(string.IsNullOrEmpty(Url) ? string.Format(UrlFormat, input) : Url);
+            ProcessUtility.GoTo(string.IsNullOrEmpty(Url) ? string.Format(UrlFormat, input.Quote(EncodeInput)) : Url);
         }
     }
 }
