@@ -11,10 +11,9 @@ namespace Reginald.Data.Products
 
         private string _description;
 
-        public SearchResult(string caption, string description, string icon)
+        public SearchResult(string caption, string icon)
         {
             Caption = caption;
-            Description = description;
 
             if (!icon.Contains(".dll"))
             {

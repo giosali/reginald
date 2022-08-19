@@ -61,29 +61,25 @@
 
         public SearchResult Produce()
         {
+            SearchResult result = new(Caption, Icon);
+            result.AltKeyPressed += AltKeyPressed;
+            result.AltKeyReleased += AltKeyReleased;
+            result.EnterKeyPressed += EnterKeyPressed;
+
             if (!string.IsNullOrEmpty(Description))
             {
-                SearchResult r = new(Caption, Description, Icon);
-                r.AltKeyPressed += AltKeyPressed;
-                r.AltKeyReleased += AltKeyReleased;
-                r.EnterKeyPressed += EnterKeyPressed;
-                return r;
+                result.Description = Description;
+                return result;
             }
 
             if (_keyInput.Length <= Key.Length)
             {
-                SearchResult r = new(Caption, string.Format(DescriptionFormat, Placeholder), Icon);
-                r.AltKeyPressed += AltKeyPressed;
-                r.AltKeyReleased += AltKeyReleased;
-                r.EnterKeyPressed += EnterKeyPressed;
-                return r;
+                result.Description = string.Format(DescriptionFormat, Placeholder);
+                return result;
             }
 
             string input = _keyInput.Split(' ', 2)[^1];
-            SearchResult result = new SearchResult(Caption, string.Format(DescriptionFormat, input == string.Empty ? Placeholder : input), Icon);
-            result.AltKeyPressed += AltKeyPressed;
-            result.AltKeyReleased += AltKeyReleased;
-            result.EnterKeyPressed += EnterKeyPressed;
+            result.Description = string.Format(DescriptionFormat, input == string.Empty ? Placeholder : input);
             return result;
         }
 
