@@ -66,6 +66,7 @@
             result.AltKeyPressed += AltKeyPressed;
             result.AltKeyReleased += AltKeyReleased;
             result.EnterKeyPressed += EnterKeyPressed;
+            result.TabKeyPressed += TabKeyPressed;
 
             if (!string.IsNullOrEmpty(Description))
             {
@@ -127,6 +128,25 @@
 
             e.Handled = true;
             ProcessUtility.GoTo(string.IsNullOrEmpty(Url) ? string.Format(UrlFormat, input.Quote(EncodeInput)) : Url);
+        }
+
+        private void TabKeyPressed(object sender, InputProcessingEventArgs e)
+        {
+            string[] keyInputArray = _keyInput.Split(' ', 2);
+            string input = keyInputArray[^1];
+            if (keyInputArray.Length < 2 || string.IsNullOrEmpty(input))
+            {
+                bool isDescriptionNullOrEmpty = string.IsNullOrEmpty(Description);
+                if (input == (isDescriptionNullOrEmpty ? Key + " " : Key))
+                {
+                    return;
+                }
+
+                // Handles autocompletion.
+                e.IsInputIncomplete = true;
+                e.CompleteInput = isDescriptionNullOrEmpty ? Key + " " : Key;
+                return;
+            }
         }
     }
 }

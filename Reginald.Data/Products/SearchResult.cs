@@ -74,6 +74,11 @@ namespace Reginald.Data.Products
             OnEnterKeyPressed(e);
         }
 
+        public override void PressTab(InputProcessingEventArgs e)
+        {
+            OnTabKeyPressed(e);
+        }
+
         public override void ReleaseAlt(InputProcessingEventArgs e)
         {
             OnAltKeyReleased(e);

@@ -13,11 +13,15 @@ namespace Reginald.Data.Inputs
 
         public event EventHandler<InputProcessingEventArgs> EnterKeyPressed;
 
+        public event EventHandler<InputProcessingEventArgs> TabKeyPressed;
+
         public abstract void PressAlt(InputProcessingEventArgs e);
 
         public abstract void PressAltAndEnter(InputProcessingEventArgs e);
 
         public abstract void PressEnter(InputProcessingEventArgs e);
+
+        public abstract void PressTab(InputProcessingEventArgs e);
 
         public abstract void ReleaseAlt(InputProcessingEventArgs e);
 
@@ -39,6 +43,11 @@ namespace Reginald.Data.Inputs
         protected virtual void OnEnterKeyPressed(InputProcessingEventArgs e)
         {
             EnterKeyPressed?.Invoke(this, e);
+        }
+
+        protected virtual void OnTabKeyPressed(InputProcessingEventArgs e)
+        {
+            TabKeyPressed?.Invoke(this, e);
         }
     }
 }
