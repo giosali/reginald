@@ -65,6 +65,7 @@
             {
                 SearchResult r = new(Caption, Description, Icon);
                 r.AltKeyPressed += AltKeyPressed;
+                r.AltKeyReleased += AltKeyReleased;
                 r.EnterKeyPressed += EnterKeyPressed;
                 return r;
             }
@@ -73,6 +74,7 @@
             {
                 SearchResult r = new(Caption, string.Format(DescriptionFormat, Placeholder), Icon);
                 r.AltKeyPressed += AltKeyPressed;
+                r.AltKeyReleased += AltKeyReleased;
                 r.EnterKeyPressed += EnterKeyPressed;
                 return r;
             }
@@ -80,6 +82,7 @@
             string input = _keyInput.Split(' ', 2)[^1];
             SearchResult result = new SearchResult(Caption, string.Format(DescriptionFormat, input == string.Empty ? Placeholder : input), Icon);
             result.AltKeyPressed += AltKeyPressed;
+            result.AltKeyReleased += AltKeyReleased;
             result.EnterKeyPressed += EnterKeyPressed;
             return result;
         }
@@ -88,6 +91,13 @@
         {
             e.IsAltKeyDown = true;
             e.Description = AltDescription;
+        }
+
+        private void AltKeyReleased(object sender, InputProcessingEventArgs e)
+        {
+            string[] keyInputArray = _keyInput.Split(' ', 2);
+            string input = keyInputArray[^1];
+            e.Description = string.Format(DescriptionFormat, keyInputArray.Length < 2 || input == string.Empty ? Placeholder : input);
         }
 
         private void EnterKeyPressed(object sender, InputProcessingEventArgs e)

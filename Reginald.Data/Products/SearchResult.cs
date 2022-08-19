@@ -69,5 +69,14 @@ namespace Reginald.Data.Products
         {
             OnEnterKeyPressed(e);
         }
+
+        public override void ReleaseAlt(InputProcessingEventArgs e)
+        {
+            OnAltKeyReleased(e);
+            if (!e.IsAltKeyDown)
+            {
+                Description = e.Description;
+            }
+        }
     }
 }
