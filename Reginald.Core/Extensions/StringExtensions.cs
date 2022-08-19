@@ -89,6 +89,17 @@
         }
 
         /// <summary>
+        /// Returns a new string in which all whitespace characters are replaced by a specified string.
+        /// </summary>
+        /// <param name="expression">The string with whitespace characters.</param>
+        /// /// <param name="useUtf8">Indicates whether or not to encode the expression with UTF-8 encoding.</param>
+        /// <returns>A new string encoded using UTF-8 encoding if <paramref name="useUtf8"/> is true; otherwise, an escaped representation of <paramref name="expression"/>.</returns>
+        public static string Quote(this string expression, bool useUtf8)
+        {
+            return useUtf8 ? HttpUtility.UrlEncode(expression) : Uri.EscapeDataString(expression);
+        }
+
+        /// <summary>
         /// Splits a string at the first occurrence of <paramref name="separator"/> from the right side into a 3-tuple that consists solely of strings in the following order: the part preceding the separator, the separator itself, and the part proceeding the separator.
         /// </summary>
         /// <param name="expression">The string to split.</param>
@@ -120,17 +131,6 @@
 
             int separatorIndex = expression.LastIndexOf(separator);
             return separatorIndex > -1 ? (expression.Substring(0, separatorIndex), separator.ToString(), expression[(separatorIndex + 1)..]) : (string.Empty, string.Empty, expression);
-        }
-
-        /// <summary>
-        /// Returns a new string in which all whitespace characters are replaced by a specified string.
-        /// </summary>
-        /// <param name="expression">The string with whitespace characters.</param>
-        /// /// <param name="useUtf8">Indicates whether or not to encode the expression with UTF-8 encoding.</param>
-        /// <returns>A new string encoded using UTF-8 encoding if <paramref name="useUtf8"/> is true; otherwise, an escaped representation of <paramref name="expression"/>.</returns>
-        public static string Quote(this string expression, bool useUtf8)
-        {
-            return useUtf8 ? HttpUtility.UrlEncode(expression) : Uri.EscapeDataString(expression);
         }
 
         /// <summary>
