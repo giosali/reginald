@@ -64,6 +64,7 @@
             if (!string.IsNullOrEmpty(Description))
             {
                 SearchResult r = new(Caption, Description, Icon);
+                r.AltKeyPressed += AltKeyPressed;
                 r.EnterKeyPressed += EnterKeyPressed;
                 return r;
             }
@@ -71,14 +72,22 @@
             if (_keyInput.Length <= Key.Length)
             {
                 SearchResult r = new(Caption, string.Format(DescriptionFormat, Placeholder), Icon);
+                r.AltKeyPressed += AltKeyPressed;
                 r.EnterKeyPressed += EnterKeyPressed;
                 return r;
             }
 
             string input = _keyInput.Split(' ', 2)[^1];
             SearchResult result = new SearchResult(Caption, string.Format(DescriptionFormat, input == string.Empty ? Placeholder : input), Icon);
+            result.AltKeyPressed += AltKeyPressed;
             result.EnterKeyPressed += EnterKeyPressed;
             return result;
+        }
+
+        private void AltKeyPressed(object sender, InputProcessingEventArgs e)
+        {
+            e.IsAltKeyDown = true;
+            e.Description = AltDescription;
         }
 
         private void EnterKeyPressed(object sender, InputProcessingEventArgs e)
@@ -87,6 +96,11 @@
             string input = keyInputArray[^1];
             if (keyInputArray.Length < 2 || string.IsNullOrEmpty(input))
             {
+                if (input == Key + " ")
+                {
+                    return;
+                }
+
                 // Handles autocompletion.
                 e.IsInputIncomplete = true;
                 e.CompleteInput = string.IsNullOrEmpty(Description) ? Key + " " : Key;

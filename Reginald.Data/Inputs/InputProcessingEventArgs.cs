@@ -6,7 +6,11 @@ namespace Reginald.Data.Inputs
     {
         public string CompleteInput { get; set; }
 
+        public string Description { get; set; }
+
         public bool Handled { get; set; }
+
+        public bool IsAltKeyDown { get; set; }
 
         public bool IsInputIncomplete { get; set; }
     }

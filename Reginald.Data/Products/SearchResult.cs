@@ -7,6 +7,10 @@ namespace Reginald.Data.Products
 
     public class SearchResult : KeyboardInput
     {
+        private string _caption;
+
+        private string _description;
+
         public SearchResult(string caption, string description, string icon)
         {
             Caption = caption;
@@ -28,13 +32,38 @@ namespace Reginald.Data.Products
             IconSource = BitmapSourceHelper.ExtractFromFile(dll, iconIndex);
         }
 
-        public string Caption { get; set; }
+        public string Caption
+        {
+            get => _caption;
+            set
+            {
+                _caption = value;
+                NotifyOfPropertyChange(() => Caption);
+            }
+        }
 
-        public string Description { get; set; }
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+                NotifyOfPropertyChange(() => Description);
+            }
+        }
 
         public string IconPath { get; set; }
 
         public ImageSource IconSource { get; set; }
+
+        public override void PressAlt(InputProcessingEventArgs e)
+        {
+            OnAltKeyPressed(e);
+            if (e.IsAltKeyDown)
+            {
+                Description = e.Description;
+            }
+        }
 
         public override void PressEnter(InputProcessingEventArgs e)
         {
