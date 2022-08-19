@@ -40,6 +40,11 @@
 
         public bool Check(string keyInput)
         {
+            if (!IsEnabled)
+            {
+                return false;
+            }
+
             _keyInput = keyInput;
             if (!string.IsNullOrEmpty(Description))
             {
