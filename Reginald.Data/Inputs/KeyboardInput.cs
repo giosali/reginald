@@ -8,7 +8,7 @@ namespace Reginald.Data.Inputs
 
         public abstract void PressEnter();
 
-        protected void OnEnterKeyPressed(EventArgs e)
+        protected virtual void OnEnterKeyPressed(EventArgs e)
         {
             EnterKeyPressed?.Invoke(this, e);
         }
