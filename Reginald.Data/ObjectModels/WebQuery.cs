@@ -1,8 +1,8 @@
 ﻿namespace Reginald.Data.ObjectModels
 {
-    using System;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
+    using Reginald.Data.Inputs;
     using Reginald.Data.Producers;
     using Reginald.Data.Products;
     using Reginald.Services.Utilities;
@@ -81,15 +81,19 @@
             return result;
         }
 
-        private void EnterKeyPressed(object sender, EventArgs e)
+        private void EnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
             string[] keyInputArray = _keyInput.Split(' ', 2);
             string input = keyInputArray[^1];
             if (keyInputArray.Length < 2 || string.IsNullOrEmpty(input))
             {
+                // Handles autocompletion.
+                e.IsInputIncomplete = true;
+                e.CompleteInput = string.IsNullOrEmpty(Description) ? Key + " " : Key;
                 return;
             }
 
+            e.Handled = true;
             ProcessUtility.GoTo(string.IsNullOrEmpty(Url) ? string.Format(UrlFormat, input.Quote(EncodeInput)) : Url);
         }
     }

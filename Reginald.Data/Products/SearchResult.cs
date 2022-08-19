@@ -1,6 +1,5 @@
 namespace Reginald.Data.Products
 {
-    using System;
     using System.Windows.Media;
     using Reginald.Core.Extensions;
     using Reginald.Data.Inputs;
@@ -37,9 +36,9 @@ namespace Reginald.Data.Products
 
         public ImageSource IconSource { get; set; }
 
-        public override void PressEnter()
+        public override void PressEnter(InputProcessingEventArgs e)
         {
-            OnEnterKeyPressed(EventArgs.Empty);
+            OnEnterKeyPressed(e);
         }
     }
 }

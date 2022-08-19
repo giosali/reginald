@@ -4,11 +4,11 @@ namespace Reginald.Data.Inputs
 
     public abstract class KeyboardInput
     {
-        public event EventHandler<EventArgs> EnterKeyPressed;
+        public event EventHandler<InputProcessingEventArgs> EnterKeyPressed;
 
-        public abstract void PressEnter();
+        public abstract void PressEnter(InputProcessingEventArgs e);
 
-        protected virtual void OnEnterKeyPressed(EventArgs e)
+        protected virtual void OnEnterKeyPressed(InputProcessingEventArgs e)
         {
             EnterKeyPressed?.Invoke(this, e);
         }
