@@ -60,7 +60,8 @@
         public static T DeserializeFile<T>(Uri packUri)
         {
             T type = default;
-            while (true)
+            int attempts = 0;
+            while (attempts < 10)
             {
                 try
                 {
@@ -73,6 +74,7 @@
                 // If the file is already in use, try again until it's no longer in use
                 catch (IOException)
                 {
+                    attempts++;
                 }
             }
 
