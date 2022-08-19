@@ -5,6 +5,8 @@ namespace Reginald.Data.Inputs
 
     public abstract class KeyboardInput : PropertyChangedBase
     {
+        public event EventHandler<InputProcessingEventArgs> AltAndEnterKeysPressed;
+
         public event EventHandler<InputProcessingEventArgs> AltKeyPressed;
 
         public event EventHandler<InputProcessingEventArgs> AltKeyReleased;
@@ -13,9 +15,16 @@ namespace Reginald.Data.Inputs
 
         public abstract void PressAlt(InputProcessingEventArgs e);
 
+        public abstract void PressAltAndEnter(InputProcessingEventArgs e);
+
         public abstract void PressEnter(InputProcessingEventArgs e);
 
         public abstract void ReleaseAlt(InputProcessingEventArgs e);
+
+        protected virtual void OnAltAndEnterKeysPressed(InputProcessingEventArgs e)
+        {
+            AltAndEnterKeysPressed?.Invoke(this, e);
+        }
 
         protected virtual void OnAltKeyPressed(InputProcessingEventArgs e)
         {

@@ -62,6 +62,7 @@
         public SearchResult Produce()
         {
             SearchResult result = new(Caption, Icon);
+            result.AltAndEnterKeysPressed += AltAndEnterKeysPressed;
             result.AltKeyPressed += AltKeyPressed;
             result.AltKeyReleased += AltKeyReleased;
             result.EnterKeyPressed += EnterKeyPressed;
@@ -81,6 +82,17 @@
             string input = _keyInput.Split(' ', 2)[^1];
             result.Description = string.Format(DescriptionFormat, input == string.Empty ? Placeholder : input);
             return result;
+        }
+
+        private void AltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
+        {
+            if (string.IsNullOrEmpty(AltUrl))
+            {
+                return;
+            }
+
+            e.Handled = true;
+            ProcessUtility.GoTo(AltUrl);
         }
 
         private void AltKeyPressed(object sender, InputProcessingEventArgs e)

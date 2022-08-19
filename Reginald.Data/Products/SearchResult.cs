@@ -55,6 +55,11 @@ namespace Reginald.Data.Products
 
         public ImageSource IconSource { get; set; }
 
+        public override void PressAltAndEnter(InputProcessingEventArgs e)
+        {
+            OnAltAndEnterKeysPressed(e);
+        }
+
         public override void PressAlt(InputProcessingEventArgs e)
         {
             OnAltKeyPressed(e);
