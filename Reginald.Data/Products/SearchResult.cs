@@ -39,7 +39,7 @@ namespace Reginald.Data.Products
 
         public override void PressEnter()
         {
-            OnEnterKeyPressed(new EventArgs());
+            OnEnterKeyPressed(EventArgs.Empty);
         }
     }
 }
