@@ -32,6 +32,7 @@
     <None Remove="Resources\Link.json" />
     <None Remove="Resources\MicrosoftSettings.json" />
     <None Remove="Resources\Themes.json" />
+    <None Remove="Resources\Timer.json" />
     <None Remove="Resources\TopLevelDomains.txt" />
     <None Remove="Resources\Utilities.json" />
     <None Remove="Resources\WebQueries.json" />
@@ -147,6 +148,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Themes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Timer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\TopLevelDomains.txt">
