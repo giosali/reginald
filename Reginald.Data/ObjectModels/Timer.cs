@@ -7,6 +7,7 @@
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
     using System.Linq;
+    using Reginald.Data.Inputs;
 
     public class Timer : ObjectModel, ISingleProducer<SearchResult>
     {
@@ -128,6 +129,8 @@
         public SearchResult Produce()
         {
             SearchResult result = new(Caption, Icon);
+            result.EnterKeyPressed += EnterKeyPressed;
+
             if (_keyInput.Split(' ', 2).Length < 2)
             {
                 result.Description = string.Format(Format, Placeholder, Placeholder);
@@ -136,6 +139,17 @@
 
             result.Description = string.Format(Format, _representation, _message);
             return result;
+        }
+
+        private void EnterKeyPressed(object sender, InputProcessingEventArgs e)
+        {
+            if (_representation == Placeholder || _message == Placeholder)
+            {
+                return;
+            }
+
+            Timers.AddTimer(_time, _message, Icon, Name);
+            e.Handled = true;
         }
     }
 }
