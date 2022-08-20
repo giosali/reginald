@@ -129,7 +129,7 @@
         public SearchResult Produce()
         {
             SearchResult result = new(Caption, Icon);
-            result.EnterKeyPressed += EnterKeyPressed;
+            result.EnterKeyPressed += OnEnterKeyPressed;
 
             if (_keyInput.Split(' ', 2).Length < 2)
             {
@@ -141,7 +141,7 @@
             return result;
         }
 
-        private void EnterKeyPressed(object sender, InputProcessingEventArgs e)
+        private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
             if (_representation == Placeholder || _message == Placeholder)
             {

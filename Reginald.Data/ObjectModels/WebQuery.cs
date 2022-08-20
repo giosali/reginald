@@ -67,11 +67,11 @@
         public SearchResult Produce()
         {
             SearchResult result = new(Caption, Icon);
-            result.AltAndEnterKeysPressed += AltAndEnterKeysPressed;
-            result.AltKeyPressed += AltKeyPressed;
-            result.AltKeyReleased += AltKeyReleased;
-            result.EnterKeyPressed += EnterKeyPressed;
-            result.TabKeyPressed += TabKeyPressed;
+            result.AltAndEnterKeysPressed += OnAltAndEnterKeysPressed;
+            result.AltKeyPressed += OnAltKeyPressed;
+            result.AltKeyReleased += OnAltKeyReleased;
+            result.EnterKeyPressed += OnEnterKeyPressed;
+            result.TabKeyPressed += OnTabKeyPressed;
 
             if (!string.IsNullOrEmpty(Description))
             {
@@ -90,7 +90,7 @@
             return result;
         }
 
-        private void AltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
+        private void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
         {
             if (string.IsNullOrEmpty(AltUrl))
             {
@@ -101,20 +101,20 @@
             ProcessUtility.GoTo(AltUrl);
         }
 
-        private void AltKeyPressed(object sender, InputProcessingEventArgs e)
+        private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
         {
             e.IsAltKeyDown = true;
             e.Description = AltDescription;
         }
 
-        private void AltKeyReleased(object sender, InputProcessingEventArgs e)
+        private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
         {
             string[] keyInputArray = _keyInput.Split(' ', 2);
             string input = keyInputArray[^1];
             e.Description = string.Format(DescriptionFormat, keyInputArray.Length < 2 || input == string.Empty ? Placeholder : input);
         }
 
-        private void EnterKeyPressed(object sender, InputProcessingEventArgs e)
+        private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
             string[] keyInputArray = _keyInput.Split(' ', 2);
             string input = keyInputArray[^1];
@@ -135,7 +135,7 @@
             ProcessUtility.GoTo(string.IsNullOrEmpty(Url) ? string.Format(UrlFormat, input.Quote(EncodeInput)) : Url);
         }
 
-        private void TabKeyPressed(object sender, InputProcessingEventArgs e)
+        private void OnTabKeyPressed(object sender, InputProcessingEventArgs e)
         {
             string[] keyInputArray = _keyInput.Split(' ', 2);
             string input = keyInputArray[^1];
