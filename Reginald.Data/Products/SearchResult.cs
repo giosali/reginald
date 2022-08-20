@@ -17,6 +17,13 @@ namespace Reginald.Data.Products
             ProcessIcon(icon);
         }
 
+        public SearchResult(string caption, string description, string icon)
+        {
+            Caption = caption;
+            Description = description;
+            ProcessIcon(icon);
+        }
+
         public string Caption
         {
             get => _caption;
