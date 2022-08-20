@@ -103,7 +103,6 @@
 
         private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            e.IsAltKeyDown = true;
             e.Description = AltDescription;
         }
 

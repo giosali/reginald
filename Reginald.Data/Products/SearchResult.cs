@@ -55,7 +55,7 @@
         public override void PressAlt(InputProcessingEventArgs e)
         {
             OnAltKeyPressed(e);
-            if (e.IsAltKeyDown)
+            if (!string.IsNullOrEmpty(e.Description))
             {
                 Description = e.Description;
             }
