@@ -4,6 +4,6 @@
     {
         bool Check(string input);
 
-        T Produce();
+        T[] Produce();
     }
 }
