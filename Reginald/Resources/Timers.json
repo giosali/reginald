@@ -1,0 +1,7 @@
+{
+  "guid": "b37b0b90-ee9f-4219-9eb2-392b74223862",
+  "name": "Timers",
+  "key": "timers",
+  "icon": "pack://application:,,,/Reginald;component/Images/Commands/timer.png",
+  "isEnabled": true
+}
