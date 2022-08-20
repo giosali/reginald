@@ -10,6 +10,10 @@
 
         private string _description;
 
+        private string _iconPath;
+
+        private ImageSource _iconSource;
+
         public SearchResult(string caption, string icon)
         {
             Caption = caption;
@@ -43,9 +47,25 @@
             }
         }
 
-        public string IconPath { get; set; }
+        public string IconPath
+        {
+            get => _iconPath;
+            set
+            {
+                _iconPath = value;
+                NotifyOfPropertyChange(() => IconPath);
+            }
+        }
 
-        public ImageSource IconSource { get; set; }
+        public ImageSource IconSource
+        {
+            get => _iconSource;
+            set
+            {
+                _iconSource = value;
+                NotifyOfPropertyChange(() => IconSource);
+            }
+        }
 
         public override void PressAltAndEnter(InputProcessingEventArgs e)
         {
@@ -55,9 +75,19 @@
         public override void PressAlt(InputProcessingEventArgs e)
         {
             OnAltKeyPressed(e);
+            if (!string.IsNullOrEmpty(e.Caption))
+            {
+                Caption = e.Caption;
+            }
+
             if (!string.IsNullOrEmpty(e.Description))
             {
                 Description = e.Description;
+            }
+
+            if (!string.IsNullOrEmpty(e.Icon))
+            {
+                ProcessIcon(e.Icon);
             }
         }
 
@@ -74,9 +104,19 @@
         public override void ReleaseAlt(InputProcessingEventArgs e)
         {
             OnAltKeyReleased(e);
+            if (!string.IsNullOrEmpty(e.Caption))
+            {
+                Caption = e.Caption;
+            }
+
             if (!string.IsNullOrEmpty(e.Description))
             {
                 Description = e.Description;
+            }
+
+            if (!string.IsNullOrEmpty(e.Icon))
+            {
+                ProcessIcon(e.Icon);
             }
         }
 
@@ -85,10 +125,12 @@
             if (!uint.TryParse(icon, out uint result))
             {
                 IconPath = icon;
+                IconSource = null;
                 return;
             }
 
             IconSource = BitmapSourceHelper.GetStockIcon(result);
+            IconPath = null;
         }
     }
 }
