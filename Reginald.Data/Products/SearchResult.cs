@@ -1,7 +1,6 @@
-namespace Reginald.Data.Products
+﻿namespace Reginald.Data.Products
 {
     using System.Windows.Media;
-    using Reginald.Core.Extensions;
     using Reginald.Data.Inputs;
     using Reginald.Services.Helpers;
 
@@ -83,20 +82,13 @@ namespace Reginald.Data.Products
 
         private void ProcessIcon(string icon)
         {
-            if (!icon.Contains(".dll"))
+            if (!uint.TryParse(icon, out uint result))
             {
                 IconPath = icon;
                 return;
             }
 
-            (string dll, _, string index) = icon.RPartition('.');
-            if (!int.TryParse(index, out int iconIndex))
-            {
-                IconPath = icon;
-                return;
-            }
-
-            IconSource = BitmapSourceHelper.ExtractFromFile(dll, iconIndex);
+            IconSource = BitmapSourceHelper.GetStockIcon(result);
         }
     }
 }
