@@ -40,10 +40,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\Commands\quit.png">
+    <Resource Include="Images\Commands\timer.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Commands\timer.png">
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Commands\quit.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\DefaultKeywords\amazon.png">
