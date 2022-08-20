@@ -7,12 +7,24 @@ namespace Reginald.Data.ObjectModels
     using System;
     using System.Linq;
     using Reginald.Services.Notifications;
+    using Reginald.Data.Inputs;
 
     public class Timers : ObjectModel, IMultipleProducer<SearchResult>
     {
         private static readonly List<MyTimer> _timers = new();
 
-        private const string Format = "{0}:{1:D2}:{2:D2}";
+        private static string _caption;
+
+        private static string _icon;
+
+        [JsonProperty("altCaption")]
+        public static string AltCaption { get; set; }
+
+        [JsonProperty("altIcon")]
+        public static string AltIcon { get; set; }
+
+        [JsonProperty("format")]
+        public static string Format { get; set; }
 
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }
@@ -22,7 +34,33 @@ namespace Reginald.Data.ObjectModels
 
         public static void AddTimer(double milliseconds, string caption, string icon, string header)
         {
-            _timers.Add(new MyTimer(milliseconds, new SearchResult(caption, icon), header));
+            if (string.IsNullOrEmpty(_caption))
+            {
+                _caption = caption;
+            }
+
+            if (string.IsNullOrEmpty(_icon))
+            {
+                _icon = icon;
+            }
+
+            TimeSpan ts = TimeSpan.FromMilliseconds(milliseconds);
+            SearchResult result = new(caption, string.Format(Format, ts.Hours, ts.Minutes, ts.Seconds), icon);
+            result.AltKeyPressed += OnAltKeyPressed;
+            result.AltKeyReleased += OnAltKeyReleased;
+            _timers.Add(new MyTimer(result, milliseconds, header));
+        }
+
+        private static void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
+        {
+            e.Caption = AltCaption;
+            e.Icon = AltIcon;
+        }
+
+        private static void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
+        {
+            e.Caption = _caption;
+            e.Icon = _icon;
         }
 
         public bool Check(string input)
@@ -43,14 +81,10 @@ namespace Reginald.Data.ObjectModels
 
             private System.Timers.Timer _timer;
 
-            public MyTimer(double milliseconds, SearchResult result, string header)
+            public MyTimer(SearchResult result, double milliseconds, string header)
             {
-                _time = milliseconds;
-
                 Result = result;
-                TimeSpan ts = TimeSpan.FromMilliseconds(milliseconds);
-                result.Description = string.Format(Format, ts.Hours, ts.Minutes, ts.Seconds);
-
+                _time = milliseconds;
                 _header = header;
 
                 _timer = new(1000);
@@ -66,8 +100,8 @@ namespace Reginald.Data.ObjectModels
                 _time -= 1000;
                 if (_time <= 0)
                 {
-                    _timers.Remove(this);
                     _timer.Stop();
+                    _timers.Remove(this);
                     ToastNotification notification = new(_header, Result.Caption);
                     notification.Show();
                 }
