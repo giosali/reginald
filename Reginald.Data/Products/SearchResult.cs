@@ -14,21 +14,7 @@ namespace Reginald.Data.Products
         public SearchResult(string caption, string icon)
         {
             Caption = caption;
-
-            if (!icon.Contains(".dll"))
-            {
-                IconPath = icon;
-                return;
-            }
-
-            (string dll, _, string index) = icon.RPartition('.');
-            if (!int.TryParse(index, out int iconIndex))
-            {
-                IconPath = icon;
-                return;
-            }
-
-            IconSource = BitmapSourceHelper.ExtractFromFile(dll, iconIndex);
+            ProcessIcon(icon);
         }
 
         public string Caption
@@ -86,6 +72,24 @@ namespace Reginald.Data.Products
             {
                 Description = e.Description;
             }
+        }
+
+        private void ProcessIcon(string icon)
+        {
+            if (!icon.Contains(".dll"))
+            {
+                IconPath = icon;
+                return;
+            }
+
+            (string dll, _, string index) = icon.RPartition('.');
+            if (!int.TryParse(index, out int iconIndex))
+            {
+                IconPath = icon;
+                return;
+            }
+
+            IconSource = BitmapSourceHelper.ExtractFromFile(dll, iconIndex);
         }
     }
 }
