@@ -74,7 +74,7 @@
         public override void ReleaseAlt(InputProcessingEventArgs e)
         {
             OnAltKeyReleased(e);
-            if (!e.IsAltKeyDown)
+            if (!string.IsNullOrEmpty(e.Description))
             {
                 Description = e.Description;
             }
