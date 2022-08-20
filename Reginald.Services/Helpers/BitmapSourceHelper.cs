@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Runtime.InteropServices;
     using System.Text;
     using System.Windows;
     using System.Windows.Interop;
@@ -63,30 +64,19 @@
             return bitmapSource;
         }
 
-        public static BitmapSource ExtractFromFile(string fileName, int iconIndex)
+        public static BitmapSource GetStockIcon(uint stockIconId)
         {
-            uint numIcons = 1;
-            IntPtr[] largeHIcons = new IntPtr[numIcons];
-            IntPtr[] smallHIcons = new IntPtr[numIcons];
-            _ = ExtractIconEx(fileName, iconIndex, largeHIcons, smallHIcons, numIcons);
-            BitmapSource bitmapSource = Imaging.CreateBitmapSourceFromHIcon(largeHIcons[0] == IntPtr.Zero ? smallHIcons[0] : largeHIcons[0], Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-
-            // Disposes of icons.
-            for (int i = 0; i < numIcons; i++)
+            SHSTOCKICONINFO sii = new();
+            sii.cbSize = (uint)Marshal.SizeOf(sii);
+            SHSTOCKICONID siid = (SHSTOCKICONID)stockIconId;
+            int result = SHGetStockIconInfo(siid, SHGSI.SHGSI_ICON | SHGSI.SHGSI_LARGEICON, ref sii);
+            if (result != 0)
             {
-                IntPtr largeHIcon = largeHIcons[i];
-                if (largeHIcon != IntPtr.Zero)
-                {
-                    DestroyIcon(largeHIcon);
-                }
-
-                IntPtr smallHIcon = smallHIcons[i];
-                if (smallHIcon != IntPtr.Zero)
-                {
-                    DestroyIcon(smallHIcon);
-                }
+                _ = SHGetStockIconInfo(siid, SHGSI.SHGSI_ICON | SHGSI.SHGSI_SMALLICON, ref sii);
             }
 
+            BitmapSource bitmapSource = Imaging.CreateBitmapSourceFromHIcon(sii.hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            DestroyIcon(sii.hIcon);
             return bitmapSource;
         }
     }
