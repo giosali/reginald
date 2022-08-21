@@ -10,21 +10,19 @@
 
         private string _description;
 
-        private string _iconPath;
-
-        private ImageSource _iconSource;
+        private string _icon;
 
         public SearchResult(string caption, string icon)
         {
             Caption = caption;
-            ProcessIcon(icon);
+            Icon = icon;
         }
 
         public SearchResult(string caption, string description, string icon)
         {
             Caption = caption;
             Description = description;
-            ProcessIcon(icon);
+            Icon = icon;
         }
 
         public string Caption
@@ -47,23 +45,13 @@
             }
         }
 
-        public string IconPath
+        public string Icon
         {
-            get => _iconPath;
+            get => _icon;
             set
             {
-                _iconPath = value;
-                NotifyOfPropertyChange(() => IconPath);
-            }
-        }
-
-        public ImageSource IconSource
-        {
-            get => _iconSource;
-            set
-            {
-                _iconSource = value;
-                NotifyOfPropertyChange(() => IconSource);
+                _icon = value;
+                NotifyOfPropertyChange(() => Icon);
             }
         }
 
@@ -87,7 +75,7 @@
 
             if (!string.IsNullOrEmpty(e.Icon))
             {
-                ProcessIcon(e.Icon);
+                Icon = e.Icon;
             }
         }
 
@@ -116,21 +104,8 @@
 
             if (!string.IsNullOrEmpty(e.Icon))
             {
-                ProcessIcon(e.Icon);
+                Icon = e.Icon;
             }
-        }
-
-        private void ProcessIcon(string icon)
-        {
-            if (!uint.TryParse(icon, out uint result))
-            {
-                IconPath = icon;
-                IconSource = null;
-                return;
-            }
-
-            IconSource = BitmapSourceHelper.GetStockIcon(result);
-            IconPath = null;
         }
     }
 }
