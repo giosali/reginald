@@ -1,8 +1,6 @@
 ﻿namespace Reginald.Data.Products
 {
-    using System.Windows.Media;
     using Reginald.Data.Inputs;
-    using Reginald.Services.Helpers;
 
     public class SearchResult : KeyboardInput
     {
