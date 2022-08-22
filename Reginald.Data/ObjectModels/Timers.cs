@@ -57,8 +57,9 @@
 
         private static void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            e.Caption = AltCaption;
-            e.Icon = AltIcon;
+            SearchResult result = (SearchResult)sender;
+            result.Caption = AltCaption;
+            result.Icon = AltIcon;
         }
 
         private static void OnElapsed(object sender, EventArgs e)

@@ -164,8 +164,9 @@
 
         private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
         {
-            e.Caption = _message;
-            e.Icon = Icon;
+            SearchResult result = (SearchResult)sender;
+            result.Caption = _message;
+            result.Icon = Icon;
         }
 
         private void OnElapsed(object sender, EventArgs e)
