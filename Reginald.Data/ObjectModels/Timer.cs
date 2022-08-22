@@ -160,7 +160,6 @@
             timer.InternalTimer.Elapsed += timer.OnElapsed;
             timer.InternalTimer.AutoReset = true;
             timer.Result = new(Caption, Icon);
-            timer.Result.EnterKeyPressed += timer.OnEnterKeyPressed;
             timer.Result.AltAndEnterKeysPressed += timer.OnAltAndEnterKeysPressed;
             timer.Result.AltKeyReleased += timer.OnAltKeyReleased;
             return timer;
@@ -209,6 +208,11 @@
             TimeSpan ts = TimeSpan.FromMilliseconds(_time);
             timer.Result.Description = string.Format(Timers.Format, ts.Hours, ts.Minutes, ts.Seconds);
             Timers.AddTimer(timer);
+
+            // Prevents blank timers from being added by resetting
+            // the time representation and associated message.
+            _representation = _message = Placeholder;
+
             e.Handled = true;
         }
     }
