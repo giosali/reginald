@@ -14,8 +14,6 @@
     {
         private static readonly Regex[] _timePatterns = new Regex[3] { new Regex(@"(?<!\S)(\d+(\.\d+)?) ?h((ou)?rs?)?(?!\S)", RegexOptions.IgnoreCase), new Regex(@"(?<!\S)(\d+(\.\d+)?) ?m((in(ute)?s?)?)?(?!\S)", RegexOptions.IgnoreCase), new Regex(@"(?<!\S)(\d+(\.\d+)?) ?s((ec(ond)?s?)?)?(?!\S)", RegexOptions.IgnoreCase) };
 
-        private bool _cancel;
-
         private string _keyInput;
 
         private string _message;
@@ -160,14 +158,8 @@
             timer.InternalTimer.Elapsed += timer.OnElapsed;
             timer.InternalTimer.AutoReset = true;
             timer.Result = new(Caption, Icon);
-            timer.Result.AltAndEnterKeysPressed += timer.OnAltAndEnterKeysPressed;
             timer.Result.AltKeyReleased += timer.OnAltKeyReleased;
             return timer;
-        }
-
-        private void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
-        {
-            _cancel = true;
         }
 
         private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
@@ -178,12 +170,6 @@
 
         private void OnElapsed(object sender, EventArgs e)
         {
-            if (_cancel)
-            {
-                InternalTimer.Stop();
-                return;
-            }
-
             _time -= 1000;
             if (_time <= 0)
             {

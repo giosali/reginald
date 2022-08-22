@@ -49,7 +49,9 @@
         private static void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
         {
             SearchResult result = (SearchResult)sender;
-            _timers.Remove(_timers.Single(t => t.Result == result));
+            Timer timer = _timers.SingleOrDefault(t => t.Result == result);
+            timer.InternalTimer.Enabled = false;
+            _timers.Remove(timer);
             e.Remove = true;
         }
 
