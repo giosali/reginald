@@ -18,25 +18,25 @@
 
         private string _keyInput;
 
+        private string _message;
+
         private string _representation;
 
         private double _time;
 
-        private string _message;
-
         [JsonProperty("format")]
         public string Format { get; set; }
+
+        public System.Timers.Timer InternalTimer { get; set; }
+
+        [JsonProperty("isEnabled")]
+        public bool IsEnabled { get; set; }
 
         [JsonProperty("key")]
         public string Key { get; set; }
 
         [JsonProperty("placeholder")]
         public string Placeholder { get; set; }
-
-        public System.Timers.Timer InternalTimer { get; set; }
-
-        [JsonProperty("isEnabled")]
-        public bool IsEnabled { get; set; }
 
         public SearchResult Result { get; set; }
 
