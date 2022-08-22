@@ -39,6 +39,7 @@
         private static void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
         {
             _timers.Remove(_timers.Single(t => t.Result.GetHashCode() == e.HashCode));
+            e.Remove = true;
         }
 
         private static void OnAltKeyPressed(object sender, InputProcessingEventArgs e)

@@ -17,5 +17,7 @@ namespace Reginald.Data.Inputs
         public string Icon { get; set; }
 
         public bool IsInputIncomplete { get; set; }
+
+        public bool Remove { get; set; }
     }
 }
