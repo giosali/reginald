@@ -20,7 +20,7 @@ namespace Reginald.Data.ObjectModels
 
         public bool Check(string input)
         {
-            return Key.Contains(input, System.StringComparison.OrdinalIgnoreCase);
+            return IsEnabled && Key.Contains(input, System.StringComparison.OrdinalIgnoreCase);
         }
 
         public SearchResult Produce()
