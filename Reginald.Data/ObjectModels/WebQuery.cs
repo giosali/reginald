@@ -103,14 +103,16 @@
 
         private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            e.Description = AltDescription;
+            SearchResult result = (SearchResult)sender;
+            result.Description = AltDescription;
         }
 
         private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
         {
             string[] keyInputArray = _keyInput.Split(' ', 2);
             string input = keyInputArray[^1];
-            e.Description = string.Format(DescriptionFormat, keyInputArray.Length < 2 || input == string.Empty ? Placeholder : input);
+            SearchResult result = (SearchResult)sender;
+            result.Description = string.Format(DescriptionFormat, keyInputArray.Length < 2 || input == string.Empty ? Placeholder : input);
         }
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
