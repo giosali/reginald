@@ -36,6 +36,7 @@
     <None Remove="Resources\Timer.json" />
     <None Remove="Resources\Timers.json" />
     <None Remove="Resources\TopLevelDomains.txt" />
+    <None Remove="Resources\Url.json" />
     <None Remove="Resources\Utilities.json" />
     <None Remove="Resources\WebQueries.json" />
   </ItemGroup>
@@ -165,6 +166,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\TopLevelDomains.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Url.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Utilities.json">
