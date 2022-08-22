@@ -5,6 +5,7 @@ namespace Reginald.Data.ObjectModels
     using Newtonsoft.Json;
     using Reginald.Data.Inputs;
     using Reginald.Services.Utilities;
+    using System;
     using System.Threading.Tasks;
 
     public class Recycle : ObjectModel, ISingleProducer<SearchResult>
@@ -20,7 +21,26 @@ namespace Reginald.Data.ObjectModels
 
         public bool Check(string input)
         {
-            return IsEnabled && Key.Contains(input, System.StringComparison.OrdinalIgnoreCase);
+            if (!IsEnabled)
+            {
+                return false;
+            }
+
+            int index = Key.IndexOf(input, StringComparison.OrdinalIgnoreCase);
+            if (index == -1)
+            {
+                return false;
+            }
+
+            // Returns false
+            // if the index isn't the beginning of the Key
+            // and if the character before the index isn't a space.
+            if (index != 0 && Key[index - 1] != ' ')
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public SearchResult Produce()
