@@ -36,6 +36,16 @@
             _timers.Add(timer);
         }
 
+        public bool Check(string input)
+        {
+            return IsEnabled && Key.StartsWith(input);
+        }
+
+        public SearchResult[] Produce()
+        {
+            return _timers.Select(t => t.Result).ToArray();
+        }
+
         private static void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
         {
             _timers.Remove(_timers.Single(t => t.Result.GetHashCode() == e.HashCode));
@@ -62,16 +72,6 @@
             }
 
             _timers.Remove(timer);
-        }
-
-        public bool Check(string input)
-        {
-            return IsEnabled && Key.StartsWith(input);
-        }
-
-        public SearchResult[] Produce()
-        {
-            return _timers.Select(t => t.Result).ToArray();
         }
     }
 }

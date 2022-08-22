@@ -33,10 +33,10 @@
         [JsonProperty("placeholder")]
         public string Placeholder { get; set; }
 
+        public System.Timers.Timer InternalTimer { get; set; }
+
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }
-
-        public System.Timers.Timer InternalTimer { get; set; }
 
         public SearchResult Result { get; set; }
 
@@ -138,19 +138,6 @@
             return MemberwiseClone();
         }
 
-        protected Timer DeepCopy()
-        {
-            Timer timer = (Timer)Clone();
-            timer.InternalTimer = new(1000);
-            timer.InternalTimer.Elapsed += timer.OnElapsed;
-            timer.InternalTimer.AutoReset = true;
-            timer.Result = new(Caption, Icon);
-            timer.Result.EnterKeyPressed += timer.OnEnterKeyPressed;
-            timer.Result.AltAndEnterKeysPressed += timer.OnAltAndEnterKeysPressed;
-            timer.Result.AltKeyReleased += timer.OnAltKeyReleased;
-            return timer;
-        }
-
         public SearchResult Produce()
         {
             SearchResult result = new(Caption, Icon);
@@ -164,6 +151,19 @@
 
             result.Description = string.Format(Format, _representation, _message);
             return result;
+        }
+
+        private Timer DeepCopy()
+        {
+            Timer timer = (Timer)Clone();
+            timer.InternalTimer = new(1000);
+            timer.InternalTimer.Elapsed += timer.OnElapsed;
+            timer.InternalTimer.AutoReset = true;
+            timer.Result = new(Caption, Icon);
+            timer.Result.EnterKeyPressed += timer.OnEnterKeyPressed;
+            timer.Result.AltAndEnterKeysPressed += timer.OnAltAndEnterKeysPressed;
+            timer.Result.AltKeyReleased += timer.OnAltKeyReleased;
+            return timer;
         }
 
         private void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
