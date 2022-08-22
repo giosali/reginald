@@ -61,20 +61,6 @@
         public override void PressAlt(InputProcessingEventArgs e)
         {
             OnAltKeyPressed(e);
-            if (!string.IsNullOrEmpty(e.Caption))
-            {
-                Caption = e.Caption;
-            }
-
-            if (!string.IsNullOrEmpty(e.Description))
-            {
-                Description = e.Description;
-            }
-
-            if (!string.IsNullOrEmpty(e.Icon))
-            {
-                Icon = e.Icon;
-            }
         }
 
         public override void PressEnter(InputProcessingEventArgs e)
@@ -90,20 +76,6 @@
         public override void ReleaseAlt(InputProcessingEventArgs e)
         {
             OnAltKeyReleased(e);
-            if (!string.IsNullOrEmpty(e.Caption))
-            {
-                Caption = e.Caption;
-            }
-
-            if (!string.IsNullOrEmpty(e.Description))
-            {
-                Description = e.Description;
-            }
-
-            if (!string.IsNullOrEmpty(e.Icon))
-            {
-                Icon = e.Icon;
-            }
         }
     }
 }

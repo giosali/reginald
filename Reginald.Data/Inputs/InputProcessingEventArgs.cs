@@ -4,15 +4,9 @@ namespace Reginald.Data.Inputs
 
     public class InputProcessingEventArgs : EventArgs
     {
-        public string Caption { get; set; }
-
         public string CompleteInput { get; set; }
 
-        public string Description { get; set; }
-
         public bool Handled { get; set; }
-
-        public string Icon { get; set; }
 
         public bool IsInputIncomplete { get; set; }
 
