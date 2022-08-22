@@ -24,9 +24,6 @@ namespace Reginald.Data.ObjectModels
         [JsonProperty("key")]
         public string Key { get; set; }
 
-        [JsonProperty("requiresPrompt")]
-        public bool RequiresPrompt { get; set; }
-
         public bool Check(string input)
         {
             if (!IsEnabled)
