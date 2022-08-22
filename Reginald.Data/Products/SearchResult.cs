@@ -16,11 +16,11 @@
             Icon = icon;
         }
 
-        public SearchResult(string caption, string description, string icon)
+        public SearchResult(string caption, string icon, string description)
         {
             Caption = caption;
-            Description = description;
             Icon = icon;
+            Description = description;
         }
 
         public string Caption
