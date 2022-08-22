@@ -5,6 +5,7 @@ namespace Reginald.Data.ObjectModels
     using Newtonsoft.Json;
     using Reginald.Data.Inputs;
     using Reginald.Services.Utilities;
+    using System.Threading.Tasks;
 
     public class Recycle : ObjectModel, ISingleProducer<SearchResult>
     {
@@ -29,9 +30,9 @@ namespace Reginald.Data.ObjectModels
             return result;
         }
 
-        private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
+        private async void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            RecycleBin.Empty();
+            await Task.Run(() => RecycleBin.Empty());
             e.Handled = true;
         }
     }
