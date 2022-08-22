@@ -10,6 +10,14 @@ namespace Reginald.Data.ObjectModels
 
     public class Recycle : ObjectModel, ISingleProducer<SearchResult>
     {
+        private bool _hasBeenPrompted;
+
+        [JsonProperty("enterCaption")]
+        public string EnterCaption { get; set; }
+
+        [JsonProperty("enterIcon")]
+        public string EnterIcon { get; set; }
+
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }
 
@@ -45,6 +53,7 @@ namespace Reginald.Data.ObjectModels
 
         public SearchResult Produce()
         {
+            _hasBeenPrompted = false;
             SearchResult result = new(Caption, Icon, Description);
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
@@ -52,8 +61,17 @@ namespace Reginald.Data.ObjectModels
 
         private async void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            await Task.Run(() => RecycleBin.Empty());
+            if (!_hasBeenPrompted)
+            {
+                _hasBeenPrompted = true;
+                SearchResult result = (SearchResult)sender;
+                result.Caption = EnterCaption;
+                result.Icon = EnterIcon;
+                return;
+            }
+
             e.Handled = true;
+            await Task.Run(() => RecycleBin.Empty());
         }
     }
 }
