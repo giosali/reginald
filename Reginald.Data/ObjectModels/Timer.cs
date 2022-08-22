@@ -8,10 +8,13 @@
     using Reginald.Core.Extensions;
     using System.Linq;
     using Reginald.Data.Inputs;
+    using Reginald.Services.Notifications;
 
-    public class Timer : ObjectModel, ISingleProducer<SearchResult>
+    public class Timer : ObjectModel, ICloneable, ISingleProducer<SearchResult>
     {
         private static readonly Regex[] _timePatterns = new Regex[3] { new Regex(@"(?<!\S)(\d+(\.\d+)?) ?h((ou)?rs?)?(?!\S)", RegexOptions.IgnoreCase), new Regex(@"(?<!\S)(\d+(\.\d+)?) ?m((in(ute)?s?)?)?(?!\S)", RegexOptions.IgnoreCase), new Regex(@"(?<!\S)(\d+(\.\d+)?) ?s((ec(ond)?s?)?)?(?!\S)", RegexOptions.IgnoreCase) };
+
+        private bool _cancel;
 
         private string _keyInput;
 
@@ -32,6 +35,10 @@
 
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }
+
+        public System.Timers.Timer InternalTimer { get; set; }
+
+        public SearchResult Result { get; set; }
 
         public bool Check(string keyInput)
         {
@@ -126,6 +133,24 @@
             return true;
         }
 
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+
+        protected Timer DeepCopy()
+        {
+            Timer timer = (Timer)Clone();
+            timer.InternalTimer = new(1000);
+            timer.InternalTimer.Elapsed += timer.OnElapsed;
+            timer.InternalTimer.AutoReset = true;
+            timer.Result = new(Caption, Icon);
+            timer.Result.EnterKeyPressed += timer.OnEnterKeyPressed;
+            timer.Result.AltAndEnterKeysPressed += timer.OnAltAndEnterKeysPressed;
+            timer.Result.AltKeyReleased += timer.OnAltKeyReleased;
+            return timer;
+        }
+
         public SearchResult Produce()
         {
             SearchResult result = new(Caption, Icon);
@@ -141,6 +166,37 @@
             return result;
         }
 
+        private void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
+        {
+            _cancel = true;
+        }
+
+        private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
+        {
+            e.Caption = _message;
+            e.Icon = Icon;
+        }
+
+        private void OnElapsed(object sender, EventArgs e)
+        {
+            if (_cancel)
+            {
+                InternalTimer.Stop();
+                return;
+            }
+
+            _time -= 1000;
+            if (_time <= 0)
+            {
+                InternalTimer.Stop();
+                ToastNotification notification = new(Caption, _message);
+                notification.Show();
+            }
+
+            TimeSpan ts = TimeSpan.FromMilliseconds(_time);
+            Result.Description = string.Format(Timers.Format, ts.Hours, ts.Minutes, ts.Seconds);
+        }
+
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
             if (_representation == Placeholder || _message == Placeholder)
@@ -148,7 +204,11 @@
                 return;
             }
 
-            Timers.AddTimer(_time, _message, Icon, Name);
+            Timer timer = DeepCopy();
+            timer.Result.Caption = _message;
+            TimeSpan ts = TimeSpan.FromMilliseconds(_time);
+            timer.Result.Description = string.Format(Timers.Format, ts.Hours, ts.Minutes, ts.Seconds);
+            Timers.AddTimer(timer);
             e.Handled = true;
         }
     }
