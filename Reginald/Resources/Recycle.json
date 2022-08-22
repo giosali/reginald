@@ -5,6 +5,7 @@
   "icon": "32",
   "description": "Empty Recyle Bin",
   "caption": "Recycle Bin",
-  "isEnabled": true,
-  "requiresPrompt": true,
+  "enterCaption": "Press Enter to confirm",
+  "enterIcon": "23",
+  "isEnabled": true
 }
