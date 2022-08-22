@@ -55,7 +55,6 @@
 
         public override void PressAltAndEnter(InputProcessingEventArgs e)
         {
-            e.HashCode = this.GetHashCode();
             OnAltAndEnterKeysPressed(e);
         }
 

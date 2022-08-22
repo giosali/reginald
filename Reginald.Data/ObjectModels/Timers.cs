@@ -48,7 +48,8 @@
 
         private static void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
         {
-            _timers.Remove(_timers.Single(t => t.Result.GetHashCode() == e.HashCode));
+            SearchResult result = (SearchResult)sender;
+            _timers.Remove(_timers.Single(t => t.Result == result));
             e.Remove = true;
         }
 
@@ -60,18 +61,13 @@
 
         private static void OnElapsed(object sender, EventArgs e)
         {
-            if (((System.Timers.Timer)sender).Enabled)
+            System.Timers.Timer timer = (System.Timers.Timer)sender;
+            if (timer.Enabled)
             {
                 return;
             }
 
-            Timer timer = _timers.SingleOrDefault(t => t.InternalTimer.GetHashCode() == sender.GetHashCode());
-            if (timer is null)
-            {
-                return;
-            }
-
-            _timers.Remove(timer);
+            _timers.Remove(_timers.SingleOrDefault(t => t.InternalTimer == timer));
         }
     }
 }

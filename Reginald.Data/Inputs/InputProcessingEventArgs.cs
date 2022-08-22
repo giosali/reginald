@@ -12,8 +12,6 @@ namespace Reginald.Data.Inputs
 
         public bool Handled { get; set; }
 
-        public int HashCode { get; set; }
-
         public string Icon { get; set; }
 
         public bool IsInputIncomplete { get; set; }
