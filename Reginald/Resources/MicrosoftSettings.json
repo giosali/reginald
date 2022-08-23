@@ -3,1140 +3,1254 @@
     "guid": "927e078c-03d3-40ca-993c-982527ab8ab8",
     "name": "Access work or school",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Access work or school",
+    "key": "Access work or school",
     "description": "Access work or school",
     "caption": "Accounts",
-    "isEnabled": true,
-    "uri": "ms-settings:workplace"
+    "uri": "ms-settings:workplace",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "1f3466d2-2c68-425c-9acf-b65a0d8dbe9c",
     "name": "Email and accounts",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Email and accounts | Email & accounts",
+    "key": "Email and accounts",
     "description": "Email & accounts",
     "caption": "Accounts",
-    "isEnabled": true,
-    "uri": "ms-settings:emailandaccounts"
+    "uri": "ms-settings:emailandaccounts",
+    "containsAmpersand": true,
+    "containsHyphen": false
   },
   {
     "guid": "6311f671-734e-4430-bfd9-7920c294ffc9",
     "name": "Other users",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Other users",
+    "key": "Other users",
     "description": "Other users",
     "caption": "Accounts",
-    "isEnabled": true,
-    "uri": "ms-settings:otherusers"
+    "uri": "ms-settings:otherusers",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "08dca49b-7152-41e0-9052-64c45c025ba1",
-    "name": "Sign-in options/Signin options",
+    "name": "Sign-in options",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Sign-in options | Signin options",
+    "key": "Sign in options",
     "description": "Sign-in options",
     "caption": "Accounts",
-    "isEnabled": true,
-    "uri": "ms-settings:signinoptions"
+    "uri": "ms-settings:signinoptions",
+    "containsAmpersand": false,
+    "containsHyphen": true
   },
   {
     "guid": "25204a42-f5c9-4004-b83e-33273d14a386",
     "name": "Dynamic lock",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Dynamic lock",
+    "key": "Dynamic lock",
     "description": "Dynamic lock",
     "caption": "Accounts",
-    "isEnabled": true,
-    "uri": "ms-settings:signinoptions-dynamiclock"
+    "uri": "ms-settings:signinoptions-dynamiclock",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "3a921071-e9ae-45a7-adca-ec705477f6d3",
     "name": "Sync your settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Sync your settings",
+    "key": "Sync your settings",
     "description": "Sync your settings",
     "caption": "Accounts",
-    "isEnabled": true,
-    "uri": "ms-settings:sync"
+    "uri": "ms-settings:sync",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "5566bf9b-20f6-4a41-a439-926320cfa1a2",
-    "name": "Set up face sign-in/signin",
+    "name": "Set up face sign-in",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Set up face sign-in | Set up face signin",
+    "key": "Set up face sign in",
     "description": "Set up face sign-in",
     "caption": "Accounts",
-    "isEnabled": true,
-    "uri": "ms-settings:signinoptions-launchfaceenrollment"
+    "uri": "ms-settings:signinoptions-launchfaceenrollment",
+    "containsAmpersand": false,
+    "containsHyphen": true
   },
   {
     "guid": "934c2938-d10c-4251-ac33-de3958c277a3",
-    "name": "Set up fingerprint sign-in/signin",
+    "name": "Set up fingerprint sign-in",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Set up fingerprint sign-in | Set up fingerprint signin",
+    "key": "Set up fingerprint sign in",
     "description": "Set up fingerprint sign-in",
     "caption": "Accounts",
-    "isEnabled": true,
-    "uri": "ms-settings:signinoptions-launchfingerprintenrollment"
+    "uri": "ms-settings:signinoptions-launchfingerprintenrollment",
+    "containsAmpersand": false,
+    "containsHyphen": true
   },
   {
     "guid": "033b2d56-706c-4d88-a126-554ccd560764",
     "name": "Your account info",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Your account info",
+    "key": "Your account info",
     "description": "Your account info",
     "caption": "Accounts",
-    "isEnabled": true,
-    "uri": "ms-settings:yourinfo"
+    "uri": "ms-settings:yourinfo",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "7e917137-a277-43a7-9ee4-c53cf6a89810",
-    "name": "Apps and& features",
+    "name": "Apps and features",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Apps and features | Apps & features",
+    "key": "Apps and features",
     "description": "Apps & features",
     "caption": "Apps",
-    "isEnabled": true,
-    "uri": "ms-settings:appsfeatures"
+    "uri": "ms-settings:appsfeatures",
+    "containsAmpersand": true,
+    "containsHyphen": false
   },
   {
     "guid": "9c5da158-0f78-43a5-a1f1-af6b51aa392c",
     "name": "Add or remove programs",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Add or remove programs",
+    "key": "Add or remove programs",
     "description": "Add or remove programs",
     "caption": "Apps",
-    "isEnabled": true,
-    "uri": "ms-settings:appsfeatures"
+    "uri": "ms-settings:appsfeatures",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "eb3d6315-dae4-4c1f-846b-e97e8936317e",
     "name": "Choose a default app for each website",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Choose a default app for each website",
+    "key": "Choose a default app for each website",
     "description": "Choose a default app for each website",
     "caption": "Apps",
-    "isEnabled": true,
-    "uri": "ms-settings:appsforwebsites"
+    "uri": "ms-settings:appsforwebsites",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "faea2c9c-1b68-4985-8108-1540d2a459b3",
     "name": "Manage optional features",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Manage optional features",
+    "key": "Manage optional features",
     "description": "Manage optional features",
     "caption": "Apps",
-    "isEnabled": true,
-    "uri": "ms-settings:optionalfeatures"
+    "uri": "ms-settings:optionalfeatures",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "dd8c58da-3e9b-4062-a243-7a7cd0e5a972",
     "name": "Offline maps",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Offline maps",
+    "key": "Offline maps",
     "description": "Offline maps",
     "caption": "Apps",
-    "isEnabled": true,
-    "uri": "ms-settings:maps"
+    "uri": "ms-settings:maps",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "74655267-3206-417a-a270-eb677a6e7f7f",
     "name": "Download maps for offline use",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Download maps for offline use",
+    "key": "Download maps for offline use",
     "description": "Download maps for offline use",
     "caption": "Apps",
-    "isEnabled": true,
-    "uri": "ms-settings:maps-downloadmaps"
+    "uri": "ms-settings:maps-downloadmaps",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "6efb8db7-c64e-4da9-91f9-c00acece8975",
     "name": "Startup Apps",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Startup Apps",
+    "key": "Startup Apps",
     "description": "Startup Apps",
     "caption": "Apps",
-    "isEnabled": true,
-    "uri": "ms-settings:startupapps"
+    "uri": "ms-settings:startupapps",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "9622106b-4a75-4bb7-a9b7-4f754d711371",
     "name": "Video playback",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Video playback",
+    "key": "Video playback",
     "description": "Video playback",
     "caption": "Apps",
-    "isEnabled": true,
-    "uri": "ms-settings:videoplayback"
+    "uri": "ms-settings:videoplayback",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "533098f2-cef8-4a34-aaf0-74bab0452cf3",
     "name": "AutoPlay settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "AutoPlay settings",
+    "key": "AutoPlay settings",
     "description": "AutoPlay settings",
     "caption": "Devices",
-    "isEnabled": true,
-    "uri": "ms-settings:autoplay"
+    "uri": "ms-settings:autoplay",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "4fdf8e2f-cb27-4a77-817f-21bad7ee5cd6",
     "name": "Bluetooth and other devices settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Bluetooth and other devices settings",
+    "key": "Bluetooth and other devices settings",
     "description": "Bluetooth and other devices settings",
     "caption": "Devices",
-    "isEnabled": true,
-    "uri": "ms-settings:bluetooth"
+    "uri": "ms-settings:bluetooth",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "a11b0c3e-24ee-41b3-b5ae-7ce4c9cbda70",
     "name": "Mouse settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Mouse settings",
+    "key": "Mouse settings",
     "description": "Mouse settings",
     "caption": "Devices",
-    "isEnabled": true,
-    "uri": "ms-settings:mousetouchpad"
+    "uri": "ms-settings:mousetouchpad",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "d06a7057-21d6-4093-a049-c22926ca68cb",
     "name": "Pen and Windows Ink settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Pen and Windows Ink settings | Pen & Windows Ink settings",
+    "key": "Pen and Windows Ink settings",
     "description": "Pen & Windows Ink settings",
     "caption": "Devices",
-    "isEnabled": true,
-    "uri": "ms-settings:pen"
+    "uri": "ms-settings:pen",
+    "containsAmpersand": true,
+    "containsHyphen": false
   },
   {
     "guid": "f1dd5ec3-adfa-44f0-8cec-9c544d204b3a",
     "name": "Printers and scanners",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Printers and scanners",
+    "key": "Printers and scanners",
     "description": "Printers and scanners",
     "caption": "Devices",
-    "isEnabled": true,
-    "uri": "ms-settings:printers"
+    "uri": "ms-settings:printers",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "cb0bcd92-6554-4c73-8e3f-7b5e1fabddc0",
     "name": "Typing settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Typing settings",
+    "key": "Typing settings",
     "description": "Typing settings",
     "caption": "Devices",
-    "isEnabled": true,
-    "uri": "ms-settings:typing"
+    "uri": "ms-settings:typing",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "cfd822ab-6835-4968-9b1c-731848b08e9a",
     "name": "USB settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "USB settings",
+    "key": "USB settings",
     "description": "USB settings",
     "caption": "Devices",
-    "isEnabled": true,
-    "uri": "ms-settings:usb"
+    "uri": "ms-settings:usb",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "e639ac46-d71f-4481-a637-d59eb21465c6",
     "name": "Link your phone",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Link your phone",
+    "key": "Link your phone",
     "description": "Link your phone",
     "caption": "Devices",
-    "isEnabled": true,
-    "uri": "ms-settings:mobile-devices"
+    "uri": "ms-settings:mobile-devices",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "c44e7372-78ee-43d5-b114-380a8d6d988f",
     "name": "Ease of Access audio settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Ease of Access audio settings",
+    "key": "Ease of Access audio settings",
     "description": "Ease of Access audio settings",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-audio"
+    "uri": "ms-settings:easeofaccess-audio",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "be844b1d-92f5-4bee-a2b0-d2bba7ef7d56",
     "name": "Closed captions",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Closed captions",
+    "key": "Closed captions",
     "description": "Closed captions",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-closedcaptioning"
+    "uri": "ms-settings:easeofaccess-closedcaptioning",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "52086279-ce94-470d-bbea-d64871c41839",
     "name": "Color filters",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Color filters",
+    "key": "Color filters",
     "description": "Color filters",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-colorfilter"
+    "uri": "ms-settings:easeofaccess-colorfilter",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "31e6b56a-7ba8-44d3-bece-c256c564d2aa",
     "name": "Ease of Access display settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Ease of Access display settings",
+    "key": "Ease of Access display settings",
     "description": "Ease of Access display settings",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-display"
+    "uri": "ms-settings:easeofaccess-display",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "9a4e1cf4-a32d-415f-9514-0e5b51685364",
     "name": "Eye control settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Eye control settings",
+    "key": "Eye control settings",
     "description": "Eye control settings",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-eyecontrol"
+    "uri": "ms-settings:easeofaccess-eyecontrol",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "4158cb3d-c600-4ae5-86e8-84f6a1f8e124",
     "name": "Font settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Font settings",
+    "key": "Font settings",
     "description": "Font settings",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:fonts"
+    "uri": "ms-settings:fonts",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "8650a948-c4c8-40ec-b119-0861aa957502",
     "name": "Ease of Access contrast settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Ease of Access contrast settings",
+    "key": "Ease of Access contrast settings",
     "description": "Ease of Access contrast settings",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-highcontrast"
+    "uri": "ms-settings:easeofaccess-highcontrast",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "8c303d53-37f9-4edb-a8fc-c0cdacf53d85",
     "name": "Ease of Access keyboard settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Ease of Access keyboard settings",
+    "key": "Ease of Access keyboard settings",
     "description": "Ease of Access keyboard settings",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-keyboard"
+    "uri": "ms-settings:easeofaccess-keyboard",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "3f5c7c81-dcbb-4625-a1fb-14be542ce22a",
     "name": "Ease of Access Magnifier settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Ease of Access Magnifier settings",
+    "key": "Ease of Access Magnifier settings",
     "description": "Ease of Access Magnifier settings",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-magnifier"
+    "uri": "ms-settings:easeofaccess-magnifier",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "71b52829-e75b-4cc2-967f-e57a9c390fa8",
     "name": "Ease of Access mouse settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Ease of Access mouse settings",
+    "key": "Ease of Access mouse settings",
     "description": "Ease of Access mouse settings",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-mouse"
+    "uri": "ms-settings:easeofaccess-mouse",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "803c2365-4dab-46fe-af13-d9e92de741b0",
     "name": "Ease of Access speech settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Ease of Access speech settings",
+    "key": "Ease of Access speech settings",
     "description": "Ease of Access speech settings",
     "caption": "Ease of Access",
-    "isEnabled": true,
-    "uri": "ms-settings:easeofaccess-speechrecognition"
+    "uri": "ms-settings:easeofaccess-speechrecognition",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "6cb4380b-b7ad-41c5-a902-9fd59ac776af",
     "name": "Game bar settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Game bar settings",
+    "key": "Game bar settings",
     "description": "Game bar settings",
     "caption": "Gaming",
-    "isEnabled": true,
-    "uri": "ms-settings:gaming-gamebar"
+    "uri": "ms-settings:gaming-gamebar",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "348fc079-189a-4b8d-b818-4585ad45d9a2",
     "name": "Game DVR Captures settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Game DVR Captures settings",
+    "key": "Game DVR Captures settings",
     "description": "Captures settings",
     "caption": "Gaming",
-    "isEnabled": true,
-    "uri": "ms-settings:gaming-gamedvr"
+    "uri": "ms-settings:gaming-gamedvr",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "a65146fd-c498-4a22-8f9f-1a8e3c909b62",
     "name": "Game Mode settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Game Mode settings",
+    "key": "Game Mode settings",
     "description": "Game Mode settings",
     "caption": "Gaming",
-    "isEnabled": true,
-    "uri": "ms-settings:gaming-gamemode"
+    "uri": "ms-settings:gaming-gamemode",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "64f4d844-646b-4cbe-9e70-2aeda23ef7a2",
     "name": "Xbox networking",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Xbox networking",
+    "key": "Xbox networking",
     "description": "Xbox networking",
     "caption": "Gaming",
-    "isEnabled": true,
-    "uri": "ms-settings:gaming-xboxnetworking"
+    "uri": "ms-settings:gaming-xboxnetworking",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "7a0cf71f-463c-472c-8a33-bb5a73419250",
     "name": "Turn airplane mode on or off",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Turn airplane mode on or off",
+    "key": "Turn airplane mode on or off",
     "description": "Turn airplane mode on or off",
     "caption": "Network and Internet",
-    "isEnabled": true,
-    "uri": "ms-settings:network-airplanemode"
+    "uri": "ms-settings:network-airplanemode",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "ce105c29-6da3-46cc-bda1-7b4542814208",
     "name": "Data usage overview",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Data usage overview",
+    "key": "Data usage overview",
     "description": "Data usage overview",
     "caption": "Network and Internet",
-    "isEnabled": true,
-    "uri": "ms-settings:datausage"
+    "uri": "ms-settings:datausage",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "8d775d05-df2f-4af3-abd7-5be34d777938",
     "name": "Dial-up settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Dial-up settings",
+    "key": "Dial up settings",
     "description": "Dial-up settings",
     "caption": "Network and Internet",
-    "isEnabled": true,
-    "uri": "ms-settings:network-dialup"
+    "uri": "ms-settings:network-dialup",
+    "containsAmpersand": false,
+    "containsHyphen": true
   },
   {
     "guid": "0be457a8-9ed3-4529-84ee-b5e4be4cee69",
-    "name": "Wi-Fiwifi settings",
+    "name": "Wi-Fi settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Wi-Fiwifi settings",
+    "key": "Wi Fi settings",
     "description": "Wi-Fi settings",
     "caption": "Network and Internet",
-    "isEnabled": true,
-    "uri": "ms-settings:network-wifisettings"
+    "uri": "ms-settings:network-wifisettings",
+    "containsAmpersand": false,
+    "containsHyphen": true
   },
   {
     "guid": "3d3f0929-e576-44ea-b0d0-71cd25005de0",
     "name": "Mobile hotspot",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Mobile hotspot",
+    "key": "Mobile hotspot",
     "description": "Mobile hotspot",
     "caption": "Network and Internet",
-    "isEnabled": true,
-    "uri": "ms-settings:network-mobilehotspot"
+    "uri": "ms-settings:network-mobilehotspot",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "8a77083c-e691-4690-b373-9dca07a25217",
     "name": "Proxy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Proxy settings",
+    "key": "Proxy settings",
     "description": "Proxy settings",
     "caption": "Network and Internet",
-    "isEnabled": true,
-    "uri": "ms-settings:network-proxy"
+    "uri": "ms-settings:network-proxy",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "c1d8bb62-618f-48bc-b927-ba6ccb60b50a",
     "name": "Network status",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Network status",
+    "key": "Network status",
     "description": "Network status",
     "caption": "Network and Internet",
-    "isEnabled": true,
-    "uri": "ms-settings:network-status"
+    "uri": "ms-settings:network-status",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "bd7dd35a-e6ad-4dfd-8422-dd0076001770",
     "name": "VPN settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "VPN settings",
+    "key": "VPN settings",
     "description": "VPN settings",
     "caption": "Network and Internet",
-    "isEnabled": true,
-    "uri": "ms-settings:network-vpn"
+    "uri": "ms-settings:network-vpn",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "557da6aa-6fea-454e-a1c2-6f9871e57e79",
     "name": "Choose your desktop Background image settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Choose your desktop Background image settings",
+    "key": "Choose your desktop Background image settings",
     "description": "Choose your desktop background",
     "caption": "Personalization",
-    "isEnabled": true,
-    "uri": "ms-settings:personalization-background"
+    "uri": "ms-settings:personalization-background",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "360fd938-cdca-4d53-8cd4-b6e73beb64f1",
     "name": "Choose which folders appear on Start",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Choose which folders appear on Start",
+    "key": "Choose which folders appear on Start",
     "description": "Background image settings",
     "caption": "Personalization",
-    "isEnabled": true,
-    "uri": "ms-settings:personalization-start-places"
+    "uri": "ms-settings:personalization-start-places",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "d7bfe156-df5e-49f5-8bb2-16e6f6908383",
     "name": "Choose your accent color",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Choose your accent color",
+    "key": "Choose your accent color",
     "description": "Choose your accent color",
     "caption": "Personalization",
-    "isEnabled": true,
-    "uri": "ms-settings:personalization-colors"
+    "uri": "ms-settings:personalization-colors",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "575f99ca-aee7-447f-860d-d05d6737588e",
     "name": "Lock screen settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Lock screen settings",
+    "key": "Lock screen settings",
     "description": "Lock screen settings",
     "caption": "Personalization",
-    "isEnabled": true,
-    "uri": "ms-settings:lockscreens"
+    "uri": "ms-settings:lockscreens",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "f4812103-c52b-4b26-98ef-7e4abffb1cb3",
     "name": "Personalization settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Personalization settings",
+    "key": "Personalization settings",
     "description": "Personalization settings",
     "caption": "Personalization",
-    "isEnabled": true,
-    "uri": "ms-settings:personalization"
+    "uri": "ms-settings:personalization",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "6ffffa77-207f-4dc0-b7e5-9dff7cb62f27",
     "name": "Start settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Start settings",
+    "key": "Start settings",
     "description": "Start settings",
     "caption": "Personalization",
-    "isEnabled": true,
-    "uri": "ms-settings:personalization-start"
+    "uri": "ms-settings:personalization-start",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "2439d465-a4b2-404b-a424-8d26915b4761",
     "name": "Taskbar settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Taskbar settings",
+    "key": "Taskbar settings",
     "description": "Taskbar settings",
     "caption": "Personalization",
-    "isEnabled": true,
-    "uri": "ms-settings:taskbar"
+    "uri": "ms-settings:taskbar",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "ccb136dc-bd28-46b4-90a2-cf390cc435cd",
     "name": "Themes and related settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Themes and related settings",
+    "key": "Themes and related settings",
     "description": "Themes and related settings",
     "caption": "Personalization",
-    "isEnabled": true,
-    "uri": "ms-settings:themes"
+    "uri": "ms-settings:themes",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "57c2717c-bd8f-41fc-be88-cfd04145c07e",
     "name": "Activity history privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Activity history privacy settings",
+    "key": "Activity history privacy settings",
     "description": "Activity history privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-activityhistory"
+    "uri": "ms-settings:privacy-activityhistory",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "265ad256-2b19-49ba-9532-9128a8fb2c86",
     "name": "App diagnositics privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "App diagnositics privacy settings",
+    "key": "App diagnositics privacy settings",
     "description": "App diagnositics privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-appdiagnostics"
+    "uri": "ms-settings:privacy-appdiagnostics",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "2ebe3aee-7348-440a-82af-e65eea4730af",
     "name": "Automatic file downloads privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Automatic file downloads privacy settings",
+    "key": "Automatic file downloads privacy settings",
     "description": "Automatic file downloads privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-automaticfiledownloads"
+    "uri": "ms-settings:privacy-automaticfiledownloads",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "eea11b8d-2387-44fc-974b-dc24c0ada7e5",
     "name": "Background apps",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Background apps",
+    "key": "Background apps",
     "description": "Background apps",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-backgroundapps"
+    "uri": "ms-settings:privacy-backgroundapps",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "62bd2ced-97fd-4b2f-a436-650098e84acd",
     "name": "Calendar privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Calendar privacy settings",
+    "key": "Calendar privacy settings",
     "description": "Calendar privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-calendar"
+    "uri": "ms-settings:privacy-calendar",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "5b67b203-93e2-4614-9573-0838a5a4057b",
     "name": "Call history privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Call history privacy settings",
+    "key": "Call history privacy settings",
     "description": "Call history privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-callhistory"
+    "uri": "ms-settings:privacy-callhistory",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "38e9d972-7076-4e07-9a75-ff8905598106",
     "name": "Camera privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Camera privacy settings",
+    "key": "Camera privacy settings",
     "description": "Camera privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-webcam"
+    "uri": "ms-settings:privacy-webcam",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "8457ff61-47e4-4c55-aeaa-b24f54af3b6f",
     "name": "Contacts privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Contacts privacy settings",
+    "key": "Contacts privacy settings",
     "description": "Contacts privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-contacts"
+    "uri": "ms-settings:privacy-contacts",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "000438b6-ccfb-4d46-983c-dd20e8b8f5b3",
     "name": "Documents library privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Documents library privacy settings",
+    "key": "Documents library privacy settings",
     "description": "Documents library privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-documents"
+    "uri": "ms-settings:privacy-documents",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "1cb59712-9bb2-4537-9c5b-f899199005c3",
     "name": "Email privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Email privacy settings",
+    "key": "Email privacy settings",
     "description": "Email privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-email"
+    "uri": "ms-settings:privacy-email",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "c022ff84-92f9-4d6c-b0a6-c19ee34d3901",
-    "name": "Diagnostics and& feedback settings",
+    "name": "Diagnostics and feedback settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Diagnostics and feedback settings | Diagnostics & feedback settings",
+    "key": "Diagnostics and feedback settings",
     "description": "Diagnostics & feedback settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-feedback"
+    "uri": "ms-settings:privacy-feedback",
+    "containsAmpersand": true,
+    "containsHyphen": false
   },
   {
     "guid": "37e8df58-bfdd-44de-b2b2-2763efb8ec2f",
     "name": "File system privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "File system privacy settings",
+    "key": "File system privacy settings",
     "description": "File system privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-broadfilesystemaccess"
+    "uri": "ms-settings:privacy-broadfilesystemaccess",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "aeecfdf1-3101-411d-8dbc-fe5330bb77d6",
-    "name": "Inking and& typing personalization privacy settings",
+    "name": "Inking and typing personalization privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Inking and typing personalization privacy settings | Inking & typing personalization privacy settings",
+    "key": "Inking and typing personalization privacy settings",
     "description": "Inking & typing personalization privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-speechtyping"
+    "uri": "ms-settings:privacy-speechtyping",
+    "containsAmpersand": true,
+    "containsHyphen": false
   },
   {
     "guid": "46b8416a-2062-4645-81c9-39d377eada73",
     "name": "Location privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Location privacy settings",
+    "key": "Location privacy settings",
     "description": "Location privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-location"
+    "uri": "ms-settings:privacy-location",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "8640f27e-8660-4f82-a26f-ed30d0318c1d",
     "name": "Messaging privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Messaging privacy settings",
+    "key": "Messaging privacy settings",
     "description": "Messaging privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-messaging"
+    "uri": "ms-settings:privacy-messaging",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "e295593f-a8e1-426a-bff7-2a6193561673",
     "name": "Microphone privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Microphone privacy settings",
+    "key": "Microphone privacy settings",
     "description": "Microphone privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-microphone"
+    "uri": "ms-settings:privacy-microphone",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "61c28909-fef7-47cf-9844-d437d4a60252",
     "name": "Notifications privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Notifications privacy settings",
+    "key": "Notifications privacy settings",
     "description": "Notifications privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-notifications"
+    "uri": "ms-settings:privacy-notifications",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "9aa598c0-ef28-4be3-806d-98d46bb1bc79",
     "name": "Device privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Device privacy settings",
+    "key": "Device privacy settings",
     "description": "Device privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-customdevices"
+    "uri": "ms-settings:privacy-customdevices",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "c273fe7d-0f6e-4ebc-9333-738a3023204d",
     "name": "Phone calls privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Phone calls privacy settings",
+    "key": "Phone calls privacy settings",
     "description": "Phone calls privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-phonecalls"
+    "uri": "ms-settings:privacy-phonecalls",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "0d946840-702b-4f61-b18d-566473a9034e",
     "name": "Pictures library privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Pictures library privacy settings",
+    "key": "Pictures library privacy settings",
     "description": "Pictures library privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-pictures"
+    "uri": "ms-settings:privacy-pictures",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "0126bc2c-971b-4388-89b8-032a2fa899ec",
     "name": "Radio privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Radio privacy settings",
+    "key": "Radio privacy settings",
     "description": "Radio privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-radios"
+    "uri": "ms-settings:privacy-radios",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "f7daae8d-f0c6-4c89-8b2c-dd5b3dd7988a",
     "name": "Speech privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Speech privacy settings",
+    "key": "Speech privacy settings",
     "description": "Speech privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-speech"
+    "uri": "ms-settings:privacy-speech",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "c83c902a-3fd5-4b8f-a323-47a9090e2f54",
     "name": "Task privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Task privacy settings",
+    "key": "Task privacy settings",
     "description": "Task privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-tasks"
+    "uri": "ms-settings:privacy-tasks",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "d54dc0a8-e0e0-4058-987b-40b7fe5b7f96",
     "name": "Videos library privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Videos library privacy settings",
+    "key": "Videos library privacy settings",
     "description": "Videos library privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-videos"
+    "uri": "ms-settings:privacy-videos",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "003a84a7-4e98-4a53-aa04-c38d8f219345",
     "name": "Voice activation privacy settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Voice activation privacy settings",
+    "key": "Voice activation privacy settings",
     "description": "Voice activation privacy settings",
     "caption": "Privacy",
-    "isEnabled": true,
-    "uri": "ms-settings:privacy-voiceactivation"
+    "uri": "ms-settings:privacy-voiceactivation",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "37bbb0ff-28db-4085-99a8-d9653b1c3ffb",
     "name": "About your PC",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "About your PC",
+    "key": "About your PC",
     "description": "About your PC",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:abouts"
+    "uri": "ms-settings:abouts",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "277681f1-3c59-49db-9b92-111d50198710",
     "name": "Sound mixer options App volume",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Sound mixer options App volume",
+    "key": "Sound mixer options App volume",
     "description": "Sound mixer options",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:apps-volume"
+    "uri": "ms-settings:apps-volume",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "ae828a13-8156-43e8-a29f-43f311fad03f",
     "name": "Clipboard settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Clipboard settings",
+    "key": "Clipboard settings",
     "description": "Clipboard settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:clipboard"
+    "uri": "ms-settings:clipboard",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "fd2719b8-3fab-4ea1-a98c-8af34797894b",
     "name": "Display settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Display settings",
+    "key": "Display settings",
     "description": "Display settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:display"
+    "uri": "ms-settings:display",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "be073516-fdbb-4a4d-96c5-0c8b5c1ac57d",
     "name": "Default save locations",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Default save locations",
+    "key": "Default save locations",
     "description": "Default save locations",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:savelocations"
+    "uri": "ms-settings:savelocations",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "385b674d-f5e8-4417-bda0-e916f0232d92",
     "name": "Focus assist",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Focus assist",
+    "key": "Focus assist",
     "description": "Focus assist",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:quiethours"
+    "uri": "ms-settings:quiethours",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "f85443fd-3b85-4f1c-abbe-ca0d87411d5c",
     "name": "Graphics settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Graphics settings",
+    "key": "Graphics settings",
     "description": "Graphics settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:display-advancedgraphics"
+    "uri": "ms-settings:display-advancedgraphics",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "6ef635b0-a08e-467b-8447-d2b540daef9a",
     "name": "Multitasking settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Multitasking settings",
+    "key": "Multitasking settings",
     "description": "Multitasking settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:multitasking"
+    "uri": "ms-settings:multitasking",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "4c17a7f7-e1b6-4fe0-9170-5226e6883eec",
     "name": "Night light",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Night light",
+    "key": "Night light",
     "description": "Night light",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:nightlight"
+    "uri": "ms-settings:nightlight",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "a3a7e8af-7a7e-4008-9941-32d5227e4b82",
     "name": "Projection settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Projection settings",
+    "key": "Projection settings",
     "description": "Projection settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:project"
+    "uri": "ms-settings:project",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "a44af08a-2091-4aed-9fe6-74e01c185332",
     "name": "Shared experience settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Shared experience settings",
+    "key": "Shared experience settings",
     "description": "Shared experience settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:crossdevice"
+    "uri": "ms-settings:crossdevice",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "c13c383a-1cdb-4a4a-9551-612002c4c28b",
-    "name": "Notifications and& actions settings",
+    "name": "Notifications and actions settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Notifications and actions settings | Notifications & actions settings",
+    "key": "Notifications and actions settings",
     "description": "Notifications & actions settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:notifications"
+    "uri": "ms-settings:notifications",
+    "containsAmpersand": true,
+    "containsHyphen": false
   },
   {
     "guid": "0d57358b-529b-4850-a309-b16025299af8",
     "name": "Remote desktop settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Remote desktop settings",
+    "key": "Remote desktop settings",
     "description": "Remote desktop settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:remotedesktop"
+    "uri": "ms-settings:remotedesktop",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "81a38bfe-3968-43b4-b5d3-947631163b76",
-    "name": "Power and& sleep settings",
+    "name": "Power and sleep settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Power and sleep settings | Power & sleep settings",
+    "key": "Power and sleep settings",
     "description": "Power & sleep settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:powersleep"
+    "uri": "ms-settings:powersleep",
+    "containsAmpersand": true,
+    "containsHyphen": false
   },
   {
     "guid": "59b4b9dd-cc11-448f-a386-737d89411ffe",
     "name": "Sound settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Sound settings",
+    "key": "Sound settings",
     "description": "Sound settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:sound"
+    "uri": "ms-settings:sound",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "576a8806-e8ed-438e-a91d-564c321c6f59",
     "name": "Storage settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Storage settings",
+    "key": "Storage settings",
     "description": "Storage settings",
     "caption": "System",
-    "isEnabled": true,
-    "uri": "ms-settings:storagesense"
+    "uri": "ms-settings:storagesense",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "418be13c-80de-4e74-9793-f669f14dbae3",
-    "name": "Date and& time settings",
+    "name": "Date and time settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Date and time settings | Date & time settings",
+    "key": "Date and time settings",
     "description": "Date & time settings",
     "caption": "Time and Language",
-    "isEnabled": true,
-    "uri": "ms-settings:dateandtime"
+    "uri": "ms-settings:dateandtime",
+    "containsAmpersand": true,
+    "containsHyphen": false
   },
   {
     "guid": "8f3b24d2-ac2f-4e28-9758-b94a64d5d9b2",
     "name": "Region settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Region settings",
+    "key": "Region settings",
     "description": "Region settings",
     "caption": "Time and Language",
-    "isEnabled": true,
-    "uri": "ms-settings:regionformatting"
+    "uri": "ms-settings:regionformatting",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "b9810b89-b5ec-4ccc-a049-4c9aacc2055d",
     "name": "Language settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Language settings",
+    "key": "Language settings",
     "description": "Language settings",
     "caption": "Time and Language",
-    "isEnabled": true,
-    "uri": "ms-settings:keyboard"
+    "uri": "ms-settings:keyboard",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "e3cb092e-9601-4b5c-ad74-2a1118d26ee6",
     "name": "Speech settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Speech settings",
+    "key": "Speech settings",
     "description": "Speech settings",
     "caption": "Time and Language",
-    "isEnabled": true,
-    "uri": "ms-settings:speech"
+    "uri": "ms-settings:speech",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "a40ba49b-c6a7-4d79-aa84-7cc279c20b11",
     "name": "Activation settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Activation settings",
+    "key": "Activation settings",
     "description": "Activation settings",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:activation"
+    "uri": "ms-settings:activation",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "af0f12e6-5ec9-40b3-94e2-edb3370c8236",
     "name": "Backup settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Backup settings",
+    "key": "Backup settings",
     "description": "Backup settings",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:backup"
+    "uri": "ms-settings:backup",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "eb39380e-c328-40d3-9d93-61e0444ff911",
     "name": "Delivery Optimization advanced settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Delivery Optimization advanced settings",
+    "key": "Delivery Optimization advanced settings",
     "description": "Delivery Optimization advanced settings",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:delivery-optimization"
+    "uri": "ms-settings:delivery-optimization",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "4f210f00-1647-47d6-b6be-e89a279e5e7c",
     "name": "Find My Device",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Find My Device",
+    "key": "Find My Device",
     "description": "Find My Device",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:findmydevice"
+    "uri": "ms-settings:findmydevice",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "aa47d68e-531f-4c88-bb05-deb915fde88d",
     "name": "Developer settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Developer settings",
+    "key": "Developer settings",
     "description": "Developer settings",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:developers"
+    "uri": "ms-settings:developers",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "9b2ad7fe-2ec7-4fb6-9a0c-f4dc0ebbfa76",
     "name": "Recovery options",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Recovery options",
+    "key": "Recovery options",
     "description": "Recovery options",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:recovery"
+    "uri": "ms-settings:recovery",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "3cf430e2-5775-411f-b232-63965758f6e0",
     "name": "Troubleshoot settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Troubleshoot settings",
+    "key": "Troubleshoot settings",
     "description": "Troubleshoot settings",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:troubleshoot"
+    "uri": "ms-settings:troubleshoot",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "27013617-38a6-4cd8-a607-1bd4210c8cdb",
     "name": "Windows Security settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Windows Security settings",
+    "key": "Windows Security settings",
     "description": "Windows Security settings",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:windowsdefender"
+    "uri": "ms-settings:windowsdefender",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "033719d7-0c30-4ddc-a6b6-bdee3a306907",
     "name": "Windows Update settings",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Windows Update settings",
+    "key": "Windows Update settings",
     "description": "Windows Update settings",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:windowsupdate"
+    "uri": "ms-settings:windowsupdate",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "3939de15-a4ff-4fbd-8360-0ba351477d2d",
     "name": "Check for updates",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Check for updates",
+    "key": "Check for updates",
     "description": "Check for updates",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:windowsupdate-action"
+    "uri": "ms-settings:windowsupdate-action",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "949a14a6-3192-4958-b962-f32d523c2dc2",
     "name": "Advanced Windows Update options",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Advanced Windows Update options",
+    "key": "Advanced Windows Update options",
     "description": "Advanced Windows Update options",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:windowsupdate-options"
+    "uri": "ms-settings:windowsupdate-options",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "c8614e68-8550-4b7a-a4c5-3145738d2650",
     "name": "Windows Update Restart options/Schedule your restart",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "Windows Update Restart options | Schedule your restart",
+    "key": "Windows Update Restart options | Schedule your restart",
     "description": "Schedule your restart",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:windowsupdate-restartoptions"
+    "uri": "ms-settings:windowsupdate-restartoptions",
+    "containsAmpersand": false,
+    "containsHyphen": false
   },
   {
     "guid": "289f08d4-5977-4187-9963-3f9faacf03b2",
     "name": "View your Update history",
     "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
-    "keyphrase": "View your Update history",
+    "key": "View your Update history",
     "description": "View your Update history",
     "caption": "Update and Security",
-    "isEnabled": true,
-    "uri": "ms-settings:windowsupdate-history"
+    "uri": "ms-settings:windowsupdate-history",
+    "containsAmpersand": false,
+    "containsHyphen": false
   }
 ]
