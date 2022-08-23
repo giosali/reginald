@@ -35,10 +35,10 @@
             brush = null;
             if (expression.StartsWith('#'))
             {
-                expression = expression.Substring(1);
+                expression = expression[1..];
             }
 
-            if (!int.TryParse(expression, NumberStyles.HexNumber, null, out _))
+            if (expression.Length != 6 || !int.TryParse(expression, NumberStyles.HexNumber, null, out _))
             {
                 return false;
             }
