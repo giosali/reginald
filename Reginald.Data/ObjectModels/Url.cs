@@ -9,8 +9,6 @@ namespace Reginald.Data.ObjectModels
 
     public class Url : ObjectModel, ISingleProducer<SearchResult>
     {
-        private string _input;
-
         public bool Check(string input)
         {
             string uriString = input.Trim().Replace(" ", "%20");
@@ -27,7 +25,7 @@ namespace Reginald.Data.ObjectModels
             bool isTld = uriString.ContainsTopLevelDomain();
             if (isTld)
             {
-                _input = input;
+                Description = input;
             }
 
             return isTld;
@@ -35,14 +33,14 @@ namespace Reginald.Data.ObjectModels
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, Icon, _input.PrependScheme());
+            SearchResult result = new(Caption, Icon, Description.PrependScheme());
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
         }
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            ProcessUtility.GoTo(Uri.IsWellFormedUriString(_input, UriKind.Absolute) ? _input : _input.PrependScheme());
+            ProcessUtility.GoTo(Uri.IsWellFormedUriString(Description, UriKind.Absolute) ? Description : Description.PrependScheme());
         }
     }
 }
