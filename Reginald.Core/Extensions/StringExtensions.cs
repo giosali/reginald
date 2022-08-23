@@ -181,5 +181,15 @@
             StringComparison comparison = StringComparison.InvariantCultureIgnoreCase;
             return expression.StartsWith("https://", comparison) || expression.StartsWith("http://", comparison);
         }
+
+        public static char TryElementAt(this string str, int index)
+        {
+            if (str is null || index >= str.Length || index < 0)
+            {
+                return default(char);
+            }
+
+            return str[index];
+        }
     }
 }
