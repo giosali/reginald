@@ -1,5 +1,6 @@
 ﻿namespace Reginald.Core.Helpers
 {
+    using System;
     using System.Globalization;
     using System.Reflection;
     using System.Windows.Media;
@@ -33,17 +34,30 @@
         public static bool TryFromString(string expression, out Brush brush)
         {
             brush = null;
+            if (expression.Length < 6 || expression.Length > 7)
+            {
+                return false;
+            }
+
             if (expression.StartsWith('#'))
             {
                 expression = expression[1..];
             }
 
-            if (expression.Length != 6 || !int.TryParse(expression, NumberStyles.HexNumber, null, out _))
+            if (!int.TryParse(expression, NumberStyles.HexNumber, null, out _))
             {
                 return false;
             }
 
-            brush = (Brush)new BrushConverter().ConvertFromString(expression);
+            try
+            {
+                brush = (Brush)new BrushConverter().ConvertFromString(expression);
+            }
+            catch (NotSupportedException)
+            {
+                return false;
+            }
+
             return true;
         }
 
