@@ -27,7 +27,7 @@
         public static IEnumerable<ShellObject> GetApplications()
         {
             IKnownFolder applicationsFolder = KnownFolderHelper.FromKnownFolderId(ApplicationsFolderGuid);
-            return applicationsFolder.Where(application => !application.Name.EndsWith(".url", StringComparison.InvariantCulture) && !application.ParsingName.EndsWith("url", StringComparison.InvariantCulture));
+            return applicationsFolder.Where(application => !application.Name.EndsWith(".url", StringComparison.OrdinalIgnoreCase) && !application.ParsingName.EndsWith("url", StringComparison.OrdinalIgnoreCase));
         }
     }
 }
