@@ -32,6 +32,7 @@
     <None Remove="Resources\Keywords.json" />
     <None Remove="Resources\Link.json" />
     <None Remove="Resources\MicrosoftSettings.json" />
+    <None Remove="Resources\Quit.json" />
     <None Remove="Resources\Recycle.json" />
     <None Remove="Resources\Themes.json" />
     <None Remove="Resources\Timer.json" />
@@ -155,6 +156,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\MicrosoftSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Quit.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Recycle.json">
