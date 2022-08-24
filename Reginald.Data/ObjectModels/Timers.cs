@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Reginald.Data.Inputs;
+    using Reginald.Data.Drawing;
 
     public class Timers : ObjectModel, IMultipleProducer<SearchResult>
     {
@@ -59,7 +60,7 @@
         {
             SearchResult result = (SearchResult)sender;
             result.Caption = AltCaption;
-            result.Icon = AltIcon;
+            result.Icon = new Icon(AltIcon);
         }
 
         private static void OnElapsed(object sender, EventArgs e)

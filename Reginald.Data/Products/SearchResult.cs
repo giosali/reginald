@@ -1,5 +1,7 @@
 ﻿namespace Reginald.Data.Products
 {
+    using System.Windows.Media.Imaging;
+    using Reginald.Data.Drawing;
     using Reginald.Data.Inputs;
 
     public class SearchResult : KeyboardInput
@@ -8,18 +10,25 @@
 
         private string _description;
 
-        private string _icon;
+        private Icon _icon;
 
-        public SearchResult(string caption, string icon)
+        public SearchResult(string caption, string iconPath)
         {
             Caption = caption;
-            Icon = icon;
+            Icon = new Icon(iconPath);
         }
 
-        public SearchResult(string caption, string icon, string description)
+        public SearchResult(string caption, string iconPath, string description)
         {
             Caption = caption;
-            Icon = icon;
+            Icon = new Icon(iconPath);
+            Description = description;
+        }
+
+        public SearchResult(string caption, BitmapSource bitmapSource, string description)
+        {
+            Caption = caption;
+            Icon = new Icon(bitmapSource);
             Description = description;
         }
 
@@ -43,7 +52,7 @@
             }
         }
 
-        public string Icon
+        public Icon Icon
         {
             get => _icon;
             set

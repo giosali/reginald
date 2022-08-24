@@ -9,6 +9,7 @@
     using System.Linq;
     using Reginald.Data.Inputs;
     using Reginald.Services.Notifications;
+    using Reginald.Data.Drawing;
 
     public class Timer : ObjectModel, ICloneable, ISingleProducer<SearchResult>
     {
@@ -166,7 +167,7 @@
         {
             SearchResult result = (SearchResult)sender;
             result.Caption = _message;
-            result.Icon = Icon;
+            result.Icon = new Icon(Icon);
         }
 
         private void OnElapsed(object sender, EventArgs e)

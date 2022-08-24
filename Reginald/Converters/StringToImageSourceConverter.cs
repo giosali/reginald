@@ -4,6 +4,7 @@
     using System.Globalization;
     using System.Windows.Data;
     using System.Windows.Media;
+    using Reginald.Data.Drawing;
     using Reginald.Services.Helpers;
 
     [ValueConversion(typeof(string), typeof(ImageSource))]
@@ -11,18 +12,42 @@
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string str = (string)value;
-            if (str.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+            if (value is not Icon icon)
             {
-                return BitmapSourceHelper.ExtractAssociatedBitmapSource(str);
+                return null;
             }
 
-            if (!uint.TryParse(str, out uint result))
+            string iconPath = icon.Path;
+            if (iconPath is null)
             {
-                return value;
+                return icon.Source;
+            }
+
+            if (iconPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+            {
+                return BitmapSourceHelper.ExtractAssociatedBitmapSource(iconPath);
+            }
+
+            if (!uint.TryParse(iconPath, out uint result))
+            {
+                return iconPath;
             }
 
             return BitmapSourceHelper.GetStockIcon(result);
+
+
+            // string str = (string)value;
+            // if (str.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+            // {
+            //     return BitmapSourceHelper.ExtractAssociatedBitmapSource(str);
+            // }
+
+            // if (!uint.TryParse(str, out uint result))
+            // {
+            //     return value;
+            // }
+
+            // return BitmapSourceHelper.GetStockIcon(result);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -7,6 +7,7 @@ namespace Reginald.Data.ObjectModels
     using Reginald.Services.Utilities;
     using System;
     using System.Threading.Tasks;
+    using Reginald.Data.Drawing;
 
     public class Recycle : ObjectModel, ISingleProducer<SearchResult>
     {
@@ -63,7 +64,7 @@ namespace Reginald.Data.ObjectModels
                 _hasBeenPrompted = true;
                 SearchResult result = (SearchResult)sender;
                 result.Caption = EnterCaption;
-                result.Icon = EnterIcon;
+                result.Icon = new Icon(EnterIcon);
                 return;
             }
 
