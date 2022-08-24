@@ -11,7 +11,13 @@
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!uint.TryParse((string)value, out uint result))
+            string str = (string)value;
+            if (str.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+            {
+                return BitmapSourceHelper.ExtractAssociatedBitmapSource(str);
+            }
+
+            if (!uint.TryParse(str, out uint result))
             {
                 return value;
             }
