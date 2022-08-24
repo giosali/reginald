@@ -7,8 +7,8 @@
     using Reginald.Data.Drawing;
     using Reginald.Services.Helpers;
 
-    [ValueConversion(typeof(string), typeof(ImageSource))]
-    internal class StringToImageSourceConverter : IValueConverter
+    [ValueConversion(typeof(Icon), typeof(ImageSource))]
+    internal class IconToImageSourceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
