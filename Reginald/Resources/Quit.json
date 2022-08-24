@@ -1,0 +1,10 @@
+{
+  "guid": "9151d022-fa7d-4316-992f-b97804171414",
+  "name": "Quit",
+  "key": "quit",
+  "icon": "pack://application:,,,/Reginald;component/Images/Commands/quit.png",
+  "format": "Quit {0}",
+  "caption": "Quit Application",
+  "isEnabled": true,
+  "displayDescription": "Quits an application"
+}
