@@ -1,52 +1,21 @@
 namespace Reginald.Data.ObjectModels
 {
     using System;
-    using Caliburn.Micro;
     using Newtonsoft.Json;
 
-    public abstract class ObjectModel : PropertyChangedBase
+    public abstract class ObjectModel
     {
-        private string _caption;
-
-        private string _description;
-
-        private string _icon;
-
         [JsonProperty("caption")]
-        public string Caption
-        {
-            get => _caption;
-            set
-            {
-                _caption = value;
-                NotifyOfPropertyChange(() => Caption);
-            }
-        }
+        public string Caption { get; set; }
 
         [JsonProperty("description")]
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                _description = value;
-                NotifyOfPropertyChange(() => Description);
-            }
-        }
+        public string Description { get; set; }
 
         [JsonProperty("guid")]
         public Guid Guid { get; set; }
 
         [JsonProperty("icon")]
-        public string Icon
-        {
-            get => _icon;
-            set
-            {
-                _icon = value;
-                NotifyOfPropertyChange(() => Icon);
-            }
-        }
+        public string Icon { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
