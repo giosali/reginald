@@ -33,7 +33,7 @@ namespace Reginald.Data.ObjectModels
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, Icon, Description.PrependScheme());
+            SearchResult result = new(Caption, IconPath, Description.PrependScheme());
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
         }

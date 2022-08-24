@@ -2,7 +2,7 @@
   {
     "guid": "927e078c-03d3-40ca-993c-982527ab8ab8",
     "name": "Access work or school",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Access work or school",
     "description": "Access work or school",
     "caption": "Accounts",
@@ -13,7 +13,7 @@
   {
     "guid": "1f3466d2-2c68-425c-9acf-b65a0d8dbe9c",
     "name": "Email and accounts",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Email and accounts",
     "description": "Email & accounts",
     "caption": "Accounts",
@@ -24,7 +24,7 @@
   {
     "guid": "6311f671-734e-4430-bfd9-7920c294ffc9",
     "name": "Other users",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Other users",
     "description": "Other users",
     "caption": "Accounts",
@@ -35,7 +35,7 @@
   {
     "guid": "08dca49b-7152-41e0-9052-64c45c025ba1",
     "name": "Sign-in options",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Sign in options",
     "description": "Sign-in options",
     "caption": "Accounts",
@@ -46,7 +46,7 @@
   {
     "guid": "25204a42-f5c9-4004-b83e-33273d14a386",
     "name": "Dynamic lock",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Dynamic lock",
     "description": "Dynamic lock",
     "caption": "Accounts",
@@ -57,7 +57,7 @@
   {
     "guid": "3a921071-e9ae-45a7-adca-ec705477f6d3",
     "name": "Sync your settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Sync your settings",
     "description": "Sync your settings",
     "caption": "Accounts",
@@ -68,7 +68,7 @@
   {
     "guid": "5566bf9b-20f6-4a41-a439-926320cfa1a2",
     "name": "Set up face sign-in",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Set up face sign in",
     "description": "Set up face sign-in",
     "caption": "Accounts",
@@ -79,7 +79,7 @@
   {
     "guid": "934c2938-d10c-4251-ac33-de3958c277a3",
     "name": "Set up fingerprint sign-in",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Set up fingerprint sign in",
     "description": "Set up fingerprint sign-in",
     "caption": "Accounts",
@@ -90,7 +90,7 @@
   {
     "guid": "033b2d56-706c-4d88-a126-554ccd560764",
     "name": "Your account info",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Your account info",
     "description": "Your account info",
     "caption": "Accounts",
@@ -101,7 +101,7 @@
   {
     "guid": "7e917137-a277-43a7-9ee4-c53cf6a89810",
     "name": "Apps and features",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Apps and features",
     "description": "Apps & features",
     "caption": "Apps",
@@ -112,7 +112,7 @@
   {
     "guid": "9c5da158-0f78-43a5-a1f1-af6b51aa392c",
     "name": "Add or remove programs",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Add or remove programs",
     "description": "Add or remove programs",
     "caption": "Apps",
@@ -123,7 +123,7 @@
   {
     "guid": "eb3d6315-dae4-4c1f-846b-e97e8936317e",
     "name": "Choose a default app for each website",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Choose a default app for each website",
     "description": "Choose a default app for each website",
     "caption": "Apps",
@@ -134,7 +134,7 @@
   {
     "guid": "faea2c9c-1b68-4985-8108-1540d2a459b3",
     "name": "Manage optional features",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Manage optional features",
     "description": "Manage optional features",
     "caption": "Apps",
@@ -145,7 +145,7 @@
   {
     "guid": "dd8c58da-3e9b-4062-a243-7a7cd0e5a972",
     "name": "Offline maps",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Offline maps",
     "description": "Offline maps",
     "caption": "Apps",
@@ -156,7 +156,7 @@
   {
     "guid": "74655267-3206-417a-a270-eb677a6e7f7f",
     "name": "Download maps for offline use",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Download maps for offline use",
     "description": "Download maps for offline use",
     "caption": "Apps",
@@ -167,7 +167,7 @@
   {
     "guid": "6efb8db7-c64e-4da9-91f9-c00acece8975",
     "name": "Startup Apps",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Startup Apps",
     "description": "Startup Apps",
     "caption": "Apps",
@@ -178,7 +178,7 @@
   {
     "guid": "9622106b-4a75-4bb7-a9b7-4f754d711371",
     "name": "Video playback",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Video playback",
     "description": "Video playback",
     "caption": "Apps",
@@ -189,7 +189,7 @@
   {
     "guid": "533098f2-cef8-4a34-aaf0-74bab0452cf3",
     "name": "AutoPlay settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "AutoPlay settings",
     "description": "AutoPlay settings",
     "caption": "Devices",
@@ -200,7 +200,7 @@
   {
     "guid": "4fdf8e2f-cb27-4a77-817f-21bad7ee5cd6",
     "name": "Bluetooth and other devices settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Bluetooth and other devices settings",
     "description": "Bluetooth and other devices settings",
     "caption": "Devices",
@@ -211,7 +211,7 @@
   {
     "guid": "a11b0c3e-24ee-41b3-b5ae-7ce4c9cbda70",
     "name": "Mouse settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Mouse settings",
     "description": "Mouse settings",
     "caption": "Devices",
@@ -222,7 +222,7 @@
   {
     "guid": "d06a7057-21d6-4093-a049-c22926ca68cb",
     "name": "Pen and Windows Ink settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Pen and Windows Ink settings",
     "description": "Pen & Windows Ink settings",
     "caption": "Devices",
@@ -233,7 +233,7 @@
   {
     "guid": "f1dd5ec3-adfa-44f0-8cec-9c544d204b3a",
     "name": "Printers and scanners",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Printers and scanners",
     "description": "Printers and scanners",
     "caption": "Devices",
@@ -244,7 +244,7 @@
   {
     "guid": "cb0bcd92-6554-4c73-8e3f-7b5e1fabddc0",
     "name": "Typing settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Typing settings",
     "description": "Typing settings",
     "caption": "Devices",
@@ -255,7 +255,7 @@
   {
     "guid": "cfd822ab-6835-4968-9b1c-731848b08e9a",
     "name": "USB settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "USB settings",
     "description": "USB settings",
     "caption": "Devices",
@@ -266,7 +266,7 @@
   {
     "guid": "e639ac46-d71f-4481-a637-d59eb21465c6",
     "name": "Link your phone",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Link your phone",
     "description": "Link your phone",
     "caption": "Devices",
@@ -277,7 +277,7 @@
   {
     "guid": "c44e7372-78ee-43d5-b114-380a8d6d988f",
     "name": "Ease of Access audio settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Ease of Access audio settings",
     "description": "Ease of Access audio settings",
     "caption": "Ease of Access",
@@ -288,7 +288,7 @@
   {
     "guid": "be844b1d-92f5-4bee-a2b0-d2bba7ef7d56",
     "name": "Closed captions",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Closed captions",
     "description": "Closed captions",
     "caption": "Ease of Access",
@@ -299,7 +299,7 @@
   {
     "guid": "52086279-ce94-470d-bbea-d64871c41839",
     "name": "Color filters",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Color filters",
     "description": "Color filters",
     "caption": "Ease of Access",
@@ -310,7 +310,7 @@
   {
     "guid": "31e6b56a-7ba8-44d3-bece-c256c564d2aa",
     "name": "Ease of Access display settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Ease of Access display settings",
     "description": "Ease of Access display settings",
     "caption": "Ease of Access",
@@ -321,7 +321,7 @@
   {
     "guid": "9a4e1cf4-a32d-415f-9514-0e5b51685364",
     "name": "Eye control settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Eye control settings",
     "description": "Eye control settings",
     "caption": "Ease of Access",
@@ -332,7 +332,7 @@
   {
     "guid": "4158cb3d-c600-4ae5-86e8-84f6a1f8e124",
     "name": "Font settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Font settings",
     "description": "Font settings",
     "caption": "Ease of Access",
@@ -343,7 +343,7 @@
   {
     "guid": "8650a948-c4c8-40ec-b119-0861aa957502",
     "name": "Ease of Access contrast settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Ease of Access contrast settings",
     "description": "Ease of Access contrast settings",
     "caption": "Ease of Access",
@@ -354,7 +354,7 @@
   {
     "guid": "8c303d53-37f9-4edb-a8fc-c0cdacf53d85",
     "name": "Ease of Access keyboard settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Ease of Access keyboard settings",
     "description": "Ease of Access keyboard settings",
     "caption": "Ease of Access",
@@ -365,7 +365,7 @@
   {
     "guid": "3f5c7c81-dcbb-4625-a1fb-14be542ce22a",
     "name": "Ease of Access Magnifier settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Ease of Access Magnifier settings",
     "description": "Ease of Access Magnifier settings",
     "caption": "Ease of Access",
@@ -376,7 +376,7 @@
   {
     "guid": "71b52829-e75b-4cc2-967f-e57a9c390fa8",
     "name": "Ease of Access mouse settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Ease of Access mouse settings",
     "description": "Ease of Access mouse settings",
     "caption": "Ease of Access",
@@ -387,7 +387,7 @@
   {
     "guid": "803c2365-4dab-46fe-af13-d9e92de741b0",
     "name": "Ease of Access speech settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Ease of Access speech settings",
     "description": "Ease of Access speech settings",
     "caption": "Ease of Access",
@@ -398,7 +398,7 @@
   {
     "guid": "6cb4380b-b7ad-41c5-a902-9fd59ac776af",
     "name": "Game bar settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Game bar settings",
     "description": "Game bar settings",
     "caption": "Gaming",
@@ -409,7 +409,7 @@
   {
     "guid": "348fc079-189a-4b8d-b818-4585ad45d9a2",
     "name": "Game DVR Captures settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Game DVR Captures settings",
     "description": "Captures settings",
     "caption": "Gaming",
@@ -420,7 +420,7 @@
   {
     "guid": "a65146fd-c498-4a22-8f9f-1a8e3c909b62",
     "name": "Game Mode settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Game Mode settings",
     "description": "Game Mode settings",
     "caption": "Gaming",
@@ -431,7 +431,7 @@
   {
     "guid": "64f4d844-646b-4cbe-9e70-2aeda23ef7a2",
     "name": "Xbox networking",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Xbox networking",
     "description": "Xbox networking",
     "caption": "Gaming",
@@ -442,7 +442,7 @@
   {
     "guid": "7a0cf71f-463c-472c-8a33-bb5a73419250",
     "name": "Turn airplane mode on or off",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Turn airplane mode on or off",
     "description": "Turn airplane mode on or off",
     "caption": "Network and Internet",
@@ -453,7 +453,7 @@
   {
     "guid": "ce105c29-6da3-46cc-bda1-7b4542814208",
     "name": "Data usage overview",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Data usage overview",
     "description": "Data usage overview",
     "caption": "Network and Internet",
@@ -464,7 +464,7 @@
   {
     "guid": "8d775d05-df2f-4af3-abd7-5be34d777938",
     "name": "Dial-up settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Dial up settings",
     "description": "Dial-up settings",
     "caption": "Network and Internet",
@@ -475,7 +475,7 @@
   {
     "guid": "0be457a8-9ed3-4529-84ee-b5e4be4cee69",
     "name": "Wi-Fi settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Wi Fi settings",
     "description": "Wi-Fi settings",
     "caption": "Network and Internet",
@@ -486,7 +486,7 @@
   {
     "guid": "3d3f0929-e576-44ea-b0d0-71cd25005de0",
     "name": "Mobile hotspot",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Mobile hotspot",
     "description": "Mobile hotspot",
     "caption": "Network and Internet",
@@ -497,7 +497,7 @@
   {
     "guid": "8a77083c-e691-4690-b373-9dca07a25217",
     "name": "Proxy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Proxy settings",
     "description": "Proxy settings",
     "caption": "Network and Internet",
@@ -508,7 +508,7 @@
   {
     "guid": "c1d8bb62-618f-48bc-b927-ba6ccb60b50a",
     "name": "Network status",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Network status",
     "description": "Network status",
     "caption": "Network and Internet",
@@ -519,7 +519,7 @@
   {
     "guid": "bd7dd35a-e6ad-4dfd-8422-dd0076001770",
     "name": "VPN settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "VPN settings",
     "description": "VPN settings",
     "caption": "Network and Internet",
@@ -530,7 +530,7 @@
   {
     "guid": "557da6aa-6fea-454e-a1c2-6f9871e57e79",
     "name": "Choose your desktop Background image settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Choose your desktop Background image settings",
     "description": "Choose your desktop background",
     "caption": "Personalization",
@@ -541,7 +541,7 @@
   {
     "guid": "360fd938-cdca-4d53-8cd4-b6e73beb64f1",
     "name": "Choose which folders appear on Start",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Choose which folders appear on Start",
     "description": "Background image settings",
     "caption": "Personalization",
@@ -552,7 +552,7 @@
   {
     "guid": "d7bfe156-df5e-49f5-8bb2-16e6f6908383",
     "name": "Choose your accent color",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Choose your accent color",
     "description": "Choose your accent color",
     "caption": "Personalization",
@@ -563,7 +563,7 @@
   {
     "guid": "575f99ca-aee7-447f-860d-d05d6737588e",
     "name": "Lock screen settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Lock screen settings",
     "description": "Lock screen settings",
     "caption": "Personalization",
@@ -574,7 +574,7 @@
   {
     "guid": "f4812103-c52b-4b26-98ef-7e4abffb1cb3",
     "name": "Personalization settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Personalization settings",
     "description": "Personalization settings",
     "caption": "Personalization",
@@ -585,7 +585,7 @@
   {
     "guid": "6ffffa77-207f-4dc0-b7e5-9dff7cb62f27",
     "name": "Start settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Start settings",
     "description": "Start settings",
     "caption": "Personalization",
@@ -596,7 +596,7 @@
   {
     "guid": "2439d465-a4b2-404b-a424-8d26915b4761",
     "name": "Taskbar settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Taskbar settings",
     "description": "Taskbar settings",
     "caption": "Personalization",
@@ -607,7 +607,7 @@
   {
     "guid": "ccb136dc-bd28-46b4-90a2-cf390cc435cd",
     "name": "Themes and related settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Themes and related settings",
     "description": "Themes and related settings",
     "caption": "Personalization",
@@ -618,7 +618,7 @@
   {
     "guid": "57c2717c-bd8f-41fc-be88-cfd04145c07e",
     "name": "Activity history privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Activity history privacy settings",
     "description": "Activity history privacy settings",
     "caption": "Privacy",
@@ -629,7 +629,7 @@
   {
     "guid": "265ad256-2b19-49ba-9532-9128a8fb2c86",
     "name": "App diagnositics privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "App diagnositics privacy settings",
     "description": "App diagnositics privacy settings",
     "caption": "Privacy",
@@ -640,7 +640,7 @@
   {
     "guid": "2ebe3aee-7348-440a-82af-e65eea4730af",
     "name": "Automatic file downloads privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Automatic file downloads privacy settings",
     "description": "Automatic file downloads privacy settings",
     "caption": "Privacy",
@@ -651,7 +651,7 @@
   {
     "guid": "eea11b8d-2387-44fc-974b-dc24c0ada7e5",
     "name": "Background apps",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Background apps",
     "description": "Background apps",
     "caption": "Privacy",
@@ -662,7 +662,7 @@
   {
     "guid": "62bd2ced-97fd-4b2f-a436-650098e84acd",
     "name": "Calendar privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Calendar privacy settings",
     "description": "Calendar privacy settings",
     "caption": "Privacy",
@@ -673,7 +673,7 @@
   {
     "guid": "5b67b203-93e2-4614-9573-0838a5a4057b",
     "name": "Call history privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Call history privacy settings",
     "description": "Call history privacy settings",
     "caption": "Privacy",
@@ -684,7 +684,7 @@
   {
     "guid": "38e9d972-7076-4e07-9a75-ff8905598106",
     "name": "Camera privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Camera privacy settings",
     "description": "Camera privacy settings",
     "caption": "Privacy",
@@ -695,7 +695,7 @@
   {
     "guid": "8457ff61-47e4-4c55-aeaa-b24f54af3b6f",
     "name": "Contacts privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Contacts privacy settings",
     "description": "Contacts privacy settings",
     "caption": "Privacy",
@@ -706,7 +706,7 @@
   {
     "guid": "000438b6-ccfb-4d46-983c-dd20e8b8f5b3",
     "name": "Documents library privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Documents library privacy settings",
     "description": "Documents library privacy settings",
     "caption": "Privacy",
@@ -717,7 +717,7 @@
   {
     "guid": "1cb59712-9bb2-4537-9c5b-f899199005c3",
     "name": "Email privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Email privacy settings",
     "description": "Email privacy settings",
     "caption": "Privacy",
@@ -728,7 +728,7 @@
   {
     "guid": "c022ff84-92f9-4d6c-b0a6-c19ee34d3901",
     "name": "Diagnostics and feedback settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Diagnostics and feedback settings",
     "description": "Diagnostics & feedback settings",
     "caption": "Privacy",
@@ -739,7 +739,7 @@
   {
     "guid": "37e8df58-bfdd-44de-b2b2-2763efb8ec2f",
     "name": "File system privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "File system privacy settings",
     "description": "File system privacy settings",
     "caption": "Privacy",
@@ -750,7 +750,7 @@
   {
     "guid": "aeecfdf1-3101-411d-8dbc-fe5330bb77d6",
     "name": "Inking and typing personalization privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Inking and typing personalization privacy settings",
     "description": "Inking & typing personalization privacy settings",
     "caption": "Privacy",
@@ -761,7 +761,7 @@
   {
     "guid": "46b8416a-2062-4645-81c9-39d377eada73",
     "name": "Location privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Location privacy settings",
     "description": "Location privacy settings",
     "caption": "Privacy",
@@ -772,7 +772,7 @@
   {
     "guid": "8640f27e-8660-4f82-a26f-ed30d0318c1d",
     "name": "Messaging privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Messaging privacy settings",
     "description": "Messaging privacy settings",
     "caption": "Privacy",
@@ -783,7 +783,7 @@
   {
     "guid": "e295593f-a8e1-426a-bff7-2a6193561673",
     "name": "Microphone privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Microphone privacy settings",
     "description": "Microphone privacy settings",
     "caption": "Privacy",
@@ -794,7 +794,7 @@
   {
     "guid": "61c28909-fef7-47cf-9844-d437d4a60252",
     "name": "Notifications privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Notifications privacy settings",
     "description": "Notifications privacy settings",
     "caption": "Privacy",
@@ -805,7 +805,7 @@
   {
     "guid": "9aa598c0-ef28-4be3-806d-98d46bb1bc79",
     "name": "Device privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Device privacy settings",
     "description": "Device privacy settings",
     "caption": "Privacy",
@@ -816,7 +816,7 @@
   {
     "guid": "c273fe7d-0f6e-4ebc-9333-738a3023204d",
     "name": "Phone calls privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Phone calls privacy settings",
     "description": "Phone calls privacy settings",
     "caption": "Privacy",
@@ -827,7 +827,7 @@
   {
     "guid": "0d946840-702b-4f61-b18d-566473a9034e",
     "name": "Pictures library privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Pictures library privacy settings",
     "description": "Pictures library privacy settings",
     "caption": "Privacy",
@@ -838,7 +838,7 @@
   {
     "guid": "0126bc2c-971b-4388-89b8-032a2fa899ec",
     "name": "Radio privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Radio privacy settings",
     "description": "Radio privacy settings",
     "caption": "Privacy",
@@ -849,7 +849,7 @@
   {
     "guid": "f7daae8d-f0c6-4c89-8b2c-dd5b3dd7988a",
     "name": "Speech privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Speech privacy settings",
     "description": "Speech privacy settings",
     "caption": "Privacy",
@@ -860,7 +860,7 @@
   {
     "guid": "c83c902a-3fd5-4b8f-a323-47a9090e2f54",
     "name": "Task privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Task privacy settings",
     "description": "Task privacy settings",
     "caption": "Privacy",
@@ -871,7 +871,7 @@
   {
     "guid": "d54dc0a8-e0e0-4058-987b-40b7fe5b7f96",
     "name": "Videos library privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Videos library privacy settings",
     "description": "Videos library privacy settings",
     "caption": "Privacy",
@@ -882,7 +882,7 @@
   {
     "guid": "003a84a7-4e98-4a53-aa04-c38d8f219345",
     "name": "Voice activation privacy settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Voice activation privacy settings",
     "description": "Voice activation privacy settings",
     "caption": "Privacy",
@@ -893,7 +893,7 @@
   {
     "guid": "37bbb0ff-28db-4085-99a8-d9653b1c3ffb",
     "name": "About your PC",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "About your PC",
     "description": "About your PC",
     "caption": "System",
@@ -904,7 +904,7 @@
   {
     "guid": "277681f1-3c59-49db-9b92-111d50198710",
     "name": "Sound mixer options App volume",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Sound mixer options App volume",
     "description": "Sound mixer options",
     "caption": "System",
@@ -915,7 +915,7 @@
   {
     "guid": "ae828a13-8156-43e8-a29f-43f311fad03f",
     "name": "Clipboard settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Clipboard settings",
     "description": "Clipboard settings",
     "caption": "System",
@@ -926,7 +926,7 @@
   {
     "guid": "fd2719b8-3fab-4ea1-a98c-8af34797894b",
     "name": "Display settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Display settings",
     "description": "Display settings",
     "caption": "System",
@@ -937,7 +937,7 @@
   {
     "guid": "be073516-fdbb-4a4d-96c5-0c8b5c1ac57d",
     "name": "Default save locations",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Default save locations",
     "description": "Default save locations",
     "caption": "System",
@@ -948,7 +948,7 @@
   {
     "guid": "385b674d-f5e8-4417-bda0-e916f0232d92",
     "name": "Focus assist",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Focus assist",
     "description": "Focus assist",
     "caption": "System",
@@ -959,7 +959,7 @@
   {
     "guid": "f85443fd-3b85-4f1c-abbe-ca0d87411d5c",
     "name": "Graphics settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Graphics settings",
     "description": "Graphics settings",
     "caption": "System",
@@ -970,7 +970,7 @@
   {
     "guid": "6ef635b0-a08e-467b-8447-d2b540daef9a",
     "name": "Multitasking settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Multitasking settings",
     "description": "Multitasking settings",
     "caption": "System",
@@ -981,7 +981,7 @@
   {
     "guid": "4c17a7f7-e1b6-4fe0-9170-5226e6883eec",
     "name": "Night light",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Night light",
     "description": "Night light",
     "caption": "System",
@@ -992,7 +992,7 @@
   {
     "guid": "a3a7e8af-7a7e-4008-9941-32d5227e4b82",
     "name": "Projection settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Projection settings",
     "description": "Projection settings",
     "caption": "System",
@@ -1003,7 +1003,7 @@
   {
     "guid": "a44af08a-2091-4aed-9fe6-74e01c185332",
     "name": "Shared experience settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Shared experience settings",
     "description": "Shared experience settings",
     "caption": "System",
@@ -1014,7 +1014,7 @@
   {
     "guid": "c13c383a-1cdb-4a4a-9551-612002c4c28b",
     "name": "Notifications and actions settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Notifications and actions settings",
     "description": "Notifications & actions settings",
     "caption": "System",
@@ -1025,7 +1025,7 @@
   {
     "guid": "0d57358b-529b-4850-a309-b16025299af8",
     "name": "Remote desktop settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Remote desktop settings",
     "description": "Remote desktop settings",
     "caption": "System",
@@ -1036,7 +1036,7 @@
   {
     "guid": "81a38bfe-3968-43b4-b5d3-947631163b76",
     "name": "Power and sleep settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Power and sleep settings",
     "description": "Power & sleep settings",
     "caption": "System",
@@ -1047,7 +1047,7 @@
   {
     "guid": "59b4b9dd-cc11-448f-a386-737d89411ffe",
     "name": "Sound settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Sound settings",
     "description": "Sound settings",
     "caption": "System",
@@ -1058,7 +1058,7 @@
   {
     "guid": "576a8806-e8ed-438e-a91d-564c321c6f59",
     "name": "Storage settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Storage settings",
     "description": "Storage settings",
     "caption": "System",
@@ -1069,7 +1069,7 @@
   {
     "guid": "418be13c-80de-4e74-9793-f669f14dbae3",
     "name": "Date and time settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Date and time settings",
     "description": "Date & time settings",
     "caption": "Time and Language",
@@ -1080,7 +1080,7 @@
   {
     "guid": "8f3b24d2-ac2f-4e28-9758-b94a64d5d9b2",
     "name": "Region settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Region settings",
     "description": "Region settings",
     "caption": "Time and Language",
@@ -1091,7 +1091,7 @@
   {
     "guid": "b9810b89-b5ec-4ccc-a049-4c9aacc2055d",
     "name": "Language settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Language settings",
     "description": "Language settings",
     "caption": "Time and Language",
@@ -1102,7 +1102,7 @@
   {
     "guid": "e3cb092e-9601-4b5c-ad74-2a1118d26ee6",
     "name": "Speech settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Speech settings",
     "description": "Speech settings",
     "caption": "Time and Language",
@@ -1113,7 +1113,7 @@
   {
     "guid": "a40ba49b-c6a7-4d79-aa84-7cc279c20b11",
     "name": "Activation settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Activation settings",
     "description": "Activation settings",
     "caption": "Update and Security",
@@ -1124,7 +1124,7 @@
   {
     "guid": "af0f12e6-5ec9-40b3-94e2-edb3370c8236",
     "name": "Backup settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Backup settings",
     "description": "Backup settings",
     "caption": "Update and Security",
@@ -1135,7 +1135,7 @@
   {
     "guid": "eb39380e-c328-40d3-9d93-61e0444ff911",
     "name": "Delivery Optimization advanced settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Delivery Optimization advanced settings",
     "description": "Delivery Optimization advanced settings",
     "caption": "Update and Security",
@@ -1146,7 +1146,7 @@
   {
     "guid": "4f210f00-1647-47d6-b6be-e89a279e5e7c",
     "name": "Find My Device",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Find My Device",
     "description": "Find My Device",
     "caption": "Update and Security",
@@ -1157,7 +1157,7 @@
   {
     "guid": "aa47d68e-531f-4c88-bb05-deb915fde88d",
     "name": "Developer settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Developer settings",
     "description": "Developer settings",
     "caption": "Update and Security",
@@ -1168,7 +1168,7 @@
   {
     "guid": "9b2ad7fe-2ec7-4fb6-9a0c-f4dc0ebbfa76",
     "name": "Recovery options",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Recovery options",
     "description": "Recovery options",
     "caption": "Update and Security",
@@ -1179,7 +1179,7 @@
   {
     "guid": "3cf430e2-5775-411f-b232-63965758f6e0",
     "name": "Troubleshoot settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Troubleshoot settings",
     "description": "Troubleshoot settings",
     "caption": "Update and Security",
@@ -1190,7 +1190,7 @@
   {
     "guid": "27013617-38a6-4cd8-a607-1bd4210c8cdb",
     "name": "Windows Security settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Windows Security settings",
     "description": "Windows Security settings",
     "caption": "Update and Security",
@@ -1201,7 +1201,7 @@
   {
     "guid": "033719d7-0c30-4ddc-a6b6-bdee3a306907",
     "name": "Windows Update settings",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Windows Update settings",
     "description": "Windows Update settings",
     "caption": "Update and Security",
@@ -1212,7 +1212,7 @@
   {
     "guid": "3939de15-a4ff-4fbd-8360-0ba351477d2d",
     "name": "Check for updates",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Check for updates",
     "description": "Check for updates",
     "caption": "Update and Security",
@@ -1223,7 +1223,7 @@
   {
     "guid": "949a14a6-3192-4958-b962-f32d523c2dc2",
     "name": "Advanced Windows Update options",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Advanced Windows Update options",
     "description": "Advanced Windows Update options",
     "caption": "Update and Security",
@@ -1234,7 +1234,7 @@
   {
     "guid": "c8614e68-8550-4b7a-a4c5-3145738d2650",
     "name": "Windows Update Restart options/Schedule your restart",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "Windows Update Restart options | Schedule your restart",
     "description": "Schedule your restart",
     "caption": "Update and Security",
@@ -1245,7 +1245,7 @@
   {
     "guid": "289f08d4-5977-4187-9963-3f9faacf03b2",
     "name": "View your Update history",
-    "icon": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
+    "iconPath": "pack://application:,,,/Reginald;component/Images/Settings/settings.png",
     "key": "View your Update history",
     "description": "View your Update history",
     "caption": "Update and Security",

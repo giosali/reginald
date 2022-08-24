@@ -30,7 +30,7 @@ namespace Reginald.Data.ObjectModels
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, Icon, Description);
+            SearchResult result = new(Caption, IconPath, Description);
             result.AltKeyPressed += OnAltKeyPressed;
             result.AltKeyReleased += OnAltKeyReleased;
             result.EnterKeyPressed += OnEnterKeyPressed;

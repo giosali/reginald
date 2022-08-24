@@ -16,8 +16,8 @@
         [JsonProperty("altCaption")]
         public static string AltCaption { get; set; }
 
-        [JsonProperty("altIcon")]
-        public static string AltIcon { get; set; }
+        [JsonProperty("altIconPath")]
+        public static string AltIconPath { get; set; }
 
         [JsonProperty("format")]
         public static string Format { get; set; }
@@ -60,7 +60,7 @@
         {
             SearchResult result = (SearchResult)sender;
             result.Caption = AltCaption;
-            result.Icon = new Icon(AltIcon);
+            result.Icon = new Icon(AltIconPath);
         }
 
         private static void OnElapsed(object sender, EventArgs e)

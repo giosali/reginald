@@ -139,7 +139,7 @@
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, Icon);
+            SearchResult result = new(Caption, IconPath);
             result.EnterKeyPressed += OnEnterKeyPressed;
 
             if (_keyInput.Split(' ', 2).Length < 2)
@@ -158,7 +158,7 @@
             timer.InternalTimer = new(1000);
             timer.InternalTimer.Elapsed += timer.OnElapsed;
             timer.InternalTimer.AutoReset = true;
-            timer.Result = new(Caption, Icon);
+            timer.Result = new(Caption, IconPath);
             timer.Result.AltKeyReleased += timer.OnAltKeyReleased;
             return timer;
         }
@@ -167,7 +167,7 @@
         {
             SearchResult result = (SearchResult)sender;
             result.Caption = _message;
-            result.Icon = new Icon(Icon);
+            result.Icon = new Icon(IconPath);
         }
 
         private void OnElapsed(object sender, EventArgs e)

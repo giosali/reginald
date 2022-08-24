@@ -112,7 +112,7 @@ namespace Reginald.Data.ObjectModels
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, Icon, Description);
+            SearchResult result = new(Caption, IconPath, Description);
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
         }

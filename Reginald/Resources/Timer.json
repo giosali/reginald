@@ -2,7 +2,7 @@
   "guid": "4c50f44e-420c-4f25-b61c-1ca754088696",
   "name": "Timer",
   "key": "timer",
-  "icon": "pack://application:,,,/Reginald;component/Images/Commands/timer.png",
+  "iconPath": "pack://application:,,,/Reginald;component/Images/Commands/timer.png",
   "format": "In {0}: {1}",
   "placeholder": "...",
   "caption": "Timer",

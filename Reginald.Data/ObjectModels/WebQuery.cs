@@ -66,7 +66,7 @@
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, Icon);
+            SearchResult result = new(Caption, IconPath);
             result.AltAndEnterKeysPressed += OnAltAndEnterKeysPressed;
             result.AltKeyPressed += OnAltKeyPressed;
             result.AltKeyReleased += OnAltKeyReleased;

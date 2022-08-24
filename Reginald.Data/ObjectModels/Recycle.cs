@@ -16,8 +16,8 @@ namespace Reginald.Data.ObjectModels
         [JsonProperty("enterCaption")]
         public string EnterCaption { get; set; }
 
-        [JsonProperty("enterIcon")]
-        public string EnterIcon { get; set; }
+        [JsonProperty("enterIconPath")]
+        public string EnterIconPath { get; set; }
 
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }
@@ -52,7 +52,7 @@ namespace Reginald.Data.ObjectModels
         public SearchResult Produce()
         {
             _hasBeenPrompted = false;
-            SearchResult result = new(Caption, Icon, Description);
+            SearchResult result = new(Caption, IconPath, Description);
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
         }
@@ -64,7 +64,7 @@ namespace Reginald.Data.ObjectModels
                 _hasBeenPrompted = true;
                 SearchResult result = (SearchResult)sender;
                 result.Caption = EnterCaption;
-                result.Icon = new Icon(EnterIcon);
+                result.Icon = new Icon(EnterIconPath);
                 return;
             }
 
