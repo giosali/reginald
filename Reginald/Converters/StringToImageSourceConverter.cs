@@ -34,20 +34,6 @@
             }
 
             return BitmapSourceHelper.GetStockIcon(result);
-
-
-            // string str = (string)value;
-            // if (str.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
-            // {
-            //     return BitmapSourceHelper.ExtractAssociatedBitmapSource(str);
-            // }
-
-            // if (!uint.TryParse(str, out uint result))
-            // {
-            //     return value;
-            // }
-
-            // return BitmapSourceHelper.GetStockIcon(result);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
