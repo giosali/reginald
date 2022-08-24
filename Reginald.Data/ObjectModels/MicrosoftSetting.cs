@@ -77,8 +77,12 @@ namespace Reginald.Data.ObjectModels
                             continue;
                         }
 
-                        if (keyCh == '-' || keyCh == ' ')
+                        if (keyCh == ' ')
                         {
+                            // Handles situations where the input is
+                            // "signin options" and the key is 
+                            // "sign-in options".
+                            i--;
                             continue;
                         }
 
