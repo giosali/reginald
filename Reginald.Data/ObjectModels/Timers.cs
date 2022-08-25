@@ -39,7 +39,7 @@
 
         public bool Check(string input)
         {
-            return IsEnabled && Key.StartsWith(input);
+            return IsEnabled && Key.StartsWith(input, StringComparison.OrdinalIgnoreCase);
         }
 
         public SearchResult[] Produce()

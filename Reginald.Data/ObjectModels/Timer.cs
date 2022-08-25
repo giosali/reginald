@@ -49,10 +49,10 @@
             _keyInput = keyInput;
             if (keyInput.Length <= Key.Length)
             {
-                return Key.StartsWith(keyInput);
+                return Key.StartsWith(keyInput, StringComparison.OrdinalIgnoreCase);
             }
 
-            if (!keyInput.StartsWith(Key + " "))
+            if (!keyInput.StartsWith(Key + " ", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
