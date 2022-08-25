@@ -1,5 +1,6 @@
 ﻿namespace Reginald.Data.ObjectModels
 {
+    using System;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
     using Reginald.Data.Inputs;
@@ -50,7 +51,7 @@
             {
                 if (_keyInput.Length < Key.Length)
                 {
-                    return Key.StartsWith(_keyInput);
+                    return Key.StartsWith(_keyInput, StringComparison.OrdinalIgnoreCase);
                 }
 
                 return _keyInput == Key;
@@ -58,10 +59,10 @@
 
             if (_keyInput.Length <= Key.Length)
             {
-                return Key.StartsWith(_keyInput);
+                return Key.StartsWith(_keyInput, StringComparison.OrdinalIgnoreCase);
             }
 
-            return _keyInput.StartsWith(Key + " ");
+            return _keyInput.StartsWith(Key + " ", StringComparison.OrdinalIgnoreCase);
         }
 
         public SearchResult Produce()
