@@ -12,20 +12,20 @@
     {
         private string _keyInput;
 
-        [JsonProperty("altUrl")]
-        public string AltUrl { get; set; }
-
         [JsonProperty("altDescription")]
         public string AltDescription { get; set; }
+
+        [JsonProperty("altUrl")]
+        public string AltUrl { get; set; }
 
         [JsonProperty("descriptionFormat")]
         public string DescriptionFormat { get; set; }
 
-        [JsonProperty("isEnabled")]
-        public bool IsEnabled { get; set; }
-
         [JsonProperty("encodeInput")]
         public bool EncodeInput { get; set; }
+
+        [JsonProperty("isEnabled")]
+        public bool IsEnabled { get; set; }
 
         [JsonProperty("key")]
         public string Key { get; set; }
