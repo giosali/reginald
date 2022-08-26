@@ -9,7 +9,7 @@
     using Reginald.Data.Products;
     using Reginald.Services.Utilities;
 
-    public class Quit : ObjectModel, IMultipleProducer<SearchResult>
+    public class Quit : DataModel, IMultipleProducer<SearchResult>
     {
         private static Dictionary<int, int> _processIds = new();
 

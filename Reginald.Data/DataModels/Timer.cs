@@ -11,7 +11,7 @@
     using Reginald.Services.Notifications;
     using Reginald.Data.Drawing;
 
-    public class Timer : ObjectModel, ICloneable, ISingleProducer<SearchResult>
+    public class Timer : DataModel, ICloneable, ISingleProducer<SearchResult>
     {
         private static readonly Regex[] _timePatterns = new Regex[3] { new Regex(@"(?<!\S)(\d+(\.\d+)?) ?h((ou)?rs?)?(?!\S)", RegexOptions.IgnoreCase), new Regex(@"(?<!\S)(\d+(\.\d+)?) ?m((in(ute)?s?)?)?(?!\S)", RegexOptions.IgnoreCase), new Regex(@"(?<!\S)(\d+(\.\d+)?) ?s((ec(ond)?s?)?)?(?!\S)", RegexOptions.IgnoreCase) };
 

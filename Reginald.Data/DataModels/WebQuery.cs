@@ -8,7 +8,7 @@
     using Reginald.Data.Products;
     using Reginald.Services.Utilities;
 
-    public class WebQuery : ObjectModel, ISingleProducer<SearchResult>
+    public class WebQuery : DataModel, ISingleProducer<SearchResult>
     {
         private string _keyInput;
 

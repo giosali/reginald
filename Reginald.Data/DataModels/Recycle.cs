@@ -9,7 +9,7 @@ namespace Reginald.Data.ObjectModels
     using System.Threading.Tasks;
     using Reginald.Data.Drawing;
 
-    public class Recycle : ObjectModel, ISingleProducer<SearchResult>
+    public class Recycle : DataModel, ISingleProducer<SearchResult>
     {
         private bool _hasBeenPrompted;
 

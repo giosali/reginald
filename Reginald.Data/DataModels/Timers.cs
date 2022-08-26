@@ -9,7 +9,7 @@
     using Reginald.Data.Inputs;
     using Reginald.Data.Drawing;
 
-    public class Timers : ObjectModel, IMultipleProducer<SearchResult>
+    public class Timers : DataModel, IMultipleProducer<SearchResult>
     {
         private static readonly List<Timer> _timers = new();
 

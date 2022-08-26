@@ -7,7 +7,7 @@ namespace Reginald.Data.ObjectModels
     using Reginald.Data.Products;
     using Reginald.Services.Utilities;
 
-    public class Url : ObjectModel, ISingleProducer<SearchResult>
+    public class Url : DataModel, ISingleProducer<SearchResult>
     {
         public bool Check(string input)
         {

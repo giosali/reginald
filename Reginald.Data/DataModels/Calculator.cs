@@ -7,7 +7,7 @@ namespace Reginald.Data.ObjectModels
     using Reginald.Data.Inputs;
     using System.Windows;
 
-    public class Calculator : ObjectModel, ISingleProducer<SearchResult>
+    public class Calculator : DataModel, ISingleProducer<SearchResult>
     {
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }

@@ -8,7 +8,7 @@ namespace Reginald.Data.ObjectModels
     using Reginald.Services.Utilities;
     using Reginald.Core.Extensions;
 
-    public class MicrosoftSetting : ObjectModel, ISingleProducer<SearchResult>
+    public class MicrosoftSetting : DataModel, ISingleProducer<SearchResult>
     {
         [JsonProperty("containsAmpersand")]
         public bool ContainsAmpersand { get; set; }
