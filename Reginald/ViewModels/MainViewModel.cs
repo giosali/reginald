@@ -14,11 +14,14 @@
 
     public class MainViewModel : SearchPopupViewModelScreen<SearchResult>
     {
+        private readonly DataModelService _dataModelService;
+
         private readonly ObjectModelService _objectModelService;
 
         public MainViewModel(ConfigurationService configurationService)
             : base(configurationService)
         {
+            _dataModelService = IoC.Get<DataModelService>();
             _objectModelService = IoC.Get<ObjectModelService>();
         }
 
@@ -40,9 +43,12 @@
                                               .Select(sp => sp.Produce())
                                               .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
                                               .ThenBy(sp => sp.Description));
-            items.AddRange(_objectModelService.MultipleProducers
-                                              .Where(mp => mp.Check(userInput))
-                                              .SelectMany(mp => mp.Produce()));
+            items.AddRange(_dataModelService.SingleProducers
+                                            .Where(sp => sp.Check(userInput))
+                                            .Select(sp => sp.Produce()));
+            items.AddRange(_dataModelService.MultipleProducers
+                                            .Where(mp => mp.Check(userInput))
+                                            .SelectMany(mp => mp.Produce()));
             Items.AddRange(items.Take(25));
             if (Items.Count > 0)
             {
