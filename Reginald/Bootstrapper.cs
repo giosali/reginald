@@ -48,7 +48,6 @@
                           .Singleton<ConfigurationService>()
                           .Singleton<ObjectModelService>()
                           .Singleton<DataFileService>()
-                          .Singleton<UserResourceService>()
                           .Singleton<ShellViewModel>()
                           .Singleton<SettingsViewModel>()
                           .Singleton<GeneralViewModel>()
