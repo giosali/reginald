@@ -165,7 +165,11 @@
 
         private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
         {
-            SearchResult result = (SearchResult)sender;
+            if (sender is not SearchResult result)
+            {
+                return;
+            }
+
             result.Caption = _message;
             result.Icon = new Icon(IconPath);
         }

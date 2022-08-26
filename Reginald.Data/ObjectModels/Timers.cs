@@ -49,7 +49,11 @@
 
         private static void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
         {
-            SearchResult result = (SearchResult)sender;
+            if (sender is not SearchResult result)
+            {
+                return;
+            }
+
             Timer timer = _timers.SingleOrDefault(t => t.Result == result);
             timer.InternalTimer.Enabled = false;
             _timers.Remove(timer);
@@ -58,7 +62,11 @@
 
         private static void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            SearchResult result = (SearchResult)sender;
+            if (sender is not SearchResult result)
+            {
+                return;
+            }
+
             result.Caption = AltCaption;
             result.Icon = new Icon(AltIconPath);
         }

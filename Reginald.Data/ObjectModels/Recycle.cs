@@ -62,7 +62,11 @@ namespace Reginald.Data.ObjectModels
             if (!_hasBeenPrompted)
             {
                 _hasBeenPrompted = true;
-                SearchResult result = (SearchResult)sender;
+                if (sender is not SearchResult result)
+                {
+                    return;
+                }
+
                 result.Caption = EnterCaption;
                 result.Icon = new Icon(EnterIconPath);
                 return;

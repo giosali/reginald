@@ -44,13 +44,21 @@ namespace Reginald.Data.ObjectModels
                 return;
             }
 
-            SearchResult result = (SearchResult)sender;
+            if (sender is not SearchResult result)
+            {
+                return;
+            }
+
             result.Description = n.ToString("N0");
         }
 
         private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
         {
-            SearchResult result = (SearchResult)sender;
+            if (sender is not SearchResult result)
+            {
+                return;
+            }
+
             result.Description = Description;
         }
 
