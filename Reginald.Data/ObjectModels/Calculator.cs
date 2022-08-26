@@ -49,7 +49,14 @@ namespace Reginald.Data.ObjectModels
                 return;
             }
 
-            result.Description = n.ToString("N0");
+            string withCommas = n.ToString("N0");
+            int index = Description.IndexOf('.');
+            if (index != -1)
+            {
+                withCommas += Description[(index - 1)..];
+            }
+
+            result.Description = withCommas;
         }
 
         private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
