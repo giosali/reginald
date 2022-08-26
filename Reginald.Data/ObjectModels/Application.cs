@@ -5,6 +5,7 @@ namespace Reginald.Data.ObjectModels
     using System.Linq;
     using System.Windows.Media.Imaging;
     using Microsoft.WindowsAPICodePack.Shell;
+    using Reginald.Core.Extensions;
     using Reginald.Data.Inputs;
     using Reginald.Data.Producers;
     using Reginald.Data.Products;
@@ -57,7 +58,78 @@ namespace Reginald.Data.ObjectModels
                 return false;
             }
 
-            return Description.StartsWith(input, StringComparison.OrdinalIgnoreCase);
+            char firstCh = input[0];
+            int index = 0;
+            while (true)
+            {
+                index = Description.IndexOf(firstCh.ToString(), index, StringComparison.OrdinalIgnoreCase);
+                if (index == -1)
+                {
+                    break;
+                }
+
+                if (index == 0 || Description[index - 1] == ' ')
+                {
+                    bool isMatch = true;
+                    for (int i = 0, j = index; i < input.Length; i++, j++)
+                    {
+                        char descriptionCh = Description.TryElementAt(j);
+                        if (descriptionCh == default(char))
+                        {
+                            return false;
+                        }
+
+                        if (char.ToUpper(input[i]) != char.ToUpper(descriptionCh))
+                        {
+                            isMatch = false;
+                            break;
+                        }
+                    }
+                    
+                    if (isMatch)
+                    {
+                        return true;
+                    }
+                }
+                
+                index++;
+            }
+
+            List<char> chars = new();
+            for (int i = 0; i < Description.Length; i++)
+            {
+                char ch = Description[i];
+                if (char.IsUpper(ch))
+                {
+                    chars.Add(ch);
+                }
+            }
+            
+            bool isLetterMatch = false;
+            for (int i = 0, j = 0; i < input.Length; i++, j++)
+            {
+                if (j >= chars.Count)
+                {
+                    return false;
+                }
+
+                bool match = char.ToUpper(input[i]) == chars[j];
+                if (!match && !isLetterMatch)
+                {
+                    i--;
+                    continue;
+                }
+                
+                if (!match && isLetterMatch)
+                {
+                    isLetterMatch = false;
+                    break;
+                }
+                
+                isLetterMatch = match;
+            }
+
+            return isLetterMatch;
         }
 
         public SearchResult Produce()
