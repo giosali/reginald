@@ -142,8 +142,30 @@ namespace Reginald.Data.ObjectModels
         public SearchResult Produce()
         {
             SearchResult result = new(Caption, Source, Description);
+            result.AltKeyPressed += OnAltKeyPressed;
+            result.AltKeyReleased += OnAltKeyReleased;
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
+        }
+
+        private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
+        {
+            if (sender is not SearchResult result)
+            {
+                return;
+            }
+
+            result.Caption = FilePath;
+        }
+
+        private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
+        {
+            if (sender is not SearchResult result)
+            {
+                return;
+            }
+
+            result.Caption = Caption;
         }
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
