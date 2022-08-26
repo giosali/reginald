@@ -46,6 +46,7 @@
             _ = _container.Singleton<IWindowManager, WindowManager>()
                           .Singleton<IEventAggregator, EventAggregator>()
                           .Singleton<ConfigurationService>()
+                          .Singleton<ObjectModelService>()
                           .Singleton<DataFileService>()
                           .Singleton<UserResourceService>()
                           .Singleton<ShellViewModel>()
