@@ -67,7 +67,6 @@
             //     }
 
             //     Items[0] = item;
-            //     // Items.PrependFrom(index);
             // }
 
             //SelectedItem = Items[0];
