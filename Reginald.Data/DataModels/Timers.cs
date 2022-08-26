@@ -1,4 +1,4 @@
-﻿namespace Reginald.Data.ObjectModels
+﻿namespace Reginald.Data.DataModels
 {
     using Reginald.Data.Producers;
     using Reginald.Data.Products;
