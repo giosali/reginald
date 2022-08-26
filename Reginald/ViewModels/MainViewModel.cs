@@ -12,7 +12,7 @@
     using Reginald.Data.Products;
     using Reginald.Services;
 
-    public class MainViewModel : SearchPopupViewModelScreen<Data.Products.SearchResult>
+    public class MainViewModel : SearchPopupViewModelScreen<SearchResult>
     {
         private readonly ObjectModelService _objectModelService;
 
@@ -38,16 +38,12 @@
             items.AddRange(_objectModelService.SingleProducers
                                               .Where(sp => sp.Check(userInput))
                                               .Select(sp => sp.Produce())
-                                              .OrderBy(sp => sp.Description.StartsWith(userInput[0]))
+                                              .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
                                               .ThenBy(sp => sp.Description));
             items.AddRange(_objectModelService.MultipleProducers
                                               .Where(mp => mp.Check(userInput))
                                               .SelectMany(mp => mp.Produce()));
             Items.AddRange(items.Take(25));
-
-            // Items.AddRange(_objectModelService.SingleProducers.Where(sp => sp.Check(UserInput)).Select(sp => sp.Produce()).OrderBy(sp => sp.Description).ThenBy(sp => sp.Description.StartsWith(UserInput[0])));
-            // Items.AddRange(_objectModelService.MultipleProducers.Where(sp => sp.Check(UserInput)).SelectMany(sp => sp.Produce()).OrderBy(sp => sp.Description).ThenBy(sp => sp.Description.StartsWith(UserInput[0])));
-
             if (Items.Count > 0)
             {
                 SelectedItem = Items[0];
