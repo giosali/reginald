@@ -55,8 +55,7 @@ namespace Reginald.Data.ObjectModels
                     bool match = true;
                     for (int i = 0, j = 0; i < input.Length; i++, j++)
                     {
-                        char inputCh = input.TryElementAt(i);
-                        if (inputCh == default(char))
+                        if (!input.TryElementAt(i, out char inputCh))
                         {
                             return false;
                         }
@@ -66,8 +65,7 @@ namespace Reginald.Data.ObjectModels
                             inputCh = ' ';
                         }
 
-                        char keyCh = Key.TryElementAt(j + firstChIndex);
-                        if (keyCh == default(char))
+                        if (!Key.TryElementAt(j + firstChIndex, out char keyCh))
                         {
                             return false;
                         }

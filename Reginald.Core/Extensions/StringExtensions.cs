@@ -182,14 +182,16 @@
             return expression.StartsWith("https://", comparison) || expression.StartsWith("http://", comparison);
         }
 
-        public static char TryElementAt(this string str, int index)
+        public static bool TryElementAt(this string str, int index, out char ch)
         {
             if (str is null || index >= str.Length || index < 0)
             {
-                return default(char);
+                ch = default(char);
+                return false;
             }
 
-            return str[index];
+            ch = str[index];
+            return true;
         }
     }
 }

@@ -77,8 +77,7 @@ namespace Reginald.Data.ObjectModels
                     bool isMatch = true;
                     for (int i = 0, j = index; i < input.Length; i++, j++)
                     {
-                        char descriptionCh = Description.TryElementAt(j);
-                        if (descriptionCh == default(char))
+                        if (!Description.TryElementAt(j, out char descriptionCh))
                         {
                             return false;
                         }
