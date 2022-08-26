@@ -1,67 +1,40 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
-using Reginald.Core.IO;
 using Reginald.Data.ObjectModels;
 using Reginald.Data.Producers;
 using Reginald.Data.Products;
+using Reginald.Services.Watchers;
 
 namespace Reginald.Services
 {
     internal class ObjectModelService
     {
-        private static readonly FileSystemWatcher _fsw;
+        private readonly RegistryKeyWatcher[] _watchers;
 
         public ObjectModelService()
         {
             SetSingleProducers();
-            SetMultipleProducers();
 
-            FileSystemWatcher _fsw = new(FileOperations.ApplicationAppDataDirectoryPath);
-            _fsw.NotifyFilter = NotifyFilters.Attributes
-                              | NotifyFilters.CreationTime
-                              | NotifyFilters.LastAccess
-                              | NotifyFilters.LastWrite
-                              | NotifyFilters.Size;
-            _fsw.Changed += OnChanged;
-            _fsw.EnableRaisingEvents = true;
+            RegistryKeyWatcher localMachine64Bit = new(RegistryHive.LocalMachine, @"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+            localMachine64Bit.RegistryKeyChanged += OnRegistryKeyChanged;
+            RegistryKeyWatcher localMachine = new(RegistryHive.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+            localMachine.RegistryKeyChanged += OnRegistryKeyChanged;
+            RegistryKeyWatcher currentUser = new(RegistryHive.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+            currentUser.RegistryKeyChanged += OnRegistryKeyChanged;
+            _watchers = new RegistryKeyWatcher[] { localMachine64Bit, localMachine, currentUser };
         }
-
-        public IMultipleProducer<SearchResult>[] MultipleProducers { get; set; }
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; set; }
 
-        private void OnChanged(object sender, FileSystemEventArgs e)
+        private void OnRegistryKeyChanged(object sender, EventArgs e)
         {
             SetSingleProducers();
-            SetMultipleProducers();
-        }
-
-        private void SetMultipleProducers()
-        {
-            List<IMultipleProducer<SearchResult>> multipleProducers = new();
-
-            // Handles those that receive key inputs.
-            multipleProducers.Add(FileOperations.GetGenericDatum<Quit>("Quit.json", true));
-            multipleProducers.Add(FileOperations.GetGenericDatum<Timers>("Timers.json", true));
-
-            MultipleProducers = multipleProducers.ToArray();
         }
 
         private void SetSingleProducers()
         {
             List<ISingleProducer<SearchResult>> singleProducers = new();
-
-            // Handles those that receive key inputs.
             singleProducers.AddRange(Application.GetApplications());
-            singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>("WebQueries.json", true));
-            singleProducers.Add(FileOperations.GetGenericDatum<Recycle>("Recycle.json", true));
-            singleProducers.Add(FileOperations.GetGenericDatum<Timer>("Timer.json", true));
-
-            // Handles those that receive inputs.
-            singleProducers.Add(FileOperations.GetGenericDatum<Calculator>("Calculator.json", true));
-            singleProducers.Add(FileOperations.GetGenericDatum<Url>("Url.json", true));
-            singleProducers.AddRange(FileOperations.GetGenericData<MicrosoftSetting>("MicrosoftSettings.json", true));
-
             SingleProducers = singleProducers.ToArray();
         }
     }
