@@ -55,13 +55,20 @@
                 SelectedItem = Items[0];
             }
 
-            //// Selects the previously selected item and places it at the top of the
-            //// results if it's still in the new list of results.
-            //int index = Items.IndexOf(LastSelectedItem);
-            //if (index > 0)
-            //{
-            //    Items.PrependFrom(index);
-            //}
+            // // Selects the previously selected item and places it at the top of the
+            // // results if it's still in the new list of results.
+            // int index = Items.IndexOf(LastSelectedItem);
+            // if (index > 0)
+            // {
+            //     SearchResult item = Items[index];
+            //     for (int i = index; i > 0; i--)
+            //     {
+            //         Items[i] = Items[i - 1];
+            //     }
+
+            //     Items[0] = item;
+            //     // Items.PrependFrom(index);
+            // }
 
             //SelectedItem = Items[0];
         }
