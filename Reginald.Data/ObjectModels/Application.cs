@@ -58,6 +58,10 @@ namespace Reginald.Data.ObjectModels
                 return false;
             }
 
+            // Handles instances where the application name is
+            // "Microsoft Software Developer Kit"
+            // and the input is
+            // "software" or "dev" or "kit".
             char firstCh = input[0];
             int index = 0;
             while (true)
@@ -95,6 +99,10 @@ namespace Reginald.Data.ObjectModels
                 index++;
             }
 
+            // Handles instances where the application name is
+            // "Visual Studio Code"
+            // and the input is
+            // "vsc" or "sc".
             List<char> chars = new();
             for (int i = 0; i < Description.Length; i++)
             {
