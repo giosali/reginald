@@ -9,97 +9,59 @@
     using System.Windows.Input;
     using Caliburn.Micro;
     using Reginald.Core.Extensions;
-    using Reginald.Data.DisplayItems;
-    using Reginald.Data.Keyphrases;
-    using Reginald.Data.Keywords;
-    using Reginald.Data.ShellItems;
+    using Reginald.Data.Products;
     using Reginald.Services;
-    using Reginald.Services.Utilities;
 
-    public class MainViewModel : SearchPopupViewModelScreen<DisplayItem>
+    public class MainViewModel : SearchPopupViewModelScreen<Data.Products.SearchResult>
     {
-        private readonly DataFileService _dataFileService;
-
-        private readonly UserResourceService _userResourceService;
+        private readonly ObjectModelService _objectModelService;
 
         public MainViewModel(ConfigurationService configurationService)
             : base(configurationService)
         {
-            _dataFileService = IoC.Get<DataFileService>();
-            _userResourceService = IoC.Get<UserResourceService>();
+            _objectModelService = IoC.Get<ObjectModelService>();
         }
 
-        public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
+        public void UserInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             Items.Clear();
             IsMouseOverChanged = false;
             MousePosition = default;
 
-            if (UserInput.Length == 0)
+            string userInput = UserInput;
+            if (userInput.Length == 0)
             {
                 return;
             }
 
-            IEnumerable<DisplayItem> applicationResults = SearchResult.FromItems(await Application.FilterByNames(_userResourceService.Applications, ConfigurationService.Settings.IncludeInstalledApplications, UserInput));
-            IEnumerable<DisplayItem> applicationResultsUppercase = SearchResult.FromItems(await Application.FilterByUppercaseCharacters(_userResourceService.Applications, ConfigurationService.Settings.IncludeInstalledApplications, UserInput));
+            List<SearchResult> items = new();
+            items.AddRange(_objectModelService.SingleProducers
+                                              .Where(sp => sp.Check(userInput))
+                                              .Select(sp => sp.Produce())
+                                              .OrderBy(sp => sp.Description.StartsWith(userInput[0]))
+                                              .ThenBy(sp => sp.Description));
+            items.AddRange(_objectModelService.MultipleProducers
+                                              .Where(mp => mp.Check(userInput))
+                                              .SelectMany(mp => mp.Produce()));
+            Items.AddRange(items.Take(25));
 
-            IEnumerable<DisplayItem> defaultKeywordResults = SearchResult.FromItems(await Keyword.Filter(_dataFileService.DefaultKeywords, ConfigurationService.Settings.IncludeDefaultKeywords, UserInput));
-            IEnumerable<DisplayItem> userKeywordResults = SearchResult.FromItems(await Keyword.Filter(_dataFileService.UserKeywords, true, UserInput));
-            IEnumerable<DisplayItem> commandResults = SearchResult.FromItems(await CommandKeyword.Process(_dataFileService.Commands, ConfigurationService.Settings.IncludeCommands, UserInput));
-            IEnumerable<DisplayItem> httpKeywordResults = SearchResult.FromItems(await HttpKeyword.FilterAsync(_dataFileService.HttpKeywords, ConfigurationService.Settings.IncludeHttpKeywords, UserInput));
-            IEnumerable<DisplayItem> defaultResults = SearchResult.FromItems(await Keyword.Set(_dataFileService.DefaultResults, UserInput));
+            // Items.AddRange(_objectModelService.SingleProducers.Where(sp => sp.Check(UserInput)).Select(sp => sp.Produce()).OrderBy(sp => sp.Description).ThenBy(sp => sp.Description.StartsWith(UserInput[0])));
+            // Items.AddRange(_objectModelService.MultipleProducers.Where(sp => sp.Check(UserInput)).SelectMany(sp => sp.Produce()).OrderBy(sp => sp.Description).ThenBy(sp => sp.Description.StartsWith(UserInput[0])));
 
-            IEnumerable<DisplayItem> utilityResults = SearchResult.FromItems(await Keyphrase.Filter(_dataFileService.Utilities, ConfigurationService.Settings.IncludeUtilities, UserInput));
-            IEnumerable<DisplayItem> microsoftSettingsResults = SearchResult.FromItems(await Keyphrase.Filter(_dataFileService.MicrosoftSettings, ConfigurationService.Settings.IncludeSettingsPages, UserInput));
-
-            bool calculationSuccess = await _dataFileService.Calculator.IsExpression(UserInput);
-            bool isLink = await _dataFileService.Link.IsLink(UserInput);
-
-            IEnumerable<DisplayItem> results = applicationResults.Concat(applicationResultsUppercase)
-                                                                 .Distinct()
-                                                                 .Concat(defaultKeywordResults)
-                                                                 .Concat(userKeywordResults)
-                                                                 .Concat(commandResults)
-                                                                 .Concat(httpKeywordResults)
-                                                                 .Concat(utilityResults)
-                                                                 .Concat(microsoftSettingsResults)
-                                                                 .Concat(TimerResult.GetTimers(UserInput));
-
-            if (results.Any())
+            if (Items.Count > 0)
             {
-                if (httpKeywordResults.Any())
-                {
-                    // Clear default keyword results for late arriving HTTP keywords.
-                    Items.Clear();
-                }
-
-                Items.AddRange(results);
+                SelectedItem = Items[0];
             }
 
-            if (calculationSuccess)
-            {
-                Items.Add(new SearchResult(_dataFileService.Calculator));
-            }
+            //// Selects the previously selected item and places it at the top of the
+            //// results if it's still in the new list of results.
+            //int index = Items.IndexOf(LastSelectedItem);
+            //if (index > 0)
+            //{
+            //    Items.PrependFrom(index);
+            //}
 
-            if (isLink)
-            {
-                Items.Add(new SearchResult(_dataFileService.Link));
-            }
-
-            if (Items.Count == 0)
-            {
-                Items.AddRange(defaultResults);
-            }
-
-            // Selects the previously selected item and places it at the top of the
-            // results if it's still in the new list of results.
-            int index = Items.IndexOf(LastSelectedItem);
-            if (index > 0)
-            {
-                Items.PrependFrom(index);
-            }
-
-            SelectedItem = Items[0];
+            //SelectedItem = Items[0];
         }
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -123,45 +85,70 @@
                     break;
 
                 case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:
-                    OnSelectedItemEnterDown();
+                {
+                    Data.Inputs.InputProcessingEventArgs args = new();
+                    SelectedItem?.PressAltAndEnter(args);
+                    if (args.Handled)
+                    {
+                        Hide();
+                    }
+
+                    if (args.Remove)
+                    {
+                        int index = Items.IndexOf(SelectedItem);
+                        Items.Remove(SelectedItem);
+                        if (Items.Count > 0)
+                        {
+                            SelectedItem = Items[index - 1];
+                        }
+                    }
+
                     e.Handled = true;
                     break;
+                }
 
                 case Key.Enter:
-                    OnSelectedItemEnterDown();
+                {
+                    Data.Inputs.InputProcessingEventArgs args = new();
+                    SelectedItem?.PressEnter(args);
+                    if (args.IsInputIncomplete)
+                    {
+                        (sender as TextBox).SetText(args.CompleteInput);
+                    }
+
+                    if (args.Handled)
+                    {
+                        Hide();
+                    }
+
                     e.Handled = true;
                     break;
+                }
 
                 case Key.LeftAlt when !e.IsRepeat:
                 case Key.RightAlt when !e.IsRepeat:
-                    SelectedItem?.AltKeyDown();
+                    SelectedItem?.PressAlt(new Data.Inputs.InputProcessingEventArgs());
                     e.Handled = true;
                     break;
 
                 case Key.Tab:
+                {
                     if (Items.Count == 0)
                     {
                         e.Handled = true;
                         break;
                     }
 
-                    // Autocompletes the textbox if the currently selected search
-                    // result is actually derived from a keyword and if the user
-                    // hasn't already typed the corresponding keyword
-                    if (SelectedItem is SearchResult result && result.Keyword is not null && !UserInput.StartsWith(result.Keyword + " ", StringComparison.OrdinalIgnoreCase))
+                    Data.Inputs.InputProcessingEventArgs args = new();
+                    SelectedItem?.PressTab(args);
+                    if (args.IsInputIncomplete)
                     {
-                        (sender as TextBox).SetText(result.Keyword + " ");
-                    }
-
-                    // Otherwise, there is no keyword and we should simply
-                    // autocomplete with the name of the object.
-                    else if (!UserInput.StartsWith(SelectedItem.Name, StringComparison.OrdinalIgnoreCase))
-                    {
-                        (sender as TextBox).SetText(SelectedItem.Name);
+                        (sender as TextBox).SetText(args.CompleteInput);
                     }
 
                     e.Handled = true;
                     break;
+                }
             }
         }
 
@@ -179,14 +166,9 @@
             {
                 case Key.LeftAlt:
                 case Key.RightAlt:
-                    SelectedItem?.AltKeyUp();
+                    SelectedItem?.ReleaseAlt(new Data.Inputs.InputProcessingEventArgs());
                     break;
             }
-        }
-
-        public void Item_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            OnSelectedItemEnterDown();
         }
 
         public void Items_MouseLeave(object sender, MouseEventArgs e)
@@ -202,27 +184,7 @@
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             UserInput = string.Empty;
-            _userResourceService.UpdateApplications();
             return base.OnDeactivateAsync(close, cancellationToken);
-        }
-
-        private void OnSelectedItemEnterDown()
-        {
-            if (SelectedItem is DisplayItem selectedItem)
-            {
-                // Prevents the popup from closing by checking the selected item's
-                // 'CanReceiveKeyboardInput' property. If the property is false,
-                // then that means pressing Enter does nothing and the popup should stay visible.
-                if (!selectedItem.RequiresPrompt && selectedItem.CanReceiveKeyboardInput)
-                {
-                    Hide();
-                }
-
-                // Ensures foreground window doesn't lose focus after pasting into search window.
-                _ = WindowUtility.SetFocus(ActiveHandle);
-
-                selectedItem.EnterKeyDown();
-            }
         }
     }
 }
