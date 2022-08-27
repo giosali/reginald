@@ -27,6 +27,9 @@
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }
 
+        [JsonProperty("isCustom")]
+        public bool IsCustom { get; set; }
+
         [JsonProperty("key")]
         public string Key { get; set; }
 
