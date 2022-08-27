@@ -13,6 +13,7 @@
     "altUrl": "",
     "altDescription": "Go to Google's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -29,6 +30,7 @@
     "altUrl": "https://duckduckgo.com",
     "altDescription": "Go to DuckDuckGo's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -45,6 +47,7 @@
     "altUrl": "https://amazon.com",
     "altDescription": "Go to Amazon's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -61,6 +64,7 @@
     "altUrl": "https://ebay.com",
     "altDescription": "Go to eBay's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -76,6 +80,7 @@
     "placeholder": "...",
     "caption": "Facebook",
     "isEnabled": true,
+    "isCustom": false,
     "altDescription": "Go to Facebook's Homepage"
   },
   {
@@ -92,6 +97,7 @@
     "altUrl": "https://github.com",
     "altDescription": "Go to GitHub's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -108,6 +114,7 @@
     "altUrl": "https://instagram.com",
     "altDescription": "Go to Instagram's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -124,6 +131,7 @@
     "altUrl": "https://pinterest.com",
     "altDescription": "Go to Pinterest's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -140,6 +148,7 @@
     "altUrl": "https://reddit.com",
     "altDescription": "Go to Reddit's Front Page",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -156,6 +165,7 @@
     "altUrl": "https://tiktok.com",
     "altDescription": "Go to TikTok's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -172,6 +182,7 @@
     "altUrl": "https://tiktok.com",
     "altDescription": "Go to TikTok's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -188,6 +199,7 @@
     "altUrl": "https://tumblr.com",
     "altDescription": "Go to tumblr's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -204,6 +216,7 @@
     "altUrl": "https://tumblr.com",
     "altDescription": "Go to tumblr's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -220,6 +233,7 @@
     "altUrl": "https://twitch.tv",
     "altDescription": "Go to Twitch's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -236,6 +250,7 @@
     "altUrl": "https://twitter.com",
     "altDescription": "Go to Twitter's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -252,6 +267,7 @@
     "altUrl": "https://twitter.com",
     "altDescription": "Go to Twitter's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -268,6 +284,7 @@
     "altUrl": "https://wikipedia.org",
     "altDescription": "Go to Wikipedia's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   },
   {
@@ -284,6 +301,7 @@
     "altUrl": "https://youtube.com",
     "altDescription": "Go to YouTube's Homepage",
     "isEnabled": true,
+    "isCustom": false,
     "encodeInput": true,
   }
 ]
