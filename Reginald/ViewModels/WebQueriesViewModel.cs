@@ -21,7 +21,7 @@
         {
             DataModelService dataModelService = IoC.Get<DataModelService>();
             Items.AddRange(dataModelService.SingleProducers
-                                           .Where(sp => sp is WebQuery)
+                                           .Where(sp => sp is WebQuery wq && !wq.IsCustom)
                                            .Select(sp =>
                                            {
                                                 WebQuery wq = sp as WebQuery;
