@@ -61,7 +61,9 @@
                           .Singleton<UtilityKeyphraseViewModel>()
                           .Singleton<ExpansionsViewModel>()
                           .Singleton<ClipboardManagerViewModel>()
-                          .Singleton<AboutViewModel>();
+                          .Singleton<AboutViewModel>()
+                          .Singleton<FeaturesViewModel>()
+                          .Singleton<WebQueriesViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)
