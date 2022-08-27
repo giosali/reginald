@@ -43,7 +43,7 @@
             </Border>
         </StackPanel>
 
-         <!--# DataGrid-->
+        <!--# DataGrid-->
         <Border Grid.Row="1"
                 Style="{StaticResource CardBorderStyle}">
             <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
