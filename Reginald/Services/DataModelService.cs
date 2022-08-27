@@ -53,6 +53,7 @@ namespace Reginald.Services
 
             // Handles those that receive key inputs.
             singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>("WebQueries.json", true));
+            singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>("YourWebQueries.json", false));
             singleProducers.Add(FileOperations.GetGenericDatum<Recycle>("Recycle.json", true));
             singleProducers.Add(FileOperations.GetGenericDatum<Timer>("Timer.json", true));
 
