@@ -98,12 +98,12 @@
                             </controls:LabeledTextBox.ToolTip>
                         </controls:LabeledTextBox>
 
-                        <!--### Url-->
+                        <!--### UrlFormat-->
                         <StackPanel Margin="0 12">
                             <controls:LabeledTextBox IsRequired="True"
-                                                     Label="URL"
+                                                     Label="URL format"
                                                      Placeholder="https://www.google.com/search?q={0}"
-                                                     Text="{Binding SelectedItem.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Text="{Binding SelectedItem.UrlFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Margin="5 0 0 0"
                                        Style="{StaticResource TertiaryParagraphTextBlock}"
                                        Text="{}{0} is what will be replaced by your input"/>
