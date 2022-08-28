@@ -120,7 +120,7 @@
                         </StackPanel>
 
                         <!--### EncodeInput-->
-                        <StackPanel Margin="0 6">
+                        <StackPanel Margin="0 0 0 6">
                             <TextBlock FontSize="12"
                                        Margin="5 0 0 0"
                                        Style="{StaticResource PrimaryParagraphTextBlockStyle}"
