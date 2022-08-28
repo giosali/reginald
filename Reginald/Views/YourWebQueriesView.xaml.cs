@@ -18,9 +18,9 @@ namespace Reginald.Views
     /// <summary>
     /// Interaction logic for YourWebQueriesViewModel.xaml
     /// </summary>
-    public partial class YourWebQueriesViewModel : UserControl
+    public partial class YourWebQueriesView : UserControl
     {
-        public YourWebQueriesViewModel()
+        public YourWebQueriesView()
         {
             InitializeComponent();
         }
