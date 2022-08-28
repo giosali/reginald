@@ -11,7 +11,7 @@
     <Style x:Key="InnerUserControlStackPanelStyle"
            TargetType="{x:Type StackPanel}">
         <Setter Property="Margin"
-                Value="0 0 0 18"/>
+                Value="0 0 0 6"/>
     </Style>
 
     <!-- # CardActionPanelStyle -->
