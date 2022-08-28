@@ -52,8 +52,8 @@ namespace Reginald.Services
             List<ISingleProducer<SearchResult>> singleProducers = new();
 
             // Handles those that receive key inputs.
-            singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>("WebQueries.json", true));
-            singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>("YourWebQueries.json", false));
+            singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true));
+            singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.UserFileName, false));
             singleProducers.Add(FileOperations.GetGenericDatum<Recycle>("Recycle.json", true));
             singleProducers.Add(FileOperations.GetGenericDatum<Timer>("Timer.json", true));
 
