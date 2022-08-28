@@ -10,6 +10,8 @@
 
     public class WebQuery : DataModel, ISingleProducer<SearchResult>
     {
+        public static string FileName = "WebQueries.json";
+
         public static string UserFileName = "YourWebQueries.json";
 
         private string _keyInput;
