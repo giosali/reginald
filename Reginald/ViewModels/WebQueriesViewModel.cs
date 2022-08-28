@@ -3,7 +3,10 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Windows;
     using Caliburn.Micro;
+    using Reginald.Core.Extensions;
+    using Reginald.Core.IO;
     using Reginald.Data.DataModels;
     using Reginald.Services;
 
@@ -16,6 +19,11 @@
         }
 
         public ConfigurationService ConfigurationService { get; set; }
+
+        public override void IsEnabled_Click(object sender, RoutedEventArgs e)
+        {
+            FileOperations.WriteFile(WebQuery.FileName, Items.Where(wq => !wq.IsEnabled).Serialize());
+        }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
