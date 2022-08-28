@@ -151,7 +151,7 @@
                                 <controls:LabeledTextBox IsRequired="True"
                                                          Label="Description format"
                                                          Placeholder="Search Google for '{0}'"
-                                                         Text="{Binding SelectedItem.Format, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                         Text="{Binding SelectedItem.DescriptionFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <TextBlock Margin="5 0 0 0"
                                            Style="{StaticResource TertiaryParagraphTextBlock}"
                                            Text="{}{0} is what will be replaced by what you type"/>
