@@ -69,20 +69,7 @@
                               HorizontalGridLinesBrush="{StaticResource QuaternaryBrush}"
                               ItemsSource="{Binding Items}"
                               SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                              SelectionMode="Single"
-                              cal:Message.Attach="[ContextMenuOpening] = [DataGrid_ContextMenuOpening($this, $eventargs)]">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Edit"
-                                          Tag="Edit"
-                                          cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]"/>
-
-                                <MenuItem Header="Delete"
-                                          Tag="Delete"
-                                          cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-
+                              SelectionMode="Single">
                         <DataGrid.Columns>
                              <!--## Icon-->
                             <DataGridTemplateColumn Header="Icon"
