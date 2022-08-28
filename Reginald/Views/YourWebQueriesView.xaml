@@ -131,7 +131,7 @@
                                                      Text="{Binding SelectedItem.Format, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Margin="5 0 0 0"
                                        Style="{StaticResource TertiaryParagraphTextBlock}"
-                                       Text="{}{0} is what will be dynamically replaced by your input as you type"/>
+                                       Text="{}{0} is what will be replaced by what you type"/>
                         </StackPanel>
 
                         <!--### Placeholder-->
@@ -233,6 +233,8 @@
                                                 <MultiDataTrigger.Conditions>
                                                     <Condition Binding="{Binding SelectedItem.Name.Length, UpdateSourceTrigger=PropertyChanged}"
                                                                Value="0"/>
+                                                    <Condition Binding="{Binding SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}"
+                                                               Value="{x:Null}"/>
                                                     <Condition Binding="{Binding SelectedItem.Word.Length, UpdateSourceTrigger=PropertyChanged}"
                                                                Value="0"/>
                                                     <Condition Binding="{Binding SelectedItem.Url.Length, UpdateSourceTrigger=PropertyChanged}"
