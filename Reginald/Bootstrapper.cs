@@ -63,7 +63,8 @@
                           .Singleton<ClipboardManagerViewModel>()
                           .Singleton<AboutViewModel>()
                           .Singleton<FeaturesViewModel>()
-                          .Singleton<WebQueriesViewModel>();
+                          .Singleton<WebQueriesViewModel>()
+                          .Singleton<YourWebQueriesViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)
