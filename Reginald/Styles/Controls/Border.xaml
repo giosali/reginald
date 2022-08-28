@@ -7,7 +7,5 @@
                 Value="{StaticResource ApplicationTertiaryBackgroundBrush}"/>
         <Setter Property="CornerRadius"
                 Value="4"/>
-        <Setter Property="Margin"
-                Value="0 0 0 24"/>
     </Style>
 </ResourceDictionary>
