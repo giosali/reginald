@@ -98,8 +98,18 @@
                             </controls:LabeledTextBox.ToolTip>
                         </controls:LabeledTextBox>
 
-                        <!--### UrlFormat-->
+                        <!--### Url-->
                         <StackPanel Margin="0 12">
+                            <StackPanel Margin="0 6">
+                                <controls:LabeledTextBox IsRequired="True"
+                                                         Label="URL"
+                                                         Placeholder="https://www.google.com"
+                                                         Text="{Binding SelectedItem.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Margin="5 0 0 0"
+                                           Style="{StaticResource TertiaryParagraphTextBlock}"
+                                           Text="If 'URL' is filled, 'URL format' will be ignored"/>
+                            </StackPanel>
+
                             <controls:LabeledTextBox IsRequired="True"
                                                      Label="URL format"
                                                      Placeholder="https://www.google.com/search?q={0}"
