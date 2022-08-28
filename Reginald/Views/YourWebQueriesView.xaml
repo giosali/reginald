@@ -40,14 +40,14 @@
                                     VerticalAlignment="Center">
                             <TextBlock Text="Create"
                                        Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"/>
-                            <TextBlock Text="Add a custom keyword"
+                            <TextBlock Text="Add a custom web query"
                                        Style="{StaticResource SecondaryParagraphTextBlock}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="3"
                                     VerticalAlignment="Center">
-                            <Button Content="Create a keyword"
-                                    cal:Message.Attach="[Click] = [CreateWebQueryButton_Click($this, $eventargs)]">
+                            <Button Content="Create a web query"
+                                    cal:Message.Attach="[Click] = [CreateButton_Click($this, $eventargs)]">
                                 <Button.Style>
                                     <Style BasedOn="{StaticResource SecondaryButtonStyle}"
                                            TargetType="{x:Type Button}">
@@ -267,7 +267,7 @@
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Text="Keywords"
                                    Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"/>
-                        <TextBlock Text="A display of keywords"
+                        <TextBlock Text="A display of your web queries"
                                    Style="{StaticResource SecondaryParagraphTextBlock}"/>
                     </StackPanel>
                 </StackPanel>
