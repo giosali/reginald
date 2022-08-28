@@ -48,7 +48,7 @@
                 <!-- ## Other Views -->
                 <ContentControl x:Name="ActiveItem"
                                 Grid.Row="0"
-                                Margin="0"/>
+                                Margin="0 0 0 24"/>
             </Grid>
         </ScrollViewer>
     </Grid>
