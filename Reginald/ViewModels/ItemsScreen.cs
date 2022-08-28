@@ -30,6 +30,8 @@
             }
         }
 
+        public abstract void IsEnabled_Click(object sender, RoutedEventArgs e);
+
         public virtual void Include_Click(object sender, RoutedEventArgs e)
         {
             IoC.Get<ConfigurationService>().Settings.Save();
