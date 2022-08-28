@@ -323,16 +323,6 @@
                                                 <Setter Property="IsEnabled"
                                                         Value="False"/>
                                             </MultiDataTrigger>
-                                            <!-- <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding SelectedItem.Caption.Length, UpdateSourceTrigger=PropertyChanged}"
-                                                               Value="0"/>
-                                                </MultiDataTrigger.Conditions>
-                                                <MultiDataTrigger.Setters>
-                                                    <Setter Property="IsEnabled"
-                                                            Value="False"/>
-                                                </MultiDataTrigger.Setters>
-                                            </MultiDataTrigger> -->
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
