@@ -21,8 +21,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Style="{StaticResource InnerUserControlStackPanelStyle}">
-            <!--# Create-->
+        <!--# Create-->
+        <StackPanel Grid.Row="0"
+                    Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
                 <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                     <Grid>
@@ -70,7 +71,7 @@
                     </Grid>
 
                     <!--## Form-->
-                    <StackPanel>
+                    <StackPanel Margin="0 0 0 12">
                         <StackPanel.Visibility>
                             <MultiBinding Converter="{StaticResource BooleanToVisibilityMultiConverter}">
                                 <Binding Path="IsBeingCreated"/>
@@ -109,7 +110,7 @@
                         </StackPanel>
 
                         <!--### EncodeInput-->
-                        <StackPanel Margin="0 12">
+                        <StackPanel Margin="0 6">
                             <TextBlock FontSize="12"
                                        Margin="5 0 0 0"
                                        Style="{StaticResource PrimaryParagraphTextBlockStyle}"
@@ -123,15 +124,28 @@
                             </CheckBox>
                         </StackPanel>
 
-                        <!--### DescriptionFormat-->
                         <StackPanel Margin="0 12">
-                            <controls:LabeledTextBox IsRequired="True"
-                                                     Label="Description format"
-                                                     Placeholder="Search Google for '{0}'"
-                                                     Text="{Binding SelectedItem.Format, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <!--### Description-->
+                            <StackPanel Margin="0 6">
+                                <controls:LabeledTextBox IsRequired="True"
+                                                         Label="Description"
+                                                         Placeholder="Go to the Google Homepage"
+                                                         Text="{Binding SelectedItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Margin="5 0 0 0"
+                                       Style="{StaticResource TertiaryParagraphTextBlock}"
+                                       Text="If 'Description' is filled, the 'Description format' and 'Placeholder' will be ignored"/>
+                            </StackPanel>
+
+                            <!--### DescriptionFormat-->
+                            <StackPanel Margin="0 6">
+                                <controls:LabeledTextBox IsRequired="True"
+                                                         Label="Description format"
+                                                         Placeholder="Search Google for '{0}'"
+                                                         Text="{Binding SelectedItem.Format, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Margin="5 0 0 0"
                                        Style="{StaticResource TertiaryParagraphTextBlock}"
                                        Text="{}{0} is what will be replaced by what you type"/>
+                            </StackPanel>
                         </StackPanel>
 
                         <!--### Placeholder-->
@@ -229,7 +243,17 @@
                                     <Style BasedOn="{StaticResource PrimaryButtonStyle}"
                                            TargetType="{x:Type Button}">
                                         <Style.Triggers>
-                                            <MultiDataTrigger>
+                                            <DataTrigger Binding="{Binding SelectedItem.Name.Length}"
+                                                         Value="0">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SelectedItem.Name}"
+                                                         Value="{x:Null}">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False"/>
+                                            </DataTrigger>
+                                            <!-- <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
                                                     <Condition Binding="{Binding SelectedItem.Name.Length, UpdateSourceTrigger=PropertyChanged}"
                                                                Value="0"/>
@@ -248,7 +272,7 @@
                                                     <Setter Property="IsEnabled"
                                                             Value="False"/>
                                                 </MultiDataTrigger.Setters>
-                                            </MultiDataTrigger>
+                                            </MultiDataTrigger> -->
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
