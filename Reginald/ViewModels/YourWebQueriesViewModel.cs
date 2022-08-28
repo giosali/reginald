@@ -59,7 +59,7 @@
             IsBeingCreated = IsBeingEdited = false;
         }
 
-        public void CreateWebQueryButton_Click(object sender, RoutedEventArgs e)
+        public void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             IsBeingCreated = true;
             SelectedItem = new WebQuery
@@ -163,7 +163,7 @@
                                                WebQuery wq = sp as WebQuery;
                                                if (string.IsNullOrEmpty(wq.Description))
                                                {
-                                                   wq.Description = string.Format(wq.DescriptionFormat, wq.Placeholder);
+                                                   wq.Description = string.Format(wq.DescriptionFormat ?? string.Empty, wq.Placeholder ?? string.Empty);
                                                }
 
                                                return wq;
