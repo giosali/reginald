@@ -13,6 +13,7 @@
             <!--# Converters-->
             <local:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter"/>
             <local:DescriptionMultiConverter x:Key="DescriptionMultiConverter"/>
+            <local:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -102,22 +103,24 @@
                         <!--### Url-->
                         <StackPanel Margin="0 12">
                             <StackPanel Margin="0 6">
-                                <controls:LabeledTextBox IsRequired="True"
-                                                         Label="URL"
-                                                         Placeholder="https://www.google.com"
-                                                         Text="{Binding SelectedItem.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.Url, Converter={StaticResource StringToBooleanConverter}}"
+                                                         IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
+                                                         Label="URL format"
+                                                         Placeholder="https://www.google.com/search?q={0}"
+                                                         Text="{Binding SelectedItem.UrlFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <TextBlock Margin="5 0 0 0"
                                            Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="If 'URL' is filled, 'URL format' will be ignored"/>
+                                           Text="{}{0} is what will be replaced by your input"/>
                             </StackPanel>
 
-                            <controls:LabeledTextBox IsRequired="True"
-                                                     Label="URL format"
-                                                     Placeholder="https://www.google.com/search?q={0}"
-                                                     Text="{Binding SelectedItem.UrlFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.UrlFormat, Converter={StaticResource StringToBooleanConverter}}"
+                                                     IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
+                                                     Label="URL"
+                                                     Placeholder="https://www.google.com"
+                                                     Text="{Binding SelectedItem.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Margin="5 0 0 0"
                                        Style="{StaticResource TertiaryParagraphTextBlock}"
-                                       Text="{}{0} is what will be replaced by your input"/>
+                                       Text="If 'URL' is filled, 'URL format' will be ignored"/>
                         </StackPanel>
 
                         <!--### EncodeInput-->
@@ -136,26 +139,28 @@
                         </StackPanel>
 
                         <StackPanel Margin="0 12">
-                            <!--### Description-->
-                            <StackPanel Margin="0 6">
-                                <controls:LabeledTextBox IsRequired="True"
-                                                         Label="Description"
-                                                         Placeholder="Go to the Google Homepage"
-                                                         Text="{Binding SelectedItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <TextBlock Margin="5 0 0 0"
-                                           Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="If 'Description' is filled, 'Description format' and 'Placeholder' will be ignored"/>
-                            </StackPanel>
-
                             <!--### DescriptionFormat-->
                             <StackPanel Margin="0 6">
-                                <controls:LabeledTextBox IsRequired="True"
+                                <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.Description, Converter={StaticResource StringToBooleanConverter}}"
+                                                         IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                                                          Label="Description format"
                                                          Placeholder="Search Google for '{0}'"
                                                          Text="{Binding SelectedItem.DescriptionFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <TextBlock Margin="5 0 0 0"
                                            Style="{StaticResource TertiaryParagraphTextBlock}"
                                            Text="{}{0} is what will be replaced by what you type"/>
+                            </StackPanel>
+
+                            <!--### Description-->
+                            <StackPanel Margin="0 6">
+                                <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.DescriptionFormat, Converter={StaticResource StringToBooleanConverter}}"
+                                                         IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
+                                                         Label="Description"
+                                                         Placeholder="Go to the Google Homepage"
+                                                         Text="{Binding SelectedItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Margin="5 0 0 0"
+                                           Style="{StaticResource TertiaryParagraphTextBlock}"
+                                           Text="If 'Description' is filled, 'Description format' and 'Placeholder' will be ignored"/>
                             </StackPanel>
                         </StackPanel>
 
