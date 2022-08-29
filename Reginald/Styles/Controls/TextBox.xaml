@@ -51,6 +51,13 @@
                 <Setter Property="BorderBrush"
                         Value="{StaticResource ApplicationBrandBrush}"/>
             </Trigger>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="{StaticResource ApplicationTertiaryBackgroundBrush}"/>
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource QuaternaryBrush}"/>
+            </Trigger>
         </Style.Triggers>
     </Style>
     
