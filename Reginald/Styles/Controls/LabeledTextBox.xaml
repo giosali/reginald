@@ -36,6 +36,7 @@
                                          Style="{StaticResource PrimaryTextBoxStyle}"
                                          AcceptsReturn="{TemplateBinding AcceptsReturn}"
                                          AcceptsTab="{TemplateBinding AcceptsTab}"
+                                         IsEnabled="{TemplateBinding IsEnabled}"
                                          Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                          TextAlignment="{Binding TextAlignment, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 <TextBlock Text="{Binding Placeholder, RelativeSource={RelativeSource TemplatedParent}}"
