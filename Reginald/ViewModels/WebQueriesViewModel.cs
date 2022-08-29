@@ -27,15 +27,10 @@
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            DataModelService dataModelService = IoC.Get<DataModelService>();
-            Items.AddRange(dataModelService.SingleProducers
-                                           .Where(sp => sp is WebQuery wq && !wq.IsCustom)
-                                           .Select(sp =>
-                                           {
-                                                WebQuery wq = sp as WebQuery;
-                                                wq.Description = string.Format(wq.DescriptionFormat, wq.Placeholder);
-                                                return wq;
-                                            }));
+            DataModelService dms = IoC.Get<DataModelService>();
+            Items.AddRange(dms.SingleProducers
+                              .Where(sp => sp is WebQuery wq && !wq.IsCustom)
+                              .Select(sp => sp as WebQuery));
             return base.OnActivateAsync(cancellationToken);
         }
 
