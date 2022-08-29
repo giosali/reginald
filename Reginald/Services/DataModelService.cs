@@ -9,21 +9,22 @@ namespace Reginald.Services
 {
     internal class DataModelService
     {
-        private static readonly FileSystemWatcher _fsw;
+        private readonly FileSystemWatcher[] _fsws;
 
         public DataModelService()
         {
             SetSingleProducers();
             SetMultipleProducers();
 
-            FileSystemWatcher _fsw = new(FileOperations.ApplicationAppDataDirectoryPath);
-            _fsw.NotifyFilter = NotifyFilters.Attributes
+            FileSystemWatcher fsw = new(FileOperations.ApplicationAppDataDirectoryPath, "*.json");
+            fsw.NotifyFilter = NotifyFilters.Attributes
                               | NotifyFilters.CreationTime
                               | NotifyFilters.LastAccess
                               | NotifyFilters.LastWrite
                               | NotifyFilters.Size;
-            _fsw.Changed += OnChanged;
-            _fsw.EnableRaisingEvents = true;
+            fsw.Changed += OnChanged;
+            fsw.EnableRaisingEvents = true;
+            _fsws = new FileSystemWatcher[] { fsw };
         }
 
         public IMultipleProducer<SearchResult>[] MultipleProducers { get; set; }
@@ -32,8 +33,15 @@ namespace Reginald.Services
 
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
-            SetSingleProducers();
-            SetMultipleProducers();
+            switch (e.ChangeType)
+            {
+                case WatcherChangeTypes.Created:
+                case WatcherChangeTypes.Deleted:
+                case WatcherChangeTypes.Changed:
+                    SetSingleProducers();
+                    SetMultipleProducers();
+                    break;
+            }
         }
 
         private void SetMultipleProducers()
