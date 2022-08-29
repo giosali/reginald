@@ -38,14 +38,9 @@
                          Tag="Themes"
                          cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]"/>
 
-            <!-- ## Keywords -->
-            <ListBoxItem Content="Keywords"
-                         Tag="Keywords"
-                         cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]"/>
-
-            <!-- ## Keyphrases -->
-            <ListBoxItem Content="Keyphrases"
-                         Tag="Keyphrases"
+            <!-- ## Features -->
+            <ListBoxItem Content="Features"
+                         Tag="Features"
                          cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]"/>
 
             <!-- ## Expansions -->

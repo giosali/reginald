@@ -61,8 +61,7 @@
             {
                 "General" => typeof(GeneralViewModel),
                 "Themes" => typeof(ThemesViewModel),
-                "Keywords" => typeof(KeywordsViewModel),
-                "Keyphrases" => typeof(KeyphrasesViewModel),
+                "Features" => typeof(FeaturesViewModel),
                 "Expansions" => typeof(ExpansionsViewModel),
                 "ClipboardManager" => typeof(ClipboardManagerViewModel),
                 "About" => typeof(AboutViewModel),
