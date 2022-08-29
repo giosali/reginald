@@ -120,6 +120,7 @@
             switch (menuItem.Tag)
             {
                 case "Edit":
+                    _tempIconPath = null;
                     IsBeingEdited = true;
                     break;
                 case "Delete":
