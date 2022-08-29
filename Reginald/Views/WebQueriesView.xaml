@@ -4,8 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:local="clr-namespace:Reginald.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!--# Converters-->
+            <local:DescriptionMultiConverter x:Key="DescriptionMultiConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -105,11 +113,18 @@
                             </DataGridTextColumn>
 
                              <!--## Description-->
-                            <DataGridTextColumn Binding="{Binding Description}"
-                                                FontSize="12"
+                            <DataGridTextColumn FontSize="12"
                                                 Header="Description"
                                                 IsReadOnly="True"
                                                 Width="3*">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource DescriptionMultiConverter}"
+                                                  Mode="OneWay">
+                                        <Binding Path="Description"/>
+                                        <Binding Path="DescriptionFormat"/>
+                                        <Binding Path="Placeholder"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
                                 <DataGridTextColumn.ElementStyle>
                                     <Style BasedOn="{StaticResource {x:Type TextBlock}}"
                                            TargetType="{x:Type TextBlock}">
