@@ -143,7 +143,7 @@
                                                          Text="{Binding SelectedItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <TextBlock Margin="5 0 0 0"
                                            Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="If 'Description' is filled, the 'Description format' and 'Placeholder' will be ignored"/>
+                                           Text="If 'Description' is filled, 'Description format' and 'Placeholder' will be ignored"/>
                             </StackPanel>
 
                             <!--### DescriptionFormat-->
