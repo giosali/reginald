@@ -64,11 +64,15 @@
             IsBeingCreated = true;
             SelectedItem = new WebQuery
             {
+                Description = string.Empty,
+                DescriptionFormat = string.Empty,
                 EncodeInput = true,
                 Guid = Guid.NewGuid(),
                 IsCustom = true,
                 IsEnabled = true,
                 Placeholder = "...",
+                Url = string.Empty,
+                UrlFormat = string.Empty,
             };
         }
 
