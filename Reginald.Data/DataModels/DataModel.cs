@@ -1,10 +1,13 @@
 namespace Reginald.Data.DataModels
 {
     using System;
+    using Caliburn.Micro;
     using Newtonsoft.Json;
 
-    public abstract class DataModel
+    public abstract class DataModel : PropertyChangedBase
     {
+        private string _iconPath;
+
         [JsonProperty("caption")]
         public string Caption { get; set; }
 
@@ -15,7 +18,15 @@ namespace Reginald.Data.DataModels
         public Guid Guid { get; set; }
 
         [JsonProperty("iconPath")]
-        public string IconPath { get; set; }
+        public string IconPath
+        {
+            get => _iconPath;
+            set
+            {
+                _iconPath = value;
+                NotifyOfPropertyChange(() => IconPath);
+            }
+        }
 
         [JsonProperty("name")]
         public string Name { get; set; }
