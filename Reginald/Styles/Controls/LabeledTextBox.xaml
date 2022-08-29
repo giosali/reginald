@@ -20,10 +20,12 @@
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="{Binding Label, RelativeSource={RelativeSource TemplatedParent}}"
                                        Foreground="{StaticResource PrimaryBrush}"
+                                       IsTabStop="False"
                                        Margin="0 0 0 2.5"
                                        Padding="6 0 0 0"/>
                                 <Label Content="*"
                                        Foreground="Red"
+                                       IsTabStop="False"
                                        Margin="0"
                                        Padding="0"
                                        Visibility="{Binding IsRequired, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
