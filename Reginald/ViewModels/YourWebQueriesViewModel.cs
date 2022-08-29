@@ -103,17 +103,16 @@
 
             // Creates a directory in %APPDATA% for storing user icons.
             _ = Directory.CreateDirectory(Path.GetDirectoryName(path));
-            if (File.Exists(path))
+            while (File.Exists(path))
             {
-                (string stem, string period, string extension) = path.RPartition(".");
-                (string fileName, string hyphen, string number) = stem.RPartition(".");
+                (string fileName, string hyphen, string number) = Path.GetFileNameWithoutExtension(path).RPartition("-");
                 if (hyphen.Length != 0 && int.TryParse(number, out int n))
                 {
-                    path = fileName + hyphen + ++n + period + extension;
+                    path = fileName + hyphen + ++n + Path.GetExtension(path);
                 }
                 else
                 {
-                    path = stem + -1 + period + extension;
+                    path = fileName + -1 + Path.GetExtension(path);
                 }
             }
 
