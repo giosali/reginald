@@ -285,30 +285,10 @@
                                             </DataTrigger>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding SelectedItem.Url}"
-                                                               Value="{x:Null}"/>
-                                                    <Condition Binding="{Binding SelectedItem.UrlFormat}"
-                                                               Value="{x:Null}"/>
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="IsEnabled"
-                                                        Value="False"/>
-                                            </MultiDataTrigger>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
                                                     <Condition Binding="{Binding SelectedItem.Url.Length}"
                                                                Value="0"/>
                                                    <Condition Binding="{Binding SelectedItem.UrlFormat.Length}"
                                                               Value="0"/>
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="IsEnabled"
-                                                        Value="False"/>
-                                            </MultiDataTrigger>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding SelectedItem.Description}"
-                                                               Value="{x:Null}"/>
-                                                    <Condition Binding="{Binding SelectedItem.DescriptionFormat}"
-                                                               Value="{x:Null}"/>
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="IsEnabled"
                                                         Value="False"/>
