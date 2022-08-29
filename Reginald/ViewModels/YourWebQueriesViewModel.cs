@@ -26,6 +26,8 @@
 
         private bool _isBeingEdited;
 
+        private string _tempIconPath;
+
         public YourWebQueriesViewModel(ConfigurationService configurationService)
             : base("Features > Your Web Queries")
         {
@@ -57,6 +59,7 @@
         public void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             SelectedItem = null;
+            _tempIconPath = null;
             IsBeingCreated = IsBeingEdited = false;
         }
 
@@ -99,26 +102,7 @@
                 return;
             }
 
-            string directory = Path.Combine(FileOperations.ApplicationAppDataDirectoryPath, UserIconsDirectoryName);
-            string path = Path.Combine(directory, Path.GetFileName(filePath));
-
-            // Creates a directory in %APPDATA% for storing user icons.
-            _ = Directory.CreateDirectory(Path.GetDirectoryName(path));
-            while (File.Exists(path))
-            {
-                (string fileName, string hyphen, string number) = Path.GetFileNameWithoutExtension(path).RPartition("-");
-                if (hyphen.Length != 0 && int.TryParse(number, out int n))
-                {
-                    path = Path.Combine(directory, fileName + hyphen + ++n + Path.GetExtension(path));
-                }
-                else
-                {
-                    path = Path.Combine(directory, fileName + -1 + Path.GetExtension(path));
-                }
-            }
-
-            File.Copy(openFileDialog.FileName, path);
-            SelectedItem.IconPath = path;
+            SelectedItem.IconPath = _tempIconPath = filePath;
         }
 
         public override void IsEnabled_Click(object sender, RoutedEventArgs e)
@@ -148,6 +132,30 @@
 
         public void SaveKeywordButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!string.IsNullOrEmpty(_tempIconPath))
+            {
+                // Creates a directory in %APPDATA% for storing user icons.
+                string directory = Path.Combine(FileOperations.ApplicationAppDataDirectoryPath, UserIconsDirectoryName);
+                _ = Directory.CreateDirectory(directory);
+
+                string path = Path.Combine(directory, Path.GetFileName(_tempIconPath));
+                while (File.Exists(path))
+                {
+                    (string fileName, string hyphen, string number) = Path.GetFileNameWithoutExtension(path).RPartition("-");
+                    if (hyphen.Length != 0 && int.TryParse(number, out int n))
+                    {
+                        path = Path.Combine(directory, fileName + hyphen + ++n + Path.GetExtension(path));
+                    }
+                    else
+                    {
+                        path = Path.Combine(directory, fileName + -1 + Path.GetExtension(path));
+                    }
+                }
+
+                File.Copy(_tempIconPath, path);
+                _tempIconPath = null;
+            }
+
             if (IsBeingCreated)
             {
                 Items.Add(SelectedItem);
