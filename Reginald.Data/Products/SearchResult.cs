@@ -62,14 +62,14 @@
             }
         }
 
-        public override void PressAltAndEnter(InputProcessingEventArgs e)
-        {
-            OnAltAndEnterKeysPressed(e);
-        }
-
         public override void PressAlt(InputProcessingEventArgs e)
         {
             OnAltKeyPressed(e);
+        }
+
+        public override void PressAltAndEnter(InputProcessingEventArgs e)
+        {
+            OnAltAndEnterKeysPressed(e);
         }
 
         public override void PressEnter(InputProcessingEventArgs e)
