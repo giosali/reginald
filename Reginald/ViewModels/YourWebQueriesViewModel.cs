@@ -99,7 +99,8 @@
                 return;
             }
 
-            string path = Path.Combine(FileOperations.ApplicationAppDataDirectoryPath, UserIconsDirectoryName, Path.GetFileName(filePath));
+            string directory = Path.Combine(FileOperations.ApplicationAppDataDirectoryPath, UserIconsDirectoryName);
+            string path = Path.Combine(directory, Path.GetFileName(filePath));
 
             // Creates a directory in %APPDATA% for storing user icons.
             _ = Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -108,11 +109,11 @@
                 (string fileName, string hyphen, string number) = Path.GetFileNameWithoutExtension(path).RPartition("-");
                 if (hyphen.Length != 0 && int.TryParse(number, out int n))
                 {
-                    path = fileName + hyphen + ++n + Path.GetExtension(path);
+                    path = Path.Combine(directory, fileName + hyphen + ++n + Path.GetExtension(path));
                 }
                 else
                 {
-                    path = fileName + -1 + Path.GetExtension(path);
+                    path = Path.Combine(directory, fileName + -1 + Path.GetExtension(path));
                 }
             }
 
