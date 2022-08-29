@@ -56,6 +56,7 @@
 
         public void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            SelectedItem = null;
             IsBeingCreated = IsBeingEdited = false;
         }
 
@@ -76,7 +77,7 @@
             };
         }
 
-        public void IconBorder_MouseDown(object sender, MouseButtonEventArgs e)
+        public void IconBorder_MouseUp(object sender, MouseButtonEventArgs e)
         {
             OpenFileDialog openFileDialog = new();
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";

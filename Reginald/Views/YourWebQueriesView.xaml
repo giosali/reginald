@@ -204,7 +204,7 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Width="75"
-                                    cal:Message.Attach="[MouseDown] = [IconBorder_MouseDown($this, $eventargs)]">
+                                    cal:Message.Attach="[MouseUp] = [IconBorder_MouseUp($this, $eventargs)]">
                                 <Border.ToolTip>
                                     <ToolTip Content="Click to upload a PNG file"/>
                                 </Border.ToolTip>
