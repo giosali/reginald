@@ -22,6 +22,8 @@
 
         private const string UserIconsDirectoryName = "UserIcons";
 
+        private string _iconPath;
+
         private bool _isBeingCreated;
 
         private bool _isBeingEdited;
@@ -35,6 +37,16 @@
         }
 
         public ConfigurationService ConfigurationService { get; set; }
+
+        public string IconPath
+        {
+            get => _iconPath;
+            set
+            {
+                _iconPath = value;
+                NotifyOfPropertyChange(() => IconPath);
+            }
+        }
 
         public bool IsBeingCreated
         {
@@ -68,12 +80,15 @@
             IsBeingCreated = true;
             SelectedItem = new WebQuery
             {
+                Caption = string.Empty,
                 Description = string.Empty,
                 DescriptionFormat = string.Empty,
                 EncodeInput = true,
                 Guid = Guid.NewGuid(),
                 IsCustom = true,
                 IsEnabled = true,
+                Key = string.Empty,
+                Name = string.Empty,
                 Placeholder = "...",
                 Url = string.Empty,
                 UrlFormat = string.Empty,
@@ -102,7 +117,7 @@
                 return;
             }
 
-            SelectedItem.IconPath = _tempIconPath = filePath;
+            IconPath = _tempIconPath = filePath;
         }
 
         public override void IsEnabled_Click(object sender, RoutedEventArgs e)
@@ -121,6 +136,7 @@
             {
                 case "Edit":
                     _tempIconPath = null;
+                    IconPath = SelectedItem.IconPath;
                     IsBeingEdited = true;
                     break;
                 case "Delete":
@@ -155,6 +171,7 @@
 
                 File.Copy(_tempIconPath, path);
                 _tempIconPath = null;
+                SelectedItem.IconPath = path;
             }
 
             if (IsBeingCreated)
@@ -162,26 +179,17 @@
                 Items.Add(SelectedItem);
             }
 
-            SelectedItem = null;
             FileOperations.WriteFile(WebQuery.UserFileName, Items.Serialize());
+            SelectedItem = null;
             IsBeingCreated = IsBeingEdited = false;
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            DataModelService dataModelService = IoC.Get<DataModelService>();
-            Items.AddRange(dataModelService.SingleProducers
-                                           .Where(sp => sp is WebQuery wq && wq.IsCustom)
-                                           .Select(sp =>
-                                           {
-                                               WebQuery wq = sp as WebQuery;
-                                               if (string.IsNullOrEmpty(wq.Description))
-                                               {
-                                                   wq.Description = string.Format(wq.DescriptionFormat ?? string.Empty, wq.Placeholder ?? string.Empty);
-                                               }
-
-                                               return wq;
-                                           }));
+            DataModelService dms = IoC.Get<DataModelService>();
+            Items.AddRange(dms.SingleProducers
+                              .Where(sp => sp is WebQuery wq && wq.IsCustom)
+                              .Select(sp => sp as WebQuery));
             return base.OnActivateAsync(cancellationToken);
         }
 
