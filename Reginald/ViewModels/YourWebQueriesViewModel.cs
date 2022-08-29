@@ -99,7 +99,7 @@
                 return;
             }
 
-            string path = Path.Combine(Path.Combine(FileOperations.ApplicationAppDataDirectoryPath, UserIconsDirectoryName), openFileDialog.FileName.Split(@"\", 2)[^1]);
+            string path = Path.Combine(FileOperations.ApplicationAppDataDirectoryPath, UserIconsDirectoryName, Path.GetFileName(filePath));
 
             // Creates a directory in %APPDATA% for storing user icons.
             _ = Directory.CreateDirectory(Path.GetDirectoryName(path));
