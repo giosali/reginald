@@ -124,7 +124,7 @@
         {
             // Resets index of selected item to 0 if the selected itme is null
             // and if there are items.
-            if (SelectedItem is null && Items?.Count > 0)
+            if (Items?.Count > 0)
             {
                 SelectedItem = Items[0];
             }
