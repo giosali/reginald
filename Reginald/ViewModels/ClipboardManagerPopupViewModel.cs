@@ -36,7 +36,8 @@
             ClipboardUtility utility = ClipboardUtility.GetClipboardUtility();
             utility.ClipboardChanged += OnClipboardChanged;
 
-            Items = new(ReadClipboardDatabase().Select(r => new ClipboardItem(r)));
+            _clipboardItems.AddRange(ReadClipboardDatabase().Select(r => new ClipboardItem(r)));
+            Items.AddRange(_clipboardItems);
             Items.CollectionChanged += OnCollectionChanged;
         }
 
@@ -232,6 +233,9 @@
             {
                 _clipboardItems.RemoveAt(ClipboardLimit);
             }
+
+            Items.Clear();
+            Items.AddRange(_clipboardItems);
 
             EmptyClipboardDatabase();
             CreateClipboardDatabase();
