@@ -4,26 +4,28 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Linq;
+    using System.Runtime.InteropServices;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Input;
-    using Caliburn.Micro;
     using Microsoft.Data.Sqlite;
-    using Reginald.Core.Helpers;
     using Reginald.Core.IO;
-    using Reginald.Data.Comparers;
-    using Reginald.Data.DisplayItems;
+    using Reginald.Data.Inputs;
+    using Reginald.Data.Products;
     using Reginald.Services;
     using Reginald.Services.Utilities;
 
     public class ClipboardManagerPopupViewModel : SearchPopupViewModelScreen<ClipboardItem>
     {
+        private const uint ClipboardExceptionCantOpen = 0x800401D0;
+
         private const string ClipboardFilename = "Clipboard.db";
 
         private const int ClipboardLimit = 25;
 
-        private string _userInput;
+        private readonly List<ClipboardItem> _clipboardItems = new();
 
         public ClipboardManagerPopupViewModel(ConfigurationService configurationService)
             : base(configurationService)
@@ -38,56 +40,23 @@
             Items.CollectionChanged += OnCollectionChanged;
         }
 
-        public override string UserInput
+        public void Item_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            get => _userInput;
-            set
-            {
-                _userInput = value;
-                NotifyOfPropertyChange(() => UserInput);
-                NotifyOfPropertyChange(() => DisplayItems);
-                OnCollectionChanged(null, null);
-            }
+            // Keeps a copy of the SelectedItem because SelectedItem could 
+            // be changed after calling Hide.
+            ClipboardItem selectedItem = SelectedItem;
+            Hide();
+            selectedItem?.PressEnter(new InputProcessingEventArgs());
         }
 
-        public BindableCollection<ClipboardItem> DisplayItems => new(Items.Where(item =>
+        public void Items_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (!string.IsNullOrEmpty(UserInput))
+            if (Items.Count == 0)
             {
-                return item.Description.Contains(UserInput, StringComparison.OrdinalIgnoreCase);
+                return;
             }
 
-            return true;
-        }));
-
-        public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Up:
-                    SelectedItem = DisplayItems[Math.Max(DisplayItems.IndexOf(SelectedItem) - 1, 0)];
-                    IsMouseOverChanged = false;
-                    break;
-
-                case Key.Down:
-                    SelectedItem = DisplayItems[Math.Min(DisplayItems.IndexOf(SelectedItem) + 1, DisplayItems.Count - 1)];
-                    IsMouseOverChanged = false;
-                    break;
-
-                case Key.Enter:
-                    SelectedItem.EnterKeyDown();
-                    Hide();
-                    break;
-            }
-        }
-
-        public void UserInput_PreviewKeyUp(object sender, KeyEventArgs e)
-        {
-            // Prevents premature input from appearing. For example, if the user
-            // binds the clipboard manager to Control + Space and we didn't set e.Handled
-            // to true, there will be a starting space character in the text each time
-            // the user activates the clipboard manager by pressing those keys.
-            e.Handled = true;
+            SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
         }
 
         /// <summary>
@@ -105,35 +74,59 @@
             Hide();
         }
 
-        public void Item_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Keeps a copy of the SelectedItem because SelectedItem will be null
-            // after calling Hide.
-            ClipboardItem selectedItem = SelectedItem;
-            if (selectedItem is not null)
+            switch (e.Key)
             {
-                Hide();
-                selectedItem.EnterKeyDown();
+                case Key.Enter:
+                    // Keeps a copy of the SelectedItem because SelectedItem could 
+                    // be changed after calling Hide.
+                    ClipboardItem selectedItem = SelectedItem;
+                    Hide();
+                    SelectedItem?.PressEnter(new InputProcessingEventArgs());
+                    break;
+                case Key.Up:
+                    SelectedItem = Items[Math.Max(Items.IndexOf(SelectedItem) - 1, 0)];
+                    IsMouseOverChanged = false;
+                    break;
+                case Key.Down:
+                    SelectedItem = Items[Math.Min(Items.IndexOf(SelectedItem) + 1, Items.Count - 1)];
+                    IsMouseOverChanged = false;
+                    break;
             }
         }
 
-        public void Items_MouseLeave(object sender, MouseEventArgs e)
+        public void UserInput_PreviewKeyUp(object sender, KeyEventArgs e)
         {
-            try
+            // Prevents premature input from appearing. For example, if the user
+            // binds the clipboard manager to Control + Space and we didn't set e.Handled
+            // to true, there will be a starting space character in the text each time
+            // the user activates the clipboard manager by pressing those keys.
+            e.Handled = true;
+        }
+
+        public void UserInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Items.Clear();
+            IsMouseOverChanged = false;
+            MousePosition = default;
+
+            string userInput = UserInput;
+            if (userInput.Length == 0)
             {
-                SelectedItem = DisplayItems.Contains(LastSelectedItem) ? LastSelectedItem : DisplayItems[0];
+                Items.AddRange(_clipboardItems);
             }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
+
+            Items.AddRange(_clipboardItems.Where(i => i.Description.Contains(userInput, StringComparison.OrdinalIgnoreCase)));
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            // Resets index of selected item to 0 if there are any items
-            if (DisplayItems?.Count > 0)
+            // Resets index of selected item to 0 if the selected itme is null
+            // and if there are items.
+            if (SelectedItem is null && Items?.Count > 0)
             {
-                SelectedItem = DisplayItems[0];
+                SelectedItem = Items[0];
             }
 
             return base.OnActivateAsync(cancellationToken);
@@ -155,11 +148,22 @@
             @"
                 CREATE TABLE IF NOT EXISTS 'clipboard'(
                     id INTEGER PRIMARY KEY,
-                    type INTEGER NOT NULL,
                     text TEXT,
-                    icon BLOB,
                     datetime TEXT
                 );
+            ";
+            command.ExecuteNonQuery();
+        }
+
+        private static void EmptyClipboardDatabase()
+        {
+            string filePath = FileOperations.GetFilePath(ClipboardFilename);
+            using SqliteConnection connection = new($"Data Source={filePath}");
+            connection.Open();
+            SqliteCommand command = connection.CreateCommand();
+            command.CommandText =
+            @"
+                DROP TABLE IF EXISTS 'clipboard'
             ";
             command.ExecuteNonQuery();
         }
@@ -181,46 +185,67 @@
             }
         }
 
-        private static void EmptyClipboardDatabase()
+        private static bool TryGetText(out string text)
         {
-            string filePath = FileOperations.GetFilePath(ClipboardFilename);
-            using SqliteConnection connection = new($"Data Source={filePath}");
-            connection.Open();
-            SqliteCommand command = connection.CreateCommand();
-            command.CommandText =
-            @"
-                DROP TABLE IF EXISTS 'clipboard'
-            ";
-            command.ExecuteNonQuery();
+            text = null;
+            if (!Clipboard.ContainsText())
+            {
+                return false;
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    text = Clipboard.GetText();
+                    return true;
+                }
+                catch (COMException ex)
+                {
+                    if ((uint)ex.ErrorCode != ClipboardExceptionCantOpen)
+                    {
+                        throw;
+                    }
+
+                    Thread.Sleep(10);
+                }
+            }
+
+            return false;
         }
 
         private void OnClipboardChanged(object sender, EventArgs e)
         {
-            if (ClipboardHelper.TryGetText(out string text))
+            if (Clipboard.ContainsImage())
             {
-                Items.Insert(0, new ClipboardItem(text));
-                if (Items.Count > ClipboardLimit)
-                {
-                    Items.RemoveAt(ClipboardLimit - 1);
-                }
+                _clipboardItems.Insert(0, new ClipboardItem(Clipboard.GetImage()));
+                return;
+            }
 
-                Items = new(Items.Distinct(new ClipboardItemComparer()));
-                EmptyClipboardDatabase();
-                CreateClipboardDatabase();
-                WriteToClipboardDatabase();
-            }
-            else if (Clipboard.ContainsImage())
+            if (!TryGetText(out string text))
             {
-                Items.Insert(0, new ClipboardItem(Clipboard.GetImage()));
+                return;
             }
+
+            _clipboardItems.Insert(0, new ClipboardItem(text));
+            if (_clipboardItems.Count > ClipboardLimit)
+            {
+                _clipboardItems.RemoveAt(ClipboardLimit);
+            }
+
+            EmptyClipboardDatabase();
+            CreateClipboardDatabase();
+            WriteToClipboardDatabase();
         }
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (DisplayItems.Count > 0)
+            if (Items.Count == 0)
             {
-                SelectedItem = DisplayItems[0];
+                return;
             }
+
+            SelectedItem = Items[0];
         }
 
         private void WriteToClipboardDatabase()
@@ -232,21 +257,13 @@
             SqliteCommand command = connection.CreateCommand();
             command.CommandText =
             @"
-                INSERT INTO 'clipboard'(id, type, icon, text, datetime)
-                VALUES($id, $type, $icon, $text, $datetime)
+                INSERT INTO 'clipboard'(id, text, datetime)
+                VALUES($id, $text, $datetime)
             ";
 
             SqliteParameter idParameter = command.CreateParameter();
             idParameter.ParameterName = "$id";
             command.Parameters.Add(idParameter);
-
-            SqliteParameter typeParameter = command.CreateParameter();
-            typeParameter.ParameterName = "$type";
-            command.Parameters.Add(typeParameter);
-
-            SqliteParameter iconParameter = command.CreateParameter();
-            iconParameter.ParameterName = "$icon";
-            command.Parameters.Add(iconParameter);
 
             SqliteParameter textParameter = command.CreateParameter();
             textParameter.ParameterName = "$text";
@@ -259,15 +276,15 @@
             for (int i = 0; i < Items.Count; i++)
             {
                 ClipboardItem item = Items[i];
-                if (item.ClipboardItemType == ClipboardItemType.Text)
+                if (item.Image is not null)
                 {
-                    idParameter.Value = i + 1;
-                    typeParameter.Value = ClipboardItemType.Text;
-                    iconParameter.Value = item.Icon.ToString();
-                    textParameter.Value = item.Description;
-                    datetimeParameter.Value = item.DateTime.ToString();
-                    command.ExecuteNonQuery();
+                    continue;
                 }
+
+                idParameter.Value = i + 1;
+                textParameter.Value = item.Description;
+                datetimeParameter.Value = item.DateTime.ToString();
+                command.ExecuteNonQuery();
             }
 
             transaction.Commit();
