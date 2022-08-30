@@ -4,6 +4,7 @@ namespace Reginald.Data.Products
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Microsoft.Data.Sqlite;
+    using Reginald.Core.Helpers;
     using Reginald.Data.Drawing;
     using Reginald.Data.Inputs;
 
@@ -25,7 +26,12 @@ namespace Reginald.Data.Products
         {
             Icon = new("1");
             DateTime = DateTime.TryParse(reader["datetime"] as string, out DateTime dateTime) ? dateTime : DateTime.Now;
-            Description = reader["text"] as string;
+            string text = reader["text"] as string;
+            Description = text;
+            if (BrushHelper.TryFromString(text, out Brush brush))
+            {
+                HexBrush = brush;
+            }
         }
 
         public ClipboardItem(string description)
@@ -33,6 +39,10 @@ namespace Reginald.Data.Products
             Icon = new("1");
             Description = description;
             DateTime = DateTime.Now;
+            if (BrushHelper.TryFromString(description, out Brush brush))
+            {
+                HexBrush = brush;
+            }
         }
 
         public DateTime DateTime { get; set; }
@@ -46,6 +56,8 @@ namespace Reginald.Data.Products
                 NotifyOfPropertyChange(() => Description);
             }
         }
+
+        public Brush HexBrush { get; set; }
 
         public Icon Icon
         {
