@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Reginald.Core.IO;
-using Reginald.Data.DataModels;
-using Reginald.Data.Producers;
-using Reginald.Data.Products;
-
-namespace Reginald.Services
+﻿namespace Reginald.Services
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using Reginald.Core.IO;
+    using Reginald.Data.DataModels;
+    using Reginald.Data.Producers;
+    using Reginald.Data.Products;
+
     internal class DataModelService
     {
         private readonly FileSystemWatcher[] _fsws;
