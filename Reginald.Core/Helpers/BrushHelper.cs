@@ -39,12 +39,12 @@
                 return false;
             }
 
-            if (expression.StartsWith('#'))
+            if (!expression.StartsWith('#'))
             {
-                expression = expression[1..];
+                expression = "#" + expression;
             }
 
-            if (!int.TryParse(expression, NumberStyles.HexNumber, null, out _))
+            if (!int.TryParse(expression[1..], NumberStyles.HexNumber, null, out _))
             {
                 return false;
             }
@@ -53,7 +53,7 @@
             {
                 brush = (Brush)new BrushConverter().ConvertFromString(expression);
             }
-            catch (NotSupportedException)
+            catch (FormatException)
             {
                 return false;
             }
