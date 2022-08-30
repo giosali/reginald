@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Reginald.Core.IO;
 using Reginald.Data.DataModels;
@@ -18,10 +18,10 @@ namespace Reginald.Services
 
             FileSystemWatcher fsw = new(FileOperations.ApplicationAppDataDirectoryPath, "*.json");
             fsw.NotifyFilter = NotifyFilters.Attributes
-                              | NotifyFilters.CreationTime
-                              | NotifyFilters.LastAccess
-                              | NotifyFilters.LastWrite
-                              | NotifyFilters.Size;
+                             | NotifyFilters.CreationTime
+                             | NotifyFilters.LastAccess
+                             | NotifyFilters.LastWrite
+                             | NotifyFilters.Size;
             fsw.Changed += OnChanged;
             fsw.EnableRaisingEvents = true;
             _fsws = new FileSystemWatcher[] { fsw };
