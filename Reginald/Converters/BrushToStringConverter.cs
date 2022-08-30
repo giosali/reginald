@@ -11,9 +11,14 @@
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string format = parameter as string;
             SolidColorBrush brush = value as SolidColorBrush;
-            if (parameter is null && brush is null)
+            if (parameter is not string format)
+            {
+                _ = BrushHelper.TryGetName(brush, out string name);
+                return name;
+            }
+
+            if (brush is null)
             {
                 return null;
             }
@@ -25,10 +30,8 @@
             }
             catch (SystemException)
             {
+                return null;
             }
-
-            _ = BrushHelper.TryGetName(brush, out string name);
-            return name;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
