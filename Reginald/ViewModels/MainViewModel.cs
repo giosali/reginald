@@ -14,15 +14,15 @@
 
     public class MainViewModel : SearchPopupViewModelScreen<SearchResult>
     {
-        private readonly DataModelService _dataModelService;
+        private readonly DataModelService _dms;
 
-        private readonly ObjectModelService _objectModelService;
+        private readonly ObjectModelService _oms;
 
         public MainViewModel(ConfigurationService configurationService)
             : base(configurationService)
         {
-            _dataModelService = IoC.Get<DataModelService>();
-            _objectModelService = IoC.Get<ObjectModelService>();
+            _dms = IoC.Get<DataModelService>();
+            _oms = IoC.Get<ObjectModelService>();
         }
 
         public void UserInput_TextChanged(object sender, TextChangedEventArgs e)
@@ -38,17 +38,17 @@
             }
 
             List<SearchResult> items = new();
-            items.AddRange(_objectModelService.SingleProducers
-                                              .Where(sp => sp.Check(userInput))
-                                              .Select(sp => sp.Produce())
-                                              .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
-                                              .ThenBy(sp => sp.Description));
-            items.AddRange(_dataModelService.SingleProducers
-                                            .Where(sp => sp.Check(userInput))
-                                            .Select(sp => sp.Produce()));
-            items.AddRange(_dataModelService.MultipleProducers
-                                            .Where(mp => mp.Check(userInput))
-                                            .SelectMany(mp => mp.Produce()));
+            items.AddRange(_oms.SingleProducers
+                               .Where(sp => sp.Check(userInput))
+                               .Select(sp => sp.Produce())
+                               .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
+                               .ThenBy(sp => sp.Description));
+            items.AddRange(_dms.SingleProducers
+                               .Where(sp => sp.Check(userInput))
+                               .Select(sp => sp.Produce()));
+            items.AddRange(_dms.MultipleProducers
+                               .Where(mp => mp.Check(userInput))
+                               .SelectMany(mp => mp.Produce()));
             Items.AddRange(items.Take(25));
             if (Items.Count > 0)
             {
