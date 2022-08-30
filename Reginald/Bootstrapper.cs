@@ -58,6 +58,7 @@
                           .Singleton<FeaturesViewModel>()
                           .Singleton<WebQueriesViewModel>()
                           .Singleton<YourWebQueriesViewModel>()
+                          .Singleton<ApplicationsViewModel>()
                           .Singleton<CalculatorViewModel>();
         }
 
