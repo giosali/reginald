@@ -22,7 +22,7 @@
 
         public ConfigurationService ConfigurationService { get; set; }
 
-        public virtual string UserInput
+        public string UserInput
         {
             get => _userInput;
             set
