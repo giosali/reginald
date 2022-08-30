@@ -92,7 +92,7 @@
 
         public static T GetGenericDatum<T>(string fileName, bool isResource)
         {
-            return isResource ? DeserializeFile<T>(GetResourcePath(fileName)) : DeserializeFile<T>(GetFilePath(fileName));
+            return isResource ? DeserializeFile<T>(GetResourcePath(fileName)) : (DeserializeFile<T>(GetFilePath(fileName)) ?? JsonConvert.DeserializeObject<T>("{}"));
         }
 
         public static Uri GetResourcePath(string fileName)
