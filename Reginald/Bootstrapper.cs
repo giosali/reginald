@@ -57,7 +57,8 @@
                           .Singleton<AboutViewModel>()
                           .Singleton<FeaturesViewModel>()
                           .Singleton<WebQueriesViewModel>()
-                          .Singleton<YourWebQueriesViewModel>();
+                          .Singleton<YourWebQueriesViewModel>()
+                          .Singleton<CalculatorViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)
