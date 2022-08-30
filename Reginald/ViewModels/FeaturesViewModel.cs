@@ -15,6 +15,7 @@
             {
                 "WebQueries" => typeof(WebQueriesViewModel),
                 "YourWebQueries" => typeof(YourWebQueriesViewModel),
+                "Calculator" => typeof(CalculatorViewModel),
                 _ => null,
             };
             if (IoC.GetInstance(type, null) is IScreen screen && !screen.IsActive)
