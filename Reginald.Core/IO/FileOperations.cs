@@ -33,24 +33,24 @@
         {
             T type = default;
 
-            // Check if file exists
-            if (File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
-                // If it does, extract its contents
-                while (true)
-                {
-                    try
-                    {
-                        using StreamReader reader = new(filePath);
-                        string json = reader.ReadToEnd();
-                        type = JsonConvert.DeserializeObject<T>(json);
-                        break;
-                    }
+                return type;
+            }
 
-                    // If the file is already in use, try again until it's no longer in use
-                    catch (IOException)
-                    {
-                    }
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    using StreamReader reader = new(filePath);
+                    string json = reader.ReadToEnd();
+                    type = JsonConvert.DeserializeObject<T>(json);
+                    break;
+                }
+
+                // If the file is already in use, try again until it's no longer in use
+                catch (IOException)
+                {
                 }
             }
 
@@ -60,8 +60,8 @@
         public static T DeserializeFile<T>(Uri packUri)
         {
             T type = default;
-            int attempts = 0;
-            while (attempts < 10)
+
+            for (int i = 0; i < 10; i++)
             {
                 try
                 {
@@ -74,7 +74,6 @@
                 // If the file is already in use, try again until it's no longer in use
                 catch (IOException)
                 {
-                    attempts++;
                 }
             }
 
