@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Reginald.Converters"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:local="clr-namespace:Reginald.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Width="{Binding ConfigurationService.Theme.ClipboardWidth}"
@@ -12,6 +12,10 @@
              FontFamily="{Binding ConfigurationService.Theme.FontFamily}">
     <UserControl.Resources>
         <ResourceDictionary>
+            <!-- # Converters -->
+            <local:BrushToStringConverter x:Key="BrushToStringConverter"/>
+            <local:IconToImageSourceConverter x:Key="IconToImageSourceConverter"/>
+
             <!-- # DataTemplates -->
 
             <!-- ## DataTemplate for ListBoxItem -->
@@ -25,7 +29,7 @@
                     </Grid.ColumnDefinitions>
     
                     <!-- ### Icon -->
-                    <Image Source="{Binding Icon}"
+                    <Image Source="{Binding Icon, Converter={StaticResource IconToImageSourceConverter}}"
                            Grid.Column="0"
                            Width="15"
                            Height="15"
@@ -238,9 +242,6 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-
-            <!-- # Converters -->
-            <local:BrushToStringConverter x:Key="BrushToStringConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -325,7 +326,7 @@
                 <ListBox Style="{StaticResource ListBoxStyle}"
                          ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
                          ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
-                         ItemsSource="{Binding DisplayItems}"
+                         ItemsSource="{Binding Items}"
                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                          Grid.Column="0"
                          Background="Transparent"
