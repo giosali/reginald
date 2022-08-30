@@ -34,12 +34,13 @@
         public static bool TryFromString(string expression, out Brush brush)
         {
             brush = null;
-            if (expression.Length < 6 || expression.Length > 7)
+            int expressionLength = expression.Length;
+            if (expressionLength < 6 || expressionLength > 7 || (expressionLength == 7 && !expression.StartsWith("#")))
             {
                 return false;
             }
 
-            if (!expression.StartsWith('#'))
+            if (expressionLength == 6)
             {
                 expression = "#" + expression;
             }
