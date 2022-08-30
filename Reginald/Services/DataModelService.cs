@@ -13,6 +13,7 @@
 
         public DataModelService()
         {
+            Settings = FileOperations.GetGenericDatum<Settings>(Settings.FileName, false);
             SetSingleProducers();
             SetMultipleProducers();
 
@@ -28,6 +29,8 @@
         }
 
         public IMultipleProducer<SearchResult>[] MultipleProducers { get; set; }
+
+        public Settings Settings { get; set; }
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; set; }
 
