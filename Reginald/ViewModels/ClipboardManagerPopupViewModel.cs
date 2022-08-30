@@ -223,7 +223,8 @@
                 return;
             }
 
-            if (!TryGetText(out string text))
+            // Prevents duplicate clipboard items.
+            if (!TryGetText(out string text) || text == _clipboardItems[0].Description)
             {
                 return;
             }
