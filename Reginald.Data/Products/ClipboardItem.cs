@@ -1,19 +1,20 @@
 namespace Reginald.Data.Products
 {
     using System;
+    using System.Runtime.InteropServices;
+    using System.Threading;
+    using System.Windows;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Microsoft.Data.Sqlite;
     using Reginald.Core.Helpers;
     using Reginald.Data.Drawing;
     using Reginald.Data.Inputs;
+    using Reginald.Services.Input;
+    using Reginald.Services.Utilities;
 
     public class ClipboardItem : KeyboardInput
     {
-        private string _description;
-
-        private Icon _icon;
-
         public ClipboardItem(BitmapSource bitmapSource)
         {
             Image = bitmapSource;
@@ -47,27 +48,11 @@ namespace Reginald.Data.Products
 
         public DateTime DateTime { get; set; }
 
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                _description = value;
-                NotifyOfPropertyChange(() => Description);
-            }
-        }
+        public string Description { get; set; }
 
         public Brush HexBrush { get; set; }
 
-        public Icon Icon
-        {
-            get => _icon;
-            set
-            {
-                _icon = value;
-                NotifyOfPropertyChange(() => Icon);
-            }
-        }
+        public Icon Icon { get; set; }
 
         public ImageSource Image { get; set; }
 
@@ -81,9 +66,47 @@ namespace Reginald.Data.Products
             OnAltAndEnterKeysPressed(e);
         }
 
-        public override void PressEnter(InputProcessingEventArgs e)
+        public async override void PressEnter(InputProcessingEventArgs e)
         {
             OnEnterKeyPressed(e);
+
+            // Ignores image-based ClipboardItems.
+            if (Image is not null)
+            {
+                return;
+            }
+
+            // Pastes text to current active window.
+            bool success = false;
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    Clipboard.SetText(Description);
+                    success = true;
+                    break;
+                }
+                catch (COMException ex)
+                {
+                    // ClipboardExceptionCantOpen
+                    if ((uint)ex.ErrorCode != 0x800401D0)
+                    {
+                        throw;
+                    }
+
+                    Thread.Sleep(10);
+                }
+            }
+
+            if (!success)
+            {
+                return;
+            }
+
+            // Waits for clipboard window to deactivate.
+            await WindowUtility.WaitForDeactivationAsync();
+
+            KeyboardInputInjector.Paste();
         }
 
         public override void PressTab(InputProcessingEventArgs e)
