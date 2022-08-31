@@ -44,6 +44,10 @@
             <ListBoxItem Content="Link"
                          Tag="Link"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
+            <!-- ## Microsoft Settings -->
+            <ListBoxItem Content="Microsoft Settings"
+                         Tag="MicrosoftSettings"
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
         </ListBox>
 
         <!-- # Content -->
