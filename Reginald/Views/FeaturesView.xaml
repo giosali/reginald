@@ -52,6 +52,10 @@
             <ListBoxItem Content="Timer"
                          Tag="Timer"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
+            <!-- ## Quit -->
+            <ListBoxItem Content="Quit"
+                         Tag="Quit"
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
         </ListBox>
 
         <!-- # Content -->
