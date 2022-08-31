@@ -7,9 +7,9 @@
              xmlns:local="clr-namespace:Reginald.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Width="{Binding ConfigurationService.Theme.ClipboardWidth}"
-             Height="{Binding ConfigurationService.Theme.ClipboardHeight}"
-             FontFamily="{Binding ConfigurationService.Theme.FontFamily}">
+             Width="{Binding DMS.Theme.ClipboardWidth}"
+             Height="{Binding DMS.Theme.ClipboardHeight}"
+             FontFamily="{Binding DMS.Theme.FontFamily}">
     <UserControl.Resources>
         <ResourceDictionary>
             <!-- # Converters -->
@@ -38,7 +38,7 @@
                     
                     <!-- ### Description -->
                     <TextBlock Text="{Binding Description}"
-                               FontSize="{Binding DataContext.ConfigurationService.Theme.ClipboardItemFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                               FontSize="{Binding DataContext.DMS.Theme.ClipboardItemFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                Grid.Column="1"
                                VerticalAlignment="Center"
                                TextWrapping="NoWrap"
@@ -49,13 +49,13 @@
                                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                  Value="True">
                                         <Setter Property="Foreground"
-                                                Value="{Binding DataContext.ConfigurationService.Theme.SelectedDescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                                Value="{Binding DataContext.DMS.Theme.SelectedDescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
 
                                 <Style.Setters>
                                     <Setter Property="Foreground"
-                                            Value="{Binding DataContext.ConfigurationService.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                            Value="{Binding DataContext.DMS.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                 </Style.Setters>
                             </Style>
                         </TextBlock.Style>
@@ -85,7 +85,7 @@
                              Value="True">
                         <Setter TargetName="listBoxItemBorder"
                                 Property="Background"
-                                Value="{Binding DataContext.ConfigurationService.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                Value="{Binding DataContext.DMS.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -98,12 +98,12 @@
                 <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Background"
-                            Value="{Binding ConfigurationService.Theme.BackgroundBrush}"/>
+                            Value="{Binding DMS.Theme.BackgroundBrush}"/>
                 </Style.Setters>
 
                 <!-- ### Triggers -->
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding ConfigurationService.Theme.IsAcrylicEnabled}"
+                    <DataTrigger Binding="{Binding DMS.Theme.IsAcrylicEnabled}"
                                  Value="True">
                         <Setter Property="Background"
                                 Value="#01000000"/>
@@ -126,7 +126,7 @@
                 <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Foreground"
-                            Value="{Binding DataContext.ConfigurationService.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                            Value="{Binding DataContext.DMS.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                     <Setter Property="Height"
                             Value="25"/>
                     <Setter Property="Margin"
@@ -164,7 +164,7 @@
                     <Trigger Property="IsMouseOver"
                              Value="True">
                         <Setter Property="Background"
-                                Value="{Binding DataContext.ConfigurationService.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                Value="{Binding DataContext.DMS.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -247,9 +247,9 @@
 
     <!-- # Popup -->
     <Border Style="{StaticResource BorderStyle}"
-            BorderBrush="{Binding ConfigurationService.Theme.BorderBrush}"
-            BorderThickness="{Binding ConfigurationService.Theme.BorderThickness}"
-            CornerRadius="{Binding ConfigurationService.Theme.CornerRadius}">
+            BorderBrush="{Binding DMS.Theme.BorderBrush}"
+            BorderThickness="{Binding DMS.Theme.BorderThickness}"
+            CornerRadius="{Binding DMS.Theme.CornerRadius}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
@@ -270,12 +270,12 @@
                     <!-- ### Popup Close Border -->
                     <Border x:Name="closeBorder"
                             Style="{StaticResource PopupCloseBorderStyle}"
-                            CornerRadius="{Binding ConfigurationService.Theme.CornerRadius}"
+                            CornerRadius="{Binding DMS.Theme.CornerRadius}"
                             DockPanel.Dock="Right"
                             Width="20"
                             Height="20"
                             cal:Message.Attach="[Event MouseLeftButtonDown] = [Action PopupCloseBorder_MouseLeftButtonDown($this, $eventargs)]">
-                        <Path Stroke="{Binding ConfigurationService.Theme.DescriptionBrush}"
+                        <Path Stroke="{Binding DMS.Theme.DescriptionBrush}"
                               Data="M0,0L12,12M12,0L0,12"
                               Width="12"
                               Height="12"
@@ -285,7 +285,7 @@
                     </Border>
 
                     <!-- ### Popup Bar-->
-                    <Border Background="{Binding ConfigurationService.Theme.PlaceholderInputBrush}"
+                    <Border Background="{Binding DMS.Theme.PlaceholderInputBrush}"
                             Width="50"
                             Height="3"
                             CornerRadius="1.5"
@@ -295,12 +295,12 @@
             
             <!-- ## Popup TextBox -->
             <TextBox Text="{Binding UserInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Foreground="{Binding ConfigurationService.Theme.InputBrush}"
-                     CaretBrush="{Binding ConfigurationService.Theme.CaretBrush}"
-                     FontSize="{Binding ConfigurationService.Theme.ClipboardItemFontSize}"
-                     FontWeight="{Binding ConfigurationService.Theme.InputFontWeight}"
-                     SelectionBrush="{Binding ConfigurationService.Theme.SelectionBrush}"
-                     SelectionOpacity="{Binding ConfigurationService.Theme.SelectionOpacity}"
+                     Foreground="{Binding DMS.Theme.InputBrush}"
+                     CaretBrush="{Binding DMS.Theme.CaretBrush}"
+                     FontSize="{Binding DMS.Theme.ClipboardItemFontSize}"
+                     FontWeight="{Binding DMS.Theme.InputFontWeight}"
+                     SelectionBrush="{Binding DMS.Theme.SelectionBrush}"
+                     SelectionOpacity="{Binding DMS.Theme.SelectionOpacity}"
                      Grid.Row="1"
                      Background="Transparent"
                      BorderThickness="0"
@@ -352,8 +352,8 @@
                         <!-- #### Standard Display for Text Clipboard Item -->
                         <TextBox Style="{StaticResource StandardClipboardItemTextBoxStyle}"
                                  Text="{Binding SelectedItem.Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Foreground="{Binding ConfigurationService.Theme.InputBrush}"
-                                 FontSize="{Binding ConfigurationService.Theme.ClipboardDisplayFontSize}"
+                                 Foreground="{Binding DMS.Theme.InputBrush}"
+                                 FontSize="{Binding DMS.Theme.ClipboardDisplayFontSize}"
                                  Grid.Row="0"
                                  Background="Transparent"
                                  BorderThickness="0"
@@ -383,8 +383,8 @@
                                Grid.Row="0"/>
 
                         <!-- #### Clipboard Item Info -->
-                        <TextBlock Foreground="{Binding ConfigurationService.Theme.PlaceholderInputBrush}"
-                                   FontSize="{Binding ConfigurationService.Theme.ClipboardDisplayFontSize}"
+                        <TextBlock Foreground="{Binding DMS.Theme.PlaceholderInputBrush}"
+                                   FontSize="{Binding DMS.Theme.ClipboardDisplayFontSize}"
                                    Grid.Row="1"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center">

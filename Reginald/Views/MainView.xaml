@@ -7,10 +7,10 @@
              xmlns:local="clr-namespace:Reginald.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             MinWidth="{Binding ConfigurationService.Theme.MainWidth}"
-             MaxWidth="{Binding ConfigurationService.Theme.MainWidth}"
-             MinHeight="{Binding ConfigurationService.Theme.MainHeight}"
-             FontFamily="{Binding ConfigurationService.Theme.FontFamily}">
+             MinWidth="{Binding DMS.Theme.MainWidth}"
+             MaxWidth="{Binding DMS.Theme.MainWidth}"
+             MinHeight="{Binding DMS.Theme.MainHeight}"
+             FontFamily="{Binding DMS.Theme.FontFamily}">
     <UserControl.Resources>
         <ResourceDictionary>
             <!-- # Converters -->
@@ -44,8 +44,8 @@
                                 VerticalAlignment="Center">
                         <!-- #### Description -->
                         <TextBlock Text="{Binding Description}"
-                                   FontSize="{Binding DataContext.ConfigurationService.Theme.DescriptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                                   FontWeight="{Binding DataContext.ConfigurationService.Theme.DescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   FontSize="{Binding DataContext.DMS.Theme.DescriptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   FontWeight="{Binding DataContext.DMS.Theme.DescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                    Margin="0"
                                    Padding="0"
                                    TextWrapping="NoWrap"
@@ -56,12 +56,12 @@
                                         <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                      Value="True">
                                             <Setter Property="Foreground"
-                                                    Value="{Binding DataContext.ConfigurationService.Theme.SelectedDescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                                    Value="{Binding DataContext.DMS.Theme.SelectedDescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                     <Style.Setters>
                                         <Setter Property="Foreground"
-                                                Value="{Binding DataContext.ConfigurationService.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                                Value="{Binding DataContext.DMS.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                     </Style.Setters>
                                 </Style>
                             </TextBlock.Style>
@@ -69,8 +69,8 @@
 
                         <!-- #### Caption -->
                         <TextBlock Text="{Binding Caption}"
-                                   FontSize="{Binding DataContext.ConfigurationService.Theme.CaptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                                   FontWeight="{Binding DataContext.ConfigurationService.Theme.DescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   FontSize="{Binding DataContext.DMS.Theme.CaptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   FontWeight="{Binding DataContext.DMS.Theme.DescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                    Margin="0"
                                    Padding="0">
                             <TextBlock.Style>
@@ -79,12 +79,12 @@
                                         <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                      Value="True">
                                             <Setter Property="Foreground"
-                                                    Value="{Binding DataContext.ConfigurationService.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                                    Value="{Binding DataContext.DMS.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                     <Style.Setters>
                                         <Setter Property="Foreground"
-                                                Value="{Binding DataContext.ConfigurationService.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                                Value="{Binding DataContext.DMS.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                     </Style.Setters>
                                 </Style>
                             </TextBlock.Style>
@@ -99,7 +99,7 @@
                                 <!-- #### Setters -->
                                 <Style.Setters>
                                     <Setter Property="Foreground"
-                                            Value="{Binding DataContext.ConfigurationService.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                            Value="{Binding DataContext.DMS.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                 </Style.Setters>
 
                                 <!-- #### Triggers -->
@@ -109,7 +109,7 @@
                                         <Setter Property="Text"
                                                 Value="↩"/>
                                         <Setter Property="Foreground"
-                                                Value="{Binding DataContext.ConfigurationService.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                                Value="{Binding DataContext.DMS.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -140,7 +140,7 @@
                              Value="True">
                         <Setter TargetName="listBoxItemBorder"
                                 Property="Background"
-                                Value="{Binding DataContext.ConfigurationService.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                Value="{Binding DataContext.DMS.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -153,12 +153,12 @@
                 <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Background"
-                            Value="{Binding ConfigurationService.Theme.BackgroundBrush}"/>
+                            Value="{Binding DMS.Theme.BackgroundBrush}"/>
                 </Style.Setters>
 
                 <!-- ### Triggers -->
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding ConfigurationService.Theme.IsAcrylicEnabled}"
+                    <DataTrigger Binding="{Binding DMS.Theme.IsAcrylicEnabled}"
                                  Value="True">
                         <Setter Property="Background"
                                 Value="#01000000"/>
@@ -172,9 +172,9 @@
                 <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Foreground"
-                            Value="{Binding ConfigurationService.Theme.InputBrush}"/>
+                            Value="{Binding DMS.Theme.InputBrush}"/>
                     <Setter Property="CaretBrush"
-                            Value="{Binding ConfigurationService.Theme.CaretBrush}"/>
+                            Value="{Binding DMS.Theme.CaretBrush}"/>
                 </Style.Setters>
             </Style>
 
@@ -209,7 +209,7 @@
                 <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Foreground"
-                            Value="{Binding DataContext.ConfigurationService.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                            Value="{Binding DataContext.DMS.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
                     <Setter Property="Height"
                             Value="55"/>
                     <Setter Property="HorizontalContentAlignment"
@@ -239,9 +239,9 @@
 
     <!-- Popup -->
     <Border Style="{StaticResource BorderStyle}"
-            BorderBrush="{Binding ConfigurationService.Theme.BorderBrush}"
-            BorderThickness="{Binding ConfigurationService.Theme.BorderThickness}"
-            CornerRadius="{Binding ConfigurationService.Theme.CornerRadius}">
+            BorderBrush="{Binding DMS.Theme.BorderBrush}"
+            BorderThickness="{Binding DMS.Theme.BorderThickness}"
+            CornerRadius="{Binding DMS.Theme.CornerRadius}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -250,12 +250,12 @@
 
             <!-- Search TextBox -->
             <TextBox Text="{Binding UserInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Foreground="{Binding ConfigurationService.Theme.InputBrush}"
-                     CaretBrush="{Binding ConfigurationService.Theme.CaretBrush}"
-                     FontSize="{Binding ConfigurationService.Theme.InputFontSize}"
-                     FontWeight="{Binding ConfigurationService.Theme.InputFontWeight}"
-                     SelectionBrush="{Binding ConfigurationService.Theme.SelectionBrush}"
-                     SelectionOpacity="{Binding ConfigurationService.Theme.SelectionOpacity}"
+                     Foreground="{Binding DMS.Theme.InputBrush}"
+                     CaretBrush="{Binding DMS.Theme.CaretBrush}"
+                     FontSize="{Binding DMS.Theme.InputFontSize}"
+                     FontWeight="{Binding DMS.Theme.InputFontWeight}"
+                     SelectionBrush="{Binding DMS.Theme.SelectionBrush}"
+                     SelectionOpacity="{Binding DMS.Theme.SelectionOpacity}"
                      Grid.Row="0"
                      Background="Transparent"
                      BorderThickness="0"

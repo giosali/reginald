@@ -14,10 +14,9 @@
     using Reginald.Core.IO;
     using Reginald.Data.Inputs;
     using Reginald.Data.Products;
-    using Reginald.Services;
     using Reginald.Services.Utilities;
 
-    public class ClipboardManagerPopupViewModel : SearchPopupViewModelScreen<ClipboardItem>
+    internal class ClipboardManagerPopupViewModel : SearchPopupViewModelScreen<ClipboardItem>
     {
         private const uint ClipboardExceptionCantOpen = 0x800401D0;
 
@@ -27,8 +26,7 @@
 
         private readonly List<ClipboardItem> _clipboardItems = new();
 
-        public ClipboardManagerPopupViewModel(ConfigurationService configurationService)
-            : base(configurationService)
+        public ClipboardManagerPopupViewModel()
         {
             // Creates clipboard database file.
             CreateClipboardDatabase();

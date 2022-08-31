@@ -7,20 +7,21 @@
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Interop;
+    using Caliburn.Micro;
     using Reginald.Services;
     using Reginald.Services.Appearance;
     using Reginald.Services.Utilities;
 
-    public class SearchPopupViewModelScreen<T> : PopupViewModelScreen<T>
+    internal class SearchPopupViewModelScreen<T> : PopupViewModelScreen<T>
     {
         private string _userInput;
 
-        public SearchPopupViewModelScreen(ConfigurationService configurationService)
+        public SearchPopupViewModelScreen()
         {
-            ConfigurationService = configurationService;
+            DMS = IoC.Get<DataModelService>();
         }
 
-        public ConfigurationService ConfigurationService { get; set; }
+        public DataModelService DMS { get; set; }
 
         public string UserInput
         {
@@ -39,9 +40,9 @@
                 // Brings popup to front without stealing focus from the foreground window
                 _ = WindowUtility.SetFocus(ActiveHandle = source.Handle);
 
-                if (ConfigurationService.Theme.IsAcrylicEnabled)
+                if (DMS.Theme.IsAcrylicEnabled)
                 {
-                    AcrylicMaterial acrylicMaterial = new(source.Handle, ConfigurationService.Theme.AcrylicOpacity, ConfigurationService.Theme.BackgroundBrush);
+                    AcrylicMaterial acrylicMaterial = new(source.Handle, DMS.Theme.AcrylicOpacity, DMS.Theme.BackgroundBrush);
                     acrylicMaterial.Enable();
                 }
             }

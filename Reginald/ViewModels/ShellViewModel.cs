@@ -30,8 +30,8 @@
             _windowManager = windowManager;
             ConfigurationService = configurationService;
 
-            _mainViewModel = new(configurationService);
-            _clipboardManagerPopupViewModel = new(configurationService);
+            _mainViewModel = new();
+            _clipboardManagerPopupViewModel = new();
             if (configurationService.Settings.LaunchOnStartup)
             {
                 FileOperations.DeleteShortcut();
