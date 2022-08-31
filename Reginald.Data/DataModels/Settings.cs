@@ -17,6 +17,9 @@
         [JsonProperty("areMicrosoftSettingsEnabled")]
         public bool AreMicrosoftSettingsEnabled { get; set; } = true;
 
+        [JsonProperty("areTimersEnabled")]
+        public bool AreTimersEnabled { get; set; } = true;
+
         [JsonProperty("areWebQueriesEnabled")]
         public bool AreWebQueriesEnabled { get; set; } = true;
 
