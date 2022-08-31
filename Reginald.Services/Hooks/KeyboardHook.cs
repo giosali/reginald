@@ -40,8 +40,7 @@
                 if ((isDown = wParam == (IntPtr)WindowMessage.WM_KEYDOWN || wParam == (IntPtr)WindowMessage.WM_SYSKEYDOWN) || wParam == (IntPtr)WindowMessage.WM_KEYUP || wParam == (IntPtr)WindowMessage.WM_SYSKEYUP)
                 {
                     KeyPressedEventArgs args = new(Marshal.ReadInt32(lParam), isDown);
-                    EventHandler<KeyPressedEventArgs> handler = KeyPressed;
-                    handler?.Invoke(this, args);
+                    KeyPressed?.Invoke(this, args);
 
                     // Blocks input to the foreground window if told to block
                     // and if an important key isn't pressed
