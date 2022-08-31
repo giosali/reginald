@@ -34,7 +34,7 @@
 
         public void Include_Click(object sender, RoutedEventArgs e)
         {
-            IoC.Get<ConfigurationService>().Settings.Save();
+            IoC.Get<DataModelService>().Settings.Save();
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
