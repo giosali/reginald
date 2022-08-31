@@ -54,7 +54,10 @@
             List<IMultipleProducer<SearchResult>> multipleProducers = new();
 
             // Handles those that receive key inputs.
-            multipleProducers.Add(FileOperations.GetGenericDatum<Quit>("Quit.json", true));
+            Quit quit = FileOperations.GetGenericDatum<Quit>("Quit.json", true);
+            quit.IsEnabled = Settings.IsQuitEnabled;
+            multipleProducers.Add(quit);
+
             multipleProducers.Add(FileOperations.GetGenericDatum<Timers>("Timers.json", true));
 
             MultipleProducers = multipleProducers.ToArray();
@@ -68,12 +71,24 @@
             singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true));
             singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.UserFileName, false));
             singleProducers.Add(FileOperations.GetGenericDatum<Recycle>("Recycle.json", true));
-            singleProducers.Add(FileOperations.GetGenericDatum<Timer>("Timer.json", true));
+
+            Timer timer = FileOperations.GetGenericDatum<Timer>("Timer.json", true);
+            timer.IsEnabled = Settings.IsTimerEnabled;
+            singleProducers.Add(timer);
 
             // Handles those that receive inputs.
-            singleProducers.Add(FileOperations.GetGenericDatum<Calculator>("Calculator.json", true));
-            singleProducers.Add(FileOperations.GetGenericDatum<Url>("Url.json", true));
-            singleProducers.AddRange(FileOperations.GetGenericData<MicrosoftSetting>("MicrosoftSettings.json", true));
+            Calculator calculator = FileOperations.GetGenericDatum<Calculator>("Calculator.json", true);
+            calculator.IsEnabled = Settings.IsCalculatorEnabled;
+            singleProducers.Add(calculator);
+
+            Url url = FileOperations.GetGenericDatum<Url>("Url.json", true);
+            url.IsEnabled = Settings.IsUrlEnabled;
+            singleProducers.Add(url);
+
+            if (Settings.AreMicrosoftSettingsEnabled)
+            {
+                singleProducers.AddRange(FileOperations.GetGenericData<MicrosoftSetting>("MicrosoftSettings.json", true));
+            }
 
             SingleProducers = singleProducers.ToArray();
         }
