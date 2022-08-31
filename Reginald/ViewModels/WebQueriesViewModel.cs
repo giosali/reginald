@@ -4,7 +4,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
-    using Caliburn.Micro;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
     using Reginald.Data.DataModels;
@@ -27,8 +26,7 @@
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            DataModelService dms = IoC.Get<DataModelService>();
-            Items.AddRange(dms.SingleProducers
+            Items.AddRange(DMS.SingleProducers
                               .Where(sp => sp is WebQuery wq && !wq.IsCustom)
                               .Select(sp => sp as WebQuery));
             return base.OnActivateAsync(cancellationToken);
