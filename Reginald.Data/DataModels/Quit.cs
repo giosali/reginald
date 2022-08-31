@@ -18,11 +18,19 @@
         [JsonProperty("format")]
         public string Format { get; set; }
 
+        [JsonProperty("isEnabled")]
+        public bool IsEnabled { get; set; }
+
         [JsonProperty("key")]
         public string Key { get; set; }
 
         public bool Check(string keyInput)
         {
+            if (!IsEnabled)
+            {
+                return false;
+            }
+
             _keyInput = keyInput;
             if (keyInput.Length <= Key.Length)
             {
