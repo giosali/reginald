@@ -1,6 +1,7 @@
 namespace Reginald.Data.DataModels
 {
     using System;
+    using Newtonsoft.Json;
     using Reginald.Core.Extensions;
     using Reginald.Data.Inputs;
     using Reginald.Data.Producers;
@@ -9,6 +10,9 @@ namespace Reginald.Data.DataModels
 
     public class Url : DataModel, ISingleProducer<SearchResult>
     {
+        [JsonProperty("isEnabled")]
+        public bool IsEnabled { get; set; }
+
         public bool Check(string input)
         {
             string uriString = input.Trim().Replace(" ", "%20");
