@@ -60,7 +60,8 @@
                           .Singleton<YourWebQueriesViewModel>()
                           .Singleton<ApplicationsViewModel>()
                           .Singleton<CalculatorViewModel>()
-                          .Singleton<LinkViewModel>();
+                          .Singleton<LinkViewModel>()
+                          .Singleton<MicrosoftSettingsViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)
