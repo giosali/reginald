@@ -19,6 +19,7 @@
                 "Calculator" => typeof(CalculatorViewModel),
                 "Link" => typeof(LinkViewModel),
                 "MicrosoftSettings" => typeof(MicrosoftSettingsViewModel),
+                "Timer" => typeof(TimerViewModel),
                 _ => null,
             };
             if (IoC.GetInstance(type, null) is IScreen screen && !screen.IsActive)
