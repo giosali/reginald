@@ -35,6 +35,9 @@
         [JsonProperty("isLinkEnabled")]
         public bool IsLinkEnabled { get; set; } = true;
 
+        [JsonProperty("isTimerEnabled")]
+        public bool IsTimerEnabled { get; set; } = true;
+
         [JsonProperty("mainKey")]
         public string MainKey { get; set; } = "Space";
 
