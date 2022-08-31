@@ -40,6 +40,10 @@
             <ListBoxItem Content="Calculator"
                          Tag="Calculator"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]"/>
+            <!-- ## Link -->
+            <ListBoxItem Content="Link"
+                         Tag="Link"
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
         </ListBox>
 
         <!-- # Content -->
