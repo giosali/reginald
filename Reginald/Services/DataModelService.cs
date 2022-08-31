@@ -73,7 +73,11 @@
             List<ISingleProducer<SearchResult>> singleProducers = new();
 
             // Handles those that receive key inputs.
-            singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true));
+            if (Settings.AreWebQueriesEnabled)
+            {
+                singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true));
+            }
+
             singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.UserFileName, false));
 
             Recycle recycle = FileOperations.GetGenericDatum<Recycle>("Recycle.json", true);
