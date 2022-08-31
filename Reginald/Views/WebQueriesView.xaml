@@ -20,7 +20,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!--# ToggleButton for Include (Web Queries)-->
+        <!--ToggleButton-->
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
@@ -38,9 +38,9 @@
                     <StackPanel Grid.Column="1"
                                 VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                   Text="Default keywords"/>
+                                   Text="Web queries"/>
                         <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="Include default keywords in your search results"/>
+                                   Text="Include web queries in your search results"/>
                     </StackPanel>
 
                     <ToggleButton IsChecked="{Binding DMS.Settings.AreWebQueriesEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -59,9 +59,9 @@
                     <TextBlock Text="&#xF0E2;"
                                Style="{StaticResource ApplicationBrandIconTextBlockStyle}"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Keywords"
+                        <TextBlock Text="Web queries"
                                    Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"/>
-                        <TextBlock Text="A display of keywords"
+                        <TextBlock Text="A display of web queries"
                                    Style="{StaticResource SecondaryParagraphTextBlock}"/>
                     </StackPanel>
                 </StackPanel>

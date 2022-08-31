@@ -312,7 +312,7 @@
                     <TextBlock Text="&#xF0E2;"
                                Style="{StaticResource ApplicationBrandIconTextBlockStyle}"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Keywords"
+                        <TextBlock Text="Web queries"
                                    Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"/>
                         <TextBlock Text="A display of your web queries"
                                    Style="{StaticResource SecondaryParagraphTextBlock}"/>
