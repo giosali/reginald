@@ -15,6 +15,11 @@ namespace Reginald.Data.DataModels
 
         public bool Check(string input)
         {
+            if (!IsEnabled)
+            {
+                return false;
+            }
+
             string uriString = input.Trim().Replace(" ", "%20");
             if (!Uri.IsWellFormedUriString(uriString, UriKind.Absolute))
             {
