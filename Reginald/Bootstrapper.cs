@@ -63,6 +63,7 @@
                           .Singleton<LinkViewModel>()
                           .Singleton<MicrosoftSettingsViewModel>()
                           .Singleton<TimerViewModel>()
+                          .Singleton<RecycleViewModel>()
                           .Singleton<QuitViewModel>();
         }
 
