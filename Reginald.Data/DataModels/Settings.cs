@@ -35,11 +35,14 @@
         [JsonProperty("isClipboardManagerEnabled")]
         public bool IsClipboardManagerEnabled { get; set; } = true;
 
-        [JsonProperty("isTimerEnabled")]
-        public bool IsTimerEnabled { get; set; } = true;
-
         [JsonProperty("isQuitEnabled")]
         public bool IsQuitEnabled { get; set; } = true;
+
+        [JsonProperty("isRecycleEnabled")]
+        public bool IsRecycleEnabled { get; set; }= true;
+
+        [JsonProperty("isTimerEnabled")]
+        public bool IsTimerEnabled { get; set; } = true;
 
         [JsonProperty("isUrlEnabled")]
         public bool IsUrlEnabled { get; set; } = true;
