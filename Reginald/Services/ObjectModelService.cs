@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using Reginald.Data.ObjectModels;
-using Reginald.Data.Producers;
-using Reginald.Data.Products;
-using Reginald.Services.Watchers;
-
-namespace Reginald.Services
+﻿namespace Reginald.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using Reginald.Data.ObjectModels;
+    using Reginald.Data.Producers;
+    using Reginald.Data.Products;
+    using Reginald.Services.Watchers;
+
     internal class ObjectModelService
     {
         private readonly RegistryKeyWatcher[] _watchers;
