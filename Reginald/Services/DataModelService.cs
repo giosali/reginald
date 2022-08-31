@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using Reginald.Core.IO;
     using Reginald.Data.DataModels;
     using Reginald.Data.Producers;
@@ -16,6 +17,7 @@
         public DataModelService()
         {
             Settings = FileOperations.GetGenericDatum<Settings>(Settings.FileName, false);
+            SetTheme();
             SetSingleProducers();
             SetMultipleProducers();
 
@@ -36,6 +38,8 @@
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; set; }
 
+        public Theme Theme { get; set; }
+
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
             switch (e.ChangeType)
@@ -43,6 +47,7 @@
                 case WatcherChangeTypes.Created:
                 case WatcherChangeTypes.Deleted:
                 case WatcherChangeTypes.Changed:
+                    SetTheme();
                     SetSingleProducers();
                     SetMultipleProducers();
                     break;
@@ -94,6 +99,12 @@
             }
 
             SingleProducers = singleProducers.ToArray();
+        }
+
+        private void SetTheme()
+        {
+            Theme[] themes = FileOperations.GetGenericData<Theme>(Theme.FileName, true);
+            Theme = themes.FirstOrDefault(t => t.Guid == Settings.ThemeIdentifier, themes[0]);
         }
     }
 }
