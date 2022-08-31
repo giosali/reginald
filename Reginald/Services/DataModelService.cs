@@ -9,7 +9,9 @@
 
     internal class DataModelService
     {
+#pragma warning disable IDE0052
         private readonly FileSystemWatcher[] _fsws;
+#pragma warning restore IDE0052
 
         public DataModelService()
         {

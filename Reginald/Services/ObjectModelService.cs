@@ -9,7 +9,9 @@
 
     internal class ObjectModelService
     {
+#pragma warning disable IDE0052
         private readonly RegistryKeyWatcher[] _watchers;
+#pragma warning restore IDE0052
 
         public ObjectModelService()
         {
