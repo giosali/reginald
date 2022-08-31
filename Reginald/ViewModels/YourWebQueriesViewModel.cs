@@ -30,13 +30,10 @@
 
         private string _tempIconPath;
 
-        public YourWebQueriesViewModel(ConfigurationService configurationService)
+        public YourWebQueriesViewModel()
             : base("Features > Your Web Queries")
         {
-            ConfigurationService = configurationService;
         }
-
-        public ConfigurationService ConfigurationService { get; set; }
 
         public string IconPath
         {
