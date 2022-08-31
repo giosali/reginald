@@ -38,6 +38,9 @@
         [JsonProperty("isTimerEnabled")]
         public bool IsTimerEnabled { get; set; } = true;
 
+        [JsonProperty("isQuitEnabled")]
+        public bool IsQuitEnabled { get; set; } = true;
+
         [JsonProperty("mainKey")]
         public string MainKey { get; set; } = "Space";
 
