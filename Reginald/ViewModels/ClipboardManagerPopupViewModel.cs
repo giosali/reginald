@@ -43,11 +43,8 @@
 
         public void Item_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            // Keeps a copy of the SelectedItem because SelectedItem could 
-            // be changed after calling Hide.
-            ClipboardItem selectedItem = SelectedItem;
             Hide();
-            selectedItem?.PressEnter(new InputProcessingEventArgs());
+            SelectedItem?.PressEnter(new InputProcessingEventArgs());
         }
 
         public void Items_MouseLeave(object sender, MouseEventArgs e)
@@ -80,9 +77,6 @@
             switch (e.Key)
             {
                 case Key.Enter:
-                    // Keeps a copy of the SelectedItem because SelectedItem could 
-                    // be changed after calling Hide.
-                    ClipboardItem selectedItem = SelectedItem;
                     Hide();
                     SelectedItem?.PressEnter(new InputProcessingEventArgs());
                     break;
