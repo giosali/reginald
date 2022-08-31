@@ -70,7 +70,10 @@
             // Handles those that receive key inputs.
             singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true));
             singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.UserFileName, false));
-            singleProducers.Add(FileOperations.GetGenericDatum<Recycle>("Recycle.json", true));
+
+            Recycle recycle = FileOperations.GetGenericDatum<Recycle>("Recycle.json", true);
+            recycle.IsEnabled = Settings.IsRecycleEnabled;
+            singleProducers.Add(recycle);
 
             Timer timer = FileOperations.GetGenericDatum<Timer>("Timer.json", true);
             timer.IsEnabled = Settings.IsTimerEnabled;
