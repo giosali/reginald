@@ -62,7 +62,8 @@
                           .Singleton<CalculatorViewModel>()
                           .Singleton<LinkViewModel>()
                           .Singleton<MicrosoftSettingsViewModel>()
-                          .Singleton<TimerViewModel>();
+                          .Singleton<TimerViewModel>()
+                          .Singleton<QuitViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)
