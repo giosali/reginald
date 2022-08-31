@@ -12,13 +12,13 @@
 
     internal class WebQueriesViewModel : ItemsScreen<WebQuery>
     {
-        public WebQueriesViewModel(ConfigurationService configurationService)
+        public WebQueriesViewModel(DataModelService dms)
             : base("Features > Web Queries")
         {
-            ConfigurationService = configurationService;
+            DMS = dms;
         }
 
-        public ConfigurationService ConfigurationService { get; set; }
+        public DataModelService DMS { get; set; }
 
         public override void IsEnabled_Click(object sender, RoutedEventArgs e)
         {
