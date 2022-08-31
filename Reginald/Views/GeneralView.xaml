@@ -52,7 +52,7 @@
                     </StackPanel>
 
                     <ToggleButton Style="{StaticResource WindowsToggleButtonStyle}"
-                                  IsChecked="{Binding ConfigurationService.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  IsChecked="{Binding DMS.Settings.RunAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Grid.Column="3"
                                   cal:Message.Attach="[Event Click] = [Action LaunchOnStartupToggleButton_Click($this, $eventargs)]"/>
                 </Grid>

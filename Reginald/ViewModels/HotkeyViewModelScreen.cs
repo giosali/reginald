@@ -9,19 +9,19 @@
     using Reginald.Messages;
     using Reginald.Services;
 
-    public abstract class HotkeyViewModelScreen : Screen
+    internal abstract class HotkeyViewModelScreen : Screen
     {
         private readonly string _pageName;
 
         private string _hotkeyInput;
 
-        public HotkeyViewModelScreen(ConfigurationService configurationService, string pageName)
+        public HotkeyViewModelScreen(string pageName)
         {
-            ConfigurationService = configurationService;
             _pageName = pageName;
+            DMS = IoC.Get<DataModelService>();
         }
 
-        public ConfigurationService ConfigurationService { get; set; }
+        public DataModelService DMS { get; set; }
 
         public string HotkeyInput
         {

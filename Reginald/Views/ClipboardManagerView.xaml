@@ -30,7 +30,7 @@
                     </StackPanel>
 
                     <ToggleButton Style="{StaticResource WindowsToggleButtonStyle}"
-                                  IsChecked="{Binding ConfigurationService.Settings.IsClipboardManagerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  IsChecked="{Binding DMS.Settings.IsClipboardManagerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Grid.Column="3"
                                   cal:Message.Attach="[Event Click] = [Action ClipboardManagerToggleButton_Click($this, $eventargs)]"/>
                 </Grid>
