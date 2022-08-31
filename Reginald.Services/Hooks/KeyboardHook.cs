@@ -34,20 +34,22 @@
 
         protected override IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0)
+            if (nCode <= 0)
             {
-                bool isDown;
-                if ((isDown = wParam == (IntPtr)WindowMessage.WM_KEYDOWN || wParam == (IntPtr)WindowMessage.WM_SYSKEYDOWN) || wParam == (IntPtr)WindowMessage.WM_KEYUP || wParam == (IntPtr)WindowMessage.WM_SYSKEYUP)
-                {
-                    KeyPressedEventArgs args = new(Marshal.ReadInt32(lParam), isDown);
-                    KeyPressed?.Invoke(this, args);
+                return CallNextHookEx(HookId, nCode, wParam, lParam);
+            }
 
-                    // Blocks input to the foreground window if told to block
-                    // and if an important key isn't pressed
-                    if (IsBlocking && !args.IsImportantKeyPressed)
-                    {
-                        return new IntPtr(1);
-                    }
+            bool isDown;
+            if ((isDown = wParam == (IntPtr)WindowMessage.WM_KEYDOWN || wParam == (IntPtr)WindowMessage.WM_SYSKEYDOWN) || wParam == (IntPtr)WindowMessage.WM_KEYUP || wParam == (IntPtr)WindowMessage.WM_SYSKEYUP)
+            {
+                KeyPressedEventArgs args = new(Marshal.ReadInt32(lParam), isDown);
+                KeyPressed?.Invoke(this, args);
+
+                // Blocks input to the foreground window if told to block
+                // and if an important key isn't pressed
+                if (IsBlocking && !args.IsImportantKeyPressed)
+                {
+                    return new IntPtr(1);
                 }
             }
 
