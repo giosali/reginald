@@ -48,6 +48,10 @@
             <ListBoxItem Content="Microsoft Settings"
                          Tag="MicrosoftSettings"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
+            <!-- ## Recycle -->
+            <ListBoxItem Content="Recycle"
+                         Tag="Recycle"
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
             <!-- ## Timer -->
             <ListBoxItem Content="Timer"
                          Tag="Timer"

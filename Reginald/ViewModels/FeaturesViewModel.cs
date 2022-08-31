@@ -19,6 +19,7 @@
                 "Calculator" => typeof(CalculatorViewModel),
                 "Link" => typeof(LinkViewModel),
                 "MicrosoftSettings" => typeof(MicrosoftSettingsViewModel),
+                "Recycle" => typeof(RecycleViewModel),
                 "Timer" => typeof(TimerViewModel),
                 "Quit" => typeof(QuitViewModel),
                 _ => null,
