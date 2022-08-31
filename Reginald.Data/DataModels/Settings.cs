@@ -1,5 +1,6 @@
 ﻿namespace Reginald.Data.DataModels
 {
+    using System;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
@@ -57,7 +58,7 @@
         public bool RunAtStartup { get; set; } = true;
 
         [JsonProperty("themeIdentifier")]
-        public string ThemeIdentifier { get; set; } = "fea6b940-29e7-4e02-9f85-154e691789ca";
+        public Guid ThemeIdentifier { get; set; } = new("fea6b940-29e7-4e02-9f85-154e691789ca");
 
         public void Save()
         {
