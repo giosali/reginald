@@ -35,14 +35,14 @@
         [JsonProperty("isClipboardManagerEnabled")]
         public bool IsClipboardManagerEnabled { get; set; } = true;
 
-        [JsonProperty("isLinkEnabled")]
-        public bool IsLinkEnabled { get; set; } = true;
-
         [JsonProperty("isTimerEnabled")]
         public bool IsTimerEnabled { get; set; } = true;
 
         [JsonProperty("isQuitEnabled")]
         public bool IsQuitEnabled { get; set; } = true;
+
+        [JsonProperty("isUrlEnabled")]
+        public bool IsUrlEnabled { get; set; } = true;
 
         [JsonProperty("mainKey")]
         public string MainKey { get; set; } = "Space";
