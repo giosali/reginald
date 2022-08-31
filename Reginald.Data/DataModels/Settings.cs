@@ -32,6 +32,9 @@
         [JsonProperty("isClipboardManagerEnabled")]
         public bool IsClipboardManagerEnabled { get; set; } = true;
 
+        [JsonProperty("isLinkEnabled")]
+        public bool IsLinkEnabled { get; set; } = true;
+
         [JsonProperty("mainKey")]
         public string MainKey { get; set; } = "Space";
 
