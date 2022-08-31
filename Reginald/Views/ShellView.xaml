@@ -26,10 +26,10 @@
             <hu:VisualHotkey.Combination>
                 <MultiBinding Converter="{StaticResource StringToKeyBindingMultiConverter}"
                               Mode="OneWay">
-                    <Binding Path="DataContext.ConfigurationService.Settings.ReginaldKey"
+                    <Binding Path="DataContext.DMS.Settings.MainKey"
                              RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
                              Mode="OneWay"/>
-                    <Binding Path="DataContext.ConfigurationService.Settings.ReginaldModifiers"
+                    <Binding Path="DataContext.DMS.Settings.MainModifiers"
                              RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
                              Mode="OneWay"/>
                 </MultiBinding>
@@ -41,10 +41,10 @@
             <hu:VisualHotkey.Combination>
                 <MultiBinding Converter="{StaticResource StringToKeyBindingMultiConverter}"
                               Mode="OneWay">
-                    <Binding Path="DataContext.ConfigurationService.Settings.ClipboardManagerKey"
+                    <Binding Path="DataContext.DMS.Settings.ClipboardManagerKey"
                              RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
                              Mode="OneWay"/>
-                    <Binding Path="DataContext.ConfigurationService.Settings.ClipboardManagerModifiers"
+                    <Binding Path="DataContext.DMS.Settings.ClipboardManagerModifiers"
                              RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
                              Mode="OneWay"/>
                 </MultiBinding>
@@ -73,7 +73,7 @@
                     <MenuItem Header="Launch on startup"
                               Tag="LaunchOnStartup"
                               IsCheckable="True"
-                              IsChecked="{Binding ConfigurationService.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsChecked="{Binding DMS.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               cal:Message.Attach="[Event Click] = [Action MenuItem_Click($this, $eventargs)]"/>
 
                     <Separator/>

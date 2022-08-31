@@ -13,7 +13,7 @@
     using Reginald.Services.Hooks;
     using Reginald.Services.Utilities;
 
-    public class ShellViewModel : Conductor<object>
+    internal class ShellViewModel : Conductor<object>
     {
         private readonly IWindowManager _windowManager;
 
@@ -25,14 +25,14 @@
 
         private bool _isEnabled = true;
 
-        public ShellViewModel(IWindowManager windowManager, ConfigurationService configurationService)
+        public ShellViewModel(IWindowManager windowManager, DataModelService dms)
         {
             _windowManager = windowManager;
-            ConfigurationService = configurationService;
+            DMS = dms;
 
             _mainViewModel = new();
             _clipboardManagerPopupViewModel = new();
-            if (configurationService.Settings.LaunchOnStartup)
+            if (dms.Settings.RunAtStartup)
             {
                 FileOperations.DeleteShortcut();
                 _ = FileOperations.TryCreateShortcut();
@@ -43,14 +43,14 @@
             // Adds a low-level hook for text expansions.
             KeyboardHook keyboardHook = new();
             keyboardHook.Add();
-            _textExpansionManager = new(configurationService.Settings.AreExpansionsEnabled);
+            _textExpansionManager = new(dms.Settings.AreExpansionsEnabled);
             keyboardHook.KeyPressed += _textExpansionManager.KeyPressed;
 
             // Adds a listener for the clipboard manager.
-            _ = ClipboardUtility.GetClipboardUtility(ConfigurationService.Settings.IsClipboardManagerEnabled, GetView() as Window);
+            _ = ClipboardUtility.GetClipboardUtility(dms.Settings.IsClipboardManagerEnabled, GetView() as Window);
         }
 
-        public ConfigurationService ConfigurationService { get; set; }
+        public DataModelService DMS { get; set; }
 
         public string ToolTipText { get; set; }
 
@@ -76,8 +76,8 @@
                 {
                     Dictionary<string, object> settings = new();
                     settings.Add("Placement", PlacementMode.Absolute);
-                    settings.Add("HorizontalOffset", (SystemParameters.FullPrimaryScreenWidth / 2) - (ConfigurationService.Theme.MainWidth / 2));
-                    settings.Add("VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.325) - (ConfigurationService.Theme.MainHeight / 4));
+                    settings.Add("HorizontalOffset", (SystemParameters.FullPrimaryScreenWidth / 2) - (DMS.Theme.MainWidth / 2));
+                    settings.Add("VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.325) - (DMS.Theme.MainHeight / 4));
                     await new WindowManager().ShowPopupAsync(_mainViewModel, settings: settings);
                 }
             }
@@ -85,7 +85,7 @@
 
         public async void ClipboardManagerPopupHotkeyBinding_Pressed(object sender, HotkeyEventArgs e)
         {
-            if (ConfigurationService.Settings.IsClipboardManagerEnabled)
+            if (DMS.Settings.IsClipboardManagerEnabled)
             {
                 if (_clipboardManagerPopupViewModel.IsActive)
                 {
@@ -122,7 +122,7 @@
                         FileOperations.DeleteShortcut();
                     }
 
-                    ConfigurationService.Settings.Save();
+                    DMS.Settings.Save();
                     break;
 
                 case "Exit":
