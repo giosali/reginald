@@ -61,16 +61,16 @@
                 return;
             }
 
-
             if (_clipboardManagerPopupViewModel.IsActive)
             {
                 _clipboardManagerPopupViewModel.Hide();
                 return;
             }
-           
+
             Dictionary<string, object> settings = new()
             {
                 { "PopupAnimation", PopupAnimation.Fade },
+
                 // StaysOpen must be true for the popup to remain draggable
                 // when sending its handle a WM_NCLBUTTONDOWN message.
                 { "StaysOpen", true },
@@ -90,7 +90,7 @@
                 _mainViewModel.Hide();
                 return;
             }
-            
+
             Dictionary<string, object> settings = new()
             {
                 { "Placement", PlacementMode.Absolute },
