@@ -34,7 +34,7 @@
 
         protected override IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode <= 0)
+            if (nCode < 0)
             {
                 return CallNextHookEx(HookId, nCode, wParam, lParam);
             }
