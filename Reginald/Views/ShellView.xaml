@@ -22,7 +22,7 @@
 
     <Grid>
         <!-- # Hotkey for MainView -->
-        <hu:VisualHotkey cal:Message.Attach="[Event Pressed] = [Action SearchWindowHotkeyBinding_Pressed($this, $eventargs)]">
+        <hu:VisualHotkey cal:Message.Attach="[Event Pressed] = [Action MainHotkeyBinding_Pressed($this, $eventargs)]">
             <hu:VisualHotkey.Combination>
                 <MultiBinding Converter="{StaticResource StringToKeyBindingMultiConverter}"
                               Mode="OneWay">
@@ -70,10 +70,10 @@
                               IsChecked="{Binding IsEnabled}"/>
 
                     <!-- ## Launch on Startup -->
-                    <MenuItem Header="Launch on startup"
-                              Tag="LaunchOnStartup"
+                    <MenuItem Header="Run at startup"
+                              Tag="RunAtStartup"
                               IsCheckable="True"
-                              IsChecked="{Binding DMS.Settings.LaunchOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsChecked="{Binding DMS.Settings.RunAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               cal:Message.Attach="[Event Click] = [Action MenuItem_Click($this, $eventargs)]"/>
 
                     <Separator/>
