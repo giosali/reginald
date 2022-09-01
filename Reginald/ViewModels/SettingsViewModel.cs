@@ -62,7 +62,6 @@
                 "General" => typeof(GeneralViewModel),
                 "Themes" => typeof(ThemesViewModel),
                 "Features" => typeof(FeaturesViewModel),
-                "Expansions" => typeof(ExpansionsViewModel),
                 "ClipboardManager" => typeof(ClipboardManagerViewModel),
                 "About" => typeof(AboutViewModel),
                 _ => null,

@@ -32,6 +32,10 @@
             <ListBoxItem Content="Your Web Queries"
                          Tag="YourWebQueries"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]"/>
+            <!-- ## Expansions -->
+            <ListBoxItem Content="Expansions"
+                         Tag="Expansions"
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]"/>
             <!-- ## Applications -->
             <ListBoxItem Content="Applications"
                          Tag="Applications"

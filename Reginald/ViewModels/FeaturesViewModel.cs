@@ -15,6 +15,7 @@
             {
                 "WebQueries" => typeof(WebQueriesViewModel),
                 "YourWebQueries" => typeof(YourWebQueriesViewModel),
+                "Expansions" => typeof(ExpansionsViewModel),
                 "Applications" => typeof(ApplicationsViewModel),
                 "Calculator" => typeof(CalculatorViewModel),
                 "Link" => typeof(LinkViewModel),
