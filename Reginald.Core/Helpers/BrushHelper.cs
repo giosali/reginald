@@ -26,11 +26,6 @@
             return new SolidColorBrush(Color.FromRgb(r, g, b));
         }
 
-        public static Brush SolidColorBrushFromString(string expression)
-        {
-            return expression is null ? null : (SolidColorBrush)new BrushConverter().ConvertFromString(expression);
-        }
-
         public static bool TryFromString(string expression, out Brush brush)
         {
             brush = null;
