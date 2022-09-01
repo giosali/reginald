@@ -4,7 +4,7 @@ namespace Reginald.Data.DataModels
 
     public class TextExpansion
     {
-        public const string FileName = "TextExpansions.json";
+        public const string FileName = "Expansions.json";
 
         public TextExpansion(string trigger, string replacement)
         {
