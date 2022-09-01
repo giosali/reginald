@@ -95,7 +95,7 @@
                 { "HorizontalOffset", (SystemParameters.FullPrimaryScreenWidth / 2) - (DMS.Theme.MainWidth / 2) },
                 { "VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.325) - (DMS.Theme.MainHeight / 4) },
             };
-            await new WindowManager().ShowPopupAsync(_mainViewModel, settings: settings);
+            await _windowManager.ShowPopupAsync(_mainViewModel, settings: settings);
         }
 
         public async void MenuItem_Click(object sender, RoutedEventArgs e)
