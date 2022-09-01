@@ -34,9 +34,9 @@
                     </StackPanel>
 
                     <ToggleButton Style="{StaticResource WindowsToggleButtonStyle}"
-                                  IsChecked="{Binding ConfigurationService.Settings.AreExpansionsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  IsChecked="{Binding DMS.Settings.AreExpansionsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Grid.Column="3"
-                                  cal:Message.Attach="[Event Click] = [Action ExpansionsToggleButton_Click($this, $eventargs)]"/>
+                                  cal:Message.Attach="[Event Click] = [Action IsEnabled_Click($this, $eventargs)]"/>
                 </Grid>
             </Border>
 
