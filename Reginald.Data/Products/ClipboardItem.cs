@@ -1,13 +1,13 @@
 namespace Reginald.Data.Products
 {
     using System;
+    using System.Globalization;
     using System.Runtime.InteropServices;
     using System.Threading;
     using System.Windows;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Microsoft.Data.Sqlite;
-    using Reginald.Core.Helpers;
     using Reginald.Data.Drawing;
     using Reginald.Data.Inputs;
     using Reginald.Services.Input;
@@ -29,7 +29,7 @@ namespace Reginald.Data.Products
             DateTime = DateTime.TryParse(reader["datetime"] as string, out DateTime dateTime) ? dateTime : DateTime.Now;
             string text = reader["text"] as string;
             Description = text;
-            if (BrushHelper.TryFromString(text, out Brush brush))
+            if (TryFromString(text, out Brush brush))
             {
                 HexBrush = brush;
             }
@@ -40,7 +40,7 @@ namespace Reginald.Data.Products
             Icon = new("1");
             Description = description;
             DateTime = DateTime.Now;
-            if (BrushHelper.TryFromString(description, out Brush brush))
+            if (TryFromString(description, out Brush brush))
             {
                 HexBrush = brush;
             }
@@ -117,6 +117,37 @@ namespace Reginald.Data.Products
         public override void ReleaseAlt(InputProcessingEventArgs e)
         {
             OnAltKeyReleased(e);
+        }
+
+        public static bool TryFromString(string expression, out Brush brush)
+        {
+            brush = null;
+            int expressionLength = expression.Length;
+            if (expressionLength < 6 || expressionLength > 7 || (expressionLength == 7 && !expression.StartsWith("#")))
+            {
+                return false;
+            }
+
+            if (expressionLength == 6)
+            {
+                expression = "#" + expression;
+            }
+
+            if (!int.TryParse(expression[1..], NumberStyles.HexNumber, null, out _))
+            {
+                return false;
+            }
+
+            try
+            {
+                brush = (Brush)new BrushConverter().ConvertFromString(expression);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
