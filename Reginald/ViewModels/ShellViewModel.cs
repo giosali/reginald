@@ -13,9 +13,9 @@
 
     internal class ShellViewModel : Conductor<object>
     {
-        private readonly ClipboardManagerPopupViewModel _clipboardManagerPopupViewModel;
+        private readonly ClipboardManagerPopupViewModel _clipboardManagerPopupViewModel = new();
 
-        private readonly MainViewModel _mainViewModel;
+        private readonly MainViewModel _mainViewModel = new();
 
         private readonly IWindowManager _windowManager;
 
@@ -26,8 +26,6 @@
             _windowManager = windowManager;
             DMS = dms;
 
-            _mainViewModel = new();
-            _clipboardManagerPopupViewModel = new();
             if (dms.Settings.RunAtStartup)
             {
                 FileOperations.DeleteShortcut();
