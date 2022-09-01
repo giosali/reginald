@@ -2,8 +2,6 @@
 {
     using System;
     using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
     using Caliburn.Micro;
@@ -40,10 +38,10 @@
             _ = _eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage($"Themes > {SelectedItem.Name}"));
         }
 
-        protected override Task OnActivateAsync(CancellationToken cancellationToken)
+        protected override void OnViewLoaded(object view)
         {
             _ = _eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage($"Themes > {SelectedItem.Name}"));
-            return base.OnActivateAsync(cancellationToken);
+            base.OnViewLoaded(view);
         }
     }
 }
