@@ -18,7 +18,7 @@
         private readonly FileSystemWatcher[] _fsws;
 #pragma warning restore IDE0052
 
-        private StringBuilder _input;
+        private readonly StringBuilder _input = new();
 
         public DataModelService()
         {
