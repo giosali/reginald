@@ -90,6 +90,9 @@ namespace Reginald.Data.DataModels
         [JsonProperty("mainWidth")]
         public double MainWidth { get; set; }
 
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
         [JsonProperty("placeholderInputBrush")]
         public SolidColorBrush PlaceholderInputBrush { get; set; }
 
