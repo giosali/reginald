@@ -8,7 +8,7 @@
     internal class ClipboardManagerViewModel : HotkeyViewModelScreen
     {
         public ClipboardManagerViewModel()
-            : base("Clipboard Manager")
+            : base("Features > Clipboard Manager")
         {
         }
 
@@ -18,9 +18,15 @@
             DMS.Settings.Save();
         }
 
-        protected override Key GetKey() => (Key)Enum.Parse(typeof(Key), DMS.Settings.ClipboardManagerKey);
+        protected override Key GetKey()
+        {
+            return (Key)Enum.Parse(typeof(Key), DMS.Settings.ClipboardManagerKey);
+        }
 
-        protected override ModifierKeys GetModifiers() => (ModifierKeys)Enum.Parse(typeof(ModifierKeys), DMS.Settings.ClipboardManagerModifiers);
+        protected override ModifierKeys GetModifiers()
+        {
+            return (ModifierKeys)Enum.Parse(typeof(ModifierKeys), DMS.Settings.ClipboardManagerModifiers);
+        }
 
         protected override void SaveHotkey(string key, string modifiers)
         {

@@ -43,11 +43,6 @@
                          Tag="Features"
                          cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]"/>
 
-            <!-- ## Clipboard Manager -->
-            <ListBoxItem Content="Clipboard Manager"
-                         Tag="ClipboardManager"
-                         cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]"/>
-
             <!-- ## About -->
             <ListBoxItem Content="About"
                          Tag="About"
