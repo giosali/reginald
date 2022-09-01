@@ -6,39 +6,26 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using Caliburn.Micro;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
-    using Reginald.Data.Expansions;
-    using Reginald.Messages;
+    using Reginald.Data.DataModels;
     using Reginald.Services;
 
-    public class ExpansionsViewModel : ItemsViewModelConductor<TextExpansion>
+    internal class ExpansionsViewModel : ItemsScreen<TextExpansion>
     {
-        private string _trigger;
+        private bool _isBeingEdited;
 
         private string _replacement;
 
-        public ExpansionsViewModel(ConfigurationService configurationService)
-        {
-            Filename = TextExpansion.Filename;
-            IsResource = false;
-            UpdateItems();
+        private string _trigger;
 
-            ConfigurationService = configurationService;
+        public ExpansionsViewModel(DataModelService dms)
+            : base("Features > Expansions")
+        {
+            DMS = dms;
         }
 
-        public ConfigurationService ConfigurationService { get; set; }
-
-        public string Trigger
-        {
-            get => _trigger;
-            set
-            {
-                _trigger = value;
-                NotifyOfPropertyChange(() => Trigger);
-            }
-        }
+        public DataModelService DMS { get; set; }
 
         public string Replacement
         {
@@ -50,24 +37,35 @@
             }
         }
 
-        protected bool IsBeingEdited { get; set; }
-
-        public void ExpansionsToggleButton_Click(object sender, RoutedEventArgs e) => ConfigurationService.Settings.Save();
-
-        public void SaveButton_Click(object sender, RoutedEventArgs e)
+        public string Trigger
         {
-            Items.Add(new TextExpansion(Trigger, Replacement));
-            FileOperations.WriteFile(Filename, Items.Serialize());
-            Trigger = Replacement = string.Empty;
+            get => _trigger;
+            set
+            {
+                _trigger = value;
+                NotifyOfPropertyChange(() => Trigger);
+            }
+        }
+
+        public void DataGridTemplateColumnTextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            _isBeingEdited = true;
         }
 
         public void DataGrid_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (IsBeingEdited)
+            if (!_isBeingEdited)
             {
-                FileOperations.WriteFile(Filename, Items.Serialize());
-                IsBeingEdited = false;
+                return;
             }
+
+            FileOperations.WriteFile(TextExpansion.FileName, Items.Serialize());
+            _isBeingEdited = false;
+        }
+
+        public override void IsEnabled_Click(object sender, RoutedEventArgs e)
+        {
+            DMS.Settings.Save();
         }
 
         public void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -76,30 +74,29 @@
             {
                 case "Delete":
                     _ = Items.Remove(SelectedItem);
-                    FileOperations.WriteFile(Filename, Items.Serialize());
-                    UpdateItems();
+                    FileOperations.WriteFile(TextExpansion.FileName, Items.Serialize());
                     break;
             }
         }
 
-        public void DataGridTemplateColumnTextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => IsBeingEdited = true;
-
-        protected override void UpdateItems()
+        public void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Items.Count > 0)
-            {
-                Items.Clear();
-            }
-
-            TextExpansion[] textExpansions = FileOperations.GetGenericData<TextExpansion>(Filename, false);
-            Items.AddRange(textExpansions.OrderBy(e => e.Trigger));
+            Items.Add(new TextExpansion(Trigger, Replacement));
+            Items.OrderBy(te => te.Trigger);
+            FileOperations.WriteFile(TextExpansion.FileName, Items.Serialize());
+            Trigger = Replacement = string.Empty;
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            IEventAggregator eventAggregator = IoC.Get<IEventAggregator>();
-            _ = eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage("Expansions"), cancellationToken);
+            Items.AddRange(DMS.TextExpansions.OrderBy(te => te.Trigger));
             return base.OnActivateAsync(cancellationToken);
+        }
+
+        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
+        {
+            Items.Clear();
+            return base.OnDeactivateAsync(close, cancellationToken);
         }
     }
 }
