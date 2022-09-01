@@ -2,9 +2,9 @@
 {
     using System;
     using System.Globalization;
+    using System.Reflection;
     using System.Windows.Data;
     using System.Windows.Media;
-    using Reginald.Core.Helpers;
 
     [ValueConversion(typeof(Brush), typeof(string))]
     public class BrushToStringConverter : IValueConverter
@@ -14,7 +14,7 @@
             SolidColorBrush brush = value as SolidColorBrush;
             if (parameter is not string format)
             {
-                _ = BrushHelper.TryGetName(brush, out string name);
+                _ = TryGetName(brush, out string name);
                 return name;
             }
 
@@ -39,6 +39,30 @@
             string color = value as string;
             Brush brush = (Brush)new BrushConverter().ConvertFromString(color);
             return brush;
+        }
+
+        private static bool TryGetName(Brush brush, out string name)
+        {
+            name = null;
+            if (brush is null)
+            {
+                return false;
+            }
+
+            name = brush.ToString();
+            PropertyInfo[] properties = typeof(Brushes).GetProperties();
+            for (int i = 0; i < properties.Length; i++)
+            {
+                PropertyInfo property = properties[i];
+                string hex = property.GetValue(brush).ToString();
+                if (name == hex)
+                {
+                    name = property.Name;
+                    break;
+                }
+            }
+
+            return true;
         }
     }
 }
