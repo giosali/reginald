@@ -11,26 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\calculator.png" />
-    <None Remove="Images\Commands\quit.png" />
     <None Remove="Images\Commands\timer.png" />
     <None Remove="Images\DefaultKeywords\amazon.png" />
     <None Remove="Images\DefaultKeywords\instagram.png" />
     <None Remove="Images\DefaultKeywords\twitter.png" />
-    <None Remove="Images\Results\image.png" />
-    <None Remove="Images\Results\text.png" />
     <None Remove="Images\Settings\settings.png" />
-    <None Remove="Images\HttpKeywords\ip_address.png" />
-    <None Remove="Images\HttpKeywords\stock_decrease.png" />
-    <None Remove="Images\HttpKeywords\stock_increase.png" />
-    <None Remove="Images\Utilities\recycle-bin.png" />
     <None Remove="Reginald.ico" />
     <None Remove="Resources\Calculator.json" />
-    <None Remove="Resources\Commands.json" />
     <None Remove="Resources\DefaultResults.json" />
-    <None Remove="Resources\HttpKeywords.json" />
-    <None Remove="Resources\Keywords.json" />
-    <None Remove="Resources\Link.json" />
     <None Remove="Resources\MicrosoftSettings.json" />
     <None Remove="Resources\Quit.json" />
     <None Remove="Resources\Recycle.json" />
@@ -39,7 +27,6 @@
     <None Remove="Resources\Timers.json" />
     <None Remove="Resources\TopLevelDomains.txt" />
     <None Remove="Resources\Url.json" />
-    <None Remove="Resources\Utilities.json" />
     <None Remove="Resources\WebQueries.json" />
   </ItemGroup>
 
@@ -53,9 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\Commands\quit.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Images\DefaultKeywords\amazon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -104,34 +88,7 @@
     <Resource Include="Images\DefaultKeywords\youtube.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\HttpKeywords\ip_address.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\HttpKeywords\stock_decrease.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\HttpKeywords\stock_increase.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Representations\calculator.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Representations\edge.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Results\exclamation.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Results\image.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Results\text.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Images\Settings\settings.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Utilities\recycle-bin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Reginald.ico">
