@@ -119,7 +119,7 @@ namespace Reginald.Data.Products
             OnAltKeyReleased(e);
         }
 
-        public static bool TryFromString(string expression, out Brush brush)
+        private static bool TryFromString(string expression, out Brush brush)
         {
             brush = null;
             int expressionLength = expression.Length;
