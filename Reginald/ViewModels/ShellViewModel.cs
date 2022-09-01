@@ -8,9 +8,7 @@
     using Caliburn.Micro;
     using HotkeyUtility.Input;
     using Reginald.Core.IO;
-    using Reginald.Data.Expansions;
     using Reginald.Services;
-    using Reginald.Services.Hooks;
     using Reginald.Services.Utilities;
 
     internal class ShellViewModel : Conductor<object>
@@ -18,8 +16,6 @@
         private readonly ClipboardManagerPopupViewModel _clipboardManagerPopupViewModel;
 
         private readonly MainViewModel _mainViewModel;
-
-        private readonly TextExpansionManager _textExpansionManager;
 
         private readonly IWindowManager _windowManager;
 
@@ -38,16 +34,10 @@
                 _ = FileOperations.TryCreateShortcut();
             }
 
-            ToolTipText = $"{FileOperations.ApplicationName} v{Assembly.GetExecutingAssembly().GetName().Version}";
-
-            // Adds a low-level hook for text expansions.
-            KeyboardHook keyboardHook = new();
-            keyboardHook.Add();
-            _textExpansionManager = new(dms.Settings.AreExpansionsEnabled);
-            keyboardHook.KeyPressed += _textExpansionManager.KeyPressed;
-
             // Adds a listener for the clipboard manager.
             _ = ClipboardUtility.GetClipboardUtility(dms.Settings.IsClipboardManagerEnabled, GetView() as Window);
+
+            ToolTipText = $"{FileOperations.ApplicationName} v{Assembly.GetExecutingAssembly().GetName().Version}";
         }
 
         public DataModelService DMS { get; set; }

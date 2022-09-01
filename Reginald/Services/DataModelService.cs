@@ -3,10 +3,14 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     using Reginald.Core.IO;
     using Reginald.Data.DataModels;
     using Reginald.Data.Producers;
     using Reginald.Data.Products;
+    using Reginald.Services.Hooks;
+    using Reginald.Services.Input;
 
     internal class DataModelService
     {
@@ -14,10 +18,13 @@
         private readonly FileSystemWatcher[] _fsws;
 #pragma warning restore IDE0052
 
+        private StringBuilder _input;
+
         public DataModelService()
         {
             Settings = FileOperations.GetGenericDatum<Settings>(Settings.FileName, false);
             SetTheme();
+            SetTextExpansions();
             SetSingleProducers();
             SetMultipleProducers();
 
@@ -30,6 +37,11 @@
             fsw.Changed += OnChanged;
             fsw.EnableRaisingEvents = true;
             _fsws = new FileSystemWatcher[] { fsw };
+
+            // Adds a low-level hook for text expansions.
+            KeyboardHook keyboardHook = new();
+            keyboardHook.Add();
+            keyboardHook.KeyPressed += OnKeyPressed;
         }
 
         public IMultipleProducer<SearchResult>[] MultipleProducers { get; set; }
@@ -38,7 +50,80 @@
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; set; }
 
+        public TextExpansion[] TextExpansions { get; private set; }
+
         public Theme Theme { get; set; }
+
+        private TextExpansion GetTextExpansionFromVirtualKeyCode(int vkCode)
+        {
+            // Handles the Backspace key.
+            if (vkCode == 8 && _input.Length > 0)
+            {
+                _input.Length--;
+                return null;
+            }
+
+            char c = VirtualKeyCodeConverter.ConvertToChar(vkCode);
+
+            // Ignores '\0'.
+            if (char.IsControl(c))
+            {
+                return null;
+            }
+
+            _ = _input.Append(c);
+
+            // This helps keep track of whether the input currently
+            // entered is close to fully matching a trigger.
+            bool startsWithInput = false;
+            string input = _input.ToString();
+
+            // Gives the user some leeway when typing, specifically when
+            // the user mistypes the final character of a trigger.
+            string shortenedInput = input.Length > 1 ? input[0..^1] : input;
+            for (int i = 0; i < TextExpansions.Length; i++)
+            {
+                string trigger = TextExpansions[i].Trigger;
+                if (trigger == input)
+                {
+                    _ = _input.Clear();
+                    return TextExpansions[i];
+                }
+
+                if (!startsWithInput)
+                {
+                    startsWithInput = trigger.StartsWith(input) || trigger.StartsWith(shortenedInput);
+                }
+            }
+
+            // Resets input if there's no match.
+            if (!startsWithInput)
+            {
+                _ = _input.Clear();
+            }
+
+            return null;
+        }
+
+        private async void OnKeyPressed(object sender, KeyPressedEventArgs e)
+        {
+            if (!Settings.AreExpansionsEnabled || !e.IsDown)
+            {
+                return;
+            }
+
+            TextExpansion te = GetTextExpansionFromVirtualKeyCode(e.VirtualKeyCode);
+            if (te is null)
+            {
+                return;
+            }
+
+            await Task.Run(async () =>
+            {
+                await Task.Delay(50);
+                KeyboardInputInjector.InjectInput(InjectedKeyboardInput.FromTextExpansion(te.Trigger, te.Replacement));
+            });
+        }
 
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
@@ -48,6 +133,7 @@
                 case WatcherChangeTypes.Deleted:
                 case WatcherChangeTypes.Changed:
                     SetTheme();
+                    SetTextExpansions();
                     SetSingleProducers();
                     SetMultipleProducers();
                     break;
@@ -103,6 +189,11 @@
             }
 
             SingleProducers = singleProducers.ToArray();
+        }
+
+        private void SetTextExpansions()
+        {
+            TextExpansions = FileOperations.GetGenericData<TextExpansion>(TextExpansion.FileName, false);
         }
 
         private void SetTheme()
