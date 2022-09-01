@@ -35,12 +35,12 @@
         {
             _dms.Settings.ThemeIdentifier = SelectedItem.Guid;
             _dms.Settings.Save();
-            _ = _eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage($"Themes > {SelectedItem.Name}"));
+            _ = _eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage($"Themes > {SelectedItem?.Name}"));
         }
 
         protected override void OnViewLoaded(object view)
         {
-            _ = _eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage($"Themes > {SelectedItem.Name}"));
+            _ = _eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage($"Themes > {SelectedItem?.Name}"));
             base.OnViewLoaded(view);
         }
     }
