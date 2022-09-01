@@ -4,40 +4,41 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Windows;
     using System.Windows.Controls;
     using Caliburn.Micro;
     using Reginald.Core.IO;
-    using Reginald.Data.Units;
+    using Reginald.Data.DataModels;
     using Reginald.Messages;
     using Reginald.Services;
 
-    public class ThemesViewModel : ItemsViewModelConductor<Theme>
+    internal class ThemesViewModel : ItemsScreen<Theme>
     {
         private readonly IEventAggregator _eventAggregator;
 
-        private readonly ConfigurationService _configurationService;
+        private readonly DataModelService _dms;
 
-        public ThemesViewModel(IEventAggregator eventAggregator, ConfigurationService configurationService)
+        public ThemesViewModel(IEventAggregator eventAggregator, DataModelService dms)
+            : base("Themes")
         {
             _eventAggregator = eventAggregator;
-            _configurationService = configurationService;
+            _dms = dms;
 
-            Filename = Theme.Filename;
-            IsResource = true;
+            Items.AddRange(FileOperations.GetGenericData<Theme>(Theme.FileName, true));
+            SelectedItem = Items.FirstOrDefault(theme => theme.Guid == _dms.Settings.ThemeIdentifier, Items.First());
+        }
 
-            Unit[] units = UnitFactory.CreateUnits(FileOperations.GetGenericData<ThemeDataModel>(Filename, true));
-            Items.AddRange(units.OfType<Theme>());
-            SelectedItem = Items.FirstOrDefault(i => i.Guid.ToString() == _configurationService.Settings.ThemeIdentifier, Items.First());
+        public override void IsEnabled_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public void ThemesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _configurationService.Settings.ThemeIdentifier = SelectedItem.Guid.ToString();
-            _configurationService.Settings.Save();
+            _dms.Settings.ThemeIdentifier = SelectedItem.Guid;
+            _dms.Settings.Save();
             _ = _eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage($"Themes > {SelectedItem.Name}"));
         }
-
-        protected override void UpdateItems() => throw new NotImplementedException();
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
