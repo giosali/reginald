@@ -115,8 +115,7 @@
                 return;
             }
 
-            TextExpansion te = GetTextExpansionFromVirtualKeyCode(e.VirtualKeyCode);
-            if (te is null)
+            if (GetTextExpansionFromVirtualKeyCode(e.VirtualKeyCode) is not TextExpansion te)
             {
                 return;
             }
