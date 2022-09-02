@@ -145,6 +145,7 @@ namespace Reginald.Data.ObjectModels
             result.AltKeyPressed += OnAltKeyPressed;
             result.AltKeyReleased += OnAltKeyReleased;
             result.EnterKeyPressed += OnEnterKeyPressed;
+            result.TabKeyPressed += OnTabKeyPressed;
             return result;
         }
 
@@ -172,6 +173,12 @@ namespace Reginald.Data.ObjectModels
         {
             ProcessUtility.OpenFromPath(FilePath);
             e.Handled = true;
+        }
+
+        private void OnTabKeyPressed(object sender, InputProcessingEventArgs e)
+        {
+            e.IsInputIncomplete = true;
+            e.CompleteInput = Description;
         }
     }
 }
