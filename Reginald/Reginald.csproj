@@ -18,7 +18,6 @@
     <None Remove="Images\Settings\settings.png" />
     <None Remove="Reginald.ico" />
     <None Remove="Resources\Calculator.json" />
-    <None Remove="Resources\DefaultResults.json" />
     <None Remove="Resources\MicrosoftSettings.json" />
     <None Remove="Resources\Quit.json" />
     <None Remove="Resources\Recycle.json" />
@@ -95,9 +94,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Calculator.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\DefaultResults.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\MicrosoftSettings.json">
