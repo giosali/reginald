@@ -119,7 +119,17 @@
 
         public override void IsEnabled_Click(object sender, RoutedEventArgs e)
         {
-            FileOperations.WriteFile(WebQuery.UserFileName, Items.Serialize());
+            DataModelService dms = IoC.Get<DataModelService>();
+            if (SelectedItem.IsEnabled)
+            {
+                _ = dms.Settings.DisabledWebQueries.Remove(SelectedItem.Guid);
+            }
+            else
+            {
+                dms.Settings.DisabledWebQueries.Add(SelectedItem.Guid);
+            }
+
+            dms.Settings.Save();
         }
 
         public void MenuItem_Click(object sender, RoutedEventArgs e)

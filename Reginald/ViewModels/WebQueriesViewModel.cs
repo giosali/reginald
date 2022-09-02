@@ -4,8 +4,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
-    using Reginald.Core.Extensions;
-    using Reginald.Core.IO;
     using Reginald.Data.DataModels;
     using Reginald.Services;
 
@@ -21,7 +19,16 @@
 
         public override void IsEnabled_Click(object sender, RoutedEventArgs e)
         {
-            FileOperations.WriteFile(WebQuery.FileName, Items.Where(wq => !wq.IsEnabled).Serialize());
+            if (SelectedItem.IsEnabled)
+            {
+                _ = DMS.Settings.DisabledWebQueries.Remove(SelectedItem.Guid);
+            }
+            else
+            {
+                DMS.Settings.DisabledWebQueries.Add(SelectedItem.Guid);
+            }
+
+            DMS.Settings.Save();
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
