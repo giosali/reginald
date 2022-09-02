@@ -1,6 +1,7 @@
 ﻿namespace Reginald.Data.DataModels
 {
     using System;
+    using System.Collections.Generic;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
@@ -35,6 +36,9 @@
 
         [JsonProperty("isCalculatorEnabled")]
         public bool IsCalculatorEnabled { get; set; } = true;
+
+        [JsonProperty("disabledWebQueries")]
+        public List<Guid> DisabledWebQueries { get; set; } = new();
 
         [JsonProperty("isClipboardManagerEnabled")]
         public bool IsClipboardManagerEnabled { get; set; } = true;
