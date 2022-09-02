@@ -98,6 +98,26 @@
             return result;
         }
 
+        public SearchResult Produce(string input)
+        {
+            SearchResult result = new(Caption, IconPath);
+            result.AltAndEnterKeysPressed += OnAltAndEnterKeysPressed;
+            result.AltKeyPressed += OnAltKeyPressed;
+            result.AltKeyReleased += OnAltKeyReleased;
+            result.EnterKeyPressed += OnEnterKeyPressed;
+            result.TabKeyPressed += OnTabKeyPressed;
+
+            if (!string.IsNullOrEmpty(Description))
+            {
+                result.Description = Description;
+                return result;
+            }
+
+            _keyInput = Key + " " + input;
+            result.Description = string.Format(DescriptionFormat, input);
+            return result;
+        }
+
         private void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
         {
             if (string.IsNullOrEmpty(AltUrl))
