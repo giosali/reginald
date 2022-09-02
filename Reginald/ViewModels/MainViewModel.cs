@@ -45,27 +45,38 @@
             items.AddRange(DMS.MultipleProducers
                               .Where(mp => mp.Check(userInput))
                               .SelectMany(mp => mp.Produce()));
-            Items.AddRange(items.Take(25));
-            if (Items.Count > 0)
+            if (items.Count == 0)
             {
-                SelectedItem = Items[0];
+                Items.AddRange(DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)));
+            }
+            else
+            {
+                Items.AddRange(items.Take(25));
             }
 
-            // // Selects the previously selected item and places it at the top of the
-            // // results if it's still in the new list of results.
-            // int index = Items.IndexOf(LastSelectedItem);
-            // if (index > 0)
+            int index = Items.IndexOf(LastSelectedItem);
+            if (index == -1)
+            {
+                SelectedItem = Items[0];
+                return;
+            }
+
+            // Selects the previously selected item and places it at the top of the
+            // results if it's still in the new list of results.
+            SearchResult item = Items[index];
+            for (int i = index; i > 0; i--)
+            {
+                Items[i] = Items[i - 1];
+            }
+
+            Items[0] = item;
+            SelectedItem = Items[0];
+
+            // Items.AddRange(items.Take(25));
+            // if (Items.Count > 0)
             // {
-            //     SearchResult item = Items[index];
-            //     for (int i = index; i > 0; i--)
-            //     {
-            //         Items[i] = Items[i - 1];
-            //     }
-
-            //     Items[0] = item;
+            //     SelectedItem = Items[0];
             // }
-
-            //SelectedItem = Items[0];
         }
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
