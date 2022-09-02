@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:controls="clr-namespace:Reginald.Controls"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -16,31 +18,132 @@
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
-                <Grid Style="{StaticResource CardControlGridStyle}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0"
-                               Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                               Text="&#xE893;" />
-                    <StackPanel Grid.Column="1"
-                                VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                   Text="Timer" />
-                        <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="Have Reginald start a timer for you" />
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE893;" />
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="Timer" />
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Have Reginald start a timer for you" />
+                        </StackPanel>
+
+                        <ToggleButton IsChecked="{Binding DataModelService.Settings.IsTimerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Grid.Column="3"
+                                      Style="{StaticResource WindowsToggleButtonStyle}"
+                                      cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
+                    </Grid>
+                    <StackPanel Margin="0 12">
+                        <Grid VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Margin="0 0 6 0"
+                                       Style="{StaticResource PrimaryParagraphTextBlockStyle}"
+                                       Text="Keyword"
+                                       VerticalAlignment="Center" />
+                            <TextBox Grid.Column="1"
+                                     IsEnabled="False"
+                                     Style="{StaticResource PrimaryTextBoxStyle}"
+                                     Text="timer" />
+                        </Grid>
                     </StackPanel>
-
-                    <ToggleButton IsChecked="{Binding DataModelService.Settings.IsTimerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Grid.Column="3"
-                                  Style="{StaticResource WindowsToggleButtonStyle}"
-                                  cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
-                </Grid>
+                </StackPanel>
             </Border>
+            <!--Link-->
+            <StackPanel Style="{StaticResource HyperlinkStackPanelStyle}">
+                <TextBlock Style="{StaticResource PrimaryLinkIconTextBlockStyle}"
+                           Text="&#xE71B;" />
+                <Button Style="{StaticResource HyperlinkButton}"
+                        Tag="https://github.com/giosali/reginald/wiki#timer"
+                        cal:Message.Attach="[Click] = [HyperlinkButton_Click($source, $eventargs)]">
+                    <TextBlock>
+                         <Hyperlink Style="{StaticResource HyperlinkStyle}"
+                                    NavigateUri="https://github.com/giosali/reginald/wiki#timer">
+                             View more information the timer keyword
+                         </Hyperlink>
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <!--ToggleButton-->
+        <StackPanel Grid.Row="1"
+                    Style="{StaticResource InnerUserControlStackPanelStyle}">
+            <Border Style="{StaticResource CardBorderStyle}">
+                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xF168;" />
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="Timers" />
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Check the currently active timers" />
+                        </StackPanel>
+
+                        <ToggleButton IsChecked="{Binding DataModelService.Settings.AreTimersEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Grid.Column="3"
+                                      Style="{StaticResource WindowsToggleButtonStyle}"
+                                      cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
+                    </Grid>
+                    <StackPanel Margin="0 12">
+                        <Grid VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Margin="0 0 6 0"
+                                       Style="{StaticResource PrimaryParagraphTextBlockStyle}"
+                                       Text="Keyword"
+                                       VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1"
+                                     IsEnabled="False"
+                                     Style="{StaticResource PrimaryTextBoxStyle}"
+                                     Text="timers"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <!--Link-->
+            <StackPanel Style="{StaticResource HyperlinkStackPanelStyle}">
+                <TextBlock Style="{StaticResource PrimaryLinkIconTextBlockStyle}"
+                           Text="&#xE71B;" />
+                <Button Style="{StaticResource HyperlinkButton}"
+                        Tag="https://github.com/giosali/reginald/wiki#timers"
+                        cal:Message.Attach="[Click] = [HyperlinkButton_Click($source, $eventargs)]">
+                    <TextBlock>
+                         <Hyperlink Style="{StaticResource HyperlinkStyle}"
+                                    NavigateUri="https://github.com/giosali/reginald/wiki#timers">
+                             View more information on the timers keyword
+                         </Hyperlink>
+                    </TextBlock>
+                </Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
