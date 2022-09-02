@@ -3,9 +3,11 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
+    using System.Windows.Controls;
     using Caliburn.Micro;
     using Reginald.Messages;
     using Reginald.Services;
+    using Reginald.Services.Utilities;
 
     internal abstract class ItemScreen : Screen
     {
@@ -14,6 +16,11 @@
         public ItemScreen(string pageName)
         {
             _pageName = pageName;
+        }
+
+        public void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProcessUtility.GoTo((sender as Button).Tag.ToString());
         }
 
         public void Include_Click(object sender, RoutedEventArgs e)
