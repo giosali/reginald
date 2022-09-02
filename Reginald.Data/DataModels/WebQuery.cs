@@ -146,6 +146,12 @@
                 return;
             }
 
+            if (!string.IsNullOrEmpty(Description))
+            {
+                result.Description = Description;
+                return;
+            }
+
             string[] keyInputArray = _keyInput.Split(' ', 2);
             string input = keyInputArray[^1];
             result.Description = string.Format(DescriptionFormat, keyInputArray.Length < 2 || input == string.Empty ? Placeholder : input);
@@ -176,19 +182,22 @@
         {
             string[] keyInputArray = _keyInput.Split(' ', 2);
             string input = keyInputArray[^1];
-            if (keyInputArray.Length < 2 || string.IsNullOrEmpty(input))
-            {
-                bool isDescriptionNullOrEmpty = string.IsNullOrEmpty(Description);
-                if (input == (isDescriptionNullOrEmpty ? Key + " " : Key))
-                {
-                    return;
-                }
 
-                // Handles autocompletion.
-                e.IsInputIncomplete = true;
-                e.CompleteInput = isDescriptionNullOrEmpty ? Key + " " : Key;
+            if (keyInputArray.Length == 2 && input.Length != 0)
+            {
                 return;
             }
+
+            bool isDescriptionNullOrEmpty = string.IsNullOrEmpty(Description);
+            if (input == (isDescriptionNullOrEmpty ? Key + " " : Key))
+            {
+                return;
+            }
+
+            // Handles autocompletion.
+            e.IsInputIncomplete = true;
+            e.CompleteInput = isDescriptionNullOrEmpty ? Key + " " : Key;
+            return;
         }
     }
 }
