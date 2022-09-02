@@ -197,7 +197,6 @@
             // Handles autocompletion.
             e.IsInputIncomplete = true;
             e.CompleteInput = isDescriptionNullOrEmpty ? Key + " " : Key;
-            return;
         }
     }
 }
