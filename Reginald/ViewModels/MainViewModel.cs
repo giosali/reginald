@@ -71,12 +71,6 @@
 
             Items[0] = item;
             SelectedItem = Items[0];
-
-            // Items.AddRange(items.Take(25));
-            // if (Items.Count > 0)
-            // {
-            //     SelectedItem = Items[0];
-            // }
         }
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
