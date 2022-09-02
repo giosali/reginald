@@ -84,7 +84,6 @@
                     // selected item through arrow keys and moving mouse over it.
                     IsMouseOverChanged = false;
                     break;
-
                 case Key.Down:
                     SelectedItem = Items[Math.Min(Items.IndexOf(SelectedItem) + 1, Items.Count - 1)];
 
@@ -92,7 +91,6 @@
                     // selected item through arrow keys and moving mouse over it.
                     IsMouseOverChanged = false;
                     break;
-
                 case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:
                 {
                     Data.Inputs.InputProcessingEventArgs args = new();
@@ -115,7 +113,6 @@
                     e.Handled = true;
                     break;
                 }
-
                 case Key.Enter:
                 {
                     Data.Inputs.InputProcessingEventArgs args = new();
@@ -133,13 +130,11 @@
                     e.Handled = true;
                     break;
                 }
-
                 case Key.LeftAlt when !e.IsRepeat:
                 case Key.RightAlt when !e.IsRepeat:
                     SelectedItem?.PressAlt(new Data.Inputs.InputProcessingEventArgs());
                     e.Handled = true;
                     break;
-
                 case Key.Tab:
                 {
                     if (Items.Count == 0)
