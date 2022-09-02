@@ -16,30 +16,50 @@
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
-                <Grid Style="{StaticResource CardControlGridStyle}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0"
-                               Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                               Text="&#xE711;" />
-                    <StackPanel Grid.Column="1"
-                                VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                   Text="Quit" />
-                        <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="Have Reginald quit applications for you" />
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE711;" />
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="Quit" />
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Have Reginald quit applications for you" />
+                        </StackPanel>
+
+                        <ToggleButton IsChecked="{Binding DataModelService.Settings.IsQuitEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Grid.Column="3"
+                                      Style="{StaticResource WindowsToggleButtonStyle}"
+                                      cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
+                    </Grid>
+                    <StackPanel Margin="0 12">
+                        <Grid VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Margin="0 0 6 0"
+                                       Style="{StaticResource PrimaryParagraphTextBlockStyle}"
+                                       Text="Keyword"
+                                       VerticalAlignment="Center" />
+                            <TextBox Grid.Column="1"
+                                     IsEnabled="False"
+                                     Style="{StaticResource PrimaryTextBoxStyle}"
+                                     Text="quit" />
+                        </Grid>
                     </StackPanel>
-
-                    <ToggleButton IsChecked="{Binding DataModelService.Settings.IsQuitEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Grid.Column="3"
-                                  Style="{StaticResource WindowsToggleButtonStyle}"
-                                  cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
-                </Grid>
+                </StackPanel>
             </Border>
         </StackPanel>
     </Grid>
