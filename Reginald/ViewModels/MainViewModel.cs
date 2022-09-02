@@ -147,7 +147,7 @@
                     SelectedItem?.PressTab(args);
                     if (args.IsInputIncomplete)
                     {
-                        (sender as TextBox).SetText(args.CompleteInput);
+                        (sender as TextBox)?.SetText(args.CompleteInput);
                     }
 
                     e.Handled = true;
