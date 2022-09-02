@@ -1,5 +1,6 @@
 ﻿namespace Reginald.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -43,6 +44,8 @@
             keyboardHook.Add();
             keyboardHook.KeyPressed += OnKeyPressed;
         }
+
+        public IEnumerable<WebQuery> DefaultWebQueries { get; private set; }
 
         public IMultipleProducer<SearchResult>[] MultipleProducers { get; set; }
 
@@ -159,12 +162,17 @@
             List<ISingleProducer<SearchResult>> singleProducers = new();
 
             // Handles those that receive key inputs.
+            WebQuery[] webQueries = FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true);
+            WebQuery[] yourWebQueries = FileOperations.GetGenericData<WebQuery>(WebQuery.UserFileName, false);
+            DefaultWebQueries = webQueries.Concat(yourWebQueries)
+                                          .Where(wq => Array.Exists(Settings.DefaultWebQueries, i => i == wq.Guid))
+                                          .Take(3);
             if (Settings.AreWebQueriesEnabled)
             {
-                singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true));
+                singleProducers.AddRange(webQueries);
             }
 
-            singleProducers.AddRange(FileOperations.GetGenericData<WebQuery>(WebQuery.UserFileName, false));
+            singleProducers.AddRange(yourWebQueries);
 
             Recycle recycle = FileOperations.GetGenericDatum<Recycle>("Recycle.json", true);
             recycle.IsEnabled = Settings.IsRecycleEnabled;
