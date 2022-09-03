@@ -1,18 +1,17 @@
 ﻿<UserControl x:Class="Reginald.Views.FeaturesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://caliburnmicro.com"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="175"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="175" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-        <!-- # Features -->
         <ListBox Background="Transparent"
                  BorderThickness="0"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
@@ -24,66 +23,52 @@
                  VirtualizingStackPanel.IsVirtualizing="True"
                  VirtualizingStackPanel.VirtualizationMode="Recycling"
                  cal:Message.Attach="[PreviewKeyDown] = [ListBox_PreviewKeyDown($this, $eventargs)]">
-            <!-- ## Web Queries -->
             <ListBoxItem Content="Web Queries"
                          Tag="WebQueries"
-                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]"/>
-            <!-- ## Your Web Queries -->
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
             <ListBoxItem Content="Your Web Queries"
                          Tag="YourWebQueries"
-                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]"/>
-            <!-- ## Clipboard Manager -->
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
             <ListBoxItem Content="Clipboard Manager"
                          Tag="ClipboardManager"
-                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]"/>
-            <!-- ## Expansions -->
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
             <ListBoxItem Content="Expansions"
                          Tag="Expansions"
-                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]"/>
-            <!-- ## Applications -->
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
             <ListBoxItem Content="Applications"
                          Tag="Applications"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
-            <!-- ## Calculator -->
             <ListBoxItem Content="Calculator"
                          Tag="Calculator"
-                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]"/>
-            <!-- ## Link -->
+                         cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
             <ListBoxItem Content="Link"
                          Tag="Link"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
-            <!-- ## Microsoft Settings -->
             <ListBoxItem Content="Microsoft Settings"
                          Tag="MicrosoftSettings"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
-            <!-- ## Recycle -->
             <ListBoxItem Content="Recycle"
                          Tag="Recycle"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
-            <!-- ## Timer -->
             <ListBoxItem Content="Timer"
                          Tag="Timer"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
-            <!-- ## Quit -->
             <ListBoxItem Content="Quit"
                          Tag="Quit"
                          cal:Message.Attach="[PreviewMouseLeftButtonUp] = [ListBoxItem_PreviewMouseLeftButtonUp($this, $eventargs)]" />
         </ListBox>
-
-        <!-- # Content -->
-        <ScrollViewer Style="{StaticResource DefaultScrollViewerStyle}"
-                      Grid.Column="1"
+        <ScrollViewer Grid.Column="1"
+                      Style="{StaticResource DefaultScrollViewerStyle}"
                       cal:Message.Attach="[MouseDown] = [ScrollViewer_MouseDown($source, $eventargs)];
                                           [PreviewMouseWheel] = [ScrollViewer_PreviewMouseWheel($source, $eventargs)]">
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-
-                <!-- ## Other Views -->
+                <!--Other views-->
                 <ContentControl x:Name="ActiveItem"
                                 Grid.Row="0"
-                                Margin="0 0 0 24"/>
+                                Margin="0 0 0 24" />
             </Grid>
         </ScrollViewer>
     </Grid>

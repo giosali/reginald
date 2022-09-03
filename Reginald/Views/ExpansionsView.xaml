@@ -7,92 +7,89 @@
              xmlns:cal="http://caliburnmicro.com"
              xmlns:controls="clr-namespace:Reginald.Controls"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
         <StackPanel Grid.Row="0"
                     Style="{StaticResource UserControlStackPanelStyle}">
             <!--ToggleButton-->
             <Border Style="{StaticResource CardBorderStyle}">
                 <Grid Style="{StaticResource CardControlGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                               Grid.Column="0"
-                               Text="&#xE897;"/>
+                    <TextBlock Grid.Column="0"
+                               Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                               Text="&#xE897;" />
                     <StackPanel Grid.Column="1"
                                 VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                   Text="Text expansions"/>
+                                   Text="Text expansions" />
                         <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="Enable text expansions"/>
+                                   Text="Enable text expansions" />
                     </StackPanel>
 
-                    <ToggleButton Style="{StaticResource WindowsToggleButtonStyle}"
+                    <ToggleButton Grid.Column="3"
                                   IsChecked="{Binding DMS.Settings.AreExpansionsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Grid.Column="3"
-                                  cal:Message.Attach="[Event Click] = [Action IsEnabled_Click($this, $eventargs)]"/>
+                                  Style="{StaticResource WindowsToggleButtonStyle}"
+                                  cal:Message.Attach="[Click] = [IsEnabled_Click($this, $eventargs)]" />
                 </Grid>
             </Border>
-
-            <!-- # Create-->
             <Border Style="{StaticResource CardBorderStyle}">
                 <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
-                        <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                                   Grid.Column="0"
-                                   Text="&#xE710;"/>
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE710;" />
                         <StackPanel Grid.Column="1"
                                     VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                       Text="Create"/>
+                                       Text="Create" />
                             <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                       Text="Add a text expansion"/>
+                                       Text="Add a text expansion" />
                         </StackPanel>
-
+                        <!--Save button-->
                         <StackPanel Grid.Column="3"
                                     VerticalAlignment="Center">
                             <Button Content="Save"
-                                    cal:Message.Attach="[Event Click] = [Action SaveButton_Click($this, $eventargs)]">
+                                    cal:Message.Attach="[Click] = [SaveButton_Click($this, $eventargs)]">
                                 <Button.Style>
-                                    <Style TargetType="{x:Type Button}"
-                                           BasedOn="{StaticResource SecondaryButtonStyle}">
+                                    <Style BasedOn="{StaticResource SecondaryButtonStyle}"
+                                           TargetType="{x:Type Button}">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Trigger}"
                                                          Value="{x:Null}">
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Trigger}"
                                                          Value="">
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Replacement}"
                                                          Value="{x:Null}">
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Replacement}"
                                                          Value="">
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -100,53 +97,46 @@
                             </Button>
                         </StackPanel>
                     </Grid>
-
-                    <!-- ## Form -->
+                    <!--Form-->
                     <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
-                        <!-- ### Trigger -->
-                        <controls:LabeledTextBox Text="{Binding Trigger, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <!--Trigger-->
+                        <controls:LabeledTextBox IsRequired="True"
                                                  Label="Trigger"
-                                                 IsRequired="True">
+                                                 Text="{Binding Trigger, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="Triggers are case-sensitive and can include letters, numbers, and symbols"/>
+                                <ToolTip Content="Triggers are case-sensitive and can include letters, numbers, and symbols" />
                             </controls:LabeledTextBox.ToolTip>
                         </controls:LabeledTextBox>
-                        
-                        <!-- ### Replacement -->
-                        <controls:LabeledTextBox Text="{Binding Replacement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 AcceptsReturn="True"
+                        <!--Replacement-->
+                        <controls:LabeledTextBox AcceptsReturn="True"
                                                  AcceptsTab="True"
+                                                 IsRequired="True"
                                                  Label="Replacement"
-                                                 IsRequired="True">
+                                                 Text="{Binding Replacement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="Replacements can contain newlines and tabs"/>
+                                <ToolTip Content="Replacements can contain newlines and tabs" />
                             </controls:LabeledTextBox.ToolTip>
                         </controls:LabeledTextBox>
                     </StackPanel>
                 </StackPanel>
             </Border>
         </StackPanel>
-
-        <!-- ## Expansions -->
+        <!--Expansions-->
         <Border Grid.Row="1"
                 Style="{StaticResource CardBorderStyle}">
             <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                 <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
                     <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                               Text="&#xE71D;"/>
+                               Text="&#xE71D;" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                   Text="Text expansions"/>
+                                   Text="Text expansions" />
                         <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="A display of your text expansions"/>
+                                   Text="A display of your text expansions" />
                     </StackPanel>
                 </StackPanel>
-
                 <Grid Style="{StaticResource CardActionBottomGridStyle}">
-                    <DataGrid ItemsSource="{Binding Items}"
-                              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                              RowHeight="{x:Static sys:Double.NaN}"
-                              AutoGenerateColumns="False"
+                    <DataGrid AutoGenerateColumns="False"
                               CanUserAddRows="False"
                               CanUserDeleteRows="False"
                               CanUserReorderColumns="False"
@@ -154,45 +144,46 @@
                               GridLinesVisibility="Horizontal"
                               HeadersVisibility="Column"
                               HorizontalGridLinesBrush="{StaticResource QuaternaryBrush}"
+                              ItemsSource="{Binding Items}"
+                              RowHeight="{x:Static sys:Double.NaN}"
+                              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                               SelectionMode="Single"
-                              cal:Message.Attach="[Event ContextMenuOpening] = [Action DataGrid_ContextMenuOpening($this, $eventargs)];
-                                              [Event LostFocus] = [Action DataGrid_LostFocus($this, $eventargs)]">
+                              cal:Message.Attach="[ContextMenuOpening] = [DataGrid_ContextMenuOpening($this, $eventargs)];
+                                                  [LostFocus] = [DataGrid_LostFocus($this, $eventargs)]">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Delete"
                                           Tag="Delete"
-                                          cal:Message.Attach="[Event Click] = [Action MenuItem_Click($source, $eventargs)]"/>
+                                          cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
-
                         <DataGrid.Columns>
-                            <!-- ### Trigger -->
+                            <!--Trigger-->
                             <DataGridTemplateColumn Header="Trigger"
                                                     Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Style="{StaticResource PrimaryTextBoxStyle}"
+                                        <TextBox FontSize="12"
+                                                 Style="{StaticResource PrimaryTextBoxStyle}"
                                                  Text="{Binding Trigger, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                                 FontSize="12"
                                                  TextWrapping="Wrap"
-                                                 cal:Message.Attach="[Event GotKeyboardFocus] = [Action DataGridTemplateColumnTextBox_GotKeyboardFocus($this, $eventargs)]"/>
+                                                 cal:Message.Attach="[GotKeyboardFocus] = [DataGridTemplateColumnTextBox_GotKeyboardFocus($this, $eventargs)]" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-
-                            <!-- ### Replacement -->
+                            <!--Replacement-->
                             <DataGridTemplateColumn Header="Replacement"
                                                     IsReadOnly="False"
                                                     Width="2*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Style="{StaticResource PrimaryTextBoxStyle}"
-                                                 Text="{Binding Replacement, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                                 AcceptsReturn="True"
+                                        <TextBox AcceptsReturn="True"
                                                  AcceptsTab="True"
                                                  FontSize="12"
+                                                 Style="{StaticResource PrimaryTextBoxStyle}"
+                                                 Text="{Binding Replacement, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                                  TextWrapping="Wrap"
-                                                 cal:Message.Attach="[Event GotKeyboardFocus] = [Action DataGridTemplateColumnTextBox_GotKeyboardFocus($this, $eventargs)]"/>
+                                                 cal:Message.Attach="[GotKeyboardFocus] = [DataGridTemplateColumnTextBox_GotKeyboardFocus($this, $eventargs)]" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

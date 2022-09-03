@@ -6,66 +6,62 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:Reginald.Converters"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
-            <!--# Converters-->
-            <local:DescriptionMultiConverter x:Key="DescriptionMultiConverter"/>
+            <!--Converters-->
+            <local:DescriptionMultiConverter x:Key="DescriptionMultiConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
         <!--ToggleButton-->
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
                 <Grid Style="{StaticResource CardControlGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-
                     <TextBlock Grid.Column="0"
                                Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                               Text="&#xE77B;"/>
+                               Text="&#xE77B;" />
                     <StackPanel Grid.Column="1"
                                 VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                   Text="Web queries"/>
+                                   Text="Web queries" />
                         <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="Include web queries in your search results"/>
+                                   Text="Include web queries in your search results" />
                     </StackPanel>
-
-                    <ToggleButton IsChecked="{Binding DMS.Settings.AreWebQueriesEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Grid.Column="3"
+                    <ToggleButton Grid.Column="3"
+                                  IsChecked="{Binding DMS.Settings.AreWebQueriesEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Style="{StaticResource WindowsToggleButtonStyle}"
-                                  cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]"/>
+                                  cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
                 </Grid>
             </Border>
         </StackPanel>
-
-        <!--# DataGrid-->
+        <!--Web queries-->
         <Border Grid.Row="1"
                 Style="{StaticResource CardBorderStyle}">
             <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                 <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
-                    <TextBlock Text="&#xF0E2;"
-                               Style="{StaticResource ApplicationBrandIconTextBlockStyle}"/>
+                    <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                               Text="&#xF0E2;" />
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Web queries"
-                                   Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"/>
-                        <TextBlock Text="A display of web queries"
-                                   Style="{StaticResource SecondaryParagraphTextBlock}"/>
+                        <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                   Text="Web queries" />
+                        <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                   Text="A display of web queries" />
                     </StackPanel>
                 </StackPanel>
-
                 <Grid Style="{StaticResource CardActionBottomGridStyle}">
                     <DataGrid AutoGenerateColumns="False"
                               CanUserAddRows="False"
@@ -79,7 +75,7 @@
                               SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                               SelectionMode="Single">
                         <DataGrid.Columns>
-                             <!--## Icon-->
+                            <!--Icon-->
                             <DataGridTemplateColumn Header="Icon"
                                                     IsReadOnly="True"
                                                     Width="Auto">
@@ -88,12 +84,11 @@
                                         <Image Height="20"
                                                SnapsToDevicePixels="True"
                                                Source="{Binding IconPath}"
-                                               Width="20"/>
+                                               Width="20" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-
-                             <!--## Keyword-->
+                            <!--Keyword-->
                             <DataGridTextColumn Binding="{Binding Key}"
                                                 FontSize="12"
                                                 Header="Keyword"
@@ -103,16 +98,15 @@
                                     <Style BasedOn="{StaticResource {x:Type TextBlock}}"
                                            TargetType="{x:Type TextBlock}">
                                         <Setter Property="TextTrimming"
-                                                Value="CharacterEllipsis"/>
+                                                Value="CharacterEllipsis" />
                                         <Setter Property="ToolTip"
-                                                Value="{Binding Key}"/>
+                                                Value="{Binding Key}" />
                                         <Setter Property="VerticalAlignment"
-                                                Value="Center"/>
+                                                Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-
-                             <!--## Description-->
+                            <!--Description-->
                             <DataGridTextColumn FontSize="12"
                                                 Header="Description"
                                                 IsReadOnly="True"
@@ -120,34 +114,33 @@
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding Converter="{StaticResource DescriptionMultiConverter}"
                                                   Mode="OneWay">
-                                        <Binding Path="Description"/>
-                                        <Binding Path="DescriptionFormat"/>
-                                        <Binding Path="Placeholder"/>
+                                        <Binding Path="Description" />
+                                        <Binding Path="DescriptionFormat" />
+                                        <Binding Path="Placeholder" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                                 <DataGridTextColumn.ElementStyle>
                                     <Style BasedOn="{StaticResource {x:Type TextBlock}}"
                                            TargetType="{x:Type TextBlock}">
                                         <Setter Property="TextTrimming"
-                                                Value="CharacterEllipsis"/>
+                                                Value="CharacterEllipsis" />
                                         <Setter Property="ToolTip"
-                                                Value="{Binding Description}"/>
+                                                Value="{Binding Description}" />
                                         <Setter Property="VerticalAlignment"
-                                                Value="Center"/>
+                                                Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-
-                            <!--## Enabled-->
-                            <DataGridTemplateColumn Header="Enabled" 
+                            <!--Enabled-->
+                            <DataGridTemplateColumn Header="Enabled"
                                                     IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox HorizontalContentAlignment="Center"
-                                                  HorizontalAlignment="Center"
+                                        <CheckBox HorizontalAlignment="Center"
+                                                  HorizontalContentAlignment="Center"
                                                   IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   VerticalAlignment="Center"
-                                                  cal:Message.Attach="[Click] = [IsEnabled_Click($this, $eventargs)]"/>
+                                                  cal:Message.Attach="[Click] = [IsEnabled_Click($this, $eventargs)]" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

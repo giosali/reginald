@@ -1,35 +1,34 @@
 ﻿<UserControl x:Class="Reginald.Views.ThemesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://caliburnmicro.com"
              xmlns:local="clr-namespace:Reginald.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
-            <!-- # DataTemplates -->
-            
-            <!-- ## DataTemplate for ListBox -->
+            <!--Converters-->
+            <local:BrushToInvertedBrushConverter x:Key="BrushToInvertedBrushConverter" />
+            <local:BrushToStringConverter x:Key="BrushToStringConverter" />
+            <!--DataTemplates-->
             <DataTemplate x:Key="ThemesDataTemplate">
                 <Grid>
                     <Border>
                         <StackPanel Margin="2.5 10 0 10">
-                            <TextBlock Text="{Binding Name}"
+                            <TextBlock FontSize="14"
                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
-                                       FontSize="14"/>
-                            <TextBlock Text="{Binding Author}"
-                                       FontSize="12"
-                                       Foreground="{StaticResource SecondaryBrush}"/>
+                                       Text="{Binding Name}" />
+                            <TextBlock FontSize="12"
+                                       Foreground="{StaticResource SecondaryBrush}"
+                                       Text="{Binding Author}" />
                         </StackPanel>
                     </Border>
                 </Grid>
             </DataTemplate>
-
-            <!-- # ControlTemplates -->
-            
-            <!-- ## ControlTemplate for ListBoxItem -->
+            <!--ControlTemplates-->
             <ControlTemplate x:Key="ListBoxItemControlTemplate"
                              TargetType="{x:Type ListBoxItem}">
                 <Border x:Name="listBoxItemBorder"
@@ -39,202 +38,178 @@
                         CornerRadius="4"
                         Padding="{TemplateBinding Padding}"
                         SnapsToDevicePixels="True">
-                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                    <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
+                                      ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                      Content="{TemplateBinding ContentControl.Content}"
-                                      ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"/>
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                 </Border>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver"
                              Value="True">
                         <Setter TargetName="listBoxItemBorder"
                                 Property="Background"
-                                Value="{StaticResource ApplicationSecondaryBackgroundBrush}"/>
+                                Value="{StaticResource ApplicationSecondaryBackgroundBrush}" />
                     </Trigger>
                     <Trigger Property="IsSelected"
                              Value="True">
                         <Setter TargetName="listBoxItemBorder"
                                 Property="Background"
-                                Value="{StaticResource HighlightBrush}"/>
+                                Value="{StaticResource HighlightBrush}" />
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
-            <!-- # Styles -->
-
-            <!-- ## Style for ListBoxItem -->
+            <!--Styles-->
             <Style x:Key="ListBoxItemContainerStyle"
-                   TargetType="{x:Type ListBoxItem}"
-                   BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                   BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                   TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Template"
-                        Value="{StaticResource ListBoxItemControlTemplate}"/>
-            </Style>
-            
-            <!-- ## Style for Brush Displays -->
-            <Style x:Key="BrushDisplayTextBoxStyle"
-                   TargetType="{x:Type TextBox}"
-                   BasedOn="{StaticResource PrimaryTextBoxStyle}">
-                <Setter Property="BorderThickness"
-                        Value="0"/>
-                <Setter Property="Cursor"
-                        Value="Arrow"/>
-                <Setter Property="FontSize"
-                        Value="12"/>
-                <Setter Property="FontWeight"
-                        Value="Bold"/>
-                <Setter Property="IsReadOnly"
-                        Value="True"/>
-                <Setter Property="Margin"
-                        Value="0 0 -8 0"/>
+                        Value="{StaticResource ListBoxItemControlTemplate}" />
             </Style>
 
-            <!-- ## Style for Brush Values -->
+            <Style x:Key="BrushDisplayTextBoxStyle"
+                   BasedOn="{StaticResource PrimaryTextBoxStyle}"
+                   TargetType="{x:Type TextBox}">
+                <Setter Property="BorderThickness"
+                        Value="0" />
+                <Setter Property="Cursor"
+                        Value="Arrow" />
+                <Setter Property="FontSize"
+                        Value="12" />
+                <Setter Property="FontWeight"
+                        Value="Bold" />
+                <Setter Property="IsReadOnly"
+                        Value="True" />
+                <Setter Property="Margin"
+                        Value="0 0 -8 0" />
+            </Style>
+
             <Style x:Key="ValueDisplayTextBoxStyle"
                    TargetType="{x:Type TextBox}"
                    BasedOn="{StaticResource PrimaryTextBoxStyle}">
                 <Style.Setters>
                     <Setter Property="FontSize"
-                            Value="12"/>
+                            Value="12" />
                     <Setter Property="HorizontalContentAlignment"
-                                Value="Center"/>
+                            Value="Center" />
                 </Style.Setters>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding SelectedItem.IsEditable}"
                                  Value="False">
                         <Setter Property="BorderThickness"
-                                Value="0"/>
+                                Value="0" />
                         <Setter Property="Cursor"
-                                Value="No"/>
+                                Value="No" />
                         <Setter Property="IsReadOnly"
-                                Value="True"/>
+                                Value="True" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-
-            <!-- # Converters -->
-            <local:BrushToStringConverter x:Key="BrushToStringConverter"/>
-            <local:BrushToInvertedBrushConverter x:Key="BrushToInvertedBrushConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="175"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="175" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <!-- # Themes -->
-        <ListBox ItemsSource="{Binding Items}"
+        <!--Themes-->
+        <ListBox Background="Transparent"
+                 BorderThickness="0"
+                 Grid.Column="0"
                  ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
                  ItemTemplate="{StaticResource ThemesDataTemplate}"
+                 ItemsSource="{Binding Items}"
                  SelectedItem="{Binding SelectedItem}"
-                 Grid.Column="0"
-                 BorderThickness="0"
-                 Background="Transparent"
-                 cal:Message.Attach="[Event SelectionChanged] = [Action ThemesListBox_SelectionChanged($this, $eventargs)];
-                                     [Event PreviewKeyDown] = [Action ListBox_PreviewKeyDown($this, $eventargs)]"/>
-
-        <!-- # Color Palette -->
-        <StackPanel Style="{StaticResource UserControlStackPanelStyle}"
-                    Grid.Column="1"
-                    Grid.Row="0">
+                 cal:Message.Attach="[SelectionChanged] = [ThemesListBox_SelectionChanged($this, $eventargs)];
+                                     [PreviewKeyDown] = [ListBox_PreviewKeyDown($this, $eventargs)]" />
+        <!--Color palette-->
+        <StackPanel Grid.Column="1"
+                    Grid.Row="0"
+                    Style="{StaticResource UserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
                 <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                     <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
                         <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                                   Text="&#xE790;"/>
+                                   Text="&#xE790;" />
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                       Text="{Binding SelectedItem.Name}"/>
+                                       Text="{Binding SelectedItem.Name}" />
                             <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                       Text="{Binding SelectedItem.Author, StringFormat='Created by: {0}'}"/>
+                                       Text="{Binding SelectedItem.Author, StringFormat='Created by: {0}'}" />
                         </StackPanel>
                     </StackPanel>
-
-                    <!-- ## Colors -->
                     <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
+                            <!--Brushes-->
                             <StackPanel Grid.Column="0">
-                                <!-- ### Background Brush -->
-                                <TextBox Style="{StaticResource BrushDisplayTextBoxStyle}"
-                                         Background="{Binding SelectedItem.BackgroundBrush}"
+                                <!--Background brush-->
+                                <TextBox Background="{Binding SelectedItem.BackgroundBrush}"
                                          Foreground="{Binding SelectedItem.BackgroundBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
-                                         Text="Background brush"/>
-
-                                <!-- ### Input Brush -->
-                                <TextBox Style="{StaticResource BrushDisplayTextBoxStyle}"
-                                         Background="{Binding SelectedItem.InputBrush}"
+                                         Style="{StaticResource BrushDisplayTextBoxStyle}"
+                                         Text="Background brush" />
+                                <!--Input brush-->
+                                <TextBox Background="{Binding SelectedItem.InputBrush}"
                                          Foreground="{Binding SelectedItem.InputBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
-                                         Text="Input brush"/>
-
-                                <!-- ### Caret Brush -->
-                                <TextBox Style="{StaticResource BrushDisplayTextBoxStyle}"
-                                         Background="{Binding SelectedItem.CaretBrush}"
+                                         Style="{StaticResource BrushDisplayTextBoxStyle}"
+                                         Text="Input brush" />
+                                <!--Caret brush-->
+                                <TextBox Background="{Binding SelectedItem.CaretBrush}"
                                          Foreground="{Binding SelectedItem.CaretBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
-                                         Text="Caret brush"/>
-
-                                <!-- ### Description Brush -->
-                                <TextBox Style="{StaticResource BrushDisplayTextBoxStyle}"
-                                         Background="{Binding SelectedItem.DescriptionBrush}"
+                                         Style="{StaticResource BrushDisplayTextBoxStyle}"
+                                         Text="Caret brush" />
+                                <!--Description brush-->
+                                <TextBox Background="{Binding SelectedItem.DescriptionBrush}"
                                          Foreground="{Binding SelectedItem.DescriptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
-                                         Text="Description brush"/>
-
-                                <!-- ### Caption Brush -->
-                                <TextBox Style="{StaticResource BrushDisplayTextBoxStyle}"
-                                         Background="{Binding SelectedItem.CaptionBrush}"
+                                         Style="{StaticResource BrushDisplayTextBoxStyle}"
+                                         Text="Description brush" />
+                                <!--Caption brush-->
+                                <TextBox Background="{Binding SelectedItem.CaptionBrush}"
                                          Foreground="{Binding SelectedItem.CaptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
-                                         Text="Caption brush"/>
-
-                                <!-- ### Border Brush -->
-                                <TextBox Style="{StaticResource BrushDisplayTextBoxStyle}"
-                                         Background="{Binding SelectedItem.BorderBrush}"
+                                         Style="{StaticResource BrushDisplayTextBoxStyle}"
+                                         Text="Caption brush" />
+                                <!--Border brush-->
+                                <TextBox Background="{Binding SelectedItem.BorderBrush}"
                                          Foreground="{Binding SelectedItem.BorderBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
-                                         Text="Border brush"/>
-
-                                <!-- ### Highlight Brush -->
-                                <TextBox Style="{StaticResource BrushDisplayTextBoxStyle}"
-                                         Background="{Binding SelectedItem.HighlightBrush}"
+                                         Style="{StaticResource BrushDisplayTextBoxStyle}"
+                                         Text="Border brush" />
+                                <!--Highlight brush-->
+                                <TextBox Background="{Binding SelectedItem.HighlightBrush}"
                                          Foreground="{Binding SelectedItem.HighlightBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
-                                         Text="Border brush"/>
+                                         Style="{StaticResource BrushDisplayTextBoxStyle}"
+                                         Text="Border brush" />
                             </StackPanel>
-
+                            <!--Text-->
                             <StackPanel Grid.Column="1">
-                                <!-- ### Background Color Text -->
+                                <!--Background brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                         Text="{Binding SelectedItem.BackgroundBrush, Converter={StaticResource BrushToStringConverter}}"/>
-
-                                <!-- ### Input Brush Text -->
+                                         Text="{Binding SelectedItem.BackgroundBrush, Converter={StaticResource BrushToStringConverter}}" />
+                                <!--Input brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                         Text="{Binding SelectedItem.InputBrush, Converter={StaticResource BrushToStringConverter}}"/>
-
-                                <!-- ### Caret Brush Text -->
+                                         Text="{Binding SelectedItem.InputBrush, Converter={StaticResource BrushToStringConverter}}" />
+                                <!--Caret brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                         Text="{Binding SelectedItem.CaretBrush, Converter={StaticResource BrushToStringConverter}}"/>
-
-                                <!-- ### Description Brush Text -->
+                                         Text="{Binding SelectedItem.CaretBrush, Converter={StaticResource BrushToStringConverter}}" />
+                                <!--Description brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                         Text="{Binding SelectedItem.DescriptionBrush, Converter={StaticResource BrushToStringConverter}}"/>
-
-                                <!-- ### Caption Brush Text -->
+                                         Text="{Binding SelectedItem.DescriptionBrush, Converter={StaticResource BrushToStringConverter}}" />
+                                <!--Caption brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                         Text="{Binding SelectedItem.CaptionBrush, Converter={StaticResource BrushToStringConverter}}"/>
-
-                                <!-- ### Border Brush Text -->
+                                         Text="{Binding SelectedItem.CaptionBrush, Converter={StaticResource BrushToStringConverter}}" />
+                                <!--Border brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                         Text="{Binding SelectedItem.BorderBrush, Converter={StaticResource BrushToStringConverter}}"/>
-
-                                <!-- ### Highlight Brush Text -->
+                                         Text="{Binding SelectedItem.BorderBrush, Converter={StaticResource BrushToStringConverter}}" />
+                                <!--Highlight brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                         Text="{Binding SelectedItem.HighlightBrush, Converter={StaticResource BrushToStringConverter}}"/>
+                                         Text="{Binding SelectedItem.HighlightBrush, Converter={StaticResource BrushToStringConverter}}" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>

@@ -11,8 +11,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <!--ToggleButton-->
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
@@ -23,7 +21,6 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-
                     <TextBlock Grid.Column="0"
                                Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
                                Text="&#xE8EF;" />
@@ -34,9 +31,8 @@
                         <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
                                    Text="Enable the calculator in your search results" />
                     </StackPanel>
-
-                    <ToggleButton IsChecked="{Binding DataModelService.Settings.IsCalculatorEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Grid.Column="3"
+                    <ToggleButton Grid.Column="3"
+                                  IsChecked="{Binding DataModelService.Settings.IsCalculatorEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Style="{StaticResource WindowsToggleButtonStyle}"
                                   cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
                 </Grid>

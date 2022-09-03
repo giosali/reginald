@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:controls="clr-namespace:Reginald.Controls"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
@@ -13,7 +12,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
         <!--ToggleButton-->
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
@@ -26,7 +24,6 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
                         <TextBlock Grid.Column="0"
                                    Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
                                    Text="&#xE893;" />
@@ -37,9 +34,8 @@
                             <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
                                        Text="Have Reginald start a timer for you" />
                         </StackPanel>
-
-                        <ToggleButton IsChecked="{Binding DataModelService.Settings.IsTimerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Grid.Column="3"
+                        <ToggleButton Grid.Column="3"
+                                      IsChecked="{Binding DataModelService.Settings.IsTimerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Style="{StaticResource WindowsToggleButtonStyle}"
                                       cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
                     </Grid>
@@ -49,7 +45,6 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
                             <TextBlock Grid.Column="0"
                                        Margin="0 0 6 0"
                                        Style="{StaticResource PrimaryParagraphTextBlockStyle}"
@@ -63,7 +58,7 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-            <!--Link-->
+            <!--Links-->
             <StackPanel Style="{StaticResource HyperlinkStackPanelStyle}">
                 <TextBlock Style="{StaticResource PrimaryLinkIconTextBlockStyle}"
                            Text="&#xE71B;" />
@@ -71,15 +66,14 @@
                         Tag="https://github.com/giosali/reginald/wiki#timer"
                         cal:Message.Attach="[Click] = [HyperlinkButton_Click($source, $eventargs)]">
                     <TextBlock>
-                         <Hyperlink Style="{StaticResource HyperlinkStyle}"
-                                    NavigateUri="https://github.com/giosali/reginald/wiki#timer">
+                         <Hyperlink NavigateUri="https://github.com/giosali/reginald/wiki#timer"
+                                    Style="{StaticResource HyperlinkStyle}">
                              View more information the timer keyword
                          </Hyperlink>
                     </TextBlock>
                 </Button>
             </StackPanel>
         </StackPanel>
-
         <!--ToggleButton-->
         <StackPanel Grid.Row="1"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
@@ -92,7 +86,6 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
                         <TextBlock Grid.Column="0"
                                    Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
                                    Text="&#xF168;" />
@@ -112,24 +105,23 @@
                     <StackPanel Margin="0 12">
                         <Grid VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
                             <TextBlock Grid.Column="0"
                                        Margin="0 0 6 0"
                                        Style="{StaticResource PrimaryParagraphTextBlockStyle}"
                                        Text="Keyword"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center" />
                             <TextBox Grid.Column="1"
                                      IsEnabled="False"
                                      Style="{StaticResource PrimaryTextBoxStyle}"
-                                     Text="timers"/>
+                                     Text="timers" />
                         </Grid>
                     </StackPanel>
                 </StackPanel>
             </Border>
-            <!--Link-->
+            <!--Links-->
             <StackPanel Style="{StaticResource HyperlinkStackPanelStyle}">
                 <TextBlock Style="{StaticResource PrimaryLinkIconTextBlockStyle}"
                            Text="&#xE71B;" />
@@ -137,8 +129,8 @@
                         Tag="https://github.com/giosali/reginald/wiki#timers"
                         cal:Message.Attach="[Click] = [HyperlinkButton_Click($source, $eventargs)]">
                     <TextBlock>
-                         <Hyperlink Style="{StaticResource HyperlinkStyle}"
-                                    NavigateUri="https://github.com/giosali/reginald/wiki#timers">
+                         <Hyperlink NavigateUri="https://github.com/giosali/reginald/wiki#timers"
+                                    Style="{StaticResource HyperlinkStyle}">
                              View more information on the timers keyword
                          </Hyperlink>
                     </TextBlock>

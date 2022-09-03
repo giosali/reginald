@@ -1,71 +1,64 @@
 ﻿<UserControl x:Class="Reginald.Views.ClipboardManagerPopupView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:Reginald.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Width="{Binding DMS.Theme.ClipboardWidth}"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             FontFamily="{Binding DMS.Theme.FontFamily}"
              Height="{Binding DMS.Theme.ClipboardHeight}"
-             FontFamily="{Binding DMS.Theme.FontFamily}">
+             Width="{Binding DMS.Theme.ClipboardWidth}">
     <UserControl.Resources>
         <ResourceDictionary>
-            <!-- # Converters -->
-            <local:BrushToStringConverter x:Key="BrushToStringConverter"/>
-            <local:IconToImageSourceConverter x:Key="IconToImageSourceConverter"/>
-
-            <!-- # DataTemplates -->
-
-            <!-- ## DataTemplate for ListBoxItem -->
+            <!--Converters-->
+            <local:BrushToStringConverter x:Key="BrushToStringConverter" />
+            <local:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
+            <!--DataTemplates-->
             <DataTemplate x:Key="ListBoxItemDataTemplate">
                 <Grid VerticalAlignment="Center"
-                      cal:Message.Attach="[Event MouseMove] = [Action Item_MouseMove($source, $eventargs)];
-                                          [Event PreviewMouseLeftButtonUp] = [Action Item_PreviewMouseLeftButtonUp($this, $eventargs)]">
+                      cal:Message.Attach="[MouseMove] = [Item_MouseMove($source, $eventargs)];
+                                          [PreviewMouseLeftButtonUp] = [Item_PreviewMouseLeftButtonUp($this, $eventargs)]">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-    
-                    <!-- ### Icon -->
-                    <Image Source="{Binding Icon, Converter={StaticResource IconToImageSourceConverter}}"
-                           Grid.Column="0"
-                           Width="15"
+                    <!--Icon-->
+                    <Image Grid.Column="0"
                            Height="15"
+                           SnapsToDevicePixels="True"
+                           Source="{Binding Icon, Converter={StaticResource IconToImageSourceConverter}}"
                            VerticalAlignment="Center"
-                           SnapsToDevicePixels="True"/>
-                    
-                    <!-- ### Description -->
-                    <TextBlock Text="{Binding Description}"
-                               FontSize="{Binding DataContext.DMS.Theme.ClipboardItemFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                           Width="15" />
+                    <!--Description-->
+                    <TextBlock FontSize="{Binding DataContext.DMS.Theme.ClipboardItemFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                Grid.Column="1"
-                               VerticalAlignment="Center"
+                               Text="{Binding Description}"
+                               TextTrimming="CharacterEllipsis"
                                TextWrapping="NoWrap"
-                               TextTrimming="CharacterEllipsis">
+                               VerticalAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                  Value="True">
                                         <Setter Property="Foreground"
-                                                Value="{Binding DataContext.DMS.Theme.SelectedDescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                                Value="{Binding DataContext.DMS.Theme.SelectedDescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                                     </DataTrigger>
                                 </Style.Triggers>
 
                                 <Style.Setters>
                                     <Setter Property="Foreground"
-                                            Value="{Binding DataContext.DMS.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                            Value="{Binding DataContext.DMS.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                                 </Style.Setters>
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
                 </Grid>
             </DataTemplate>
-            
-            <!-- # ControlTemplates -->
-            
-            <!-- ## ControlTemplate for ListBoxItem -->
+            <!--ControlTemplates-->
             <ControlTemplate x:Key="ListBoxItemControlTemplate"
                              TargetType="{x:Type ListBoxItem}">
                 <Border x:Name="listBoxItemBorder"
@@ -75,325 +68,288 @@
                         Padding="{TemplateBinding Padding}"
                         SnapsToDevicePixels="True">
                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                       Content="{TemplateBinding ContentControl.Content}"
-                                      ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"/>
+                                      ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                 </Border>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsSelected"
                              Value="True">
-                        <Setter TargetName="listBoxItemBorder"
-                                Property="Background"
-                                Value="{Binding DataContext.DMS.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                        <Setter Property="Background"
+                                TargetName="listBoxItemBorder"
+                                Value="{Binding DataContext.DMS.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
-            <!-- # Styles -->
-
-            <!-- ## Style for Border -->
+            <!--Styles-->
             <Style x:Key="BorderStyle"
                    TargetType="{x:Type Border}">
-                <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Background"
-                            Value="{Binding DMS.Theme.BackgroundBrush}"/>
+                            Value="{Binding DMS.Theme.BackgroundBrush}" />
                 </Style.Setters>
-
-                <!-- ### Triggers -->
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding DMS.Theme.IsAcrylicEnabled}"
                                  Value="True">
                         <Setter Property="Background"
-                                Value="#01000000"/>
+                                Value="#01000000" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
 
-            <!-- ## Style for ListBoxItem -->
             <Style x:Key="ListBoxItemContainerStyle"
-                   TargetType="{x:Type ListBoxItem}"
-                   BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                <!-- ### Resources -->
+                   BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                   TargetType="{x:Type ListBoxItem}">
                 <Style.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius"
-                                Value="2.5"/>
+                                Value="2.5" />
                     </Style>
                 </Style.Resources>
-
-                <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Foreground"
-                            Value="{Binding DataContext.DMS.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                            Value="{Binding DataContext.DMS.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                     <Setter Property="Height"
-                            Value="25"/>
+                            Value="25" />
                     <Setter Property="Margin"
-                            Value="0"/>
+                            Value="0" />
                     <Setter Property="Padding"
-                            Value="0"/>
+                            Value="0" />
                     <Setter Property="HorizontalContentAlignment"
-                            Value="Stretch"/>
+                            Value="Stretch" />
                     <Setter Property="Template"
-                            Value="{StaticResource ListBoxItemControlTemplate}"/>
+                            Value="{StaticResource ListBoxItemControlTemplate}" />
                 </Style.Setters>
-
-                <!-- ### Triggers -->
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
                             <Condition Binding="{Binding DataContext.IsMouseOverChanged, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                                       Value="True"/>
+                                       Value="True" />
                             <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}"
-                                       Value="True"/>
+                                       Value="True" />
                         </MultiDataTrigger.Conditions>
                         <MultiDataTrigger.Setters>
                             <Setter Property="IsSelected"
-                                    Value="True"/>
+                                    Value="True" />
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
                 </Style.Triggers>
             </Style>
-            
-            <!-- ## Style for Popup Close Border -->
+
             <Style x:Key="PopupCloseBorderStyle"
                    TargetType="{x:Type Border}">
-                <!-- ### Triggers -->
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver"
                              Value="True">
                         <Setter Property="Background"
-                                Value="{Binding DataContext.DMS.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                                Value="{Binding DataContext.DMS.Theme.HighlightBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
 
-            <!-- ## Style for ListBox -->
             <Style x:Key="ListBoxStyle"
-                   TargetType="{x:Type ListBox}"
-                   BasedOn="{StaticResource {x:Type ListBox}}">
+                   BasedOn="{StaticResource {x:Type ListBox}}"
+                   TargetType="{x:Type ListBox}">
                 <Style.Resources>
                     <Style TargetType="{x:Type ScrollViewer}">
                         <Setter Property="Template"
-                                Value="{StaticResource FloatingScrollViewerControlTemplate}"/>
+                                Value="{StaticResource FloatingScrollViewerControlTemplate}" />
                     </Style>
-
-                    <Style TargetType="{x:Type ScrollBar}"
-                           BasedOn="{StaticResource AppleNoHitTestScrollBarStyle}"/>
+                    <Style BasedOn="{StaticResource AppleNoHitTestScrollBarStyle}"
+                           TargetType="{x:Type ScrollBar}" />
                 </Style.Resources>
-
-                <!-- ### Triggers -->
                 <Style.Triggers>
                     <Trigger Property="HasItems"
                              Value="False">
                         <Setter Property="Visibility"
-                                Value="Collapsed"/>
+                                Value="Collapsed" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            
-            <!-- ## Style for StandardClipboardItemTextBox -->
+
             <Style x:Key="StandardClipboardItemTextBoxStyle"
                    TargetType="{x:Type TextBox}">
-                <!-- ### Triggers -->
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
                             <Condition Binding="{Binding SelectedItem.HexBrush}"
-                                       Value="{x:Null}"/>
+                                       Value="{x:Null}" />
                             <Condition Binding="{Binding SelectedItem.Image}"
-                                       Value="{x:Null}"/>
+                                       Value="{x:Null}" />
                         </MultiDataTrigger.Conditions>
                         <MultiDataTrigger.Setters>
                             <Setter Property="Visibility"
-                                    Value="Visible"/>
+                                    Value="Visible" />
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
                 </Style.Triggers>
-                
-                <!-- ### Setters -->
                 <Style.Setters>
                     <Setter Property="Visibility"
-                            Value="Collapsed"/>
+                            Value="Collapsed" />
                 </Style.Setters>
             </Style>
-            
-            <!-- ## Style for StackPanel Hex -->
+
             <Style x:Key="StackPanelHexStyle"
                    TargetType="{x:Type StackPanel}">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding SelectedItem.HexBrush}"
                                  Value="{x:Null}">
                         <Setter Property="Visibility"
-                                Value="Collapsed"/>
+                                Value="Collapsed" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
 
-            <!-- # Style for StandardClipboardItemImage -->
             <Style x:Key="StandardClipboardItemImageStyle"
                    TargetType="{x:Type Image}">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding SelectedItem.Image}"
                                  Value="{x:Null}">
                         <Setter Property="Visibility"
-                                Value="Collapsed"/>
+                                Value="Collapsed" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <!-- # Popup -->
-    <Border Style="{StaticResource BorderStyle}"
-            BorderBrush="{Binding DMS.Theme.BorderBrush}"
+    <Border BorderBrush="{Binding DMS.Theme.BorderBrush}"
             BorderThickness="{Binding DMS.Theme.BorderThickness}"
-            CornerRadius="{Binding DMS.Theme.CornerRadius}">
+            CornerRadius="{Binding DMS.Theme.CornerRadius}"
+            Style="{StaticResource BorderStyle}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
-            <!-- ## Popup Menu -->
-            <Border Grid.Row="0"
-                    Background="Transparent"
-                    cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action Menu_PreviewMouseLeftButtonDown($this, $eventargs)];">
+            <!--Top-->
+            <Border Background="Transparent"
+                    Grid.Row="0"
+                    cal:Message.Attach="[PreviewMouseLeftButtonDown] = [Menu_PreviewMouseLeftButtonDown($this, $eventargs)];">
                 <DockPanel Margin="5 0">
-                    <!-- ## Dummy Border to Keep Popup Bar Centered -->
+                    <!--Keeps popup bar centered-->
                     <Border DockPanel.Dock="Left"
-                            Width="{Binding ActualWidth, ElementName=closeBorder, UpdateSourceTrigger=PropertyChanged}"
-                            Height="{Binding ActualHeight, ElementName=closeBorder, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <!-- ### Popup Close Border -->
+                            Height="{Binding ActualHeight, ElementName=closeBorder, UpdateSourceTrigger=PropertyChanged}"
+                            Width="{Binding ActualWidth, ElementName=closeBorder, UpdateSourceTrigger=PropertyChanged}" />
+                    <!--Close-->
                     <Border x:Name="closeBorder"
-                            Style="{StaticResource PopupCloseBorderStyle}"
                             CornerRadius="{Binding DMS.Theme.CornerRadius}"
                             DockPanel.Dock="Right"
-                            Width="20"
                             Height="20"
+                            Style="{StaticResource PopupCloseBorderStyle}"
+                            Width="20"
                             cal:Message.Attach="[Event MouseLeftButtonDown] = [Action PopupCloseBorder_MouseLeftButtonDown($this, $eventargs)]">
-                        <Path Stroke="{Binding DMS.Theme.DescriptionBrush}"
-                              Data="M0,0L12,12M12,0L0,12"
-                              Width="12"
+                        <Path Data="M0,0L12,12M12,0L0,12"
                               Height="12"
+                              HorizontalAlignment="Center"
+                              Stroke="{Binding DMS.Theme.DescriptionBrush}"
                               StrokeThickness="1.5"
                               VerticalAlignment="Center"
-                              HorizontalAlignment="Center"/>
+                              Width="12" />
                     </Border>
-
-                    <!-- ### Popup Bar-->
+                    <!--Bar-->
                     <Border Background="{Binding DMS.Theme.PlaceholderInputBrush}"
-                            Width="50"
-                            Height="3"
                             CornerRadius="1.5"
-                            HorizontalAlignment="Center"/>
+                            Height="3"
+                            HorizontalAlignment="Center"
+                            Width="50" />
                 </DockPanel>
             </Border>
-            
-            <!-- ## Popup TextBox -->
-            <TextBox Text="{Binding UserInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Foreground="{Binding DMS.Theme.InputBrush}"
+            <TextBox Background="Transparent"
+                     BorderThickness="0"
                      CaretBrush="{Binding DMS.Theme.CaretBrush}"
                      FontSize="{Binding DMS.Theme.ClipboardItemFontSize}"
                      FontWeight="{Binding DMS.Theme.InputFontWeight}"
+                     Foreground="{Binding DMS.Theme.InputBrush}"
+                     Grid.Row="1"
+                     Padding="10 0 0 0"
                      SelectionBrush="{Binding DMS.Theme.SelectionBrush}"
                      SelectionOpacity="{Binding DMS.Theme.SelectionOpacity}"
-                     Grid.Row="1"
-                     Background="Transparent"
-                     BorderThickness="0"
-                     Padding="10 0 0 0"
+                     Text="{Binding UserInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      VerticalContentAlignment="Center"
-                     cal:Message.Attach="[Event Loaded] = [Action UserInput_Loaded($this, $eventargs)];
-                                         [Event Unloaded] = [Action UserInput_Unloaded($source, $eventargs)];
-                                         [Event LayoutUpdated] = [Action UserInput_LayoutUpdated($source, $eventargs)];
-                                         [Event PreviewKeyDown] = [Action UserInput_PreviewKeyDown($this, $eventargs)];
-                                         [Event PreviewKeyUp] = [Action UserInput_PreviewKeyUp($this, $eventargs)]"/>
-
-            <!-- ## Standard Popup Content -->
+                     cal:Message.Attach="[Loaded] = [UserInput_Loaded($this, $eventargs)];
+                                         [Unloaded] = [UserInput_Unloaded($source, $eventargs)];
+                                         [LayoutUpdated] = [UserInput_LayoutUpdated($source, $eventargs)];
+                                         [PreviewKeyDown] = [UserInput_PreviewKeyDown($this, $eventargs)];
+                                         [PreviewKeyUp] = [UserInput_PreviewKeyUp($this, $eventargs)]" />
             <Grid Grid.Row="2"
                   Margin="5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
-                <!-- ### Left Side -->
-                <!-- #### Clipboard Items -->
-                <ListBox Style="{StaticResource ListBoxStyle}"
-                         ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
+                <!--Clipboard items-->
+                <ListBox Background="Transparent"
+                         BorderThickness="0"
+                         Grid.Column="0"
+                         Height="Auto"
                          ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
+                         ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
                          ItemsSource="{Binding Items}"
                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                         Grid.Column="0"
-                         Background="Transparent"
-                         BorderThickness="0"
-                         Height="Auto"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Style="{StaticResource ListBoxStyle}"
                          VirtualizingStackPanel.IsVirtualizing="True"
                          VirtualizingStackPanel.ScrollUnit="Pixel"
                          VirtualizingStackPanel.VirtualizationMode="Recycling"
-                         cal:Message.Attach="[Event Unloaded] = [Action Items_Unloaded($source, $eventargs)];
-                                             [Event MouseLeave] = [Action Items_MouseLeave($this, $eventargs)];
-                                             [Event SelectionChanged] = [Action Items_SelectionChanged($source, $eventargs)]"/>
-
-                <!-- ### Clipboard Item Viewer -->
+                         cal:Message.Attach="[Unloaded] = [Items_Unloaded($source, $eventargs)];
+                                             [MouseLeave] = [Items_MouseLeave($this, $eventargs)];
+                                             [SelectionChanged] = [Items_SelectionChanged($source, $eventargs)]" />
+                <!--Clipboard item viewer-->
                 <Border Grid.Column="2">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="20" />
                         </Grid.RowDefinitions>
-
-                        <!-- #### Standard Display for Text Clipboard Item -->
-                        <TextBox Style="{StaticResource StandardClipboardItemTextBoxStyle}"
-                                 Text="{Binding SelectedItem.Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Foreground="{Binding DMS.Theme.InputBrush}"
-                                 FontSize="{Binding DMS.Theme.ClipboardDisplayFontSize}"
-                                 Grid.Row="0"
-                                 Background="Transparent"
+                        <!--Standard display for text clipboard items-->
+                        <TextBox Background="Transparent"
                                  BorderThickness="0"
-                                 IsReadOnly="True"
-                                 TextWrapping="Wrap"
                                  Cursor="Arrow"
+                                 FontSize="{Binding DMS.Theme.ClipboardDisplayFontSize}"
+                                 Foreground="{Binding DMS.Theme.InputBrush}"
+                                 Grid.Row="0"
+                                 IsReadOnly="True"
+                                 Style="{StaticResource StandardClipboardItemTextBoxStyle}"
+                                 Text="{Binding SelectedItem.Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                 TextWrapping="Wrap"
                                  VerticalContentAlignment="Top"
-                                 VerticalScrollBarVisibility="Auto"/>
-                        <!-- #### Color Display for Hex Values -->
-                        <StackPanel Style="{StaticResource StackPanelHexStyle}"
-                                    Grid.Row="0">
+                                 VerticalScrollBarVisibility="Auto" />
+                        <!--Color display for hex values-->
+                        <StackPanel Grid.Row="0"
+                                    Style="{StaticResource StackPanelHexStyle}">
                             <Border Background="{Binding SelectedItem.HexBrush}"
-                                    Width="50"
-                                    Height="50"/>
-                            <TextBox Text="{Binding SelectedItem.HexBrush, Converter={StaticResource BrushToStringConverter}, ConverterParameter='{}#{0:X2}{1:X2}{2:X2}'}"
-                                     Background="Transparent"
+                                    Height="50"
+                                    Width="50" />
+                            <TextBox Background="Transparent"
                                      BorderThickness="0"
-                                     IsReadOnly="True"
-                                     TextWrapping="Wrap"
                                      Cursor="Arrow"
-                                     HorizontalAlignment="Center"/>
+                                     HorizontalAlignment="Center"
+                                     IsReadOnly="True"
+                                     Text="{Binding SelectedItem.HexBrush, Converter={StaticResource BrushToStringConverter}, ConverterParameter='{}#{0:X2}{1:X2}{2:X2}'}"
+                                     TextWrapping="Wrap" />
                         </StackPanel>
-
-                        <!-- #### Standard Display for Image Clipboard Item -->
-                        <Image Style="{StaticResource StandardClipboardItemImageStyle}"
+                        <!--Display for image clipboard items-->
+                        <Image Grid.Row="0"
                                Source="{Binding SelectedItem.Image}"
-                               Grid.Row="0"/>
-
-                        <!-- #### Clipboard Item Info -->
-                        <TextBlock Foreground="{Binding DMS.Theme.PlaceholderInputBrush}"
-                                   FontSize="{Binding DMS.Theme.ClipboardDisplayFontSize}"
+                               Style="{StaticResource StandardClipboardItemImageStyle}" />
+                        <!--Clipboard item info-->
+                        <TextBlock FontSize="{Binding DMS.Theme.ClipboardDisplayFontSize}"
+                                   Foreground="{Binding DMS.Theme.PlaceholderInputBrush}"
                                    Grid.Row="1"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center">
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}Copied on {0:MMM d, yyyy} @ {1:t}">
-                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}"
-                                             Path="DataContext.SelectedItem.DateTime"/>
-                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}"
-                                             Path="DataContext.SelectedItem.DateTime"/>
+                                    <Binding Path="DataContext.SelectedItem.DateTime"
+                                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                    <Binding Path="DataContext.SelectedItem.DateTime"
+                                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>

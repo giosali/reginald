@@ -11,12 +11,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <!--ToggleButton-->
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
                 <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <!--ToggleButton-->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -24,7 +23,6 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
                         <TextBlock Grid.Column="0"
                                    Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
                                    Text="&#xE711;" />
@@ -35,12 +33,12 @@
                             <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
                                        Text="Have Reginald quit applications for you" />
                         </StackPanel>
-
                         <ToggleButton IsChecked="{Binding DataModelService.Settings.IsQuitEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Grid.Column="3"
                                       Style="{StaticResource WindowsToggleButtonStyle}"
                                       cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
                     </Grid>
+                    <!--Links-->
                     <StackPanel Margin="0 12">
                         <Grid VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>

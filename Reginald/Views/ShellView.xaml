@@ -4,84 +4,76 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cal="http://caliburnmicro.com"
-        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:hu="clr-namespace:HotkeyUtility.Controls;assembly=HotkeyUtility"
         xmlns:local="clr-namespace:Reginald.Converters"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        Title="ShellView" Height="0" Width="0"
+        Height="0"
         ResizeMode="NoResize"
         ShowActivated="False"
         ShowInTaskbar="False"
+        Title="ShellView"
         Visibility="Hidden"
+        Width="0"
         WindowStyle="None">
     <Window.Resources>
         <ResourceDictionary>
-            <local:StringToKeyBindingMultiConverter x:Key="StringToKeyBindingMultiConverter"/>
+            <!--Converters-->
+            <local:StringToKeyBindingMultiConverter x:Key="StringToKeyBindingMultiConverter" />
         </ResourceDictionary>
     </Window.Resources>
 
     <Grid>
-        <!-- # Hotkey for MainView -->
-        <hu:VisualHotkey cal:Message.Attach="[Event Pressed] = [Action MainHotkeyBinding_Pressed($this, $eventargs)]">
+        <!--Main hotkey-->
+        <hu:VisualHotkey cal:Message.Attach="[Pressed] = [MainHotkeyBinding_Pressed($this, $eventargs)]">
             <hu:VisualHotkey.Combination>
                 <MultiBinding Converter="{StaticResource StringToKeyBindingMultiConverter}"
                               Mode="OneWay">
-                    <Binding Path="DataContext.DMS.Settings.MainKey"
-                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Mode="OneWay"/>
-                    <Binding Path="DataContext.DMS.Settings.MainModifiers"
-                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Mode="OneWay"/>
+                    <Binding Mode="OneWay"
+                             Path="DataContext.DMS.Settings.MainKey"
+                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}" />
+                    <Binding Mode="OneWay"
+                             Path="DataContext.DMS.Settings.MainModifiers"
+                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}" />
                 </MultiBinding>
             </hu:VisualHotkey.Combination>
         </hu:VisualHotkey>
-        
-        <!-- # Hotkey for Clipboard Manager -->
-        <hu:VisualHotkey cal:Message.Attach="[Event Pressed] = [Action ClipboardManagerPopupHotkeyBinding_Pressed($this, $eventargs)]">
+        <!--Clipboard manager hotkey-->
+        <hu:VisualHotkey cal:Message.Attach="[Pressed] = [ClipboardManagerPopupHotkeyBinding_Pressed($this, $eventargs)]">
             <hu:VisualHotkey.Combination>
                 <MultiBinding Converter="{StaticResource StringToKeyBindingMultiConverter}"
                               Mode="OneWay">
-                    <Binding Path="DataContext.DMS.Settings.ClipboardManagerKey"
-                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Mode="OneWay"/>
-                    <Binding Path="DataContext.DMS.Settings.ClipboardManagerModifiers"
-                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"
-                             Mode="OneWay"/>
+                    <Binding Mode="OneWay"
+                             Path="DataContext.DMS.Settings.ClipboardManagerKey"
+                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}" />
+                    <Binding Mode="OneWay"
+                             Path="DataContext.DMS.Settings.ClipboardManagerModifiers"
+                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}" />
                 </MultiBinding>
             </hu:VisualHotkey.Combination>
         </hu:VisualHotkey>
-
-        <!-- # NotifyIcon -->
-        <tb:TaskbarIcon ToolTipText="{Binding ToolTipText}"
-                        IconSource="pack://application:,,,/Reginald;component/Reginald.ico"
-                        MenuActivation="LeftOrRightClick">
+        <!--Notification icon-->
+        <tb:TaskbarIcon IconSource="pack://application:,,,/Reginald;component/Reginald.ico"
+                        MenuActivation="LeftOrRightClick"
+                        ToolTipText="{Binding ToolTipText}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <!-- ## Settings-->
                     <MenuItem Header="Settings"
                               Tag="Settings"
-                              cal:Message.Attach="[Event Click] = [Action MenuItem_Click($this, $eventargs)]"/>
-
-                    <Separator/>
-
-                    <!-- ## Enabled -->
+                              cal:Message.Attach="[Click] = [MenuItem_Click($this, $eventargs)]" />
+                    <Separator />
                     <MenuItem Header="Enabled"
                               IsCheckable="True"
-                              IsChecked="{Binding IsEnabled}"/>
-
-                    <!-- ## Launch on Startup -->
+                              IsChecked="{Binding IsEnabled}" />
                     <MenuItem Header="Run at startup"
-                              Tag="RunAtStartup"
                               IsCheckable="True"
                               IsChecked="{Binding DMS.Settings.RunAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              cal:Message.Attach="[Event Click] = [Action MenuItem_Click($this, $eventargs)]"/>
-
-                    <Separator/>
-
-                    <!-- ## Exit -->
+                              Tag="RunAtStartup"
+                              cal:Message.Attach="[Click] = [MenuItem_Click($this, $eventargs)]" />
+                    <Separator />
                     <MenuItem Header="Exit"
                               Tag="Exit"
-                              cal:Message.Attach="[Event Click] = [Action MenuItem_Click($this, $eventargs)]"/>
+                              cal:Message.Attach="[Click] = [MenuItem_Click($this, $eventargs)]" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>

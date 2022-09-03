@@ -5,54 +5,53 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://caliburnmicro.com"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <StackPanel Style="{StaticResource UserControlStackPanelStyle}">
         <!--ToggleButton-->
         <Border Style="{StaticResource CardBorderStyle}">
             <Grid Style="{StaticResource CardControlGridStyle}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                           Grid.Column="0"
-                           Text="&#xE897;"/>
+                <TextBlock Grid.Column="0"
+                           Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                           Text="&#xE897;" />
                 <StackPanel Grid.Column="1"
                             VerticalAlignment="Center">
                     <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                               Text="Clipboard manager"/>
+                               Text="Clipboard manager" />
                     <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                               Text="Enable the clipboard manager"/>
+                               Text="Enable the clipboard manager" />
                 </StackPanel>
 
-                <ToggleButton Style="{StaticResource WindowsToggleButtonStyle}"
+                <ToggleButton Grid.Column="3"
                               IsChecked="{Binding DMS.Settings.IsClipboardManagerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              Grid.Column="3"
-                              cal:Message.Attach="[Event Click] = [Action ClipboardManagerToggleButton_Click($this, $eventargs)]"/>
+                              Style="{StaticResource WindowsToggleButtonStyle}"
+                              cal:Message.Attach="[Click] = [ClipboardManagerToggleButton_Click($this, $eventargs)]" />
             </Grid>
         </Border>
-        
-        <!--Clipboard Manager Hotkey-->
+        <!--Hotkey-->
         <Border Style="{StaticResource CardBorderStyle}">
             <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                 <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
                     <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                               Text="&#xF0E3;"/>
+                               Text="&#xF0E3;" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                   Text="Clipboard manager hotkey"/>
+                                   Text="Clipboard manager hotkey" />
                         <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="Set the hotkey by pressing key combinations in the box"/>
+                                   Text="Set the hotkey by pressing key combinations in the box" />
                     </StackPanel>
                 </StackPanel>
-
                 <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
                     <TextBox Style="{StaticResource HotkeyTextBoxStyle}"
                              Text="{Binding HotkeyInput}"
-                             cal:Message.Attach="[Event PreviewKeyDown] = [Action HotkeyTextBox_PreviewKeyDown($this, $eventargs)]"/>
+                             cal:Message.Attach="[Event PreviewKeyDown] = [Action HotkeyTextBox_PreviewKeyDown($this, $eventargs)]" />
                 </StackPanel>
             </StackPanel>
         </Border>

@@ -5,67 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="Reginald" Height="550" Width="850"
+        Height="550"
         Background="{StaticResource ApplicationPrimaryBackgroundBrush}"
         Foreground="{StaticResource PrimaryBrush}"
+        Title="Reginald"
+        Width="850"
         WindowStartupLocation="CenterScreen"
-        cal:Message.Attach="[Event Loaded] = [Action Window_Loaded($this, $eventargs)]">
+        cal:Message.Attach="[Loaded] = [Window_Loaded($this, $eventargs)]">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-        <!-- # Side Menu -->
-        <ListBox ItemContainerStyle="{StaticResource SideMenuListBoxItemContainerStyle}"
+        <!--Side menu-->
+        <ListBox Background="Transparent"
+                 BorderThickness="0"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
                  Grid.Column="0"
-                 Background="Transparent"
-                 BorderThickness="0"
+                 ItemContainerStyle="{StaticResource SideMenuListBoxItemContainerStyle}"
                  Margin="0 0 24 0"
                  SelectedIndex="0"
                  VirtualizingStackPanel.IsVirtualizing="True"
                  VirtualizingStackPanel.VirtualizationMode="Recycling"
-                 cal:Message.Attach="[Event Loaded] = [Action ListBox_Loaded($this, $eventargs)];
-                                     [Event PreviewKeyDown] = [Action ListBox_PreviewKeyDown($this, $eventargs)]">
-            <!-- ## General -->
+                 cal:Message.Attach="[Loaded] = [ListBox_Loaded($this, $eventargs)];
+                                     [PreviewKeyDown] = [ListBox_PreviewKeyDown($this, $eventargs)]">
             <ListBoxItem Content="General"
                          Tag="General"
-                         cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]"/>
-
-            <!-- ## Themes -->
+                         cal:Message.Attach="[PreviewMouseLeftButtonDown] = [ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]" />
             <ListBoxItem Content="Themes"
                          Tag="Themes"
-                         cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]"/>
-
-            <!-- ## Features -->
+                         cal:Message.Attach="[PreviewMouseLeftButtonDown] = [ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]" />
             <ListBoxItem Content="Features"
                          Tag="Features"
-                         cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]"/>
-
-            <!-- ## About -->
+                         cal:Message.Attach="[PreviewMouseLeftButtonDown] = [ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]" />
             <ListBoxItem Content="About"
                          Tag="About"
-                         cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]"/>
+                         cal:Message.Attach="[PreviewMouseLeftButtonDown] = [ListBoxItem_PreviewMouseLeftButtonDown($this, $eventargs)]" />
         </ListBox>
-
-        <!-- # Content -->
+        <!--Content-->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
-            <!-- ## Title -->
-            <TextBlock Style="{StaticResource PrimaryHeadingOneTextBlockStyle}"
-                       Text="{Binding Title}"
-                       Grid.Row="0"
-                       Margin="0 0 0 18"/>
-
-            <!-- ## Other Views -->
+            <!--Title-->
+            <TextBlock Grid.Row="0"
+                       Margin="0 0 0 18"
+                       Style="{StaticResource PrimaryHeadingOneTextBlockStyle}"
+                       Text="{Binding Title}" />
+            <!--Other views-->
             <ContentControl x:Name="ActiveItem"
                             Grid.Row="1"
-                            Margin="0"/>
+                            Margin="0" />
         </Grid>
     </Grid>
 </Window>

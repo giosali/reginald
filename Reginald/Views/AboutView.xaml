@@ -1,55 +1,55 @@
 ﻿<UserControl x:Class="Reginald.Views.AboutView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://caliburnmicro.com"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <ScrollViewer Style="{StaticResource DefaultScrollViewerStyle}">
         <StackPanel Style="{StaticResource UserControlStackPanelStyle}">
-            <!-- # Developer Info -->
             <Border Style="{StaticResource CardBorderStyle}">
                 <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                     <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
                         <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                                   Text="&#xEC7A;"/>
+                                   Text="&#xEC7A;" />
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                       Text="Developer info"/>
+                                       Text="Developer info" />
                             <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                       Text="Development information and related links"/>
+                                       Text="Development information and related links" />
                         </StackPanel>
                     </StackPanel>
-
                     <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
                         <StackPanel>
+                            <!--Name-->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource PrimaryParagraphTextBlockStyle}"
-                                           Text="Name"
-                                           Margin="0 0 10 0"/>
+                                <TextBlock Margin="0 0 10 0"
+                                           Style="{StaticResource PrimaryParagraphTextBlockStyle}"
+                                           Text="Name" />
                                 <TextBox Style="{StaticResource SecondaryReadOnlyParagraphTextBox}"
-                                         Text="Giovanni Salinas"/>
+                                         Text="Giovanni Salinas" />
                             </StackPanel>
-                            
+                            <!--Email-->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource PrimaryParagraphTextBlockStyle}"
-                                           Text="Email"
-                                           Margin="0 0 10 0"/>
+                                <TextBlock Margin="0 0 10 0"
+                                           Style="{StaticResource PrimaryParagraphTextBlockStyle}"
+                                           Text="Email" />
                                 <TextBox Style="{StaticResource SecondaryReadOnlyParagraphTextBox}"
-                                         Text="gbs3@protonmail.com"/>
+                                         Text="gbs3@protonmail.com" />
                             </StackPanel>
-                            
+                            <!--GitHub-->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource PrimaryParagraphTextBlockStyle}"
-                                           Text="GitHub account"
-                                           Margin="0 0 10 0"/>
+                                <TextBlock Margin="0 0 10 0"
+                                           Style="{StaticResource PrimaryParagraphTextBlockStyle}"
+                                           Text="GitHub account" />
                                 <Button Style="{StaticResource HyperlinkButton}"
                                         Tag="https://github.com/giosali"
-                                        cal:Message.Attach="[Event Click] = [Action HyperlinkButton_Click($source, $eventargs)]">
+                                        cal:Message.Attach="[Click] = [HyperlinkButton_Click($source, $eventargs)]">
                                     <TextBlock>
-                                         <Hyperlink Style="{StaticResource CardActionHyperlinkStyle}"
-                                                    NavigateUri="https://github.com/giosali">
+                                         <Hyperlink NavigateUri="https://github.com/giosali"
+                                                    Style="{StaticResource CardActionHyperlinkStyle}">
                                              github.com/giosali
                                          </Hyperlink>
                                     </TextBlock>
@@ -59,17 +59,16 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-
-            <!-- # Links -->
+            <!--Links-->
             <StackPanel Style="{StaticResource HyperlinkStackPanelStyle}">
                 <TextBlock Style="{StaticResource PrimaryLinkIconTextBlockStyle}"
-                           Text="&#xE71B;"/>
+                           Text="&#xE71B;" />
                 <Button Style="{StaticResource HyperlinkButton}"
                         Tag="https://github.com/giosali/reginald/issues/new"
-                        cal:Message.Attach="[Event Click] = [Action HyperlinkButton_Click($source, $eventargs)]">
+                        cal:Message.Attach="[Click] = [HyperlinkButton_Click($source, $eventargs)]">
                     <TextBlock>
-                         <Hyperlink Style="{StaticResource HyperlinkStyle}"
-                                    NavigateUri="https://github.com/giosali/reginald/issues/new">
+                         <Hyperlink NavigateUri="https://github.com/giosali/reginald/issues/new"
+                                    Style="{StaticResource HyperlinkStyle}">
                              Open an issue on GitHub
                          </Hyperlink>
                     </TextBlock>

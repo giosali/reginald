@@ -7,48 +7,46 @@
              xmlns:controls="clr-namespace:Reginald.Controls"
              xmlns:local="clr-namespace:Reginald.Converters"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
-            <!--# Converters-->
-            <local:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter"/>
-            <local:DescriptionMultiConverter x:Key="DescriptionMultiConverter"/>
-            <local:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
+            <!--Converters-->
+            <local:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
+            <local:DescriptionMultiConverter x:Key="DescriptionMultiConverter" />
+            <local:StringToBooleanConverter x:Key="StringToBooleanConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <!--# Create-->
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
                 <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
                         <TextBlock Grid.Column="0"
                                    Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                                   Text="&#xE8FA;"/>
+                                   Text="&#xE8FA;" />
                         <StackPanel Grid.Column="1"
                                     VerticalAlignment="Center">
-                            <TextBlock Text="Create"
-                                       Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"/>
-                            <TextBlock Text="Add a custom web query"
-                                       Style="{StaticResource SecondaryParagraphTextBlock}"/>
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="Create" />
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Add a custom web query" />
                         </StackPanel>
-
                         <StackPanel Grid.Column="3"
                                     VerticalAlignment="Center">
+                            <!--Create button-->
                             <Button Content="Create a web query"
                                     cal:Message.Attach="[Click] = [CreateButton_Click($this, $eventargs)]">
                                 <Button.Style>
@@ -58,12 +56,12 @@
                                             <DataTrigger Binding="{Binding IsBeingCreated}"
                                                          Value="True">
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding IsBeingEdited}"
                                                          Value="True">
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -72,22 +70,20 @@
                         </StackPanel>
                     </Grid>
 
-                    <!--## Form-->
+                    <!--Form-->
                     <StackPanel Margin="0 0 0 12">
                         <StackPanel.Visibility>
                             <MultiBinding Converter="{StaticResource BooleanToVisibilityMultiConverter}">
-                                <Binding Path="IsBeingCreated"/>
-                                <Binding Path="IsBeingEdited"/>
+                                <Binding Path="IsBeingCreated" />
+                                <Binding Path="IsBeingEdited" />
                             </MultiBinding>
                         </StackPanel.Visibility>
-                        
-                        <!--### Name-->
+                        <!--Name-->
                         <controls:LabeledTextBox IsRequired="True"
                                                  Label="Name"
                                                  Placeholder="Google"
-                                                 Text="{Binding SelectedItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                        <!--### Key-->
+                                                 Text="{Binding SelectedItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <!--Key-->
                         <controls:LabeledTextBox HorizontalAlignment="Left"
                                                  IsRequired="True"
                                                  Label="Keyword"
@@ -96,111 +92,102 @@
                                                  TextAlignment="Center"
                                                  Width="200">
                             <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="What you need to type to make this appear in your search results"/>
+                                <ToolTip Content="What you need to type to make this appear in your search results" />
                             </controls:LabeledTextBox.ToolTip>
                         </controls:LabeledTextBox>
-
-                        <!--### Url-->
+                        <!--Url-->
                         <StackPanel Margin="0 12">
                             <StackPanel Margin="0 6">
                                 <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.Url, Converter={StaticResource StringToBooleanConverter}}"
                                                          IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                                                          Label="URL format"
                                                          Placeholder="https://www.google.com/search?q={0}"
-                                                         Text="{Binding SelectedItem.UrlFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                         Text="{Binding SelectedItem.UrlFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Margin="5 0 0 0"
                                            Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="{}{0} is what will be replaced by your input"/>
+                                           Text="{}{0} is what will be replaced by your input" />
                             </StackPanel>
-
                             <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.UrlFormat, Converter={StaticResource StringToBooleanConverter}}"
                                                      IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                                                      Label="URL"
                                                      Placeholder="https://www.google.com"
-                                                     Text="{Binding SelectedItem.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Text="{Binding SelectedItem.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Margin="5 0 0 0"
                                        Style="{StaticResource TertiaryParagraphTextBlock}"
-                                       Text="If 'URL' is filled, 'URL format' will be ignored"/>
+                                       Text="If 'URL' is filled, 'URL format' will be ignored" />
                         </StackPanel>
-
-                        <!--### EncodeInput-->
+                        <!--EncodeInput-->
                         <StackPanel Margin="0 0 0 6">
                             <TextBlock FontSize="12"
                                        Margin="5 0 0 0"
                                        Style="{StaticResource PrimaryParagraphTextBlockStyle}"
-                                       Text="Encoding"/>
+                                       Text="Encoding" />
                             <CheckBox Foreground="{StaticResource SecondaryBrush}"
                                       IsChecked="{Binding SelectedItem.EncodeInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Margin="6">
                                 <TextBlock FontSize="10"
                                            Style="{StaticResource SecondaryParagraphTextBlock}"
-                                           Text="Use UTF-8 encoding for input"/>
+                                           Text="Use UTF-8 encoding for input" />
                             </CheckBox>
                         </StackPanel>
-
                         <StackPanel Margin="0 12">
-                            <!--### DescriptionFormat-->
+                            <!--DescriptionFormat-->
                             <StackPanel Margin="0 6">
                                 <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.Description, Converter={StaticResource StringToBooleanConverter}}"
                                                          IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                                                          Label="Description format"
                                                          Placeholder="Search Google for '{0}'"
-                                                         Text="{Binding SelectedItem.DescriptionFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                         Text="{Binding SelectedItem.DescriptionFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Margin="5 0 0 0"
                                            Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="{}{0} is what will be replaced by what you type"/>
+                                           Text="{}{0} is what will be replaced by what you type" />
                             </StackPanel>
-
-                            <!--### Description-->
+                            <!--Description-->
                             <StackPanel Margin="0 6">
                                 <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.DescriptionFormat, Converter={StaticResource StringToBooleanConverter}}"
                                                          IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                                                          Label="Description"
                                                          Placeholder="Go to the Google Homepage"
-                                                         Text="{Binding SelectedItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                         Text="{Binding SelectedItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Margin="5 0 0 0"
                                            Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="If 'Description' is filled, 'Description format' and 'Placeholder' will be ignored"/>
+                                           Text="If 'Description' is filled, 'Description format' and 'Placeholder' will be ignored" />
                             </StackPanel>
                         </StackPanel>
-
-                        <!--### Placeholder-->
+                        <!--Placeholder-->
                         <StackPanel Margin="0 0 0 12">
                             <TextBlock FontSize="12"
                                        Margin="5 0 0 0"
                                        Style="{StaticResource PrimaryParagraphTextBlockStyle}"
-                                       Text="Placeholder"/>
+                                       Text="Placeholder" />
                             <ComboBox HorizontalAlignment="Left"
                                       IsEditable="True"
                                       Style="{StaticResource ComboBoxStyle}"
                                       Text="{Binding SelectedItem.Placeholder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Width="125">
                                 <ComboBox.ToolTip>
-                                    <ToolTip Content="This will replace {0} in the description format before input is received"/>
+                                    <ToolTip Content="This will replace {0} in the description format before input is received" />
                                 </ComboBox.ToolTip>
-
-                                <ComboBoxItem Content="..."/>
-                                <ComboBoxItem Content="_"/>
-                                <ComboBoxItem Content=""/>
+                                <ComboBoxItem Content="..." />
+                                <ComboBoxItem Content="_" />
+                                <ComboBoxItem Content="" />
                             </ComboBox>
                         </StackPanel>
-
-                        <!--### Caption-->
+                        <!--Caption-->
                         <controls:LabeledTextBox IsRequired="True"
                                                  Label="Caption"
                                                  Placeholder="Google"
                                                  Text="{Binding SelectedItem.Caption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="This will appear below the description format"/>
+                                <ToolTip Content="This will appear below the description format" />
                             </controls:LabeledTextBox.ToolTip>
                         </controls:LabeledTextBox>
-
-                        <!--### IconPath-->
+                        <!--IconPath-->
                         <StackPanel Margin="0 12">
                             <TextBlock FontSize="12"
                                        Margin="6 0 0 6"
                                        Style="{StaticResource PrimaryParagraphTextBlockStyle}"
-                                       Text="Icon"/>
+                                       Text="Icon" />
                             <Border Background="Transparent"
                                     BorderBrush="Gray"
                                     BorderThickness="2"
@@ -212,47 +199,41 @@
                                     Width="75"
                                     cal:Message.Attach="[MouseUp] = [IconBorder_MouseUp($this, $eventargs)]">
                                 <Border.ToolTip>
-                                    <ToolTip Content="Click to upload a PNG file"/>
+                                    <ToolTip Content="Click to upload a PNG file" />
                                 </Border.ToolTip>
-
                                 <StackPanel VerticalAlignment="Center">
                                     <Image Height="50"
                                            Source="{Binding IconPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            VerticalAlignment="Center"
-                                           Width="50"/>
+                                           Width="50" />
                                 </StackPanel>
                             </Border>
                         </StackPanel>
-
-                        <!--### AltDescription-->
+                        <!--AltDescription-->
                         <controls:LabeledTextBox Label="Alt description"
                                                  Placeholder="Go to the Google Homepage"
                                                  Text="{Binding SelectedItem.AltDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="This will replace the description when you hold down the Alt key"/>
+                                <ToolTip Content="This will replace the description when you hold down the Alt key" />
                             </controls:LabeledTextBox.ToolTip>
                         </controls:LabeledTextBox>
-
-                        <!--### AltUrl-->
+                        <!--AltUrl-->
                         <controls:LabeledTextBox Label="Alt URL"
                                                  Placeholder="https://google.com"
                                                  Text="{Binding SelectedItem.AltUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="When the Alt + Enter keys are pressed simultaneously, you will be redirected to this URL"/>
+                                <ToolTip Content="When the Alt + Enter keys are pressed simultaneously, you will be redirected to this URL" />
                             </controls:LabeledTextBox.ToolTip>
                         </controls:LabeledTextBox>
-
-                        <!--### Buttons-->
                         <StackPanel HorizontalAlignment="Left"
                                     Margin="0 16 0 0"
                                     Orientation="Horizontal">
-                            <!--#### Cancel Button-->
+                            <!--Cancel button-->
                             <Button Content="Cancel"
                                     Margin="0 0 6 0"
                                     Style="{StaticResource SecondaryButtonStyle}"
-                                    cal:Message.Attach="[Click] = [CancelButton_Click($this, $eventargs)]"/>
-
-                            <!--#### Save Button-->
+                                    cal:Message.Attach="[Click] = [CancelButton_Click($this, $eventargs)]" />
+                            <!--Save button-->
                             <Button Content="Save"
                                     cal:Message.Attach="[Click] = [SaveKeywordButton_Click($this, $eventargs)]">
                                 <Button.Style>
@@ -262,37 +243,37 @@
                                             <DataTrigger Binding="{Binding SelectedItem.Name.Length}"
                                                          Value="0">
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding SelectedItem.Key.Length}"
                                                          Value="0">
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding SelectedItem.Caption.Length}"
                                                          Value="0">
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </DataTrigger>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
                                                     <Condition Binding="{Binding SelectedItem.Url.Length}"
-                                                               Value="0"/>
-                                                   <Condition Binding="{Binding SelectedItem.UrlFormat.Length}"
-                                                              Value="0"/>
+                                                               Value="0" />
+                                                    <Condition Binding="{Binding SelectedItem.UrlFormat.Length}"
+                                                               Value="0" />
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </MultiDataTrigger>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
                                                     <Condition Binding="{Binding SelectedItem.Description.Length}"
-                                                               Value="0"/>
+                                                               Value="0" />
                                                     <Condition Binding="{Binding SelectedItem.DescriptionFormat.Length}"
-                                                               Value="0"/>
+                                                               Value="0" />
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                                        Value="False" />
                                             </MultiDataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -303,22 +284,20 @@
                 </StackPanel>
             </Border>
         </StackPanel>
-
-        <!--# DataGrid-->
+        <!--Your web queries-->
         <Border Grid.Row="1"
                 Style="{StaticResource CardBorderStyle}">
             <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                 <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
-                    <TextBlock Text="&#xF0E2;"
-                               Style="{StaticResource ApplicationBrandIconTextBlockStyle}"/>
+                    <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                               Text="&#xF0E2;" />
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Web queries"
-                                   Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"/>
-                        <TextBlock Text="A display of your web queries"
-                                   Style="{StaticResource SecondaryParagraphTextBlock}"/>
+                        <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                   Text="Web queries" />
+                        <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                   Text="A display of your web queries" />
                     </StackPanel>
                 </StackPanel>
-
                 <Grid Style="{StaticResource CardActionBottomGridStyle}">
                     <DataGrid AutoGenerateColumns="False"
                               CanUserAddRows="False"
@@ -335,16 +314,15 @@
                             <ContextMenu>
                                 <MenuItem Header="Edit"
                                           Tag="Edit"
-                                          cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]"/>
+                                          cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
 
                                 <MenuItem Header="Delete"
                                           Tag="Delete"
-                                          cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]"/>
+                                          cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
-
                         <DataGrid.Columns>
-                             <!--## Icon-->
+                            <!--Icon-->
                             <DataGridTemplateColumn Header="Icon"
                                                     IsReadOnly="True"
                                                     Width="Auto">
@@ -353,12 +331,11 @@
                                         <Image Height="20"
                                                SnapsToDevicePixels="True"
                                                Source="{Binding IconPath}"
-                                               Width="20"/>
+                                               Width="20" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-
-                             <!--## Keyword-->
+                            <!--Keyword-->
                             <DataGridTextColumn Binding="{Binding Key}"
                                                 FontSize="12"
                                                 Header="Keyword"
@@ -368,16 +345,15 @@
                                     <Style BasedOn="{StaticResource {x:Type TextBlock}}"
                                            TargetType="{x:Type TextBlock}">
                                         <Setter Property="TextTrimming"
-                                                Value="CharacterEllipsis"/>
+                                                Value="CharacterEllipsis" />
                                         <Setter Property="ToolTip"
-                                                Value="{Binding Key}"/>
+                                                Value="{Binding Key}" />
                                         <Setter Property="VerticalAlignment"
-                                                Value="Center"/>
+                                                Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-
-                             <!--## Description-->
+                            <!--Description-->
                             <DataGridTextColumn FontSize="12"
                                                 Header="Description"
                                                 IsReadOnly="True"
@@ -385,15 +361,14 @@
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding Converter="{StaticResource DescriptionMultiConverter}"
                                                   Mode="OneWay">
-                                        <Binding Path="Description"/>
-                                        <Binding Path="DescriptionFormat"/>
-                                        <Binding Path="Placeholder"/>
+                                        <Binding Path="Description" />
+                                        <Binding Path="DescriptionFormat" />
+                                        <Binding Path="Placeholder" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>
-
-                            <!--## Enabled-->
-                            <DataGridTemplateColumn Header="Enabled" 
+                            <!--Enabled-->
+                            <DataGridTemplateColumn Header="Enabled"
                                                     IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -401,7 +376,7 @@
                                                   HorizontalAlignment="Center"
                                                   IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   VerticalAlignment="Center"
-                                                  cal:Message.Attach="[Click] = [IsEnabled_Click($this, $eventargs)]"/>
+                                                  cal:Message.Attach="[Click] = [IsEnabled_Click($this, $eventargs)]" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
