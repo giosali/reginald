@@ -13,7 +13,7 @@
         {
         }
 
-        public void LaunchOnStartupToggleButton_Click(object sender, RoutedEventArgs e)
+        public void RunAtStartupToggleButton_Click(object sender, RoutedEventArgs e)
         {
             if (!FileOperations.TryCreateShortcut())
             {
