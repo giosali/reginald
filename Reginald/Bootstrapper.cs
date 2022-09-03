@@ -20,25 +20,9 @@
             Initialize();
         }
 
-        protected override void OnStartup(object sender, StartupEventArgs e)
+        protected override void BuildUp(object instance)
         {
-            _hMutext = WindowUtility.RegisterInstance("Global\\Reginald");
-            if (_hMutext == IntPtr.Zero || Marshal.GetLastWin32Error() == (int)SystemErrorCode.ERROR_ALREADY_EXISTS)
-            {
-                Application.Current.Shutdown();
-            }
-
-            _ = DisplayRootViewFor<ShellViewModel>();
-        }
-
-        protected override void OnExit(object sender, EventArgs e)
-        {
-            if (_hMutext != IntPtr.Zero)
-            {
-                WindowUtility.UnregisterInstance(_hMutext);
-            }
-
-            base.OnExit(sender, e);
+            _container.BuildUp(instance);
         }
 
         protected override void Configure()
@@ -66,19 +50,35 @@
                           .Singleton<QuitViewModel>();
         }
 
-        protected override object GetInstance(Type service, string key)
-        {
-            return _container.GetInstance(service, key);
-        }
-
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
             return _container.GetAllInstances(service);
         }
 
-        protected override void BuildUp(object instance)
+        protected override object GetInstance(Type service, string key)
         {
-            _container.BuildUp(instance);
+            return _container.GetInstance(service, key);
+        }
+
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            if (_hMutext != IntPtr.Zero)
+            {
+                WindowUtility.UnregisterInstance(_hMutext);
+            }
+
+            base.OnExit(sender, e);
+        }
+
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            _hMutext = WindowUtility.RegisterInstance("Global\\Reginald");
+            if (_hMutext == IntPtr.Zero || Marshal.GetLastWin32Error() == (int)SystemErrorCode.ERROR_ALREADY_EXISTS)
+            {
+                Application.Current.Shutdown();
+            }
+
+            _ = DisplayRootViewFor<ShellViewModel>();
         }
     }
 }
