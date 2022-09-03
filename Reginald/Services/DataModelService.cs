@@ -164,7 +164,7 @@
             WebQuery[] webQueries = FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true);
             WebQuery[] yourWebQueries = FileOperations.GetGenericData<WebQuery>(WebQuery.UserFileName, false);
             DefaultWebQueries = webQueries.Concat(yourWebQueries)
-                                          .Select(wq => 
+                                          .Select(wq =>
                                           {
                                               if (Array.Exists(Settings.DefaultWebQueries, i => i == wq.Guid))
                                               {

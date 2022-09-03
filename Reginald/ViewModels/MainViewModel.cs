@@ -113,6 +113,7 @@
                     e.Handled = true;
                     break;
                 }
+
                 case Key.Enter:
                 {
                     Data.Inputs.InputProcessingEventArgs args = new();
@@ -130,6 +131,7 @@
                     e.Handled = true;
                     break;
                 }
+
                 case Key.LeftAlt when !e.IsRepeat:
                 case Key.RightAlt when !e.IsRepeat:
                     SelectedItem?.PressAlt(new Data.Inputs.InputProcessingEventArgs());
