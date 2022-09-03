@@ -47,7 +47,7 @@
         public bool IsQuitEnabled { get; set; } = true;
 
         [JsonProperty("isRecycleEnabled")]
-        public bool IsRecycleEnabled { get; set; }= true;
+        public bool IsRecycleEnabled { get; set; } = true;
 
         [JsonProperty("isTimerEnabled")]
         public bool IsTimerEnabled { get; set; } = true;
