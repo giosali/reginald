@@ -11,11 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\Commands\timer.png" />
-    <None Remove="Images\DefaultKeywords\amazon.png" />
-    <None Remove="Images\DefaultKeywords\instagram.png" />
-    <None Remove="Images\DefaultKeywords\twitter.png" />
-    <None Remove="Images\Settings\settings.png" />
     <None Remove="Reginald.ico" />
     <None Remove="Resources\Calculator.json" />
     <None Remove="Resources\MicrosoftSettings.json" />
@@ -33,61 +28,61 @@
     <Resource Include="Images\calculator.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Commands\timer.png">
+    <Resource Include="Images\timer.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\DefaultKeywords\amazon.png">
+    <Resource Include="Images\amazon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\duckduckgo.png">
+    <Resource Include="Images\duckduckgo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\ebay.png">
+    <Resource Include="Images\ebay.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\facebook.png">
+    <Resource Include="Images\facebook.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\github.png">
+    <Resource Include="Images\github.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\google.png">
+    <Resource Include="Images\google.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\imdb.png">
+    <Resource Include="Images\imdb.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\instagram.png">
+    <Resource Include="Images\instagram.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\pinterest.png">
+    <Resource Include="Images\pinterest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\reddit.png">
+    <Resource Include="Images\reddit.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\tiktok.png">
+    <Resource Include="Images\tiktok.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\tumblr.png">
+    <Resource Include="Images\tumblr.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\twitch.png">
+    <Resource Include="Images\twitch.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\twitter.png">
+    <Resource Include="Images\twitter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\wikipedia.png">
+    <Resource Include="Images\wikipedia.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\DefaultKeywords\youtube.png">
+    <Resource Include="Images\youtube.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Settings\settings.png">
+    <Resource Include="Images\settings.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Reginald.ico">
