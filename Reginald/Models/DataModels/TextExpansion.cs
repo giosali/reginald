@@ -1,4 +1,4 @@
-namespace Reginald.Data.DataModels
+﻿namespace Reginald.Models.DataModels
 {
     using Newtonsoft.Json;
 

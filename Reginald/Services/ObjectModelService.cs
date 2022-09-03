@@ -2,9 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using Reginald.Data.ObjectModels;
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
+    using Reginald.Models.ObjectModels;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
     using Reginald.Services.Watchers;
 
     internal class ObjectModelService

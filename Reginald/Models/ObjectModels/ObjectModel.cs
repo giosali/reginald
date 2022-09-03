@@ -1,4 +1,4 @@
-namespace Reginald.Data.ObjectModels
+﻿namespace Reginald.Models.ObjectModels
 {
     public abstract class ObjectModel
     {

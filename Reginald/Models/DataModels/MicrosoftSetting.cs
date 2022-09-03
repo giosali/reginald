@@ -1,12 +1,12 @@
-namespace Reginald.Data.DataModels
+﻿namespace Reginald.Models.DataModels
 {
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
-    using Newtonsoft.Json;
     using System;
-    using Reginald.Data.Inputs;
-    using Reginald.Services.Utilities;
+    using Newtonsoft.Json;
     using Reginald.Core.Extensions;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
+    using Reginald.Services.Utilities;
 
     public class MicrosoftSetting : DataModel, ISingleProducer<SearchResult>
     {
@@ -78,7 +78,7 @@ namespace Reginald.Data.DataModels
                         if (keyCh == ' ')
                         {
                             // Handles situations where the input is
-                            // "signin options" and the key is 
+                            // "signin options" and the key is
                             // "sign-in options".
                             i--;
                             continue;

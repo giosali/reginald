@@ -1,11 +1,11 @@
-namespace Reginald.Data.DataModels
+﻿namespace Reginald.Models.DataModels
 {
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
+    using System.Windows;
     using Newtonsoft.Json;
     using Reginald.Core.Math;
-    using Reginald.Data.Inputs;
-    using System.Windows;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
 
     public class Calculator : DataModel, ISingleProducer<SearchResult>
     {

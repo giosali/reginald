@@ -1,4 +1,4 @@
-namespace Reginald.Data.Products
+﻿namespace Reginald.Models.Products
 {
     using System;
     using System.Globalization;
@@ -8,8 +8,8 @@ namespace Reginald.Data.Products
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Microsoft.Data.Sqlite;
-    using Reginald.Data.Drawing;
-    using Reginald.Data.Inputs;
+    using Reginald.Models.Drawing;
+    using Reginald.Models.Inputs;
     using Reginald.Services.Input;
     using Reginald.Services.Utilities;
 
@@ -60,7 +60,7 @@ namespace Reginald.Data.Products
         {
             OnAltKeyPressed(e);
         }
-        
+
         public override void PressAltAndEnter(InputProcessingEventArgs e)
         {
             OnAltAndEnterKeysPressed(e);

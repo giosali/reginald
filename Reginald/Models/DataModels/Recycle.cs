@@ -1,13 +1,13 @@
-namespace Reginald.Data.DataModels
+﻿namespace Reginald.Models.DataModels
 {
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
-    using Newtonsoft.Json;
-    using Reginald.Data.Inputs;
-    using Reginald.Services.Utilities;
     using System;
     using System.Threading.Tasks;
-    using Reginald.Data.Drawing;
+    using Newtonsoft.Json;
+    using Reginald.Models.Drawing;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
+    using Reginald.Services.Utilities;
 
     public class Recycle : DataModel, ISingleProducer<SearchResult>
     {

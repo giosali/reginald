@@ -138,7 +138,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Reginald.Core\Reginald.Core.csproj" />
-    <ProjectReference Include="..\Reginald.Data\Reginald.Data.csproj" />
     <ProjectReference Include="..\Reginald.Services\Reginald.Services.csproj" />
   </ItemGroup>
 

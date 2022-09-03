@@ -1,13 +1,13 @@
-﻿namespace Reginald.Data.DataModels
+﻿namespace Reginald.Models.DataModels
 {
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Reginald.Data.Inputs;
-    using Reginald.Data.Drawing;
+    using Newtonsoft.Json;
+    using Reginald.Models.Drawing;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
 
     public class Timers : DataModel, IMultipleProducer<SearchResult>
     {

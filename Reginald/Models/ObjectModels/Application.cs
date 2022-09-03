@@ -1,4 +1,4 @@
-namespace Reginald.Data.ObjectModels
+﻿namespace Reginald.Models.ObjectModels
 {
     using System;
     using System.Collections.Generic;
@@ -6,9 +6,9 @@ namespace Reginald.Data.ObjectModels
     using System.Windows.Media.Imaging;
     using Microsoft.WindowsAPICodePack.Shell;
     using Reginald.Core.Extensions;
-    using Reginald.Data.Inputs;
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
     public class Application : ObjectModel, ISingleProducer<SearchResult>
@@ -88,13 +88,13 @@ namespace Reginald.Data.ObjectModels
                             break;
                         }
                     }
-                    
+
                     if (isMatch)
                     {
                         return true;
                     }
                 }
-                
+
                 index++;
             }
 
@@ -111,7 +111,7 @@ namespace Reginald.Data.ObjectModels
                     chars.Add(ch);
                 }
             }
-            
+
             bool isLetterMatch = false;
             for (int i = 0, j = 0; i < input.Length; i++, j++)
             {
@@ -126,13 +126,13 @@ namespace Reginald.Data.ObjectModels
                     i--;
                     continue;
                 }
-                
+
                 if (!match && isLetterMatch)
                 {
                     isLetterMatch = false;
                     break;
                 }
-                
+
                 isLetterMatch = match;
             }
 

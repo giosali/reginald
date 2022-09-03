@@ -8,7 +8,7 @@
     using System.Windows.Input;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
-    using Reginald.Data.DataModels;
+    using Reginald.Models.DataModels;
     using Reginald.Services;
 
     internal class ExpansionsViewModel : ItemsScreen<TextExpansion>

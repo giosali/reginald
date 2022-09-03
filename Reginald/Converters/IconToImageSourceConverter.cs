@@ -4,7 +4,7 @@
     using System.Globalization;
     using System.Windows.Data;
     using System.Windows.Media;
-    using Reginald.Data.Drawing;
+    using Reginald.Models.Drawing;
     using Reginald.Services.Helpers;
 
     [ValueConversion(typeof(Icon), typeof(ImageSource))]

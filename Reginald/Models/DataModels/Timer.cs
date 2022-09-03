@@ -1,15 +1,15 @@
-﻿namespace Reginald.Data.DataModels
+﻿namespace Reginald.Models.DataModels
 {
     using System;
+    using System.Linq;
     using System.Text.RegularExpressions;
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
-    using System.Linq;
-    using Reginald.Data.Inputs;
+    using Reginald.Models.Drawing;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
     using Reginald.Services.Notifications;
-    using Reginald.Data.Drawing;
 
     public class Timer : DataModel, ICloneable, ISingleProducer<SearchResult>
     {

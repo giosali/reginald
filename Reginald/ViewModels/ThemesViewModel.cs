@@ -6,8 +6,8 @@
     using System.Windows.Controls;
     using Caliburn.Micro;
     using Reginald.Core.IO;
-    using Reginald.Data.DataModels;
     using Reginald.Messages;
+    using Reginald.Models.DataModels;
     using Reginald.Services;
 
     internal class ThemesViewModel : ItemsScreen<Theme>

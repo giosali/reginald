@@ -1,4 +1,4 @@
-﻿namespace Reginald.Data.Producers
+﻿namespace Reginald.Models.Producers
 {
     public interface IMultipleProducer<T>
     {

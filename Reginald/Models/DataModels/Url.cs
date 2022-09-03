@@ -1,11 +1,11 @@
-namespace Reginald.Data.DataModels
+﻿namespace Reginald.Models.DataModels
 {
     using System;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
-    using Reginald.Data.Inputs;
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
     public class Url : DataModel, ISingleProducer<SearchResult>

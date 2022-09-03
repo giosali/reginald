@@ -1,4 +1,4 @@
-namespace Reginald.Data.Drawing
+﻿namespace Reginald.Models.Drawing
 {
     using System.Windows.Media.Imaging;
 

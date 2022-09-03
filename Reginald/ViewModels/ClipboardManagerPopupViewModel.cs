@@ -12,8 +12,8 @@
     using System.Windows.Input;
     using Microsoft.Data.Sqlite;
     using Reginald.Core.IO;
-    using Reginald.Data.Inputs;
-    using Reginald.Data.Products;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
     internal class ClipboardManagerPopupViewModel : SearchPopupViewModelScreen<ClipboardItem>

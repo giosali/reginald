@@ -1,4 +1,4 @@
-namespace Reginald.Data.Inputs
+﻿namespace Reginald.Models.Inputs
 {
     using System;
 

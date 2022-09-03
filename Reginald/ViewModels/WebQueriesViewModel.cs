@@ -4,7 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
-    using Reginald.Data.DataModels;
+    using Reginald.Models.DataModels;
     using Reginald.Services;
 
     internal class WebQueriesViewModel : ItemsScreen<WebQuery>

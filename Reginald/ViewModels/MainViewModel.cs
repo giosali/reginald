@@ -9,7 +9,7 @@
     using System.Windows.Input;
     using Caliburn.Micro;
     using Reginald.Core.Extensions;
-    using Reginald.Data.Products;
+    using Reginald.Models.Products;
     using Reginald.Services;
 
     internal class MainViewModel : SearchPopupViewModelScreen<SearchResult>
@@ -93,7 +93,7 @@
                     break;
                 case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:
                 {
-                    Data.Inputs.InputProcessingEventArgs args = new();
+                    Models.Inputs.InputProcessingEventArgs args = new();
                     SelectedItem?.PressAltAndEnter(args);
                     if (args.Handled)
                     {
@@ -116,7 +116,7 @@
 
                 case Key.Enter:
                 {
-                    Data.Inputs.InputProcessingEventArgs args = new();
+                    Models.Inputs.InputProcessingEventArgs args = new();
                     SelectedItem?.PressEnter(args);
                     if (args.IsInputIncomplete)
                     {
@@ -134,7 +134,7 @@
 
                 case Key.LeftAlt when !e.IsRepeat:
                 case Key.RightAlt when !e.IsRepeat:
-                    SelectedItem?.PressAlt(new Data.Inputs.InputProcessingEventArgs());
+                    SelectedItem?.PressAlt(new Models.Inputs.InputProcessingEventArgs());
                     e.Handled = true;
                     break;
                 case Key.Tab:
@@ -145,7 +145,7 @@
                         break;
                     }
 
-                    Data.Inputs.InputProcessingEventArgs args = new();
+                    Models.Inputs.InputProcessingEventArgs args = new();
                     SelectedItem?.PressTab(args);
                     if (args.IsInputIncomplete)
                     {
@@ -172,7 +172,7 @@
             {
                 case Key.LeftAlt:
                 case Key.RightAlt:
-                    SelectedItem?.ReleaseAlt(new Data.Inputs.InputProcessingEventArgs());
+                    SelectedItem?.ReleaseAlt(new Models.Inputs.InputProcessingEventArgs());
                     break;
             }
         }

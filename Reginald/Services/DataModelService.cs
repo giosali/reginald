@@ -7,9 +7,9 @@
     using System.Text;
     using System.Threading.Tasks;
     using Reginald.Core.IO;
-    using Reginald.Data.DataModels;
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
+    using Reginald.Models.DataModels;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
     using Reginald.Services.Hooks;
     using Reginald.Services.Input;
 

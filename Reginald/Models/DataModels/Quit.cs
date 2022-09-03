@@ -1,12 +1,12 @@
-﻿namespace Reginald.Data.DataModels
+﻿namespace Reginald.Models.DataModels
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using Newtonsoft.Json;
-    using Reginald.Data.Inputs;
-    using Reginald.Data.Producers;
-    using Reginald.Data.Products;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
     public class Quit : DataModel, IMultipleProducer<SearchResult>

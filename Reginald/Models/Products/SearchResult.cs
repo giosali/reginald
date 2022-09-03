@@ -1,8 +1,8 @@
-﻿namespace Reginald.Data.Products
+﻿namespace Reginald.Models.Products
 {
     using System.Windows.Media.Imaging;
-    using Reginald.Data.Drawing;
-    using Reginald.Data.Inputs;
+    using Reginald.Models.Drawing;
+    using Reginald.Models.Inputs;
 
     public class SearchResult : KeyboardInput
     {

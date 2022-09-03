@@ -13,7 +13,7 @@
     using Microsoft.Win32;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
-    using Reginald.Data.DataModels;
+    using Reginald.Models.DataModels;
     using Reginald.Services;
 
     internal class YourWebQueriesViewModel : ItemsScreen<WebQuery>
