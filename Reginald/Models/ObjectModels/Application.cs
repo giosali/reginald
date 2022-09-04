@@ -13,13 +13,15 @@
 
     public class Application : ObjectModel, ISingleProducer<SearchResult>
     {
-        private static readonly Guid ApplicationsFolderGuid = new("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}");
-
         public Application(string description, BitmapSource source, string filePath)
         {
             Caption = "Application";
             Description = description;
             Source = source;
+
+            // Necessary for icons to reappear after repopulating applications.
+            Source.Freeze();
+
             FilePath = filePath;
         }
 
@@ -29,8 +31,10 @@
 
         public static IEnumerable<Application> GetApplications()
         {
+            // ApplicationsFolderGuid
+            IKnownFolder applicationsFolder = KnownFolderHelper.FromKnownFolderId(new Guid("{1e87508d-89c2-42f0-8a7e-645a0f50ca58}"));
+
             List<ShellObject> sos = new();
-            IKnownFolder applicationsFolder = KnownFolderHelper.FromKnownFolderId(ApplicationsFolderGuid);
             foreach (ShellObject so in applicationsFolder)
             {
                 string parsingName = so.ParsingName;
