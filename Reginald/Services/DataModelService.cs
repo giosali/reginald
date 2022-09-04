@@ -222,7 +222,7 @@
         {
             Theme[] themes = FileOperations.GetGenericData<Theme>(Theme.FileName, true);
             Theme theme = themes.FirstOrDefault(t => t.Guid == Settings.ThemeIdentifier, themes[0]);
-            if (Theme.Guid != theme.Guid)
+            if (Theme?.Guid != theme.Guid)
             {
                 Theme = theme;
             }
