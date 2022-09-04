@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Caliburn.Micro;
     using Reginald.Core.IO;
     using Reginald.Models.DataModels;
     using Reginald.Models.Producers;
@@ -21,9 +22,12 @@
 
         private readonly StringBuilder _input = new();
 
+        private bool _areApplicationsEnabled;
+
         public DataModelService()
         {
             Settings = FileOperations.GetGenericDatum<Settings>(Settings.FileName, false);
+            _areApplicationsEnabled = Settings.AreApplicationsEnabled;
             SetTheme();
             SetTextExpansions();
             SetSingleProducers();
@@ -138,6 +142,12 @@
                     SetTextExpansions();
                     SetSingleProducers();
                     SetMultipleProducers();
+                    if (_areApplicationsEnabled != Settings.AreApplicationsEnabled)
+                    {
+                        _areApplicationsEnabled = !_areApplicationsEnabled;
+                        IoC.Get<ObjectModelService>().SetSingleProducers();
+                    }
+
                     break;
             }
         }
