@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using System.Windows.Threading;
     using Reginald.Core.IO;
     using Reginald.Models.DataModels;
     using Reginald.Models.Producers;
