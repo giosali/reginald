@@ -93,7 +93,7 @@
                     0 => time.Quantify("hr"),
                     1 => time.Quantify("min"),
                     2 => time.Quantify("sec"),
-                    _ => throw new ArgumentOutOfRangeException(),
+                    _ => throw new ArgumentOutOfRangeException(nameof(keyInput)),
                 };
                 totalTime += time * 1000 * Math.Pow(60, j);
             }
