@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Caliburn.Micro;
     using Reginald.Models.ObjectModels;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
@@ -36,7 +37,11 @@
         private void SetSingleProducers()
         {
             List<ISingleProducer<SearchResult>> singleProducers = new();
-            singleProducers.AddRange(Application.GetApplications());
+            if (IoC.Get<DataModelService>().Settings.AreApplicationsEnabled)
+            {
+                singleProducers.AddRange(Application.GetApplications());
+            }
+
             SingleProducers = singleProducers.ToArray();
         }
     }

@@ -151,7 +151,10 @@
             quit.IsEnabled = Settings.IsQuitEnabled;
             multipleProducers.Add(quit);
 
-            multipleProducers.Add(FileOperations.GetGenericDatum<Timers>("Timers.json", true));
+            if (Settings.AreTimersEnabled)
+            {
+                multipleProducers.Add(FileOperations.GetGenericDatum<Timers>("Timers.json", true));
+            }
 
             MultipleProducers = multipleProducers.ToArray();
         }
