@@ -42,7 +42,6 @@
         [TestCase("http://www.example.com/index.html")]
         [TestCase("http://www.company.com:81/a/b/c.html?user=Alice&year=2008#p2")]
         [TestCase(" https://google.com")]
-        [Parallelizable(ParallelScope.All)]
         public void Check_WhenGivenValidUrls_ReturnTrue(string input)
         {
             Assert.True(_url.Check(input));
@@ -66,7 +65,6 @@
         [TestCase("https://go ogle.com/")]
         [TestCase("this .ne")]
         [TestCase("hello world.com/")]
-        [Parallelizable(ParallelScope.All)]
         public void Check_WhenGivenInvalidUrls_ReturnFalse(string input)
         {
             Assert.False(_url.Check(input));
