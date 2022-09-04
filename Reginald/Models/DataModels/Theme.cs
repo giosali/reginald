@@ -4,6 +4,7 @@
     using System.Windows;
     using System.Windows.Media;
     using Newtonsoft.Json;
+    using Reginald.Models.Converters;
 
     public class Theme
     {
@@ -15,15 +16,18 @@
         [JsonProperty("author")]
         public string Author { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("backgroundBrush")]
         public SolidColorBrush BackgroundBrush { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("borderBrush")]
         public SolidColorBrush BorderBrush { get; set; }
 
         [JsonProperty("borderThickness")]
         public double BorderThickness { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("captionBrush")]
         public SolidColorBrush CaptionBrush { get; set; }
 
@@ -33,6 +37,7 @@
         [JsonProperty("captionFontWeight")]
         public FontWeight CaptionFontWeight { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("caretBrush")]
         public SolidColorBrush CaretBrush { get; set; }
 
@@ -51,6 +56,7 @@
         [JsonProperty("cornerRadius")]
         public double CornerRadius { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("descriptionBrush")]
         public SolidColorBrush DescriptionBrush { get; set; }
 
@@ -66,9 +72,11 @@
         [JsonProperty("guid")]
         public Guid Guid { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("HighlightBrush")]
         public SolidColorBrush HighlightBrush { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("inputBrush")]
         public SolidColorBrush InputBrush { get; set; }
 
@@ -93,15 +101,19 @@
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("placeholderInputBrush")]
         public SolidColorBrush PlaceholderInputBrush { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("selectedCaptionBrush")]
         public SolidColorBrush SelectedCaptionBrush { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("SelectedDescriptionBrush")]
         public SolidColorBrush SelectedDescriptionBrush { get; set; }
 
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("selectionBrush")]
         public SolidColorBrush SelectionBrush { get; set; }
 
