@@ -167,23 +167,37 @@
             WebQuery[] webQueries = FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true);
             WebQuery[] yourWebQueries = FileOperations.GetGenericData<WebQuery>(WebQuery.UserFileName, false);
             DefaultWebQueries = webQueries.Concat(yourWebQueries)
-                                          .Select(wq =>
-                                          {
-                                              for (int i = 0; i < Settings.DisabledWebQueries.Count; i++)
-                                              {
-                                                  if (wq.Guid == Settings.DisabledWebQueries[i])
-                                                  {
-                                                      wq.IsEnabled = false;
-                                                  }
-                                              }
-
-                                              return wq;
-                                          })
                                           .Where(wq => Array.Exists(Settings.DefaultWebQueries, i => i == wq.Guid))
                                           .Take(3);
             if (Settings.AreWebQueriesEnabled)
             {
+                for (int i = 0; i < Settings.DisabledWebQueries.Count; i++)
+                {
+                    Guid guid = Settings.DisabledWebQueries[i];
+                    for (int j = 0; j < webQueries.Length; j++)
+                    {
+                        WebQuery wq = webQueries[j];
+                        if (guid == wq.Guid)
+                        {
+                            wq.IsEnabled = false;
+                        }
+                    }
+                }
+
                 singleProducers.AddRange(webQueries);
+            }
+
+            for (int i = 0; i < Settings.DisabledWebQueries.Count; i++)
+            {
+                Guid guid = Settings.DisabledWebQueries[i];
+                for (int j = 0; j < yourWebQueries.Length; j++)
+                {
+                    WebQuery wq = yourWebQueries[j];
+                    if (guid == wq.Guid)
+                    {
+                        wq.IsEnabled = false;
+                    }
+                }
             }
 
             singleProducers.AddRange(yourWebQueries);
