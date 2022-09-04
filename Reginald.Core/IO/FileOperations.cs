@@ -136,7 +136,7 @@
         public static void WriteFile(string fileName, string text = null)
         {
             string filePath = GetFilePath(fileName);
-            while (true)
+            for (int i = 0; i < 10; i++)
             {
                 try
                 {
