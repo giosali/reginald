@@ -29,12 +29,7 @@
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; set; }
 
-        private void OnRegistryKeyChanged(object sender, EventArgs e)
-        {
-            SetSingleProducers();
-        }
-
-        private void SetSingleProducers()
+        public void SetSingleProducers()
         {
             List<ISingleProducer<SearchResult>> singleProducers = new();
             if (IoC.Get<DataModelService>().Settings.AreApplicationsEnabled)
@@ -43,6 +38,11 @@
             }
 
             SingleProducers = singleProducers.ToArray();
+        }
+
+        private void OnRegistryKeyChanged(object sender, EventArgs e)
+        {
+            SetSingleProducers();
         }
     }
 }
