@@ -166,9 +166,12 @@
             DefaultWebQueries = webQueries.Concat(yourWebQueries)
                                           .Select(wq =>
                                           {
-                                              if (Array.Exists(Settings.DefaultWebQueries, i => i == wq.Guid))
+                                              for (int i = 0; i < Settings.DisabledWebQueries.Count; i++)
                                               {
-                                                  wq.IsEnabled = false;
+                                                  if (wq.Guid == Settings.DisabledWebQueries[i])
+                                                  {
+                                                      wq.IsEnabled = false;
+                                                  }
                                               }
 
                                               return wq;
