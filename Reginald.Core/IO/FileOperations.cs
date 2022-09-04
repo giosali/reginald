@@ -10,9 +10,9 @@
 
     public static class FileOperations
     {
-        private const string ApplicationShortcutName = "Reginald.lnk";
+        private const string ApplicationResourcesDirectory = "pack://application:,,,/Reginald;component/Resources/";
 
-        private const string ApplicationResourcesPackUriFormat = "pack://application:,,,/Reginald;component/Resources/{0}";
+        private const string ApplicationShortcutName = "Reginald.lnk";
 
         private static readonly Guid WindowsScriptHostShellObjectGuid = new("72c24dd5-d70a-438b-8a42-98424b88afb8");
 
@@ -97,7 +97,7 @@
 
         public static Uri GetResourcePath(string fileName)
         {
-            return new Uri(string.Format(ApplicationResourcesPackUriFormat, fileName));
+            return new Uri(ApplicationResourcesDirectory + fileName);
         }
 
         /// <summary>
