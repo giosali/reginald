@@ -148,8 +148,7 @@
                               RowHeight="{x:Static sys:Double.NaN}"
                               SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                               SelectionMode="Single"
-                              cal:Message.Attach="[ContextMenuOpening] = [DataGrid_ContextMenuOpening($this, $eventargs)];
-                                                  [LostFocus] = [DataGrid_LostFocus($this, $eventargs)]">
+                              cal:Message.Attach="[LostFocus] = [DataGrid_LostFocus($this, $eventargs)]">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Delete"
