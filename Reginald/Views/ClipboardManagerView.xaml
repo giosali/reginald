@@ -17,7 +17,6 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-
                 <TextBlock Grid.Column="0"
                            Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
                            Text="&#xE897;" />
@@ -28,7 +27,6 @@
                     <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
                                Text="Enable the clipboard manager" />
                 </StackPanel>
-
                 <ToggleButton Grid.Column="3"
                               IsChecked="{Binding DMS.Settings.IsClipboardManagerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               Style="{StaticResource WindowsToggleButtonStyle}"
@@ -51,7 +49,7 @@
                 <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
                     <TextBox Style="{StaticResource HotkeyTextBoxStyle}"
                              Text="{Binding HotkeyInput}"
-                             cal:Message.Attach="[Event PreviewKeyDown] = [Action HotkeyTextBox_PreviewKeyDown($this, $eventargs)]" />
+                             cal:Message.Attach="[PreviewKeyDown] = [HotkeyTextBox_PreviewKeyDown($this, $eventargs)]" />
                 </StackPanel>
             </StackPanel>
         </Border>
