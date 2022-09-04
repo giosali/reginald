@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Reginald.Core\Reginald.Core.csproj" />
     <ProjectReference Include="..\Reginald\Reginald.csproj" />
   </ItemGroup>
 
