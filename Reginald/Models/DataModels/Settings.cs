@@ -69,7 +69,7 @@
 
         public void Save()
         {
-            //FileOperations.WriteFile(FileName, this.Serialize());
+            FileOperations.WriteFile(FileName, this.Serialize());
         }
     }
 }
