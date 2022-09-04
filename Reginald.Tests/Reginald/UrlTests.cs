@@ -79,7 +79,12 @@
             {
                 IsEnabled = true,
             };
-            var current = System.Windows.Application.Current;
+
+            // This is necessary because the `pack://` scheme isn't registered
+            // and only becomes registered after running an Application instance.
+            // This helps to remedy the problem.
+            // Source: https://stackoverflow.com/questions/6005398/uriformatexception-invalid-uri-invalid-port-specified
+            _ = System.Windows.Application.Current;
         }
     }
 }
