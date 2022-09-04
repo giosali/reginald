@@ -68,7 +68,7 @@
                     <TextBlock>
                          <Hyperlink NavigateUri="https://github.com/giosali/reginald/wiki#timer"
                                     Style="{StaticResource HyperlinkStyle}">
-                             View more information the timer keyword
+                             View more information about the timer keyword
                          </Hyperlink>
                     </TextBlock>
                 </Button>
@@ -131,7 +131,7 @@
                     <TextBlock>
                          <Hyperlink NavigateUri="https://github.com/giosali/reginald/wiki#timers"
                                     Style="{StaticResource HyperlinkStyle}">
-                             View more information on the timers keyword
+                             View more information about the timers keyword
                          </Hyperlink>
                     </TextBlock>
                 </Button>
