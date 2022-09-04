@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows.Threading;
     using Reginald.Core.IO;
     using Reginald.Models.DataModels;
     using Reginald.Models.Producers;
@@ -221,7 +222,11 @@
         private void SetTheme()
         {
             Theme[] themes = FileOperations.GetGenericData<Theme>(Theme.FileName, true);
-            Theme = themes.FirstOrDefault(t => t.Guid == Settings.ThemeIdentifier, themes[0]);
+            Theme theme = themes.FirstOrDefault(t => t.Guid == Settings.ThemeIdentifier, themes[0]);
+            if (Theme.Guid != theme.Guid)
+            {
+                Theme = theme;
+            }
         }
     }
 }
