@@ -1,9 +1,9 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security;
-
-namespace Reginald.Services.Watchers
+﻿namespace Reginald.Services.Watchers
 {
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Security;
+
     internal class NativeMethods
     {
         [Flags]
@@ -23,7 +23,7 @@ namespace Reginald.Services.Watchers
             /// </summary>
             NAME = 0x00000001,
         }
-        
+
         [DllImport("advapi32.dll", SetLastError = true)]
         internal static extern int RegCloseKey(IntPtr hKey);
 

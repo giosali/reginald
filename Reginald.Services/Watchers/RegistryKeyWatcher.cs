@@ -1,9 +1,9 @@
-using System;
-using System.Threading;
-using static Reginald.Services.Watchers.NativeMethods;
-
-namespace Reginald.Services.Watchers
+﻿namespace Reginald.Services.Watchers
 {
+    using System;
+    using System.Threading;
+    using static Reginald.Services.Watchers.NativeMethods;
+
     /// <summary>
     /// An application can use handles to these keys as entry points to the registry.
     /// </summary>
@@ -24,7 +24,17 @@ namespace Reginald.Services.Watchers
     {
         private const uint INFINITE = 0xFFFFFFFF;
 
-        private Thread _thread;
+        private readonly Thread _thread;
+
+        public RegistryKeyWatcher(RegistryHive registryHive, string registrySubKey)
+        {
+            RegistryKey = new((uint)registryHive);
+            RegistrySubKey = registrySubKey;
+            _thread = new(WatchRegistryKey);
+            _thread.IsBackground = true;
+        }
+
+        public event EventHandler<EventArgs> RegistryKeyChanged;
 
         [Flags]
         private enum WaitResult : uint
@@ -35,19 +45,9 @@ namespace Reginald.Services.Watchers
             WAIT_FAILED = 0xFFFFFFFF,
         }
 
-        public RegistryKeyWatcher(RegistryHive registryHive, string registrySubKey)
-        {
-            RegistryKey = new((uint)registryHive);
-            RegistrySubKey = registrySubKey;
-            _thread = new(WatchRegistryKey);
-            _thread.IsBackground = true;
-        }
-
         public string RegistrySubKey { get; set; }
 
         private IntPtr RegistryKey { get; set; }
-
-        public event EventHandler<EventArgs> RegistryKeyChanged;
 
         public void Start()
         {
