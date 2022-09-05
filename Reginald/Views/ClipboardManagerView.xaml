@@ -19,7 +19,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0"
                            Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                           Text="&#xE897;" />
+                           Text="&#xF0E3;" />
                 <StackPanel Grid.Column="1"
                             VerticalAlignment="Center">
                     <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
@@ -38,7 +38,7 @@
             <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
                 <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
                     <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                               Text="&#xF0E3;" />
+                               Text="&#xE765;" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
                                    Text="Clipboard manager hotkey" />
