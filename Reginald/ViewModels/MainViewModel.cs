@@ -77,20 +77,25 @@
         {
             switch (e.Key is Key.System && !(e.Key is Key.LeftAlt || e.Key is Key.RightAlt) ? e.SystemKey : e.Key)
             {
-                case Key.Up:
-                    SelectedItem = Items[Math.Max(Items.IndexOf(SelectedItem) - 1, 0)];
+                case Key.Tab:
+                {
+                    if (Items.Count == 0)
+                    {
+                        e.Handled = true;
+                        break;
+                    }
 
-                    // Prevents ListBoxItem from not getting selected after switching the
-                    // selected item through arrow keys and moving mouse over it.
-                    IsMouseOverChanged = false;
-                    break;
-                case Key.Down:
-                    SelectedItem = Items[Math.Min(Items.IndexOf(SelectedItem) + 1, Items.Count - 1)];
+                    Models.Inputs.InputProcessingEventArgs args = new();
+                    SelectedItem?.PressTab(args);
+                    if (args.IsInputIncomplete)
+                    {
+                        (sender as TextBox)?.SetText(args.CompleteInput);
+                    }
 
-                    // Prevents ListBoxItem from not getting selected after switching the
-                    // selected item through arrow keys and moving mouse over it.
-                    IsMouseOverChanged = false;
+                    e.Handled = true;
                     break;
+                }
+
                 case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:
                 {
                     Models.Inputs.InputProcessingEventArgs args = new();
@@ -132,29 +137,27 @@
                     break;
                 }
 
+                case Key.Up:
+                    SelectedItem = Items[Math.Max(Items.IndexOf(SelectedItem) - 1, 0)];
+
+                    // Prevents ListBoxItem from not getting selected after switching the
+                    // selected item through arrow keys and moving mouse over it.
+                    IsMouseOverChanged = false;
+                    break;
+
+                case Key.Down:
+                    SelectedItem = Items[Math.Min(Items.IndexOf(SelectedItem) + 1, Items.Count - 1)];
+
+                    // Prevents ListBoxItem from not getting selected after switching the
+                    // selected item through arrow keys and moving mouse over it.
+                    IsMouseOverChanged = false;
+                    break;
+
                 case Key.LeftAlt when !e.IsRepeat:
                 case Key.RightAlt when !e.IsRepeat:
                     SelectedItem?.PressAlt(new Models.Inputs.InputProcessingEventArgs());
                     e.Handled = true;
                     break;
-                case Key.Tab:
-                {
-                    if (Items.Count == 0)
-                    {
-                        e.Handled = true;
-                        break;
-                    }
-
-                    Models.Inputs.InputProcessingEventArgs args = new();
-                    SelectedItem?.PressTab(args);
-                    if (args.IsInputIncomplete)
-                    {
-                        (sender as TextBox)?.SetText(args.CompleteInput);
-                    }
-
-                    e.Handled = true;
-                    break;
-                }
             }
         }
 
