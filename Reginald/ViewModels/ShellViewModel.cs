@@ -54,7 +54,7 @@
 
         public async void ClipboardManagerPopupHotkeyBinding_Pressed(object sender, HotkeyEventArgs e)
         {
-            if (DMS.Settings.IsClipboardManagerEnabled)
+            if (!DMS.Settings.IsClipboardManagerEnabled)
             {
                 return;
             }
