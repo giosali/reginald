@@ -49,16 +49,23 @@
 
         public void UserInput_Loaded(object sender, RoutedEventArgs e)
         {
-            if (GetView() is Popup popup && PresentationSource.FromVisual(popup.Child) is HwndSource source)
+            if (GetView() is not Popup popup)
             {
-                // Brings popup to front without stealing focus from the foreground window
-                _ = WindowUtility.SetFocus(ActiveHandle = source.Handle);
+                return;
+            }
 
-                if (DMS.Theme.IsAcrylicEnabled)
-                {
-                    AcrylicMaterial acrylicMaterial = new(source.Handle, DMS.Theme.AcrylicOpacity, DMS.Theme.BackgroundBrush);
-                    acrylicMaterial.Enable();
-                }
+            if (PresentationSource.FromVisual(popup.Child) is not HwndSource source)
+            {
+                return;
+            }
+
+            // Brings popup to front without stealing focus from the foreground window
+            _ = WindowUtility.SetFocus(ActiveHandle = source.Handle);
+
+            if (DMS.Theme.IsAcrylicEnabled)
+            {
+                AcrylicMaterial acrylicMaterial = new(source.Handle, DMS.Theme.AcrylicOpacity, DMS.Theme.BackgroundBrush);
+                acrylicMaterial.Enable();
             }
         }
 
