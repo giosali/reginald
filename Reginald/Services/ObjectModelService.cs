@@ -27,7 +27,7 @@
             _watchers = new RegistryKeyWatcher[] { localMachine64Bit, localMachine, currentUser };
         }
 
-        public ISingleProducer<SearchResult>[] SingleProducers { get; set; }
+        public ISingleProducer<SearchResult>[] SingleProducers { get; private set; }
 
         public void SetSingleProducers()
         {

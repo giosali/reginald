@@ -51,15 +51,15 @@
 
         public IEnumerable<WebQuery> DefaultWebQueries { get; private set; }
 
-        public IMultipleProducer<SearchResult>[] MultipleProducers { get; set; }
+        public IMultipleProducer<SearchResult>[] MultipleProducers { get; private set; }
 
-        public Settings Settings { get; set; }
+        public Settings Settings { get; private set; }
 
-        public ISingleProducer<SearchResult>[] SingleProducers { get; set; }
+        public ISingleProducer<SearchResult>[] SingleProducers { get; private set; }
 
         public TextExpansion[] TextExpansions { get; private set; }
 
-        public Theme Theme { get; set; }
+        public Theme Theme { get; private set; }
 
         private TextExpansion GetTextExpansionFromVirtualKeyCode(int vkCode)
         {
