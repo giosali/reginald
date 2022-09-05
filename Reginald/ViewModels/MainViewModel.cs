@@ -3,8 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using System.Windows.Controls;
     using System.Windows.Input;
     using Caliburn.Micro;
@@ -153,6 +151,10 @@
                     IsMouseOverChanged = false;
                     break;
 
+                case Key.T when Keyboard.Modifiers is ModifierKeys.Control && !e.IsRepeat:
+                    BorderOpacity = BorderOpacity == 1.0 ? 0.25 : 1.0;
+                    break;
+
                 case Key.LeftAlt when !e.IsRepeat:
                 case Key.RightAlt when !e.IsRepeat:
                     SelectedItem?.PressAlt(new Models.Inputs.InputProcessingEventArgs());
@@ -188,12 +190,6 @@
             }
 
             SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
-        }
-
-        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
-        {
-            UserInput = string.Empty;
-            return base.OnDeactivateAsync(close, cancellationToken);
         }
     }
 }

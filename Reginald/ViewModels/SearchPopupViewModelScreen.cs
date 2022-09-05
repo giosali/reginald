@@ -1,6 +1,8 @@
 ﻿namespace Reginald.ViewModels
 {
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -14,11 +16,23 @@
 
     internal class SearchPopupViewModelScreen<T> : PopupViewModelScreen<T>
     {
+        private double _borderOpacity = 1.0;
+
         private string _userInput;
 
         public SearchPopupViewModelScreen()
         {
             DMS = IoC.Get<DataModelService>();
+        }
+
+        public double BorderOpacity
+        {
+            get => _borderOpacity;
+            set
+            {
+                _borderOpacity = value;
+                NotifyOfPropertyChange(() => BorderOpacity);
+            }
         }
 
         public DataModelService DMS { get; set; }
@@ -61,6 +75,13 @@
             {
                 Keyboard.Focus(sender as TextBox);
             }
+        }
+
+        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
+        {
+            BorderOpacity = 1.0;
+            UserInput = string.Empty;
+            return base.OnDeactivateAsync(close, cancellationToken);
         }
     }
 }

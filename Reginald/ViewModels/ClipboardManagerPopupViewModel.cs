@@ -86,6 +86,9 @@
                     SelectedItem = Items[Math.Min(Items.IndexOf(SelectedItem) + 1, Items.Count - 1)];
                     IsMouseOverChanged = false;
                     break;
+                case Key.T when Keyboard.Modifiers is ModifierKeys.Control && !e.IsRepeat:
+                    BorderOpacity = BorderOpacity == 1.0 ? 0.25 : 1.0;
+                    break;
             }
         }
 
@@ -123,12 +126,6 @@
             }
 
             return base.OnActivateAsync(cancellationToken);
-        }
-
-        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
-        {
-            UserInput = string.Empty;
-            return base.OnDeactivateAsync(close, cancellationToken);
         }
 
         private static void CreateClipboardDatabase()

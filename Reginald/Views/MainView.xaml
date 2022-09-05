@@ -213,6 +213,7 @@
     <Border BorderBrush="{Binding DMS.Theme.BorderBrush}"
             BorderThickness="{Binding DMS.Theme.BorderThickness}"
             CornerRadius="{Binding DMS.Theme.CornerRadius}"
+            Opacity="{Binding BorderOpacity}"
             Style="{StaticResource BorderStyle}">
         <Grid>
             <Grid.RowDefinitions>
