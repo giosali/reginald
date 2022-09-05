@@ -68,7 +68,7 @@
         public void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             SelectedItem = null;
-            _tempIconPath = null;
+            IconPath = _tempIconPath = null;
             IsBeingCreated = IsBeingEdited = false;
         }
 
@@ -177,7 +177,6 @@
                 }
 
                 File.Copy(_tempIconPath, path);
-                _tempIconPath = null;
                 SelectedItem.IconPath = path;
             }
 
@@ -189,6 +188,7 @@
             FileOperations.WriteFile(WebQuery.UserFileName, Items.Serialize());
             SelectedItem = null;
             IsBeingCreated = IsBeingEdited = false;
+            IconPath = _tempIconPath = null;
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
