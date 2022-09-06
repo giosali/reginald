@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_75B3AA608A3040E4BA6F8625EC2662BC"
+        "MsmKey" = "8:_657152E2ADA743A3A5642F11D356CA03"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -127,9 +127,9 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75B3AA608A3040E4BA6F8625EC2662BC"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_657152E2ADA743A3A5642F11D356CA03"
             {
-            "SourcePath" = "8:Reginald.ico"
+            "SourcePath" = "8:..\\Reginald\\Reginald.ico"
             "TargetName" = "8:Reginald.ico"
             "Tag" = "8:"
             "Folder" = "8:_89A7B62951EB4AFC85159B6A4CFE259A"
@@ -221,7 +221,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:An application launcher and productivity application for Windows."
         "ARPURLINFOABOUT" = "8:https://github.com/giosali/reginald"
-        "ARPPRODUCTICON" = "8:_75B3AA608A3040E4BA6F8625EC2662BC"
+        "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -335,7 +335,7 @@
             "Target" = "8:_8B4527A8495B418894E3D2377DA6A36E"
             "Folder" = "8:_25D1B2A6E27C4FCB84C6EC029CE33458"
             "WorkingFolder" = "8:_25D1B2A6E27C4FCB84C6EC029CE33458"
-            "Icon" = "8:_75B3AA608A3040E4BA6F8625EC2662BC"
+            "Icon" = "8:_657152E2ADA743A3A5642F11D356CA03"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2C5C2B4570284A59A676D36E1D726739"
@@ -349,7 +349,7 @@
             "Target" = "8:_8B4527A8495B418894E3D2377DA6A36E"
             "Folder" = "8:_B6563528EE72463B8FCDA025BC3140E7"
             "WorkingFolder" = "8:_B6563528EE72463B8FCDA025BC3140E7"
-            "Icon" = "8:_75B3AA608A3040E4BA6F8625EC2662BC"
+            "Icon" = "8:_657152E2ADA743A3A5642F11D356CA03"
             "Feature" = "8:"
             }
         }
