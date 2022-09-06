@@ -14,6 +14,20 @@
 
         private static readonly HashSet<string> _topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
 
+        public static bool ContainsPhrase(this string str, string phrase)
+        {
+            int index = str.IndexOf(phrase, StringComparison.OrdinalIgnoreCase);
+            if (index == -1)
+            {
+                return false;
+            }
+
+            // Returns false if the index isn't the beginning of str
+            // and if the character before the index isn't a space;
+            // otherwise, true.
+            return index != 0 && str[index - 1] != ' ' ? false : true;
+        }
+
         /// <summary>
         /// Indicates whether the string contains a top-level domain.
         /// </summary>

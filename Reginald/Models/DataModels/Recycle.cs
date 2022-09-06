@@ -1,8 +1,8 @@
 ﻿namespace Reginald.Models.DataModels
 {
-    using System;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
+    using Reginald.Core.Extensions;
     using Reginald.Models.Drawing;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
@@ -32,21 +32,7 @@
                 return false;
             }
 
-            int index = Key.IndexOf(input, StringComparison.OrdinalIgnoreCase);
-            if (index == -1)
-            {
-                return false;
-            }
-
-            // Returns false
-            // if the index isn't the beginning of the Key
-            // and if the character before the index isn't a space.
-            if (index != 0 && Key[index - 1] != ' ')
-            {
-                return false;
-            }
-
-            return true;
+            return Key.ContainsPhrase(input);
         }
 
         public SearchResult Produce()
