@@ -15,11 +15,14 @@
 
     public class ClipboardItem : KeyboardInput
     {
+        private const int DescriptionLimit = 50;
+
         public ClipboardItem(BitmapSource bitmapSource)
         {
             Image = bitmapSource;
             Icon = new("72");
             Description = $"{bitmapSource.Width}x{bitmapSource.Height}";
+            ListBoxDescription = Description[..Math.Min(DescriptionLimit, Description.Length)];
             DateTime = DateTime.Now;
         }
 
@@ -29,6 +32,7 @@
             DateTime = DateTime.TryParse(reader["datetime"] as string, out DateTime dateTime) ? dateTime : DateTime.Now;
             string text = reader["text"] as string;
             Description = text;
+            ListBoxDescription = text[..Math.Min(DescriptionLimit, text.Length)];
             if (TryFromString(text, out Brush brush))
             {
                 HexBrush = brush;
@@ -39,6 +43,7 @@
         {
             Icon = new("1");
             Description = description;
+            ListBoxDescription = description[..Math.Min(DescriptionLimit, description.Length)];
             DateTime = DateTime.Now;
             if (TryFromString(description, out Brush brush))
             {
@@ -55,6 +60,8 @@
         public Icon Icon { get; set; }
 
         public ImageSource Image { get; set; }
+
+        public string ListBoxDescription { get; set; }
 
         public override void PressAlt(InputProcessingEventArgs e)
         {
