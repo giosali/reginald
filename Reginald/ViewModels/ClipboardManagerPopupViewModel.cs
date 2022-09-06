@@ -194,6 +194,12 @@
             }
         }
 
+        /// <summary>
+        /// Attempts to query the Clipboard for the presence of data in the <see cref="DataFormats.Bitmap"/> data format.
+        /// </summary>
+        /// <param name="image">A <see cref="BitmapSource"/> containing the <see cref="DataFormats.Bitmap"/> data on the Clipboard.</param>
+        /// <returns><see langword="true"/> if data in the <see cref="DataFormats.Bitmap"/> data format was successfully retrieved; otherwise <see langword="false"/>.</returns>
+        /// <remarks>This is necessary due to a bug/feature in Terminal Services clipboard (and possible other things) and the .NET implementation of the clipboard. A delay in opening the clipboard causes the error, which usually passes within a few milliseconds. The solution is to try multiple times within a loop and sleep in between. This bug only affects WPF and not Windows Forms. See <see href="https://stackoverflow.com/questions/68666/clipbrd-e-cant-open-error-when-setting-the-clipboard-from-net">here</see> for more information.</remarks>
         private static bool TryGetImage(out BitmapSource image)
         {
             image = null;
@@ -223,6 +229,12 @@
             return false;
         }
 
+        /// <summary>
+        /// Attempts to query the Clipboard for the presence of data in the <see cref="DataFormats.UnicodeText"/> data format.
+        /// </summary>
+        /// <param name="text">A string containing the <see cref="DataFormats.UnicodeText"/> data on the Clipboard.</param>
+        /// <returns><see langword="true"/> if data in the <see cref="DataFormats.UnicodeText"/> data format was successfully retrieved; otherwise <see langword="false"/>.</returns>
+        /// <remarks>This is necessary due to a bug/feature in Terminal Services clipboard (and possible other things) and the .NET implementation of the clipboard. A delay in opening the clipboard causes the error, which usually passes within a few milliseconds. The solution is to try multiple times within a loop and sleep in between. This bug only affects WPF and not Windows Forms. See <see href="https://stackoverflow.com/questions/68666/clipbrd-e-cant-open-error-when-setting-the-clipboard-from-net">here</see> for more information.</remarks>
         private static bool TryGetText(out string text)
         {
             text = null;
