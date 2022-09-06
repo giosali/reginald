@@ -7,51 +7,80 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
-    <StackPanel Style="{StaticResource UserControlStackPanelStyle}">
-        <!--ToggleButton-->
-        <Border Style="{StaticResource CardBorderStyle}">
-            <Grid Style="{StaticResource CardControlGridStyle}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
-                           Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                           Text="&#xF0E3;" />
-                <StackPanel Grid.Column="1"
-                            VerticalAlignment="Center">
-                    <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                               Text="Clipboard manager" />
-                    <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                               Text="Enable the clipboard manager" />
-                </StackPanel>
-                <ToggleButton Grid.Column="3"
-                              IsChecked="{Binding DMS.Settings.IsClipboardManagerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              Style="{StaticResource WindowsToggleButtonStyle}"
-                              cal:Message.Attach="[Click] = [ClipboardManagerToggleButton_Click($this, $eventargs)]" />
-            </Grid>
-        </Border>
-        <!--Hotkey-->
-        <Border Style="{StaticResource CardBorderStyle}">
-            <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
-                <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
-                    <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                               Text="&#xE765;" />
-                    <StackPanel VerticalAlignment="Center">
+    <StackPanel>
+        <StackPanel Style="{StaticResource InnerUserControlStackPanelStyle}">
+            <!--ToggleButton-->
+            <Border Style="{StaticResource CardBorderStyle}">
+                <Grid Style="{StaticResource CardControlGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                               Text="&#xF0E3;" />
+                    <StackPanel Grid.Column="1"
+                                VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                   Text="Clipboard manager hotkey" />
+                                   Text="Clipboard manager" />
                         <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="Set the hotkey by pressing key combinations in the box" />
+                                   Text="Enable the clipboard manager" />
+                    </StackPanel>
+                    <ToggleButton Grid.Column="3"
+                                  IsChecked="{Binding DMS.Settings.IsClipboardManagerEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource WindowsToggleButtonStyle}"
+                                  cal:Message.Attach="[Click] = [ClipboardManagerToggleButton_Click($this, $eventargs)]" />
+                </Grid>
+            </Border>
+            <!--Hotkey-->
+            <Border Style="{StaticResource CardBorderStyle}">
+                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
+                        <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE765;" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="Clipboard manager hotkey" />
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Set the hotkey by pressing key combinations in the box" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
+                        <TextBox Style="{StaticResource HotkeyTextBoxStyle}"
+                                 Text="{Binding HotkeyInput}"
+                                 cal:Message.Attach="[PreviewKeyDown] = [HotkeyTextBox_PreviewKeyDown($this, $eventargs)]" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
-                    <TextBox Style="{StaticResource HotkeyTextBoxStyle}"
-                             Text="{Binding HotkeyInput}"
-                             cal:Message.Attach="[PreviewKeyDown] = [HotkeyTextBox_PreviewKeyDown($this, $eventargs)]" />
-                </StackPanel>
-            </StackPanel>
-        </Border>
+            </Border>
+        </StackPanel>
+        <StackPanel Style="{StaticResource InnerUserControlStackPanelStyle}">
+            <!--ToggleButton-->
+            <Border Style="{StaticResource CardBorderStyle}">
+                <Grid Style="{StaticResource CardControlGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                               Text="&#xF0E3;" />
+                    <StackPanel Grid.Column="1"
+                                VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                   Text="Clear the clipboard" />
+                        <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                   Text="Completely empties Reginald's clipboard manager" />
+                    </StackPanel>
+                    <ToggleButton Grid.Column="3"
+                                  IsChecked="{Binding DMS.Settings.IsClearClipboardEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource WindowsToggleButtonStyle}"
+                                  cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
+                </Grid>
+            </Border>
+        </StackPanel>
     </StackPanel>
 </UserControl>

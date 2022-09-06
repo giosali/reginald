@@ -18,6 +18,11 @@
             DMS.Settings.Save();
         }
 
+        public void Include_Click(object sender, RoutedEventArgs e)
+        {
+            DMS.Settings.Save();
+        }
+
         protected override Key GetKey()
         {
             return (Key)Enum.Parse(typeof(Key), DMS.Settings.ClipboardManagerKey);
