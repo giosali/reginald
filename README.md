@@ -1,11 +1,17 @@
 <h1 align="center">Reginald</h1>
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/reginald.png" width="150">
+	<img src="https://raw.githubusercontent.com/giosali/reginald/main/ext/logo.png" width="150">
 </p>
 
 <p align="center">
 	Reginald is an application launcher and general productivity application designed for Windows 10 and Windows 11.	
+</p>
+
+<p align="center">
+	<a href="https://github.com/giosali/reginald/releases">
+		<img src="https://img.shields.io/github/v/release/giosali/reginald" alt="Version">
+	</a>
 </p>
 
 <p align="center">
@@ -26,9 +32,6 @@
 	</a href="https://github.com/giosali/reginald/releases">
 	<a href="https://github.com/giosali/reginald/blob/main/LICENSE">
 		<img src="https://img.shields.io/github/license/giosali/reginald" alt="MIT License">
-	</a>
-	<a href="https://github.com/giosali/reginald/releases">
-		<img src="https://img.shields.io/github/v/release/giosali/reginald" alt="Version">
 	</a>
 	<a href="https://github.com/giosali/reginald/search?l=c%23">
 		<img src="https://img.shields.io/badge/c%23-%23239120.svg?style=flat&logo=c-sharp&logoColor=white" alt="C#">
