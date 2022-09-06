@@ -194,6 +194,35 @@
             }
         }
 
+        private static bool TryGetImage(out BitmapSource image)
+        {
+            image = null;
+            if (!Clipboard.ContainsImage())
+            {
+                return false;
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    image = Clipboard.GetImage();
+                    return true;
+                }
+                catch (COMException ex)
+                {
+                    if ((uint)ex.ErrorCode != ClipboardExceptionCantOpen)
+                    {
+                        throw;
+                    }
+
+                    Thread.Sleep(10);
+                }
+            }
+
+            return false;
+        }
+
         private static bool TryGetText(out string text)
         {
             text = null;
@@ -226,12 +255,19 @@
         private void OnClipboardChanged(object sender, EventArgs e)
         {
             // Prevents duplicate clipboard items.
-            if ((!TryGetText(out string text) || text == _clipboardItems.FirstOrDefault()?.Description) && !Clipboard.ContainsImage())
+            if (TryGetText(out string text) && text != _clipboardItems.FirstOrDefault()?.Description)
+            {
+                _clipboardItems.Insert(0, new ClipboardItem(text));
+            }
+            else if (TryGetImage(out BitmapSource image))
+            {
+                _clipboardItems.Insert(0, new ClipboardItem(image));
+            }
+            else
             {
                 return;
             }
 
-            _clipboardItems.Insert(0, text is null ? new ClipboardItem(Clipboard.GetImage()) : new ClipboardItem(text));
             if (_clipboardItems.Count > ClipboardLimit)
             {
                 _clipboardItems.RemoveAt(ClipboardLimit);
