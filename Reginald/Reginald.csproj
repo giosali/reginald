@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Remove="Reginald.ico" />
     <None Remove="Resources\Calculator.json" />
+    <None Remove="Resources\ClearClipboard.json" />
     <None Remove="Resources\MicrosoftSettings.json" />
     <None Remove="Resources\Quit.json" />
     <None Remove="Resources\Recycle.json" />
@@ -90,6 +91,9 @@
     </Resource>
     <Resource Include="Resources\Calculator.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ClearClipboard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\MicrosoftSettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

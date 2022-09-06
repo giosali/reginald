@@ -1,0 +1,9 @@
+{
+  "guid": "ea88eff5-763d-4940-a157-6a958bfa3aaf",
+  "name": "Clear Reginald's Clipboard Manager",
+  "key": "clear clipboard manager",
+  "iconPath": "57",
+  "description": "Clear clipboard manager",
+  "caption": "Clear the entirety of Reginald's clipboard manager",
+  "isEnabled": true
+}
