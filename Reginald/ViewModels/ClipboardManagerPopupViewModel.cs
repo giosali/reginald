@@ -10,6 +10,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using System.Windows.Media.Imaging;
     using Microsoft.Data.Sqlite;
     using Reginald.Core.IO;
     using Reginald.Models.Inputs;
@@ -37,6 +38,13 @@
             _clipboardItems.AddRange(ReadClipboardDatabase().Select(r => new ClipboardItem(r)));
             Items.AddRange(_clipboardItems);
             Items.CollectionChanged += OnCollectionChanged;
+        }
+
+        public void Clear()
+        {
+            _clipboardItems.Clear();
+            Items.Clear();
+            EmptyClipboardDatabase();
         }
 
         public void Item_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -218,7 +226,7 @@
         private void OnClipboardChanged(object sender, EventArgs e)
         {
             // Prevents duplicate clipboard items.
-            if ((!TryGetText(out string text) || text == _clipboardItems[0].Description) && !Clipboard.ContainsImage())
+            if ((!TryGetText(out string text) || text == _clipboardItems.FirstOrDefault()?.Description) && !Clipboard.ContainsImage())
             {
                 return;
             }
