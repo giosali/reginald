@@ -86,7 +86,7 @@
   {
     "guid": "a240f58c-63f5-4231-b522-43502baa4d7d",
     "name": "GitHub",
-    "key": "git",
+    "key": "github",
     "iconPath": "pack://application:,,,/Reginald;component/Images/github.png",
     "url": "",
     "urlFormat": "https://github.com/search?q={0}",
