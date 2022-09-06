@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_657152E2ADA743A3A5642F11D356CA03"
+        "MsmKey" = "8:_342E91396850406DBC045A3C3039DD2A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -127,7 +127,7 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_657152E2ADA743A3A5642F11D356CA03"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_342E91396850406DBC045A3C3039DD2A"
             {
             "SourcePath" = "8:..\\Reginald\\Reginald.ico"
             "TargetName" = "8:Reginald.ico"
@@ -335,7 +335,7 @@
             "Target" = "8:_8B4527A8495B418894E3D2377DA6A36E"
             "Folder" = "8:_25D1B2A6E27C4FCB84C6EC029CE33458"
             "WorkingFolder" = "8:_25D1B2A6E27C4FCB84C6EC029CE33458"
-            "Icon" = "8:_657152E2ADA743A3A5642F11D356CA03"
+            "Icon" = "8:_342E91396850406DBC045A3C3039DD2A"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2C5C2B4570284A59A676D36E1D726739"
@@ -349,7 +349,7 @@
             "Target" = "8:_8B4527A8495B418894E3D2377DA6A36E"
             "Folder" = "8:_B6563528EE72463B8FCDA025BC3140E7"
             "WorkingFolder" = "8:_B6563528EE72463B8FCDA025BC3140E7"
-            "Icon" = "8:_657152E2ADA743A3A5642F11D356CA03"
+            "Icon" = "8:_342E91396850406DBC045A3C3039DD2A"
             "Feature" = "8:"
             }
         }
