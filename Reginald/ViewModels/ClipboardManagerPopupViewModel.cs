@@ -111,9 +111,20 @@
             if (userInput.Length == 0)
             {
                 Items.AddRange(_clipboardItems);
+                return;
             }
 
-            Items.AddRange(_clipboardItems.Where(i => i.Description.Contains(userInput, StringComparison.OrdinalIgnoreCase)));
+            List<ClipboardItem> items = new();
+            for (int i = 0; i < _clipboardItems.Count; i++)
+            {
+                ClipboardItem item = _clipboardItems[i];
+                if (item.Description.IndexOf(userInput, StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    items.Add(item);
+                }
+            }
+
+            Items.AddRange(items);
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
