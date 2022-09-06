@@ -23,13 +23,25 @@
             DMS.Settings.Save();
         }
 
-        public void RestartButton_Click(object sender, RoutedEventArgs e) => ProcessUtility.RestartApplication();
+        public void RestartButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProcessUtility.RestartApplication();
+        }
 
-        public void ShutdownButton_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
+        public void ShutdownButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
 
-        protected override Key GetKey() => (Key)Enum.Parse(typeof(Key), DMS.Settings.MainKey);
+        protected override Key GetKey()
+        {
+            return (Key)Enum.Parse(typeof(Key), DMS.Settings.MainKey);
+        }
 
-        protected override ModifierKeys GetModifiers() => (ModifierKeys)Enum.Parse(typeof(ModifierKeys), DMS.Settings.MainModifiers);
+        protected override ModifierKeys GetModifiers()
+        {
+            return (ModifierKeys)Enum.Parse(typeof(ModifierKeys), DMS.Settings.MainModifiers);
+        }
 
         protected override void SaveHotkey(string key, string modifiers)
         {
