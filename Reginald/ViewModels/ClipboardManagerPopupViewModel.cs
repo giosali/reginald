@@ -217,19 +217,13 @@
 
         private void OnClipboardChanged(object sender, EventArgs e)
         {
-            if (Clipboard.ContainsImage())
-            {
-                _clipboardItems.Insert(0, new ClipboardItem(Clipboard.GetImage()));
-                return;
-            }
-
             // Prevents duplicate clipboard items.
-            if (!TryGetText(out string text) || text == _clipboardItems[0].Description)
+            if ((!TryGetText(out string text) || text == _clipboardItems[0].Description) && !Clipboard.ContainsImage())
             {
                 return;
             }
 
-            _clipboardItems.Insert(0, new ClipboardItem(text));
+            _clipboardItems.Insert(0, text is null ? new ClipboardItem(Clipboard.GetImage()) : new ClipboardItem(text));
             if (_clipboardItems.Count > ClipboardLimit)
             {
                 _clipboardItems.RemoveAt(ClipboardLimit);
