@@ -40,6 +40,9 @@
         [JsonProperty("disabledWebQueries")]
         public List<Guid> DisabledWebQueries { get; set; } = new();
 
+        [JsonProperty("isClearClipboardEnabled")]
+        public bool IsClearClipboardEnabled { get; set; } = true;
+
         [JsonProperty("isClipboardManagerEnabled")]
         public bool IsClipboardManagerEnabled { get; set; } = true;
 
