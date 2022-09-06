@@ -225,6 +225,10 @@
             calculator.IsEnabled = Settings.IsCalculatorEnabled;
             singleProducers.Add(calculator);
 
+            ClearClipboard clearClipboard = FileOperations.GetGenericDatum<ClearClipboard>("ClearClipboard.json", true);
+            clearClipboard.IsEnabled = Settings.IsClearClipboardEnabled;
+            singleProducers.Add(clearClipboard);
+
             Url url = FileOperations.GetGenericDatum<Url>("Url.json", true);
             url.IsEnabled = Settings.IsUrlEnabled;
             singleProducers.Add(url);
