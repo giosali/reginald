@@ -13,18 +13,20 @@
 
     internal class ShellViewModel : Conductor<object>
     {
-        private readonly ClipboardManagerPopupViewModel _clipboardManagerPopupViewModel = new();
+        private readonly ClipboardManagerPopupViewModel _cmpvm;
 
-        private readonly MainViewModel _mainViewModel = new();
+        private readonly MainViewModel _mvm;
 
         private readonly IWindowManager _windowManager;
 
         private bool _isEnabled = true;
 
-        public ShellViewModel(IWindowManager windowManager, DataModelService dms)
+        public ShellViewModel(IWindowManager windowManager, DataModelService dms, MainViewModel mvm, ClipboardManagerPopupViewModel cmpvm)
         {
             _windowManager = windowManager;
             DMS = dms;
+            _mvm = mvm;
+            _cmpvm = cmpvm;
 
             if (dms.Settings.RunAtStartup)
             {
@@ -59,9 +61,9 @@
                 return;
             }
 
-            if (_clipboardManagerPopupViewModel.IsActive)
+            if (_cmpvm.IsActive)
             {
-                _clipboardManagerPopupViewModel.Hide();
+                _cmpvm.Hide();
                 return;
             }
 
@@ -73,7 +75,7 @@
                 // when sending its handle a WM_NCLBUTTONDOWN message.
                 { "StaysOpen", true },
             };
-            await _windowManager.ShowPopupAsync(_clipboardManagerPopupViewModel, settings: settings);
+            await _windowManager.ShowPopupAsync(_cmpvm, settings: settings);
         }
 
         public async void MainHotkeyBinding_Pressed(object sender, HotkeyEventArgs e)
@@ -83,9 +85,9 @@
                 return;
             }
 
-            if (_mainViewModel.IsActive)
+            if (_mvm.IsActive)
             {
-                _mainViewModel.Hide();
+                _mvm.Hide();
                 return;
             }
 
@@ -95,7 +97,7 @@
                 { "HorizontalOffset", (SystemParameters.FullPrimaryScreenWidth / 2) - (DMS.Theme.MainWidth / 2) },
                 { "VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.325) - (DMS.Theme.MainHeight / 4) },
             };
-            await _windowManager.ShowPopupAsync(_mainViewModel, settings: settings);
+            await _windowManager.ShowPopupAsync(_mvm, settings: settings);
         }
 
         public async void MenuItem_Click(object sender, RoutedEventArgs e)

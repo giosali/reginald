@@ -31,6 +31,8 @@
                           .Singleton<IEventAggregator, EventAggregator>()
                           .Singleton<DataModelService>()
                           .Singleton<ObjectModelService>()
+                          .Singleton<MainViewModel>()
+                          .Singleton<ClipboardManagerPopupViewModel>()
                           .Singleton<ShellViewModel>()
                           .Singleton<SettingsViewModel>()
                           .Singleton<GeneralViewModel>()
