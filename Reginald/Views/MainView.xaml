@@ -213,6 +213,7 @@
     <Border BorderBrush="{Binding DMS.Theme.BorderBrush}"
             BorderThickness="{Binding DMS.Theme.BorderThickness}"
             CornerRadius="{Binding DMS.Theme.CornerRadius}"
+            FocusManager.FocusedElement="{Binding ElementName=textBox}"
             Opacity="{Binding BorderOpacity}"
             Style="{StaticResource BorderStyle}">
         <Grid>
@@ -220,7 +221,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBox Background="Transparent"
+            <TextBox x:Name="textBox"
+                     Background="Transparent"
                      BorderThickness="0"
                      CaretBrush="{Binding DMS.Theme.CaretBrush}"
                      FontSize="{Binding DMS.Theme.InputFontSize}"
@@ -235,7 +237,7 @@
                      VerticalContentAlignment="Center"
                      cal:Message.Attach="[Loaded] = [UserInput_Loaded($this, $eventargs)];
                                          [Unloaded] = [UserInput_Unloaded($source, $eventargs)];
-                                         [LayoutUpdated] = [UserInput_LayoutUpdated($source, $eventargs)];
+                                         [LostKeyboardFocus] = [UserInput_LostKeyboardFocus($source, $eventargs)];
                                          [TextChanged] = [UserInput_TextChanged($source, $eventargs)];
                                          [PreviewKeyDown] = [UserInput_PreviewKeyDown($source, $eventargs)];
                                          [PreviewKeyUp] = [UserInput_PreviewKeyUp($this, $eventargs)]" />

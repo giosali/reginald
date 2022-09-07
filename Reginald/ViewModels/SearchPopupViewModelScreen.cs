@@ -69,19 +69,15 @@
             }
         }
 
+        public void UserInput_LostKeyboardFocus(object sender, RoutedEventArgs e)
+        {
+            // Necessary for the textbox to retain focus.
+            Keyboard.Focus(sender as TextBox);
+        }
+
         public void UserInput_Unloaded(object sender, RoutedEventArgs e)
         {
             BindingOperations.ClearBinding(sender as TextBox, TextBox.TextProperty);
-        }
-
-        public void UserInput_LayoutUpdated(object sender, EventArgs e)
-        {
-            // Sets focus on the main textbox since, for some reason, the textbox loses focus
-            // some time between the textbox being loaded and the texbox's layout being updated
-            if (Keyboard.FocusedElement != sender)
-            {
-                Keyboard.Focus(sender as TextBox);
-            }
         }
 
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
