@@ -63,6 +63,25 @@
             SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
         }
 
+        public void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not MenuItem menuItem)
+            {
+                return;
+            }
+
+            switch (menuItem.Tag)
+            {
+                case "Delete":
+                    _ = _clipboardItems.Remove(SelectedItem);
+                    _ = Items.Remove(SelectedItem);
+                    EmptyClipboardDatabase();
+                    CreateClipboardDatabase();
+                    WriteToClipboardDatabase();
+                    break;
+            }
+        }
+
         /// <summary>
         /// Drags the view.
         /// </summary>

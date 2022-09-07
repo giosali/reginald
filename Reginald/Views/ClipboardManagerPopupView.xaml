@@ -304,7 +304,16 @@
                          VirtualizingStackPanel.VirtualizationMode="Recycling"
                          cal:Message.Attach="[Unloaded] = [Items_Unloaded($source, $eventargs)];
                                              [MouseLeave] = [Items_MouseLeave($this, $eventargs)];
-                                             [SelectionChanged] = [Items_SelectionChanged($source, $eventargs)]" />
+                                             [SelectionChanged] = [Items_SelectionChanged($source, $eventargs)]">
+                    <ListBox.ContextMenu>
+                        <ContextMenu Focusable="False">
+                            <MenuItem Focusable="False"
+                                      Header="Delete"
+                                      Tag="Delete"
+                                      cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
                 <!--Clipboard item viewer-->
                 <Border Grid.Column="2">
                     <Grid>
