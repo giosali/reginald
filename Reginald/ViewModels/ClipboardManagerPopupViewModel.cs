@@ -45,6 +45,7 @@
             _clipboardItems.Clear();
             Items.Clear();
             EmptyClipboardDatabase();
+            SelectedItem = null;
         }
 
         public void Item_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
