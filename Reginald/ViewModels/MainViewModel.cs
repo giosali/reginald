@@ -7,6 +7,7 @@
     using System.Windows.Input;
     using Caliburn.Micro;
     using Reginald.Core.Extensions;
+    using Reginald.Models.Inputs;
     using Reginald.Models.Products;
     using Reginald.Services;
 
@@ -83,7 +84,7 @@
                         break;
                     }
 
-                    Models.Inputs.InputProcessingEventArgs args = new();
+                    InputProcessingEventArgs args = new();
                     SelectedItem?.PressTab(args);
                     if (args.IsInputIncomplete)
                     {
@@ -96,7 +97,7 @@
 
                 case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:
                 {
-                    Models.Inputs.InputProcessingEventArgs args = new();
+                    InputProcessingEventArgs args = new();
                     SelectedItem?.PressAltAndEnter(args);
                     if (args.Handled)
                     {
@@ -119,7 +120,7 @@
 
                 case Key.Enter:
                 {
-                    Models.Inputs.InputProcessingEventArgs args = new();
+                    InputProcessingEventArgs args = new();
                     SelectedItem?.PressEnter(args);
                     if (args.IsInputIncomplete)
                     {
@@ -157,7 +158,7 @@
 
                 case Key.LeftAlt when !e.IsRepeat:
                 case Key.RightAlt when !e.IsRepeat:
-                    SelectedItem?.PressAlt(new Models.Inputs.InputProcessingEventArgs());
+                    SelectedItem?.PressAlt(new InputProcessingEventArgs());
                     e.Handled = true;
                     break;
             }
@@ -177,7 +178,7 @@
             {
                 case Key.LeftAlt:
                 case Key.RightAlt:
-                    SelectedItem?.ReleaseAlt(new Models.Inputs.InputProcessingEventArgs());
+                    SelectedItem?.ReleaseAlt(new InputProcessingEventArgs());
                     break;
             }
         }
