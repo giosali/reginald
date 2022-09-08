@@ -77,6 +77,10 @@
         public SolidColorBrush HighlightBrush { get; set; }
 
         [JsonConverter(typeof(SolidColorBrushConverter))]
+        [JsonProperty("inactiveBrush")]
+        public SolidColorBrush InactiveBrush { get; set; }
+
+        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("inputBrush")]
         public SolidColorBrush InputBrush { get; set; }
 

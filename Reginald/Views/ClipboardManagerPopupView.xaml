@@ -254,7 +254,7 @@
                               Width="12" />
                     </Border>
                     <!--Bar-->
-                    <Border Background="{Binding DMS.Theme.PlaceholderInputBrush}"
+                    <Border Background="{Binding DMS.Theme.InactiveBrush}"
                             CornerRadius="1.5"
                             Height="3"
                             HorizontalAlignment="Center"
@@ -354,7 +354,7 @@
                                Style="{StaticResource StandardClipboardItemImageStyle}" />
                         <!--Clipboard item info-->
                         <TextBlock FontSize="{Binding DMS.Theme.ClipboardDisplayFontSize}"
-                                   Foreground="{Binding DMS.Theme.PlaceholderInputBrush}"
+                                   Foreground="{Binding DMS.Theme.InactiveBrush}"
                                    Grid.Row="1"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
