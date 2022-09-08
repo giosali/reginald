@@ -19,7 +19,7 @@
             <local:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
             <!--DataTemplates-->
             <DataTemplate x:Key="ListBoxItemDataTemplate">
-                <Grid Margin="5 0"
+                <Grid Margin="{Binding DataContext.DMS.Theme.SearchResultMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                       VerticalAlignment="Center"
                       cal:Message.Attach="[MouseMove] = [Item_MouseMove($source, $eventargs)];
                                           [PreviewMouseLeftButtonUp] = [Item_PreviewMouseLeftButtonUp($source, $eventargs)]">

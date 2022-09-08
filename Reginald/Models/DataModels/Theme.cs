@@ -118,5 +118,8 @@
 
         [JsonProperty("selectionOpacity")]
         public double SelectionOpacity { get; set; }
+
+        [JsonProperty("searchResultMargin")]
+        public Thickness SearchResultMargin { get; set; }
     }
 }
