@@ -102,10 +102,6 @@
         public string Name { get; set; }
 
         [JsonConverter(typeof(SolidColorBrushConverter))]
-        [JsonProperty("placeholderInputBrush")]
-        public SolidColorBrush PlaceholderInputBrush { get; set; }
-
-        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("selectedCaptionBrush")]
         public SolidColorBrush SelectedCaptionBrush { get; set; }
 
