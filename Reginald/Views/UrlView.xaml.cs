@@ -3,11 +3,11 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for LinkView.xaml.
+    /// Interaction logic for UrlView.xaml.
     /// </summary>
-    public partial class LinkView : UserControl
+    public partial class UrlView : UserControl
     {
-        public LinkView()
+        public UrlView()
         {
             InitializeComponent();
         }

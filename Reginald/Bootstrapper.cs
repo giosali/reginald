@@ -45,7 +45,7 @@
                           .Singleton<YourWebQueriesViewModel>()
                           .Singleton<ApplicationsViewModel>()
                           .Singleton<CalculatorViewModel>()
-                          .Singleton<LinkViewModel>()
+                          .Singleton<UrlViewModel>()
                           .Singleton<MicrosoftSettingsViewModel>()
                           .Singleton<TimerViewModel>()
                           .Singleton<RecycleViewModel>()

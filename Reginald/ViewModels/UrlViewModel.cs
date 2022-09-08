@@ -2,10 +2,10 @@
 {
     using Reginald.Services;
 
-    internal class LinkViewModel : ItemScreen
+    internal class UrlViewModel : ItemScreen
     {
-        public LinkViewModel(DataModelService dms)
-            : base("Features > Link")
+        public UrlViewModel(DataModelService dms)
+            : base("Features > URLs")
         {
             DataModelService = dms;
         }
