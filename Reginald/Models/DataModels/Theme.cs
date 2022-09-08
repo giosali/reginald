@@ -86,6 +86,9 @@
         [JsonProperty("inputFontWeight")]
         public FontWeight InputFontWeight { get; set; }
 
+        [JsonProperty("inputPadding")]
+        public Thickness InputPadding { get; set; }
+
         [JsonProperty("isAcrylicEnabled")]
         public bool IsAcrylicEnabled { get; set; }
 

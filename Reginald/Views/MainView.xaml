@@ -241,7 +241,7 @@
                      Foreground="{Binding DMS.Theme.InputBrush}"
                      Grid.Row="0"
                      Height="65"
-                     Padding="10 0"
+                     Padding="{Binding DMS.Theme.InputPaddingThickness}"
                      SelectionBrush="{Binding DMS.Theme.SelectionBrush}"
                      SelectionOpacity="{Binding DMS.Theme.SelectionOpacity}"
                      Text="{Binding UserInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
