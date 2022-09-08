@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <!--Converters-->
+            <local:BorderClipMultiConverter x:Key="BorderClipMultiConverter" />
             <local:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
             <!--DataTemplates-->
             <DataTemplate x:Key="ListBoxItemDataTemplate">
@@ -216,6 +217,16 @@
             FocusManager.FocusedElement="{Binding ElementName=textBox}"
             Opacity="{Binding BorderOpacity}"
             Style="{StaticResource BorderStyle}">
+        <Border.Clip>
+            <MultiBinding Converter="{StaticResource BorderClipMultiConverter}">
+                <Binding Path="ActualWidth"
+                         RelativeSource="{RelativeSource Self}" />
+                <Binding Path="ActualHeight"
+                         RelativeSource="{RelativeSource Self}" />
+                <Binding Path="CornerRadius"
+                         RelativeSource="{RelativeSource Self}" />
+            </MultiBinding>
+        </Border.Clip>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
