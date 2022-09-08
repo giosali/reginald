@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <!--Converters-->
+            <local:BorderClipMultiConverter x:Key="BorderClipMultiConverter" />
             <local:BrushToStringConverter x:Key="BrushToStringConverter" />
             <local:ClipboardItemDescriptionConverter x:Key="ClipboardItemDescriptionConverter" />
             <local:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
@@ -222,6 +223,16 @@
             FocusManager.FocusedElement="{Binding ElementName=textBox}"
             Opacity="{Binding BorderOpacity}"
             Style="{StaticResource BorderStyle}">
+        <Border.Clip>
+            <MultiBinding Converter="{StaticResource BorderClipMultiConverter}">
+                <Binding Path="ActualWidth"
+                         RelativeSource="{RelativeSource Self}" />
+                <Binding Path="ActualHeight"
+                         RelativeSource="{RelativeSource Self}" />
+                <Binding Path="CornerRadius"
+                         RelativeSource="{RelativeSource Self}" />
+            </MultiBinding>
+        </Border.Clip>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25" />
@@ -232,7 +243,7 @@
             <Border Background="Transparent"
                     Grid.Row="0"
                     cal:Message.Attach="[PreviewMouseLeftButtonDown] = [Menu_PreviewMouseLeftButtonDown($this, $eventargs)];">
-                <DockPanel Margin="5 0">
+                <DockPanel Margin="{Binding DMS.Theme.ClipboardDockPanelPadding}">
                     <!--Keeps popup bar centered-->
                     <Border DockPanel.Dock="Left"
                             Height="{Binding ActualHeight, ElementName=closeBorder, UpdateSourceTrigger=PropertyChanged}"

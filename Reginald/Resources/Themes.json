@@ -34,7 +34,8 @@
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
-    "clipboardDisplayFontSize": 10
+    "clipboardDisplayFontSize": 10,
+    "clipboardDockPanelPadding": "5.0, 0"
   },
   {
     "name": "Standard White",
@@ -71,7 +72,8 @@
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
-    "clipboardDisplayFontSize": 10
+    "clipboardDisplayFontSize": 10,
+    "clipboardDockPanelPadding": "5.0, 0"
   },
   {
     "name": "Acrylic Dark",
@@ -108,7 +110,8 @@
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
-    "clipboardDisplayFontSize": 10
+    "clipboardDisplayFontSize": 10,
+    "clipboardDockPanelPadding": "5.0, 0"
   },
   {
     "name": "Acrylic Light",
@@ -145,6 +148,7 @@
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
-    "clipboardDisplayFontSize": 10
+    "clipboardDisplayFontSize": 10,
+    "clipboardDockPanelPadding": "5.0, 0"
   }
 ]

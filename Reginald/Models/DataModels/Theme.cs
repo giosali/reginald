@@ -50,6 +50,9 @@
         [JsonProperty("clipboardItemFontSize")]
         public double ClipboardItemFontSize { get; set; }
 
+        [JsonProperty("clipboardDockPanelPadding")]
+        public Thickness ClipboardDockPanelPadding { get; set; }
+
         [JsonProperty("clipboardWidth")]
         public double ClipboardWidth { get; set; }
 
