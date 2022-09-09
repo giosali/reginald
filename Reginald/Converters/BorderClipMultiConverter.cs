@@ -1,4 +1,4 @@
-namespace Reginald.Converters
+﻿namespace Reginald.Converters
 {
     using System;
     using System.Globalization;
@@ -44,6 +44,6 @@ namespace Reginald.Converters
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
-        }       
+        }
     }
 }
