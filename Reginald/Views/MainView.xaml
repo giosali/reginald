@@ -149,16 +149,6 @@
                 </Style.Triggers>
             </Style>
 
-            <Style x:Key="UserInputTextBoxStyle"
-                   TargetType="{x:Type TextBox}">
-                <Style.Setters>
-                    <Setter Property="Foreground"
-                            Value="{Binding DMS.Theme.InputBrush}" />
-                    <Setter Property="CaretBrush"
-                            Value="{Binding DMS.Theme.CaretBrush}" />
-                </Style.Setters>
-            </Style>
-
             <Style x:Key="ListBoxStyle"
                    BasedOn="{StaticResource {x:Type ListBox}}"
                    TargetType="{x:Type ListBox}">
