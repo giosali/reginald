@@ -128,5 +128,18 @@
 
         [JsonProperty("searchResultMargin")]
         public Thickness SearchResultMargin { get; set; }
+
+        [JsonConverter(typeof(SolidColorBrushConverter))]
+        [JsonProperty("separatorBrush")]
+        public SolidColorBrush SeparatorBrush { get; set; }
+
+        [JsonProperty("separatorHeight")]
+        public double SeparatorHeight { get; set; }
+
+        [JsonProperty("separatorMargin")]
+        public Thickness SeparatorMargin { get; set; }
+
+        [JsonProperty("separatorWidth")]
+        public double SeparatorWidth { get; set; }
     }
 }

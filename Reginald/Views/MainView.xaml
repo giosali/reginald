@@ -198,6 +198,17 @@
                     </MultiDataTrigger>
                 </Style.Triggers>
             </Style>
+
+            <Style x:Key="SeparatorBorderStyle"
+                   TargetType="{x:Type Border}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Items.Count, ElementName=listBox}"
+                                 Value="0">
+                        <Setter Property="Visibility"
+                                Value="Collapsed" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -221,6 +232,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBox x:Name="textBox"
                      Background="Transparent"
@@ -242,9 +254,16 @@
                                          [TextChanged] = [UserInput_TextChanged($source, $eventargs)];
                                          [PreviewKeyDown] = [UserInput_PreviewKeyDown($source, $eventargs)];
                                          [PreviewKeyUp] = [UserInput_PreviewKeyUp($this, $eventargs)]" />
-            <ListBox Background="Transparent"
+            <Border Background="{Binding DMS.Theme.SeparatorBrush}"
+                    Grid.Row="1"
+                    Height="{Binding DMS.Theme.SeparatorHeight}"
+                    Margin="{Binding DMS.Theme.SeparatorMargin}"
+                    Style="{StaticResource SeparatorBorderStyle}"
+                    Width="{Binding DMS.Theme.SeparatorWidth}" />
+            <ListBox x:Name="listBox"
+                     Background="Transparent"
                      BorderThickness="0"
-                     Grid.Row="1"
+                     Grid.Row="2"
                      ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
                      ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
                      ItemsSource="{Binding Items}"
