@@ -8,7 +8,7 @@
     {
         private const string Ellipsis = "...";
 
-        public static bool TryParse(string expression, out string result)
+        public static bool TryParse(string expression, string decimalSeparator, out string result)
         {
             // [Guard]
             // Returns false if the expression is null or empty
@@ -19,7 +19,7 @@
                 return false;
             }
 
-            if (!TryParseInfixExpression(expression.Replace(" ", string.Empty), out string postFixExpression) && postFixExpression is null)
+            if (!TryParseInfixExpression(expression.Replace(" ", string.Empty), decimalSeparator, out string postFixExpression) && postFixExpression is null)
             {
                 result = null;
                 return false;
@@ -34,7 +34,7 @@
             return TryParsePostfixExpression(postFixExpression, out result);
         }
 
-        private static bool TryParseInfixExpression(string expression, out string postFixExpression)
+        private static bool TryParseInfixExpression(string expression, string decimalSeparator, out string postFixExpression)
         {
             postFixExpression = null;
 
@@ -44,8 +44,9 @@
             // -- the subtraction operator
             // -- the left parenthesis
             // -- the decimal point
+            char decSep = decimalSeparator[0];
             char fCh = expression[0];
-            if (!char.IsDigit(fCh) && fCh != '-' && fCh != '−' && fCh != '(' && fCh != '.')
+            if (!char.IsDigit(fCh) && fCh != '-' && fCh != '−' && fCh != '(' && fCh != decSep)
             {
                 return false;
             }
@@ -61,12 +62,18 @@
                 switch (token)
                 {
                     case >= '0' and <= '9':
+                    case ',':
                     case '.':
+                        if (!char.IsDigit(token) && token != decSep)
+                        {
+                            return false;
+                        }
+
                         // Exits if the previous token is an exponentiation operator
                         // and if the current token is a decimal point
                         // or if the previous token
                         // and the current token are both the decimal point.
-                        if ((previousToken == '^' && token == '.') || (previousToken == '.' && token == '.'))
+                        if ((previousToken == '^' && token == decSep) || (previousToken == decSep && token == decSep))
                         {
                             postFixExpression = Ellipsis;
                             return false;
@@ -125,7 +132,7 @@
                         // Exits if the current token is a decimal point
                         // and the previous token isn't a number
                         // and we're at the end of the expression.
-                        if (token == '.' && !char.IsDigit(previousToken) && i == expression.Length - 1)
+                        if (token == decSep && !char.IsDigit(previousToken) && i == expression.Length - 1)
                         {
                             postFixExpression = Ellipsis;
                             return false;
@@ -172,7 +179,7 @@
                         // [Guard]
                         // Exits if there is a factorial containing a decimal
                         // or if the previous token is an exponentiation operator.
-                        if (n.Contains('.') || previousToken == '^')
+                        if (n.Contains(decSep) || previousToken == '^')
                         {
                             postFixExpression = Ellipsis;
                             return false;

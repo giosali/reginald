@@ -1,16 +1,19 @@
 ﻿namespace Reginald.Models.DataModels
 {
     using System;
-    using System.Threading;
     using System.Windows;
+    using Caliburn.Micro;
     using Newtonsoft.Json;
     using Reginald.Core.Math;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
+    using Reginald.Services;
 
     public class Calculator : DataModel, ISingleProducer<SearchResult>
     {
+        private static readonly DataModelService _dms = IoC.Get<DataModelService>();
+
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }
 
@@ -21,7 +24,7 @@
                 return false;
             }
 
-            if (!ShuntingYardAlgorithm.TryParse(input, out string result) && result is null)
+            if (!ShuntingYardAlgorithm.TryParse(input, _dms.Settings.DecimalSeparator, out string result) && result is null)
             {
                 return false;
             }
@@ -59,7 +62,7 @@
                 return;
             }
 
-            string decSep = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            char decSep = _dms.Settings.DecimalSeparator[0];
             string mantissaStr = mantissa.ToString();
             int decSepIndex = mantissaStr.IndexOf(decSep);
             result.Description = integer.ToString("N0") + (decSepIndex == -1 ? string.Empty : decSep + mantissaStr[(decSepIndex + 1)..]);
