@@ -1,5 +1,7 @@
 ﻿namespace Reginald.Models.DataModels
 {
+    using System;
+    using System.Threading;
     using System.Windows;
     using Newtonsoft.Json;
     using Reginald.Core.Math;
@@ -39,24 +41,28 @@
 
         private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            if (!double.TryParse(Description, out double n))
-            {
-                return;
-            }
-
             if (sender is not SearchResult result)
             {
                 return;
             }
 
-            string withCommas = n.ToString("N0");
-            int index = Description.IndexOf('.');
-            if (index != -1)
+            if (!decimal.TryParse(Description, out decimal n))
             {
-                withCommas += Description[(index - 1)..];
+                return;
             }
 
-            result.Description = withCommas;
+            decimal integer = Math.Truncate(n);
+            decimal mantissa = n - integer;
+            if (mantissa == 0)
+            {
+                result.Description = integer.ToString("N0");
+                return;
+            }
+
+            string decSep = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            string mantissaStr = mantissa.ToString();
+            int decSepIndex = mantissaStr.IndexOf(decSep);
+            result.Description = integer.ToString("N0") + (decSepIndex == -1 ? string.Empty : decSep + mantissaStr[(decSepIndex + 1)..]);
         }
 
         private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
