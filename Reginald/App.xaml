@@ -25,6 +25,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/Controls/Grid.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/Controls/Hyperlink.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/Controls/ListBoxItem.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/Controls/RadioButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/Controls/ScrollBar.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/Controls/ScrollViewer.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Reginald;component/Styles/Controls/StackPanel.xaml"/>
