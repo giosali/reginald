@@ -2,13 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text;
 
     public static class ShuntingYardAlgorithm
     {
         private const string Ellipsis = "...";
 
-        public static bool TryParse(string expression, string decimalSeparator, out string result)
+        public static bool TryParse(string expression, char decimalSeparator, out string result)
         {
             // [Guard]
             // Returns false if the expression is null or empty
@@ -31,10 +32,10 @@
                 return false;
             }
 
-            return TryParsePostfixExpression(postFixExpression, out result);
+            return TryParsePostfixExpression(postFixExpression, decimalSeparator.ToString(), out result);
         }
 
-        private static bool TryParseInfixExpression(string expression, string decimalSeparator, out string postFixExpression)
+        private static bool TryParseInfixExpression(string expression, char decimalSeparator, out string postFixExpression)
         {
             postFixExpression = null;
 
@@ -44,9 +45,8 @@
             // -- the subtraction operator
             // -- the left parenthesis
             // -- the decimal point
-            char decSep = decimalSeparator[0];
             char fCh = expression[0];
-            if (!char.IsDigit(fCh) && fCh != '-' && fCh != '−' && fCh != '(' && fCh != decSep)
+            if (!char.IsDigit(fCh) && fCh != '-' && fCh != '−' && fCh != '(' && fCh != decimalSeparator)
             {
                 return false;
             }
@@ -64,7 +64,7 @@
                     case >= '0' and <= '9':
                     case ',':
                     case '.':
-                        if (!char.IsDigit(token) && token != decSep)
+                        if (!char.IsDigit(token) && token != decimalSeparator)
                         {
                             return false;
                         }
@@ -73,7 +73,7 @@
                         // and if the current token is a decimal point
                         // or if the previous token
                         // and the current token are both the decimal point.
-                        if ((previousToken == '^' && token == decSep) || (previousToken == decSep && token == decSep))
+                        if ((previousToken == '^' && token == decimalSeparator) || (previousToken == decimalSeparator && token == decimalSeparator))
                         {
                             postFixExpression = Ellipsis;
                             return false;
@@ -132,7 +132,7 @@
                         // Exits if the current token is a decimal point
                         // and the previous token isn't a number
                         // and we're at the end of the expression.
-                        if (token == decSep && !char.IsDigit(previousToken) && i == expression.Length - 1)
+                        if (token == decimalSeparator && !char.IsDigit(previousToken) && i == expression.Length - 1)
                         {
                             postFixExpression = Ellipsis;
                             return false;
@@ -179,7 +179,7 @@
                         // [Guard]
                         // Exits if there is a factorial containing a decimal
                         // or if the previous token is an exponentiation operator.
-                        if (n.Contains(decSep) || previousToken == '^')
+                        if (n.Contains(decimalSeparator) || previousToken == '^')
                         {
                             postFixExpression = Ellipsis;
                             return false;
@@ -221,7 +221,7 @@
             }
         }
 
-        private static bool TryParsePostfixExpression(string expression, out string result)
+        private static bool TryParsePostfixExpression(string expression, string decimalSeparator, out string result)
         {
             result = "...";
             Stack<double> nums = new();
@@ -229,7 +229,7 @@
             for (int i = 0; i < subs.Length; i++)
             {
                 string sub = subs[i];
-                if (double.TryParse(sub, out double num))
+                if (double.TryParse(sub, NumberStyles.AllowThousands | NumberStyles.Float, new NumberFormatInfo() { NumberDecimalSeparator = decimalSeparator }, out double num))
                 {
                     nums.Push(num);
                     continue;

@@ -131,7 +131,7 @@
         [TestCase("34 * 3 + 2 / 2 - (5 + 2)", "96")]
         public void TryParse_WhenGivenValidMathExpression_ShouldReturnCorrectResult(string expression, string expected)
         {
-            bool success = ShuntingYardAlgorithm.TryParse(expression, ".", out string actual);
+            bool success = ShuntingYardAlgorithm.TryParse(expression, '.', out string actual);
             Assert.True(success);
             Assert.AreEqual(expected, actual);
         }
@@ -157,7 +157,7 @@
         [Parallelizable(ParallelScope.All)]
         public void TryParse_WhenGivenInvalidMathExpression_ShouldReturnNull(string expression)
         {
-            bool success = ShuntingYardAlgorithm.TryParse(expression, ".", out string actual);
+            bool success = ShuntingYardAlgorithm.TryParse(expression, '.', out string actual);
             Assert.False(success);
             Assert.Null(actual);
         }
@@ -189,7 +189,7 @@
         [Parallelizable(ParallelScope.All)]
         public void TryParse_WhenGivenImproperMathExpression_ShouldReturnEllipsis(string expression)
         {
-            bool success = ShuntingYardAlgorithm.TryParse(expression, ".", out string actual);
+            bool success = ShuntingYardAlgorithm.TryParse(expression, '.', out string actual);
             Assert.False(success);
             Assert.AreEqual("...", actual);
         }
