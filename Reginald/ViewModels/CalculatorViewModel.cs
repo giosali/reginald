@@ -16,7 +16,7 @@
         public CalculatorViewModel(DataModelService dms)
             : base("Features > Calculator")
         {
-            DataModelService = dms;
+            DMS = dms;
             switch (dms.Settings.DecimalSeparator)
             {
                 case '\0':
@@ -31,7 +31,7 @@
             }
         }
 
-        public DataModelService DataModelService { get; set; }
+        public DataModelService DMS { get; set; }
 
         public bool IsCommaChecked
         {
@@ -70,8 +70,8 @@
                 return;
             }
 
-            DataModelService.Settings.DecimalSeparator = tag.Length == 1 ? tag[0] : (char)int.Parse(tag, NumberStyles.AllowHexSpecifier);
-            DataModelService.Settings.Save();
+            DMS.Settings.DecimalSeparator = tag.Length == 1 ? tag[0] : (char)int.Parse(tag, NumberStyles.AllowHexSpecifier);
+            DMS.Settings.Save();
         }
     }
 }
