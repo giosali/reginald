@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
@@ -33,7 +32,7 @@
         public string ClipboardManagerModifiers { get; set; } = "Alt, Shift";
 
         [JsonProperty("decimalSeparator")]
-        public string DecimalSeparator { get; set; } = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+        public char DecimalSeparator { get; set; } = '\0';
 
         [JsonProperty("defaultWebQueries")]
         public Guid[] DefaultWebQueries { get; set; } = new[] { new Guid("2088a843-cf3f-4bc3-8995-6762d46e4462"), new Guid("125a4696-b458-400c-80db-b167f8ec5632"), new Guid("35af0718-e3c2-4a40-bf32-a96ebc780171") };
