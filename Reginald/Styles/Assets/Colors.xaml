@@ -4,4 +4,6 @@
     <Color x:Key="ApplicationSecondaryBackgroundColor">#1C1C1E</Color>
     <Color x:Key="HighlightColor">#2C2C2E</Color>
     <Color x:Key="InnerSideMenuColor">White</Color>
+    <Color x:Key="SecondaryColor">#8D8D93</Color>
+    <Color x:Key="TertiaryColor">#47474A</Color>
 </ResourceDictionary>
