@@ -1,6 +1,7 @@
 ﻿namespace Reginald.Models.DataModels
 {
     using System;
+    using System.Threading;
     using System.Windows;
     using Caliburn.Micro;
     using Newtonsoft.Json;
@@ -24,7 +25,13 @@
                 return false;
             }
 
-            if (!ShuntingYardAlgorithm.TryParse(input, _dms.Settings.DecimalSeparator, out string result) && result is null)
+            char decSep = _dms.Settings.DecimalSeparator;
+            if (decSep == '\0')
+            {
+                decSep = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
+            }
+
+            if (!ShuntingYardAlgorithm.TryParse(input, decSep, out string result) && result is null)
             {
                 return false;
             }
@@ -62,7 +69,12 @@
                 return;
             }
 
-            char decSep = _dms.Settings.DecimalSeparator[0];
+            char decSep = _dms.Settings.DecimalSeparator;
+            if (decSep == '\0')
+            {
+                decSep = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
+            }
+
             string mantissaStr = mantissa.ToString();
             int decSepIndex = mantissaStr.IndexOf(decSep);
             result.Description = integer.ToString("N0") + (decSepIndex == -1 ? string.Empty : decSep + mantissaStr[(decSepIndex + 1)..]);
