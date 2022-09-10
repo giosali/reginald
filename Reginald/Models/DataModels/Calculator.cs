@@ -51,12 +51,7 @@
 
         private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            if (sender is not SearchResult result)
-            {
-                return;
-            }
-
-            if (!decimal.TryParse(Description, out decimal n))
+            if (sender is not SearchResult result || !decimal.TryParse(Description, out decimal n))
             {
                 return;
             }
