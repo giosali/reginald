@@ -131,7 +131,7 @@
 
         private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            if (sender is not SearchResult result)
+            if (sender is not SearchResult result || string.IsNullOrEmpty(AltDescription))
             {
                 return;
             }
@@ -141,7 +141,7 @@
 
         private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
         {
-            if (sender is not SearchResult result)
+            if (sender is not SearchResult result || string.IsNullOrEmpty(AltDescription))
             {
                 return;
             }
