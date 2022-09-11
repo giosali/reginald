@@ -45,8 +45,7 @@
                                    Margin="0"
                                    Padding="0"
                                    Text="{Binding Description}"
-                                   TextTrimming="CharacterEllipsis"
-                                   TextWrapping="NoWrap">
+                                   TextTrimming="CharacterEllipsis">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Style.Triggers>
@@ -68,7 +67,8 @@
                                    FontWeight="{Binding DataContext.DMS.Theme.DescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                    Margin="0"
                                    Padding="0"
-                                   Text="{Binding Caption}">
+                                   Text="{Binding Caption}"
+                                   TextTrimming="CharacterEllipsis">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Style.Triggers>
