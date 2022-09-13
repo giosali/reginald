@@ -22,6 +22,11 @@
         /// <returns><see langword="true"/> if <paramref name="str"/> occurs at the beginning of this string or at the beginning of a word in this string; otherwise, <see langword="false"/>.</returns>
         public static bool ContainsPhrase(this string str, string phrase)
         {
+            if (str is null)
+            {
+                return false;
+            }
+
             int index = 0;
             while (true)
             {
