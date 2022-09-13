@@ -14,18 +14,35 @@
 
         private static readonly HashSet<string> _topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Returns a value indicating whether a specified substring occurs at the beginning of this string or at the beginning of a word in this string.
+        /// </summary>
+        /// <param name="str">The string to be evaluated.</param>
+        /// <param name="phrase">The string to seek.</param>
+        /// <returns><see langword="true"/> if <paramref name="str"/> occurs at the beginning of this string or at the beginning of a word in this string; otherwise, <see langword="false"/>.</returns>
         public static bool ContainsPhrase(this string str, string phrase)
         {
-            int index = str.IndexOf(phrase, StringComparison.OrdinalIgnoreCase);
-            if (index == -1)
+            int index = 0;
+            while (true)
             {
-                return false;
+                index = str.IndexOf(phrase, index, StringComparison.OrdinalIgnoreCase);
+                if (index == -1)
+                {
+                    return false;
+                }
+
+                // Continues if the index isn't the beginning of the string
+                // and if the character before the index isn't a space.
+                if (index != 0 && str[index - 1] != ' ')
+                {
+                    index++;
+                    continue;
+                }
+
+                break;
             }
 
-            // Returns false if the index isn't the beginning of str
-            // and if the character before the index isn't a space;
-            // otherwise, true.
-            return index != 0 && str[index - 1] != ' ' ? false : true;
+            return true;
         }
 
         /// <summary>
@@ -196,6 +213,13 @@
             return expression.StartsWith("https://", comparison) || expression.StartsWith("http://", comparison);
         }
 
+        /// <summary>
+        /// Attempts to return the element at a specified index in a string.
+        /// </summary>
+        /// <param name="str">A string to return an element from..</param>
+        /// <param name="index">The zero-based index of the element to retrieve.</param>
+        /// <param name="index">When this method returns, contains the character at the specified index in the string, or the default value of <see cref="char"/>.</param>
+        /// <returns><see langword="true"/> if the element was successfully retrieved; otherwise, <see langword="false"/>.</returns>
         public static bool TryElementAt(this string str, int index, out char ch)
         {
             if (str is null || index >= str.Length || index < 0)
