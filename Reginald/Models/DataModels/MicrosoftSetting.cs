@@ -99,13 +99,7 @@
                 return false;
             }
 
-            int index = Key.IndexOf(input, StringComparison.OrdinalIgnoreCase);
-            if (index == -1)
-            {
-                return false;
-            }
-
-            return index == 0 || Key[index - 1] == ' ';
+            return Key.ContainsPhrase(input);
         }
 
         public SearchResult Produce()
