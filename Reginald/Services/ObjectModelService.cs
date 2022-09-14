@@ -49,6 +49,7 @@
             fsWatcher.EnableRaisingEvents = true;
             _fileSystemWatchers = new FileSystemWatcher[] { fsWatcher };
             Thread th = new(SetFileSystemEntries);
+            th.IsBackground = true;
             th.Start();
         }
 
