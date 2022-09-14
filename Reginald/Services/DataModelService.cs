@@ -51,6 +51,8 @@
 
         public IEnumerable<WebQuery> DefaultWebQueries { get; private set; }
 
+        public FileSystemEntrySearch FileSystemEntrySearch { get; private set; }
+
         public IMultipleProducer<SearchResult>[] MultipleProducers { get; private set; }
 
         public Settings Settings { get; private set; }
@@ -237,6 +239,8 @@
             {
                 singleProducers.AddRange(FileOperations.GetGenericData<MicrosoftSetting>("MicrosoftSettings.json", true));
             }
+
+            FileSystemEntrySearch = FileOperations.GetGenericDatum<FileSystemEntrySearch>("FileSystemEntrySearch.json", true);
 
             SingleProducers = singleProducers.ToArray();
         }
