@@ -3,11 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows.Controls;
     using System.Windows.Input;
     using Caliburn.Micro;
     using Reginald.Core.Extensions;
     using Reginald.Models.Inputs;
+    using Reginald.Models.ObjectModels;
     using Reginald.Models.Products;
     using Reginald.Services;
 
@@ -15,35 +18,91 @@
     {
         private readonly ObjectModelService _oms;
 
+        private CancellationTokenSource _cts = new();
+
         public MainViewModel()
         {
             _oms = IoC.Get<ObjectModelService>();
         }
 
-        public void UserInput_TextChanged(object sender, TextChangedEventArgs e)
+        public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Items.Clear();
+            _cts.Cancel();
+            _cts = new();
             IsMouseOverChanged = false;
             MousePosition = default;
 
             string userInput = UserInput;
             if (userInput.Length == 0)
             {
+                // Removes ListBox flickering when it's cleared at this point.
+                Items.Clear();
                 return;
             }
 
             List<SearchResult> items = new();
-            items.AddRange(_oms.SingleProducers
-                               .Where(sp => sp.Check(userInput))
-                               .Select(sp => sp.Produce())
-                               .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
-                               .ThenBy(sp => sp.Description));
-            items.AddRange(DMS.SingleProducers
-                              .Where(sp => sp.Check(userInput))
-                              .Select(sp => sp.Produce()));
-            items.AddRange(DMS.MultipleProducers
-                              .Where(mp => mp.Check(userInput))
-                              .SelectMany(mp => mp.Produce()));
+            CancellationToken token = _cts.Token;
+            await Task.Run(
+                () =>
+                {
+                List<SearchResult> items = new();
+                if (DMS.FileSystemEntrySearch.Check(userInput))
+                {
+                    do
+                    {
+                        if (userInput.Length == DMS.FileSystemEntrySearch.Key.Length)
+                        {
+                            items.Add(DMS.FileSystemEntrySearch.Produce());
+                            break;
+                        }
+
+                        string fsQuery = userInput[1..];
+                        if (fsQuery.Length == 0)
+                        {
+                            break;
+                        }
+
+                        int count = 0;
+                        foreach (FileSystemEntry entry in _oms.FileSystemEntries.Values)
+                        {
+                            if (count == 10 || token.IsCancellationRequested)
+                            {
+                                break;
+                            }
+
+                            if (entry.Check(fsQuery))
+                            {
+                                items.Add(entry.Produce());
+                                count++;
+                            }
+                        }
+                    }
+                    while (false);
+                }
+                else
+                {
+                    items.AddRange(_oms.SingleProducers
+                                       .Where(sp => sp.Check(userInput))
+                                       .Select(sp => sp.Produce())
+                                       .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
+                                       .ThenBy(sp => sp.Description));
+                    items.AddRange(DMS.SingleProducers
+                                      .Where(sp => sp.Check(userInput))
+                                      .Select(sp => sp.Produce()));
+                    items.AddRange(DMS.MultipleProducers
+                                      .Where(mp => mp.Check(userInput))
+                                      .SelectMany(mp => mp.Produce()));
+                }
+                },
+                token);
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            // Removes ListBox flickering when it's cleared at this point.
+            Items.Clear();
+
             if (items.Count == 0)
             {
                 Items.AddRange(DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)));
