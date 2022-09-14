@@ -1,0 +1,9 @@
+{
+  "guid": "8d1ad30b-50db-40d2-8dd4-12d29fd1ba72",
+  "name": "File System Entry Search",
+  "key": "/",
+  "iconPath": "22",
+  "description": "Search for...",
+  "caption": "Search for files on your PC",
+  "isEnabled": true
+}
