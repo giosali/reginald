@@ -116,7 +116,7 @@
         public SolidColorBrush SelectedCaptionBrush { get; set; }
 
         [JsonConverter(typeof(SolidColorBrushConverter))]
-        [JsonProperty("SelectedDescriptionBrush")]
+        [JsonProperty("selectedDescriptionBrush")]
         public SolidColorBrush SelectedDescriptionBrush { get; set; }
 
         [JsonConverter(typeof(SolidColorBrushConverter))]
