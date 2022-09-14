@@ -1,6 +1,7 @@
 ﻿namespace Reginald.Models.DataModels
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
     using Newtonsoft.Json;
@@ -11,7 +12,7 @@
 
     public class Quit : DataModel, IMultipleProducer<SearchResult>
     {
-        private static Dictionary<int, int> _processIds = new();
+        private static readonly ConcurrentDictionary<int, int> _processIds = new();
 
         private string _keyInput;
 
@@ -88,14 +89,12 @@
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            int hashCode = sender.GetHashCode();
-            if (!_processIds.TryGetValue(hashCode, out int processId))
+            if (!_processIds.TryRemove(sender.GetHashCode(), out int processId))
             {
                 return;
             }
 
             ProcessUtility.QuitProcessById(processId);
-            _processIds.Remove(hashCode);
             e.Handled = true;
         }
     }
