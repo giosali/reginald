@@ -45,7 +45,6 @@
             await Task.Run(
                 () =>
                 {
-                List<SearchResult> items = new();
                 if (DMS.FileSystemEntrySearch.Check(userInput))
                 {
                     do
@@ -93,8 +92,7 @@
                                       .Where(mp => mp.Check(userInput))
                                       .SelectMany(mp => mp.Produce()));
                 }
-                },
-                token);
+                });
             if (token.IsCancellationRequested)
             {
                 return;
@@ -103,14 +101,7 @@
             // Removes ListBox flickering when it's cleared at this point.
             Items.Clear();
 
-            if (items.Count == 0)
-            {
-                Items.AddRange(DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)));
-            }
-            else
-            {
-                Items.AddRange(items.Take(25));
-            }
+            Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(25));
 
             int index = Items.IndexOf(LastSelectedItem);
             if (index == -1)
@@ -127,8 +118,7 @@
                 Items[i] = Items[i - 1];
             }
 
-            Items[0] = item;
-            SelectedItem = Items[0];
+            Items[0] = SelectedItem = item;
         }
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
