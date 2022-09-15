@@ -40,68 +40,25 @@
                 return;
             }
 
-            List<SearchResult> items = new();
-            CancellationToken token = _cts.Token;
-            await Task.Run(
-                () =>
+            List<SearchResult> items = await Task.Run(() =>
+            {
+                try
                 {
-                if (DMS.FileSystemEntrySearch.Check(userInput))
-                {
-                    do
-                    {
-                        if (userInput.Length == DMS.FileSystemEntrySearch.Key.Length)
-                        {
-                            items.Add(DMS.FileSystemEntrySearch.Produce());
-                            break;
-                        }
-
-                        string fsQuery = userInput[1..];
-                        if (fsQuery.Length == 0)
-                        {
-                            break;
-                        }
-
-                        int count = 0;
-                        foreach (FileSystemEntry entry in _oms.FileSystemEntries.Values)
-                        {
-                            if (count == 10 || token.IsCancellationRequested)
-                            {
-                                break;
-                            }
-
-                            if (entry.Check(fsQuery))
-                            {
-                                items.Add(entry.Produce());
-                                count++;
-                            }
-                        }
-                    }
-                    while (false);
+                    return SearchServices(userInput, _cts.Token);
                 }
-                else
+                catch (OperationCanceledException)
                 {
-                    items.AddRange(_oms.SingleProducers
-                                       .Where(sp => sp.Check(userInput))
-                                       .Select(sp => sp.Produce())
-                                       .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
-                                       .ThenBy(sp => sp.Description));
-                    items.AddRange(DMS.SingleProducers
-                                      .Where(sp => sp.Check(userInput))
-                                      .Select(sp => sp.Produce()));
-                    items.AddRange(DMS.MultipleProducers
-                                      .Where(mp => mp.Check(userInput))
-                                      .SelectMany(mp => mp.Produce()));
+                    return null;
                 }
-                });
-            if (token.IsCancellationRequested)
+            });
+            if (items is null)
             {
                 return;
             }
 
             // Removes ListBox flickering when it's cleared at this point.
             Items.Clear();
-
-            Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(25));
+            Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(20));
 
             int index = Items.IndexOf(LastSelectedItem);
             if (index == -1)
@@ -240,6 +197,62 @@
             }
 
             SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
+        }
+
+        private List<SearchResult> SearchServices(string input, CancellationToken token)
+        {
+            List<SearchResult> items = new();
+            if (DMS.FileSystemEntrySearch.Check(input))
+            {
+                do
+                {
+                    if (input.Length == DMS.FileSystemEntrySearch.Key.Length)
+                    {
+                        items.Add(DMS.FileSystemEntrySearch.Produce());
+                        break;
+                    }
+
+                    string fsQuery = input[1..];
+                    if (fsQuery.Length == 0)
+                    {
+                        break;
+                    }
+
+                    int count = 0;
+                    foreach (FileSystemEntry entry in _oms.FileSystemEntries.Values)
+                    {
+                        token.ThrowIfCancellationRequested();
+                        if (count == 10)
+                        {
+                            break;
+                        }
+
+                        if (entry.Check(fsQuery))
+                        {
+                            items.Add(entry.Produce());
+                            count++;
+                        }
+                    }
+                }
+                while (false);
+            }
+            else
+            {
+                items.AddRange(_oms.SingleProducers
+                                   .Where(sp => sp.Check(input))
+                                   .Select(sp => sp.Produce())
+                                   .OrderBy(sp => !sp.Description.StartsWith(input, StringComparison.OrdinalIgnoreCase))
+                                   .ThenBy(sp => sp.Description));
+                items.AddRange(DMS.SingleProducers
+                                  .Where(sp => sp.Check(input))
+                                  .Select(sp => sp.Produce()));
+                items.AddRange(DMS.MultipleProducers
+                                  .Where(mp => mp.Check(input))
+                                  .SelectMany(mp => mp.Produce()));
+            }
+
+            token.ThrowIfCancellationRequested();
+            return items;
         }
     }
 }
