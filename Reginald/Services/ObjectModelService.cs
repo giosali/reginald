@@ -53,7 +53,7 @@
             th.Start();
         }
 
-        public ConcurrentDictionary<string, FileSystemEntry> FileSystemEntries { get; set; } = new();
+        public ConcurrentDictionary<int, FileSystemEntry> FileSystemEntries { get; set; } = new();
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; private set; }
 
@@ -79,7 +79,7 @@
                         break;
                     }
 
-                    FileSystemEntries[fullPath] = new FileSystemEntry(fullPath);
+                    FileSystemEntries[fullPath.GetHashCode()] = new FileSystemEntry(fullPath);
                     break;
             }
         }
@@ -95,7 +95,7 @@
                         break;
                     }
 
-                    _ = FileSystemEntries.TryRemove(fullPath, out _);
+                    _ = FileSystemEntries.TryRemove(fullPath.GetHashCode(), out _);
                     break;
             }
         }
@@ -111,9 +111,9 @@
             {
                 case WatcherChangeTypes.Renamed:
                     string oldFullPath = e.OldFullPath;
-                    if (FileSystemEntries.TryRemove(oldFullPath, out FileSystemEntry entry))
+                    if (FileSystemEntries.TryRemove(oldFullPath.GetHashCode(), out FileSystemEntry entry))
                     {
-                        FileSystemEntries[e.FullPath] = entry;
+                        FileSystemEntries[e.FullPath.GetHashCode()] = entry;
                     }
 
                     break;
@@ -136,7 +136,7 @@
                     continue;
                 }
 
-                FileSystemEntries[entry] = new FileSystemEntry(entry);
+                FileSystemEntries[entry.GetHashCode()] = new FileSystemEntry(entry);
             }
         }
     }
