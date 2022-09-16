@@ -212,7 +212,7 @@
         /// </summary>
         /// <param name="str">A string to return an element from..</param>
         /// <param name="index">The zero-based index of the element to retrieve.</param>
-        /// <param name="index">When this method returns, contains the character at the specified index in the string, or the default value of <see cref="char"/>.</param>
+        /// <param name="ch">When this method returns, contains the character at the specified index in the string, or the default value of <see cref="char"/>.</param>
         /// <returns><see langword="true"/> if the element was successfully retrieved; otherwise, <see langword="false"/>.</returns>
         public static bool TryElementAt(this string str, int index, out char ch)
         {
