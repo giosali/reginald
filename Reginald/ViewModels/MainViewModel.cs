@@ -25,6 +25,16 @@
             _oms = IoC.Get<ObjectModelService>();
         }
 
+        public void Items_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (Items.Count == 0)
+            {
+                return;
+            }
+
+            SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
+        }
+
         public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             _cts.Cancel();
@@ -219,16 +229,6 @@
                     SelectedItem?.ReleaseAlt(new InputProcessingEventArgs());
                     break;
             }
-        }
-
-        public void Items_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (Items.Count == 0)
-            {
-                return;
-            }
-
-            SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
         }
 
         private SearchResult[] SearchCpuIntensiveModels(string input, CancellationToken token)
