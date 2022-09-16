@@ -7,45 +7,40 @@
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
 
-    internal enum EntryType
-    {
-        Directory,
-        File,
-    }
-
     internal class FileSystemEntry : ObjectModel, ISingleProducer<SearchResult>
     {
         public FileSystemEntry(string path)
         {
             Description = Path.GetFileName(path);
+            Caption = path;
             try
             {
                 if ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
                 {
-                    Caption = "Folder";
                     IconPath = "3";
-                    EntryType = EntryType.Directory;
+                    Type = EntryType.Directory;
                 }
                 else
                 {
-                    Caption = "File";
                     IconPath = "1";
-                    EntryType = EntryType.File;
+                    Type = EntryType.File;
                 }
             }
             catch (IOException)
             {
                 Caption = null;
             }
-
-            AltCaption = path;
         }
 
-        public string AltCaption { get; set; }
+        private enum EntryType
+        {
+            Directory,
+            File,
+        }
 
-        public EntryType EntryType { get; set; }
+        private string IconPath { get; set; }
 
-        public string IconPath { get; set; }
+        private EntryType Type { get; set; }
 
         public bool Check(string input)
         {
@@ -55,35 +50,13 @@
         public SearchResult Produce()
         {
             SearchResult result = new(Caption, IconPath, Description);
-            result.AltKeyPressed += OnAltKeyPressed;
-            result.AltKeyReleased += OnAltKeyReleased;
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
         }
 
-        private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
-        {
-            if (sender is not SearchResult result)
-            {
-                return;
-            }
-
-            result.Caption = AltCaption;
-        }
-
-        private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
-        {
-            if (sender is not SearchResult result)
-            {
-                return;
-            }
-
-            result.Caption = Caption;
-        }
-
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            _ = Process.Start("explorer.exe", (EntryType == EntryType.File ? "/select," : string.Empty) + AltCaption);
+            _ = Process.Start("explorer.exe", (Type == EntryType.File ? "/select," : string.Empty) + Caption);
             e.Handled = true;
         }
     }
