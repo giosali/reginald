@@ -17,7 +17,7 @@
     {
         private double _borderOpacity = 1.0;
 
-        private string _userInput;
+        private string _userInput = string.Empty;
 
         public SearchPopupViewModelScreen()
         {

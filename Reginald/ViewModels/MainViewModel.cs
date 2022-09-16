@@ -122,6 +122,13 @@
 
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            // Prevents items from remaining in ListBox when TextChanged
+            // event can't keep up while user holds down key.
+            if (UserInput.Length == 0 && Items.Count != 0)
+            {
+                Items.Clear();
+            }
+
             switch (e.Key is Key.System && !(e.Key is Key.LeftAlt || e.Key is Key.RightAlt) ? e.SystemKey : e.Key)
             {
                 case Key.Tab:
