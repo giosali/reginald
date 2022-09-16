@@ -40,20 +40,52 @@
                 return;
             }
 
-            List<SearchResult> items = await Task.Run(() =>
+            List<SearchResult> items = new();
+            CancellationToken token = _cts.Token;
+            if (DMS.FileSystemEntrySearch.Check(userInput))
             {
-                try
+                List<SearchResult> __items = await Task.Run(() =>
                 {
-                    return SearchServices(userInput, _cts.Token);
-                }
-                catch (OperationCanceledException)
+                    try
+                    {
+                        return SearchFileSystemEntries(userInput, token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        return null;
+                    }
+                }, token);
+                if (__items is null)
                 {
-                    return null;
+                    return;
                 }
-            });
-            if (items is null)
+
+                items.AddRange(__items);
+            }
+            else
             {
-                return;
+                items.AddRange(_oms.SingleProducers
+                                   .Where(sp => sp.Check(userInput))
+                                   .Select(sp => sp.Produce())
+                                   .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
+                                   .ThenBy(sp => sp.Description));
+                items.AddRange(DMS.SingleProducers
+                                  .Where(sp => sp.Check(userInput))
+                                  .Select(sp => sp.Produce()));
+                items.AddRange(DMS.MultipleProducers
+                                  .Where(mp => mp.Check(userInput))
+                                  .SelectMany(mp => mp.Produce()));
+                items.AddRange(await Task.Run(() =>
+                {
+                    try
+                    {
+                        return SearchCpuIntensiveModels(userInput, token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        return Array.Empty<SearchResult>();
+                    }
+                }, token));
             }
 
             // Removes ListBox flickering when it's cleared at this point.
@@ -199,58 +231,54 @@
             SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
         }
 
-        private List<SearchResult> SearchServices(string input, CancellationToken token)
+        private List<SearchResult> SearchFileSystemEntries(string input, CancellationToken token)
         {
             List<SearchResult> items = new();
-            if (DMS.FileSystemEntrySearch.Check(input))
+            do
             {
-                do
+                if (input.Length == DMS.FileSystemEntrySearch.Key.Length)
                 {
-                    if (input.Length == DMS.FileSystemEntrySearch.Key.Length)
+                    items.Add(DMS.FileSystemEntrySearch.Produce());
+                    break;
+                }
+
+                string fsQuery = input[1..];
+                if (fsQuery.Length == 0)
+                {
+                    break;
+                }
+
+                int count = 0;
+                foreach (FileSystemEntry entry in _oms.FileSystemEntries.Values)
+                {
+                    token.ThrowIfCancellationRequested();
+                    if (count == 10)
                     {
-                        items.Add(DMS.FileSystemEntrySearch.Produce());
                         break;
                     }
 
-                    string fsQuery = input[1..];
-                    if (fsQuery.Length == 0)
+                    if (entry.Check(fsQuery))
                     {
-                        break;
-                    }
-
-                    int count = 0;
-                    foreach (FileSystemEntry entry in _oms.FileSystemEntries.Values)
-                    {
-                        token.ThrowIfCancellationRequested();
-                        if (count == 10)
-                        {
-                            break;
-                        }
-
-                        if (entry.Check(fsQuery))
-                        {
-                            items.Add(entry.Produce());
-                            count++;
-                        }
+                        items.Add(entry.Produce());
+                        count++;
                     }
                 }
-                while (false);
             }
-            else
+            while (false);
+
+            token.ThrowIfCancellationRequested();
+            return items;
+        }
+
+        private SearchResult[] SearchCpuIntensiveModels(string input, CancellationToken token)
+        {
+            if (!DMS.Quit.Check(input))
             {
-                items.AddRange(_oms.SingleProducers
-                                   .Where(sp => sp.Check(input))
-                                   .Select(sp => sp.Produce())
-                                   .OrderBy(sp => !sp.Description.StartsWith(input, StringComparison.OrdinalIgnoreCase))
-                                   .ThenBy(sp => sp.Description));
-                items.AddRange(DMS.SingleProducers
-                                  .Where(sp => sp.Check(input))
-                                  .Select(sp => sp.Produce()));
-                items.AddRange(DMS.MultipleProducers
-                                  .Where(mp => mp.Check(input))
-                                  .SelectMany(mp => mp.Produce()));
+                return Array.Empty<SearchResult>();
             }
 
+            token.ThrowIfCancellationRequested();
+            SearchResult[] items = DMS.Quit.Produce();
             token.ThrowIfCancellationRequested();
             return items;
         }
