@@ -6,6 +6,7 @@
     using System.IO;
     using System.Threading;
     using Caliburn.Micro;
+    using Reginald.Core.Extensions;
     using Reginald.Models.ObjectModels;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
@@ -53,7 +54,7 @@
             th.Start();
         }
 
-        public ConcurrentDictionary<int, FileSystemEntry> FileSystemEntries { get; set; } = new();
+        public ConcurrentDictionary<uint, FileSystemEntry> FileSystemEntries { get; set; } = new();
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; private set; }
 
@@ -79,7 +80,7 @@
                         break;
                     }
 
-                    FileSystemEntries[fullPath.GetHashCode()] = new FileSystemEntry(fullPath);
+                    FileSystemEntries[fullPath.GetCrc32HashCode()] = new FileSystemEntry(fullPath);
                     break;
             }
         }
@@ -95,7 +96,7 @@
                         break;
                     }
 
-                    _ = FileSystemEntries.TryRemove(fullPath.GetHashCode(), out _);
+                    _ = FileSystemEntries.TryRemove(fullPath.GetCrc32HashCode(), out _);
                     break;
             }
         }
@@ -111,9 +112,9 @@
             {
                 case WatcherChangeTypes.Renamed:
                     string oldFullPath = e.OldFullPath;
-                    if (FileSystemEntries.TryRemove(oldFullPath.GetHashCode(), out FileSystemEntry entry))
+                    if (FileSystemEntries.TryRemove(oldFullPath.GetCrc32HashCode(), out FileSystemEntry entry))
                     {
-                        FileSystemEntries[e.FullPath.GetHashCode()] = entry;
+                        FileSystemEntries[e.FullPath.GetCrc32HashCode()] = entry;
                     }
 
                     break;
@@ -136,7 +137,7 @@
                     continue;
                 }
 
-                FileSystemEntries[entry.GetHashCode()] = new FileSystemEntry(entry);
+                FileSystemEntries[entry.GetCrc32HashCode()] = new FileSystemEntry(entry);
             }
         }
     }
