@@ -22,7 +22,7 @@
                 }
                 else
                 {
-                    IconPath = "1";
+                    IconPath = GuessType(path);
                     Type = EntryType.File;
                 }
             }
@@ -52,6 +52,86 @@
             SearchResult result = new(Caption, IconPath, Description);
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
+        }
+
+        private static string GuessType(string path)
+        {
+            switch (Path.GetExtension(path).ToLower())
+            {
+                // Audio files.
+                case ".3gpp2":
+                case ".aac":
+                case ".adts":
+                case ".aif":
+                case ".aifc":
+                case ".aiff":
+                case ".ass":
+                case ".au":
+                case ".flac":
+                case ".loas":
+                case ".mid":
+                case ".midi":
+                case ".mp2":
+                case ".mp3":
+                case ".ogg":
+                case ".opus":
+                case ".ra":
+                case ".snd":
+                case ".wav":
+                    return "71";
+
+                // Image files.
+                case ".avif":
+                case ".bmp":
+                case ".gif":
+                case ".heic":
+                case ".heif":
+                case ".ico":
+                case ".ief":
+                case ".jpe":
+                case ".jpeg":
+                case ".jpg":
+                case ".pbm":
+                case ".pgm":
+                case ".png":
+                case ".pnm":
+                case ".ppm":
+                case ".ras":
+                case ".rgb":
+                case ".svg":
+                case ".tif":
+                case ".tiff":
+                case ".xbm":
+                case ".xpm":
+                case ".xwd":
+                    return "72";
+
+                // Video files.
+                case ".3g2":
+                case ".3gp":
+                case ".3gpp":
+                case ".avi":
+                case ".m1v":
+                case ".mov":
+                case ".movie":
+                case ".mp4":
+                case ".mpa":
+                case ".mpe":
+                case ".mpeg":
+                case ".mpg":
+                case ".qt":
+                case ".webm":
+                    return "73";
+
+                // Archive files.
+                case ".7z":
+                case ".rar":
+                case ".tar":
+                case ".zip":
+                    return "105";
+                default:
+                    return "1";
+            }
         }
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
