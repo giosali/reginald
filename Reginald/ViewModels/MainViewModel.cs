@@ -231,6 +231,19 @@
             SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
         }
 
+        private SearchResult[] SearchCpuIntensiveModels(string input, CancellationToken token)
+        {
+            if (!DMS.Quit.Check(input))
+            {
+                return Array.Empty<SearchResult>();
+            }
+
+            token.ThrowIfCancellationRequested();
+            SearchResult[] items = DMS.Quit.Produce();
+            token.ThrowIfCancellationRequested();
+            return items;
+        }
+
         private List<SearchResult> SearchFileSystemEntries(string input, CancellationToken token)
         {
             List<SearchResult> items = new();
@@ -266,19 +279,6 @@
             }
             while (false);
 
-            token.ThrowIfCancellationRequested();
-            return items;
-        }
-
-        private SearchResult[] SearchCpuIntensiveModels(string input, CancellationToken token)
-        {
-            if (!DMS.Quit.Check(input))
-            {
-                return Array.Empty<SearchResult>();
-            }
-
-            token.ThrowIfCancellationRequested();
-            SearchResult[] items = DMS.Quit.Produce();
             token.ThrowIfCancellationRequested();
             return items;
         }
