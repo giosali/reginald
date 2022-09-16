@@ -14,34 +14,6 @@
         }
 
         [Test]
-        [TestCase("(This is a string)", @"\(This is a string\)")]
-        [TestCase("This is a string.", @"This is a string\.")]
-        [TestCase(@"\", @"\\")]
-        [TestCase("[]", @"\[]")]
-        [TestCase(".", @"\.")]
-        [TestCase("+", @"\+")]
-        [TestCase("*", @"\*")]
-        [TestCase("?", @"\?")]
-        [TestCase("|", @"\|")]
-        [TestCase("$", @"\$")]
-        [Parallelizable(ParallelScope.All)]
-        public void RegexClean_WhenGivenUnmatchedOrUnterminatedCharacters_ShouldCleanString(string input, string expected)
-        {
-            string actual = input.RegexClean();
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        [TestCase("This is a string", "This is a string")]
-        [TestCase("`~!@#%^&-_=,<>/;:'\"{]}", "`~!@#%^&-_=,<>/;:'\"{]}")]
-        [Parallelizable(ParallelScope.All)]
-        public void RegexClean_WhenNotGivenUnmatchedOrUnterminatedCharacters_ShouldCleanString(string input, string expected)
-        {
-            string actual = input.RegexClean();
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
         [TestCase("hello world", "hello", " ", "world")]
         [TestCase("hello", "he", "l", "lo")]
         [Parallelizable(ParallelScope.All)]

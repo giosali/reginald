@@ -10,8 +10,6 @@
 
     public static class StringExtensions
     {
-        private static readonly string[] _regexCharacters = { @"\", "[", "(", ")", ".", "+", "*", "?", "|", "$" };
-
         private static readonly HashSet<uint> _topLevelDomains = new();
 
         /// <summary>
@@ -184,22 +182,6 @@
 
             int separatorIndex = expression.LastIndexOf(separator);
             return separatorIndex > -1 ? (expression.Substring(0, separatorIndex), separator.ToString(), expression[(separatorIndex + 1)..]) : (string.Empty, string.Empty, expression);
-        }
-
-        /// <summary>
-        /// Receives a string and returns a new string with all unmatched or unterminated characters escaped.
-        /// </summary>
-        /// <param name="expression">The string to clean.</param>
-        /// <returns>A new string with all unmatched or unterminated characters in <paramref name="expression"/> escaped.</returns>
-        public static string RegexClean(this string expression)
-        {
-            for (int i = 0; i < _regexCharacters.Length; i++)
-            {
-                string ch = _regexCharacters[i];
-                expression = expression.Replace(ch, @$"\{ch}");
-            }
-
-            return expression;
         }
 
         public static string Replace(this string expression, string oldValue, string newValue, int count)
