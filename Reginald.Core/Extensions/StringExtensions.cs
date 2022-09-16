@@ -12,7 +12,7 @@
     {
         private static readonly string[] _regexCharacters = { @"\", "[", "(", ")", ".", "+", "*", "?", "|", "$" };
 
-        private static readonly HashSet<string> _topLevelDomains = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly HashSet<uint> _topLevelDomains = new();
 
         /// <summary>
         /// Returns a value indicating whether a specified substring occurs at the beginning of this string or at the beginning of a word in this string.
@@ -57,12 +57,7 @@
         /// <returns><see langword="true"/> if <paramref name="expression"/> contains a top-level domain; otherwise, <see langword="false"/>.</returns>
         public static bool ContainsTopLevelDomain(this string expression)
         {
-            if (!expression.Contains('.'))
-            {
-                return false;
-            }
-
-            if (!Uri.TryCreate(expression, UriKind.Absolute, out Uri uri))
+            if (!expression.Contains('.') || !Uri.TryCreate(expression, UriKind.Absolute, out Uri uri))
             {
                 return false;
             }
@@ -73,11 +68,33 @@
                 using StreamReader reader = new(Application.GetResourceStream(packUri).Stream);
                 while (!reader.EndOfStream)
                 {
-                    _ = _topLevelDomains.Add(reader.ReadLine());
+                    _ = _topLevelDomains.Add(reader.ReadLine().ToLower().GetCrc32HashCode());
                 }
             }
 
-            return _topLevelDomains.Contains(uri.Host.RPartition(".").Right);
+            return _topLevelDomains.Contains(uri.Host.RPartition(".").Right.ToLower().GetCrc32HashCode());
+        }
+
+        public static uint GetCrc32HashCode(this string s)
+        {
+            uint crc = 0xFFFFFFFF;
+            for (int i = 0; i < s.Length; i++)
+            {
+                char ch = s[i];
+                for (int j = 0; j < 8; j++)
+                {
+                    uint b = (ch ^ crc) & 1;
+                    crc >>= 1;
+                    if (b == 1)
+                    {
+                        crc ^= 0xEDB88320;
+                    }
+
+                    ch >>= 1;
+                }
+            }
+
+            return ~crc;
         }
 
         /// <summary>
