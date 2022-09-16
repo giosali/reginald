@@ -170,32 +170,12 @@
         }
 
         [Test]
-        [TestCase("https://")]
-        [TestCase("http://")]
-        [TestCase("HTTPS://")]
-        [TestCase("HTTP://")]
-        [Parallelizable(ParallelScope.All)]
-        public void StartsWithScheme_WhenGivenScheme_ShouldReturnTrue(string expression)
-        {
-            bool condition = expression.StartsWithScheme();
-            Assert.True(condition);
-        }
-
-        [Test]
-        [TestCase("ftp://")]
-        [TestCase("https")]
-        [TestCase("https:/")]
-        [TestCase("hellohttps://")]
-        [Parallelizable(ParallelScope.All)]
-        public void StartsWithScheme_WhenNotGivenScheme_ShouldReturnFalse(string expression)
-        {
-            bool condition = expression.StartsWithScheme();
-            Assert.False(condition);
-        }
-
-        [Test]
-        [TestCase("google.com/")]
         [TestCase("0")]
+        [TestCase("google.com/")]
+        [TestCase("ftp://")]
+        [TestCase("https:/")]
+        [TestCase("httpsgoogle.com/")]
+        [TestCase("hellohttps://")]
         [Parallelizable(ParallelScope.All)]
         public void PrependScheme_ShouldPrependScheme(string expression)
         {

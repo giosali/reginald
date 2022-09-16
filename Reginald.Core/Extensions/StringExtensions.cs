@@ -136,7 +136,8 @@
         /// <returns>If <paramref name="expression"/> does not start with an HTTP scheme, a new string with "https://" prepended to <paramref name="expression"/> will be returned. Otherwise, <paramref name="expression"/> will be returned.</returns>
         public static string PrependScheme(this string expression)
         {
-            return expression.StartsWithScheme() ? expression : "https://" + expression;
+            StringComparison comparison = StringComparison.OrdinalIgnoreCase;
+            return expression.StartsWith("https://", comparison) || expression.StartsWith("http://", comparison) ? expression : "https://" + expression;
         }
 
         /// <summary>
@@ -204,17 +205,6 @@
 
             sb.Append(expression.Substring(index));
             return sb.ToString();
-        }
-
-        /// <summary>
-        /// Indicates whether the string starts with an HTTP scheme.
-        /// </summary>
-        /// <param name="expression">The string to evaluate.</param>
-        /// <returns><see langword="true"/> if <paramref name="expression"/> starts with an HTTP scheme; otherwise, <see langword="false"/>.</returns>
-        public static bool StartsWithScheme(this string expression)
-        {
-            StringComparison comparison = StringComparison.InvariantCultureIgnoreCase;
-            return expression.StartsWith("https://", comparison) || expression.StartsWith("http://", comparison);
         }
 
         /// <summary>
