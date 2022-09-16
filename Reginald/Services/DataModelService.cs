@@ -55,6 +55,8 @@
 
         public IMultipleProducer<SearchResult>[] MultipleProducers { get; private set; }
 
+        public Quit Quit { get; private set; }
+
         public Settings Settings { get; private set; }
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; private set; }
@@ -159,9 +161,8 @@
             List<IMultipleProducer<SearchResult>> multipleProducers = new();
 
             // Handles those that receive key inputs.
-            Quit quit = FileOperations.GetGenericDatum<Quit>("Quit.json", true);
-            quit.IsEnabled = Settings.IsQuitEnabled;
-            multipleProducers.Add(quit);
+            Quit = FileOperations.GetGenericDatum<Quit>("Quit.json", true);
+            Quit.IsEnabled = Settings.IsQuitEnabled;
 
             if (Settings.AreTimersEnabled)
             {
