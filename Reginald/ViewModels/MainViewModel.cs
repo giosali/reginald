@@ -195,6 +195,15 @@
                     break;
                 }
 
+                case Key.Space:
+                    if (UserInput.Length == 0)
+                    {
+                        (sender as TextBox)?.SetText("'");
+                        e.Handled = true;
+                    }
+
+                    break;
+
                 case Key.Up:
                     SelectedItem = Items[Math.Max(Items.IndexOf(SelectedItem) - 1, 0)];
 
