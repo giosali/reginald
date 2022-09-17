@@ -218,7 +218,7 @@
                 case Key.D6 when Keyboard.Modifiers is ModifierKeys.Control:
                 {
                     int index = e.Key - Key.D1;
-                    if (index >= Items.Count || sender is not TextBox textBox)
+                    if (index >= Items.Count)
                     {
                         break;
                     }
