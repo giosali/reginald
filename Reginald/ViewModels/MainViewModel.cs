@@ -196,7 +196,6 @@
                     }
 
                     break;
-
                 case Key.Up:
                     SelectedItem = Items[Math.Max(Items.IndexOf(SelectedItem) - 1, 0)];
 
@@ -204,7 +203,6 @@
                     // selected item through arrow keys and moving mouse over it.
                     IsMouseOverChanged = false;
                     break;
-
                 case Key.Down:
                     SelectedItem = Items[Math.Min(Items.IndexOf(SelectedItem) + 1, Items.Count - 1)];
 
@@ -212,7 +210,6 @@
                     // selected item through arrow keys and moving mouse over it.
                     IsMouseOverChanged = false;
                     break;
-
                 case Key.D1 when Keyboard.Modifiers is ModifierKeys.Control:
                 case Key.D2 when Keyboard.Modifiers is ModifierKeys.Control:
                 case Key.D3 when Keyboard.Modifiers is ModifierKeys.Control:
@@ -233,7 +230,6 @@
                 case Key.T when Keyboard.Modifiers is ModifierKeys.Control && !e.IsRepeat:
                     BorderOpacity = BorderOpacity == 1.0 ? 0.25 : 1.0;
                     break;
-
                 case Key.LeftAlt when !e.IsRepeat:
                 case Key.RightAlt when !e.IsRepeat:
                     SelectedItem?.PressAlt(new InputProcessingEventArgs());
