@@ -43,7 +43,7 @@
 
         public bool Check(string input)
         {
-            return Path.GetFileName(Caption).ContainsPhrase(input);
+            return Path.GetFileName(Caption)?.ContainsPhrase(input) ?? false;
         }
 
         public SearchResult Produce()
