@@ -35,99 +35,6 @@
             SelectedItem = Items.Contains(LastSelectedItem) ? LastSelectedItem : Items[0];
         }
 
-        public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _cts.Cancel();
-            _cts = new();
-            IsMouseOverChanged = false;
-            MousePosition = default;
-
-            string userInput = UserInput;
-            if (userInput.Length == 0)
-            {
-                // Removes ListBox flickering when it's cleared at this point.
-                Items.Clear();
-                return;
-            }
-
-            List<SearchResult> items = new();
-            CancellationToken token = _cts.Token;
-            if (DMS.FileSystemEntrySearch.Check(userInput))
-            {
-                List<SearchResult> tempItems = await Task.Run(
-                    () =>
-                {
-                    try
-                    {
-                        return SearchFileSystemEntries(userInput, token);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        return null;
-                    }
-                },
-                    token);
-                if (tempItems is null)
-                {
-                    return;
-                }
-
-                items.AddRange(tempItems);
-            }
-            else
-            {
-                items.AddRange(_oms.SingleProducers
-                                   .Where(sp => sp.Check(userInput))
-                                   .Select(sp => sp.Produce())
-                                   .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
-                                   .ThenBy(sp => sp.Description));
-                items.AddRange(DMS.SingleProducers
-                                  .Where(sp => sp.Check(userInput))
-                                  .Select(sp => sp.Produce()));
-                items.AddRange(DMS.MultipleProducers
-                                  .Where(mp => mp.Check(userInput))
-                                  .SelectMany(mp => mp.Produce()));
-                items.AddRange(await Task.Run(
-                    () =>
-                {
-                    try
-                    {
-                        return SearchCpuIntensiveModels(userInput, token);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        return Array.Empty<SearchResult>();
-                    }
-                },
-                    token));
-            }
-
-            // Removes ListBox flickering when it's cleared at this point.
-            Items.Clear();
-            Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(20));
-            for (int i = 0; i < Math.Min(6, Items.Count); i++)
-            {
-                Items[i].KeyboardShortcut = "CTRL + " + (i + 1);
-            }
-
-            int index = Items.IndexOf(LastSelectedItem);
-            if (index == -1)
-            {
-                SelectedItem = Items[0];
-                return;
-            }
-
-            // Selects the previously selected item and places it at the top of the
-            // results if it's still in the new list of results.
-            SearchResult item = Items[index];
-            for (int i = index; i > 0; i--)
-            {
-                Items[i] = Items[i - 1];
-            }
-
-            Items[0] = SelectedItem = item;
-        }
-
         public void UserInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Prevents items from remaining in ListBox when TextChanged
@@ -260,6 +167,99 @@
                     SelectedItem?.ReleaseAlt(new InputProcessingEventArgs());
                     break;
             }
+        }
+
+        public async void UserInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _cts.Cancel();
+            _cts = new();
+            IsMouseOverChanged = false;
+            MousePosition = default;
+
+            string userInput = UserInput;
+            if (userInput.Length == 0)
+            {
+                // Removes ListBox flickering when it's cleared at this point.
+                Items.Clear();
+                return;
+            }
+
+            List<SearchResult> items = new();
+            CancellationToken token = _cts.Token;
+            if (DMS.FileSystemEntrySearch.Check(userInput))
+            {
+                List<SearchResult> tempItems = await Task.Run(
+                    () =>
+                {
+                    try
+                    {
+                        return SearchFileSystemEntries(userInput, token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        return null;
+                    }
+                },
+                    token);
+                if (tempItems is null)
+                {
+                    return;
+                }
+
+                items.AddRange(tempItems);
+            }
+            else
+            {
+                items.AddRange(_oms.SingleProducers
+                                   .Where(sp => sp.Check(userInput))
+                                   .Select(sp => sp.Produce())
+                                   .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
+                                   .ThenBy(sp => sp.Description));
+                items.AddRange(DMS.SingleProducers
+                                  .Where(sp => sp.Check(userInput))
+                                  .Select(sp => sp.Produce()));
+                items.AddRange(DMS.MultipleProducers
+                                  .Where(mp => mp.Check(userInput))
+                                  .SelectMany(mp => mp.Produce()));
+                items.AddRange(await Task.Run(
+                    () =>
+                {
+                    try
+                    {
+                        return SearchCpuIntensiveModels(userInput, token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        return Array.Empty<SearchResult>();
+                    }
+                },
+                    token));
+            }
+
+            // Removes ListBox flickering when it's cleared at this point.
+            Items.Clear();
+            Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(20));
+            for (int i = 0; i < Math.Min(6, Items.Count); i++)
+            {
+                Items[i].KeyboardShortcut = "CTRL + " + (i + 1);
+            }
+
+            int index = Items.IndexOf(LastSelectedItem);
+            if (index == -1)
+            {
+                SelectedItem = Items[0];
+                return;
+            }
+
+            // Selects the previously selected item and places it at the top of the
+            // results if it's still in the new list of results.
+            SearchResult item = Items[index];
+            for (int i = index; i > 0; i--)
+            {
+                Items[i] = Items[i - 1];
+            }
+
+            Items[0] = SelectedItem = item;
         }
 
         private void PressEnter(object sender, int index = -1)
