@@ -62,6 +62,8 @@
             }
         }
 
+        public string KeyboardShortcut { get; set; }
+
         public override void PressAlt(InputProcessingEventArgs e)
         {
             OnAltKeyPressed(e);
