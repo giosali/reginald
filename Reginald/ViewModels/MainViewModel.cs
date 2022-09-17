@@ -141,17 +141,17 @@
             {
                 case Key.Tab:
                 {
-                    if (Items.Count == 0)
+                    if (Items.Count == 0 || SelectedItem is not SearchResult selectedItem)
                     {
                         e.Handled = true;
                         break;
                     }
 
                     InputProcessingEventArgs args = new();
-                    SelectedItem?.PressTab(args);
-                    if (args.IsInputIncomplete)
+                    selectedItem.PressTab(args);
+                    if (args.IsInputIncomplete && sender is TextBox textBox)
                     {
-                        (sender as TextBox)?.SetText(args.CompleteInput);
+                        textBox.SetText(args.CompleteInput);
                     }
 
                     e.Handled = true;
@@ -160,8 +160,13 @@
 
                 case Key.Enter when Keyboard.Modifiers is ModifierKeys.Alt:
                 {
+                    if (SelectedItem is not SearchResult selectedItem)
+                    {
+                        return;
+                    }
+
                     InputProcessingEventArgs args = new();
-                    SelectedItem?.PressAltAndEnter(args);
+                    selectedItem.PressAltAndEnter(args);
                     if (args.Handled)
                     {
                         Hide();
@@ -169,8 +174,8 @@
 
                     if (args.Remove)
                     {
-                        int index = Items.IndexOf(SelectedItem);
-                        Items.Remove(SelectedItem);
+                        int index = Items.IndexOf(selectedItem);
+                        Items.Remove(selectedItem);
                         if (Items.Count > 0)
                         {
                             SelectedItem = Items[index - 1];
@@ -259,12 +264,16 @@
 
         private void PressEnter(object sender, int index = -1)
         {
-            SearchResult selectedItem = index == -1 ? SelectedItem : Items[index];
-            InputProcessingEventArgs args = new();
-            selectedItem?.PressEnter(args);
-            if (args.IsInputIncomplete)
+            if ((index == -1 ? SelectedItem : Items[index]) is not SearchResult selectedItem)
             {
-                (sender as TextBox).SetText(args.CompleteInput);
+                return;
+            }
+
+            InputProcessingEventArgs args = new();
+            selectedItem.PressEnter(args);
+            if (args.IsInputIncomplete && sender is TextBox textBox)
+            {
+                textBox.SetText(args.CompleteInput);
             }
 
             if (args.Handled)
