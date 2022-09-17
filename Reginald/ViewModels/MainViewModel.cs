@@ -179,18 +179,7 @@
 
                 case Key.Enter:
                 {
-                    InputProcessingEventArgs args = new();
-                    SelectedItem?.PressEnter(args);
-                    if (args.IsInputIncomplete)
-                    {
-                        (sender as TextBox).SetText(args.CompleteInput);
-                    }
-
-                    if (args.Handled)
-                    {
-                        Hide();
-                    }
-
+                    PressEnter(sender);
                     e.Handled = true;
                     break;
                 }
@@ -220,6 +209,23 @@
                     IsMouseOverChanged = false;
                     break;
 
+                case Key.D1 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D2 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D3 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D4 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D5 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D6 when Keyboard.Modifiers is ModifierKeys.Control:
+                {
+                    int index = e.Key - Key.D1;
+                    if (index >= Items.Count || sender is not TextBox textBox)
+                    {
+                        break;
+                    }
+
+                    PressEnter(sender, index);
+                    break;
+                }
+
                 case Key.T when Keyboard.Modifiers is ModifierKeys.Control && !e.IsRepeat:
                     BorderOpacity = BorderOpacity == 1.0 ? 0.25 : 1.0;
                     break;
@@ -248,6 +254,22 @@
                 case Key.RightAlt:
                     SelectedItem?.ReleaseAlt(new InputProcessingEventArgs());
                     break;
+            }
+        }
+
+        private void PressEnter(object sender, int index = -1)
+        {
+            SearchResult selectedItem = index == -1 ? SelectedItem : Items[index];
+            InputProcessingEventArgs args = new();
+            selectedItem?.PressEnter(args);
+            if (args.IsInputIncomplete)
+            {
+                (sender as TextBox).SetText(args.CompleteInput);
+            }
+
+            if (args.Handled)
+            {
+                Hide();
             }
         }
 
