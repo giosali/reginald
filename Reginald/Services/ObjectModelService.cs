@@ -80,7 +80,7 @@
                         break;
                     }
 
-                    FileSystemEntries[fullPath.GetCrc32HashCode()] = new FileSystemEntry(fullPath);
+                    FileSystemEntries[fullPath.GetCrc32HashCode()] = new FileSystemEntry(fullPath.Split(FileSystemEntry.UserProfile)[^1]);
                     break;
             }
         }
@@ -112,8 +112,14 @@
             {
                 case WatcherChangeTypes.Renamed:
                     string oldFullPath = e.OldFullPath;
+                    if (oldFullPath.Contains(_appDataPath))
+                    {
+                        break;
+                    }
+
                     if (FileSystemEntries.TryRemove(oldFullPath.GetCrc32HashCode(), out FileSystemEntry entry))
                     {
+                        entry.UpdatePath(e.FullPath.Split(FileSystemEntry.UserProfile)[^1]);
                         FileSystemEntries[e.FullPath.GetCrc32HashCode()] = entry;
                     }
 
@@ -128,7 +134,7 @@
                 IgnoreInaccessible = true,
                 RecurseSubdirectories = true,
             };
-            foreach (string entry in Directory.EnumerateFileSystemEntries(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "*", options))
+            foreach (string entry in Directory.EnumerateFileSystemEntries(FileSystemEntry.UserProfile, "*", options))
             {
                 // Skips file system entry if it's located in the user's %APPDATA%
                 // or if its file name begins with a period.
@@ -137,7 +143,7 @@
                     continue;
                 }
 
-                FileSystemEntries[entry.GetCrc32HashCode()] = new FileSystemEntry(entry);
+                FileSystemEntries[entry.GetCrc32HashCode()] = new FileSystemEntry(entry.Split(FileSystemEntry.UserProfile)[^1]);
             }
         }
     }

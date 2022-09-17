@@ -1,5 +1,6 @@
 ﻿namespace Reginald.Models.ObjectModels
 {
+    using System;
     using System.Diagnostics;
     using System.IO;
     using Reginald.Core.Extensions;
@@ -11,10 +12,39 @@
     {
         public FileSystemEntry(string path)
         {
+            UpdatePath(path);
+        }
+
+        private enum EntryType
+        {
+            Directory,
+            File,
+        }
+
+        public static string UserProfile { get; private set; } = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+        private string IconPath { get; set; }
+
+        private EntryType Type { get; set; }
+
+        public bool Check(string input)
+        {
+            return Path.GetFileName(Caption)?.ContainsPhrase(input) ?? false;
+        }
+
+        public SearchResult Produce()
+        {
+            SearchResult result = new(UserProfile + Caption, IconPath, Path.GetFileName(Caption));
+            result.EnterKeyPressed += OnEnterKeyPressed;
+            return result;
+        }
+
+        public void UpdatePath(string path)
+        {
             Caption = path;
             try
             {
-                if ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
+                if ((File.GetAttributes(UserProfile + path) & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     IconPath = "3";
                     Type = EntryType.Directory;
@@ -29,28 +59,6 @@
             {
                 Caption = null;
             }
-        }
-
-        private enum EntryType
-        {
-            Directory,
-            File,
-        }
-
-        private string IconPath { get; set; }
-
-        private EntryType Type { get; set; }
-
-        public bool Check(string input)
-        {
-            return Path.GetFileName(Caption)?.ContainsPhrase(input) ?? false;
-        }
-
-        public SearchResult Produce()
-        {
-            SearchResult result = new(Caption, IconPath, Path.GetFileName(Caption));
-            result.EnterKeyPressed += OnEnterKeyPressed;
-            return result;
         }
 
         private static string GuessType(string path)
@@ -135,7 +143,7 @@
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            _ = Process.Start("explorer.exe", (Type == EntryType.File ? "/select," : string.Empty) + Path.GetFileName(Caption));
+            _ = Process.Start("explorer.exe", (Type == EntryType.File ? "/select," : string.Empty) + UserProfile + Caption);
             e.Handled = true;
         }
     }
