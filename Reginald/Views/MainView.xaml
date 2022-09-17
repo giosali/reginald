@@ -273,8 +273,6 @@
                      SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                      Style="{StaticResource ListBoxStyle}"
                      VirtualizingStackPanel.IsVirtualizing="True"
-                     VirtualizingStackPanel.ScrollUnit="Pixel"
-                     VirtualizingStackPanel.VirtualizationMode="Recycling"
                      cal:Message.Attach="[Unloaded] = [Items_Unloaded($source, $eventargs)];
                                          [MouseLeave] = [Items_MouseLeave($this, $eventargs)];
                                          [SelectionChanged] = [Items_SelectionChanged($source, $eventargs)]" />
