@@ -13,7 +13,7 @@
     "inputFontSize": 28,
     "inputFontWeight": "Normal",
     "inputBrush": "White",
-    "inputPadding": "10.0, 0, 10.0, 0",
+    "inputPadding": "10 0",
     "inactiveBrush": "Gray",
     "caretBrush": "White",
     "separatorBrush": "Transparent",
@@ -34,12 +34,12 @@
     "highlightBrush": "#444444",
     "selectionBrush": "#B2D7FF",
     "selectionOpacity": 0.5,
-    "searchResultPadding": "5.0, 0",
+    "searchResultMargin": "5 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
     "clipboardDisplayFontSize": 10,
-    "clipboardDockPanelPadding": "5.0, 0"
+    "clipboardDockPanelPadding": "5 0"
   },
   {
     "name": "Standard White",
@@ -55,7 +55,7 @@
     "inputFontSize": 28,
     "inputFontWeight": "Normal",
     "inputBrush": "#191919",
-    "inputPadding": "10.0, 0, 10.0, 0",
+    "inputPadding": "10 10",
     "inactiveBrush": "Gray",
     "caretBrush": "#191919",
     "separatorBrush": "Transparent",
@@ -76,12 +76,12 @@
     "highlightBrush": "#D0D2D2",
     "selectionBrush": "#A1A5A5",
     "selectionOpacity": 0.5,
-    "searchResultPadding": "5.0, 0",
+    "searchResultMargin": "5 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
     "clipboardDisplayFontSize": 10,
-    "clipboardDockPanelPadding": "5.0, 0"
+    "clipboardDockPanelPadding": "5 0"
   },
   {
     "name": "Acrylic Dark",
@@ -97,7 +97,7 @@
     "inputFontSize": 32,
     "inputFontWeight": "Light",
     "inputBrush": "White",
-    "inputPadding": "10.0, 0, 10.0, 0",
+    "inputPadding": "10 0",
     "inactiveBrush": "Gray",
     "caretBrush": "DarkGray",
     "separatorBrush": "Transparent",
@@ -118,12 +118,12 @@
     "highlightBrush": "#99FF8D00",
     "selectionBrush": "#FF8D00",
     "selectionOpacity": 0.25,
-    "searchResultPadding": "5.0, 0",
+    "searchResultMargin": "5 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
     "clipboardDisplayFontSize": 10,
-    "clipboardDockPanelPadding": "5.0, 0"
+    "clipboardDockPanelPadding": "5 0"
   },
   {
     "name": "Acrylic Light",
@@ -139,7 +139,7 @@
     "inputFontSize": 32,
     "inputFontWeight": "Light",
     "inputBrush": "Black",
-    "inputPadding": "10.0, 0, 10.0, 0",
+    "inputPadding": "10 0",
     "inactiveBrush": "Gray",
     "caretBrush": "Black",
     "separatorBrush": "Transparent",
@@ -160,12 +160,12 @@
     "highlightBrush": "#99FF8D00",
     "selectionBrush": "#FF8D00",
     "selectionOpacity": 0.25,
-    "searchResultPadding": "5.0, 0",
+    "searchResultMargin": "5 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
     "clipboardDisplayFontSize": 10,
-    "clipboardDockPanelPadding": "5.0, 0"
+    "clipboardDockPanelPadding": "5 0"
   },
   {
     "name": "Dark Engine",
@@ -181,7 +181,7 @@
     "inputFontSize": 28,
     "inputFontWeight": "Normal",
     "inputBrush": "#E8EAED",
-    "inputPadding": "25.0, 0, 10.0, 0",
+    "inputPadding": "25 0 10 0",
     "inactiveBrush": "Gray",
     "caretBrush": "#E8EAED",
     "separatorBrush": "#5F6368",
@@ -202,12 +202,12 @@
     "highlightBrush": "#3C4043",
     "selectionBrush": "DarkOrange",
     "selectionOpacity": 0.5,
-    "searchResultMargin": "10 0 5 0",
+    "searchResultMargin": "10 0 10 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
     "clipboardDisplayFontSize": 10,
-    "clipboardDockPanelPadding": "20, 0"
+    "clipboardDockPanelPadding": "20 0"
   },
   {
     "name": "Light Engine",
@@ -223,7 +223,7 @@
     "inputFontSize": 28,
     "inputFontWeight": "Normal",
     "inputBrush": "#212121",
-    "inputPadding": "25.0, 0, 10.0, 0",
+    "inputPadding": "25 0 10 0",
     "inactiveBrush": "Gray",
     "caretBrush": "#212121",
     "separatorBrush": "#E8EAED",
@@ -244,11 +244,11 @@
     "highlightBrush": "#EEEEEE",
     "selectionBrush": "DarkOrange",
     "selectionOpacity": 0.5,
-    "searchResultMargin": "10 0 5 0",
+    "searchResultMargin": "10 0 10 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
     "clipboardDisplayFontSize": 10,
-    "clipboardDockPanelPadding": "20, 0"
+    "clipboardDockPanelPadding": "20 0"
   }
 ]
