@@ -1,6 +1,5 @@
 {
   "guid": "0fa9fdd3-dd24-47f0-a0b9-7b89112b961f",
-  "name": "URL",
   "iconPath": "17",
   "caption": "Go to Website",
   "isEnabled": true

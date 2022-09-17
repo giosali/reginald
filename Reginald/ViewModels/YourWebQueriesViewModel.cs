@@ -85,7 +85,6 @@
                 IsCustom = true,
                 IsEnabled = true,
                 Key = string.Empty,
-                Name = string.Empty,
                 Placeholder = "...",
                 Url = string.Empty,
                 UrlFormat = string.Empty,

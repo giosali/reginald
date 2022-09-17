@@ -16,8 +16,5 @@
 
         [JsonProperty("iconPath")]
         public string IconPath { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
     }
 }

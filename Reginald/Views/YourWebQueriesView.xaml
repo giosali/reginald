@@ -78,11 +78,6 @@
                                 <Binding Path="IsBeingEdited" />
                             </MultiBinding>
                         </StackPanel.Visibility>
-                        <!--Name-->
-                        <controls:LabeledTextBox IsRequired="True"
-                                                 Label="Name"
-                                                 Placeholder="Google"
-                                                 Text="{Binding SelectedItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <!--Key-->
                         <controls:LabeledTextBox HorizontalAlignment="Left"
                                                  IsRequired="True"

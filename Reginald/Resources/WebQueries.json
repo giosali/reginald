@@ -1,7 +1,6 @@
 [
   {
     "guid": "2088a843-cf3f-4bc3-8995-6762d46e4462",
-    "name": "Google",
     "key": "g",
     "iconPath": "pack://application:,,,/Reginald;component/Images/google.png",
     "url": "",
@@ -18,7 +17,6 @@
   },
   {
     "guid": "125a4696-b458-400c-80db-b167f8ec5632",
-    "name": "DuckDuckGo",
     "key": "ddg",
     "iconPath": "pack://application:,,,/Reginald;component/Images/duckduckgo.png",
     "url": "",
@@ -35,7 +33,6 @@
   },
   {
     "guid": "35af0718-e3c2-4a40-bf32-a96ebc780171",
-    "name": "Amazon",
     "key": "amazon",
     "iconPath": "pack://application:,,,/Reginald;component/Images/amazon.png",
     "url": "",
@@ -52,7 +49,6 @@
   },
   {
     "guid": "3435b74e-98fb-49b1-8678-da92012d5b30",
-    "name": "eBay",
     "key": "ebay",
     "iconPath": "pack://application:,,,/Reginald;component/Images/ebay.png",
     "url": "",
@@ -69,7 +65,6 @@
   },
   {
     "guid": "b0bf2d62-f04c-472d-aa51-2e6d09765137",
-    "name": "Facebook",
     "key": "fb",
     "iconPath": "pack://application:,,,/Reginald;component/Images/facebook.png",
     "url": "",
@@ -85,7 +80,6 @@
   },
   {
     "guid": "a240f58c-63f5-4231-b522-43502baa4d7d",
-    "name": "GitHub",
     "key": "github",
     "iconPath": "pack://application:,,,/Reginald;component/Images/github.png",
     "url": "",
@@ -102,7 +96,6 @@
   },
   {
     "guid": "fb82b2cc-5d4a-4ab5-9da3-205c2cf13059",
-    "name": "Instagram",
     "key": "ig",
     "iconPath": "pack://application:,,,/Reginald;component/Images/instagram.png",
     "url": "",
@@ -119,7 +112,6 @@
   },
   {
     "guid": "da3fcbc0-cc36-4d9c-9fdd-a03e8fa8d568",
-    "name": "Pinterest",
     "key": "pinterest",
     "iconPath": "pack://application:,,,/Reginald;component/Images/pinterest.png",
     "url": "",
@@ -136,7 +128,6 @@
   },
   {
     "guid": "8e49a4ef-f9ef-4281-86db-b7c6dcdb1636",
-    "name": "Reddit",
     "key": "r/",
     "iconPath": "pack://application:,,,/Reginald;component/Images/reddit.png",
     "url": "",
@@ -153,7 +144,6 @@
   },
   {
     "guid": "7f51d33d-9452-4528-aed3-aa514ab6beb8",
-    "name": "TikTok",
     "key": "tiktok",
     "iconPath": "pack://application:,,,/Reginald;component/Images/tiktok.png",
     "url": "",
@@ -170,7 +160,6 @@
   },
   {
     "guid": "d9231e54-7164-4c23-96a8-5a4b72f2f27d",
-    "name": "TikTok",
     "key": "tiktok",
     "iconPath": "pack://application:,,,/Reginald;component/Images/tiktok.png",
     "url": "",
@@ -187,7 +176,6 @@
   },
   {
     "guid": "49f5c9e9-9865-4c10-87cc-19338237e113",
-    "name": "tumblr",
     "key": "tumblr",
     "iconPath": "pack://application:,,,/Reginald;component/Images/tumblr.png",
     "url": "",
@@ -204,7 +192,6 @@
   },
   {
     "guid": "970016e4-8576-4af9-aa11-d66fb221ff9e",
-    "name": "tumblr",
     "key": "tumblr",
     "iconPath": "pack://application:,,,/Reginald;component/Images/tumblr.png",
     "url": "",
@@ -221,7 +208,6 @@
   },
   {
     "guid": "2debfe9d-e022-476c-b544-108ee488dd9b",
-    "name": "Twitch",
     "key": "twitch",
     "iconPath": "pack://application:,,,/Reginald;component/Images/twitch.png",
     "url": "",
@@ -238,7 +224,6 @@
   },
   {
     "guid": "c030eaac-7f75-4c2a-b0fe-6aac030e01d2",
-    "name": "Twitter",
     "key": "twitter",
     "iconPath": "pack://application:,,,/Reginald;component/Images/twitter.png",
     "url": "",
@@ -255,7 +240,6 @@
   },
   {
     "guid": "6e14b68e-c512-4874-b158-8f33491fac38",
-    "name": "Twitter",
     "key": "twitter",
     "iconPath": "pack://application:,,,/Reginald;component/Images/twitter.png",
     "url": "",
@@ -272,7 +256,6 @@
   },
   {
     "guid": "a39d4378-ac15-462c-bad3-1bb5737bd06c",
-    "name": "Wikipedia",
     "key": "wiki",
     "iconPath": "pack://application:,,,/Reginald;component/Images/wikipedia.png",
     "url": "",
@@ -289,7 +272,6 @@
   },
   {
     "guid": "37908edd-d8ed-456b-bae4-a3897f98fd3e",
-    "name": "YouTube",
     "key": "yt",
     "iconPath": "pack://application:,,,/Reginald;component/Images/youtube.png",
     "url": "",
