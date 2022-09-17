@@ -54,7 +54,8 @@
             CancellationToken token = _cts.Token;
             if (DMS.FileSystemEntrySearch.Check(userInput))
             {
-                List<SearchResult> __items = await Task.Run(() =>
+                List<SearchResult> tempItems = await Task.Run(
+                    () =>
                 {
                     try
                     {
@@ -64,13 +65,14 @@
                     {
                         return null;
                     }
-                }, token);
-                if (__items is null)
+                },
+                    token);
+                if (tempItems is null)
                 {
                     return;
                 }
 
-                items.AddRange(__items);
+                items.AddRange(tempItems);
             }
             else
             {
@@ -85,7 +87,8 @@
                 items.AddRange(DMS.MultipleProducers
                                   .Where(mp => mp.Check(userInput))
                                   .SelectMany(mp => mp.Produce()));
-                items.AddRange(await Task.Run(() =>
+                items.AddRange(await Task.Run(
+                    () =>
                 {
                     try
                     {
@@ -95,7 +98,8 @@
                     {
                         return Array.Empty<SearchResult>();
                     }
-                }, token));
+                },
+                    token));
             }
 
             // Removes ListBox flickering when it's cleared at this point.
