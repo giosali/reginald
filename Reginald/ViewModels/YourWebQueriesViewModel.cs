@@ -81,7 +81,7 @@
                 Description = string.Empty,
                 DescriptionFormat = string.Empty,
                 EncodeInput = true,
-                Guid = Guid.NewGuid(),
+                Id = new Random().Next(0x1000000),
                 IsCustom = true,
                 IsEnabled = true,
                 Key = string.Empty,
@@ -121,11 +121,11 @@
             DataModelService dms = IoC.Get<DataModelService>();
             if (SelectedItem.IsEnabled)
             {
-                _ = dms.Settings.DisabledWebQueries.Remove(SelectedItem.Guid);
+                _ = dms.Settings.DisabledWebQueries.Remove(SelectedItem.Id);
             }
             else
             {
-                dms.Settings.DisabledWebQueries.Add(SelectedItem.Guid);
+                dms.Settings.DisabledWebQueries.Add(SelectedItem.Id);
             }
 
             dms.Settings.Save();

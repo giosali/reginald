@@ -1,5 +1,5 @@
 {
-  "guid": "b34183ee-1f27-491a-af06-f9e63c4b7e11",
+  "id": 0x6945a3,
   "iconPath": "pack://application:,,,/Reginald;component/Images/calculator.png",
   "caption": "Copy to Clipboard",
   "isEnabled": true

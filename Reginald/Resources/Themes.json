@@ -2,7 +2,7 @@
   {
     "name": "Standard Black",
     "author": "Reginald",
-    "guid": "fea6b940-29e7-4e02-9f85-154e691789ca",
+    "id": 0x676dbc,
     "isEditable": false,
     "isAcrylicEnabled": false,
     "acrylicOpacity": 0,
@@ -44,7 +44,7 @@
   {
     "name": "Standard White",
     "author": "Reginald",
-    "guid": "77756de2-1275-4eaa-9cba-c6f83865b41b",
+    "id": 0x6e6f33,
     "isEditable": false,
     "isAcrylicEnabled": false,
     "acrylicOpacity": 0,
@@ -86,7 +86,7 @@
   {
     "name": "Acrylic Dark",
     "author": "Reginald",
-    "guid": "553a4cdf-11c6-49ce-b634-7ce6945f6958",
+    "id": 0x02034c,
     "isEditable": false,
     "isAcrylicEnabled": true,
     "acrylicOpacity": 180,
@@ -128,7 +128,7 @@
   {
     "name": "Acrylic Light",
     "author": "Reginald",
-    "guid": "2b4b110c-6e4b-4dd6-aee0-ef290aabd982",
+    "id": 0xcf7f2a,
     "isEditable": false,
     "isAcrylicEnabled": true,
     "acrylicOpacity": 128,
@@ -170,7 +170,7 @@
   {
     "name": "Dark Engine",
     "author": "Reginald",
-    "guid": "7f6280d0-184d-4c0e-b924-14e8ce615033",
+    "id": 0x90c39d,
     "isEditable": false,
     "isAcrylicEnabled": false,
     "acrylicOpacity": 0,
@@ -212,7 +212,7 @@
   {
     "name": "Light Engine",
     "author": "Reginald",
-    "guid": "bac18eb4-484f-482b-9b69-e791565c1326",
+    "id": 0x21d5e5,
     "isEditable": false,
     "isAcrylicEnabled": false,
     "acrylicOpacity": 0,

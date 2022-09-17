@@ -180,17 +180,17 @@
             WebQuery[] webQueries = FileOperations.GetGenericData<WebQuery>(WebQuery.FileName, true);
             WebQuery[] yourWebQueries = FileOperations.GetGenericData<WebQuery>(WebQuery.UserFileName, false);
             DefaultWebQueries = webQueries.Concat(yourWebQueries)
-                                          .Where(wq => Array.Exists(Settings.DefaultWebQueries, i => i == wq.Guid))
+                                          .Where(wq => Array.Exists(Settings.DefaultWebQueries, i => i == wq.Id))
                                           .Take(3);
             if (Settings.AreWebQueriesEnabled)
             {
                 for (int i = 0; i < Settings.DisabledWebQueries.Count; i++)
                 {
-                    Guid guid = Settings.DisabledWebQueries[i];
+                    int id = Settings.DisabledWebQueries[i];
                     for (int j = 0; j < webQueries.Length; j++)
                     {
                         WebQuery wq = webQueries[j];
-                        if (guid == wq.Guid)
+                        if (id == wq.Id)
                         {
                             wq.IsEnabled = false;
                         }
@@ -202,11 +202,11 @@
 
             for (int i = 0; i < Settings.DisabledWebQueries.Count; i++)
             {
-                Guid guid = Settings.DisabledWebQueries[i];
+                int id = Settings.DisabledWebQueries[i];
                 for (int j = 0; j < yourWebQueries.Length; j++)
                 {
                     WebQuery wq = yourWebQueries[j];
-                    if (guid == wq.Guid)
+                    if (id == wq.Id)
                     {
                         wq.IsEnabled = false;
                     }
@@ -254,8 +254,8 @@
         private void SetTheme()
         {
             Theme[] themes = FileOperations.GetGenericData<Theme>(Theme.FileName, true);
-            Theme theme = themes.FirstOrDefault(t => t.Guid == Settings.ThemeIdentifier, themes[0]);
-            if (Theme?.Guid != theme.Guid)
+            Theme theme = themes.FirstOrDefault(t => t.Id == Settings.ThemeId, themes[0]);
+            if (Theme?.Id != theme.Id)
             {
                 Theme = theme;
             }

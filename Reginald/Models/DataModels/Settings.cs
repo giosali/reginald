@@ -1,6 +1,5 @@
 ﻿namespace Reginald.Models.DataModels
 {
-    using System;
     using System.Collections.Generic;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
@@ -35,13 +34,13 @@
         public char DecimalSeparator { get; set; } = '\0';
 
         [JsonProperty("defaultWebQueries")]
-        public Guid[] DefaultWebQueries { get; set; } = new[] { new Guid("2088a843-cf3f-4bc3-8995-6762d46e4462"), new Guid("125a4696-b458-400c-80db-b167f8ec5632"), new Guid("35af0718-e3c2-4a40-bf32-a96ebc780171") };
+        public int[] DefaultWebQueries { get; set; } = new[] { 0x756442, 0xd6958a, 0x6d81bf };
+
+        [JsonProperty("disabledWebQueries")]
+        public List<int> DisabledWebQueries { get; set; } = new();
 
         [JsonProperty("isCalculatorEnabled")]
         public bool IsCalculatorEnabled { get; set; } = true;
-
-        [JsonProperty("disabledWebQueries")]
-        public List<Guid> DisabledWebQueries { get; set; } = new();
 
         [JsonProperty("isClearClipboardEnabled")]
         public bool IsClearClipboardEnabled { get; set; } = true;
@@ -70,8 +69,8 @@
         [JsonProperty("runAtStartup")]
         public bool RunAtStartup { get; set; } = true;
 
-        [JsonProperty("themeIdentifier")]
-        public Guid ThemeIdentifier { get; set; } = new("fea6b940-29e7-4e02-9f85-154e691789ca");
+        [JsonProperty("themeId")]
+        public int ThemeId { get; set; } = 0x676dbc;
 
         public void Save()
         {

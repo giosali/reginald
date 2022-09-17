@@ -1,6 +1,5 @@
 ﻿namespace Reginald.Models.DataModels
 {
-    using System;
     using Newtonsoft.Json;
 
     public abstract class DataModel
@@ -11,10 +10,10 @@
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("guid")]
-        public Guid Guid { get; set; }
-
         [JsonProperty("iconPath")]
         public string IconPath { get; set; }
+
+        [JsonProperty("id")]
+        public int Id { get; set; }
     }
 }

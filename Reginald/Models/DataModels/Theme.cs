@@ -72,8 +72,8 @@
         [JsonProperty("fontFamily")]
         public FontFamily FontFamily { get; set; }
 
-        [JsonProperty("guid")]
-        public Guid Guid { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
 
         [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("HighlightBrush")]

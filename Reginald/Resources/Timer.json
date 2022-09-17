@@ -1,5 +1,5 @@
 {
-  "guid": "4c50f44e-420c-4f25-b61c-1ca754088696",
+  "id": 0xa32c12,
   "key": "timer",
   "iconPath": "pack://application:,,,/Reginald;component/Images/timer.png",
   "format": "In {0}: {1}",

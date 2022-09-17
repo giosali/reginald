@@ -23,7 +23,7 @@
             _dms = dms;
 
             Items.AddRange(FileOperations.GetGenericData<Theme>(Theme.FileName, true));
-            SelectedItem = Items.FirstOrDefault(theme => theme.Guid == _dms.Settings.ThemeIdentifier, Items.First());
+            SelectedItem = Items.FirstOrDefault(theme => theme.Id == _dms.Settings.ThemeId, Items.First());
         }
 
         public override void IsEnabled_Click(object sender, RoutedEventArgs e)
@@ -33,7 +33,7 @@
 
         public void ThemesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _dms.Settings.ThemeIdentifier = SelectedItem.Guid;
+            _dms.Settings.ThemeId = SelectedItem.Id;
             _dms.Settings.Save();
             _ = _eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage($"Themes > {SelectedItem?.Name}"));
         }

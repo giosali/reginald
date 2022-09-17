@@ -1,5 +1,5 @@
 {
-  "guid": "9151d022-fa7d-4316-992f-b97804171414",
+  "id": 0x09dc9d,
   "key": "quit",
   "iconPath": "pack://application:,,,/Reginald;component/Images/Commands/quit.png",
   "format": "Quit {0}",

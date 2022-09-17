@@ -21,11 +21,11 @@
         {
             if (SelectedItem.IsEnabled)
             {
-                _ = DMS.Settings.DisabledWebQueries.Remove(SelectedItem.Guid);
+                _ = DMS.Settings.DisabledWebQueries.Remove(SelectedItem.Id);
             }
             else
             {
-                DMS.Settings.DisabledWebQueries.Add(SelectedItem.Guid);
+                DMS.Settings.DisabledWebQueries.Add(SelectedItem.Id);
             }
 
             DMS.Settings.Save();
