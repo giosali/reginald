@@ -48,6 +48,8 @@
                                    TextTrimming="CharacterEllipsis">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground"
+                                            Value="{Binding DataContext.DMS.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                      Value="True">
@@ -55,10 +57,6 @@
                                                     Value="{Binding DataContext.DMS.Theme.SelectedDescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                                         </DataTrigger>
                                     </Style.Triggers>
-                                    <Style.Setters>
-                                        <Setter Property="Foreground"
-                                                Value="{Binding DataContext.DMS.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
-                                    </Style.Setters>
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
@@ -71,6 +69,8 @@
                                    TextTrimming="CharacterEllipsis">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground"
+                                            Value="{Binding DataContext.DMS.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                      Value="True">
@@ -78,10 +78,6 @@
                                                     Value="{Binding DataContext.DMS.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                                         </DataTrigger>
                                     </Style.Triggers>
-                                    <Style.Setters>
-                                        <Setter Property="Foreground"
-                                                Value="{Binding DataContext.DMS.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
-                                    </Style.Setters>
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
@@ -152,10 +148,8 @@
             <!--Styles-->
             <Style x:Key="BorderStyle"
                    TargetType="{x:Type Border}">
-                <Style.Setters>
-                    <Setter Property="Background"
-                            Value="{Binding DMS.Theme.BackgroundBrush}" />
-                </Style.Setters>
+                <Setter Property="Background"
+                        Value="{Binding DMS.Theme.BackgroundBrush}" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding DMS.Theme.IsAcrylicEnabled}"
                                  Value="True">
@@ -189,16 +183,14 @@
             <Style x:Key="ListBoxItemContainerStyle"
                    BasedOn="{StaticResource {x:Type ListBoxItem}}"
                    TargetType="{x:Type ListBoxItem}">
-                <Style.Setters>
-                    <Setter Property="Foreground"
-                            Value="{Binding DataContext.DMS.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
-                    <Setter Property="Height"
-                            Value="55" />
-                    <Setter Property="HorizontalContentAlignment"
-                            Value="Stretch" />
-                    <Setter Property="Template"
-                            Value="{StaticResource ListBoxItemControlTemplate}" />
-                </Style.Setters>
+                <Setter Property="Foreground"
+                        Value="{Binding DataContext.DMS.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                <Setter Property="Height"
+                        Value="55" />
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Stretch" />
+                <Setter Property="Template"
+                        Value="{StaticResource ListBoxItemControlTemplate}" />
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
