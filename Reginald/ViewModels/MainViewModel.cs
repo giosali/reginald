@@ -198,7 +198,7 @@
                 case Key.Space:
                     if (UserInput.Length == 0)
                     {
-                        (sender as TextBox)?.SetText("'");
+                        (sender as TextBox)?.SetText(DMS.FileSystemEntrySearch.Key);
                         e.Handled = true;
                     }
 
