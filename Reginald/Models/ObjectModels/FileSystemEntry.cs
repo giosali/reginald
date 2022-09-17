@@ -11,7 +11,6 @@
     {
         public FileSystemEntry(string path)
         {
-            Description = Path.GetFileName(path);
             Caption = path;
             try
             {
@@ -44,12 +43,12 @@
 
         public bool Check(string input)
         {
-            return Description.ContainsPhrase(input);
+            return Path.GetFileName(Caption).ContainsPhrase(input);
         }
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, IconPath, Description);
+            SearchResult result = new(Caption, IconPath, Path.GetFileName(Caption));
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
         }
@@ -136,7 +135,7 @@
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            _ = Process.Start("explorer.exe", (Type == EntryType.File ? "/select," : string.Empty) + Caption);
+            _ = Process.Start("explorer.exe", (Type == EntryType.File ? "/select," : string.Empty) + Path.GetFileName(Caption));
             e.Handled = true;
         }
     }
