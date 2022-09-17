@@ -161,8 +161,15 @@
         {
             string[] keyInputArray = _keyInput.Split(' ', 2);
             string input = keyInputArray[^1];
-            if (keyInputArray.Length < 2 || string.IsNullOrEmpty(input))
+            if (keyInputArray.Length < 2 || input.Length == 0)
             {
+                // Opens URLs that don't require formatting.
+                if (!string.IsNullOrEmpty(Description))
+                {
+                    e.Handled = true;
+                    ProcessUtility.GoTo(Url);
+                }
+
                 if (input == Key + " ")
                 {
                     return;
@@ -170,12 +177,12 @@
 
                 // Handles autocompletion.
                 e.IsInputIncomplete = true;
-                e.CompleteInput = string.IsNullOrEmpty(Description) ? Key + " " : Key;
+                e.CompleteInput = Key + " ";
                 return;
             }
 
             e.Handled = true;
-            ProcessUtility.GoTo(string.IsNullOrEmpty(Url) ? string.Format(UrlFormat, input.Quote(EncodeInput)) : Url);
+            ProcessUtility.GoTo(string.Format(UrlFormat, input.Quote(EncodeInput)));
         }
 
         private void OnTabKeyPressed(object sender, InputProcessingEventArgs e)
