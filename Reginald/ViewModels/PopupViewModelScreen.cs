@@ -16,9 +16,19 @@
 
     public class PopupViewModelScreen<T> : Screen
     {
+        private bool _isMouseOverChanged;
+
         private T _selectedItem;
 
-        private bool _isMouseOverChanged;
+        public bool IsMouseOverChanged
+        {
+            get => _isMouseOverChanged;
+            set
+            {
+                _isMouseOverChanged = value;
+                NotifyOfPropertyChange(() => IsMouseOverChanged);
+            }
+        }
 
         public T SelectedItem
         {
@@ -31,36 +41,24 @@
             }
         }
 
-        public bool IsMouseOverChanged
-        {
-            get => _isMouseOverChanged;
-            set
-            {
-                _isMouseOverChanged = value;
-                NotifyOfPropertyChange(() => IsMouseOverChanged);
-            }
-        }
-
         public BindableCollection<T> Items { get; set; } = new();
+
+        protected IntPtr ActiveHandle { get; set; }
 
         protected T LastSelectedItem { get; set; }
 
         protected Point MousePosition { get; set; }
 
-        protected IntPtr ActiveHandle { get; set; }
+        private KeyboardHook KeyboardHook { get; set; }
 
         private MouseHook MouseHook { get; set; }
 
-        private KeyboardHook KeyboardHook { get; set; }
-
-        public void Items_Unloaded(object sender, RoutedEventArgs e)
+        public void Hide()
         {
-            BindingOperations.ClearBinding(sender as ListBox, Selector.SelectedItemProperty);
-        }
-
-        public void Items_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            (sender as ListBox)?.ScrollIntoView(SelectedItem);
+            if (GetView() is Popup popup)
+            {
+                popup.IsOpen = false;
+            }
         }
 
         public void Item_MouseMove(object sender, MouseEventArgs e)
@@ -74,12 +72,14 @@
             MousePosition = position;
         }
 
-        public void Hide()
+        public void Items_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (GetView() is Popup popup)
-            {
-                popup.IsOpen = false;
-            }
+            (sender as ListBox)?.ScrollIntoView(SelectedItem);
+        }
+
+        public void Items_Unloaded(object sender, RoutedEventArgs e)
+        {
+            BindingOperations.ClearBinding(sender as ListBox, Selector.SelectedItemProperty);
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
@@ -104,14 +104,6 @@
             return base.OnDeactivateAsync(close, cancellationToken);
         }
 
-        private void OnLeftMouseClick(object sender, MouseClickEventArgs e)
-        {
-            if (e.Handle != ActiveHandle)
-            {
-                Hide();
-            }
-        }
-
         private void OnKeyPressed(object sender, KeyPressedEventArgs e)
         {
             ModifierKeys modifiers = Keyboard.Modifiers;
@@ -133,6 +125,14 @@
             else
             {
                 _ = KeyboardInputInjector.SendKeyUp(ActiveHandle, e.VirtualKeyCode);
+            }
+        }
+
+        private void OnLeftMouseClick(object sender, MouseClickEventArgs e)
+        {
+            if (e.Handle != ActiveHandle)
+            {
+                Hide();
             }
         }
     }
