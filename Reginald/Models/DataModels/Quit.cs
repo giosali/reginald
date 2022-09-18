@@ -60,7 +60,13 @@
                 {
                     Process process = processes[i];
                     string fileName = process.MainModule.FileName;
-                    SearchResult result = new(Caption, fileName, string.Format(Format, FileVersionInfo.GetVersionInfo(fileName).FileDescription), StaticRandom.Next());
+                    string fileDescription = FileVersionInfo.GetVersionInfo(fileName).FileDescription;
+                    if (fileDescription.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    SearchResult result = new(Caption, fileName, string.Format(Format, fileDescription), StaticRandom.Next());
                     result.EnterKeyPressed += OnEnterKeyPressed;
                     _processIds[result.GetHashCode()] = process.Id;
                     results.Add(result);
@@ -74,7 +80,7 @@
                 Process process = processes[i];
                 string fileName = process.MainModule.FileName;
                 string fileDescription = FileVersionInfo.GetVersionInfo(fileName).FileDescription;
-                if (!fileDescription.StartsWith(input, StringComparison.OrdinalIgnoreCase))
+                if (!fileDescription.StartsWith(input, StringComparison.OrdinalIgnoreCase) || fileDescription.Length == 0)
                 {
                     continue;
                 }
