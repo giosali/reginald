@@ -244,22 +244,15 @@
                 Items[i].KeyboardShortcut = "CTRL + " + (i + 1);
             }
 
-            int index = Items.IndexOf(LastSelectedItem);
-            if (index == -1)
-            {
-                SelectedItem = Items[0];
-                return;
-            }
-
             // Selects the previously selected item and places it at the top of the
             // results if it's still in the new list of results.
-            SearchResult item = Items[index];
-            for (int i = index; i > 0; i--)
+            int index = Items.IndexOf(LastSelectedItem);
+            if (index > 0)
             {
-                Items[i] = Items[i - 1];
+                Items.Move(index, 0);
             }
 
-            Items[0] = SelectedItem = item;
+            SelectedItem = Items[0];
         }
 
         private void PressEnter(object sender, int index = -1)
