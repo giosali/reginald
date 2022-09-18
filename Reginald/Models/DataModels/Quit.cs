@@ -102,6 +102,7 @@
             }
 
             ProcessUtility.QuitProcessById(processId);
+            _processIds.Clear();
             e.Handled = true;
         }
     }
