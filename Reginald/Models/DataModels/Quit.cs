@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using Newtonsoft.Json;
+    using Reginald.Core.Utilities;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
@@ -59,7 +60,7 @@
                 {
                     Process process = processes[i];
                     string fileName = process.MainModule.FileName;
-                    SearchResult result = new(Caption, fileName, string.Format(Format, FileVersionInfo.GetVersionInfo(fileName).FileDescription));
+                    SearchResult result = new(Caption, fileName, string.Format(Format, FileVersionInfo.GetVersionInfo(fileName).FileDescription), StaticRandom.Next());
                     result.EnterKeyPressed += OnEnterKeyPressed;
                     _processIds[result.GetHashCode()] = process.Id;
                     results.Add(result);
@@ -78,7 +79,7 @@
                     continue;
                 }
 
-                SearchResult result = new(Caption, fileName, string.Format(Format, fileDescription));
+                SearchResult result = new(Caption, fileName, string.Format(Format, fileDescription), StaticRandom.Next());
                 result.EnterKeyPressed += OnEnterKeyPressed;
                 _processIds[result.GetHashCode()] = process.Id;
                 results.Add(result);

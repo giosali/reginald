@@ -42,7 +42,7 @@
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, IconPath, Description.PrependScheme());
+            SearchResult result = new(Caption, IconPath, Description.PrependScheme(), Id);
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
         }

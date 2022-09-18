@@ -19,7 +19,7 @@
 
         public SearchResult Produce()
         {
-            return new SearchResult(Caption, IconPath, Description);
+            return new SearchResult(Caption, IconPath, Description, Id);
         }
     }
 }

@@ -12,21 +12,24 @@
 
         private Icon _icon;
 
-        public SearchResult(string caption, string iconPath)
+        public SearchResult(string caption, string iconPath, int id)
         {
+            Id = id;
             Caption = caption;
             Icon = new Icon(iconPath);
         }
 
-        public SearchResult(string caption, string iconPath, string description)
+        public SearchResult(string caption, string iconPath, string description, int id)
         {
+            Id = id;
             Caption = caption;
             Icon = new Icon(iconPath);
             Description = description;
         }
 
-        public SearchResult(string caption, BitmapSource bitmapSource, string description)
+        public SearchResult(string caption, BitmapSource bitmapSource, string description, int id)
         {
+            Id = id;
             Caption = caption;
             Icon = new Icon(bitmapSource);
             Description = description;
@@ -63,6 +66,28 @@
         }
 
         public string KeyboardShortcut { get; set; }
+
+        private int Id { get; set; }
+
+        public static bool operator ==(SearchResult a, SearchResult b)
+        {
+            return a is not null && b is not null && a.Id == b.Id;
+        }
+
+        public static bool operator !=(SearchResult a, SearchResult b)
+        {
+            return a is not null && b is not null && a.Id != b.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is SearchResult result && Id == result.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
+        }
 
         public override void PressAlt(InputProcessingEventArgs e)
         {

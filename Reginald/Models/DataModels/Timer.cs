@@ -5,6 +5,7 @@
     using System.Text.RegularExpressions;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
+    using Reginald.Core.Utilities;
     using Reginald.Models.Drawing;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
@@ -139,7 +140,7 @@
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, IconPath);
+            SearchResult result = new(Caption, IconPath, Id);
             result.EnterKeyPressed += OnEnterKeyPressed;
 
             if (_keyInput.Split(' ', 2).Length < 2)
@@ -158,7 +159,7 @@
             timer.InternalTimer = new(1000);
             timer.InternalTimer.Elapsed += timer.OnElapsed;
             timer.InternalTimer.AutoReset = true;
-            timer.Result = new(Caption, IconPath);
+            timer.Result = new(Caption, IconPath, StaticRandom.Next());
             timer.Result.AltKeyReleased += timer.OnAltKeyReleased;
             return timer;
         }

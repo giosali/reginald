@@ -6,6 +6,7 @@
     using System.Windows.Media.Imaging;
     using Microsoft.WindowsAPICodePack.Shell;
     using Reginald.Core.Extensions;
+    using Reginald.Core.Utilities;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
@@ -13,7 +14,7 @@
 
     public class Application : ObjectModel, ISingleProducer<SearchResult>
     {
-        public Application(string description, BitmapSource source, string filePath)
+        public Application(string description, BitmapSource source, string filePath, int id)
         {
             Caption = "Application";
             Description = description;
@@ -23,11 +24,14 @@
             Source.Freeze();
 
             FilePath = filePath;
+            Id = id;
         }
 
-        public BitmapSource Source { get; set; }
-
         public string FilePath { get; set; }
+
+        public int Id { get; set; }
+
+        public BitmapSource Source { get; set; }
 
         public static IEnumerable<Application> GetApplications()
         {
@@ -52,7 +56,7 @@
                 sos.Add(so);
             }
 
-            return sos.Select(so => new Application(so.Name, so.Thumbnail.MediumBitmapSource, so.Properties.System.Link.TargetParsingPath.Value is string path ? path : @"shell:AppsFolder\" + so.ParsingName));
+            return sos.Select(so => new Application(so.Name, so.Thumbnail.MediumBitmapSource, so.Properties.System.Link.TargetParsingPath.Value is string path ? path : @"shell:AppsFolder\" + so.ParsingName, StaticRandom.Next()));
         }
 
         public bool Check(string input)
@@ -145,7 +149,7 @@
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, Source, Description);
+            SearchResult result = new(Caption, Source, Description, Id);
             result.AltKeyPressed += OnAltKeyPressed;
             result.AltKeyReleased += OnAltKeyReleased;
             result.EnterKeyPressed += OnEnterKeyPressed;

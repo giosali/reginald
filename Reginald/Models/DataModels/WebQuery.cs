@@ -74,7 +74,7 @@
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, IconPath);
+            SearchResult result = new(Caption, IconPath, Id);
             result.AltAndEnterKeysPressed += OnAltAndEnterKeysPressed;
             result.AltKeyPressed += OnAltKeyPressed;
             result.AltKeyReleased += OnAltKeyReleased;
@@ -100,7 +100,7 @@
 
         public SearchResult Produce(string input)
         {
-            SearchResult result = new(Caption, IconPath);
+            SearchResult result = new(Caption, IconPath, Id);
             result.AltAndEnterKeysPressed += OnAltAndEnterKeysPressed;
             result.AltKeyPressed += OnAltKeyPressed;
             result.AltKeyReleased += OnAltKeyReleased;

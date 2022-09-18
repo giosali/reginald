@@ -42,7 +42,7 @@
 
         public SearchResult Produce()
         {
-            SearchResult result = new(Caption, IconPath, Description);
+            SearchResult result = new(Caption, IconPath, Description, Id);
             result.AltKeyPressed += OnAltKeyPressed;
             result.AltKeyReleased += OnAltKeyReleased;
             result.EnterKeyPressed += OnEnterKeyPressed;

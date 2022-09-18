@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.IO;
     using Reginald.Core.Extensions;
+    using Reginald.Core.Utilities;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
@@ -34,7 +35,7 @@
 
         public SearchResult Produce()
         {
-            SearchResult result = new(UserProfile + Caption, IconPath, Path.GetFileName(Caption));
+            SearchResult result = new(UserProfile + Caption, IconPath, Path.GetFileName(Caption), StaticRandom.Next());
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
         }

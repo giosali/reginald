@@ -38,7 +38,7 @@
         public SearchResult Produce()
         {
             _hasBeenPrompted = false;
-            SearchResult result = new(Caption, IconPath, Description);
+            SearchResult result = new(Caption, IconPath, Description, Id);
             result.EnterKeyPressed += OnEnterKeyPressed;
             return result;
         }
