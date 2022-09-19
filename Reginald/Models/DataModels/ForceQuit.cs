@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using Newtonsoft.Json;
-using Reginald.Models.Inputs;
-using Reginald.Models.Producers;
-using Reginald.Models.Products;
-using Reginald.Services.Utilities;
-
 namespace Reginald.Models.DataModels
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Threading;
+    using Newtonsoft.Json;
+    using Reginald.Models.Inputs;
+    using Reginald.Models.Producers;
+    using Reginald.Models.Products;
+    using Reginald.Services.Utilities;
+
     internal class ForceQuit : DataModel, IMultipleProducer<SearchResult>
     {
         private static readonly ConcurrentDictionary<int, int> _processIds = new();
