@@ -6,6 +6,6 @@ namespace Reginald.Models.Producers
     {
         bool Check(string input);
 
-        T[] Produce(CancellationToken token);
+        T[] Produce(CancellationToken token = default);
     }
 }
