@@ -49,13 +49,13 @@
             keyboardHook.KeyPressed += OnKeyPressed;
         }
 
+        public IMultipleProducer<SearchResult>[] CpuIntensiveMultipleProducers { get; private set; }
+
         public IEnumerable<WebQuery> DefaultWebQueries { get; private set; }
 
         public FileSystemEntrySearch FileSystemEntrySearch { get; private set; }
 
         public IMultipleProducer<SearchResult>[] MultipleProducers { get; private set; }
-
-        public Quit Quit { get; private set; }
 
         public Settings Settings { get; private set; }
 
@@ -158,18 +158,23 @@
 
         private void SetMultipleProducers()
         {
-            List<IMultipleProducer<SearchResult>> multipleProducers = new();
-
             // Handles those that receive key inputs.
-            Quit = FileOperations.GetGenericDatum<Quit>("Quit.json", true);
-            Quit.IsEnabled = Settings.IsQuitEnabled;
+            Quit quit = FileOperations.GetGenericDatum<Quit>("Quit.json", true);
+            quit.IsEnabled = Settings.IsQuitEnabled;
 
-            if (Settings.AreTimersEnabled)
+            ForceQuit forceQuit = FileOperations.GetGenericDatum<ForceQuit>("ForceQuit.json", true);
+            forceQuit.IsEnabled = Settings.IsForceQuitEnabled;
+
+            CpuIntensiveMultipleProducers = new IMultipleProducer<SearchResult>[]
             {
-                multipleProducers.Add(FileOperations.GetGenericDatum<Timers>("Timers.json", true));
-            }
+                quit,
+                forceQuit,
+            };
 
-            MultipleProducers = multipleProducers.ToArray();
+            Timers timers = FileOperations.GetGenericDatum<Timers>("Timers.json", true);
+            timers.IsEnabled = Settings.AreTimersEnabled;
+
+            MultipleProducers = new IMultipleProducer<SearchResult>[] { timers };
         }
 
         private void SetSingleProducers()

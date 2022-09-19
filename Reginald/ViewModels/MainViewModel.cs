@@ -11,6 +11,7 @@
     using Reginald.Core.Extensions;
     using Reginald.Models.Inputs;
     using Reginald.Models.ObjectModels;
+    using Reginald.Models.Producers;
     using Reginald.Models.Products;
     using Reginald.Services;
 
@@ -235,7 +236,7 @@
                     }
                     catch (OperationCanceledException)
                     {
-                        return Array.Empty<SearchResult>();
+                        return new List<SearchResult>();
                     }
                 },
                     token));
@@ -280,15 +281,19 @@
             }
         }
 
-        private SearchResult[] SearchCpuIntensiveModels(string input, CancellationToken token)
+        private List<SearchResult> SearchCpuIntensiveModels(string input, CancellationToken token)
         {
-            if (!DMS.Quit.Check(input))
+            List<SearchResult> results = new();
+            for (int i = 0; i < DMS.CpuIntensiveMultipleProducers.Length; i++)
             {
-                return Array.Empty<SearchResult>();
+                IMultipleProducer<SearchResult> producer = DMS.CpuIntensiveMultipleProducers[i];
+                if (producer.Check(input))
+                {
+                    results.AddRange(producer.Produce(token));
+                }
             }
 
-            SearchResult[] items = DMS.Quit.Produce(token);
-            return items;
+            return results;
         }
 
         private List<SearchResult> SearchFileSystemEntries(string input, CancellationToken token)
