@@ -13,7 +13,7 @@
     using Reginald.Services.Appearance;
     using Reginald.Services.Utilities;
 
-    internal class SearchPopupViewModelScreen<T> : PopupViewModelScreen<T>
+    internal abstract class SearchPopupViewModelScreen<T> : PopupViewModelScreen<T>
     {
         private double _borderOpacity = 1.0;
 
