@@ -39,12 +39,7 @@
                 return Key.StartsWith(keyInput, StringComparison.OrdinalIgnoreCase);
             }
 
-            if (!keyInput.StartsWith(Key + " ", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-
-            return true;
+            return keyInput.StartsWith(Key + " ", StringComparison.OrdinalIgnoreCase);
         }
 
         public SearchResult[] Produce(CancellationToken token)
