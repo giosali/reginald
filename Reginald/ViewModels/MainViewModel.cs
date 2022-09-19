@@ -221,12 +221,24 @@
                                    .Select(sp => sp.Produce())
                                    .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
                                    .ThenBy(sp => sp.Description));
-                items.AddRange(DMS.SingleProducers
-                                  .Where(sp => sp.Check(userInput))
-                                  .Select(sp => sp.Produce()));
-                items.AddRange(DMS.MultipleProducers
-                                  .Where(mp => mp.Check(userInput))
-                                  .SelectMany(mp => mp.Produce()));
+                for (int i = 0; i < DMS.SingleProducers.Length; i++)
+                {
+                    ISingleProducer<SearchResult> sp = DMS.SingleProducers[i];
+                    if (sp.Check(userInput))
+                    {
+                        items.Add(sp.Produce());
+                    }
+                }
+
+                for (int i = 0; i < DMS.MultipleProducers.Length; i++)
+                {
+                    IMultipleProducer<SearchResult> mp = DMS.MultipleProducers[i];
+                    if (mp.Check(userInput))
+                    {
+                        items.AddRange(mp.Produce());
+                    }
+                }
+
                 items.AddRange(await Task.Run(
                     () =>
                 {
@@ -286,10 +298,10 @@
             List<SearchResult> results = new();
             for (int i = 0; i < DMS.CpuIntensiveMultipleProducers.Length; i++)
             {
-                IMultipleProducer<SearchResult> producer = DMS.CpuIntensiveMultipleProducers[i];
-                if (producer.Check(input))
+                IMultipleProducer<SearchResult> mp = DMS.CpuIntensiveMultipleProducers[i];
+                if (mp.Check(input))
                 {
-                    results.AddRange(producer.Produce(token));
+                    results.AddRange(mp.Produce(token));
                 }
             }
 
