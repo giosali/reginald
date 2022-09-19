@@ -115,7 +115,6 @@
                                     <MultiBinding Converter="{StaticResource DescriptionMultiConverter}"
                                                   Mode="OneWay">
                                         <Binding Path="Description" />
-                                        <Binding Path="DescriptionFormat" />
                                         <Binding Path="Placeholder" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
