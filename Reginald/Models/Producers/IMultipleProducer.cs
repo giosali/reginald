@@ -1,7 +1,7 @@
-﻿using System.Threading;
-
-namespace Reginald.Models.Producers
+﻿namespace Reginald.Models.Producers
 {
+    using System.Threading;
+
     internal interface IMultipleProducer<T>
     {
         bool Check(string input);

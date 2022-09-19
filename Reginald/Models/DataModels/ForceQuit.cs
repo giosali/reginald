@@ -39,7 +39,7 @@ namespace Reginald.Models.DataModels
                 return Key.StartsWith(keyInput, StringComparison.OrdinalIgnoreCase);
             }
 
-            return keyInput.StartsWith(Key + " ", StringComparison.OrdinalIgnoreCase); 
+            return keyInput.StartsWith(Key + " ", StringComparison.OrdinalIgnoreCase);
         }
 
         public SearchResult[] Produce()
