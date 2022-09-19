@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using Newtonsoft.Json;
     using Reginald.Models.Drawing;
     using Reginald.Models.Inputs;
@@ -42,7 +43,7 @@
             return IsEnabled && Key.StartsWith(input, StringComparison.OrdinalIgnoreCase);
         }
 
-        public SearchResult[] Produce()
+        public SearchResult[] Produce(CancellationToken token = default)
         {
             return _timers.Select(t => t.Result).ToArray();
         }

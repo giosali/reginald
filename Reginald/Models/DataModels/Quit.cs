@@ -47,11 +47,6 @@
             return true;
         }
 
-        public SearchResult[] Produce()
-        {
-            throw new NotImplementedException();
-        }
-
         public SearchResult[] Produce(CancellationToken token)
         {
             List<SearchResult> results = new();

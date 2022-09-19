@@ -1,9 +1,11 @@
-﻿namespace Reginald.Models.Producers
+﻿using System.Threading;
+
+namespace Reginald.Models.Producers
 {
     public interface IMultipleProducer<T>
     {
         bool Check(string input);
 
-        T[] Produce();
+        T[] Produce(CancellationToken token);
     }
 }
