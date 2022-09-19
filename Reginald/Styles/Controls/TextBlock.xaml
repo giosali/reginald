@@ -104,7 +104,7 @@
            TargetType="{x:Type TextBlock}"
            BasedOn="{StaticResource TertiaryTextBlockStyleBase}">
         <Setter Property="FontSize"
-                Value="10"/>
+                Value="11"/>
         <Setter Property="FontWeight"
                 Value="Normal"/>
     </Style>
