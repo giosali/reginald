@@ -13,6 +13,7 @@
     using Microsoft.Win32;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
+    using Reginald.Core.Utilities;
     using Reginald.Models.DataModels;
     using Reginald.Services;
 
@@ -79,41 +80,44 @@
             {
                 Caption = string.Empty,
                 Description = string.Empty,
-                DescriptionFormat = string.Empty,
                 EncodeInput = true,
-                Id = new Random().Next(0x1000000),
+                Id = StaticRandom.Next(),
                 IsCustom = true,
                 IsEnabled = true,
                 Key = string.Empty,
                 Placeholder = "...",
                 Url = string.Empty,
-                UrlFormat = string.Empty,
             };
         }
 
         public void IconBorder_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            OpenFileDialog openFileDialog = new();
-            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
-            if (openFileDialog.ShowDialog() == false)
+            OpenFileDialog openFileDialog = new() { Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png" };
+            if (openFileDialog.ShowDialog() == false || openFileDialog.FileName is not string path)
             {
                 return;
             }
 
-            string filePath = openFileDialog.FileName;
-            using FileStream stream = File.OpenRead(filePath);
-            BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.Default);
-            int width = decoder.Frames[0].PixelWidth;
-            int height = decoder.Frames[0].PixelHeight;
-
-            // Rejects images smaller than the minimum dimensions.
-            if (width < MinImageDimension || height < MinImageDimension)
+            try
             {
-                _ = MessageBox.Show($"Images cannot be smaller than 128x128. This file's dimensions: {width}x{height}", "Image Dimensions Are Too Small", MessageBoxButton.OK, MessageBoxImage.Error);
+                using FileStream stream = File.OpenRead(path);
+                BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.Default);
+                int width = decoder.Frames[0].PixelWidth;
+                int height = decoder.Frames[0].PixelHeight;
+
+                // Rejects images smaller than the minimum dimensions.
+                if (width < MinImageDimension || height < MinImageDimension)
+                {
+                    _ = MessageBox.Show($"Images cannot be smaller than 128x128. This file's dimensions: {width}x{height}", "Image Dimensions Are Too Small", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            catch (SystemException)
+            {
                 return;
             }
 
-            IconPath = _tempIconPath = filePath;
+            IconPath = _tempIconPath = path;
         }
 
         public override void IsEnabled_Click(object sender, RoutedEventArgs e)

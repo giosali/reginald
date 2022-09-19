@@ -14,7 +14,6 @@
             <!--Converters-->
             <local:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
             <local:DescriptionMultiConverter x:Key="DescriptionMultiConverter" />
-            <local:StringToBooleanConverter x:Key="StringToBooleanConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -69,7 +68,6 @@
                             </Button>
                         </StackPanel>
                     </Grid>
-
                     <!--Form-->
                     <StackPanel Margin="0 0 0 12">
                         <StackPanel.Visibility>
@@ -79,37 +77,32 @@
                             </MultiBinding>
                         </StackPanel.Visibility>
                         <!--Key-->
-                        <controls:LabeledTextBox HorizontalAlignment="Left"
-                                                 IsRequired="True"
-                                                 Label="Keyword"
-                                                 Placeholder="g"
-                                                 Text="{Binding SelectedItem.Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 TextAlignment="Center"
-                                                 Width="200">
-                            <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="What you need to type to make this appear in your search results" />
-                            </controls:LabeledTextBox.ToolTip>
-                        </controls:LabeledTextBox>
-                        <!--Url-->
                         <StackPanel Margin="0 12">
                             <StackPanel Margin="0 6">
-                                <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.Url, Converter={StaticResource StringToBooleanConverter}}"
-                                                         IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
-                                                         Label="URL format"
-                                                         Placeholder="https://www.google.com/search?q={0}"
-                                                         Text="{Binding SelectedItem.UrlFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <controls:LabeledTextBox HorizontalAlignment="Left"
+                                                         IsRequired="True"
+                                                         Label="Keyword"
+                                                         Placeholder="g"
+                                                         Text="{Binding SelectedItem.Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                         TextAlignment="Center"
+                                                         Width="200" />
                                 <TextBlock Margin="5 0 0 0"
                                            Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="{}{0} is what will be replaced by your input" />
+                                           Text="What you need to type for this to appear in your search results." />
                             </StackPanel>
-                            <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.UrlFormat, Converter={StaticResource StringToBooleanConverter}}"
-                                                     IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
+                        </StackPanel>
+                        <!--Url-->
+                        <StackPanel Margin="0 12">
+                            <controls:LabeledTextBox IsRequired="True"
                                                      Label="URL"
-                                                     Placeholder="https://www.google.com"
+                                                     Placeholder="https://www.google.com/search?q={0}"
                                                      Text="{Binding SelectedItem.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Margin="5 0 0 0"
                                        Style="{StaticResource TertiaryParagraphTextBlock}"
-                                       Text="If 'URL' is filled, 'URL format' will be ignored" />
+                                       Text="{}{0} will be replaced by what you type (excluding the keyword)." />
+                            <TextBlock Margin="5 5 0 0"
+                                       Style="{StaticResource TertiaryParagraphTextBlock}"
+                                       Text="{}If {0} is not included, the URL will be opened as is." />
                         </StackPanel>
                         <!--EncodeInput-->
                         <StackPanel Margin="0 0 0 6">
@@ -125,28 +118,19 @@
                                            Text="Use UTF-8 encoding for input" />
                             </CheckBox>
                         </StackPanel>
+                        <!--Description-->
                         <StackPanel Margin="0 12">
-                            <!--DescriptionFormat-->
                             <StackPanel Margin="0 6">
-                                <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.Description, Converter={StaticResource StringToBooleanConverter}}"
-                                                         IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
-                                                         Label="Description format"
-                                                         Placeholder="Search Google for '{0}'"
-                                                         Text="{Binding SelectedItem.DescriptionFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                <TextBlock Margin="5 0 0 0"
-                                           Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="{}{0} is what will be replaced by what you type" />
-                            </StackPanel>
-                            <!--Description-->
-                            <StackPanel Margin="0 6">
-                                <controls:LabeledTextBox IsEnabled="{Binding SelectedItem.DescriptionFormat, Converter={StaticResource StringToBooleanConverter}}"
-                                                         IsRequired="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
+                                <controls:LabeledTextBox IsRequired="True"
                                                          Label="Description"
-                                                         Placeholder="Go to the Google Homepage"
+                                                         Placeholder="Search Google for '{0}'"
                                                          Text="{Binding SelectedItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Margin="5 0 0 0"
                                            Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="If 'Description' is filled, 'Description format' and 'Placeholder' will be ignored" />
+                                           Text="{}{0} will be replaced by what you type (excluding the keyword)." />
+                                <TextBlock Margin="5 5 0 0"
+                                           Style="{StaticResource TertiaryParagraphTextBlock}"
+                                           Text="{}If {0} is not included, the description will appear as is." />
                             </StackPanel>
                         </StackPanel>
                         <!--Placeholder-->
@@ -160,25 +144,26 @@
                                       Style="{StaticResource ComboBoxStyle}"
                                       Text="{Binding SelectedItem.Placeholder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Width="125">
-                                <ComboBox.ToolTip>
-                                    <ToolTip Content="This will replace {0} in the description format before input is received" />
-                                </ComboBox.ToolTip>
                                 <ComboBoxItem Content="..." />
                                 <ComboBoxItem Content="_" />
                                 <ComboBoxItem Content="" />
                             </ComboBox>
+                            <TextBlock Margin="5 0 0 0"
+                                           Style="{StaticResource TertiaryParagraphTextBlock}"
+                                           Text="Will replace {0} in the Description when the keyword isn't fully typed." />
                         </StackPanel>
                         <!--Caption-->
-                        <controls:LabeledTextBox IsRequired="True"
-                                                 Label="Caption"
-                                                 Placeholder="Google"
-                                                 Text="{Binding SelectedItem.Caption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                            <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="This will appear below the description format" />
-                            </controls:LabeledTextBox.ToolTip>
-                        </controls:LabeledTextBox>
-                        <!--IconPath-->
                         <StackPanel Margin="0 12">
+                            <controls:LabeledTextBox IsRequired="True"
+                                                     Label="Caption"
+                                                     Placeholder="Google"
+                                                     Text="{Binding SelectedItem.Caption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Margin="5 0 0 0"
+                                       Style="{StaticResource TertiaryParagraphTextBlock}"
+                                       Text="Appears below the description." />
+                        </StackPanel>
+                        <!--IconPath-->
+                        <StackPanel Margin="0 0 0 12">
                             <TextBlock FontSize="12"
                                        Margin="6 0 0 6"
                                        Style="{StaticResource PrimaryParagraphTextBlockStyle}"
@@ -204,22 +189,33 @@
                                 </StackPanel>
                             </Border>
                         </StackPanel>
-                        <!--AltDescription-->
-                        <controls:LabeledTextBox Label="Alt description"
-                                                 Placeholder="Go to the Google Homepage"
-                                                 Text="{Binding SelectedItem.AltDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                            <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="This will replace the description when you hold down the Alt key" />
-                            </controls:LabeledTextBox.ToolTip>
-                        </controls:LabeledTextBox>
-                        <!--AltUrl-->
-                        <controls:LabeledTextBox Label="Alt URL"
-                                                 Placeholder="https://google.com"
-                                                 Text="{Binding SelectedItem.AltUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                            <controls:LabeledTextBox.ToolTip>
-                                <ToolTip Content="When the Alt + Enter keys are pressed simultaneously, you will be redirected to this URL" />
-                            </controls:LabeledTextBox.ToolTip>
-                        </controls:LabeledTextBox>
+                        <Border BorderBrush="{StaticResource ApplicationSecondaryBackgroundBrush}"
+                                BorderThickness="0 1.5 0 0"
+                                Margin="0 6 0 0">
+                            <StackPanel Margin="0 0 0 12">
+                                <!--AltDescription-->
+                                <StackPanel Margin="0 6">
+                                    <controls:LabeledTextBox Label="Alt description"
+                                                             Placeholder="Go to the Google Homepage"
+                                                             Text="{Binding SelectedItem.AltDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Margin="5 0 0 0"
+                                               Style="{StaticResource TertiaryParagraphTextBlock}"
+                                               Text="This will replace the description when you hold down the Alt key." />
+                                </StackPanel>
+                                <!--AltUrl-->
+                                <StackPanel Margin="0 6">
+                                    <controls:LabeledTextBox Label="Alt URL"
+                                                             Placeholder="https://google.com"
+                                                             Text="{Binding SelectedItem.AltUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Margin="5 0 0 0"
+                                               Style="{StaticResource TertiaryParagraphTextBlock}"
+                                               Text="When the Alt + Enter keys are pressed, you will be redirected to this URL." />
+                                    <TextBlock Margin="5 5 0 0"
+                                               Style="{StaticResource TertiaryParagraphTextBlock}"
+                                               Text="Alt URL can include {0}." />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
                         <StackPanel HorizontalAlignment="Left"
                                     Margin="0 16 0 0"
                                     Orientation="Horizontal">
@@ -235,12 +231,17 @@
                                     <Style BasedOn="{StaticResource PrimaryButtonStyle}"
                                            TargetType="{x:Type Button}">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding SelectedItem.Name.Length}"
+                                            <DataTrigger Binding="{Binding SelectedItem.Key.Length}"
                                                          Value="0">
                                                 <Setter Property="IsEnabled"
                                                         Value="False" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding SelectedItem.Key.Length}"
+                                            <DataTrigger Binding="{Binding SelectedItem.Url.Length}"
+                                                         Value="0">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SelectedItem.Description.Length}"
                                                          Value="0">
                                                 <Setter Property="IsEnabled"
                                                         Value="False" />
@@ -250,26 +251,6 @@
                                                 <Setter Property="IsEnabled"
                                                         Value="False" />
                                             </DataTrigger>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding SelectedItem.Url.Length}"
-                                                               Value="0" />
-                                                    <Condition Binding="{Binding SelectedItem.UrlFormat.Length}"
-                                                               Value="0" />
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="IsEnabled"
-                                                        Value="False" />
-                                            </MultiDataTrigger>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding SelectedItem.Description.Length}"
-                                                               Value="0" />
-                                                    <Condition Binding="{Binding SelectedItem.DescriptionFormat.Length}"
-                                                               Value="0" />
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="IsEnabled"
-                                                        Value="False" />
-                                            </MultiDataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
@@ -310,7 +291,6 @@
                                 <MenuItem Header="Edit"
                                           Tag="Edit"
                                           cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
-
                                 <MenuItem Header="Delete"
                                           Tag="Delete"
                                           cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
@@ -357,7 +337,6 @@
                                     <MultiBinding Converter="{StaticResource DescriptionMultiConverter}"
                                                   Mode="OneWay">
                                         <Binding Path="Description" />
-                                        <Binding Path="DescriptionFormat" />
                                         <Binding Path="Placeholder" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
