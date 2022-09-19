@@ -4,7 +4,7 @@
     using Reginald.Models.Drawing;
     using Reginald.Models.Inputs;
 
-    internal class SearchResult : KeyboardInput
+    internal sealed class SearchResult : KeyboardInput
     {
         private string _caption;
 

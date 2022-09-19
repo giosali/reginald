@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
 
-    internal class TextExpansion
+    internal sealed class TextExpansion
     {
         public const string FileName = "Expansions.json";
 

@@ -8,7 +8,7 @@
     using Reginald.Models.Products;
     using Reginald.ViewModels;
 
-    internal class ClearClipboard : DataModel, ISingleProducer<SearchResult>
+    internal sealed class ClearClipboard : DataModel, ISingleProducer<SearchResult>
     {
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }

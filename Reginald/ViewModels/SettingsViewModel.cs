@@ -11,7 +11,7 @@
     using Reginald.Messages;
     using Reginald.Services.Appearance;
 
-    internal class SettingsViewModel : Conductor<object>, IHandle<UpdatePageMessage>
+    internal sealed class SettingsViewModel : Conductor<object>, IHandle<UpdatePageMessage>
     {
         private readonly IEventAggregator _eventAggregator;
 

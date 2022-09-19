@@ -4,7 +4,7 @@
     using System.Windows.Controls;
     using System.Windows.Data;
 
-    internal class LabeledTextBox : TextBox
+    internal sealed class LabeledTextBox : TextBox
     {
         public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
             "Label",

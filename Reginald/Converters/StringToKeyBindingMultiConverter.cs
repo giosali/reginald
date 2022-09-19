@@ -5,7 +5,7 @@
     using System.Windows.Data;
     using System.Windows.Input;
 
-    internal class StringToKeyBindingMultiConverter : IMultiValueConverter
+    internal sealed class StringToKeyBindingMultiConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

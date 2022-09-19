@@ -11,7 +11,7 @@
     using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
-    internal class Quit : DataModel, IMultipleProducer<SearchResult>
+    internal sealed class Quit : DataModel, IMultipleProducer<SearchResult>
     {
         private static readonly ConcurrentDictionary<int, int> _processIds = new();
 

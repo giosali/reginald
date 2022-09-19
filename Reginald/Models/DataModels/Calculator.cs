@@ -11,7 +11,7 @@
     using Reginald.Models.Products;
     using Reginald.Services;
 
-    internal class Calculator : DataModel, ISingleProducer<SearchResult>
+    internal sealed class Calculator : DataModel, ISingleProducer<SearchResult>
     {
         private static readonly DataModelService _dms = IoC.Get<DataModelService>();
 

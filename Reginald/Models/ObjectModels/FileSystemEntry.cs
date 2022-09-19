@@ -9,7 +9,7 @@
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
 
-    internal class FileSystemEntry : ObjectModel, ISingleProducer<SearchResult>
+    internal sealed class FileSystemEntry : ObjectModel, ISingleProducer<SearchResult>
     {
         public FileSystemEntry(string path)
         {

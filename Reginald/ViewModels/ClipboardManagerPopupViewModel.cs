@@ -17,7 +17,7 @@
     using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
-    internal class ClipboardManagerPopupViewModel : SearchPopupViewModelScreen<ClipboardItem>
+    internal sealed class ClipboardManagerPopupViewModel : SearchPopupViewModelScreen<ClipboardItem>
     {
         private const uint ClipboardExceptionCantOpen = 0x800401D0;
 

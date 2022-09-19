@@ -16,7 +16,7 @@
     using Reginald.Models.DataModels;
     using Reginald.Services;
 
-    internal class YourWebQueriesViewModel : ItemsScreen<WebQuery>
+    internal sealed class YourWebQueriesViewModel : ItemsScreen<WebQuery>
     {
         private const int MinImageDimension = 128;
 

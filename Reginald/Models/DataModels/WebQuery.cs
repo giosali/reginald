@@ -8,7 +8,7 @@
     using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
-    internal class WebQuery : DataModel, ISingleProducer<SearchResult>
+    internal sealed class WebQuery : DataModel, ISingleProducer<SearchResult>
     {
         public const string FileName = "WebQueries.json";
 

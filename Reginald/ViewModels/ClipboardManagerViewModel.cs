@@ -5,7 +5,7 @@
     using System.Windows.Input;
     using Reginald.Services.Utilities;
 
-    internal class ClipboardManagerViewModel : HotkeyViewModelScreen
+    internal sealed class ClipboardManagerViewModel : HotkeyViewModelScreen
     {
         public ClipboardManagerViewModel()
             : base("Features > Clipboard Manager")

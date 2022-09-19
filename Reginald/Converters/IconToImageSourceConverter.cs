@@ -8,7 +8,7 @@
     using Reginald.Services.Helpers;
 
     [ValueConversion(typeof(Icon), typeof(ImageSource))]
-    internal class IconToImageSourceConverter : IValueConverter
+    internal sealed class IconToImageSourceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

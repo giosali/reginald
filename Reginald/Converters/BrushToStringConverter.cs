@@ -7,7 +7,7 @@
     using System.Windows.Media;
 
     [ValueConversion(typeof(Brush), typeof(string))]
-    internal class BrushToStringConverter : IValueConverter
+    internal sealed class BrushToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -4,7 +4,7 @@
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
 
-    internal class FileSystemEntrySearch : DataModel, ISingleProducer<SearchResult>
+    internal sealed class FileSystemEntrySearch : DataModel, ISingleProducer<SearchResult>
     {
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }

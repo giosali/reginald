@@ -11,7 +11,7 @@
     using Reginald.Models.DataModels;
     using Reginald.Services;
 
-    internal class ExpansionsViewModel : ItemsScreen<TextExpansion>
+    internal sealed class ExpansionsViewModel : ItemsScreen<TextExpansion>
     {
         private bool _isBeingEdited;
 

@@ -6,7 +6,7 @@
     using System.Windows;
     using System.Windows.Data;
 
-    internal class BooleanToVisibilityMultiConverter : IMultiValueConverter
+    internal sealed class BooleanToVisibilityMultiConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

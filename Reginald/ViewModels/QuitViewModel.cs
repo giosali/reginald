@@ -2,7 +2,7 @@
 {
     using Reginald.Services;
 
-    internal class QuitViewModel : ItemScreen
+    internal sealed class QuitViewModel : ItemScreen
     {
         public QuitViewModel(DataModelService dms)
             : base("Features > Quit")

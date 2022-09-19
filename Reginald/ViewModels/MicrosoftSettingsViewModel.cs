@@ -2,7 +2,7 @@
 {
     using Reginald.Services;
 
-    internal class MicrosoftSettingsViewModel : ItemScreen
+    internal sealed class MicrosoftSettingsViewModel : ItemScreen
     {
         public MicrosoftSettingsViewModel(DataModelService dms)
             : base("Features > Microsoft Settings")

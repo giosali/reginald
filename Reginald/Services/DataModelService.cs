@@ -14,7 +14,7 @@
     using Reginald.Services.Hooks;
     using Reginald.Services.Input;
 
-    internal class DataModelService
+    internal sealed class DataModelService
     {
 #pragma warning disable IDE0052
         private readonly FileSystemWatcher[] _fsws;

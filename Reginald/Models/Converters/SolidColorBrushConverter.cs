@@ -5,7 +5,7 @@
     using System.Windows.Media;
     using Newtonsoft.Json;
 
-    internal class SolidColorBrushConverter : JsonConverter
+    internal sealed class SolidColorBrushConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {

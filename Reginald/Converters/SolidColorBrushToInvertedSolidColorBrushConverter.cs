@@ -6,7 +6,7 @@
     using System.Windows.Media;
 
     [ValueConversion(typeof(SolidColorBrush), typeof(SolidColorBrush))]
-    internal class SolidColorBrushToInvertedSolidColorBrushConverter : IValueConverter
+    internal sealed class SolidColorBrushToInvertedSolidColorBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

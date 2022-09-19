@@ -15,7 +15,7 @@
     using Reginald.Models.Products;
     using Reginald.Services;
 
-    internal class MainViewModel : SearchPopupViewModelScreen<SearchResult>
+    internal sealed class MainViewModel : SearchPopupViewModelScreen<SearchResult>
     {
         private readonly ObjectModelService _oms;
 

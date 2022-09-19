@@ -2,7 +2,7 @@
 {
     using Reginald.Services;
 
-    internal class RecycleViewModel : ItemScreen
+    internal sealed class RecycleViewModel : ItemScreen
     {
         public RecycleViewModel(DataModelService dms)
             : base("Features > Recycle")

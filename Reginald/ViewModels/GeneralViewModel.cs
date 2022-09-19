@@ -6,7 +6,7 @@
     using Reginald.Core.IO;
     using Reginald.Services.Utilities;
 
-    internal class GeneralViewModel : HotkeyViewModelScreen
+    internal sealed class GeneralViewModel : HotkeyViewModelScreen
     {
         public GeneralViewModel()
             : base("General")

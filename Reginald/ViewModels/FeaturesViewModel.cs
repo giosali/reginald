@@ -7,7 +7,7 @@
     using System.Windows.Input;
     using Caliburn.Micro;
 
-    internal class FeaturesViewModel : Conductor<object>
+    internal sealed class FeaturesViewModel : Conductor<object>
     {
         public async void ListBoxItem_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

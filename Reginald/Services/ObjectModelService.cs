@@ -12,7 +12,7 @@
     using Reginald.Models.Products;
     using Reginald.Services.Watchers;
 
-    internal class ObjectModelService
+    internal sealed class ObjectModelService
     {
         private readonly string _appDataPath = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
 

@@ -11,7 +11,7 @@
     using Reginald.Services;
     using Reginald.Services.Utilities;
 
-    internal class ShellViewModel : Conductor<object>
+    internal sealed class ShellViewModel : Conductor<object>
     {
         private readonly ClipboardManagerPopupViewModel _cmpvm;
 

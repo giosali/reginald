@@ -2,7 +2,7 @@
 {
     using Reginald.Services;
 
-    internal class ApplicationsViewModel : ItemScreen
+    internal sealed class ApplicationsViewModel : ItemScreen
     {
         public ApplicationsViewModel(DataModelService dms)
             : base("Features > Applications")

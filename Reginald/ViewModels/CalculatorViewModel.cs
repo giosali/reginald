@@ -5,7 +5,7 @@
     using System.Windows.Controls;
     using Reginald.Services;
 
-    internal class CalculatorViewModel : ItemScreen
+    internal sealed class CalculatorViewModel : ItemScreen
     {
         private bool _isCommaChecked;
 

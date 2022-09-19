@@ -9,7 +9,7 @@
     using Reginald.Services.Utilities;
     using Reginald.ViewModels;
 
-    internal class Bootstrapper : BootstrapperBase
+    internal sealed class Bootstrapper : BootstrapperBase
     {
         private readonly SimpleContainer _container = new();
 

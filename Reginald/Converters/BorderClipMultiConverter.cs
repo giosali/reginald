@@ -6,7 +6,7 @@
     using System.Windows.Data;
     using System.Windows.Media;
 
-    internal class BorderClipMultiConverter : IMultiValueConverter
+    internal sealed class BorderClipMultiConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

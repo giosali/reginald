@@ -2,7 +2,7 @@
 {
     using System.Windows.Media.Imaging;
 
-    internal class Icon
+    internal sealed class Icon
     {
         public Icon(BitmapSource source)
         {

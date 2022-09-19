@@ -12,7 +12,7 @@
     using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
-    internal class Application : ObjectModel, ISingleProducer<SearchResult>
+    internal sealed class Application : ObjectModel, ISingleProducer<SearchResult>
     {
         public Application(string description, BitmapSource source, string filePath, int id)
         {

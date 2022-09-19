@@ -2,7 +2,7 @@
 {
     using Reginald.Services;
 
-    internal class TimerViewModel : ItemScreen
+    internal sealed class TimerViewModel : ItemScreen
     {
         public TimerViewModel(DataModelService dms)
             : base("Features > Timer")

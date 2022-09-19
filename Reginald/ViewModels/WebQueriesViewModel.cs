@@ -7,7 +7,7 @@
     using Reginald.Models.DataModels;
     using Reginald.Services;
 
-    internal class WebQueriesViewModel : ItemsScreen<WebQuery>
+    internal sealed class WebQueriesViewModel : ItemsScreen<WebQuery>
     {
         public WebQueriesViewModel(DataModelService dms)
             : base("Features > Web Queries")

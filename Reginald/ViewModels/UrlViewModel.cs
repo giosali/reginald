@@ -2,7 +2,7 @@
 {
     using Reginald.Services;
 
-    internal class UrlViewModel : ItemScreen
+    internal sealed class UrlViewModel : ItemScreen
     {
         public UrlViewModel(DataModelService dms)
             : base("Features > URLs")

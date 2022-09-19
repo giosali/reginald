@@ -10,7 +10,7 @@
     using Reginald.Models.DataModels;
     using Reginald.Services;
 
-    internal class ThemesViewModel : ItemsScreen<Theme>
+    internal sealed class ThemesViewModel : ItemsScreen<Theme>
     {
         private readonly IEventAggregator _eventAggregator;
 

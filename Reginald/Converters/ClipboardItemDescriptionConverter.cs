@@ -5,7 +5,7 @@ namespace Reginald.Converters
     using System.Windows.Data;
 
     [ValueConversion(typeof(string), typeof(string))]
-    internal class ClipboardItemDescriptionConverter : IValueConverter
+    internal sealed class ClipboardItemDescriptionConverter : IValueConverter
     {
         private const int MaxLength = 15000;
 

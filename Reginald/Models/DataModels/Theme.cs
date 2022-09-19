@@ -5,7 +5,7 @@
     using Newtonsoft.Json;
     using Reginald.Models.Converters;
 
-    internal class Theme
+    internal sealed class Theme
     {
         public const string FileName = "Themes.json";
 

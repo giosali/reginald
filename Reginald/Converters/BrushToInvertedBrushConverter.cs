@@ -6,7 +6,7 @@
     using System.Windows.Media;
 
     [ValueConversion(typeof(Brush), typeof(Brush))]
-    internal class BrushToInvertedBrushConverter : IValueConverter
+    internal sealed class BrushToInvertedBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

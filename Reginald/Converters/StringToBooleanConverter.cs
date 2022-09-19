@@ -5,7 +5,7 @@ namespace Reginald.Converters
     using System.Windows.Data;
 
     [ValueConversion(typeof(string), typeof(bool))]
-    internal class StringToBooleanConverter : IValueConverter
+    internal sealed class StringToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

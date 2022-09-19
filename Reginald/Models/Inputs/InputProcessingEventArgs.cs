@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal class InputProcessingEventArgs : EventArgs
+    internal sealed class InputProcessingEventArgs : EventArgs
     {
         public string CompleteInput { get; set; }
 

@@ -5,7 +5,7 @@
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
 
-    internal class Settings
+    internal sealed class Settings
     {
         public const string FileName = "Settings.json";
 
