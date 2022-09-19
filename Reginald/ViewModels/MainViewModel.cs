@@ -25,6 +25,11 @@
             _oms = IoC.Get<ObjectModelService>();
         }
 
+        public void Item_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PressEnter(sender);
+        }
+
         public void Items_MouseLeave(object sender, MouseEventArgs e)
         {
             if (Items.Count == 0)
