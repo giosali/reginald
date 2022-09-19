@@ -85,6 +85,26 @@
             }
         }
 
+        public static void ForceQuitProcessById(int processId)
+        {
+            try
+            {
+                Process[] processes = Process.GetProcessesByName(Process.GetProcessById(processId).ProcessName);
+                for (int i = 0; i < processes.Length; i++)
+                {
+                    Process process = processes[i];
+                    process.Kill();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is not AggregateException && ex is not SystemException)
+                {
+                    throw;
+                }
+            }
+        }
+
         public static void RestartApplication()
         {
             string filename = Environment.ProcessPath;
