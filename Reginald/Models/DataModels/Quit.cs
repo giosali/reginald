@@ -4,6 +4,7 @@
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Threading;
     using Newtonsoft.Json;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
@@ -48,6 +49,11 @@
 
         public SearchResult[] Produce()
         {
+            throw new NotImplementedException();
+        }
+
+        public SearchResult[] Produce(CancellationToken token)
+        {
             List<SearchResult> results = new();
             List<Process> processes = ProcessUtility.GetTopLevelProcesses();
 
@@ -56,6 +62,7 @@
             bool isInputInvalid = keyInputSplit.Length < 2 || input == " ";
             for (int i = 0; i < processes.Count; i++)
             {
+                token.ThrowIfCancellationRequested();
                 Process process = processes[i];
 
                 // Skips File Explorer.
@@ -93,8 +100,8 @@
                 return;
             }
 
-            ProcessUtility.QuitProcessById(processId);
             _processIds.Clear();
+            ProcessUtility.QuitProcessById(processId);
             e.Handled = true;
         }
     }

@@ -287,9 +287,7 @@
                 return Array.Empty<SearchResult>();
             }
 
-            token.ThrowIfCancellationRequested();
-            SearchResult[] items = DMS.Quit.Produce();
-            token.ThrowIfCancellationRequested();
+            SearchResult[] items = DMS.Quit.Produce(token);
             return items;
         }
 
