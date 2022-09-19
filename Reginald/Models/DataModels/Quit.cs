@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using Newtonsoft.Json;
-    using Reginald.Core.Utilities;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
@@ -54,41 +53,34 @@
 
             string[] keyInputSplit = _keyInput.Split(' ', 2);
             string input = keyInputSplit[^1];
-            if (keyInputSplit.Length < 2 || input == " ")
-            {
-                for (int i = 0; i < processes.Count; i++)
-                {
-                    Process process = processes[i];
-                    string fileName = process.MainModule.FileName;
-                    string fileDescription = FileVersionInfo.GetVersionInfo(fileName).FileDescription;
-                    if (fileDescription.Length == 0)
-                    {
-                        continue;
-                    }
-
-                    SearchResult result = new(Caption, fileName, string.Format(Format, fileDescription), StaticRandom.Next());
-                    result.EnterKeyPressed += OnEnterKeyPressed;
-                    _processIds[result.GetHashCode()] = process.Id;
-                    results.Add(result);
-                }
-
-                return results.ToArray();
-            }
-
+            bool isInputInvalid = keyInputSplit.Length < 2 || input == " ";
             for (int i = 0; i < processes.Count; i++)
             {
                 Process process = processes[i];
-                string fileName = process.MainModule.FileName;
-                string fileDescription = FileVersionInfo.GetVersionInfo(fileName).FileDescription;
-                if (!fileDescription.StartsWith(input, StringComparison.OrdinalIgnoreCase) || fileDescription.Length == 0)
+
+                // Skips File Explorer.
+                if (process.ProcessName == "explorer")
                 {
                     continue;
                 }
 
-                SearchResult result = new(Caption, fileName, string.Format(Format, fileDescription), StaticRandom.Next());
+                string fileName = process.MainModule.FileName;
+                string fileDescription = FileVersionInfo.GetVersionInfo(fileName).FileDescription;
+
+                // Skips if the file description is empty
+                // or if it doesn't start with the input if the input is valid.
+                if (fileDescription.Length == 0 || !fileDescription.StartsWith(isInputInvalid ? string.Empty : input, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                SearchResult result = new(Caption, fileName, string.Format(Format, fileDescription), fileName.GetHashCode());
                 result.EnterKeyPressed += OnEnterKeyPressed;
                 _processIds[result.GetHashCode()] = process.Id;
-                results.Add(result);
+                if (results.IndexOf(result) == -1)
+                {
+                    results.Add(result);
+                }
             }
 
             return results.ToArray();
