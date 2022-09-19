@@ -1,6 +1,6 @@
 ﻿namespace Reginald.Models.Producers
 {
-    public interface ISingleProducer<T>
+    internal interface ISingleProducer<T>
     {
         bool Check(string input);
 

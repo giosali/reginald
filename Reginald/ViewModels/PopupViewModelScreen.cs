@@ -14,7 +14,7 @@
     using Reginald.Services.Hooks;
     using Reginald.Services.Input;
 
-    public class PopupViewModelScreen<T> : Screen
+    internal class PopupViewModelScreen<T> : Screen
     {
         private bool _isMouseOverChanged;
 

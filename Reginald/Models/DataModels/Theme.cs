@@ -1,12 +1,11 @@
 ﻿namespace Reginald.Models.DataModels
 {
-    using System;
     using System.Windows;
     using System.Windows.Media;
     using Newtonsoft.Json;
     using Reginald.Models.Converters;
 
-    public class Theme
+    internal class Theme
     {
         public const string FileName = "Themes.json";
 

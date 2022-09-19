@@ -3,7 +3,7 @@
     using System;
     using Caliburn.Micro;
 
-    public abstract class KeyboardInput : PropertyChangedBase
+    internal abstract class KeyboardInput : PropertyChangedBase
     {
         public event EventHandler<InputProcessingEventArgs> AltAndEnterKeysPressed;
 

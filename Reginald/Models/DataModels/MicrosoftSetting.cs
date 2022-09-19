@@ -8,7 +8,7 @@
     using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
-    public class MicrosoftSetting : DataModel, ISingleProducer<SearchResult>
+    internal class MicrosoftSetting : DataModel, ISingleProducer<SearchResult>
     {
         [JsonProperty("containsAmpersand")]
         public bool ContainsAmpersand { get; set; }

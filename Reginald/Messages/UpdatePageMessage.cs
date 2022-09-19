@@ -1,6 +1,6 @@
 ﻿namespace Reginald.Messages
 {
-    public sealed class UpdatePageMessage
+    internal sealed class UpdatePageMessage
     {
         public UpdatePageMessage(string title)
         {

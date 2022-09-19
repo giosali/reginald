@@ -3,9 +3,8 @@ namespace Reginald.Converters
     using System;
     using System.Globalization;
     using System.Windows.Data;
-    using System.Windows.Input;
 
-    public class DescriptionMultiConverter : IMultiValueConverter
+    internal class DescriptionMultiConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

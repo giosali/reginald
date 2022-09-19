@@ -13,7 +13,7 @@
     using Reginald.Services.Input;
     using Reginald.Services.Utilities;
 
-    public class ClipboardItem : KeyboardInput
+    internal class ClipboardItem : KeyboardInput
     {
         private const int DescriptionLimit = 50;
 

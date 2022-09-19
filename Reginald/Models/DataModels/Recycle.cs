@@ -9,7 +9,7 @@
     using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
-    public class Recycle : DataModel, ISingleProducer<SearchResult>
+    internal class Recycle : DataModel, ISingleProducer<SearchResult>
     {
         private bool _hasBeenPrompted;
 

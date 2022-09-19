@@ -6,7 +6,7 @@
     using System.Windows.Media;
 
     [ValueConversion(typeof(Brush), typeof(Color))]
-    public class BrushToColorConverter : IValueConverter
+    internal class BrushToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

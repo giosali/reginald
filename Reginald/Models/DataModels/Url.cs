@@ -8,7 +8,7 @@
     using Reginald.Models.Products;
     using Reginald.Services.Utilities;
 
-    public class Url : DataModel, ISingleProducer<SearchResult>
+    internal class Url : DataModel, ISingleProducer<SearchResult>
     {
         [JsonProperty("isEnabled")]
         public bool IsEnabled { get; set; }

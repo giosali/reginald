@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
 
-    public abstract class DataModel
+    internal abstract class DataModel
     {
         [JsonProperty("caption")]
         public string Caption { get; set; }

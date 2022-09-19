@@ -8,7 +8,7 @@
     using Reginald.Messages;
     using Reginald.Services.Utilities;
 
-    public class AboutViewModel : Screen
+    internal class AboutViewModel : Screen
     {
         public void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {

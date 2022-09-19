@@ -1,6 +1,6 @@
 ﻿namespace Reginald.Models.ObjectModels
 {
-    public abstract class ObjectModel
+    internal abstract class ObjectModel
     {
         public string Caption { get; set; }
 

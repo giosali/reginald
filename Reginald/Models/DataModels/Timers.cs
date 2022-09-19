@@ -10,7 +10,7 @@
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
 
-    public class Timers : DataModel, IMultipleProducer<SearchResult>
+    internal class Timers : DataModel, IMultipleProducer<SearchResult>
     {
         private static readonly List<Timer> _timers = new();
 

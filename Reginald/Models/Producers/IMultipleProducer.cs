@@ -2,7 +2,7 @@
 
 namespace Reginald.Models.Producers
 {
-    public interface IMultipleProducer<T>
+    internal interface IMultipleProducer<T>
     {
         bool Check(string input);
 
