@@ -8,15 +8,12 @@ namespace Reginald.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            string description = (string)values[0];
-            if (!string.IsNullOrEmpty(description))
+            if (values[0] is not string description || values[1] is not string placeholder)
             {
-                return description;
+                return string.Empty;
             }
 
-            string descriptionFormat = (string)values[1];
-            string placeholder = (string)values[2];
-            return string.Format(descriptionFormat, placeholder);
+            return description.Contains("{0}") ? string.Format(description, placeholder) : description;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
