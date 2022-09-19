@@ -1,7 +1,6 @@
 {
   "id": 0x09dc9d,
   "key": "quit",
-  "iconPath": "pack://application:,,,/Reginald;component/Images/Commands/quit.png",
   "format": "Quit {0}",
   "caption": "Quit Application",
   "isEnabled": true,
