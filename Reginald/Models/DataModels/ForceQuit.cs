@@ -42,11 +42,6 @@ namespace Reginald.Models.DataModels
             return keyInput.StartsWith(Key + " ", StringComparison.OrdinalIgnoreCase);
         }
 
-        public SearchResult[] Produce()
-        {
-            throw new NotImplementedException();
-        }
-
         public SearchResult[] Produce(CancellationToken token)
         {
             List<SearchResult> results = new();
