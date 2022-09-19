@@ -5,6 +5,5 @@
   "format": "In {0}: {1}",
   "placeholder": "...",
   "caption": "Timer",
-  "displayDescription": "Sets a timer and displays a notification with a message",
   "isEnabled": true
 }
