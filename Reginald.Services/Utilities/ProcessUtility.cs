@@ -66,12 +66,22 @@
         {
             try
             {
-                Process process = Process.GetProcessById(processId);
-                process.CloseMainWindow();
-                process.Close();
+                Process[] processes = Process.GetProcessesByName(Process.GetProcessById(processId).ProcessName);
+                for (int i = 0; i < processes.Length; i++)
+                {
+                    Process process = processes[i];
+                    if (process.CloseMainWindow())
+                    {
+                        process.Close();
+                    }
+                }
             }
-            catch (ArgumentException)
+            catch (Exception ex)
             {
+                if (ex is not AggregateException && ex is not SystemException)
+                {
+                    throw;
+                }
             }
         }
 
