@@ -4,5 +4,4 @@
   "format": "Quit {0}",
   "caption": "Quit Application",
   "isEnabled": true,
-  "displayDescription": "Quits an application"
 }
