@@ -1,8 +1,8 @@
-﻿namespace Reginald.Services.Watchers
+﻿namespace Reginald.Core.IO
 {
     using System;
     using System.Threading;
-    using static Reginald.Services.Watchers.NativeMethods;
+    using static Reginald.Core.IO.NativeMethods;
 
     /// <summary>
     /// An application can use handles to these keys as entry points to the registry.
@@ -20,7 +20,7 @@
         LocalMachine = 0x80000002,
     }
 
-    public class RegistryKeyWatcher
+    public sealed class RegistryKeyWatcher
     {
         private const uint INFINITE = 0xFFFFFFFF;
 
@@ -45,7 +45,7 @@
             WAIT_FAILED = 0xFFFFFFFF,
         }
 
-        public string RegistrySubKey { get; set; }
+        private string RegistrySubKey { get; set; }
 
         private IntPtr RegistryKey { get; set; }
 

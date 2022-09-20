@@ -1,20 +1,11 @@
-﻿namespace Reginald.Services.Watchers
+﻿namespace Reginald.Core.IO
 {
     using System;
     using System.Runtime.InteropServices;
     using System.Security;
 
-    internal class NativeMethods
+    internal static class NativeMethods
     {
-        [Flags]
-        internal enum KeyAccessRight : uint
-        {
-            /// <summary>
-            /// Required to request change notifications for a registry key or for subkeys of a registry key.
-            /// </summary>
-            KEY_NOTIFY = 0x0010,
-        }
-
         [Flags]
         internal enum REG_NOTIFY_CHANGE : uint
         {
@@ -22,6 +13,15 @@
             /// Notify the caller if a subkey is added or deleted.
             /// </summary>
             NAME = 0x00000001,
+        }
+
+        [Flags]
+        internal enum KeyAccessRight : uint
+        {
+            /// <summary>
+            /// Required to request change notifications for a registry key or for subkeys of a registry key.
+            /// </summary>
+            KEY_NOTIFY = 0x0010,
         }
 
         [DllImport("advapi32.dll", SetLastError = true)]

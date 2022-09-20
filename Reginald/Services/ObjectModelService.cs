@@ -7,10 +7,10 @@
     using System.Threading;
     using Caliburn.Micro;
     using Reginald.Core.Extensions;
+    using Reginald.Core.IO;
     using Reginald.Models.ObjectModels;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Watchers;
 
     internal sealed class ObjectModelService
     {
