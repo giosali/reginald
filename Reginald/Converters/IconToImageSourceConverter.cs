@@ -5,6 +5,7 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Media;
+    using System.Windows.Media.Imaging;
     using Reginald.Models.Drawing;
     using Reginald.Services.Helpers;
 
@@ -30,7 +31,15 @@
 
             if (!uint.TryParse(iconPath, out uint result))
             {
-                return iconPath;
+                BitmapImage bi = new();
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                bi.UriSource = new Uri(iconPath);
+                bi.EndInit();
+                bi.Freeze();
+                return bi;
+                // return iconPath;
             }
 
             return BitmapSourceHelper.GetStockIcon(result);
