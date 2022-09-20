@@ -39,7 +39,6 @@
                 bi.EndInit();
                 bi.Freeze();
                 return bi;
-                // return iconPath;
             }
 
             return BitmapSourceHelper.GetStockIcon(result);
