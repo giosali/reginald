@@ -1,10 +1,10 @@
-﻿namespace Reginald.Services.Helpers
+﻿namespace Reginald.Converters
 {
     using System;
     using System.Runtime.InteropServices;
     using System.Text;
 
-    internal class NativeMethods
+    internal static class NativeMethods
     {
         internal static readonly HandleRef NullHandleRef = new(null, IntPtr.Zero);
 
@@ -27,19 +27,11 @@
             SHGSI_ICON = 0x000000100,
         }
 
-        internal enum SHSTOCKICONID : uint
-        {
-            /// <summary>
-            /// The Network virtual folder (FOLDERID_NetworkFolder/CSIDL_NETWORK).
-            /// </summary>
-            SIID_MYNETWORK = 17,
-        }
-
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         internal static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, StringBuilder lpIconPath, out ushort lpiIcon);
 
         [DllImport("shell32.dll", SetLastError = false)]
-        internal static extern int SHGetStockIconInfo(SHSTOCKICONID siid, SHGSI uFlags, ref SHSTOCKICONINFO psii);
+        internal static extern int SHGetStockIconInfo(uint siid, SHGSI uFlags, ref SHSTOCKICONINFO psii);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern bool DestroyIcon(IntPtr handle);
