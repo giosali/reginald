@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using Microsoft.Toolkit.Uwp.Notifications;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
     using Reginald.Core.Utilities;
@@ -10,7 +11,6 @@
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Notifications;
 
     internal sealed class Timer : DataModel, ICloneable, ISingleProducer<SearchResult>
     {
@@ -181,8 +181,10 @@
             if (_time <= 0)
             {
                 InternalTimer.Stop();
-                ToastNotification notification = new(Caption, _message);
-                notification.Show();
+                ToastContentBuilder builder = new();
+                _ = builder.AddText(Caption)
+                           .AddText(_message);
+                builder.Show();
             }
 
             TimeSpan ts = TimeSpan.FromMilliseconds(_time);
