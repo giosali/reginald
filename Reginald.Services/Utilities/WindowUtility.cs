@@ -16,19 +16,9 @@
             }
         }
 
-        public static IntPtr RegisterInstance(string name)
-        {
-            return CreateMutex(IntPtr.Zero, true, name);
-        }
-
         public static IntPtr SetFocus(IntPtr hWnd)
         {
             return SetActiveWindow(hWnd);
-        }
-
-        public static void UnregisterInstance(IntPtr hMutex)
-        {
-            _ = ReleaseMutex(hMutex);
         }
 
         public static async Task WaitForDeactivationAsync()

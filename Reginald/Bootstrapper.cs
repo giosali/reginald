@@ -5,8 +5,8 @@
     using System.Runtime.InteropServices;
     using System.Windows;
     using Caliburn.Micro;
+    using Reginald.Core.Services;
     using Reginald.Services;
-    using Reginald.Services.Utilities;
     using Reginald.ViewModels;
 
     internal sealed class Bootstrapper : BootstrapperBase
@@ -66,7 +66,7 @@
         {
             if (_hMutex != IntPtr.Zero)
             {
-                WindowUtility.UnregisterInstance(_hMutex);
+                ApplicationService.UnregisterInstance(_hMutex);
             }
 
             base.OnExit(sender, e);
@@ -74,7 +74,7 @@
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            _hMutex = WindowUtility.RegisterInstance("Global\\Reginald");
+            _hMutex = ApplicationService.RegisterInstance("Global\\Reginald");
             if (_hMutex == IntPtr.Zero || Marshal.GetLastWin32Error() == (int)SystemErrorCode.ERROR_ALREADY_EXISTS)
             {
                 Application.Current.Shutdown();
