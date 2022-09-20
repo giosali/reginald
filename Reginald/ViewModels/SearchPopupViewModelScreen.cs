@@ -10,8 +10,8 @@
     using System.Windows.Interop;
     using Caliburn.Micro;
     using Reginald.Services;
-    using Reginald.Services.Appearance;
     using Reginald.Services.Utilities;
+    using Reginald.Visual;
 
     internal abstract class SearchPopupViewModelScreen<T> : PopupViewModelScreen<T>
     {
@@ -63,8 +63,7 @@
 
             if (DMS.Theme.IsAcrylicEnabled)
             {
-                AcrylicMaterial acrylicMaterial = new(source.Handle, DMS.Theme.AcrylicOpacity, DMS.Theme.BackgroundBrush);
-                acrylicMaterial.Enable();
+                AcrylicMaterial.Enable(source.Handle, DMS.Theme.AcrylicOpacity, DMS.Theme.BackgroundBrush);
             }
         }
 

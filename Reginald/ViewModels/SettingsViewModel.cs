@@ -9,7 +9,7 @@
     using System.Windows.Interop;
     using Caliburn.Micro;
     using Reginald.Messages;
-    using Reginald.Services.Appearance;
+    using Reginald.Visual;
 
     internal sealed class SettingsViewModel : Conductor<object>, IHandle<UpdatePageMessage>
     {

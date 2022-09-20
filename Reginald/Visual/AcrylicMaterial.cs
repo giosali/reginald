@@ -1,34 +1,22 @@
-﻿namespace Reginald.Services.Appearance
+﻿namespace Reginald.Visual
 {
     using System;
     using System.Runtime.InteropServices;
     using System.Windows.Media;
-    using static Reginald.Services.Appearance.NativeMethods;
+    using static Reginald.Visual.NativeMethods;
 
-    public class AcrylicMaterial
+    internal static class AcrylicMaterial
     {
-        public AcrylicMaterial(IntPtr hWnd, byte opacity, Brush backgroundBrush)
+        public static void Enable(IntPtr hWnd, uint opacity, SolidColorBrush backgroundBrush)
         {
-            Handle = hWnd;
-            Opacity = opacity;
-            BackgroundColorHex = ToBgr(backgroundBrush as SolidColorBrush);
-        }
+            // Sets an unsigned integer in BGR format as the background color
+            // of the acrylic material.
+            uint backgroundColorHex = ToBgr(backgroundBrush);
 
-        private IntPtr Handle { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unsigned integer in BGR format as the background color of the acrylic material.
-        /// </summary>
-        private uint BackgroundColorHex { get; set; }
-
-        private uint Opacity { get; set; }
-
-        public void Enable()
-        {
             AccentPolicy accent = new()
             {
                 AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND,
-                GradientColor = (Opacity << 24) | (BackgroundColorHex & 0xFFFFFF),
+                GradientColor = (opacity << 24) | (backgroundColorHex & 0xFFFFFF),
             };
             int accentStructSize = Marshal.SizeOf(accent);
             IntPtr accentPtr = Marshal.AllocHGlobal(accentStructSize);
@@ -39,7 +27,7 @@
                 SizeOfData = accentStructSize,
                 Data = accentPtr,
             };
-            _ = SetWindowCompositionAttribute(Handle, ref data);
+            _ = SetWindowCompositionAttribute(hWnd, ref data);
             Marshal.FreeHGlobal(accentPtr);
         }
 

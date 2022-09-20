@@ -1,4 +1,4 @@
-﻿namespace Reginald.Services.Appearance
+﻿namespace Reginald.Visual
 {
     using System;
     using System.Runtime.InteropServices;
@@ -15,9 +15,6 @@
             WCA_ACCENT_POLICY = 19,
             WCA_USEDARKMODECOLORS = 26,
         }
-
-        [DllImport("dwmapi.dll")]
-        internal static extern int DwmGetWindowAttribute(IntPtr hwnd, uint dwAttribute, out bool pvAttribute, int cbAttribute);
 
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
