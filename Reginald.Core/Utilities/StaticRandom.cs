@@ -1,4 +1,4 @@
-namespace Reginald.Core.Utilities
+﻿namespace Reginald.Core.Utilities
 {
     using System;
 
@@ -12,7 +12,7 @@ namespace Reginald.Core.Utilities
         private static object _lock = new();
 
         /// <summary>
-        /// Returns a random number within the <see cref="int"/> range. 
+        /// Returns a random number within the <see cref="int"/> range.
         /// </summary>
         /// <returns>
         /// A 32-bit signed integer greater than or equal to <see cref="int.MinValue"/> and less than <see cref="int.MaxValue"/>.
