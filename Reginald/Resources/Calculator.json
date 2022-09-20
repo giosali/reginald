@@ -1,6 +1,6 @@
 {
   "id": 0x6945a3,
   "iconPath": "pack://application:,,,/Reginald;component/Images/calculator.png",
-  "caption": "Copy to Clipboard",
+  "caption": "Copy to clipboard",
   "isEnabled": true
 }

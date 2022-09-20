@@ -1,7 +1,7 @@
 {
   "id": 0x616099,
   "key": "forcequit",
-  "format": "Force quit {0}",
-  "caption": "Force Quit Application",
+  "format": "Force Quit {0}",
+  "caption": "Force quit application",
   "isEnabled": true,
 }

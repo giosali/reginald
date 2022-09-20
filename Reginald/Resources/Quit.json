@@ -2,6 +2,6 @@
   "id": 0x09dc9d,
   "key": "quit",
   "format": "Quit {0}",
-  "caption": "Quit Application",
+  "caption": "Quit application",
   "isEnabled": true,
 }

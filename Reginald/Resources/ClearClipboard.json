@@ -2,7 +2,7 @@
   "id": 0xcee853,
   "key": "clear clipboard",
   "iconPath": "55",
-  "description": "Clear clipboard",
+  "description": "Clear Clipboard",
   "caption": "Clear the entirety of Reginald's clipboard manager",
   "isEnabled": true
 }
