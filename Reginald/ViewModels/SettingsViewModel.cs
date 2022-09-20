@@ -39,22 +39,6 @@
             return Task.CompletedTask;
         }
 
-        public void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (GetView() is Window window && PresentationSource.FromVisual(window) is HwndSource source)
-            {
-                DarkTitleBar.Enable(source.Handle);
-            }
-        }
-
-        public async void ListBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            object instance = IoC.GetInstance(typeof(GeneralViewModel), null);
-            await ActivateItemAsync(instance);
-        }
-
-        public void ListBox_PreviewKeyDown(object sender, KeyEventArgs e) => e.Handled = true;
-
         public async void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Type type = (e.Source as ListBoxItem).Tag switch
@@ -68,6 +52,25 @@
             if (IoC.GetInstance(type, null) is IScreen screen && !screen.IsActive)
             {
                 await ActivateItemAsync(screen);
+            }
+        }
+
+        public async void ListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            object instance = IoC.GetInstance(typeof(GeneralViewModel), null);
+            await ActivateItemAsync(instance);
+        }
+
+        public void ListBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        public void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (GetView() is Window window && PresentationSource.FromVisual(window) is HwndSource source)
+            {
+                DarkTitleBar.Enable(source.Handle);
             }
         }
     }
