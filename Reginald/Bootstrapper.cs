@@ -13,7 +13,7 @@
     {
         private readonly SimpleContainer _container = new();
 
-        private IntPtr _hMutext = IntPtr.Zero;
+        private IntPtr _hMutex = IntPtr.Zero;
 
         public Bootstrapper()
         {
@@ -64,9 +64,9 @@
 
         protected override void OnExit(object sender, EventArgs e)
         {
-            if (_hMutext != IntPtr.Zero)
+            if (_hMutex != IntPtr.Zero)
             {
-                WindowUtility.UnregisterInstance(_hMutext);
+                WindowUtility.UnregisterInstance(_hMutex);
             }
 
             base.OnExit(sender, e);
@@ -74,8 +74,8 @@
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            _hMutext = WindowUtility.RegisterInstance("Global\\Reginald");
-            if (_hMutext == IntPtr.Zero || Marshal.GetLastWin32Error() == (int)SystemErrorCode.ERROR_ALREADY_EXISTS)
+            _hMutex = WindowUtility.RegisterInstance("Global\\Reginald");
+            if (_hMutex == IntPtr.Zero || Marshal.GetLastWin32Error() == (int)SystemErrorCode.ERROR_ALREADY_EXISTS)
             {
                 Application.Current.Shutdown();
             }
