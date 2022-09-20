@@ -69,7 +69,7 @@
         public void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             SelectedItem = null;
-            IconPath = _tempIconPath = null;
+            IconPath = _tempIconPath = default;
             IsBeingCreated = IsBeingEdited = false;
         }
 
@@ -145,14 +145,30 @@
             switch (menuItem.Tag)
             {
                 case "Edit":
-                    _tempIconPath = null;
+                    _tempIconPath = default;
                     IconPath = SelectedItem.IconPath;
                     IsBeingEdited = true;
                     break;
                 case "Delete":
-                    Items.Remove(SelectedItem);
+                    string iconPath = SelectedItem?.IconPath;
+                    if (!Items.Remove(SelectedItem))
+                    {
+                        break;
+                    }
+
                     FileOperations.WriteFile(WebQuery.UserFileName, Items.Serialize());
                     SelectedItem = null;
+                    if (!string.IsNullOrEmpty(iconPath))
+                    {
+                        try
+                        {
+                            File.Delete(iconPath);
+                        }
+                        catch (SystemException)
+                        {
+                        }
+                    }
+
                     break;
             }
         }
@@ -191,7 +207,7 @@
             FileOperations.WriteFile(WebQuery.UserFileName, Items.Serialize());
             SelectedItem = null;
             IsBeingCreated = IsBeingEdited = false;
-            IconPath = _tempIconPath = null;
+            IconPath = _tempIconPath = default;
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
