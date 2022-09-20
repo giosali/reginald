@@ -2,6 +2,7 @@
 {
     using System;
     using System.Globalization;
+    using System.Windows;
     using System.Windows.Data;
     using System.Windows.Media;
     using Reginald.Models.Drawing;
@@ -14,11 +15,10 @@
         {
             if (value is not Icon icon)
             {
-                return null;
+                return DependencyProperty.UnsetValue;
             }
 
-            string iconPath = icon.Path;
-            if (iconPath is null)
+            if (icon.Path is not string iconPath)
             {
                 return icon.Source;
             }
