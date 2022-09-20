@@ -48,12 +48,7 @@
 
         public void UserInput_Loaded(object sender, RoutedEventArgs e)
         {
-            if (GetView() is not Popup popup)
-            {
-                return;
-            }
-
-            if (PresentationSource.FromVisual(popup.Child) is not HwndSource source)
+            if (GetView() is not Popup popup || PresentationSource.FromVisual(popup.Child) is not HwndSource source)
             {
                 return;
             }
