@@ -14,6 +14,7 @@
             <!--Converters-->
             <local:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
             <local:DescriptionMultiConverter x:Key="DescriptionMultiConverter" />
+            <local:StringToBitmapImage x:Key="StringToBitmapImage" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -149,8 +150,8 @@
                                 <ComboBoxItem Content="" />
                             </ComboBox>
                             <TextBlock Margin="5 0 0 0"
-                                           Style="{StaticResource TertiaryParagraphTextBlock}"
-                                           Text="Will replace {0} in the Description when the keyword isn't fully typed." />
+                                       Style="{StaticResource TertiaryParagraphTextBlock}"
+                                       Text="Will replace {0} in the Description when the keyword isn't fully typed." />
                         </StackPanel>
                         <!--Caption-->
                         <StackPanel Margin="0 12">
@@ -183,7 +184,7 @@
                                 </Border.ToolTip>
                                 <StackPanel VerticalAlignment="Center">
                                     <Image Height="50"
-                                           Source="{Binding IconPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Source="{Binding IconPath, Converter={StaticResource StringToBitmapImage}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            VerticalAlignment="Center"
                                            Width="50" />
                                 </StackPanel>
@@ -305,7 +306,7 @@
                                     <DataTemplate>
                                         <Image Height="20"
                                                SnapsToDevicePixels="True"
-                                               Source="{Binding IconPath}"
+                                               Source="{Binding IconPath, Converter={StaticResource StringToBitmapImage}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                Width="20" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
