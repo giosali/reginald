@@ -65,10 +65,9 @@
                 "About" => typeof(AboutViewModel),
                 _ => null,
             };
-            object instance = IoC.GetInstance(type, null);
-            if (instance is IScreen screen && !screen.IsActive)
+            if (IoC.GetInstance(type, null) is IScreen screen && !screen.IsActive)
             {
-                await ActivateItemAsync(instance);
+                await ActivateItemAsync(screen);
             }
         }
     }
