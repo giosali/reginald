@@ -3,11 +3,11 @@
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
+    using Reginald.Core.IO;
     using Reginald.Models.Drawing;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Utilities;
 
     internal sealed class Recycle : DataModel, ISingleProducer<SearchResult>
     {

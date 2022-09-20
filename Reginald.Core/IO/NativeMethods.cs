@@ -43,5 +43,19 @@
 
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        internal static extern uint SHEmptyRecycleBin(IntPtr hwnd, string pszRootPath, uint dwFlags);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        internal static extern uint SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        internal struct SHQUERYRBINFO
+        {
+            public int cbSize;
+            public long i64Size;
+            public long i64NumItems;
+        }
     }
 }

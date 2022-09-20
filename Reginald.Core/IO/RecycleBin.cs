@@ -1,8 +1,8 @@
-﻿namespace Reginald.Services.Utilities
+﻿namespace Reginald.Core.IO
 {
     using System;
     using System.Runtime.InteropServices;
-    using static Reginald.Services.Utilities.NativeMethods;
+    using static Reginald.Core.IO.NativeMethods;
 
     public static class RecycleBin
     {
@@ -35,7 +35,7 @@
         {
             SHQUERYRBINFO sqrbi = new();
             sqrbi.cbSize = Marshal.SizeOf(typeof(SHQUERYRBINFO));
-            if ((HRESULT)SHQueryRecycleBin(@"C:\", ref sqrbi) != HRESULT.S_OK || sqrbi.i64NumItems <= 0)
+            if (SHQueryRecycleBin(@"C:\", ref sqrbi) != 0 || sqrbi.i64NumItems <= 0)
             {
                 return;
             }
