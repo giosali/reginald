@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reginald.Core", "Reginald.C
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Reginald.Installer", "Reginald.Installer\Reginald.Installer.vdproj", "{3DF08C09-9D07-4DD6-B92C-22EB8A245348}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reginald.Services", "Reginald.Services\Reginald.Services.csproj", "{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,26 +108,6 @@ Global
 		{3DF08C09-9D07-4DD6-B92C-22EB8A245348}.Release|x64.ActiveCfg = Release
 		{3DF08C09-9D07-4DD6-B92C-22EB8A245348}.Release|x86.ActiveCfg = Release
 		{3DF08C09-9D07-4DD6-B92C-22EB8A245348}.Release|x86.Build.0 = Release
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|ARM.Build.0 = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|x64.Build.0 = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Debug|x86.Build.0 = Debug|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|ARM.ActiveCfg = Release|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|ARM.Build.0 = Release|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|ARM64.Build.0 = Release|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|x64.ActiveCfg = Release|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|x64.Build.0 = Release|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|x86.ActiveCfg = Release|Any CPU
-		{B19B52ED-1942-4DBC-B5AD-993B7409C0F7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
