@@ -3,10 +3,10 @@
     using System;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
+    using Reginald.Core.Services;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Utilities;
 
     internal sealed class WebQuery : DataModel, ISingleProducer<SearchResult>
     {
@@ -94,7 +94,7 @@
             // Handles cases where AltUrl isn't formattable.
             if (!AltUrl.Contains("{0}"))
             {
-                ProcessUtility.GoTo(AltUrl);
+                ProcessService.GoTo(AltUrl);
                 e.Handled = true;
                 return;
             }
@@ -115,7 +115,7 @@
             }
 
             e.Handled = true;
-            ProcessUtility.GoTo(string.Format(AltUrl, input.Quote(EncodeInput)));
+            ProcessService.GoTo(string.Format(AltUrl, input.Quote(EncodeInput)));
         }
 
         private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
@@ -164,7 +164,7 @@
             // Handles cases where Url isn't formattable.
             if (!Url.Contains("{0}"))
             {
-                ProcessUtility.GoTo(Url);
+                ProcessService.GoTo(Url);
                 e.Handled = true;
                 return;
             }
@@ -185,7 +185,7 @@
             }
 
             e.Handled = true;
-            ProcessUtility.GoTo(string.Format(Url, input.Quote(EncodeInput)));
+            ProcessService.GoTo(string.Format(Url, input.Quote(EncodeInput)));
         }
 
         private void OnTabKeyPressed(object sender, InputProcessingEventArgs e)

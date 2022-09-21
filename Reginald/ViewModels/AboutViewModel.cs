@@ -5,14 +5,14 @@
     using System.Windows;
     using System.Windows.Controls;
     using Caliburn.Micro;
+    using Reginald.Core.Services;
     using Reginald.Messages;
-    using Reginald.Services.Utilities;
 
     internal sealed class AboutViewModel : Screen
     {
         public void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            ProcessUtility.GoTo((sender as Button).Tag.ToString());
+            ProcessService.GoTo((sender as Button).Tag.ToString());
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)

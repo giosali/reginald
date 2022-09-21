@@ -5,9 +5,9 @@
     using System.Windows;
     using System.Windows.Controls;
     using Caliburn.Micro;
+    using Reginald.Core.Services;
     using Reginald.Messages;
     using Reginald.Services;
-    using Reginald.Services.Utilities;
 
     internal abstract class ItemScreen : Screen
     {
@@ -20,7 +20,7 @@
 
         public void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            ProcessUtility.GoTo((sender as Button).Tag.ToString());
+            ProcessService.GoTo((sender as Button).Tag.ToString());
         }
 
         public void Include_Click(object sender, RoutedEventArgs e)

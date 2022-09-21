@@ -3,10 +3,10 @@
     using System;
     using Newtonsoft.Json;
     using Reginald.Core.Extensions;
+    using Reginald.Core.Services;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Utilities;
 
     internal sealed class MicrosoftSetting : DataModel, ISingleProducer<SearchResult>
     {
@@ -111,7 +111,7 @@
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            ProcessUtility.GoTo(Uri);
+            ProcessService.GoTo(Uri);
             e.Handled = true;
         }
     }

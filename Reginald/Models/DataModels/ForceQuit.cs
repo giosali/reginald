@@ -1,4 +1,4 @@
-namespace Reginald.Models.DataModels
+﻿namespace Reginald.Models.DataModels
 {
     using System;
     using System.Collections.Concurrent;
@@ -6,10 +6,10 @@ namespace Reginald.Models.DataModels
     using System.Diagnostics;
     using System.Threading;
     using Newtonsoft.Json;
+    using Reginald.Core.Services;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Utilities;
 
     internal sealed class ForceQuit : DataModel, IMultipleProducer<SearchResult>
     {
@@ -45,7 +45,7 @@ namespace Reginald.Models.DataModels
         public SearchResult[] Produce(CancellationToken token)
         {
             List<SearchResult> results = new();
-            List<Process> processes = ProcessUtility.GetTopLevelProcesses();
+            List<Process> processes = ProcessService.GetTopLevelProcesses();
 
             string[] keyInputSplit = _keyInput.Split(' ', 2);
             string input = keyInputSplit[^1];
@@ -91,7 +91,7 @@ namespace Reginald.Models.DataModels
             }
 
             _processIds.Clear();
-            ProcessUtility.ForceQuitProcessById(processId);
+            ProcessService.ForceQuitProcessById(processId);
             e.Handled = true;
         }
     }

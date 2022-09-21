@@ -6,10 +6,10 @@
     using System.Diagnostics;
     using System.Threading;
     using Newtonsoft.Json;
+    using Reginald.Core.Services;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Utilities;
 
     internal sealed class Quit : DataModel, IMultipleProducer<SearchResult>
     {
@@ -45,7 +45,7 @@
         public SearchResult[] Produce(CancellationToken token)
         {
             List<SearchResult> results = new();
-            List<Process> processes = ProcessUtility.GetTopLevelProcesses();
+            List<Process> processes = ProcessService.GetTopLevelProcesses();
 
             string[] keyInputSplit = _keyInput.Split(' ', 2);
             string input = keyInputSplit[^1];
@@ -91,7 +91,7 @@
             }
 
             _processIds.Clear();
-            ProcessUtility.QuitProcessById(processId);
+            ProcessService.QuitProcessById(processId);
             e.Handled = true;
         }
     }

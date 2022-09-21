@@ -1,13 +1,13 @@
-﻿namespace Reginald.Services.Utilities
+﻿namespace Reginald.Core.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
     using System.Windows;
-    using static Reginald.Services.Utilities.NativeMethods;
+    using static Reginald.Core.Services.NativeMethods;
 
-    public static class ProcessUtility
+    public static class ProcessService
     {
         private static readonly HashSet<string> _systemWindows = new() { "Progman", "Shell_TrayWnd" };
 
@@ -16,45 +16,46 @@
             List<Process> processes = new();
             _ = EnumWindows(
                 (hWnd, lParam) =>
-            {
-                if (!IsWindowVisible(hWnd))
                 {
-                    return true;
-                }
+                    if (!IsWindowVisible(hWnd))
+                    {
+                        return true;
+                    }
 
-                // Eliminates cloaked UWP applications.
-                if (DwmGetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, out bool isCloaked, sizeof(int)) == 0 && isCloaked)
-                {
-                    return true;
-                }
+                    // Eliminates cloaked UWP applications.
+                    if (DwmGetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, out bool isCloaked, sizeof(int)) == 0 && isCloaked)
+                    {
+                        return true;
+                    }
 
-                if (GetWindowTextLength(hWnd) == 0)
-                {
-                    return true;
-                }
+                    if (GetWindowTextLength(hWnd) == 0)
+                    {
+                        return true;
+                    }
 
-                StringBuilder className = new(256);
-                if (GetClassName(hWnd, className, className.Capacity) == 0)
-                {
-                    return true;
-                }
+                    StringBuilder className = new(256);
+                    if (GetClassName(hWnd, className, className.Capacity) == 0)
+                    {
+                        return true;
+                    }
 
-                if (_systemWindows.Contains(className.ToString()) || className.ToString() == "ApplicationFrameWindow")
-                {
-                    return true;
-                }
+                    if (_systemWindows.Contains(className.ToString()) || className.ToString() == "ApplicationFrameWindow")
+                    {
+                        return true;
+                    }
 
-                _ = GetWindowThreadProcessId(hWnd, out int pid);
-                processes.Add(Process.GetProcessById(pid));
-                return true;
-            },
+                    _ = GetWindowThreadProcessId(hWnd, out int pid);
+                    processes.Add(Process.GetProcessById(pid));
+                    return true;
+                },
                 IntPtr.Zero);
             return processes;
         }
 
         public static void GoTo(string uri)
         {
-            _ = ShellExecute(IntPtr.Zero, null, uri, null, null, (int)ShowWindowCommand.SW_SHOWNORMAL);
+            // 1 = SW_SHOWNORMAL
+            _ = ShellExecute(IntPtr.Zero, null, uri, null, null, 1);
         }
 
         public static void OpenFromPath(string path)

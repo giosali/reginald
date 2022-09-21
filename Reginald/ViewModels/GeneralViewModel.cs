@@ -4,7 +4,7 @@
     using System.Windows;
     using System.Windows.Input;
     using Reginald.Core.IO;
-    using Reginald.Services.Utilities;
+    using Reginald.Core.Services;
 
     internal sealed class GeneralViewModel : HotkeyViewModelScreen
     {
@@ -25,7 +25,7 @@
 
         public void RestartButton_Click(object sender, RoutedEventArgs e)
         {
-            ProcessUtility.RestartApplication();
+            ProcessService.RestartApplication();
         }
 
         public void ShutdownButton_Click(object sender, RoutedEventArgs e)

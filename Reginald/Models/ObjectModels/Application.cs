@@ -6,11 +6,11 @@
     using System.Windows.Media.Imaging;
     using Microsoft.WindowsAPICodePack.Shell;
     using Reginald.Core.Extensions;
+    using Reginald.Core.Services;
     using Reginald.Core.Utilities;
     using Reginald.Models.Inputs;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Utilities;
 
     internal sealed class Application : ObjectModel, ISingleProducer<SearchResult>
     {
@@ -179,7 +179,7 @@
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            ProcessUtility.OpenFromPath(FilePath);
+            ProcessService.OpenFromPath(FilePath);
             e.Handled = true;
         }
 
