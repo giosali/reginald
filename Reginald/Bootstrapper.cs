@@ -75,7 +75,9 @@
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             _hMutex = ApplicationService.RegisterInstance("Global\\Reginald");
-            if (_hMutex == IntPtr.Zero || Marshal.GetLastWin32Error() == (int)SystemErrorCode.ERROR_ALREADY_EXISTS)
+
+            // 0xB7 = ERROR_ALREADY_EXISTS.
+            if (_hMutex == IntPtr.Zero || Marshal.GetLastWin32Error() == 0xB7)
             {
                 Application.Current.Shutdown();
             }
