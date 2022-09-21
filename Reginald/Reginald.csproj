@@ -143,7 +143,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Reginald.Core\Reginald.Core.csproj" />
-    <ProjectReference Include="..\Reginald.Services\Reginald.Services.csproj" />
   </ItemGroup>
 
 </Project>
