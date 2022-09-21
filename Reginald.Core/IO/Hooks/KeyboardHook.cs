@@ -56,10 +56,8 @@
             switch (msg)
             {
                 case WM_KEYDOWN:
-                case WM_KEYUP:
                 case WM_SYSKEYDOWN:
-                case WM_SYSKEYUP:
-                    KeyPressEventArgs args = new(Marshal.ReadInt32(lParam), msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN);
+                    KeyPressEventArgs args = new(Marshal.ReadInt32(lParam), true);
                     KeyPress?.Invoke(this, args);
 
                     // Blocks input to the foreground window if told to block
@@ -69,6 +67,10 @@
                         return new IntPtr(1);
                     }
 
+                    break;
+                case WM_KEYUP:
+                case WM_SYSKEYUP:
+                    KeyPress?.Invoke(this, new KeyPressEventArgs(Marshal.ReadInt32(lParam), false));
                     break;
             }
 
