@@ -129,6 +129,7 @@
             if (!AltDescription.Contains("{0}"))
             {
                 result.Description = AltDescription;
+                return;
             }
 
             if (_keyInput.Length <= Key.Length)
