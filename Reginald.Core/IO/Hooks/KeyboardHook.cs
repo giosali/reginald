@@ -68,9 +68,10 @@
                     }
 
                     break;
+
                 case WM_KEYUP:
                 case WM_SYSKEYUP:
-                    KeyPress?.Invoke(this, new KeyPressEventArgs(Marshal.ReadInt32(lParam), false));
+                    KeyPress?.Invoke(this, new(Marshal.ReadInt32(lParam), false));
                     break;
             }
 
