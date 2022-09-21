@@ -11,7 +11,7 @@
     using Caliburn.Micro;
     using HotkeyUtility;
     using HotkeyUtility.Extensions;
-    using Reginald.Services.Hooks;
+    using Reginald.Core.IO.Hooks;
     using Reginald.Services.Input;
 
     internal abstract class PopupViewModelScreen<T> : Screen
@@ -91,7 +91,7 @@
 
             KeyboardHook = new(true);
             KeyboardHook.Add();
-            KeyboardHook.KeyPressed += OnKeyPressed;
+            KeyboardHook.KeyPress += OnKeyPress;
             return base.OnActivateAsync(cancellationToken);
         }
 
@@ -104,7 +104,7 @@
             return base.OnDeactivateAsync(close, cancellationToken);
         }
 
-        private void OnKeyPressed(object sender, KeyPressedEventArgs e)
+        private void OnKeyPress(object sender, KeyPressEventArgs e)
         {
             ModifierKeys modifiers = Keyboard.Modifiers;
             if (modifiers != ModifierKeys.None)

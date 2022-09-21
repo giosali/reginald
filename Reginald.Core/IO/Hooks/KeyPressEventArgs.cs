@@ -1,9 +1,9 @@
-﻿namespace Reginald.Services.Hooks
+﻿namespace Reginald.Core.IO.Hooks
 {
     using System;
     using System.Windows.Input;
 
-    public class KeyPressedEventArgs : EventArgs
+    public class KeyPressEventArgs : EventArgs
     {
         private readonly bool _isModifierPressed;
 
@@ -13,7 +13,7 @@
 
         private readonly bool _isPrintScreenPressed;
 
-        public KeyPressedEventArgs(int vkCode, bool isDown)
+        public KeyPressEventArgs(int vkCode, bool isDown)
         {
             IsDown = isDown;
             VirtualKeyCode = vkCode;

@@ -1,7 +1,7 @@
-﻿namespace Reginald.Services.Hooks
+﻿namespace Reginald.Core.IO.Hooks
 {
     using System.Text;
-    using static Reginald.Services.Hooks.NativeMethods;
+    using static Reginald.Core.IO.Hooks.NativeMethods;
 
     public static class VirtualKeyCodeConverter
     {

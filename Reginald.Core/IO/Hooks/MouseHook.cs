@@ -1,12 +1,19 @@
-﻿namespace Reginald.Services.Hooks
+﻿namespace Reginald.Core.IO.Hooks
 {
     using System;
     using System.Diagnostics;
     using System.Runtime.InteropServices;
-    using static Reginald.Services.Hooks.NativeMethods;
+    using static Reginald.Core.IO.Hooks.NativeMethods;
 
     public class MouseHook : Hook
     {
+        /// <summary>
+        /// Installs a hook procedure that monitors low-level mouse input events. For more information, see the <see href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms644985(v=vs.85)">LowLevelKeyboardProc hook procedure</see>.
+        /// </summary>
+        private const int WH_MOUSE_LL = 14;
+
+        private const int WM_LBUTTONDOWN = 0x0201;
+
         private static LowLevelMouseProc _proc;
 
         public MouseHook()
@@ -31,10 +38,18 @@
 
         protected override IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && (WindowMessage)wParam == WindowMessage.WM_LBUTTONDOWN)
+            if (nCode < 0)
             {
-                MouseClickEventArgs args = GetCursorPos(out POINT p) ? new(WindowFromPoint(p)) : new();
-                OnMouseClick(args);
+                return CallNextHookEx(HookId, nCode, wParam, lParam);
+            }
+
+            int msg = wParam.ToInt32();
+            switch (msg)
+            {
+                case WM_LBUTTONDOWN:
+                    MouseClickEventArgs args = GetCursorPos(out POINT p) ? new(WindowFromPoint(p)) : new();
+                    MouseClick?.Invoke(this, args);
+                    break;
             }
 
             return CallNextHookEx(HookId, nCode, wParam, lParam);
@@ -44,13 +59,7 @@
         {
             using Process curProcess = Process.GetCurrentProcess();
             using ProcessModule curModule = curProcess.MainModule;
-            return SetWindowsHookEx((int)HookType.WH_MOUSE_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
-        }
-
-        private void OnMouseClick(MouseClickEventArgs e)
-        {
-            EventHandler<MouseClickEventArgs> handler = MouseClick;
-            handler?.Invoke(this, e);
+            return SetWindowsHookEx(WH_MOUSE_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
         }
     }
 }

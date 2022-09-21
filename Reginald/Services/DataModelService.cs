@@ -8,10 +8,10 @@
     using System.Threading.Tasks;
     using Caliburn.Micro;
     using Reginald.Core.IO;
+    using Reginald.Core.IO.Hooks;
     using Reginald.Models.DataModels;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Hooks;
     using Reginald.Services.Input;
 
     internal sealed class DataModelService
@@ -46,7 +46,7 @@
             // Adds a low-level hook for text expansions.
             KeyboardHook keyboardHook = new();
             keyboardHook.Add();
-            keyboardHook.KeyPressed += OnKeyPressed;
+            keyboardHook.KeyPress += OnKeyPress;
         }
 
         public IMultipleProducer<SearchResult>[] CpuIntensiveMultipleProducers { get; private set; }
@@ -116,7 +116,7 @@
             return null;
         }
 
-        private async void OnKeyPressed(object sender, KeyPressedEventArgs e)
+        private async void OnKeyPress(object sender, KeyPressEventArgs e)
         {
             if (!Settings.AreExpansionsEnabled || !e.IsDown)
             {

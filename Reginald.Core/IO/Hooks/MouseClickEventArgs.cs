@@ -1,4 +1,4 @@
-﻿namespace Reginald.Services.Hooks
+﻿namespace Reginald.Core.IO.Hooks
 {
     using System;
 
