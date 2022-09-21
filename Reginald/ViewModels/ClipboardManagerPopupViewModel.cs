@@ -12,11 +12,11 @@
     using System.Windows.Input;
     using System.Windows.Media.Imaging;
     using Microsoft.Data.Sqlite;
+    using Reginald.Core.DataExchange;
     using Reginald.Core.IO;
     using Reginald.Core.Services;
     using Reginald.Models.Inputs;
     using Reginald.Models.Products;
-    using Reginald.Services.Utilities;
 
     internal sealed class ClipboardManagerPopupViewModel : SearchPopupViewModelScreen<ClipboardItem>
     {
@@ -33,8 +33,7 @@
             // Creates clipboard database file.
             CreateClipboardDatabase();
 
-            ClipboardUtility utility = ClipboardUtility.GetClipboardUtility();
-            utility.ClipboardChanged += OnClipboardChanged;
+            ClipboardListener.GetClipboardListener().ClipboardChanged += OnClipboardChanged;
 
             _clipboardItems.AddRange(ReadClipboardDatabase().Select(r => new ClipboardItem(r)));
             Items.AddRange(_clipboardItems);

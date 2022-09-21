@@ -3,7 +3,7 @@
     using System;
     using System.Windows;
     using System.Windows.Input;
-    using Reginald.Services.Utilities;
+    using Reginald.Core.DataExchange;
 
     internal sealed class ClipboardManagerViewModel : HotkeyViewModelScreen
     {
@@ -14,7 +14,7 @@
 
         public void ClipboardManagerToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            ClipboardUtility.IsEnabled = DMS.Settings.IsClipboardManagerEnabled;
+            ClipboardListener.IsEnabled = DMS.Settings.IsClipboardManagerEnabled;
             DMS.Settings.Save();
         }
 

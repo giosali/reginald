@@ -7,9 +7,9 @@
     using System.Windows.Controls.Primitives;
     using Caliburn.Micro;
     using HotkeyUtility.Input;
+    using Reginald.Core.DataExchange;
     using Reginald.Core.IO;
     using Reginald.Services;
-    using Reginald.Services.Utilities;
 
     internal sealed class ShellViewModel : Conductor<object>
     {
@@ -35,7 +35,7 @@
             }
 
             // Adds a listener for the clipboard manager.
-            _ = ClipboardUtility.GetClipboardUtility(dms.Settings.IsClipboardManagerEnabled, GetView() as Window);
+            _ = ClipboardListener.GetClipboardListener(dms.Settings.IsClipboardManagerEnabled, GetView() as Window);
 
             ToolTipText = $"{FileOperations.ApplicationName} v{Assembly.GetExecutingAssembly().GetName().Version}";
         }
