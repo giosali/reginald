@@ -12,7 +12,7 @@
     using HotkeyUtility;
     using HotkeyUtility.Extensions;
     using Reginald.Core.IO.Hooks;
-    using Reginald.Services.Input;
+    using Reginald.Core.IO.Injection;
 
     internal abstract class PopupViewModelScreen<T> : Screen
     {
@@ -120,11 +120,11 @@
 
             if (e.IsDown)
             {
-                _ = KeyboardInputInjector.SendKeyDown(ActiveHandle, e.VirtualKeyCode);
+                _ = InputInjector.SendKeyDown(ActiveHandle, e.VirtualKeyCode);
             }
             else
             {
-                _ = KeyboardInputInjector.SendKeyUp(ActiveHandle, e.VirtualKeyCode);
+                _ = InputInjector.SendKeyUp(ActiveHandle, e.VirtualKeyCode);
             }
         }
 

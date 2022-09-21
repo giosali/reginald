@@ -1,18 +1,10 @@
-﻿namespace Reginald.Services.Input
+﻿namespace Reginald.Core.IO.Injection
 {
     using System;
     using System.Runtime.InteropServices;
 
     public static class NativeMethods
     {
-        /// <summary>
-        /// Specifies various aspects of mouse motion and button clicking.
-        /// </summary>
-        [Flags]
-        internal enum MOUSEEVENTF : uint
-        {
-        }
-
         [DllImport("user32.dll", EntryPoint = "PostMessageA")]
         internal static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
 
@@ -39,9 +31,9 @@
         [StructLayout(LayoutKind.Sequential)]
         internal struct KEYBDINPUT
         {
-            internal VirtualKeyShort wVk;
+            internal short wVk;
             internal short wScan;
-            internal KEYEVENTF dwFlags;
+            internal uint dwFlags;
             internal int time;
             internal UIntPtr dwExtraInfo;
         }
@@ -52,7 +44,7 @@
             internal int dx;
             internal int dy;
             internal int mouseData;
-            internal MOUSEEVENTF dwFlags;
+            internal uint dwFlags;
             internal uint time;
             internal UIntPtr dwExtraInfo;
         }

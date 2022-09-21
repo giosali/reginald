@@ -8,10 +8,10 @@
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Microsoft.Data.Sqlite;
+    using Reginald.Core.IO.Injection;
     using Reginald.Core.Services;
     using Reginald.Models.Drawing;
     using Reginald.Models.Inputs;
-    using Reginald.Services.Input;
 
     internal sealed class ClipboardItem : KeyboardInput
     {
@@ -113,7 +113,8 @@
             // Waits for clipboard window to deactivate.
             await WindowService.WaitForDeactivationAsync();
 
-            KeyboardInputInjector.Paste();
+            // Simulates pasting through CTRL + V.
+            InputInjector.InjectKeyboardInput(new InjectedInputKeyboardInfo(new VK[] { VK.CONTROL, VK.KEY_V }));
         }
 
         public override void PressTab(InputProcessingEventArgs e)

@@ -7,15 +7,18 @@
     using System.Text;
     using System.Threading.Tasks;
     using Caliburn.Micro;
+    using Reginald.Core.Extensions;
     using Reginald.Core.IO;
     using Reginald.Core.IO.Hooks;
+    using Reginald.Core.IO.Injection;
     using Reginald.Models.DataModels;
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
-    using Reginald.Services.Input;
 
     internal sealed class DataModelService
     {
+        private const string CursorVariable = "{{__cursor__}}";
+
 #pragma warning disable IDE0052
         private readonly FileSystemWatcher[] _fsws;
 #pragma warning restore IDE0052
@@ -130,8 +133,32 @@
 
             await Task.Run(async () =>
             {
+                if (te.Replacement is not string replacement)
+                {
+                    return;
+                }
+
                 await Task.Delay(50);
-                KeyboardInputInjector.InjectInput(InjectedKeyboardInput.FromTextExpansion(te.Trigger, te.Replacement));
+
+                // Simulates backspace to delete the trigger.
+                InjectedInputKeyboardInfo backInfo = InjectedInputKeyboardInfo.FromRepeatVirtualKey(VK.BACK, te.Trigger.Length);
+
+                int cursorIndex = replacement.IndexOf(CursorVariable);
+                int leftArrowCount = 0;
+                if (cursorIndex > 0)
+                {
+                    replacement = replacement.Replace(CursorVariable, string.Empty, 1);
+                    leftArrowCount = replacement.Length - cursorIndex;
+                }
+
+                InjectedInputKeyboardInfo replacementInfo = InjectedInputKeyboardInfo.FromString(replacement);
+
+                // Simulates left arrow key to set cursor position.
+                InjectedInputKeyboardInfo leftArrowInfo = InjectedInputKeyboardInfo.FromRepeatVirtualKey(VK.LEFT, leftArrowCount);
+
+                InputInjector.InjectKeyboardInput(backInfo);
+                InputInjector.InjectKeyboardInput(replacementInfo);
+                InputInjector.InjectKeyboardInput(leftArrowInfo);
             });
         }
 
