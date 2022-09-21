@@ -59,7 +59,7 @@
                 case WM_KEYUP:
                 case WM_SYSKEYDOWN:
                 case WM_SYSKEYUP:
-                    KeyPressEventArgs args = new(Marshal.ReadInt32(lParam), msg == WM_KEYDOWN);
+                    KeyPressEventArgs args = new(Marshal.ReadInt32(lParam), msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN);
                     KeyPress?.Invoke(this, args);
 
                     // Blocks input to the foreground window if told to block
