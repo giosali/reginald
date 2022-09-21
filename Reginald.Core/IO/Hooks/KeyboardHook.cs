@@ -60,8 +60,9 @@
                     KeyPressEventArgs args = new(Marshal.ReadInt32(lParam), true);
                     KeyPress?.Invoke(this, args);
 
-                    // Blocks input to the foreground window if told to block
-                    // and if an important key isn't pressed
+                    // Blocks input to the foreground window
+                    // if told to block
+                    // and if an important key is pressed
                     if (IsBlocking && !args.IsImportantKeyPressed)
                     {
                         return new IntPtr(1);
