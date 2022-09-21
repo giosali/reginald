@@ -13,6 +13,7 @@
     using System.Windows.Media.Imaging;
     using Microsoft.Data.Sqlite;
     using Reginald.Core.IO;
+    using Reginald.Core.Services;
     using Reginald.Models.Inputs;
     using Reginald.Models.Products;
     using Reginald.Services.Utilities;
@@ -90,7 +91,7 @@
         /// <param name="e">The event data.</param>
         public void Menu_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            WindowUtility.Drag();
+            WindowService.Drag();
         }
 
         public void PopupCloseBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

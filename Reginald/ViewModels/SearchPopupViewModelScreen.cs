@@ -9,8 +9,8 @@
     using System.Windows.Input;
     using System.Windows.Interop;
     using Caliburn.Micro;
+    using Reginald.Core.Services;
     using Reginald.Services;
-    using Reginald.Services.Utilities;
     using Reginald.Visual;
 
     internal abstract class SearchPopupViewModelScreen<T> : PopupViewModelScreen<T>
@@ -54,7 +54,7 @@
             }
 
             // Brings popup to front without stealing focus from the foreground window
-            _ = WindowUtility.SetFocus(ActiveHandle = source.Handle);
+            _ = WindowService.SetFocus(ActiveHandle = source.Handle);
 
             if (DMS.Theme.IsAcrylicEnabled)
             {

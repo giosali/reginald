@@ -8,10 +8,10 @@
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Microsoft.Data.Sqlite;
+    using Reginald.Core.Services;
     using Reginald.Models.Drawing;
     using Reginald.Models.Inputs;
     using Reginald.Services.Input;
-    using Reginald.Services.Utilities;
 
     internal sealed class ClipboardItem : KeyboardInput
     {
@@ -111,7 +111,7 @@
             }
 
             // Waits for clipboard window to deactivate.
-            await WindowUtility.WaitForDeactivationAsync();
+            await WindowService.WaitForDeactivationAsync();
 
             KeyboardInputInjector.Paste();
         }
