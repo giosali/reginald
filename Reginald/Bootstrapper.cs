@@ -34,7 +34,6 @@
                           .Singleton<MainViewModel>()
                           .Singleton<ClipboardManagerPopupViewModel>()
                           .Singleton<ShellViewModel>()
-                          .Singleton<SettingsViewModel>()
                           .Singleton<GeneralViewModel>()
                           .Singleton<ThemesViewModel>()
                           .Singleton<ExpansionsViewModel>()

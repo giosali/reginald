@@ -13,14 +13,11 @@
 
     internal sealed class SettingsViewModel : Conductor<object>, IHandle<UpdatePageMessage>
     {
-        private readonly IEventAggregator _eventAggregator;
-
         private string _title;
 
-        public SettingsViewModel(IEventAggregator eventAggregator)
+        public SettingsViewModel()
         {
-            _eventAggregator = eventAggregator;
-            _eventAggregator.SubscribeOnPublishedThread(this);
+            IoC.Get<IEventAggregator>().SubscribeOnPublishedThread(this);
         }
 
         public string Title
