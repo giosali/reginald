@@ -54,13 +54,6 @@
             {
                 token.ThrowIfCancellationRequested();
                 Process process = processes[i];
-
-                // Skips File Explorer.
-                if (process.ProcessName == "explorer")
-                {
-                    continue;
-                }
-
                 string fileName = process.MainModule.FileName;
                 string fileDescription = FileVersionInfo.GetVersionInfo(fileName).FileDescription;
 

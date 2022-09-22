@@ -9,7 +9,7 @@
 
     public static class ProcessService
     {
-        private static readonly HashSet<string> _systemWindows = new() { "Progman", "Shell_TrayWnd" };
+        private static readonly HashSet<string> _systemWindows = new() { "Progman", "Shell_TrayWnd", "CabinetWClass", "ApplicationFrameWindow" };
 
         public static List<Process> GetTopLevelProcesses()
         {
@@ -34,12 +34,7 @@
                     }
 
                     StringBuilder className = new(256);
-                    if (GetClassName(hWnd, className, className.Capacity) == 0)
-                    {
-                        return true;
-                    }
-
-                    if (_systemWindows.Contains(className.ToString()) || className.ToString() == "ApplicationFrameWindow")
+                    if (GetClassName(hWnd, className, className.Capacity) == 0 || _systemWindows.Contains(className.ToString()))
                     {
                         return true;
                     }
