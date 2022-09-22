@@ -71,22 +71,22 @@
 
         public static bool operator ==(SearchResult a, SearchResult b)
         {
-            return a is not null && b is not null && a.Id == b.Id && a.Description == b.Description;
+            return a is not null && b is not null && a.Id == b.Id && a.Description[0] == b.Description[0];
         }
 
         public static bool operator !=(SearchResult a, SearchResult b)
         {
-            return a is not null && b is not null && a.Id != b.Id && a.Description != b.Description;
+            return a is not null && b is not null && a.Id != b.Id && a.Description[0] != b.Description[0];
         }
 
         public override bool Equals(object obj)
         {
-            return obj is SearchResult result && Id == result.Id && Description == result.Description;
+            return obj is SearchResult result && Id == result.Id && Description[0] == result.Description[0];
         }
 
         public override int GetHashCode()
         {
-            return Id ^ Description.GetHashCode();
+            return Id ^ Description[0];
         }
 
         public override void PressAlt(InputProcessingEventArgs e)
