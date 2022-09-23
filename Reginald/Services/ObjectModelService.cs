@@ -111,16 +111,41 @@
             switch (e.ChangeType)
             {
                 case WatcherChangeTypes.Renamed:
-                    string oldFullPath = e.OldFullPath;
-                    if (oldFullPath.Contains(_appDataPath))
+                    string oldPath = e.OldFullPath;
+                    if (oldPath.Contains(_appDataPath))
                     {
                         break;
                     }
 
-                    if (FileSystemEntries.TryRemove(oldFullPath.GetCrc32HashCode(), out FileSystemEntry entry))
+                    string newPath = e.FullPath;
+                    if (FileSystemEntries.TryRemove(oldPath.GetCrc32HashCode(), out FileSystemEntry entry))
                     {
-                        entry.UpdatePath(e.FullPath.Split(FileSystemEntry.UserProfile)[^1]);
-                        FileSystemEntries[e.FullPath.GetCrc32HashCode()] = entry;
+                        entry.UpdatePath(newPath.Split(FileSystemEntry.UserProfile)[^1]);
+                        FileSystemEntries[newPath.GetCrc32HashCode()] = entry;
+                    }
+
+                    try
+                    {
+                        FileAttributes attributes = File.GetAttributes(newPath);
+                        if ((attributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        {
+                            break;
+                        }
+
+                        string[] files = Directory.GetFiles(newPath, "*", SearchOption.AllDirectories);
+                        for (int i = 0; i < files.Length; i++)
+                        {
+                            string newFile = files[i];
+                            string oldFile = newFile.Replace(newPath, oldPath);
+                            if (FileSystemEntries.TryRemove(oldFile.GetCrc32HashCode(), out entry))
+                            {
+                                entry.UpdatePath(newFile.Split(FileSystemEntry.UserProfile)[^1]);
+                                FileSystemEntries[newFile.GetCrc32HashCode()] = entry;
+                            }
+                        }
+                    }
+                    catch (SystemException)
+                    {
                     }
 
                     break;
