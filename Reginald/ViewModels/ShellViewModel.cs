@@ -106,7 +106,7 @@
             {
                 case "Settings":
                     // await _windowManager.ShowWindowAsync(IoC.GetInstance(typeof(SettingsViewModel), null));
-                await _windowManager.ShowWindowAsync(new SettingsViewModel());
+                    await _windowManager.ShowWindowAsync(new SettingsViewModel());
                     break;
                 case "RunAtStartup":
                     // Checks if the shortcut already exists by checking if
