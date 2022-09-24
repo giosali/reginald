@@ -9,6 +9,12 @@
     using Reginald.Models.Producers;
     using Reginald.Models.Products;
 
+    public enum EntryType
+    {
+        Directory,
+        File,
+    }
+
     internal sealed class FileSystemEntry : ObjectModel, ISingleProducer<SearchResult>
     {
         public FileSystemEntry(string path)
@@ -16,17 +22,11 @@
             UpdatePath(path);
         }
 
-        private enum EntryType
-        {
-            Directory,
-            File,
-        }
-
         public static string UserProfile { get; private set; } = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-        private string IconPath { get; set; }
+        public EntryType Type { get; private set; }
 
-        private EntryType Type { get; set; }
+        private string IconPath { get; set; }
 
         public bool Check(string input)
         {

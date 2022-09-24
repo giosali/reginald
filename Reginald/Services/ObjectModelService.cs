@@ -54,7 +54,7 @@
             th.Start();
         }
 
-        public ConcurrentDictionary<uint, FileSystemEntry> FileSystemEntries { get; set; } = new();
+        public ConcurrentDictionary<uint, FileSystemEntry> FileSystemEntries { get; private set; } = new();
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; private set; }
 
@@ -80,7 +80,31 @@
                         break;
                     }
 
-                    FileSystemEntries[fullPath.GetCrc32HashCode()] = new FileSystemEntry(fullPath.Split(FileSystemEntry.UserProfile)[^1]);
+                    FileSystemEntries[fullPath.GetCrc32HashCode()] = new FileSystemEntry(fullPath.Split(FileSystemEntry.UserProfile, 2)[^1]);
+
+                    if (!Directory.Exists(fullPath))
+                    {
+                        break;
+                    }
+
+                    // Re-adds file system entries if a directory that contains files
+                    // and/or subdirectories is restored from the Recycle Bin.
+                    string[] files = new string[] { };
+                    try
+                    {
+                        files = Directory.GetFiles(fullPath, "*", SearchOption.AllDirectories);
+                    }
+                    catch (SystemException)
+                    {
+                        break;
+                    }
+
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        string file = files[i];
+                        FileSystemEntries[file.GetCrc32HashCode()] = new FileSystemEntry(file.Split(FileSystemEntry.UserProfile, 2)[^1]);
+                    }
+
                     break;
             }
         }
@@ -96,7 +120,24 @@
                         break;
                     }
 
-                    _ = FileSystemEntries.TryRemove(fullPath.GetCrc32HashCode(), out _);
+                    // Breaks if the path doesn't exist in the dictionary
+                    // or if the removed file system entry is not a directory.
+                    if (!FileSystemEntries.TryRemove(fullPath.GetCrc32HashCode(), out FileSystemEntry removedEntry) || removedEntry.Type == EntryType.File)
+                    {
+                        break;
+                    }
+
+                    // Removes entries from deleted directories.
+                    string match = fullPath.Split(FileSystemEntry.UserProfile, 2)[^1];
+                    foreach (FileSystemEntry entry in FileSystemEntries.Values)
+                    {
+                        string caption = entry.Caption;
+                        if (caption.StartsWith(match))
+                        {
+                            _ = FileSystemEntries.TryRemove((FileSystemEntry.UserProfile + caption).GetCrc32HashCode(), out _);
+                        }
+                    }
+
                     break;
             }
         }
@@ -124,28 +165,32 @@
                         FileSystemEntries[newPath.GetCrc32HashCode()] = entry;
                     }
 
+                    if (!Directory.Exists(newPath))
+                    {
+                        break;
+                    }
+
+                    string[] files = new string[] { };
                     try
                     {
-                        FileAttributes attributes = File.GetAttributes(newPath);
-                        if ((attributes & FileAttributes.Directory) != FileAttributes.Directory)
-                        {
-                            break;
-                        }
-
-                        string[] files = Directory.GetFiles(newPath, "*", SearchOption.AllDirectories);
-                        for (int i = 0; i < files.Length; i++)
-                        {
-                            string newFile = files[i];
-                            string oldFile = newFile.Replace(newPath, oldPath);
-                            if (FileSystemEntries.TryRemove(oldFile.GetCrc32HashCode(), out entry))
-                            {
-                                entry.UpdatePath(newFile.Split(FileSystemEntry.UserProfile)[^1]);
-                                FileSystemEntries[newFile.GetCrc32HashCode()] = entry;
-                            }
-                        }
+                        files = Directory.GetFiles(newPath, "*", SearchOption.AllDirectories);
                     }
                     catch (SystemException)
                     {
+                        break;
+                    }
+
+                    // Changes the file path for all file system entries in
+                    // renamed directories.
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        string newFile = files[i];
+                        string oldFile = newFile.Replace(newPath, oldPath);
+                        if (FileSystemEntries.TryRemove(oldFile.GetCrc32HashCode(), out entry))
+                        {
+                            entry.UpdatePath(newFile.Split(FileSystemEntry.UserProfile)[^1]);
+                            FileSystemEntries[newFile.GetCrc32HashCode()] = entry;
+                        }
                     }
 
                     break;
