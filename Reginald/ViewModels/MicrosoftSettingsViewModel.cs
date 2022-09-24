@@ -7,9 +7,9 @@
         public MicrosoftSettingsViewModel(DataModelService dms)
             : base("Features > Microsoft Settings")
         {
-            DataModelService = dms;
+            DMS = dms;
         }
 
-        public DataModelService DataModelService { get; set; }
+        public DataModelService DMS { get; set; }
     }
 }

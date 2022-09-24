@@ -32,7 +32,7 @@
                                    Text="Show Microsoft settings in your search results" />
                     </StackPanel>
                     <ToggleButton Grid.Column="3"
-                                  IsChecked="{Binding DataModelService.Settings.AreMicrosoftSettingsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  IsChecked="{Binding DMS.Settings.AreMicrosoftSettingsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Style="{StaticResource WindowsToggleButtonStyle}"
                                   cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
                 </Grid>
