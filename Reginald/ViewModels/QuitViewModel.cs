@@ -7,9 +7,9 @@
         public QuitViewModel(DataModelService dms)
             : base("Features > Quit")
         {
-            DataModelService = dms;
+            DMS = dms;
         }
 
-        public DataModelService DataModelService { get; set; }
+        public DataModelService DMS { get; set; }
     }
 }

@@ -33,7 +33,7 @@
                             <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
                                        Text="Have Reginald quit applications for you" />
                         </StackPanel>
-                        <ToggleButton IsChecked="{Binding DataModelService.Settings.IsQuitEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <ToggleButton IsChecked="{Binding DMS.Settings.IsQuitEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Grid.Column="3"
                                       Style="{StaticResource WindowsToggleButtonStyle}"
                                       cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
