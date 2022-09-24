@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Reginald.Views.FileSearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://caliburnmicro.com"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <StackPanel>
+        <StackPanel Style="{StaticResource InnerUserControlStackPanelStyle}">
+            <!--ToggleButton-->
+            <Border Style="{StaticResource CardBorderStyle}">
+                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <!--ToggleButton-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE7C3;" />
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="File search" />
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Enable file search and file indexing" />
+                        </StackPanel>
+                        <ToggleButton Grid.Column="3"
+                                      IsChecked="{Binding DMS.Settings.IsFileSearchEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Style="{StaticResource WindowsToggleButtonStyle}"
+                                      cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
+                    </Grid>
+                    <!--Keyword-->
+                    <StackPanel Margin="0 12">
+                        <Grid VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Margin="0 0 6 0"
+                                       Style="{StaticResource PrimaryParagraphTextBlockStyle}"
+                                       Text="Keyword"
+                                       VerticalAlignment="Center" />
+                            <TextBox Grid.Column="1"
+                                     IsEnabled="False"
+                                     Style="{StaticResource PrimaryTextBoxStyle}"
+                                     Text="'" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        <StackPanel Style="{StaticResource InnerUserControlStackPanelStyle}">
+            <!--File search filters-->
+            <Border Style="{StaticResource CardBorderStyle}">
+                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
+                        <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE71C;" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="File search filters" />
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Filter out folders and files from file search results" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
+                        <TextBox Style="{StaticResource PrimaryTextBoxStyle}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

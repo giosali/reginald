@@ -15,6 +15,7 @@
             {
                 "WebQueries" => typeof(WebQueriesViewModel),
                 "YourWebQueries" => typeof(YourWebQueriesViewModel),
+                "FileSearch" => typeof(FileSearchViewModel),
                 "ClipboardManager" => typeof(ClipboardManagerViewModel),
                 "Expansions" => typeof(ExpansionsViewModel),
                 "Applications" => typeof(ApplicationsViewModel),
