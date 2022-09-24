@@ -36,18 +36,19 @@
                           .Singleton<ShellViewModel>()
                           .Singleton<GeneralViewModel>()
                           .Singleton<ThemesViewModel>()
-                          .Singleton<ExpansionsViewModel>()
-                          .Singleton<ClipboardManagerViewModel>()
-                          .Singleton<AboutViewModel>()
                           .Singleton<FeaturesViewModel>()
+                          .Singleton<AboutViewModel>()
                           .Singleton<WebQueriesViewModel>()
                           .Singleton<YourWebQueriesViewModel>()
+                          .Singleton<FileSearchViewModel>()
+                          .Singleton<ClipboardManagerViewModel>()
+                          .Singleton<ExpansionsViewModel>()
                           .Singleton<ApplicationsViewModel>()
                           .Singleton<CalculatorViewModel>()
                           .Singleton<UrlViewModel>()
                           .Singleton<MicrosoftSettingsViewModel>()
-                          .Singleton<TimerViewModel>()
                           .Singleton<RecycleViewModel>()
+                          .Singleton<TimerViewModel>()
                           .Singleton<QuitViewModel>();
         }
 
