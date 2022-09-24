@@ -27,10 +27,13 @@
 
         private bool _areApplicationsEnabled;
 
+        private bool _isFileSearchEnabled;
+
         public DataModelService()
         {
             Settings = FileOperations.GetGenericDatum<Settings>(Settings.FileName, false);
             _areApplicationsEnabled = Settings.AreApplicationsEnabled;
+            _isFileSearchEnabled = Settings.IsFileSearchEnabled;
             SetTheme();
             SetTextExpansions();
             SetSingleProducers();
@@ -173,10 +176,18 @@
                     SetTextExpansions();
                     SetSingleProducers();
                     SetMultipleProducers();
+
+                    ObjectModelService oms = IoC.Get<ObjectModelService>();
                     if (_areApplicationsEnabled != Settings.AreApplicationsEnabled)
                     {
                         _areApplicationsEnabled = !_areApplicationsEnabled;
-                        IoC.Get<ObjectModelService>().SetSingleProducers();
+                        oms.SetSingleProducers();
+                    }
+
+                    if (_isFileSearchEnabled != Settings.IsFileSearchEnabled)
+                    {
+                        _isFileSearchEnabled = !_isFileSearchEnabled;
+                        oms.ManageFileSystemEntries(_isFileSearchEnabled);
                     }
 
                     break;

@@ -17,10 +17,10 @@
         private readonly string _appDataPath = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
 
 #pragma warning disable IDE0052
-        private readonly FileSystemWatcher[] _fileSystemWatchers;
-
         private readonly RegistryKeyWatcher[] _registryKeyWatchers;
 #pragma warning restore IDE0052
+
+        private readonly FileSystemWatcher _userProfileWatcher;
 
         public ObjectModelService()
         {
@@ -34,8 +34,8 @@
             currentUser.RegistryKeyChanged += OnRegistryKeyChanged;
             _registryKeyWatchers = new RegistryKeyWatcher[] { localMachine64Bit, localMachine, currentUser };
 
-            FileSystemWatcher fsWatcher = new(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
-            fsWatcher.NotifyFilter = NotifyFilters.Attributes
+            _userProfileWatcher = new(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+            _userProfileWatcher.NotifyFilter = NotifyFilters.Attributes
                                    | NotifyFilters.CreationTime
                                    | NotifyFilters.DirectoryName
                                    | NotifyFilters.FileName
@@ -43,20 +43,32 @@
                                    | NotifyFilters.LastWrite
                                    | NotifyFilters.Security
                                    | NotifyFilters.Size;
-            fsWatcher.Created += OnCreated;
-            fsWatcher.Deleted += OnDeleted;
-            fsWatcher.Renamed += OnRenamed;
-            fsWatcher.IncludeSubdirectories = true;
-            fsWatcher.EnableRaisingEvents = true;
-            _fileSystemWatchers = new FileSystemWatcher[] { fsWatcher };
-            Thread th = new(SetFileSystemEntries);
-            th.IsBackground = true;
-            th.Start();
+            _userProfileWatcher.Created += OnCreated;
+            _userProfileWatcher.Deleted += OnDeleted;
+            _userProfileWatcher.Renamed += OnRenamed;
+            _userProfileWatcher.IncludeSubdirectories = true;
+            ManageFileSystemEntries(IoC.Get<DataModelService>().Settings.IsFileSearchEnabled);
         }
 
         public ConcurrentDictionary<uint, FileSystemEntry> FileSystemEntries { get; private set; } = new();
 
         public ISingleProducer<SearchResult>[] SingleProducers { get; private set; }
+
+        public void ManageFileSystemEntries(bool enable)
+        {
+            if (enable)
+            {
+                Thread th = new(SetFileSystemEntries);
+                th.IsBackground = true;
+                th.Start();
+                _userProfileWatcher.EnableRaisingEvents = true;
+            }
+            else
+            {
+                _userProfileWatcher.EnableRaisingEvents = false;
+                FileSystemEntries.Clear();
+            }
+        }
 
         public void SetSingleProducers()
         {
