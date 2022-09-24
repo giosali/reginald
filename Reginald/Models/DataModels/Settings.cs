@@ -48,6 +48,9 @@
         [JsonProperty("isClipboardManagerEnabled")]
         public bool IsClipboardManagerEnabled { get; set; } = true;
 
+        [JsonProperty("isFileSearchEnabled")]
+        public bool IsFileSearchEnabled { get; set; } = true;
+
         [JsonProperty("isForceQuitEnabled")]
         public bool IsForceQuitEnabled { get; set; } = true;
 
