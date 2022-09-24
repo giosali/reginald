@@ -38,7 +38,7 @@
                                       Style="{StaticResource WindowsToggleButtonStyle}"
                                       cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
                     </Grid>
-                    <!--Links-->
+                    <!--Keyword-->
                     <StackPanel Margin="0 12">
                         <Grid VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
