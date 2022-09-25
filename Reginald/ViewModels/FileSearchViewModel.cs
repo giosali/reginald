@@ -1,7 +1,7 @@
-using Reginald.Services;
-
 namespace Reginald.ViewModels
 {
+    using Reginald.Services;
+
     internal sealed class FileSearchViewModel : ItemScreen
     {
         public FileSearchViewModel(DataModelService dms)
