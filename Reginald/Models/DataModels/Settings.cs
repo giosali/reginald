@@ -39,6 +39,23 @@
         [JsonProperty("disabledWebQueries")]
         public List<int> DisabledWebQueries { get; set; } = new();
 
+        [JsonProperty("fileSearchFilters")]
+        public HashSet<string> FileSearchFilters { get; set; } = new()
+        {
+            "Debug/",
+            "Release/",
+            "__pycache__/",
+            "build/",
+            "dist/",
+            "eggs/",
+            "env/",
+            "node_modules/",
+            "venv/",
+            "wheels/",
+            "x64/",
+            "x84/",
+        };
+
         [JsonProperty("isCalculatorEnabled")]
         public bool IsCalculatorEnabled { get; set; } = true;
 
