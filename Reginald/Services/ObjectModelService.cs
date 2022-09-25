@@ -4,6 +4,7 @@
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using Caliburn.Micro;
     using Reginald.Core.Extensions;
@@ -211,16 +212,99 @@
 
         private void SetFileSystemEntries()
         {
+            string[] filters = IoC.Get<DataModelService>().Settings.FileSearchFilters.ToArray();
             EnumerationOptions options = new()
             {
                 IgnoreInaccessible = true,
                 RecurseSubdirectories = true,
             };
+            bool isFiltersEmpty = filters.Length == 0;
+            char sep = Path.DirectorySeparatorChar;
             foreach (string entry in Directory.EnumerateFileSystemEntries(FileSystemEntry.UserProfile, "*", options))
             {
                 // Skips file system entry if it's located in the user's %APPDATA%
-                // or if its file name begins with a period.
-                if (entry.StartsWith(_appDataPath) || Path.GetFileName(entry).StartsWith('.'))
+                string fileName = Path.GetFileName(entry);
+                if (entry.StartsWith(_appDataPath))
+                {
+                    continue;
+                }
+
+                bool skip = false;
+
+                // Ignores files and directories that begin with a period.
+                int index = 0;
+                while (index != -1)
+                {
+                    index = entry.IndexOf('.', index);
+                    if (index == -1)
+                    {
+                        break;
+                    }
+
+                    if (entry[index - 1] == sep)
+                    {
+                        skip = true;
+                        break;
+                    }
+
+                    index++;
+                }
+
+                if (skip)
+                {
+                    continue;
+                }
+
+                bool isDir = Directory.Exists(entry);
+                for (int i = 0; i < filters.Length; i++)
+                {
+                    string filter = filters[i];
+
+                    // Handles filters directed at files.
+                    if (filter[^1] != '/')
+                    {
+                        // Skips if the entry is a directory.
+                        // or if the file name doesn't match the filter.
+                        if (Directory.Exists(entry) || fileName != filter)
+                        {
+                            continue;
+                        }
+
+                        skip = true;
+                        break;
+                    }
+
+                    // Handles filters directed at directories.
+                    else
+                    {
+                        string dirName = filter[..^1];
+                        index = 0;
+                        while (index != -1)
+                        {
+                            index = entry.IndexOf(dirName, index);
+                            if (index == -1 || index == 0)
+                            {
+                                break;
+                            }
+
+                            int dirNameLength = dirName.Length;
+                            if (entry[index - 1] == sep && (index + dirNameLength == entry.Length || entry[index + dirNameLength] == sep))
+                            {
+                                skip = true;
+                                break;
+                            }
+
+                            index++;
+                        }
+
+                        if (skip)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                if (skip)
                 {
                     continue;
                 }
