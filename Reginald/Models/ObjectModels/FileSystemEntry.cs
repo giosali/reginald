@@ -43,22 +43,15 @@
         public void UpdatePath(string path)
         {
             Caption = path;
-            try
+            if (Directory.Exists(UserProfile + path))
             {
-                if ((File.GetAttributes(UserProfile + path) & FileAttributes.Directory) == FileAttributes.Directory)
-                {
-                    IconPath = "3";
-                    Type = EntryType.Directory;
-                }
-                else
-                {
-                    IconPath = GuessType(path);
-                    Type = EntryType.File;
-                }
+                IconPath = "3";
+                Type = EntryType.Directory;
             }
-            catch (IOException)
+            else
             {
-                Caption = null;
+                IconPath = GuessType(path);
+                Type = EntryType.File;
             }
         }
 
