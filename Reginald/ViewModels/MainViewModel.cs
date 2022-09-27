@@ -106,14 +106,6 @@
                     break;
                 }
 
-                case Key.Space:
-                    if (UserInput.Length == 0)
-                    {
-                        (sender as TextBox)?.SetText(DMS.FileSystemEntrySearch.Key);
-                        e.Handled = true;
-                    }
-
-                    break;
                 case Key.Up:
                     SelectedItem = Items[Math.Max(Items.IndexOf(SelectedItem) - 1, 0)];
 
@@ -187,6 +179,12 @@
             {
                 // Removes ListBox flickering when it's cleared at this point.
                 Items.Clear();
+                return;
+            }
+
+            if (userInput == " " && sender is TextBox textBox)
+            {
+                textBox.SetText(DMS.FileSystemEntrySearch.Key);
                 return;
             }
 
