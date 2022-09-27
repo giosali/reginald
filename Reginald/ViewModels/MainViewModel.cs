@@ -216,27 +216,39 @@
             }
             else
             {
-                items.AddRange(_oms.SingleProducers
-                                   .Where(sp => sp.Check(userInput))
-                                   .Select(sp => sp.Produce())
-                                   .OrderBy(sp => !sp.Description.StartsWith(userInput, StringComparison.OrdinalIgnoreCase))
-                                   .ThenBy(sp => sp.Description));
-                for (int i = 0; i < DMS.SingleProducers.Length; i++)
+                // Filters through applications.
+                LinkedList<SearchResult> applications = new();
+                LinkedListNode<SearchResult> separator = null;
+                LinkedListNode<SearchResult> matchSeparator = null;
+                ISingleProducer<SearchResult>[] omsSp = _oms.SingleProducers;
+                for (int i = 0; i < omsSp.Length; i++)
                 {
-                    ISingleProducer<SearchResult> sp = DMS.SingleProducers[i];
-                    if (sp.Check(userInput))
-                    {
-                        items.Add(sp.Produce());
-                    }
-                }
+                   ISingleProducer<SearchResult> sp = omsSp[i];
+                   if (!sp.Check(userInput))
+                   {
+                       continue;
+                   }
 
-                for (int i = 0; i < DMS.MultipleProducers.Length; i++)
-                {
-                    IMultipleProducer<SearchResult> mp = DMS.MultipleProducers[i];
-                    if (mp.Check(userInput))
-                    {
-                        items.AddRange(mp.Produce());
-                    }
+                   SearchResult application = sp.Produce();
+                   if (separator is null)
+                   {
+                       separator = applications.AddLast(application);
+                       continue;
+                   }
+
+                   if (char.ToUpper(application.Description[0]) != char.ToUpper(userInput[0]))
+                   {
+                       applications.AddLast(application);
+                       continue;
+                   }
+
+                   if (application.Description.IndexOf(userInput, StringComparison.OrdinalIgnoreCase) == -1)
+                   {
+                       _ = applications.AddBefore(separator, application);
+                       continue;
+                   }
+
+                   matchSeparator = matchSeparator is null ? applications.AddFirst(application) : applications.AddAfter(matchSeparator, application);
                 }
 
                 items.AddRange(await Task.Run(
@@ -244,7 +256,12 @@
                 {
                     try
                     {
-                        return SearchCpuIntensiveModels(userInput, token);
+                        List<SearchResult> results = new();
+                        results.AddRange(applications);
+                        results.AddRange(SearchDataModelServiceProducers(userInput, token));
+                        results.AddRange(SearchCpuIntensiveModels(userInput, token));
+                        return results;
+                        // return SearchCpuIntensiveModels(userInput, token);
                     }
                     catch (OperationCanceledException)
                     {
@@ -291,6 +308,34 @@
             {
                 Hide();
             }
+        }
+
+        private List<SearchResult> SearchDataModelServiceProducers(string input, CancellationToken token)
+        {
+            List<SearchResult> results = new();
+            ISingleProducer<SearchResult>[] singleProducers = DMS.SingleProducers;
+            for (int i = 0; i < singleProducers.Length; i++)
+            {
+                token.ThrowIfCancellationRequested();
+                ISingleProducer<SearchResult> sp = singleProducers[i];
+                if (sp.Check(input))
+                {
+                    results.Add(sp.Produce());
+                }
+            }
+
+            IMultipleProducer<SearchResult>[] multipleProducers = DMS.MultipleProducers;
+            for (int i = 0; i < multipleProducers.Length; i++)
+            {
+                token.ThrowIfCancellationRequested();
+                IMultipleProducer<SearchResult> mp = multipleProducers[i];
+                if (mp.Check(input))
+                {
+                    results.AddRange(mp.Produce());
+                }
+            }
+
+            return results;
         }
 
         private List<SearchResult> SearchCpuIntensiveModels(string input, CancellationToken token)
