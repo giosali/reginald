@@ -56,7 +56,8 @@
                 sos.Add(so);
             }
 
-            return sos.Select(so => new Application(so.Name, so.Thumbnail.MediumBitmapSource, so.Properties.System.Link.TargetParsingPath.Value is string path ? path : @"shell:AppsFolder\" + so.ParsingName, StaticRandom.Next()));
+            return sos.Select(so => new Application(so.Name, so.Thumbnail.MediumBitmapSource, so.Properties.System.Link.TargetParsingPath.Value is string path ? path : @"shell:AppsFolder\" + so.ParsingName, StaticRandom.Next()))
+                      .OrderBy(so => so.Description);
         }
 
         public bool Check(string input)
