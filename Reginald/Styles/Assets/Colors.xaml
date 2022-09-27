@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Color x:Key="ApplicationBrandColor">DarkOrange</Color>
+    <Color x:Key="ApplicationBrandSecondaryColor">#A95C00</Color>
     <Color x:Key="ApplicationSecondaryBackgroundColor">#1C1C1E</Color>
     <Color x:Key="HighlightColor">#2C2C2E</Color>
     <Color x:Key="InnerSideMenuColor">White</Color>
