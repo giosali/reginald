@@ -4,81 +4,124 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://caliburnmicro.com"
+             xmlns:local="clr-namespace:Reginald.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!--Converters-->
+            <local:Int32ToStringConverter x:Key="Int32ToStringConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <ScrollViewer Style="{StaticResource DefaultScrollViewerStyle}">
-        <StackPanel Style="{StaticResource UserControlStackPanelStyle}">
-            <!--Main hotkey-->
-            <Border Style="{StaticResource CardBorderStyle}">
-                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
-                    <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
-                        <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                                   Text="&#xE765;" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                       Text="Reginald hotkey" />
-                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                       Text="Define the Reginald hotkey by pressing key combinations in the box" />
+        <StackPanel>
+            <StackPanel Style="{StaticResource UserControlStackPanelStyle}">
+                <!--Main hotkey-->
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                        <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
+                            <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                       Text="&#xE765;" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                           Text="Reginald hotkey" />
+                                <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                           Text="Define the Reginald hotkey by pressing key combinations in the box" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
+                            <TextBox Style="{StaticResource HotkeyTextBoxStyle}"
+                                     Text="{Binding HotkeyInput}"
+                                     cal:Message.Attach="[PreviewKeyDown] = [HotkeyTextBox_PreviewKeyDown($this, $eventargs)]" />
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
-                        <TextBox Style="{StaticResource HotkeyTextBoxStyle}"
-                                 Text="{Binding HotkeyInput}"
-                                 cal:Message.Attach="[PreviewKeyDown] = [HotkeyTextBox_PreviewKeyDown($this, $eventargs)]" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-            <!--ToggleButton-->
-            <Border Style="{StaticResource CardBorderStyle}">
-                <Grid Style="{StaticResource CardControlGridStyle}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"
-                               Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                               Text="&#xE7E8;" />
-                    <StackPanel Grid.Column="1"
-                                VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                   Text="Run at startup" />
-                        <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                   Text="Start Reginald when you start up your computer" />
-                    </StackPanel>
-                    <ToggleButton Grid.Column="3"
-                                  IsChecked="{Binding DMS.Settings.RunAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Style="{StaticResource WindowsToggleButtonStyle}"
-                                  cal:Message.Attach="[Click] = [RunAtStartupToggleButton_Click($this, $eventargs)]" />
-                </Grid>
-            </Border>
-            <!--Shutdown or restart-->
-            <Border Style="{StaticResource CardBorderStyle}">
-                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
-                    <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
-                        <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
-                                   Text="&#xE7F8;" />
-                        <StackPanel VerticalAlignment="Center">
+                </Border>
+                <!--ToggleButton-->
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <Grid Style="{StaticResource CardControlGridStyle}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE7E8;" />
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
-                                       Text="Application" />
+                                       Text="Run at startup" />
                             <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
-                                       Text="Shutdown or restart the application" />
+                                       Text="Start Reginald when you start up your computer" />
+                        </StackPanel>
+                        <ToggleButton Grid.Column="3"
+                                      IsChecked="{Binding DMS.Settings.RunAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Style="{StaticResource WindowsToggleButtonStyle}"
+                                      cal:Message.Attach="[Click] = [RunAtStartupToggleButton_Click($this, $eventargs)]" />
+                    </Grid>
+                </Border>
+                <!--Shutdown or restart-->
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                        <StackPanel Style="{StaticResource CardActionTopStackPanelStyle}">
+                            <TextBlock Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                       Text="&#xE7F8;" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                           Text="Application" />
+                                <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                           Text="Shutdown or restart the application" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Style="{StaticResource CardActionBottomStackPanelStyle}">
+                            <Button Content="Shutdown"
+                                    Margin="0 0 6 0"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    cal:Message.Attach="[Click] = [ShutdownButton_Click($this, $eventargs)]" />
+                            <Button Content="Restart"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    cal:Message.Attach="[Click] = [RestartButton_Click($this, $eventargs)]" />
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-                                Style="{StaticResource CardActionBottomStackPanelStyle}">
-                        <Button Content="Shutdown"
-                                Margin="0 0 6 0"
-                                Style="{StaticResource SecondaryButtonStyle}"
-                                cal:Message.Attach="[Click] = [ShutdownButton_Click($this, $eventargs)]" />
-                        <Button Content="Restart"
-                                Style="{StaticResource SecondaryButtonStyle}"
-                                cal:Message.Attach="[Click] = [RestartButton_Click($this, $eventargs)]" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
+                </Border>
+            </StackPanel>
+            <StackPanel Style="{StaticResource UserControlStackPanelStyle}">
+                <!--Number of results-->
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <Grid Style="{StaticResource CardControlGridStyle}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE8FD;" />
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="Number of results" />
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Set the maximum number of results to display" />
+                        </StackPanel>
+                        <ComboBox Grid.Column="3"
+                                  Style="{StaticResource ComboBoxStyle}"
+                                  Text="{Binding DMS.Settings.SearchResultsLimit, Converter={StaticResource Int32ToStringConverter}, Mode=TwoWay}"
+                                  VerticalAlignment="Center"
+                                  cal:Message.Attach="[DropDownClosed] = [ComboBox_DropDownClosed($this, $eventargs)]">
+                            <ComboBoxItem Content="10" />
+                            <ComboBoxItem Content="15" />
+                            <ComboBoxItem Content="20" />
+                            <ComboBoxItem Content="25" />
+                        </ComboBox>
+                    </Grid>
+                </Border>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

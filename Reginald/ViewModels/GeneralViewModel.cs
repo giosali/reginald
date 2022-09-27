@@ -13,6 +13,11 @@
         {
         }
 
+        public void ComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            DMS.Settings.Save();
+        }
+
         public void RunAtStartupToggleButton_Click(object sender, RoutedEventArgs e)
         {
             if (!FileOperations.TryCreateShortcut())
