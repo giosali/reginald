@@ -51,6 +51,24 @@
                 <Setter Property="Foreground"
                         Value="{StaticResource TertiaryBrush}"/>
             </Trigger>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource TertiaryBrush}" />
+            </Trigger>
+            <Trigger Property="IsPressed"
+                     Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation AutoReverse="True"
+                                            Duration="0:0:1"
+                                            Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                            To="{StaticResource ApplicationBrandSecondaryColor}"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
         </Style.Triggers>
     </Style>
 
