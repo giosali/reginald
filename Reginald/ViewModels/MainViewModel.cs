@@ -273,7 +273,7 @@
 
             // Removes ListBox flickering when it's cleared at this point.
             Items.Clear();
-            Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(20));
+            Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(DMS.Settings.SearchResultsLimit));
             for (int i = 0; i < Math.Min(9, Items.Count); i++)
             {
                 Items[i].KeyboardShortcut = "CTRL + " + (i + 1);
@@ -355,6 +355,7 @@
 
         private List<SearchResult> SearchFileSystemEntries(string input, CancellationToken token)
         {
+            int limit = DMS.Settings.SearchResultsLimit;
             List<SearchResult> items = new();
             do
             {
@@ -374,7 +375,7 @@
                 foreach (FileSystemEntry entry in _oms.FileSystemEntries.Values)
                 {
                     token.ThrowIfCancellationRequested();
-                    if (count == 10)
+                    if (count == limit)
                     {
                         break;
                     }

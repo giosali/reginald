@@ -92,6 +92,9 @@
         [JsonProperty("runAtStartup")]
         public bool RunAtStartup { get; set; } = true;
 
+        [JsonProperty("searchResultsLimit")]
+        public int SearchResultsLimit { get; set; } = 15;
+
         [JsonProperty("themeId")]
         public int ThemeId { get; set; } = 0x676dbc;
 
