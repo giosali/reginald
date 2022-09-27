@@ -285,6 +285,7 @@
             }
 
             FileSystemEntrySearch = FileOperations.GetGenericDatum<FileSystemEntrySearch>("FileSystemEntrySearch.json", true);
+            FileSystemEntrySearch.IsEnabled = Settings.IsFileSearchEnabled;
 
             SingleProducers = singleProducers.ToArray();
         }
