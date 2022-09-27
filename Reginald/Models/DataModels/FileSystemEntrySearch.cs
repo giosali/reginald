@@ -14,7 +14,7 @@
 
         public bool Check(string input)
         {
-            return input.IndexOf(Key) == 0;
+            return IsEnabled && input.IndexOf(Key) == 0;
         }
 
         public SearchResult Produce()
