@@ -251,17 +251,16 @@
                    matchSeparator = matchSeparator is null ? applications.AddFirst(application) : applications.AddAfter(matchSeparator, application);
                 }
 
+                items.AddRange(applications);
                 items.AddRange(await Task.Run(
                     () =>
                 {
                     try
                     {
                         List<SearchResult> results = new();
-                        results.AddRange(applications);
                         results.AddRange(SearchDataModelServiceProducers(userInput, token));
                         results.AddRange(SearchCpuIntensiveModels(userInput, token));
                         return results;
-                        // return SearchCpuIntensiveModels(userInput, token);
                     }
                     catch (OperationCanceledException)
                     {
