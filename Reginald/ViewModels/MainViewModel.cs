@@ -126,6 +126,9 @@
                 case Key.D4 when Keyboard.Modifiers is ModifierKeys.Control:
                 case Key.D5 when Keyboard.Modifiers is ModifierKeys.Control:
                 case Key.D6 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D7 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D8 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D9 when Keyboard.Modifiers is ModifierKeys.Control:
                 {
                     int index = e.Key - Key.D1;
                     if (index >= Items.Count)
@@ -271,7 +274,7 @@
             // Removes ListBox flickering when it's cleared at this point.
             Items.Clear();
             Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(20));
-            for (int i = 0; i < Math.Min(6, Items.Count); i++)
+            for (int i = 0; i < Math.Min(9, Items.Count); i++)
             {
                 Items[i].KeyboardShortcut = "CTRL + " + (i + 1);
             }
