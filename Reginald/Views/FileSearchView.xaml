@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:cal="http://caliburnmicro.com"
+             xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:Reginald.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450"
@@ -78,8 +78,21 @@
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Style="{StaticResource CardActionBottomStackPanelStyle}">
-                        <TextBox Style="{StaticResource PrimaryTextBoxStyle}"
+                        <TextBox AcceptsReturn="True"
+                                 IsEnabled="{Binding DMS.Settings.IsFileSearchEnabled}"
+                                 Style="{StaticResource PrimaryTextBoxStyle}"
                                  Text="{Binding DMS.Settings.FileSearchFilters, Converter={StaticResource IEnumerableToStringConverter}, Mode=TwoWay}" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Apply filters"
+                                    IsEnabled="{Binding DMS.Settings.IsFileSearchEnabled}"
+                                    Margin="0 15 0 10"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    cal:Message.Attach="[Click] = [ApplyFiltersButton_Click($this, $eventargs)]" />
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource TertiaryParagraphTextBlock}"
+                                   Text="Filters ending with a forward slash will ignore directories." />
+                        <TextBlock Style="{StaticResource TertiaryParagraphTextBlock}"
+                                   Text="Filters that don't end with a forward slash will ignore files." />
                     </StackPanel>
                 </StackPanel>
             </Border>
