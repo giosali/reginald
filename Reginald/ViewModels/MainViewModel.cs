@@ -185,7 +185,7 @@
                 return;
             }
 
-            if (userInput == " " && sender is TextBox textBox)
+            if (DMS.FileSystemEntrySearch.IsEnabled && userInput == " " && sender is TextBox textBox)
             {
                 textBox.SetText(DMS.FileSystemEntrySearch.Key);
                 return;
