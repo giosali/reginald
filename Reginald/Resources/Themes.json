@@ -37,7 +37,7 @@
     "searchResultMargin": "5 0 10 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
-    "clipboardItemFontSize": 14,
+    "clipboardItemFontSize": 12,
     "clipboardDisplayFontSize": 10,
     "clipboardDockPanelPadding": "5 0"
   },
@@ -79,7 +79,7 @@
     "searchResultMargin": "5 0 10 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
-    "clipboardItemFontSize": 14,
+    "clipboardItemFontSize": 12,
     "clipboardDisplayFontSize": 10,
     "clipboardDockPanelPadding": "5 0"
   },
@@ -122,7 +122,7 @@
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
-    "clipboardDisplayFontSize": 10,
+    "clipboardDisplayFontSize": 11,
     "clipboardDockPanelPadding": "5 0"
   },
   {
@@ -164,7 +164,7 @@
     "clipboardWidth": 475,
     "clipboardHeight": 275,
     "clipboardItemFontSize": 14,
-    "clipboardDisplayFontSize": 10,
+    "clipboardDisplayFontSize": 11,
     "clipboardDockPanelPadding": "5 0"
   },
   {
@@ -205,7 +205,7 @@
     "searchResultMargin": "10 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
-    "clipboardItemFontSize": 14,
+    "clipboardItemFontSize": 12,
     "clipboardDisplayFontSize": 10,
     "clipboardDockPanelPadding": "20 0"
   },
@@ -247,7 +247,7 @@
     "searchResultMargin": "10 0",
     "clipboardWidth": 475,
     "clipboardHeight": 275,
-    "clipboardItemFontSize": 14,
+    "clipboardItemFontSize": 12,
     "clipboardDisplayFontSize": 10,
     "clipboardDockPanelPadding": "20 0"
   }
