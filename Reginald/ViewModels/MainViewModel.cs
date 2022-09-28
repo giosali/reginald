@@ -274,6 +274,11 @@
             // Removes ListBox flickering when it's cleared at this point.
             Items.Clear();
             Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(DMS.Settings.SearchResultsLimit));
+            if (Items.Count == 0)
+            {
+                return;
+            }
+
             for (int i = 0; i < Math.Min(9, Items.Count); i++)
             {
                 Items[i].KeyboardShortcut = "CTRL + " + (i + 1);
