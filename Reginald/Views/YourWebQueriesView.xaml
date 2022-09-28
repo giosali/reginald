@@ -295,6 +295,17 @@
                                 <MenuItem Header="Delete"
                                           Tag="Delete"
                                           cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
+                                <MenuItem Header="Set default position">
+                                    <MenuItem Header="1"
+                                              Tag="1"
+                                              cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
+                                    <MenuItem Header="2"
+                                              Tag="2"
+                                              cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
+                                    <MenuItem Header="3"
+                                              Tag="3"
+                                              cal:Message.Attach="[Click] = [MenuItem_Click($source, $eventargs)]" />
+                                </MenuItem>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>

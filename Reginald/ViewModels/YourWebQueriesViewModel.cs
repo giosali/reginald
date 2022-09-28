@@ -137,12 +137,12 @@
 
         public void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is not MenuItem menuItem)
+            if (sender is not MenuItem menuItem || menuItem.Tag is not string tag)
             {
                 return;
             }
 
-            switch (menuItem.Tag)
+            switch (tag)
             {
                 case "Edit":
                     _tempIconPath = default;
@@ -169,6 +169,18 @@
                         }
                     }
 
+                    break;
+                case "1":
+                case "2":
+                case "3":
+                    if (!int.TryParse(tag, out int index))
+                    {
+                        break;
+                    }
+
+                    DataModelService dms = IoC.Get<DataModelService>();
+                    dms.Settings.DefaultWebQueries[index - 1] = SelectedItem.Id;
+                    dms.Settings.Save();
                     break;
             }
         }

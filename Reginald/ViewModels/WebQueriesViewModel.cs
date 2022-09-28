@@ -4,6 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
+    using System.Windows.Controls;
     using Reginald.Models.DataModels;
     using Reginald.Services;
 
@@ -29,6 +30,29 @@
             }
 
             DMS.Settings.Save();
+        }
+
+        public void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not MenuItem menuItem || menuItem.Tag is not string tag)
+            {
+                return;
+            }
+
+            switch (tag)
+            {
+                case "1":
+                case "2":
+                case "3":
+                    if (!int.TryParse(tag, out int index))
+                    {
+                        break;
+                    }
+
+                    DMS.Settings.DefaultWebQueries[index - 1] = SelectedItem.Id;
+                    DMS.Settings.Save();
+                    break;
+            }
         }
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
