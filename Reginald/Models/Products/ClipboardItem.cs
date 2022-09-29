@@ -51,17 +51,19 @@
             }
         }
 
-        public DateTime DateTime { get; set; }
+        public DateTime DateTime { get; private set; }
 
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
-        public Brush HexBrush { get; set; }
+        public Brush HexBrush { get; private set; }
 
-        public Icon Icon { get; set; }
+        public Icon Icon { get; private set; }
 
-        public ImageSource Image { get; set; }
+        public ImageSource Image { get; private set; }
 
-        public string ListBoxDescription { get; set; }
+        public string KeyboardShortcut { get; set; }
+
+        public string ListBoxDescription { get; private set; }
 
         public override void PressAlt(InputProcessingEventArgs e)
         {
