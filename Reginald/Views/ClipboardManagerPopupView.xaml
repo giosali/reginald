@@ -20,12 +20,14 @@
             <local:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
             <!--DataTemplates-->
             <DataTemplate x:Key="ListBoxItemDataTemplate">
-                <Grid VerticalAlignment="Center"
+                <Grid Margin="0 0 7.5 0"
+                      VerticalAlignment="Center"
                       cal:Message.Attach="[MouseMove] = [Item_MouseMove($source, $eventargs)];
                                           [PreviewMouseLeftButtonUp] = [Item_PreviewMouseLeftButtonUp($this, $eventargs)]">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="25" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <!--Icon-->
                     <Image Grid.Column="0"
@@ -55,6 +57,43 @@
                                     <Setter Property="Foreground"
                                             Value="{Binding DataContext.DMS.Theme.DescriptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                                 </Style.Setters>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!--Indicator-->
+                    <TextBlock Foreground="{Binding DataContext.DMS.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                               Grid.Column="2"
+                               Text="↩"
+                               VerticalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
+                                                 Value="True">
+                                        <Setter Property="Visibility"
+                                                Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!--Keyboard shortcut-->
+                    <TextBlock FontSize="6"
+                               Foreground="{Binding DataContext.DMS.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                               Grid.Column="2"
+                               Text="{Binding KeyboardShortcut}"
+                               VerticalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
+                                                 Value="True">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
@@ -348,7 +387,7 @@
                         <!--Color display for hex values-->
                         <StackPanel Grid.Row="0"
                                     Style="{StaticResource StackPanelHexStyle}">
-                            <Border Background="{Binding SelectedItem.HexBrush}"
+                            <Border Background="{Binding SelectedItem.HexBrush, Mode=OneWay}"
                                     Height="50"
                                     Width="50" />
                             <TextBox Background="Transparent"
@@ -356,7 +395,7 @@
                                      Cursor="Arrow"
                                      HorizontalAlignment="Center"
                                      IsReadOnly="True"
-                                     Text="{Binding SelectedItem.HexBrush, Converter={StaticResource BrushToStringConverter}, ConverterParameter='{}#{0:X2}{1:X2}{2:X2}'}"
+                                     Text="{Binding SelectedItem.HexBrush, Converter={StaticResource BrushToStringConverter}, ConverterParameter='{}#{0:X2}{1:X2}{2:X2}', Mode=OneWay}"
                                      TextWrapping="Wrap" />
                         </StackPanel>
                         <!--Display for image clipboard items-->

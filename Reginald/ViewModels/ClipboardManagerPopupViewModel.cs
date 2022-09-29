@@ -36,8 +36,8 @@
             ClipboardListener.GetClipboardListener().ClipboardChanged += OnClipboardChanged;
 
             _clipboardItems.AddRange(ReadClipboardDatabase().Select(r => new ClipboardItem(r)));
-            Items.AddRange(_clipboardItems);
             Items.CollectionChanged += OnCollectionChanged;
+            Items.AddRange(_clipboardItems);
         }
 
         public void Clear()
@@ -113,6 +113,24 @@
                 case Key.Down:
                     SelectedItem = Items[Math.Min(Items.IndexOf(SelectedItem) + 1, Items.Count - 1)];
                     IsMouseOverChanged = false;
+                    break;
+                case Key.D1 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D2 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D3 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D4 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D5 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D6 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D7 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D8 when Keyboard.Modifiers is ModifierKeys.Control:
+                case Key.D9 when Keyboard.Modifiers is ModifierKeys.Control:
+                    int index = e.Key - Key.D1;
+                    if (index >= Items.Count || Items[index] is not ClipboardItem selectedItem)
+                    {
+                        break;
+                    }
+
+                    Hide();
+                    selectedItem?.PressEnter(new InputProcessingEventArgs());
                     break;
                 case Key.T when Keyboard.Modifiers is ModifierKeys.Control && !e.IsRepeat:
                     BorderOpacity = BorderOpacity == 1.0 ? 0.25 : 1.0;
@@ -315,9 +333,16 @@
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (Items.Count == 0)
+            int count = Items.Count;
+            if (count == 0)
             {
                 return;
+            }
+
+            int limit = Math.Min(9, count);
+            for (int i = 0; i < count; i++)
+            {
+                Items[i].KeyboardShortcut = i < limit ? "CTRL + " + (i + 1) : null;
             }
 
             SelectedItem = Items[0];
