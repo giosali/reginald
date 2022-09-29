@@ -27,33 +27,11 @@
         public double BorderThickness { get; set; }
 
         [JsonConverter(typeof(SolidColorBrushConverter))]
-        [JsonProperty("captionBrush")]
-        public SolidColorBrush CaptionBrush { get; set; }
-
-        [JsonProperty("captionFontSize")]
-        public double CaptionFontSize { get; set; }
-
-        [JsonProperty("captionFontWeight")]
-        public FontWeight CaptionFontWeight { get; set; }
-
-        [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("caretBrush")]
         public SolidColorBrush CaretBrush { get; set; }
 
-        [JsonProperty("clipboardDisplayFontSize")]
-        public double ClipboardDisplayFontSize { get; set; }
-
-        [JsonProperty("clipboardHeight")]
-        public double ClipboardHeight { get; set; }
-
-        [JsonProperty("clipboardItemFontSize")]
-        public double ClipboardItemFontSize { get; set; }
-
-        [JsonProperty("clipboardDockPanelPadding")]
-        public Thickness ClipboardDockPanelPadding { get; set; }
-
-        [JsonProperty("clipboardWidth")]
-        public double ClipboardWidth { get; set; }
+        [JsonProperty("clipboardManager")]
+        public ClipboardManagerTheme ClipboardManager { get; set; }
 
         [JsonProperty("cornerRadius")]
         public double CornerRadius { get; set; }
@@ -62,12 +40,6 @@
         [JsonProperty("descriptionBrush")]
         public SolidColorBrush DescriptionBrush { get; set; }
 
-        [JsonProperty("descriptionFontSize")]
-        public double DescriptionFontSize { get; set; }
-
-        [JsonProperty("descriptionFontWeight")]
-        public FontWeight DescriptionFontWeight { get; set; }
-
         [JsonProperty("fontFamily")]
         public FontFamily FontFamily { get; set; }
 
@@ -75,25 +47,12 @@
         public int Id { get; set; }
 
         [JsonConverter(typeof(SolidColorBrushConverter))]
-        [JsonProperty("HighlightBrush")]
+        [JsonProperty("highlightBrush")]
         public SolidColorBrush HighlightBrush { get; set; }
 
         [JsonConverter(typeof(SolidColorBrushConverter))]
         [JsonProperty("inactiveBrush")]
         public SolidColorBrush InactiveBrush { get; set; }
-
-        [JsonConverter(typeof(SolidColorBrushConverter))]
-        [JsonProperty("inputBrush")]
-        public SolidColorBrush InputBrush { get; set; }
-
-        [JsonProperty("inputFontSize")]
-        public double InputFontSize { get; set; }
-
-        [JsonProperty("inputFontWeight")]
-        public FontWeight InputFontWeight { get; set; }
-
-        [JsonProperty("inputPadding")]
-        public Thickness InputPadding { get; set; }
 
         [JsonProperty("isAcrylicEnabled")]
         public bool IsAcrylicEnabled { get; set; }
@@ -101,11 +60,8 @@
         [JsonProperty("isEditable")]
         public bool IsEditable { get; set; }
 
-        [JsonProperty("mainHeight")]
-        public double MainHeight { get; set; }
-
-        [JsonProperty("mainWidth")]
-        public double MainWidth { get; set; }
+        [JsonProperty("main")]
+        public MainTheme Main { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -125,20 +81,17 @@
         [JsonProperty("selectionOpacity")]
         public double SelectionOpacity { get; set; }
 
-        [JsonProperty("searchResultMargin")]
-        public Thickness SearchResultMargin { get; set; }
-
         [JsonConverter(typeof(SolidColorBrushConverter))]
-        [JsonProperty("separatorBrush")]
-        public SolidColorBrush SeparatorBrush { get; set; }
+        [JsonProperty("textBoxBrush")]
+        public SolidColorBrush TextBoxBrush { get; set; }
 
-        [JsonProperty("separatorHeight")]
-        public double SeparatorHeight { get; set; }
+        [JsonProperty("textBoxFontSize")]
+        public double TextBoxFontSize { get; set; }
 
-        [JsonProperty("separatorMargin")]
-        public Thickness SeparatorMargin { get; set; }
+        [JsonProperty("textBoxFontWeight")]
+        public FontWeight TextBoxFontWeight { get; set; }
 
-        [JsonProperty("separatorWidth")]
-        public double SeparatorWidth { get; set; }
+        [JsonProperty("textBoxPadding")]
+        public Thickness TextBoxPadding { get; set; }
     }
 }

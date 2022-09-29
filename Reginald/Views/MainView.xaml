@@ -9,9 +9,9 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              FontFamily="{Binding DMS.Theme.FontFamily}"
-             MaxWidth="{Binding DMS.Theme.MainWidth}"
-             MinHeight="{Binding DMS.Theme.MainHeight}"
-             MinWidth="{Binding DMS.Theme.MainWidth}">
+             MaxWidth="{Binding DMS.Theme.Main.Width}"
+             MinHeight="{Binding DMS.Theme.Main.Height}"
+             MinWidth="{Binding DMS.Theme.Main.Width}">
     <UserControl.Resources>
         <ResourceDictionary>
             <!--Converters-->
@@ -19,7 +19,7 @@
             <local:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
             <!--DataTemplates-->
             <DataTemplate x:Key="ListBoxItemDataTemplate">
-                <Grid Margin="{Binding DataContext.DMS.Theme.SearchResultMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                <Grid Margin="{Binding DataContext.DMS.Theme.Main.SearchResultMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                       VerticalAlignment="Center"
                       cal:Message.Attach="[MouseMove] = [Item_MouseMove($source, $eventargs)];
                                           [PreviewMouseLeftButtonUp] = [Item_PreviewMouseLeftButtonUp($source, $eventargs)]">
@@ -40,8 +40,8 @@
                     <StackPanel Grid.Column="2"
                                 VerticalAlignment="Center">
                         <!--Description-->
-                        <TextBlock FontSize="{Binding DataContext.DMS.Theme.DescriptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                                   FontWeight="{Binding DataContext.DMS.Theme.DescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                        <TextBlock FontSize="{Binding DataContext.DMS.Theme.Main.SearchResultDescriptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   FontWeight="{Binding DataContext.DMS.Theme.Main.SearchResultDescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                    Margin="0"
                                    Padding="0"
                                    Text="{Binding Description}"
@@ -61,8 +61,8 @@
                             </TextBlock.Style>
                         </TextBlock>
                         <!--Caption-->
-                        <TextBlock FontSize="{Binding DataContext.DMS.Theme.CaptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                                   FontWeight="{Binding DataContext.DMS.Theme.DescriptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                        <TextBlock FontSize="{Binding DataContext.DMS.Theme.Main.SearchResultCaptionFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                   FontWeight="{Binding DataContext.DMS.Theme.Main.SearchResultCaptionFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                    Margin="0"
                                    Padding="0"
                                    Text="{Binding Caption}"
@@ -70,7 +70,7 @@
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Setter Property="Foreground"
-                                            Value="{Binding DataContext.DMS.Theme.CaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                                            Value="{Binding DataContext.DMS.Theme.Main.SearchResultCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                                      Value="True">
@@ -184,7 +184,7 @@
                    BasedOn="{StaticResource {x:Type ListBoxItem}}"
                    TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Foreground"
-                        Value="{Binding DataContext.DMS.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                        Value="{Binding DataContext.DMS.Theme.TextBoxBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                 <Setter Property="Height"
                         Value="55" />
                 <Setter Property="HorizontalContentAlignment"
@@ -246,12 +246,12 @@
                      Background="Transparent"
                      BorderThickness="0"
                      CaretBrush="{Binding DMS.Theme.CaretBrush}"
-                     FontSize="{Binding DMS.Theme.InputFontSize}"
-                     FontWeight="{Binding DMS.Theme.InputFontWeight}"
-                     Foreground="{Binding DMS.Theme.InputBrush}"
+                     FontSize="{Binding DMS.Theme.TextBoxFontSize}"
+                     FontWeight="{Binding DMS.Theme.TextBoxFontWeight}"
+                     Foreground="{Binding DMS.Theme.TextBoxBrush}"
                      Grid.Row="0"
                      Height="{Binding MinHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                     Padding="{Binding DMS.Theme.InputPadding}"
+                     Padding="{Binding DMS.Theme.TextBoxPadding}"
                      SelectionBrush="{Binding DMS.Theme.SelectionBrush}"
                      SelectionOpacity="{Binding DMS.Theme.SelectionOpacity}"
                      Text="{Binding UserInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -262,12 +262,12 @@
                                          [TextChanged] = [UserInput_TextChanged($source, $eventargs)];
                                          [PreviewKeyDown] = [UserInput_PreviewKeyDown($source, $eventargs)];
                                          [PreviewKeyUp] = [UserInput_PreviewKeyUp($this, $eventargs)]" />
-            <Border Background="{Binding DMS.Theme.SeparatorBrush}"
+            <Border Background="{Binding DMS.Theme.Main.SeparatorBrush}"
                     Grid.Row="1"
-                    Height="{Binding DMS.Theme.SeparatorHeight}"
-                    Margin="{Binding DMS.Theme.SeparatorMargin}"
+                    Height="{Binding DMS.Theme.Main.SeparatorHeight}"
+                    Margin="{Binding DMS.Theme.Main.SeparatorMargin}"
                     Style="{StaticResource SeparatorBorderStyle}"
-                    Width="{Binding DMS.Theme.SeparatorWidth}" />
+                    Width="{Binding DMS.Theme.Main.SeparatorWidth}" />
             <ListBox x:Name="listBox"
                      Background="Transparent"
                      BorderThickness="0"

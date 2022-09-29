@@ -94,8 +94,8 @@
             Dictionary<string, object> settings = new()
             {
                 { "Placement", PlacementMode.Absolute },
-                { "HorizontalOffset", (SystemParameters.FullPrimaryScreenWidth / 2) - (DMS.Theme.MainWidth / 2) },
-                { "VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.325) - (DMS.Theme.MainHeight / 4) },
+                { "HorizontalOffset", (SystemParameters.FullPrimaryScreenWidth / 2) - (DMS.Theme.Main.Width / 2) },
+                { "VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.325) - (DMS.Theme.Main.Height / 4) },
             };
             await _windowManager.ShowPopupAsync(_mvm, settings: settings);
         }

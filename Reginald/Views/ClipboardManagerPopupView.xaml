@@ -9,8 +9,8 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              FontFamily="{Binding DMS.Theme.FontFamily}"
-             Height="{Binding DMS.Theme.ClipboardHeight}"
-             Width="{Binding DMS.Theme.ClipboardWidth}">
+             Height="{Binding DMS.Theme.ClipboardManager.Height}"
+             Width="{Binding DMS.Theme.ClipboardManager.Width}">
     <UserControl.Resources>
         <ResourceDictionary>
             <!--Converters-->
@@ -37,7 +37,7 @@
                            VerticalAlignment="Center"
                            Width="15" />
                     <!--Description-->
-                    <TextBlock FontSize="{Binding DataContext.DMS.Theme.ClipboardItemFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                    <TextBlock FontSize="{Binding DataContext.DMS.Theme.ClipboardManager.ItemFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                Grid.Column="1"
                                Text="{Binding ListBoxDescription}"
                                TextTrimming="CharacterEllipsis"
@@ -151,7 +151,7 @@
                 </Style.Resources>
                 <Style.Setters>
                     <Setter Property="Foreground"
-                            Value="{Binding DataContext.DMS.Theme.InputBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                            Value="{Binding DataContext.DMS.Theme.TextBoxBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                     <Setter Property="Height"
                             Value="25" />
                     <Setter Property="Margin"
@@ -282,7 +282,7 @@
             <Border Background="Transparent"
                     Grid.Row="0"
                     cal:Message.Attach="[PreviewMouseLeftButtonDown] = [Menu_PreviewMouseLeftButtonDown($this, $eventargs)];">
-                <DockPanel Margin="{Binding DMS.Theme.ClipboardDockPanelPadding}">
+                <DockPanel Margin="{Binding DMS.Theme.ClipboardManager.DockPanelPadding}">
                     <!--Keeps popup bar centered-->
                     <Border DockPanel.Dock="Left"
                             Height="{Binding ActualHeight, ElementName=closeBorder, UpdateSourceTrigger=PropertyChanged}"
@@ -315,11 +315,11 @@
                      Background="Transparent"
                      BorderThickness="0"
                      CaretBrush="{Binding DMS.Theme.CaretBrush}"
-                     FontSize="{Binding DMS.Theme.ClipboardItemFontSize}"
-                     FontWeight="{Binding DMS.Theme.InputFontWeight}"
-                     Foreground="{Binding DMS.Theme.InputBrush}"
+                     FontSize="{Binding DMS.Theme.ClipboardManager.ItemFontSize}"
+                     FontWeight="{Binding DMS.Theme.TextBoxFontWeight}"
+                     Foreground="{Binding DMS.Theme.TextBoxBrush}"
                      Grid.Row="1"
-                     Padding="10 0 0 0"
+                     Padding="{Binding DMS.Theme.TextBoxPadding}"
                      SelectionBrush="{Binding DMS.Theme.SelectionBrush}"
                      SelectionOpacity="{Binding DMS.Theme.SelectionOpacity}"
                      Text="{Binding UserInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -375,8 +375,8 @@
                         <TextBox Background="Transparent"
                                  BorderThickness="0"
                                  Cursor="Arrow"
-                                 FontSize="{Binding DMS.Theme.ClipboardDisplayFontSize}"
-                                 Foreground="{Binding DMS.Theme.InputBrush}"
+                                 FontSize="{Binding DMS.Theme.ClipboardManager.DisplayFontSize}"
+                                 Foreground="{Binding DMS.Theme.TextBoxBrush}"
                                  Grid.Row="0"
                                  IsReadOnly="True"
                                  Style="{StaticResource StandardClipboardItemTextBoxStyle}"
@@ -403,7 +403,7 @@
                                Source="{Binding SelectedItem.Image}"
                                Style="{StaticResource StandardClipboardItemImageStyle}" />
                         <!--Clipboard item info-->
-                        <TextBlock FontSize="{Binding DMS.Theme.ClipboardDisplayFontSize}"
+                        <TextBlock FontSize="{Binding DMS.Theme.ClipboardManager.DisplayFontSize}"
                                    Foreground="{Binding DMS.Theme.InactiveBrush}"
                                    Grid.Row="1"
                                    HorizontalAlignment="Center"

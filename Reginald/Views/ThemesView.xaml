@@ -59,7 +59,6 @@
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
-
             <!--Styles-->
             <Style x:Key="ListBoxItemContainerStyle"
                    BasedOn="{StaticResource {x:Type ListBoxItem}}"
@@ -157,8 +156,8 @@
                                          Style="{StaticResource BrushDisplayTextBoxStyle}"
                                          Text="Background brush" />
                                 <!--Input brush-->
-                                <TextBox Background="{Binding SelectedItem.InputBrush}"
-                                         Foreground="{Binding SelectedItem.InputBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                <TextBox Background="{Binding SelectedItem.TextBoxBrush}"
+                                         Foreground="{Binding SelectedItem.TextBoxBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
                                          Style="{StaticResource BrushDisplayTextBoxStyle}"
                                          Text="Input brush" />
                                 <!--Caret brush-->
@@ -172,8 +171,8 @@
                                          Style="{StaticResource BrushDisplayTextBoxStyle}"
                                          Text="Description brush" />
                                 <!--Caption brush-->
-                                <TextBox Background="{Binding SelectedItem.CaptionBrush}"
-                                         Foreground="{Binding SelectedItem.CaptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
+                                <TextBox Background="{Binding SelectedItem.Main.SearchResultCaptionBrush}"
+                                         Foreground="{Binding SelectedItem.Main.SearchResultCaptionBrush, Converter={StaticResource BrushToInvertedBrushConverter}}"
                                          Style="{StaticResource BrushDisplayTextBoxStyle}"
                                          Text="Caption brush" />
                                 <!--Border brush-->
@@ -194,7 +193,7 @@
                                          Text="{Binding SelectedItem.BackgroundBrush, Converter={StaticResource BrushToStringConverter}}" />
                                 <!--Input brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                         Text="{Binding SelectedItem.InputBrush, Converter={StaticResource BrushToStringConverter}}" />
+                                         Text="{Binding SelectedItem.TextBoxBrush, Converter={StaticResource BrushToStringConverter}}" />
                                 <!--Caret brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
                                          Text="{Binding SelectedItem.CaretBrush, Converter={StaticResource BrushToStringConverter}}" />
@@ -203,7 +202,7 @@
                                          Text="{Binding SelectedItem.DescriptionBrush, Converter={StaticResource BrushToStringConverter}}" />
                                 <!--Caption brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
-                                         Text="{Binding SelectedItem.CaptionBrush, Converter={StaticResource BrushToStringConverter}}" />
+                                         Text="{Binding SelectedItem.Main.SearchResultCaptionBrush, Converter={StaticResource BrushToStringConverter}}" />
                                 <!--Border brush text-->
                                 <TextBox Style="{StaticResource ValueDisplayTextBoxStyle}"
                                          Text="{Binding SelectedItem.BorderBrush, Converter={StaticResource BrushToStringConverter}}" />
