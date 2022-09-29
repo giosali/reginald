@@ -101,7 +101,7 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
-                    <!-- Keyboard shortcut -->
+                    <!--Keyboard shortcut-->
                     <TextBlock FontSize="10"
                                Foreground="{Binding DataContext.DMS.Theme.SelectedCaptionBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                Grid.Column="3"
