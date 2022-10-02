@@ -328,7 +328,6 @@
                                          [LostKeyboardFocus] = [UserInput_LostKeyboardFocus($source, $eventargs)];
                                          [Unloaded] = [UserInput_Unloaded($source, $eventargs)];
                                          [PreviewKeyDown] = [UserInput_PreviewKeyDown($this, $eventargs)];
-                                         [PreviewKeyUp] = [UserInput_PreviewKeyUp($this, $eventargs)];
                                          [TextChanged] = [UserInput_TextChanged($this, $eventargs)]" />
             <Grid Grid.Row="2"
                   Margin="5">
