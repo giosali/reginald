@@ -124,7 +124,7 @@
 
         private async void OnKeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Settings.AreExpansionsEnabled || !e.IsDown)
+            if (!Settings.AreExpansionsEnabled)
             {
                 return;
             }
