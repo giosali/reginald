@@ -5,9 +5,6 @@
 
     public static class NativeMethods
     {
-        [DllImport("user32.dll", EntryPoint = "PostMessageA")]
-        internal static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
-
         [DllImport("user32.dll")]
         internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs, int cbSize);
 
