@@ -72,12 +72,8 @@
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SystemException)
             {
-                if (ex is not AggregateException && ex is not SystemException)
-                {
-                    throw;
-                }
             }
         }
 
@@ -92,12 +88,8 @@
                     process.Kill();
                 }
             }
-            catch (Exception ex)
+            catch (SystemException)
             {
-                if (ex is not AggregateException && ex is not SystemException)
-                {
-                    throw;
-                }
             }
         }
 
