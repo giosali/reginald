@@ -935,11 +935,6 @@
         {
         }
 
-        public InjectedInputKeyboardInfo(VK virtualKey)
-        {
-            Inputs = CreateInputs(new VK[] { virtualKey });
-        }
-
         public InjectedInputKeyboardInfo(VK[] virtualKeys)
         {
             Inputs = CreateInputs(virtualKeys);
