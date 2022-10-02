@@ -61,6 +61,11 @@
                 return;
             }
 
+            if (_mvm.IsActive)
+            {
+                _mvm.Hide();
+            }
+
             if (_cmpvm.IsActive)
             {
                 _cmpvm.Hide();
@@ -85,6 +90,11 @@
                 return;
             }
 
+            if (_cmpvm.IsActive)
+            {
+                _cmpvm.Hide();
+            }
+
             if (_mvm.IsActive)
             {
                 _mvm.Hide();
@@ -93,8 +103,9 @@
 
             Dictionary<string, object> settings = new()
             {
-                { "Placement", PlacementMode.Absolute },
                 { "HorizontalOffset", (SystemParameters.FullPrimaryScreenWidth / 2) - (DMS.Theme.Main.Width / 2) },
+                { "Placement", PlacementMode.Absolute },
+                { "StaysOpen", true },
                 { "VerticalOffset", (SystemParameters.FullPrimaryScreenHeight / 2 * 0.325) - (DMS.Theme.Main.Height / 4) },
             };
             await _windowManager.ShowPopupAsync(_mvm, settings: settings);
