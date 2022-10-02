@@ -22,17 +22,14 @@
 
         private readonly LowLevelKeyboardProc _proc;
 
-        public KeyboardHook(bool isBlocking = false)
+        public KeyboardHook()
         {
-            IsBlocking = isBlocking;
             _proc = HookCallback;
             ProcHandle = GCHandle.Alloc(_proc);
             HookId = IntPtr.Zero;
         }
 
         public event EventHandler<KeyPressEventArgs> KeyPress;
-
-        public bool IsBlocking { get; set; }
 
         public override void Add()
         {
@@ -57,22 +54,7 @@
             {
                 case WM_KEYDOWN:
                 case WM_SYSKEYDOWN:
-                    KeyPressEventArgs args = new(Marshal.ReadInt32(lParam), true);
-                    KeyPress?.Invoke(this, args);
-
-                    // Blocks input to the foreground window
-                    // if told to block
-                    // and if an important key is pressed
-                    if (IsBlocking && !args.IsImportantKeyPressed)
-                    {
-                        return new IntPtr(1);
-                    }
-
-                    break;
-
-                case WM_KEYUP:
-                case WM_SYSKEYUP:
-                    KeyPress?.Invoke(this, new(Marshal.ReadInt32(lParam), false));
+                    KeyPress?.Invoke(this, new(Marshal.ReadInt32(lParam)));
                     break;
             }
 
