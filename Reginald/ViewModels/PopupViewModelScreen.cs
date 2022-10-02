@@ -9,10 +9,6 @@
     using System.Windows.Data;
     using System.Windows.Input;
     using Caliburn.Micro;
-    using HotkeyUtility;
-    using HotkeyUtility.Extensions;
-    using Reginald.Core.IO.Hooks;
-    using Reginald.Core.IO.Injection;
 
     internal abstract class PopupViewModelScreen<T> : Screen
     {
@@ -49,10 +45,6 @@
 
         protected Point MousePosition { get; set; }
 
-        private KeyboardHook KeyboardHook { get; set; }
-
-        private MouseHook MouseHook { get; set; }
-
         public void Hide()
         {
             if (GetView() is Popup popup)
@@ -84,56 +76,14 @@
 
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            // Creates a new mouse and keyboard hook each time the window is activated
-            MouseHook = new();
-            MouseHook.Add();
-            MouseHook.MouseClick += OnLeftMouseClick;
-
-            KeyboardHook = new(true);
-            KeyboardHook.Add();
-            KeyboardHook.KeyPress += OnKeyPress;
             return base.OnActivateAsync(cancellationToken);
         }
 
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
-            MouseHook.Remove();
-            KeyboardHook.Remove();
             MousePosition = default;
             LastSelectedItem = default;
             return base.OnDeactivateAsync(close, cancellationToken);
-        }
-
-        private void OnKeyPress(object sender, KeyPressEventArgs e)
-        {
-            ModifierKeys modifiers = Keyboard.Modifiers;
-            if (modifiers != ModifierKeys.None)
-            {
-                HotkeyManager hotkeyManager = HotkeyManager.GetHotkeyManager();
-                Hotkey hotkey = hotkeyManager.GetHotkeys().Find(e.Key, modifiers);
-                if (hotkey is not null)
-                {
-                    e.IsHotkeyPressed = true;
-                    return;
-                }
-            }
-
-            if (e.IsDown)
-            {
-                _ = InputInjector.SendKeyDown(ActiveHandle, e.VirtualKeyCode);
-            }
-            else
-            {
-                _ = InputInjector.SendKeyUp(ActiveHandle, e.VirtualKeyCode);
-            }
-        }
-
-        private void OnLeftMouseClick(object sender, MouseClickEventArgs e)
-        {
-            if (e.Handle != ActiveHandle)
-            {
-                Hide();
-            }
         }
     }
 }
