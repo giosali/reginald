@@ -20,9 +20,10 @@
             }
         }
 
-        public static IntPtr SetFocus(IntPtr hWnd)
+        public static void SetKeyboardFocus(IntPtr hWnd)
         {
-            return SetActiveWindow(hWnd);
+            _ = SetFocus(hWnd);
+            _ = SetForegroundWindow(hWnd);
         }
 
         public static async Task WaitForDeactivationAsync()

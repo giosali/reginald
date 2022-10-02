@@ -6,7 +6,6 @@
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
-    using System.Windows.Input;
     using System.Windows.Interop;
     using Caliburn.Micro;
     using Reginald.Core.Services;
@@ -53,8 +52,8 @@
                 return;
             }
 
-            // Brings popup to front without stealing focus from the foreground window
-            _ = WindowService.SetFocus(ActiveHandle = source.Handle);
+            // Brings popup to front without stealing focus from the foreground window.
+            WindowService.SetKeyboardFocus(ActiveHandle = source.Handle);
 
             if (DMS.Theme.IsAcrylicEnabled)
             {
@@ -64,8 +63,17 @@
 
         public void UserInput_LostKeyboardFocus(object sender, RoutedEventArgs e)
         {
+            if (sender is not TextBox textBox)
+            {
+                return;
+            }
+
             // Necessary for the textbox to retain focus.
-            Keyboard.Focus(sender as TextBox);
+            if (!textBox.Focus())
+            {
+                // Closes popup when user clicks outside of popup.
+                Hide();
+            }
         }
 
         public void UserInput_Unloaded(object sender, RoutedEventArgs e)
