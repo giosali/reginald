@@ -29,10 +29,13 @@
 
             RegistryKeyWatcher localMachine64Bit = new(RegistryHive.LocalMachine, @"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
             localMachine64Bit.RegistryKeyChanged += OnRegistryKeyChanged;
+            localMachine64Bit.Start();
             RegistryKeyWatcher localMachine = new(RegistryHive.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
             localMachine.RegistryKeyChanged += OnRegistryKeyChanged;
+            localMachine.Start();
             RegistryKeyWatcher currentUser = new(RegistryHive.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
             currentUser.RegistryKeyChanged += OnRegistryKeyChanged;
+            currentUser.Start();
             _registryKeyWatchers = new RegistryKeyWatcher[] { localMachine64Bit, localMachine, currentUser };
 
             _userProfileWatcher = new(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
