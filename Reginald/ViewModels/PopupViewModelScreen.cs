@@ -74,11 +74,6 @@
             BindingOperations.ClearBinding(sender as ListBox, Selector.SelectedItemProperty);
         }
 
-        protected override Task OnActivateAsync(CancellationToken cancellationToken)
-        {
-            return base.OnActivateAsync(cancellationToken);
-        }
-
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             MousePosition = default;
