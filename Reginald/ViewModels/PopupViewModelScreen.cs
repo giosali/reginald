@@ -25,6 +25,8 @@
             }
         }
 
+        public BindableCollection<T> Items { get; set; } = new();
+
         public T SelectedItem
         {
             get => _selectedItem;
@@ -35,8 +37,6 @@
                 NotifyOfPropertyChange(() => SelectedItem);
             }
         }
-
-        public BindableCollection<T> Items { get; set; } = new();
 
         protected T LastSelectedItem { get; set; }
 
