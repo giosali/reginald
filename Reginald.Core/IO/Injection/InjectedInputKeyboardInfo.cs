@@ -914,7 +914,7 @@
         OEM_CLEAR = 0xFE,
     }
 
-    public class InjectedInputKeyboardInfo
+    public sealed class InjectedInputKeyboardInfo
     {
         /// <summary>
         /// If specified, the key is being pressed.

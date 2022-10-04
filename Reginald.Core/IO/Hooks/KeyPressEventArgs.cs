@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class KeyPressEventArgs : EventArgs
+    public sealed class KeyPressEventArgs : EventArgs
     {
         public KeyPressEventArgs(int vkCode)
         {

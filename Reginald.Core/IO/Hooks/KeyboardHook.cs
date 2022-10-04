@@ -5,7 +5,7 @@
     using System.Runtime.InteropServices;
     using static Reginald.Core.IO.Hooks.NativeMethods;
 
-    public class KeyboardHook : Hook
+    public sealed class KeyboardHook : Hook
     {
         private readonly LowLevelKeyboardProc _proc;
 
