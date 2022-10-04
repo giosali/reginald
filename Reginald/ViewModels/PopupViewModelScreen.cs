@@ -39,8 +39,6 @@
 
         public BindableCollection<T> Items { get; set; } = new();
 
-        protected IntPtr ActiveHandle { get; set; }
-
         protected T LastSelectedItem { get; set; }
 
         protected Point MousePosition { get; set; }

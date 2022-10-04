@@ -53,7 +53,7 @@
             }
 
             // Brings popup to front without stealing focus from the foreground window.
-            WindowService.SetKeyboardFocus(ActiveHandle = source.Handle);
+            WindowService.SetKeyboardFocus(source.Handle);
 
             if (DMS.Theme.IsAcrylicEnabled)
             {
