@@ -12,12 +12,14 @@
 
         public static void Drag()
         {
-            if (GetCursorPos(out POINT p))
+            if (!GetCursorPos(out POINT p))
             {
-                IntPtr hWnd = WindowFromPoint(p);
-                _ = ReleaseCapture();
-                _ = SendMessage(hWnd, WM_NCLBUTTONDOWN, new IntPtr(HT_CAPTION), IntPtr.Zero);
+                return;
             }
+
+            IntPtr hWnd = WindowFromPoint(p);
+            _ = ReleaseCapture();
+            _ = SendMessage(hWnd, WM_NCLBUTTONDOWN, new IntPtr(HT_CAPTION), IntPtr.Zero);
         }
 
         public static void SetKeyboardFocus(IntPtr hWnd)
@@ -27,13 +29,8 @@
 
         public static async Task WaitForDeactivationAsync()
         {
-            while (true)
+            while (IsWindowVisible(GetActiveWindow()))
             {
-                if (!IsWindowVisible(GetActiveWindow()))
-                {
-                    break;
-                }
-
                 await Task.Delay(10);
             }
         }
