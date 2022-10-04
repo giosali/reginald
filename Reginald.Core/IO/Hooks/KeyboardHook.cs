@@ -7,19 +7,6 @@
 
     public class KeyboardHook : Hook
     {
-        /// <summary>
-        /// Installs a hook procedure that monitors low-level keyboard input events. For more information, see the <see href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms644985(v=vs.85)">LowLevelKeyboardProc hook procedure</see>.
-        /// </summary>
-        private const int WH_KEYBOARD_LL = 13;
-
-        private const int WM_KEYDOWN = 0x0100;
-
-        private const int WM_KEYUP = 0x0101;
-
-        private const int WM_SYSKEYDOWN = 0x0104;
-
-        private const int WM_SYSKEYUP = 0x0105;
-
         private readonly LowLevelKeyboardProc _proc;
 
         public KeyboardHook()
@@ -49,13 +36,10 @@
                 return CallNextHookEx(HookId, nCode, wParam, lParam);
             }
 
-            int msg = wParam.ToInt32();
-            switch (msg)
+            // 0x0100 = WM_KEYDOWN.
+            if (wParam.ToInt32() == 0x0100)
             {
-                case WM_KEYDOWN:
-                case WM_SYSKEYDOWN:
-                    KeyPress?.Invoke(this, new(Marshal.ReadInt32(lParam)));
-                    break;
+                KeyPress?.Invoke(this, new(Marshal.ReadInt32(lParam)));
             }
 
             return CallNextHookEx(HookId, nCode, wParam, lParam);
@@ -65,7 +49,9 @@
         {
             using Process curProcess = Process.GetCurrentProcess();
             using ProcessModule curModule = curProcess.MainModule;
-            return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
+
+            // 13 = WH_KEYBOARD_LL.
+            return SetWindowsHookEx(13, proc, GetModuleHandle(curModule.ModuleName), 0);
         }
     }
 }
