@@ -22,7 +22,6 @@
 
         public static void SetKeyboardFocus(IntPtr hWnd)
         {
-            _ = SetFocus(hWnd);
             _ = SetForegroundWindow(hWnd);
         }
 
