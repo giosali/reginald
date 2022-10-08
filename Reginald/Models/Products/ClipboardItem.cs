@@ -39,8 +39,7 @@
             Description = text;
             try
             {
-                string splitText = string.Join(' ', text.Split(Environment.NewLine, 5));
-                ListBoxDescription = splitText[..Math.Min(DescriptionLimit, splitText.Length)];
+                ListBoxDescription = string.Join(' ', text[..Math.Min(DescriptionLimit, text.Length)].Split(Environment.NewLine));
             }
             catch (SystemException)
             {
@@ -66,8 +65,7 @@
             Description = text;
             try
             {
-                string splitText = string.Join(' ', text.Split(Environment.NewLine, 5));
-                ListBoxDescription = splitText[..Math.Min(DescriptionLimit, splitText.Length)];
+                ListBoxDescription = string.Join(' ', text[..Math.Min(DescriptionLimit, text.Length)].Split(Environment.NewLine));
             }
             catch (SystemException)
             {
