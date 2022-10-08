@@ -207,48 +207,48 @@
             }
             else
             {
-                // Filters through applications.
-                LinkedList<SearchResult> applications = new();
-                LinkedListNode<SearchResult> separator = null;
-                LinkedListNode<SearchResult> matchSeparator = null;
-                ISingleProducer<SearchResult>[] omsSp = _oms.SingleProducers;
-                for (int i = 0; i < omsSp.Length; i++)
-                {
-                   ISingleProducer<SearchResult> sp = omsSp[i];
-                   if (!sp.Check(userInput))
-                   {
-                       continue;
-                   }
-
-                   SearchResult application = sp.Produce();
-                   if (separator is null)
-                   {
-                       separator = applications.AddLast(application);
-                       continue;
-                   }
-
-                   if (char.ToUpper(application.Description[0]) != char.ToUpper(userInput[0]))
-                   {
-                       applications.AddLast(application);
-                       continue;
-                   }
-
-                   if (application.Description.IndexOf(userInput, StringComparison.OrdinalIgnoreCase) == -1)
-                   {
-                       _ = applications.AddBefore(separator, application);
-                       continue;
-                   }
-
-                   matchSeparator = matchSeparator is null ? applications.AddFirst(application) : applications.AddAfter(matchSeparator, application);
-                }
-
-                items.AddRange(applications);
                 items.AddRange(await Task.Run(
                     () =>
                 {
                     try
                     {
-                        List<SearchResult> results = new();
+                        // Filters through applications.
+                        LinkedList<SearchResult> applications = new();
+                        LinkedListNode<SearchResult> separator = null;
+                        LinkedListNode<SearchResult> matchSeparator = null;
+                        ISingleProducer<SearchResult>[] omsSp = _oms.SingleProducers;
+                        for (int i = 0; i < omsSp.Length; i++)
+                        {
+                            token.ThrowIfCancellationRequested();
+                            ISingleProducer<SearchResult> sp = omsSp[i];
+                            if (!sp.Check(userInput))
+                            {
+                                continue;
+                            }
+
+                            SearchResult application = sp.Produce();
+                            if (separator is null)
+                            {
+                                separator = applications.AddLast(application);
+                                continue;
+                            }
+
+                            if (char.ToUpper(application.Description[0]) != char.ToUpper(userInput[0]))
+                            {
+                                applications.AddLast(application);
+                                continue;
+                            }
+
+                            if (application.Description.IndexOf(userInput, StringComparison.OrdinalIgnoreCase) == -1)
+                            {
+                                _ = applications.AddBefore(separator, application);
+                                continue;
+                            }
+
+                            matchSeparator = matchSeparator is null ? applications.AddFirst(application) : applications.AddAfter(matchSeparator, application);
+                        }
+
+                        List<SearchResult> results = new(applications);
                         results.AddRange(SearchDataModelServiceProducers(userInput, token));
                         results.AddRange(SearchCpuIntensiveModels(userInput, token));
                         return results;
@@ -262,7 +262,10 @@
             }
 
             // Removes ListBox flickering when it's cleared at this point.
-            Items.Clear();
+            //
+            // InvokeAsync is necessary to remove noticeable lag while typing when
+            // the window is focused through SetForegroundWindow.
+            await System.Windows.Application.Current.Dispatcher.InvokeAsync(() => Items.Clear());
             Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(DMS.Settings.SearchResultsLimit));
             if (Items.Count == 0)
             {

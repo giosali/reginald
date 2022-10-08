@@ -322,7 +322,7 @@
             WriteToClipboardDatabase();
         }
 
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             int count = Items.Count;
             if (count == 0)
@@ -336,7 +336,7 @@
                 Items[i].KeyboardShortcut = i < limit ? "CTRL + " + (i + 1) : null;
             }
 
-            SelectedItem = Items[0];
+            await Task.Run(() => SelectedItem = Items[0]);
         }
 
         private void WriteToClipboardDatabase()
