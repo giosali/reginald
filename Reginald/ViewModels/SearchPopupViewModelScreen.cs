@@ -52,9 +52,7 @@
                 return;
             }
 
-            // Brings popup to front without stealing focus from the foreground window.
             WindowService.SetKeyboardFocus(source.Handle);
-
             if (DMS.Theme.IsAcrylicEnabled)
             {
                 AcrylicMaterial.Enable(source.Handle, DMS.Theme.AcrylicOpacity, DMS.Theme.BackgroundBrush);
