@@ -21,31 +21,60 @@
         {
             Image = bitmapSource;
             Icon = new("72");
+            DateTime = DateTime.Now;
             Description = $"{bitmapSource.Width}x{bitmapSource.Height}";
             ListBoxDescription = Description[..Math.Min(DescriptionLimit, Description.Length)];
-            DateTime = DateTime.Now;
         }
 
         public ClipboardItem(SqliteDataReader reader)
         {
             Icon = new("1");
             DateTime = DateTime.TryParse(reader["datetime"] as string, out DateTime dateTime) ? dateTime : DateTime.Now;
-            string text = reader["text"] as string;
+            if (reader["text"] is not string text)
+            {
+                ListBoxDescription = Description = string.Empty;
+                return;
+            }
+
             Description = text;
-            ListBoxDescription = text[..Math.Min(DescriptionLimit, text.Length)];
+            try
+            {
+                string splitText = string.Join(' ', text.Split(Environment.NewLine, 5));
+                ListBoxDescription = splitText[..Math.Min(DescriptionLimit, splitText.Length)];
+            }
+            catch (SystemException)
+            {
+                ListBoxDescription = text[..Math.Min(DescriptionLimit, text.Length)];
+            }
+
             if (TryFromString(text, out Brush brush))
             {
                 HexBrush = brush;
             }
         }
 
-        public ClipboardItem(string description)
+        public ClipboardItem(string text)
         {
             Icon = new("1");
-            Description = description;
-            ListBoxDescription = description[..Math.Min(DescriptionLimit, description.Length)];
             DateTime = DateTime.Now;
-            if (TryFromString(description, out Brush brush))
+            if (text is null)
+            {
+                ListBoxDescription = Description = string.Empty;
+                return;
+            }
+
+            Description = text;
+            try
+            {
+                string splitText = string.Join(' ', text.Split(Environment.NewLine, 5));
+                ListBoxDescription = splitText[..Math.Min(DescriptionLimit, splitText.Length)];
+            }
+            catch (SystemException)
+            {
+                ListBoxDescription = text[..Math.Min(DescriptionLimit, text.Length)];
+            }
+
+            if (TryFromString(text, out Brush brush))
             {
                 HexBrush = brush;
             }
