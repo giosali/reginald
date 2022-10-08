@@ -74,7 +74,7 @@
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             MousePosition = default;
-            LastSelectedItem = default;
+            LastSelectedItem = SelectedItem = default;
             return base.OnDeactivateAsync(close, cancellationToken);
         }
     }
