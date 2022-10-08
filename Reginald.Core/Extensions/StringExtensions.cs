@@ -26,26 +26,19 @@
             }
 
             int index = 0;
-            while (true)
+            while ((index = str.IndexOf(phrase, index, StringComparison.OrdinalIgnoreCase)) != -1)
             {
-                index = str.IndexOf(phrase, index, StringComparison.OrdinalIgnoreCase);
-                if (index == -1)
+                // Returns true if a match is found at the start of the string
+                // or if the previous character isn't a letter.
+                if (index == 0 || !char.IsLetter(str[index - 1]))
                 {
-                    return false;
+                    return true;
                 }
 
-                // Continues if the index isn't the beginning of the string
-                // and if the character before the index isn't a space.
-                if (index != 0 && str[index - 1] != ' ')
-                {
-                    index++;
-                    continue;
-                }
-
-                break;
+                index++;
             }
 
-            return true;
+            return false;
         }
 
         /// <summary>
