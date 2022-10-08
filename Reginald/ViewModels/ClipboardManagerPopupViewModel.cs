@@ -296,12 +296,36 @@
         private void OnClipboardChanged(object sender, EventArgs e)
         {
             // Prevents duplicate clipboard items.
-            if (TryGetText(out string text) && text != _clipboardItems.FirstOrDefault()?.Description)
+            if (TryGetText(out string text))
             {
+                for (int i = 0; i < _clipboardItems.Count; i++)
+                {
+                    ClipboardItem item = _clipboardItems[i];
+                    if (text == item.Description)
+                    {
+                        _clipboardItems.RemoveAt(i);
+                        _clipboardItems.Insert(0, item);
+                        RefreshClipboardItems();
+                        return;
+                    }
+                }
+
                 _clipboardItems.Insert(0, new ClipboardItem(text));
             }
             else if (TryGetImage(out BitmapSource image))
             {
+                for (int i = 0; i < _clipboardItems.Count; i++)
+                {
+                    ClipboardItem item = _clipboardItems[i];
+                    if (image == item.Image)
+                    {
+                        _clipboardItems.RemoveAt(i);
+                        _clipboardItems.Insert(0, item);
+                        RefreshClipboardItems();
+                        return;
+                    }
+                }
+
                 _clipboardItems.Insert(0, new ClipboardItem(image));
             }
             else
@@ -314,12 +338,17 @@
                 _clipboardItems.RemoveAt(ClipboardLimit);
             }
 
-            Items.Clear();
-            Items.AddRange(_clipboardItems);
+            RefreshClipboardItems();
 
-            EmptyClipboardDatabase();
-            CreateClipboardDatabase();
-            WriteToClipboardDatabase();
+            void RefreshClipboardItems()
+            {
+                Items.Clear();
+                Items.AddRange(_clipboardItems);
+
+                EmptyClipboardDatabase();
+                CreateClipboardDatabase();
+                WriteToClipboardDatabase();
+            }
         }
 
         private async void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
