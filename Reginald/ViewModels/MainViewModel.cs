@@ -134,7 +134,7 @@
                 }
 
                 case Key.T when Keyboard.Modifiers is ModifierKeys.Control && !e.IsRepeat:
-                    BorderOpacity = BorderOpacity == 1.0 ? 0.25 : 1.0;
+                    BorderOpacity = BorderOpacity == 1.0 ? DMS.Theme.BorderOpacity : 1.0;
                     break;
                 case Key.LeftAlt when !e.IsRepeat:
                 case Key.RightAlt when !e.IsRepeat:

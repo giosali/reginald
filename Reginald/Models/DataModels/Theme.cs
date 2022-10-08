@@ -23,6 +23,9 @@
         [JsonProperty("borderBrush")]
         public SolidColorBrush BorderBrush { get; set; }
 
+        [JsonProperty("borderOpacity")]
+        public double BorderOpacity { get; set; }
+
         [JsonProperty("borderThickness")]
         public double BorderThickness { get; set; }
 
