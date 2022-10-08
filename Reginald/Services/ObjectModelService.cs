@@ -91,7 +91,8 @@
             {
                 case WatcherChangeTypes.Created:
                     string fullPath = e.FullPath;
-                    if (fullPath.Contains(_appDataPath) || Path.GetFileName(fullPath).StartsWith('.'))
+                    string[] filters = IoC.Get<DataModelService>().Settings.FileSearchFilters.ToArray();
+                    if (SkipEntry(fullPath, filters))
                     {
                         break;
                     }
@@ -118,6 +119,11 @@
                     for (int i = 0; i < files.Length; i++)
                     {
                         string file = files[i];
+                        if (SkipEntry(file, filters))
+                        {
+                            continue;
+                        }
+
                         FileSystemEntries[file.GetCrc32HashCode()] = new FileSystemEntry(file.Split(FileSystemEntry.UserProfile, 2)[^1]);
                     }
 
@@ -175,6 +181,34 @@
                     }
 
                     string newPath = e.FullPath;
+                    if (SkipEntry(newPath, IoC.Get<DataModelService>().Settings.FileSearchFilters.ToArray()))
+                    {
+                        // Removes the old path and ignores the new one
+                        // if the new path contains an invalid path name.
+                        _ = FileSystemEntries.TryRemove(oldPath.GetCrc32HashCode(), out _);
+
+                        if (!Directory.Exists(newPath))
+                        {
+                            break;
+                        }
+
+                        // Removes all sub-entries that also contain the invalid path name.
+                        try
+                        {
+                            string[] subEntries = Directory.GetFiles(newPath, "*", SearchOption.AllDirectories);
+                            for (int i = 0; i < subEntries.Length; i++)
+                            {
+                                string newFile = subEntries[i];
+                                string oldFile = newFile.Replace(newPath, oldPath);
+                                _ = FileSystemEntries.TryRemove(oldFile.GetCrc32HashCode(), out _);
+                            }
+                        }
+                        catch (SystemException)
+                        {
+                            break;
+                        }
+                    }
+
                     if (FileSystemEntries.TryRemove(oldPath.GetCrc32HashCode(), out FileSystemEntry entry))
                     {
                         entry.UpdatePath(newPath.Split(FileSystemEntry.UserProfile)[^1]);
@@ -221,99 +255,75 @@
                 IgnoreInaccessible = true,
                 RecurseSubdirectories = true,
             };
-            bool isFiltersEmpty = filters.Length == 0;
-            char sep = Path.DirectorySeparatorChar;
             foreach (string entry in Directory.EnumerateFileSystemEntries(FileSystemEntry.UserProfile, "*", options))
             {
-                // Skips file system entry if it's located in the user's %APPDATA%
-                string fileName = Path.GetFileName(entry);
-                if (entry.StartsWith(_appDataPath))
-                {
-                    continue;
-                }
-
-                bool skip = false;
-
-                // Ignores files and directories that begin with a period.
-                int index = 0;
-                while (index != -1)
-                {
-                    index = entry.IndexOf('.', index);
-                    if (index == -1)
-                    {
-                        break;
-                    }
-
-                    if (entry[index - 1] == sep)
-                    {
-                        skip = true;
-                        break;
-                    }
-
-                    index++;
-                }
-
-                if (skip)
-                {
-                    continue;
-                }
-
-                bool isDir = Directory.Exists(entry);
-                for (int i = 0; i < filters.Length; i++)
-                {
-                    string filter = filters[i];
-
-                    // Handles filters directed at files.
-                    if (filter[^1] != '/')
-                    {
-                        // Skips if the entry is a directory.
-                        // or if the file name doesn't match the filter.
-                        if (Directory.Exists(entry) || fileName != filter)
-                        {
-                            continue;
-                        }
-
-                        skip = true;
-                        break;
-                    }
-
-                    // Handles filters directed at directories.
-                    else
-                    {
-                        string dirName = filter[..^1];
-                        index = 0;
-                        while (index != -1)
-                        {
-                            index = entry.IndexOf(dirName, index);
-                            if (index == -1 || index == 0)
-                            {
-                                break;
-                            }
-
-                            int dirNameLength = dirName.Length;
-                            if (entry[index - 1] == sep && (index + dirNameLength == entry.Length || entry[index + dirNameLength] == sep))
-                            {
-                                skip = true;
-                                break;
-                            }
-
-                            index++;
-                        }
-
-                        if (skip)
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                if (skip)
+                if (SkipEntry(entry, filters))
                 {
                     continue;
                 }
 
                 FileSystemEntries[entry.GetCrc32HashCode()] = new FileSystemEntry(entry.Split(FileSystemEntry.UserProfile)[^1]);
             }
+        }
+
+        private bool SkipEntry(string entry, string[] filters)
+        {
+            // Skips file system entry if it's located in the user's %APPDATA%
+            string fileName = Path.GetFileName(entry);
+            if (entry.StartsWith(_appDataPath))
+            {
+                return true;
+            }
+
+            // Ignores files and directories that begin with a period.
+            int index = 0;
+            while ((index = entry.IndexOf('.', index)) != -1)
+            {
+                if (entry[index - 1] == Path.DirectorySeparatorChar)
+                {
+                    return true;
+                }
+
+                index++;
+            }
+
+            bool isDir = Directory.Exists(entry);
+            for (int i = 0; i < filters.Length; i++)
+            {
+                string filter = filters[i];
+
+                // Handles filters directed at files.
+                if (filter[^1] != '/')
+                {
+                    // Skips if the entry is a directory.
+                    // or if the file name doesn't match the filter.
+                    if (isDir || fileName != filter)
+                    {
+                        continue;
+                    }
+
+                    return true;
+                }
+
+                // Handles filters directed at directories.
+                else
+                {
+                    string dirName = filter[..^1];
+                    index = 0;
+                    while ((index = entry.IndexOf(dirName, index)) != -1 && index != 0)
+                    {
+                        int dirNameLength = dirName.Length;
+                        if (entry[index - 1] == Path.DirectorySeparatorChar && (index + dirNameLength == entry.Length || entry[index + dirNameLength] == Path.DirectorySeparatorChar))
+                        {
+                            return true;
+                        }
+
+                        index++;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
