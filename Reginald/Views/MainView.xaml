@@ -276,10 +276,12 @@
                      ItemTemplate="{StaticResource ListBoxItemDataTemplate}"
                      ItemsSource="{Binding Items}"
                      MaxHeight="332.5"
+                     ScrollViewer.CanContentScroll="True"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                      Style="{StaticResource ListBoxStyle}"
+                     VirtualizingPanel.ScrollUnit="Pixel"
                      VirtualizingStackPanel.IsVirtualizing="True"
                      VirtualizingStackPanel.VirtualizationMode="Recycling"
                      cal:Message.Attach="[Unloaded] = [Items_Unloaded($source, $eventargs)];
