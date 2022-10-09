@@ -185,7 +185,7 @@
             CancellationToken token = _cts.Token;
             if (DMS.FileSystemEntrySearch.Check(userInput))
             {
-                List<SearchResult> tempItems = await Task.Run(
+                LinkedList<SearchResult> entries = await Task.Run(
                     () =>
                 {
                     try
@@ -198,12 +198,12 @@
                     }
                 },
                     token);
-                if (tempItems is null)
+                if (entries is null)
                 {
                     return;
                 }
 
-                items.AddRange(tempItems);
+                items.AddRange(entries);
             }
             else
             {
@@ -266,6 +266,7 @@
             // InvokeAsync is necessary to remove noticeable lag while typing when
             // the window is focused through SetForegroundWindow.
             await System.Windows.Application.Current.Dispatcher.InvokeAsync(() => Items.Clear());
+
             Items.AddRange(items.Count == 0 ? DMS.DefaultWebQueries.Select(wq => wq.Produce(userInput)) : items.Take(DMS.Settings.SearchResultsLimit));
             if (Items.Count == 0)
             {
@@ -351,15 +352,16 @@
             return results;
         }
 
-        private List<SearchResult> SearchFileSystemEntries(string input, CancellationToken token)
+        private LinkedList<SearchResult> SearchFileSystemEntries(string input, CancellationToken token)
         {
             int limit = DMS.Settings.SearchResultsLimit;
-            List<SearchResult> items = new();
+            LinkedList<SearchResult> items = new();
             do
             {
                 if (input.Length == DMS.FileSystemEntrySearch.Key.Length)
                 {
-                    items.Add(DMS.FileSystemEntrySearch.Produce());
+                    items.AddLast(DMS.FileSystemEntrySearch.Produce());
+
                     break;
                 }
 
@@ -380,7 +382,7 @@
 
                     if (entry.Check(fsQuery))
                     {
-                        items.Add(entry.Produce());
+                        _ = entry.Type == EntryType.File ? items.AddLast(entry.Produce()) : items.AddFirst(entry.Produce());
                         count++;
                     }
                 }
