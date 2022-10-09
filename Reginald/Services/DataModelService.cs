@@ -5,7 +5,6 @@
     using System.IO;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
     using Caliburn.Micro;
     using Reginald.Core.Extensions;
     using Reginald.Core.IO;
@@ -122,7 +121,7 @@
             return null;
         }
 
-        private async void OnKeyPress(object sender, KeyPressEventArgs e)
+        private void OnKeyPress(object sender, KeyPressEventArgs e)
         {
             if (!Settings.AreExpansionsEnabled)
             {
@@ -134,14 +133,15 @@
                 return;
             }
 
-            await Task.Run(async () =>
+            if (te.Replacement is not string replacement)
             {
-                if (te.Replacement is not string replacement)
-                {
-                    return;
-                }
-
-                await Task.Delay(50);
+                return;
+            }
+            
+            System.Threading.Thread th = new(() =>
+            {
+                // Sleeps thread to give time for final keypress.
+                System.Threading.Thread.Sleep(50);
 
                 // Simulates backspace to delete the trigger.
                 InjectedInputKeyboardInfo backInfo = InjectedInputKeyboardInfo.FromRepeatVirtualKey(VK.BACK, te.Trigger.Length);
@@ -163,6 +163,8 @@
                 InputInjector.InjectKeyboardInput(replacementInfo);
                 InputInjector.InjectKeyboardInput(leftArrowInfo);
             });
+            th.IsBackground = true;
+            th.Start();
         }
 
         private void OnChanged(object sender, FileSystemEventArgs e)

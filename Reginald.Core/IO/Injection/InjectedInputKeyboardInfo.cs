@@ -966,21 +966,45 @@
 
         public static InjectedInputKeyboardInfo FromRepeatVirtualKey(VK virtualKey, int count)
         {
-            VK[] vks = new VK[count];
-            for (int i = 0; i < count; i++)
+            int size = count * 2;
+            INPUT[] inputs = new INPUT[size];
+            for (int i = 0; i < size; i++)
             {
-                vks[i] = virtualKey;
+                INPUT input = new();
+                input.type = (uint)InputType.Keyboard;
+                input.U = new InputUnion
+                {
+                    ki = new KEYBDINPUT
+                    {
+                        wVk = (short)virtualKey,
+                        wScan = 0,
+                        dwFlags = KEYEVENTF_KEYDOWN,
+                    },
+                };
+                inputs[i++] = input;
+
+                input.U.ki.dwFlags = KEYEVENTF_KEYUP;
+                inputs[i] = input;
             }
 
-            InjectedInputKeyboardInfo info = new(vks);
+            InjectedInputKeyboardInfo info = new();
+            info.Inputs = inputs;
             return info;
+
+            // VK[] vks = new VK[count];
+            // for (int i = 0; i < count; i++)
+            // {
+            //     vks[i] = virtualKey;
+            // }
+
+            // return new(vks);
         }
 
         public static InjectedInputKeyboardInfo FromString(string str)
         {
             if (string.IsNullOrEmpty(str))
             {
-                return new InjectedInputKeyboardInfo();
+                return new();
             }
 
             List<INPUT> inputs = new();
