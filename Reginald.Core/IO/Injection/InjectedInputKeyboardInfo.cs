@@ -990,14 +990,6 @@
             InjectedInputKeyboardInfo info = new();
             info.Inputs = inputs;
             return info;
-
-            // VK[] vks = new VK[count];
-            // for (int i = 0; i < count; i++)
-            // {
-            //     vks[i] = virtualKey;
-            // }
-
-            // return new(vks);
         }
 
         public static InjectedInputKeyboardInfo FromString(string str)
