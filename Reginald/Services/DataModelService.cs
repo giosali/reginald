@@ -128,16 +128,11 @@
                 return;
             }
 
-            if (GetTextExpansionFromVirtualKeyCode(e.VirtualKeyCode) is not TextExpansion te)
+            if (GetTextExpansionFromVirtualKeyCode(e.VirtualKeyCode) is not TextExpansion te || te.Replacement is not string replacement)
             {
                 return;
             }
 
-            if (te.Replacement is not string replacement)
-            {
-                return;
-            }
-            
             System.Threading.Thread th = new(() =>
             {
                 // Sleeps thread to give time for final keypress.
