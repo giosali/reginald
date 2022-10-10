@@ -93,12 +93,9 @@
                 }
 
                 case Key.Enter:
-                {
                     PressEnter(sender);
                     e.Handled = true;
                     break;
-                }
-
                 case Key.Up:
                     SelectedItem = Items[Math.Max(Items.IndexOf(SelectedItem) - 1, 0)];
 
