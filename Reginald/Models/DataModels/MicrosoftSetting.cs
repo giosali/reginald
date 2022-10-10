@@ -112,7 +112,6 @@
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
             ProcessService.GoTo(Uri);
-            e.Handled = true;
         }
     }
 }

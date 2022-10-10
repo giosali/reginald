@@ -181,7 +181,6 @@
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
             ProcessService.OpenFromPath(FilePath);
-            e.Handled = true;
         }
 
         private void OnTabKeyPressed(object sender, InputProcessingEventArgs e)

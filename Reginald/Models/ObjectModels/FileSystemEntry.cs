@@ -138,7 +138,6 @@
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
             _ = Process.Start("explorer.exe", (Type == EntryType.File ? "/select," : string.Empty) + UserProfile + Caption);
-            e.Handled = true;
         }
     }
 }

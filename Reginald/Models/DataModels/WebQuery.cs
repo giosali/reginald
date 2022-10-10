@@ -95,7 +95,6 @@
             if (!AltUrl.Contains("{0}"))
             {
                 ProcessService.GoTo(AltUrl);
-                e.Handled = true;
                 return;
             }
 
@@ -114,7 +113,6 @@
                 return;
             }
 
-            e.Handled = true;
             ProcessService.GoTo(string.Format(AltUrl, input.Quote(EncodeInput)));
         }
 
@@ -166,7 +164,6 @@
             if (!Url.Contains("{0}"))
             {
                 ProcessService.GoTo(Url);
-                e.Handled = true;
                 return;
             }
 
@@ -185,7 +182,6 @@
                 return;
             }
 
-            e.Handled = true;
             ProcessService.GoTo(string.Format(Url, input.Quote(EncodeInput)));
         }
 

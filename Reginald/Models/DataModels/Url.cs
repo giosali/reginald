@@ -49,7 +49,6 @@
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
-            e.Handled = true;
             ProcessService.GoTo(Uri.IsWellFormedUriString(Description, UriKind.Absolute) ? Description : Description.PrependScheme());
         }
     }
