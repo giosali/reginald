@@ -180,6 +180,7 @@
 
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
+            e.Handled = true;
             ProcessService.OpenFromPath(FilePath);
         }
 
