@@ -15,11 +15,6 @@
     {
         private string _title;
 
-        public SettingsViewModel()
-        {
-            IoC.Get<IEventAggregator>().SubscribeOnPublishedThread(this);
-        }
-
         public string Title
         {
             get => _title;
@@ -38,15 +33,20 @@
 
         public async void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Type type = (e.Source as ListBoxItem).Tag switch
+            if (e.Source is not ListBoxItem listBoxItem || listBoxItem.Tag is not string tag)
             {
-                "General" => typeof(GeneralViewModel),
-                "Themes" => typeof(ThemesViewModel),
-                "Features" => typeof(FeaturesViewModel),
-                "About" => typeof(AboutViewModel),
+                return;
+            }
+
+            object obj = tag switch
+            {
+                "General" => new GeneralViewModel(),
+                "Themes" => new ThemesViewModel(),
+                "Features" => new FeaturesViewModel(),
+                "About" => new AboutViewModel(),
                 _ => null,
             };
-            if (IoC.GetInstance(type, null) is IScreen screen && !screen.IsActive)
+            if (obj is IScreen screen && !screen.IsActive)
             {
                 await ActivateItemAsync(screen);
             }
@@ -54,8 +54,7 @@
 
         public async void ListBox_Loaded(object sender, RoutedEventArgs e)
         {
-            object instance = IoC.GetInstance(typeof(GeneralViewModel), null);
-            await ActivateItemAsync(instance);
+            await ActivateItemAsync(new GeneralViewModel());
         }
 
         public void ListBox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -69,6 +68,18 @@
             {
                 DarkTitleBar.Enable(source.Handle);
             }
+        }
+
+        protected override Task OnActivateAsync(CancellationToken cancellationToken)
+        {
+            IoC.Get<IEventAggregator>().SubscribeOnPublishedThread(this);
+            return base.OnActivateAsync(cancellationToken);
+        }
+
+        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
+        {
+            IoC.Get<IEventAggregator>().Unsubscribe(this);
+            return base.OnDeactivateAsync(close, cancellationToken);
         }
     }
 }
