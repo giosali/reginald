@@ -10,12 +10,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <!--Quit-->
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
                 <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
-                    <!--ToggleButton-->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -54,6 +55,54 @@
                                      IsEnabled="False"
                                      Style="{StaticResource PrimaryTextBoxStyle}"
                                      Text="quit" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        <!--Force Quit-->
+        <StackPanel Grid.Row="1"
+                    Style="{StaticResource InnerUserControlStackPanelStyle}">
+            <Border Style="{StaticResource CardBorderStyle}">
+                <StackPanel Style="{StaticResource CardActionStackPanelStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource ApplicationBrandIconTextBlockStyle}"
+                                   Text="&#xE738;" />
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PrimaryHeadingTwoTextBlockStyle}"
+                                       Text="Force quit" />
+                            <TextBlock Style="{StaticResource SecondaryParagraphTextBlock}"
+                                       Text="Have Reginald force quit applications for you" />
+                        </StackPanel>
+                        <ToggleButton IsChecked="{Binding DMS.Settings.IsForceQuitEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Grid.Column="3"
+                                      Style="{StaticResource WindowsToggleButtonStyle}"
+                                      cal:Message.Attach="[Click] = [Include_Click($this, $eventargs)]" />
+                    </Grid>
+                    <!--Keyword-->
+                    <StackPanel Margin="0 12">
+                        <Grid VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Margin="0 0 6 0"
+                                       Style="{StaticResource PrimaryParagraphTextBlockStyle}"
+                                       Text="Keyword"
+                                       VerticalAlignment="Center" />
+                            <TextBox Grid.Column="1"
+                                     IsEnabled="False"
+                                     Style="{StaticResource PrimaryTextBoxStyle}"
+                                     Text="forcequit" />
                         </Grid>
                     </StackPanel>
                 </StackPanel>
