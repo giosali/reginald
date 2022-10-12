@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <!--ToggleButton-->
+        <!--Timer-->
         <StackPanel Grid.Row="0"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
@@ -74,7 +74,7 @@
                 </Button>
             </StackPanel>
         </StackPanel>
-        <!--ToggleButton-->
+        <!--Timers-->
         <StackPanel Grid.Row="1"
                     Style="{StaticResource InnerUserControlStackPanelStyle}">
             <Border Style="{StaticResource CardBorderStyle}">
