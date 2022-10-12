@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Text;
     using System.Windows;
@@ -53,9 +54,27 @@
             _ = ShellExecute(IntPtr.Zero, null, uri, null, null, 1);
         }
 
-        public static void OpenFromPath(string path)
+        public static void OpenFromPath(string path, bool runAsAdmin)
         {
-            _ = Process.Start("explorer.exe", path);
+            try
+            {
+                if (!runAsAdmin)
+                {
+                    _ = Process.Start("explorer.exe", path);
+                    return;
+                }
+
+                ProcessStartInfo startInfo = new()
+                {
+                    FileName = path,
+                    UseShellExecute = true,
+                    Verb = "runas",
+                };
+                _ = Process.Start(startInfo);
+            }
+            catch (Win32Exception)
+            {
+            }
         }
 
         public static void QuitProcessById(int processId)

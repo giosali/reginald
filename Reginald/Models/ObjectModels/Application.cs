@@ -16,18 +16,15 @@
     {
         public Application(string description, BitmapSource source, string filePath, int id)
         {
-            Caption = "Application";
+            Caption = filePath;
             Description = description;
             Source = source;
 
             // Necessary for icons to reappear after repopulating applications.
             Source.Freeze();
 
-            FilePath = filePath;
             Id = id;
         }
-
-        public string FilePath { get; private set; }
 
         public int Id { get; set; }
 
@@ -56,7 +53,20 @@
                 sos.Add(so);
             }
 
-            return sos.Select(so => new Application(so.Name, so.Thumbnail.MediumBitmapSource, so.Properties.System.Link.TargetParsingPath.Value is string path ? path : @"shell:AppsFolder\" + so.ParsingName, StaticRandom.Next()))
+            return sos.Select(so =>
+            {
+                if (so.Properties.System.Link.TargetParsingPath.Value is not string path)
+                {
+                    return new Application(so.Name, so.Thumbnail.MediumIconBitmapSource, @"shell:AppsFolder\" + so.ParsingName, StaticRandom.Next());
+                }
+
+                if (path.IndexOf(@":\WINDOWS") != 1)
+                {
+                    return new Application(so.Name, so.Thumbnail.MediumIconBitmapSource, path, StaticRandom.Next());
+                }
+
+                return new Application(so.Name, so.Thumbnail.MediumIconBitmapSource, path.Replace(@":\WINDOWS", @":\Windows"), StaticRandom.Next());
+            })
                       .OrderBy(so => so.Description);
         }
 
@@ -151,11 +161,18 @@
         public SearchResult Produce()
         {
             SearchResult result = new(Caption, Source, Description, Id);
+            result.AltAndEnterKeysPressed += OnAltAndEnterKeysPressed;
             result.AltKeyPressed += OnAltKeyPressed;
             result.AltKeyReleased += OnAltKeyReleased;
             result.EnterKeyPressed += OnEnterKeyPressed;
             result.TabKeyPressed += OnTabKeyPressed;
             return result;
+        }
+
+        private void OnAltAndEnterKeysPressed(object sender, InputProcessingEventArgs e)
+        {
+            e.Handled = true;
+            ProcessService.OpenFromPath(Caption, true);
         }
 
         private void OnAltKeyPressed(object sender, InputProcessingEventArgs e)
@@ -165,7 +182,7 @@
                 return;
             }
 
-            result.Caption = FilePath;
+            result.Caption = "Press Enter to run as administrator";
         }
 
         private void OnAltKeyReleased(object sender, InputProcessingEventArgs e)
@@ -181,7 +198,7 @@
         private void OnEnterKeyPressed(object sender, InputProcessingEventArgs e)
         {
             e.Handled = true;
-            ProcessService.OpenFromPath(FilePath);
+            ProcessService.OpenFromPath(Caption, false);
         }
 
         private void OnTabKeyPressed(object sender, InputProcessingEventArgs e)
