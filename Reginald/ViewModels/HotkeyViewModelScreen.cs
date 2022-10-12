@@ -62,14 +62,14 @@
                                 break;
                             }
 
-                            HotkeyManager hotkeyManager = HotkeyManager.GetHotkeyManager();
-                            Hotkey hotkey = hotkeyManager.GetHotkeys().Find(hotkeyKey, hotkeyModifiers);
-                            if (hotkey is not null)
+                            HotkeyManager manager = HotkeyManager.GetHotkeyManager();
+                            if (manager.GetHotkeys().Find(hotkeyKey, hotkeyModifiers) is not Hotkey hotkey || !manager.TryReplaceHotkey(hotkey.Id, key, modifiers))
                             {
-                                SaveHotkey(key.ToString(), modifiers.ToString());
-                                HotkeyInput = ConvertKeysToString(key, modifiers);
+                                break;
                             }
 
+                            SaveHotkey(key.ToString(), modifiers.ToString());
+                            HotkeyInput = ConvertKeysToString(key, modifiers);
                             break;
                     }
 
@@ -86,9 +86,7 @@
         protected override Task OnActivateAsync(CancellationToken cancellationToken)
         {
             HotkeyInput = ConvertKeysToString(GetKey(), GetModifiers());
-
-            IEventAggregator eventAggregator = IoC.Get<IEventAggregator>();
-            _ = eventAggregator.PublishOnUIThreadAsync(new UpdatePageMessage(_pageName), cancellationToken);
+            _ = IoC.Get<IEventAggregator>().PublishOnUIThreadAsync(new UpdatePageMessage(_pageName), cancellationToken);
             return base.OnActivateAsync(cancellationToken);
         }
 
