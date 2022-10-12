@@ -14,8 +14,8 @@
             Path = path;
         }
 
-        public string Path { get; set; }
+        public string Path { get; private set; }
 
-        public BitmapSource Source { get; set; }
+        public BitmapSource Source { get; private set; }
     }
 }

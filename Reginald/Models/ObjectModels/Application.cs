@@ -27,11 +27,11 @@
             Id = id;
         }
 
-        public string FilePath { get; set; }
+        public string FilePath { get; private set; }
 
         public int Id { get; set; }
 
-        public BitmapSource Source { get; set; }
+        public BitmapSource Source { get; private set; }
 
         public static IEnumerable<Application> GetApplications()
         {
