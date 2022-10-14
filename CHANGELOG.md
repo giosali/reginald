@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.0.0] - 2022-10-13
+
+### Added
+
+* Ability to search through files and folders on your computer.
+* Search and clipboard manager windows can become transparent by toggling <kbd>Ctrl</kbd> + <kbd>T</kbd>.
+* `Clear clipboard` keyword to empty Reginald's clipboard manager.
+* `forcequit` keyword to forcibly close applications.
+* Optional decimal separators for the calculator keyword.
+* `Features` section in settings.
+* Search results limit.
+* Option to run applications as administrator by pressing <kbd>Alt</kbd> + <kbd>Enter</kbd>.
+
+### Changed
+
+* Application icon.
+* Move most settings under the `Features` section.
+* Improve performance when dealing with large text selections in clipboard manager.
+* Clipboard items can be deleted by right-clicking and clicking `Delete`.
+* Build compression setting from 'for size' to 'for speed'.
+
+### Fixed
+
+* **Major** performance improvements.
+* Clipboard manager will now remove the last item when the limit is reached.
+* Search results clipping outside the search window.
+
 ## v0.11.0
 
 ### Added
