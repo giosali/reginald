@@ -1,13 +1,22 @@
 import React from 'react';
 
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Navigation from './components/Navigation';
 
 function App() {
   return (
     <BrowserRouter>
-      <Navigation />
+      <Routes>
+        <Route
+          element={<Navigation />}
+          path="/"
+        >
+          <Route path="features" />
+          <Route path="github" />
+          <Route path="download" />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }
