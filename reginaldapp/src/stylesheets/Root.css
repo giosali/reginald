@@ -10,6 +10,7 @@
 }
 
 .nav__list > .nav__item:first-child {
+  border: 0;
   margin-left: 0;
   margin-right: auto;
 }
@@ -19,12 +20,22 @@
 }
 
 .nav__item {
-  color: darkorange;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s linear;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 0.2s linear;
 }
 
 .nav__item:hover {
-  color: dimgray;
+  border-bottom: 2px solid darkorange;
+}
+
+.nav__item:hover .nav__link {
+  color: darkorange;
+}
+
+.nav__link {
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s linear;
 }
