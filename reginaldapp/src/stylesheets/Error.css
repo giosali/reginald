@@ -1,0 +1,35 @@
+.Error {
+  display: table;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.Error__middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.Error__inner {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 400px;
+}
+
+.Error__title {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.Error__message {
+  color: white;
+}
+
+.Error__status {
+  color: darkgray;
+}
