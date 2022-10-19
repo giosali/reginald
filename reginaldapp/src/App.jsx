@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route
           element={<Navigation />}
-          path="/"
+          path="/reginald"
         >
           <Route path="features" />
           <Route path="github" />
