@@ -1,0 +1,30 @@
+.nav {
+  padding: 1rem 0;
+}
+
+.nav__list {
+  align-items: center;
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav__list > .nav__item:first-child {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.nav__logo {
+  width: 35px;
+}
+
+.nav__item {
+  color: darkorange;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s linear;
+}
+
+.nav__item:hover {
+  color: dimgray;
+}
