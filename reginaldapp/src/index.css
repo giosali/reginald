@@ -19,3 +19,8 @@ body {
   margin: 0 auto;
   width: 1080px;
 }
+
+h1 {
+  font-weight: lighter;
+  font-size: 2.5rem;
+}
