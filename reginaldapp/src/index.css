@@ -1,7 +1,7 @@
 :root {
   box-sizing: border-box;
-  --primary-text-color: white;
-  --primary-background-color: white;
+  --primary-text-color: #EEE;
+  --primary-background-color: #EEE;
 }
 
 *,
