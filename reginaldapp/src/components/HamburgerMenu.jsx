@@ -7,6 +7,7 @@ import '../stylesheets/HamburgerMenu.css';
 function HamburgerMenu({ onClick }) {
   return (
     <button
+      aria-label="menu"
       className="HamburgerMenu"
       onClick={onClick}
       type="button"
