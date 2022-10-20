@@ -26,7 +26,7 @@ function Root() {
             </Link>
           </li>
           <li className="nav__item">
-            <HamburgerMenu onClick={handleClick} />
+            <HamburgerMenu className="nav__hamburger-menu" onClick={handleClick} />
             <button
               aria-label="close"
               className={isHamburgerMenuActive ? 'nav__hamburger-menu-close nav__hamburger-menu-close--active' : 'nav__hamburger-menu-close'}
