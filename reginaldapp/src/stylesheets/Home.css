@@ -10,7 +10,7 @@
 }
 
 .hero__image {
-  /*animation: 3s ease-in infinite hover;*/
+  animation: 6s ease-in infinite hover;
   width: 150px;
 }
 
@@ -21,14 +21,14 @@
 
 @keyframes hover {
   from {
-    margin-top: 0.5rem;
+    transform: translateY(-0.5rem);
   }
 
   50% {
-    margin-top: -0.5rem;
+    transform: translateY(0.5rem);
   }
 
   to {
-    margin-top: 0.5rem;
+    transform: translateY(-0.5rem);
   }
 }
