@@ -54,29 +54,6 @@
   z-index: 999;
 }
 
-@keyframes slidein {
-  from {
-    transform: translateX(100%);
-  }
-
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideout {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    max-height: 0;
-    opacity: 0;
-    transform: translateX(100%);
-    visibility: collapse;
-  }
-}
-
 /*.nav {
   padding: 1rem 0;
 }
