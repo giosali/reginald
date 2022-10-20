@@ -13,6 +13,16 @@
   padding: 0;
 }
 
+a {
+  color: var(--primary-text-color);
+  text-decoration: none;
+  transition: color 0.2s linear;
+}
+
+a:hover {
+  color: var(--brand-color);
+}
+
 body {
   background: radial-gradient(#2B1800, black);
   background-attachment: fixed;
