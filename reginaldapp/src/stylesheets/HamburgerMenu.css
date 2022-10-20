@@ -6,6 +6,12 @@
   gap: 0.25rem;
 }
 
+@media (min-width: 50em) {
+  .HamburgerMenu {
+    display: none;
+  }
+}
+
 .HamburgerMenu:hover {
   cursor: pointer;
 }
