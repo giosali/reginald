@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 
 import './index.css';
-// import App from './App';
 import Error from './components/Error';
 import Features from './components/Features';
 import Home from './components/Home';
