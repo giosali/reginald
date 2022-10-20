@@ -1,15 +1,25 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
+
 import '../stylesheets/HamburgerMenu.css';
 
-function HamburgerMenu() {
+function HamburgerMenu({ onClick }) {
   return (
-    <div className="HamburgerMenu">
+    <button
+      className="HamburgerMenu"
+      onClick={onClick}
+      type="button"
+    >
       <div className="HamburgerMenu__line" />
       <div className="HamburgerMenu__line" />
       <div className="HamburgerMenu__line" />
-    </div>
+    </button>
   );
 }
+
+HamburgerMenu.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
 
 export default HamburgerMenu;
