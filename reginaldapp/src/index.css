@@ -32,6 +32,13 @@ body {
   padding: 1rem;
 }
 
+@media (min-width: 50em) {
+  body {
+    max-width: 1080px;
+    padding: 1rem 0;
+  }
+}
+
 h1 {
   font-weight: lighter;
   font-size: 2.5rem;
