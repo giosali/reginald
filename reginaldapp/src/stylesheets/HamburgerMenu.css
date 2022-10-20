@@ -1,0 +1,16 @@
+.HamburgerMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.HamburgerMenu:hover {
+  cursor: pointer;
+}
+
+.HamburgerMenu__line {
+  background: linear-gradient(to right,darkorange, #212121);
+  border-radius: 5px;
+  height: 0.45rem;
+  width: 2.25rem;
+}
