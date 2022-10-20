@@ -11,6 +11,7 @@
 
 .hero__image {
   animation: 6s ease-in infinite hover;
+  box-shadow: 2px 2px 12px black;
   width: 150px;
 }
 
