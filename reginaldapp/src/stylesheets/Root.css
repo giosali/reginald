@@ -46,6 +46,7 @@
 
 @media (min-width: 50em) {
   .nav__hamburger-menu-links {
+    background: unset;
     flex-direction: row;
     overflow-x: unset;
     position: unset;
