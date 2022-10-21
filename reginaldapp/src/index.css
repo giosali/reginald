@@ -24,7 +24,7 @@ a:hover {
 }
 
 body {
-  background: radial-gradient(#2B1800, black);
+  background: #080500;
   background-attachment: fixed;
   color: var(--primary-text-color);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
