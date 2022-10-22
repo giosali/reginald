@@ -4,6 +4,7 @@
   --primary-background-color: #EEE;
   --primary-text-color: #EEE;
   --secondary-text-color: #DDD;
+  --ternary-text-color: #BBB;
 }
 
 *,
@@ -47,11 +48,25 @@ h1 {
 h2 {
   color: var(--secondary-text-color);
   font-weight: lighter;
-  font-size: 1.75rem;
+  font-size: 2rem;
+}
+
+h3 {
+  color: var(--ternary-text-color);
+  font-weight: lighter;
+  font-size: 1.75rem; 
 }
 
 img {
   width: 100%;
+}
+
+kbd {
+  border: 0.75px solid gray;
+  border-radius: 5px;
+  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
 }
 
 p {
