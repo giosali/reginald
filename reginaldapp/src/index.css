@@ -34,14 +34,7 @@ body {
 
 @media (min-width: 50em) {
   body {
-    max-width: 720px;
     padding: 1rem 0;
-  }
-}
-
-@media (min-width: 72em) {
-  body {
-    max-width: 1080px;
   }
 }
 

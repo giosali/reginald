@@ -1,3 +1,19 @@
+.nav {
+  margin: 0 auto;
+}
+
+@media (min-width: 50em) {
+  .nav {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 72em) {
+  .nav {
+    max-width: 1080px;
+  }
+}
+
 .nav__logo {
   width: 35px;
 }
