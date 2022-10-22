@@ -50,6 +50,10 @@ h2 {
   font-size: 1.75rem;
 }
 
+img {
+  width: 100%;
+}
+
 p {
   font-weight: lighter;
 }
