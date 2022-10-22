@@ -17,8 +17,7 @@
 }
 
 .HamburgerMenu__line {
-  background: linear-gradient(to right, var(--brand-color), #0F0F0F);
-  border-radius: 5px;
-  height: 0.45rem;
-  width: 2.25rem;
+  background: linear-gradient(to right, var(--brand-color) 50%, #0F0F0F);
+  height: 0.125rem;
+  width: 2rem;
 }

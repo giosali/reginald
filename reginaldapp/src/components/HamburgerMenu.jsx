@@ -15,6 +15,7 @@ function HamburgerMenu({ onClick }) {
       <div className="HamburgerMenu__line" />
       <div className="HamburgerMenu__line" />
       <div className="HamburgerMenu__line" />
+      <div className="HamburgerMenu__line" />
     </button>
   );
 }
