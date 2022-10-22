@@ -62,10 +62,12 @@ img {
 }
 
 kbd {
-  border: 0.75px solid gray;
+  border: 0.5px solid gray;
   border-radius: 5px;
+  display: inline-block;
   font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
   font-size: 0.75rem;
+  margin: 0 0.05rem;
   padding: 0.125rem 0.5rem;
 }
 
