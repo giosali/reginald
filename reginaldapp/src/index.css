@@ -47,7 +47,7 @@ h1 {
 h2 {
   color: var(--secondary-text-color);
   font-weight: lighter;
-  font-size: 2rem;
+  font-size: 1.75rem;
 }
 
 p {
