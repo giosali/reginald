@@ -34,12 +34,6 @@ body {
   padding: 1rem 1.25rem;
 }
 
-@media (min-width: 50em) {
-  body {
-    padding: 1rem 0;
-  }
-}
-
 h1 {
   font-weight: lighter;
   font-size: 2.5rem;
@@ -59,6 +53,12 @@ h3 {
 
 img {
   width: 100%;
+}
+
+@media (min-width: 72em) {
+  img {
+    width: 65%;
+  }
 }
 
 kbd {
