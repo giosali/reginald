@@ -34,7 +34,17 @@
   margin-right: auto;
 }
 
+.nav__link {
+  font-size: 1rem;
+}
+
 @media (min-width: 50em) {
+  .nav__link {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 64em) {
   .nav__link {
     font-size: 0.85rem;
     font-weight: 600;
@@ -60,7 +70,7 @@
   z-index: 1000;
 }
 
-@media (min-width: 50em) {
+@media (min-width: 64em) {
   .nav__hamburger-menu-links {
     background: unset;
     flex-direction: row;
@@ -72,7 +82,7 @@
 }
 
 .nav__hamburger-menu-links--active {
-  border-left: 0.5px solid gray;
+  border-left: 0.5px solid #333;
   width: 150px;
 }
 
