@@ -183,6 +183,14 @@ function Home() {
           />
         </div>
       </div>
+      <div className="end">
+        <h3 className="end__title">Give Reginald a try</h3>
+        <GitHubButton
+          href={downloadUrl}
+          repo="giosali/reginald"
+          type="Download"
+        />
+      </div>
     </main>
   );
 }
