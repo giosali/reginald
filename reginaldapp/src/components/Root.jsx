@@ -4,7 +4,6 @@ import { Link, Outlet } from 'react-router-dom';
 
 import '../stylesheets/Root.css';
 import HamburgerMenu from './HamburgerMenu';
-import Logo from '../images/logo.png';
 
 function Root() {
   const [isHamburgerMenuActive, setIsHamburgerMenuActive] = useState(false);
@@ -21,7 +20,7 @@ function Root() {
               <img
                 alt="Reginald logo"
                 className="nav__logo"
-                src={Logo}
+                src={require('../images/logo.png')} // eslint-disable-line global-require
               />
             </Link>
           </li>
