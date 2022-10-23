@@ -74,7 +74,7 @@ function Home() {
             src={require('../images/application-launcher.png')} // eslint-disable-line global-require
           />
         </div>
-        <div className="card">
+        <div className="card card--reverse">
           <div className="card__body card__body--reverse">
             <h3 className="card__title">File search</h3>
             <p className="card__description">
@@ -111,7 +111,7 @@ function Home() {
             src={require('../images/calculator.png')} // eslint-disable-line global-require
           />
         </div>
-        <div className="card">
+        <div className="card card--reverse">
           <div className="card__body card__body--reverse">
             <h3 className="card__title">Web queries</h3>
             <p className="card__description">
@@ -153,7 +153,7 @@ function Home() {
             src={require('../images/clipboard-manager.png')} // eslint-disable-line global-require
           />
         </div>
-        <div className="card">
+        <div className="card card--reverse">
           <div className="card__body card__body--reverse">
             <h3 className="card__title">Text expansions</h3>
             <p className="card__description">
