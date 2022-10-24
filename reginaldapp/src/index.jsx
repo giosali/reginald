@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 
 import './index.css';
+import ApplicationLauncher from './components/ApplicationLauncher';
 import Error from './components/Error';
 import Features from './components/Features';
 import Home from './components/Home';
@@ -16,17 +17,26 @@ const router = createBrowserRouter([
   {
     children: [
       {
-        element: <Home />,
-        path: '',
-      },
-      {
-        path: 'features',
-        element: <Features />,
+        children: [
+          {
+            element: <Home />,
+            index: true,
+          },
+          {
+            element: <Features />,
+            path: 'features',
+          },
+          {
+            element: <ApplicationLauncher />,
+            path: 'features/application-launcher',
+          },
+        ],
+        element: <Root />,
+        path: 'reginald',
       },
     ],
-    element: <Root />,
     errorElement: <Error />,
-    path: 'reginald',
+    path: '/',
   },
 ]);
 
