@@ -183,8 +183,8 @@ function Home() {
           />
         </div>
       </div>
-      <div className="end">
-        <h3 className="end__title">Give Reginald a try</h3>
+      <div className="footer">
+        <h3 className="footer__title">Give Reginald a try</h3>
         <GitHubButton
           href={downloadUrl}
           repo="giosali/reginald"

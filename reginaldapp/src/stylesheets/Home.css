@@ -141,7 +141,7 @@
   display: inline-block;
 }
 
-.Home .end {
+.Home .footer {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -149,7 +149,7 @@
   padding: 0 0 2rem 0;
 }
 
-.Home .end__title {
+.Home .footer__title {
   text-align: center;
 }
 
