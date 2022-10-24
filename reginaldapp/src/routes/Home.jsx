@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import '../stylesheets/Home.css';
-import GitHubButton from './GitHubButton';
+import GitHubButton from '../components/GitHubButton';
 
 function Home() {
   const [downloadUrl, setDownloadUrl] = useState('https://github.com/giosali/reginald/releases');

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import '../stylesheets/Root.css';
-import HamburgerMenu from './HamburgerMenu';
+import HamburgerMenu from '../components/HamburgerMenu';
 
 function Root() {
   const [isHamburgerMenuActive, setIsHamburgerMenuActive] = useState(false);

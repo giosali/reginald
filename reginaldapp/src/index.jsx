@@ -7,11 +7,11 @@ import {
 } from 'react-router-dom';
 
 import './index.css';
-import ApplicationLauncher from './components/ApplicationLauncher';
-import Error from './components/Error';
-import Features from './components/Features';
-import Home from './components/Home';
-import Root from './components/Root';
+import ApplicationLauncher from './routes/ApplicationLauncher';
+import Error from './routes/Error';
+import Features from './routes/Features';
+import Home from './routes/Home';
+import Root from './routes/Root';
 
 const router = createBrowserRouter([
   {
