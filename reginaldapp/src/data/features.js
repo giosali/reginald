@@ -62,7 +62,7 @@ const features = [
   {
     description: "Change Reginald's appearance.",
     icon: '🖼️',
-    title: 'Change Themes',
+    title: 'Themes',
   },
 ];
 
