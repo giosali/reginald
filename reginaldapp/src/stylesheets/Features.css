@@ -17,19 +17,19 @@
   }
 }
 
-.Features .intro {
+.Features .header {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   margin: 4rem 0 0 0;
 }
 
-.Features .intro__title {
+.Features .header__title {
   animation: 1.25s linear fade-in;
   text-align: center;
 }
 
-.Features .intro__description {
+.Features .header__description {
   text-align: center;
 }
 

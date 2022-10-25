@@ -8,13 +8,13 @@ import { getFeatures } from '../data/features';
 function Features() {
   return (
     <main className="Features">
-      <div className="intro">
-        <h1 className="intro__title">Features</h1>
-        <p className="intro__description">Explore everything that Reginald has to offer</p>
+      <div className="header">
+        <h1 className="header__title">Features</h1>
+        <p className="header__description">Explore everything that Reginald has to offer</p>
       </div>
       <div className="cards">
         {getFeatures().map((f) => ( // eslint-disable-line no-unused-vars
-          <FeatureCard description={f.description} icon={f.icon} title={f.title} to={`/reginald/features/${slugify(f.title)}`} />))}
+          <FeatureCard description={f.description} icon={f.icon} key={f.key} title={f.title} to={`/reginald/features/${slugify(f.title)}`} />))}
       </div>
     </main>
   );
