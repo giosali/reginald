@@ -7,8 +7,9 @@ import {
 } from 'react-router-dom';
 
 import './index.css';
-import ApplicationLauncher from './routes/ApplicationLauncher';
+// import ApplicationLauncher from './routes/ApplicationLauncher';
 import Error from './routes/Error';
+import Feature, { loader as featureLoader } from './routes/Feature';
 import Features from './routes/Features';
 import Home from './routes/Home';
 import Root from './routes/Root';
@@ -27,8 +28,9 @@ const router = createBrowserRouter([
             path: 'features',
           },
           {
-            element: <ApplicationLauncher />,
-            path: 'features/application-launcher',
+            element: <Feature />,
+            loader: featureLoader,
+            path: 'features/:featureName',
           },
         ],
         element: <Root />,

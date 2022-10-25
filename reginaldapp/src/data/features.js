@@ -1,86 +1,81 @@
-const features = {
-  0: {
-    to: '/reginald/features/application-launcher',
-    title: 'Application Launcher',
-    icon: '💾',
+const features = [
+  {
     description: 'Find and open applications with ease.',
+    icon: '💾',
+    title: 'Application Launcher',
   },
-  1: {
-    to: '/reginald/features/file-search',
-    title: 'File Search',
-    icon: '📁',
+  {
     description: 'Quickly search for folders and files and open them or their containing folder respectively.',
+    icon: '📁',
+    title: 'File Search',
   },
-  2: {
-    to: '/reginald/features/calculator',
-    title: 'Calculator',
-    icon: '🧮',
+  {
     description: 'Type away and make quick calculations.',
+    icon: '🧮',
+    title: 'Calculator',
   },
-  3: {
-    to: '/reginald/features/web-queries',
-    title: 'Web Queries',
-    icon: '🌐',
+  {
     description: 'Open or browse websites through keywords.',
+    icon: '🌐',
+    title: 'Web Queries',
   },
-  4: {
-    to: '/reginald/features/clipboard-manager',
-    title: 'Clipboard Manager',
-    icon: '📋',
+  {
     description: "View and paste texts and images that you've copied.",
+    icon: '📋',
+    title: 'Clipboard Manager',
   },
-  5: {
-    to: '/reginald/features/text-expansions',
-    title: 'Text Expansions',
-    icon: '💨',
+  {
     description: 'Render text snippets through text shortcuts.',
+    icon: '💨',
+    title: 'Text Expansions',
   },
-  6: {
-    to: '/reginald/features/url-launcher',
-    title: 'URL Launcher',
-    icon: '🔗',
+  {
     description: 'Swiftly open URLs in your default web browser.',
+    icon: '🔗',
+    title: 'URL Launcher',
   },
-  7: {
-    to: '/reginald/features/empty-recycle-bin',
-    title: 'Empty Recycle Bin',
-    icon: '🗑️',
+  {
     description: "Empty your PC's Recycle Bin on command.",
+    icon: '🗑️',
+    title: 'Empty Recycle Bin',
   },
-  8: {
-    to: '/reginald/features/close-applications',
-    title: 'Close Applications',
-    icon: '❌',
+  {
     description: 'Close application windows without moving your mouse.',
+    icon: '❌',
+    title: 'Close Applications',
   },
-  9: {
-    to: '/reginald/features/force-quit-applications',
-    title: 'Force Quit Applications',
-    icon: '☠️',
+  {
     description: 'Forcibly shut down applications.',
+    icon: '☠️',
+    title: 'Force Quit Applications',
   },
-  10: {
-    to: '/reginald/features/timer',
-    title: 'Timer',
-    icon: '⏲️',
+  {
     description: 'Set a timer using an intuitive text format.',
+    icon: '⏲️',
+    title: 'Timer',
   },
-  11: {
-    to: '/reginald/features/microsoft-settings',
-    title: 'Microsoft Settings',
-    icon: '⚙️',
+  {
     description: "Browse through Microsoft's settings and open them in the Windows Settings application.",
+    icon: '⚙️',
+    title: 'Microsoft Settings',
   },
-  12: {
-    to: '/reginald/features/change-themes',
-    title: 'Change Themes',
-    icon: '🖼️',
+  {
     description: "Change Reginald's appearance.",
+    icon: '🖼️',
+    title: 'Change Themes',
   },
-};
+];
 
-export function getFeature() {
-  return 1;
+export function getFeature(name) {
+  const feature = features.find((f) => f.title === name);
+  if (feature === undefined) {
+    throw new Response('', {
+      status: 404,
+      statusText: 'Not found',
+    });
+  }
+
+  return feature;
 }
 
 export function getFeatures() {
