@@ -33,9 +33,16 @@ function Root() {
               type="button"
             />
             <div className={isHamburgerMenuActive ? 'nav__hamburger-menu-links nav__hamburger-menu-links--active' : 'nav__hamburger-menu-links'}>
-              <Link className="nav__link" to="/reginald/features">Features</Link>
-              <Link className="nav__link" to="/reginald/github">GitHub</Link>
               <Link className="nav__link" to="/reginald/download">Download</Link>
+              <Link className="nav__link" to="/reginald/features">Features</Link>
+              <a
+                className="nav__link"
+                href="https://github.com/giosali/reginald"
+                rel="noreferrer"
+                target="_blank"
+              >
+                GitHub
+              </a>
             </div>
           </li>
         </ul>
