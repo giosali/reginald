@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 
 import './index.css';
-// import ApplicationLauncher from './routes/ApplicationLauncher';
 import Error from './routes/Error';
 import Feature, { loader as featureLoader } from './routes/Feature';
 import Features from './routes/Features';
