@@ -33,7 +33,6 @@ function Root() {
               type="button"
             />
             <div className={isHamburgerMenuActive ? 'nav__hamburger-menu-links nav__hamburger-menu-links--active' : 'nav__hamburger-menu-links'}>
-              <Link className="nav__link" to="/reginald/download">Download</Link>
               <Link className="nav__link" to="/reginald/features">Features</Link>
               <a
                 className="nav__link"
