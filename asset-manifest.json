@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/reginald/static/css/main.9b856bdf.css",
-    "main.js": "/reginald/static/js/main.a2333bd9.js",
-    "static/js/787.cd46b057.chunk.js": "/reginald/static/js/787.cd46b057.chunk.js",
-    "static/media/windows.png": "/reginald/static/media/windows.dbe37fc372e7dc1a5cea.png",
-    "static/media/calculator.png": "/reginald/static/media/calculator.23240cae1a9174011396.png",
-    "static/media/applicationlauncher.png": "/reginald/static/media/applicationlauncher.c38f1f289226826f754c.png",
-    "static/media/clipboardmanagers.png": "/reginald/static/media/clipboardmanagers.340cf1bbd641097f2d45.png",
-    "static/media/logo.png": "/reginald/static/media/logo.c99e83d6230c8340ba52.png",
+    "main.css": "/reginald/static/css/main.b12dfe28.css",
+    "main.js": "/reginald/static/js/main.50a894b6.js",
+    "static/media/calculator.png": "/reginald/static/media/calculator.7c115df2f03bcb1a8686.png",
+    "static/media/application-launcher.png": "/reginald/static/media/application-launcher.c38f1f289226826f754c.png",
+    "static/media/clipboard-manager.png": "/reginald/static/media/clipboard-manager.1c3cdf71457ec5bea03f.png",
+    "static/media/file-search.png": "/reginald/static/media/file-search.3ec97d026d552452381f.png",
+    "static/media/web-queries.png": "/reginald/static/media/web-queries.9988960bdd74091d80d5.png",
+    "static/media/logo.png": "/reginald/static/media/logo.1200a615047d1ff9829a.png",
+    "static/media/url.png": "/reginald/static/media/url.fa3c4f1203d8ef6dddbd.png",
     "index.html": "/reginald/index.html",
-    "main.9b856bdf.css.map": "/reginald/static/css/main.9b856bdf.css.map",
-    "main.a2333bd9.js.map": "/reginald/static/js/main.a2333bd9.js.map",
-    "787.cd46b057.chunk.js.map": "/reginald/static/js/787.cd46b057.chunk.js.map"
+    "main.b12dfe28.css.map": "/reginald/static/css/main.b12dfe28.css.map",
+    "main.50a894b6.js.map": "/reginald/static/js/main.50a894b6.js.map"
   },
   "entrypoints": [
-    "static/css/main.9b856bdf.css",
-    "static/js/main.a2333bd9.js"
+    "static/css/main.b12dfe28.css",
+    "static/js/main.50a894b6.js"
   ]
 }
