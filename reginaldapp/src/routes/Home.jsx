@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+import GitHubButton from 'react-github-btn';
+
 import '../stylesheets/Home.css';
-import GitHubButton from '../components/GitHubButton';
 
 function Home() {
   const [downloadUrl, setDownloadUrl] = useState('https://github.com/giosali/reginald/releases');
@@ -30,16 +31,21 @@ function Home() {
         <p className="hero__description">A general productivity application designed for Windows and inspired by Alfred</p>
         <div className="hero__github-buttons">
           <GitHubButton
+            data-color-scheme="no-preference: dark; light: dark; dark: dark;"
+            data-icon="octicon-star"
+            data-show-count="true"
+            data-size="large"
             href="https://github.com/giosali/reginald"
-            icon="octicon-star"
-            repo="giosali/reginald"
-            type="Star"
-          />
+          >
+            Star
+          </GitHubButton>
           <GitHubButton
+            data-color-scheme="no-preference: dark; light: dark; dark: dark;"
+            data-size="large"
             href={downloadUrl}
-            repo="giosali/reginald"
-            type="Download"
-          />
+          >
+            Download
+          </GitHubButton>
         </div>
       </div>
       <div className="divider">
@@ -186,10 +192,12 @@ function Home() {
       <div className="footer">
         <h3 className="footer__title">Give Reginald a try</h3>
         <GitHubButton
+          data-color-scheme="no-preference: dark; light: dark; dark: dark;"
+          data-size="large"
           href={downloadUrl}
-          repo="giosali/reginald"
-          type="Download"
-        />
+        >
+          Download
+        </GitHubButton>
       </div>
     </main>
   );
