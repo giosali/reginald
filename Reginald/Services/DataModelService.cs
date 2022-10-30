@@ -38,7 +38,13 @@
             SetSingleProducers();
             SetMultipleProducers();
 
-            FileSystemWatcher fsw = new(FileOperations.ApplicationAppDataDirectoryPath, "*.json");
+            string appDataDirPath = FileOperations.ApplicationAppDataDirectoryPath;
+            if (!Directory.Exists(appDataDirPath))
+            {
+                Directory.CreateDirectory(appDataDirPath);
+            }
+
+            FileSystemWatcher fsw = new(appDataDirPath, "*.json");
             fsw.NotifyFilter = NotifyFilters.Attributes
                              | NotifyFilters.CreationTime
                              | NotifyFilters.LastAccess
