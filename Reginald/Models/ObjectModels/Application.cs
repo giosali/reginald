@@ -57,15 +57,15 @@
             {
                 if (so.Properties.System.Link.TargetParsingPath.Value is not string path)
                 {
-                    return new Application(so.Name, so.Thumbnail.MediumIconBitmapSource, @"shell:AppsFolder\" + so.ParsingName, StaticRandom.Next());
+                    return new Application(so.Name, so.Thumbnail.LargeIconBitmapSource, @"shell:AppsFolder\" + so.ParsingName, StaticRandom.Next());
                 }
 
                 if (path.IndexOf(@":\WINDOWS") != 1)
                 {
-                    return new Application(so.Name, so.Thumbnail.MediumIconBitmapSource, path, StaticRandom.Next());
+                    return new Application(so.Name, so.Thumbnail.LargeIconBitmapSource, path, StaticRandom.Next());
                 }
 
-                return new Application(so.Name, so.Thumbnail.MediumIconBitmapSource, path.Replace(@":\WINDOWS", @":\Windows"), StaticRandom.Next());
+                return new Application(so.Name, so.Thumbnail.LargeIconBitmapSource, path.Replace(@":\WINDOWS", @":\Windows"), StaticRandom.Next());
             })
                       .OrderBy(so => so.Description);
         }
