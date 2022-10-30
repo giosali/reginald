@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.0.1] - 2022-10-30
+
+### Fixed
+
+* Blurry application icons due to the Windows 11 October update.
+* Fixed application crashing due to %APPDATA% directory not being created before being used.
+
 ## [v1.0.0] - 2022-10-13
 
 ### Added
